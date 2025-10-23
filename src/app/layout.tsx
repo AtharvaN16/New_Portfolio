@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
+import { LenisProvider } from '@/components/providers/LenisProvider'
 import { ThemeScript } from '@/components/ThemeScript'
 import { env } from '@/lib/env'
 
@@ -133,15 +134,17 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <ThemeProvider>
-          {/* Skip to main content link (accessibility) */}
-          <a
-            href="#main-content"
-            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
-          >
-            Skip to main content
-          </a>
+          <LenisProvider>
+            {/* Skip to main content link (accessibility) */}
+            <a
+              href="#main-content"
+              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
+            >
+              Skip to main content
+            </a>
 
-          {children}
+            {children}
+          </LenisProvider>
         </ThemeProvider>
       </body>
     </html>
