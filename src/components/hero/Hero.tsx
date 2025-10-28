@@ -37,18 +37,19 @@ const staggerContainer = {
 
 export function Hero() {
   return (
-    <section className="relative flex flex-col" style={{ height: 'calc(100vh - 7rem)', maxHeight: 'calc(100vh - 7rem)' }}>
+    <section className="relative flex flex-col" style={{ height: 'calc(100vh - 68px)', maxHeight: 'calc(100vh - 68px)' }}>
       <div className="max-w-[1920px] mx-auto w-full h-full flex flex-col">
         <motion.div
           variants={staggerContainer}
           initial="initial"
           animate="animate"
-          className="flex flex-col flex-1"
+          className="flex flex-col h-full"
         >
           {/* Hero Text + Browse work - Side by side */}
           <motion.div
             variants={fadeInUp}
             className="flex items-end justify-between gap-8 mb-8 mt-12"
+            style={{ flexShrink: 0 }}
           >
             {/* Hero Text - Single line, 18px, 500 weight, -0.4px letter-spacing */}
             <p
@@ -75,16 +76,17 @@ export function Hero() {
           {/* Animated Water Blob - Flex grow to fill space */}
           <motion.div
             variants={fadeInUp}
-            className="relative w-full mt-4 flex-1 overflow-hidden"
+            className="relative w-full flex-1 overflow-hidden"
+            style={{ minHeight: 0 }}
           >
             <WaterBlobWithBoundary />
           </motion.div>
 
-          {/* Bottom Navigation Links - Fixed 16px from viewport bottom */}
+          {/* Bottom Navigation Links - 16px from viewport bottom */}
           <motion.div
             variants={fadeInUp}
             className="flex items-center justify-between mt-4"
-            style={{ paddingBottom: '1rem' /* 16px from viewport */ }}
+            style={{ flexShrink: 0, paddingBottom: '1rem' }}
           >
             {/* Left Link - No arrow */}
             <a

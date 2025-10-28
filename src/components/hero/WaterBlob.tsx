@@ -201,7 +201,12 @@ export function WaterBlob({ className = '' }: WaterBlobProps) {
     <canvas
       ref={canvasRef}
       className={`w-full h-full block ${className}`}
-      style={{ display: 'block' }}
+      style={{
+        display: 'block',
+        background: theme === 'dark'
+          ? 'linear-gradient(90deg, rgb(99 102 241) 0%, rgb(167 139 250) 50%, rgb(236 72 153) 100%)'
+          : 'linear-gradient(90deg, rgb(57 71 202) 0%, rgb(138 106 234) 50%, rgb(255 103 140) 100%)'
+      }}
       aria-label="Animated gradient background"
     />
   )

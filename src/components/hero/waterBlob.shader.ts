@@ -157,6 +157,15 @@ export const fragmentShader = `
     float overlap = min(blob1, blob2) * 2.0;
     color = mix(color, uColor2, overlap * 0.1);
 
+    // Add glow effect - brighten the center of blobs
+    float glow = max(blob1, blob2);
+    float glowIntensity = pow(glow, 0.6) * 0.4; // Stronger glow
+    color += color * glowIntensity; // Brighten by adding color to itself
+
+    // Increase saturation
+    float luminance = dot(color, vec3(0.299, 0.587, 0.114));
+    color = mix(vec3(luminance), color, 1.25); // Boost saturation by 25%
+
     // Fade in the water (background shows where totalWater is low)
     // Use stronger fade to keep colors vibrant
     color = mix(backgroundColor, color, pow(totalWater, 0.8));

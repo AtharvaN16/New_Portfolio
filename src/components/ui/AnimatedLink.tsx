@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 import Link from 'next/link'
 import { type ReactNode } from 'react'
 
@@ -101,13 +100,22 @@ export function AnimatedLink({
             ease: 'easeInOut',
           }}
         >
-          <Image
-            src="/icons/Down arrow.svg"
-            alt=""
-            width={20}
-            height={20}
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
             className="w-5 h-5"
-          />
+            aria-hidden="true"
+          >
+            <path
+              d="M10 4V16M10 16L4 10M10 16L16 10"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </motion.span>
       )}
     </Link>
