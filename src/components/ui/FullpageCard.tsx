@@ -148,8 +148,7 @@ export function FullpageCard({
       opacity: 0.8,
       y: 0,
       transition: {
-        duration: 0.6,
-        delay: 0.4,
+        duration: 0.8,
         ease: [0.25, 0.4, 0.25, 1],
       },
     },
@@ -179,7 +178,7 @@ export function FullpageCard({
             whileInView="visible"
             viewport={{ once: true, margin: '-100px' }}
             className={cn(
-              'max-w-[90%] text-4xl font-black leading-[1.1] tracking-[-1.44px] sm:max-w-[85%] sm:text-5xl md:max-w-[80%] md:text-6xl lg:text-[72px]',
+              'max-w-[90%] text-4xl font-black leading-[1.1] tracking-[-1.44px] sm:max-w-[85%] sm:text-5xl md:max-w-[76%] md:text-6xl lg:text-[72px]',
               titleClassName
             )}
           >
@@ -233,7 +232,7 @@ export function FullpageCard({
               variants={descriptionVariant}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: '-100px' }}
+              viewport={{ once: true, margin: '-50px' }}
               className={cn(
                 // 420px spacing from design spec (vertical rhythm between title and description)
                 'mt-48 max-w-sm text-base font-medium leading-normal tracking-[-0.4px] sm:mt-64 sm:max-w-md sm:text-lg md:mt-[420px] md:text-[20px]',
