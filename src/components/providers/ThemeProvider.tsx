@@ -14,6 +14,7 @@ import {
   useContext,
   useEffect,
   useState,
+  useMemo,
   type ReactNode,
 } from 'react'
 
@@ -58,9 +59,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     document.documentElement.setAttribute('data-theme', newTheme)
   }
 
-  const toggleTheme = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light')
-  }
+  // Memoize context value to prevent unnecessary re-renders
+  const value = useMemo(
+    () => ({
+      theme,
+      setTheme,
+      toggleTheme: () => {
+        setTheme(theme === 'light' ? 'dark' : 'light')
+      },
+    }),
+    [theme]
+  )
 
   // Prevent flash of unstyled content
   if (!mounted) {
@@ -68,7 +77,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   )

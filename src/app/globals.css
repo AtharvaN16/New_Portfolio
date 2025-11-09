@@ -45,6 +45,9 @@
     --color-border: 229 231 235; /* #e5e7eb */
     --color-border-hover: 209 213 219; /* #d1d5db */
 
+    /* --- Colors: Grays --- */
+    --color-gray-dark: 51 51 51; /* #333333 - Dark gray for cards/surfaces */
+
     /* --- Spacing Scale (rem) --- */
     --space-1: 0.25rem; /* 4px */
     --space-2: 0.5rem; /* 8px */
@@ -267,5 +270,42 @@
 
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-text-tertiary;
+  }
+
+  /* ========================================
+     UTILITY CLASSES
+     ======================================== */
+
+  /* Hero gradient backgrounds using design tokens */
+  .hero-gradient-light {
+    background: linear-gradient(
+      90deg,
+      rgb(var(--hero-blob-blue)) 0%,
+      rgb(var(--hero-blob-purple)) 50%,
+      rgb(var(--hero-blob-pink)) 100%
+    );
+  }
+
+  .hero-gradient-dark {
+    background: linear-gradient(
+      90deg,
+      rgb(var(--hero-blob-blue)) 0%,
+      rgb(var(--hero-blob-purple)) 50%,
+      rgb(var(--hero-blob-pink)) 100%
+    );
+  }
+
+  /* Typography utility classes for consistent styling */
+  .text-hero-body {
+    font-size: var(--text-lg);
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: -0.4px;
+  }
+
+  .text-nav-link {
+    font-size: var(--text-base);
+    font-weight: 500;
+    line-height: 1;
   }
 }

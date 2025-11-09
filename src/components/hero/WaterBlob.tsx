@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState, useMemo } from 'react'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { ErrorBoundary } from '@/components/error/ErrorBoundary'
-import { vertexShader, fragmentShader, type WaterBlobUniforms } from './waterBlob.shader'
+import { vertexShader, fragmentShader } from './waterBlob.shader'
 
 /**
  * WaterBlob Component
@@ -36,6 +36,8 @@ export function WaterBlob({ className = '' }: WaterBlobProps) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
   // Get colors from design tokens
+  // Note: theme is needed as dependency because CSS variables change when theme changes
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const colors = useMemo(() => {
     if (typeof window === 'undefined') return null
 
@@ -186,12 +188,7 @@ export function WaterBlob({ className = '' }: WaterBlobProps) {
   if (!hasWebGL || prefersReducedMotion) {
     return (
       <div
-        className={`w-full h-full ${className}`}
-        style={{
-          background: theme === 'dark'
-            ? 'linear-gradient(90deg, rgb(99 102 241) 0%, rgb(167 139 250) 50%, rgb(236 72 153) 100%)'
-            : 'linear-gradient(90deg, rgb(57 71 202) 0%, rgb(138 106 234) 50%, rgb(255 103 140) 100%)',
-        }}
+        className={`w-full h-full ${theme === 'dark' ? 'hero-gradient-dark' : 'hero-gradient-light'} ${className}`}
         aria-label="Decorative gradient background"
       />
     )
@@ -200,13 +197,7 @@ export function WaterBlob({ className = '' }: WaterBlobProps) {
   return (
     <canvas
       ref={canvasRef}
-      className={`w-full h-full block ${className}`}
-      style={{
-        display: 'block',
-        background: theme === 'dark'
-          ? 'linear-gradient(90deg, rgb(99 102 241) 0%, rgb(167 139 250) 50%, rgb(236 72 153) 100%)'
-          : 'linear-gradient(90deg, rgb(57 71 202) 0%, rgb(138 106 234) 50%, rgb(255 103 140) 100%)'
-      }}
+      className={`w-full h-full block ${theme === 'dark' ? 'hero-gradient-dark' : 'hero-gradient-light'} ${className}`}
       aria-label="Animated gradient background"
     />
   )
@@ -217,12 +208,7 @@ export function WaterBlobWithBoundary(props: WaterBlobProps) {
   return (
     <ErrorBoundary
       fallback={
-        <div
-          className={`w-full h-full ${props.className || ''}`}
-          style={{
-            background: 'linear-gradient(90deg, rgb(57 71 202) 0%, rgb(138 106 234) 50%, rgb(255 103 140) 100%)',
-          }}
-        />
+        <div className={`w-full h-full hero-gradient-light ${props.className || ''}`} />
       }
     >
       <WaterBlob {...props} />

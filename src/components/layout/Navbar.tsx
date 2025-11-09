@@ -4,6 +4,7 @@ import { useTheme } from '@/components/providers/ThemeProvider'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { HoverLink } from '@/components/ui/HoverLink'
 
 /**
  * Navbar Component
@@ -62,16 +63,9 @@ export function Navbar() {
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >
-                <Link
-                  href={link.href}
-                  className="text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded px-2 py-1"
-                  style={{
-                    fontSize: '16px',
-                    fontWeight: 500,
-                  }}
-                >
+                <HoverLink href={link.href}>
                   {link.label}
-                </Link>
+                </HoverLink>
               </motion.li>
             ))}
           </ul>

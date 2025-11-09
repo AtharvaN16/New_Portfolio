@@ -33,11 +33,7 @@ export function AnimatedLink({
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-2 text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded px-2 py-1 ${className}`}
-      style={{
-        fontSize: '16px',
-        fontWeight: 500,
-      }}
+      className={`group inline-flex items-center gap-2 text-nav-link text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded px-2 py-1 ${className}`}
     >
       {children}
 

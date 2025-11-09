@@ -29,6 +29,8 @@
   --color-border: rgb(var(--color-border) / <alpha-value>);
   --color-border-hover: rgb(var(--color-border-hover) / <alpha-value>);
 
+  --color-gray-dark: rgb(var(--color-gray-dark) / <alpha-value>);
+
   /* ========================================
      RESPONSIVE BREAKPOINTS
      ======================================== */

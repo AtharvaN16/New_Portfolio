@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion'
 import { WaterBlobWithBoundary } from './WaterBlob'
 import { AnimatedLink } from '@/components/ui/AnimatedLink'
+import { AnimatedHeroTextGSAP } from './AnimatedHeroTextGSAP'
+import { HoverLink } from '@/components/ui/HoverLink'
 
 /**
  * Hero Component
@@ -46,32 +48,26 @@ export function Hero() {
           className="flex flex-col h-full"
         >
           {/* Hero Text + Browse work - Side by side */}
-          <motion.div
-            variants={fadeInUp}
+          <div
             className="flex items-end justify-between gap-8 mb-8 mt-12"
             style={{ flexShrink: 0 }}
           >
-            {/* Hero Text - Single line, 18px, 500 weight, -0.4px letter-spacing */}
-            <p
-              className="leading-relaxed max-w-lg"
-              style={{
-                fontSize: '18px',
-                fontWeight: 500,
-                lineHeight: '1.6',
-                letterSpacing: '-0.4px',
-              }}
+            {/* Hero Text - Single paragraph with GSAP line-by-line reveal animation */}
+            <AnimatedHeroTextGSAP
+              boldWords={['Atharva']}
+              className="max-w-lg text-hero-body"
+              delay={0.2}
             >
-              Hi, I'm <span style={{ fontWeight: 700 }}>Atharva</span> — a product designer based in NYC.
-              I love solving problems through thoughtful design and crafting delightful, user-centered experiences.
-              Currently pursuing an MS in Human-Computer Interaction at Pratt Institute. Open to internships now
-              and full-time roles starting Summer '26.
-            </p>
+              Hi, I'm Atharva — a product designer based in NYC. I love solving problems through thoughtful design and crafting delightful, user-centered experiences. Currently pursuing an MS in Human-Computer Interaction at Pratt Institute. Open to internships now and full-time roles starting Summer '26.
+            </AnimatedHeroTextGSAP>
 
             {/* Browse work link - Bottom aligned with text */}
-            <AnimatedLink href="#work" variant="down-arrow">
-              Browse work
-            </AnimatedLink>
-          </motion.div>
+            <motion.div variants={fadeInUp}>
+              <AnimatedLink href="#work" variant="down-arrow">
+                Browse work
+              </AnimatedLink>
+            </motion.div>
+          </div>
 
           {/* Animated Water Blob - Flex grow to fill space */}
           <motion.div
@@ -88,23 +84,11 @@ export function Hero() {
             className="flex items-center justify-between mt-4"
             style={{ flexShrink: 0, paddingBottom: '1rem' }}
           >
-            {/* Left Link - No arrow */}
-            <a
-              href="/resume"
-              className="hover:text-primary transition-colors duration-200"
-              style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1' }}
-            >
-              Résumé
-            </a>
+            {/* Left Link - Hover animation */}
+            <HoverLink href="/resume">Résumé</HoverLink>
 
-            {/* Right Link - No arrow */}
-            <a
-              href="#footer"
-              className="hover:text-primary transition-colors duration-200"
-              style={{ fontSize: '16px', fontWeight: 500, lineHeight: '1' }}
-            >
-              Get in touch
-            </a>
+            {/* Right Link - Hover animation */}
+            <HoverLink href="#footer">Get in touch</HoverLink>
           </motion.div>
         </motion.div>
       </div>
