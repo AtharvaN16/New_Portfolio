@@ -156,11 +156,11 @@ export function FullpageCard({
 
   /**
    * Container height calculation:
-   * - 150vh: Provides scroll space for parallax effect
+   * - 200vh: Provides scroll space for parallax effect
    * - Allows card to move upward while user scrolls through this space
    */
   return (
-    <div ref={containerRef} className="relative h-[150vh]">
+    <div ref={containerRef} className="relative h-[200vh]">
       <motion.section
         style={{ y: cardY }}
         className={cn(
