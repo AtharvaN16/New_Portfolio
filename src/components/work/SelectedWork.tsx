@@ -58,8 +58,8 @@ export function SelectedWork({
           onClick={() => {
             // Use window.history.pushState to change URL without triggering Next.js navigation
             window.history.pushState({}, '', '/work')
-            // Trigger a popstate event so our dialog component detects the change
-            window.dispatchEvent(new PopStateEvent('popstate'))
+            // Manually trigger the dialog check (don't dispatch popstate - it creates duplicate history entries)
+            window.dispatchEvent(new CustomEvent('workdialog:check'))
           }}
           className="group inline-flex items-center gap-2 text-4xl font-bold tracking-tight text-foreground transition-colors hover:text-primary md:text-5xl"
         >
