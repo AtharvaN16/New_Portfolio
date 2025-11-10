@@ -39,7 +39,10 @@ const staggerContainer = {
 
 export function Hero() {
   return (
-    <section className="relative flex flex-col" style={{ height: 'calc(100vh - 68px)', maxHeight: 'calc(100vh - 68px)' }}>
+    <section
+      className="relative flex flex-col"
+      style={{ height: 'calc(100vh - 68px)', maxHeight: 'calc(100vh - 68px)' }}
+    >
       <div className="max-w-[1920px] mx-auto w-full h-full flex flex-col">
         <motion.div
           variants={staggerContainer}
@@ -58,7 +61,11 @@ export function Hero() {
               className="max-w-lg text-hero-body"
               delay={0.2}
             >
-              Hi, I'm Atharva — a product designer based in NYC. I love solving problems through thoughtful design and crafting delightful, user-centered experiences. Currently pursuing an MS in Human-Computer Interaction at Pratt Institute. Open to internships now and full-time roles starting Summer '26.
+              Hi, I&apos;m Atharva — a product designer based in NYC. I love
+              solving problems through thoughtful design and crafting
+              delightful, user-centered experiences. Currently pursuing an MS in
+              Human-Computer Interaction at Pratt Institute. Open to internships
+              now and full-time roles starting Summer &apos;26.
             </AnimatedHeroTextGSAP>
 
             {/* Browse work link - Bottom aligned with text */}

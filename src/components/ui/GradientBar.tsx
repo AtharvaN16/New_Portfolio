@@ -1,18 +1,18 @@
-'use client';
+'use client'
 
-import { useRef } from 'react';
-import { cn } from '@/lib/utils/cn';
-import { useInteractiveGradient } from '@/hooks/use-interactive-gradient';
+import { useRef } from 'react'
+import { cn } from '@/lib/utils/cn'
+import { useInteractiveGradient } from '@/hooks/use-interactive-gradient'
 
 interface GradientBarProps {
   /** Custom height for the bar. Uses Tailwind height classes. */
-  height?: string;
+  height?: string
   /** Additional CSS classes. */
-  className?: string;
+  className?: string
   /** The start color of the gradient (e.g., 'bg-primary'). */
-  startColor?: string;
+  startColor?: string
   /** The end color of the gradient (e.g., 'bg-accent'). */
-  endColor?: string;
+  endColor?: string
 }
 
 /**
@@ -32,23 +32,27 @@ export function GradientBar({
   startColor = 'bg-gradient-start',
   endColor = 'bg-gradient-end',
 }: GradientBarProps) {
-  const gradientRef = useRef<HTMLDivElement>(null);
-  const gradientPosition = useInteractiveGradient({ ref: gradientRef });
+  const gradientRef = useRef<HTMLDivElement>(null)
+  const gradientPosition = useInteractiveGradient({
+    ref: gradientRef as React.RefObject<HTMLElement>,
+  })
 
   return (
     <div
       ref={gradientRef}
       className={cn('w-full', height, className)}
-      style={{
-        backgroundImage: `linear-gradient(90deg, 
+      style={
+        {
+          backgroundImage: `linear-gradient(90deg, 
           var(--color-start) 0%, 
           var(--color-start) ${gradientPosition - 20}%, 
           var(--color-end) ${gradientPosition + 20}%, 
           var(--color-end) 100%)`,
-        // Dynamically set CSS variables from Tailwind colors
-        '--color-start': `rgb(var(--color-${startColor.replace('bg-', '')}))`,
-        '--color-end': `rgb(var(--color-${endColor.replace('bg-', '')}))`,
-      } as React.CSSProperties}
+          // Dynamically set CSS variables from Tailwind colors
+          '--color-start': `rgb(var(--color-${startColor.replace('bg-', '')}))`,
+          '--color-end': `rgb(var(--color-${endColor.replace('bg-', '')}))`,
+        } as React.CSSProperties
+      }
     />
-  );
+  )
 }

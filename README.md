@@ -5,6 +5,7 @@ A modern, performant, and accessible portfolio website built with Next.js 15, Re
 ## ✨ Features
 
 ### 🎯 Core Features
+
 - ✅ **Next.js 15** with App Router
 - ✅ **React 19** with latest features
 - ✅ **TypeScript** for type safety
@@ -14,6 +15,7 @@ A modern, performant, and accessible portfolio website built with Next.js 15, Re
 - ✅ **Fully Responsive** from 320px to 4K displays
 
 ### 🚀 Performance & Best Practices
+
 - ✅ **Mobile-First Design** with proper viewport meta tag
 - ✅ **SEO Optimized** with metadata, sitemap, robots.txt
 - ✅ **Accessibility (WCAG 2.2 AA)** - semantic HTML, ARIA labels, keyboard navigation
@@ -99,22 +101,26 @@ portfolio-new/
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18+ and npm
 - Git
 
 ### Installation
 
 1. **Clone the repository**
+
 ```bash
 cd portfolio-new
 ```
 
 2. **Install dependencies**
+
 ```bash
 npm install
 ```
 
 3. **Set up environment variables**
+
 ```bash
 # Copy the example file
 cp .env.example .env.local
@@ -125,6 +131,7 @@ cp .env.example .env.local
 ```
 
 4. **Run development server**
+
 ```bash
 npm run dev
 ```
@@ -158,6 +165,7 @@ npm run validate         # Lint + Format + Type-check + Test
 ## 🎨 Design System
 
 ### Design Tokens
+
 All design tokens are defined in `src/app/globals.css`:
 
 ```css
@@ -196,6 +204,7 @@ All design tokens are defined in `src/app/globals.css`:
 ### Dark Mode
 
 Dark mode is implemented with:
+
 1. **System preference detection** (respects user's OS setting)
 2. **Manual toggle** (with `useTheme` hook)
 3. **localStorage persistence** (remembers user choice)
@@ -208,9 +217,7 @@ function ThemeToggle() {
   const { theme, toggleTheme } = useTheme()
 
   return (
-    <button onClick={toggleTheme}>
-      {theme === 'light' ? '🌙' : '☀️'}
-    </button>
+    <button onClick={toggleTheme}>{theme === 'light' ? '🌙' : '☀️'}</button>
   )
 }
 ```
@@ -244,11 +251,13 @@ npm run test:coverage     # With coverage
 ## 🔒 Security
 
 ### Environment Variables
+
 - ✅ All secrets in `.env.local` (never committed)
 - ✅ Type-safe validation with Zod
 - ✅ `.env.example` for documentation
 
 ### Best Practices
+
 - ✅ No hardcoded credentials
 - ✅ Input validation on all forms
 - ✅ Rate limiting on API routes (TODO: implement when adding contact form)
@@ -290,11 +299,13 @@ This portfolio follows WCAG 2.2 Level AA standards:
 ## 🎯 Performance Targets
 
 ### Core Web Vitals Goals
+
 - LCP (Largest Contentful Paint): < 2.5s ✅
 - FID (First Input Delay): < 100ms ✅
 - CLS (Cumulative Layout Shift): < 0.1 ✅
 
 ### Optimization Strategies
+
 - ✅ Image optimization with `next/image`
 - ✅ Font optimization with `next/font`
 - ⏳ Code splitting (TODO: implement when adding heavy components)
@@ -305,6 +316,7 @@ This portfolio follows WCAG 2.2 Level AA standards:
 ### Deploying to Vercel (Recommended)
 
 1. **Push to GitHub**
+
 ```bash
 git init
 git add .
@@ -315,6 +327,7 @@ git push -u origin main
 ```
 
 2. **Connect to Vercel**
+
 - Go to [vercel.com](https://vercel.com)
 - Import your GitHub repository
 - Add environment variables in Vercel dashboard:
@@ -325,12 +338,14 @@ git push -u origin main
   ```
 
 3. **Deploy**
+
 - Vercel automatically deploys on every push to main
 - Preview deployments for pull requests
 
 ## 📝 TODO List
 
 ### Phase 1: Foundation (✅ COMPLETE)
+
 - [x] Project setup
 - [x] Design token system
 - [x] Dark mode implementation
@@ -340,18 +355,21 @@ git push -u origin main
 - [x] Responsive system
 
 ### Phase 2: Layout & Navigation (Next)
+
 - [ ] Create Navbar component
 - [ ] Create Footer component
 - [ ] Create Container/Grid primitives
 - [ ] Page transitions
 
 ### Phase 3: Content Pages
+
 - [ ] Homepage hero section
 - [ ] Case studies gallery
 - [ ] Individual case study page
 - [ ] Contact form
 
 ### Phase 4: Polish
+
 - [ ] Animations
 - [ ] Performance optimization
 - [ ] Asset compression

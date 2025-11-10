@@ -3,6 +3,7 @@
 **Purpose:** Track every major decision with full context and reasoning. Future you (and AI assistants) will thank you for this!
 
 **Format:** Each decision includes:
+
 - What we decided
 - Why we decided it
 - What we considered
@@ -25,6 +26,7 @@ When making a significant choice, add an entry:
 **Context:** What problem were we solving?
 
 **Considered Alternatives:**
+
 1. Option A - Why not?
 2. Option B - Why not?
 3. Option C (chosen) - Why yes?
@@ -32,6 +34,7 @@ When making a significant choice, add an entry:
 **Reasoning:** Detailed explanation
 
 **References:**
+
 - Link to relevant audit
 - Link to discussion
 - Link to documentation
@@ -66,6 +69,7 @@ When making a significant choice, add an entry:
 Rebuilding portfolio from scratch after old portfolio received 32/100 grade. Needed modern, maintainable stack.
 
 **Considered Alternatives:**
+
 1. **Keep old Next.js 15 setup**
    - Why not: Too many architectural issues to fix
    - Faster to rebuild than refactor
@@ -83,12 +87,14 @@ Rebuilding portfolio from scratch after old portfolio received 32/100 grade. Nee
 **Chosen:** Next.js 15 + TypeScript + Tailwind
 
 **Reasoning:**
+
 - Next.js 15: Latest features, App Router, great SSG
 - TypeScript: Catch bugs early, better DX
 - Tailwind: Fast to write, consistent with design tokens
 - React 19: Latest features, better performance
 
 **References:**
+
 - `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` (why rebuild needed)
 - `/Documentation/setup_guide.md` (best practices)
 
@@ -141,6 +147,7 @@ Old portfolio used GSAP extensively (CaseStudyAnimation.tsx 1,845 lines). Caused
 **Chosen:** Framer Motion (with GSAP fallback for edge cases)
 
 **Reasoning:**
+
 - Declarative API matches React patterns
 - Automatic cleanup prevents memory leaks
 - Accessibility built-in
@@ -149,6 +156,7 @@ Old portfolio used GSAP extensively (CaseStudyAnimation.tsx 1,845 lines). Caused
 - Can add GSAP later for specific advanced cases
 
 **Code Example:**
+
 ```tsx
 // Old: GSAP (imperative)
 useEffect(() => {
@@ -166,6 +174,7 @@ useEffect(() => {
 ```
 
 **References:**
+
 - `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` Section 1.1 (GSAP complexity)
 - `03-ANIMATION-STRATEGY.md` (full comparison)
 - Conversation about The Swaddle website
@@ -221,6 +230,7 @@ The Swaddle website (inspiration) uses Sanity CMS. Considered whether we need a 
 **Chosen:** MDX with file-based content
 
 **Reasoning:**
+
 - **The Swaddle = Magazine** (hundreds of articles, multiple authors, daily updates)
 - **Your Portfolio = Showcase** (~10 case studies, one author, rare updates)
 - Different needs = different solutions
@@ -230,6 +240,7 @@ The Swaddle website (inspiration) uses Sanity CMS. Considered whether we need a 
 - No external dependencies = simpler deployment
 
 **Example Structure:**
+
 ```
 src/content/case-studies/
 ├── chess-app.mdx
@@ -238,6 +249,7 @@ src/content/case-studies/
 ```
 
 **References:**
+
 - Conversation analyzing The Swaddle website
 - Discussion about flexible case study layouts
 - `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` Section 6.1 (data storage issues)
@@ -286,6 +298,7 @@ Wanted premium feel for animations. Heavy animations need smooth scrolling to fe
 **Chosen:** Lenis smooth scroll
 
 **Reasoning:**
+
 - Premium feel for heavy animations
 - Lightweight (3KB)
 - Works seamlessly with Framer Motion
@@ -293,14 +306,14 @@ Wanted premium feel for animations. Heavy animations need smooth scrolling to fe
 - Industry standard (used by top agencies)
 
 **Implementation:**
+
 ```tsx
 // src/components/providers/LenisProvider.tsx
-<LenisProvider>
-  {children}
-</LenisProvider>
+<LenisProvider>{children}</LenisProvider>
 ```
 
 **References:**
+
 - Discussion about premium feel and animations
 - `03-ANIMATION-STRATEGY.md` (Lenis integration)
 
@@ -347,6 +360,7 @@ Needed to decide content storage strategy. Old portfolio used localStorage (bad 
 **Chosen:** MDX files committed to Git
 
 **Reasoning:**
+
 - Case studies are static content
 - Updated rarely (not daily like a blog)
 - Version control is valuable (track changes)
@@ -355,6 +369,7 @@ Needed to decide content storage strategy. Old portfolio used localStorage (bad 
 - Fast (static site generation)
 
 **Structure:**
+
 ```
 src/content/case-studies/
 ├── project-1.mdx
@@ -363,6 +378,7 @@ src/content/case-studies/
 ```
 
 **References:**
+
 - `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` Section 6.1 (storage issues)
 - Decision on skipping admin panel
 
@@ -404,6 +420,7 @@ Old portfolio had client-side admin with hardcoded password (major security issu
 **Chosen:** No admin panel - edit MDX files directly
 
 **Reasoning:**
+
 - User is comfortable with code editor
 - Only ~10 case studies to manage
 - Changes are infrequent
@@ -412,12 +429,14 @@ Old portfolio had client-side admin with hardcoded password (major security issu
 - Can focus on public-facing features
 
 **Old Portfolio Problem:**
+
 ```tsx
 // AdminContext.tsx line 22
 const password = 'Anayak@2901' // ❌ Visible on GitHub!
 ```
 
 **New Solution:**
+
 ```bash
 # Just edit the MDX file
 vim src/content/case-studies/new-project.mdx
@@ -427,6 +446,7 @@ git push
 ```
 
 **References:**
+
 - `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` Section 2.1 (security disaster)
 - User's explicit decision during planning
 
@@ -469,6 +489,7 @@ Old portfolio had colors, spacing, etc. hardcoded across 47+ files. Made changes
 **Chosen:** Design tokens in CSS variables
 
 **Implementation:**
+
 ```css
 /* src/app/globals.css */
 :root {
@@ -483,6 +504,7 @@ Old portfolio had colors, spacing, etc. hardcoded across 47+ files. Made changes
 ```
 
 **Usage:**
+
 ```tsx
 // Tailwind classes
 <div className="text-primary p-4">
@@ -492,6 +514,7 @@ Old portfolio had colors, spacing, etc. hardcoded across 47+ files. Made changes
 ```
 
 **Reasoning:**
+
 - Single source of truth
 - Change brand color in one place
 - Dark mode = just swap token values
@@ -500,6 +523,7 @@ Old portfolio had colors, spacing, etc. hardcoded across 47+ files. Made changes
 - Industry best practice
 
 **References:**
+
 - `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` Section 4.3 "Magic Numbers"
 - `/Documentation/setup_guide.md` Section 2.1
 - `01-ARCHITECTURE.md` (Design Token System)
@@ -543,6 +567,7 @@ Old portfolio had theme flash on page load and inconsistent state management.
 **Chosen:** ThemeScript + Provider + CSS Variables
 
 **Implementation:**
+
 ```tsx
 // 1. ThemeScript runs before React (no flash)
 <head><ThemeScript /></head>
@@ -555,6 +580,7 @@ Old portfolio had theme flash on page load and inconsistent state management.
 ```
 
 **Reasoning:**
+
 - Zero flash (best UX)
 - Respects system preference
 - Remembers user choice
@@ -562,11 +588,13 @@ Old portfolio had theme flash on page load and inconsistent state management.
 - Industry best practice
 
 **Old Portfolio Problem:**
+
 - Theme flash on every page load
 - State in 4 different places
 - Inconsistent behavior
 
 **References:**
+
 - `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` Section 1.4 "Context Hell"
 - `01-ARCHITECTURE.md` (Dark Mode Implementation)
 
@@ -608,6 +636,7 @@ Old portfolio had 23,000-line components. Unmaintainable.
 **Chosen:** 300 line maximum (ESLint warning)
 
 **Reasoning:**
+
 - Human brain limit (~200-300 lines readable)
 - Forces composition (small pieces)
 - Easier to test
@@ -616,6 +645,7 @@ Old portfolio had 23,000-line components. Unmaintainable.
 - Prevents old portfolio mistakes
 
 **Old Portfolio Disasters:**
+
 ```
 HoverTextBox.tsx:  23,390 lines ❌
 Logo.tsx:          13,166 lines ❌
@@ -624,6 +654,7 @@ HomeBlobs.tsx:      1,113 lines ❌
 ```
 
 **ESLint Rule:**
+
 ```json
 {
   "rules": {
@@ -633,6 +664,7 @@ HomeBlobs.tsx:      1,113 lines ❌
 ```
 
 **References:**
+
 - `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` Section 1.1 "Monolithic Component Disease"
 - `02-COMPONENT-GUIDELINES.md` (Component Size Limits)
 
@@ -669,15 +701,17 @@ Old portfolio was missing viewport meta tag - mobile completely broken. Critical
 **Chosen:** Mobile-first from 320px up
 
 **Critical Fix:**
+
 ```tsx
 // layout.tsx
 export const viewport: Viewport = {
-  width: 'device-width',  // ← THIS WAS MISSING!
+  width: 'device-width', // ← THIS WAS MISSING!
   initialScale: 1,
 }
 ```
 
 **Breakpoints:**
+
 ```
 Mobile:  320px - 639px   (base)
 Tablet:  640px - 1023px  (sm, md)
@@ -686,6 +720,7 @@ Desktop: 1280px+         (xl, 2xl)
 ```
 
 **Reasoning:**
+
 - Old portfolio mobile was broken (no viewport meta)
 - 60%+ of traffic is mobile
 - Mobile-first forces good UX decisions
@@ -693,6 +728,7 @@ Desktop: 1280px+         (xl, 2xl)
 - Industry best practice
 
 **Old Portfolio Disaster:**
+
 ```tsx
 // ❌ No viewport meta tag
 // Result: Mobile site completely broken
@@ -700,6 +736,7 @@ Desktop: 1280px+         (xl, 2xl)
 ```
 
 **References:**
+
 - `/Documentation/PORTFOLIO_AUDIT.md` Critical Issue #1
 - `/Documentation/setup_guide.md` Section 1.4 "SEO & Metadata (CRITICAL)"
 - `01-ARCHITECTURE.md` (Responsive System)
@@ -720,6 +757,7 @@ Desktop: 1280px+         (xl, 2xl)
 **Context:** Problem we're solving
 
 **Considered Alternatives:**
+
 1. Option A - Why not?
 2. Option B - Why not?
 3. Option C (chosen) - Why yes?
@@ -727,6 +765,7 @@ Desktop: 1280px+         (xl, 2xl)
 **Reasoning:** Detailed explanation
 
 **References:**
+
 - Links to relevant docs
 - Links to discussions
 - Links to code

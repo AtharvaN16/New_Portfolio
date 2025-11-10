@@ -28,7 +28,7 @@ export function AnimatedLink({
   href,
   children,
   className = '',
-  variant = 'default'
+  variant = 'default',
 }: AnimatedLinkProps) {
   return (
     <Link

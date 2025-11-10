@@ -11,6 +11,7 @@ Your portfolio foundation is now **production-ready** with all best practices im
 ### ✅ Phase 1: Foundation (100% Complete)
 
 #### Project Initialization
+
 - [x] Next.js 15 with App Router
 - [x] TypeScript with strict mode
 - [x] Tailwind CSS v4
@@ -18,6 +19,7 @@ Your portfolio foundation is now **production-ready** with all best practices im
 - [x] Proper .gitignore configured
 
 #### Design System
+
 - [x] Comprehensive design token system (colors, spacing, typography, shadows, etc.)
 - [x] Single source of truth for all styles
 - [x] Light and dark mode tokens defined
@@ -25,6 +27,7 @@ Your portfolio foundation is now **production-ready** with all best practices im
 - [x] Responsive breakpoint system
 
 #### Dark Mode
+
 - [x] System preference detection
 - [x] Manual toggle functionality
 - [x] localStorage persistence
@@ -32,6 +35,7 @@ Your portfolio foundation is now **production-ready** with all best practices im
 - [x] Theme provider with React context
 
 #### Security
+
 - [x] Environment variables with .env.local
 - [x] Type-safe env validation with Zod
 - [x] .env.example template
@@ -39,6 +43,7 @@ Your portfolio foundation is now **production-ready** with all best practices im
 - [x] **.gitignore properly configured**
 
 #### SEO & Accessibility
+
 - [x] **Viewport meta tag (CRITICAL - fixes mobile)**
 - [x] Open Graph metadata
 - [x] Twitter Card metadata
@@ -50,6 +55,7 @@ Your portfolio foundation is now **production-ready** with all best practices im
 - [x] prefers-reduced-motion support
 
 #### Error Handling
+
 - [x] Error Boundary component
 - [x] Custom error page (error.tsx)
 - [x] Custom 404 page
@@ -57,6 +63,7 @@ Your portfolio foundation is now **production-ready** with all best practices im
 - [x] Development error details
 
 #### Testing & Quality
+
 - [x] Vitest configured
 - [x] Testing Library setup
 - [x] Test utilities and mocks
@@ -65,6 +72,7 @@ Your portfolio foundation is now **production-ready** with all best practices im
 - [x] Pre-configured scripts
 
 #### Performance
+
 - [x] Font optimization (Geist Sans + Mono)
 - [x] Mobile-first responsive design
 - [x] Optimized build configuration
@@ -76,22 +84,22 @@ Your portfolio foundation is now **production-ready** with all best practices im
 
 ### ❌ Old Portfolio Problems → ✅ New Solutions
 
-| Issue from Audit | How It's Fixed Now |
-|-----------------|-------------------|
-| **23,000-line components** | Max 300 lines per component rule enforced by ESLint |
-| **Missing viewport meta** | ✅ Added in layout.tsx - mobile now works! |
-| **Hardcoded password visible on GitHub** | ✅ Environment variables with Zod validation |
-| **No error boundaries** | ✅ ErrorBoundary component wraps app |
-| **Mixed styling (4 approaches)** | ✅ Single approach: Tailwind + design tokens |
-| **No design tokens** | ✅ Comprehensive token system in globals.css |
-| **Zero tests** | ✅ Vitest + Testing Library configured |
-| **No code quality tools** | ✅ ESLint + Prettier with strict rules |
-| **No SEO** | ✅ Full metadata, sitemap, robots.txt |
-| **Theme flash on load** | ✅ ThemeScript prevents flash |
-| **Inconsistent naming** | ✅ Enforced by ESLint rules |
-| **No accessibility** | ✅ WCAG 2.2 AA standards implemented |
-| **Poor mobile responsiveness** | ✅ Mobile-first + proper viewport meta |
-| **No documentation** | ✅ Comprehensive README |
+| Issue from Audit                         | How It's Fixed Now                                  |
+| ---------------------------------------- | --------------------------------------------------- |
+| **23,000-line components**               | Max 300 lines per component rule enforced by ESLint |
+| **Missing viewport meta**                | ✅ Added in layout.tsx - mobile now works!          |
+| **Hardcoded password visible on GitHub** | ✅ Environment variables with Zod validation        |
+| **No error boundaries**                  | ✅ ErrorBoundary component wraps app                |
+| **Mixed styling (4 approaches)**         | ✅ Single approach: Tailwind + design tokens        |
+| **No design tokens**                     | ✅ Comprehensive token system in globals.css        |
+| **Zero tests**                           | ✅ Vitest + Testing Library configured              |
+| **No code quality tools**                | ✅ ESLint + Prettier with strict rules              |
+| **No SEO**                               | ✅ Full metadata, sitemap, robots.txt               |
+| **Theme flash on load**                  | ✅ ThemeScript prevents flash                       |
+| **Inconsistent naming**                  | ✅ Enforced by ESLint rules                         |
+| **No accessibility**                     | ✅ WCAG 2.2 AA standards implemented                |
+| **Poor mobile responsiveness**           | ✅ Mobile-first + proper viewport meta              |
+| **No documentation**                     | ✅ Comprehensive README                             |
 
 ---
 
@@ -143,14 +151,16 @@ portfolio-new/
 All design values are centralized in `src/app/globals.css`:
 
 ### Colors
+
 ```css
---color-primary: 57 71 202;      /* Your brand blue */
---color-accent: 79 70 229;        /* Accent purple */
---color-background: ...           /* Switches in dark mode */
---color-foreground: ...           /* Switches in dark mode */
+--color-primary: 57 71 202; /* Your brand blue */
+--color-accent: 79 70 229; /* Accent purple */
+--color-background: ... /* Switches in dark mode */ --color-foreground: ...
+  /* Switches in dark mode */;
 ```
 
 ### Spacing (8px grid)
+
 ```css
 --space-1: 0.25rem;  /* 4px */
 --space-2: 0.5rem;   /* 8px */
@@ -159,12 +169,14 @@ All design values are centralized in `src/app/globals.css`:
 ```
 
 ### Typography
+
 ```css
 --text-xs to --text-7xl          /* Font sizes */
 --leading-none to --leading-loose /* Line heights */
 ```
 
 ### Effects
+
 ```css
 --shadow-sm to --shadow-2xl      /* Shadows */
 --radius-sm to --radius-full     /* Border radius */
@@ -173,6 +185,7 @@ All design values are centralized in `src/app/globals.css`:
 ```
 
 **Usage in components:**
+
 ```tsx
 <div className="bg-background text-foreground p-4 rounded-lg shadow-md">
   <h1 className="text-primary">Hello</h1>
@@ -184,6 +197,7 @@ All design values are centralized in `src/app/globals.css`:
 ## 🌓 Dark Mode Implementation
 
 ### Features
+
 1. ✅ **Auto-detects system preference**
 2. ✅ **Manual toggle** (useTheme hook)
 3. ✅ **Persists choice** in localStorage
@@ -212,11 +226,13 @@ function ThemeToggle() {
 ### Setup Instructions
 
 1. **Copy the example file**
+
 ```bash
 cp .env.example .env.local
 ```
 
 2. **Fill in your values** in `.env.local`:
+
 ```env
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 GOOGLE_SHEETS_API_URL=your_google_sheets_url
@@ -226,6 +242,7 @@ NEXT_PUBLIC_ENABLE_ANALYTICS=false
 ```
 
 3. **Use in code** (type-safe!):
+
 ```tsx
 import { env } from '@/lib/env'
 
@@ -281,6 +298,7 @@ npm run build
 Now that the foundation is solid, you can start building features:
 
 ### Immediate Next Steps:
+
 1. **Customize the homepage** (`src/app/page.tsx`)
 2. **Update site config** in `src/app/layout.tsx`:
    - Your name
@@ -299,11 +317,13 @@ Now that the foundation is solid, you can start building features:
    - Implement properly with small components
 
 ### Phase 3: Content
+
 - Case studies gallery
 - Individual case study pages
 - Contact form (with Google Sheets integration)
 
 ### Phase 4: Polish
+
 - Animations throughout
 - Image/video optimization
 - Performance tuning
@@ -319,14 +339,14 @@ Before deploying, update in `src/app/layout.tsx`:
 
 ```tsx
 const siteConfig = {
-  name: 'Atharva Nayak',                    // ✅ Your name
-  title: 'Atharva Nayak - Designer...',     // ⚠️ TODO: Customize
-  description: '...',                        // ⚠️ TODO: Customize
-  ogImage: '/og-image.jpg',                  // ⚠️ TODO: Add image
+  name: 'Atharva Nayak', // ✅ Your name
+  title: 'Atharva Nayak - Designer...', // ⚠️ TODO: Customize
+  description: '...', // ⚠️ TODO: Customize
+  ogImage: '/og-image.jpg', // ⚠️ TODO: Add image
   links: {
-    twitter: 'https://twitter.com/...',      // ⚠️ TODO: Update
-    github: 'https://github.com/...',        // ⚠️ TODO: Update
-    linkedin: 'https://linkedin.com/in/...',  // ⚠️ TODO: Update
+    twitter: 'https://twitter.com/...', // ⚠️ TODO: Update
+    github: 'https://github.com/...', // ⚠️ TODO: Update
+    linkedin: 'https://linkedin.com/in/...', // ⚠️ TODO: Update
   },
 }
 ```
@@ -366,6 +386,7 @@ Your new foundation achieves:
 From your audit documents, these patterns are now **enforced**:
 
 ### ✅ DO (Built into this setup)
+
 - Component max 300 lines (ESLint rule)
 - Single styling approach (Tailwind + tokens)
 - Design tokens for all values
@@ -376,6 +397,7 @@ From your audit documents, these patterns are now **enforced**:
 - Type-safe everything
 
 ### ❌ DON'T (Prevented by setup)
+
 - Hardcode secrets (Zod validates env vars)
 - Mix styling approaches (Prettier enforces)
 - Skip viewport meta (already included)
@@ -412,6 +434,7 @@ Your portfolio now has a **rock-solid foundation** that:
 ## 💬 Questions?
 
 Check the README.md for detailed documentation on:
+
 - Using the design token system
 - Creating new components
 - Writing tests

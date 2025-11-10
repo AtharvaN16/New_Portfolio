@@ -26,6 +26,7 @@ This guide covers common issues you might encounter and how to fix them. Most of
 ### ❌ Build Fails with "Invalid environment variables"
 
 **Error:**
+
 ```
 Error: Invalid environment variables:
 [{
@@ -39,6 +40,7 @@ Error: Invalid environment variables:
 **Cause:** Environment variable validation in `src/lib/env.ts` is failing.
 
 **Solution:**
+
 1. Check your `.env.local` file exists
 2. Ensure all required variables are set
 3. For optional URLs, use empty string or valid URL (our Zod schema handles this)
@@ -54,6 +56,7 @@ Error: Invalid environment variables:
 ### ❌ TypeScript Errors After Adding New Component
 
 **Error:**
+
 ```
 error TS2307: Cannot find module '@/components/ui/Button' or its corresponding type declarations.
 ```
@@ -63,6 +66,7 @@ error TS2307: Cannot find module '@/components/ui/Button' or its corresponding t
 **Solutions:**
 
 1. **Ensure proper exports:**
+
    ```typescript
    // ❌ Wrong (no export)
    function Button() { ... }
@@ -72,6 +76,7 @@ error TS2307: Cannot find module '@/components/ui/Button' or its corresponding t
    ```
 
 2. **Check import path:**
+
    ```typescript
    // ✅ Use alias
    import { Button } from '@/components/ui/Button'
@@ -92,6 +97,7 @@ error TS2307: Cannot find module '@/components/ui/Button' or its corresponding t
 ### ❌ "Module not found" After Installing Package
 
 **Error:**
+
 ```
 Module not found: Can't resolve 'lenis'
 ```
@@ -99,6 +105,7 @@ Module not found: Can't resolve 'lenis'
 **Cause:** Package installed but dev server not restarted.
 
 **Solution:**
+
 ```bash
 # Stop dev server (Ctrl+C)
 npm install
@@ -110,6 +117,7 @@ npm run dev
 ### ❌ ESLint Error: "Component is too long"
 
 **Error:**
+
 ```
 error: Component exceeds maximum allowed lines (300). Current: 450 lines
 ```
@@ -119,6 +127,7 @@ error: Component exceeds maximum allowed lines (300). Current: 450 lines
 **Solution:**
 
 1. **Break into smaller components:**
+
    ```typescript
    // ❌ Before (450 lines)
    export function HeroSection() {
@@ -142,6 +151,7 @@ error: Component exceeds maximum allowed lines (300). Current: 450 lines
    ```
 
 2. **Extract logic to hooks:**
+
    ```typescript
    // Extract complex logic
    const { scrollProgress, isInView } = useHeroAnimations()
@@ -164,6 +174,7 @@ error: Component exceeds maximum allowed lines (300). Current: 450 lines
 ### ❌ Environment Variables Not Loading
 
 **Symptoms:**
+
 - `env.NEXT_PUBLIC_SITE_URL` is undefined
 - Build succeeds but runtime errors
 - Console shows "undefined" for env values
@@ -171,6 +182,7 @@ error: Component exceeds maximum allowed lines (300). Current: 450 lines
 **Solution:**
 
 1. **Check file name:**
+
    ```bash
    # ✅ Correct
    .env.local
@@ -182,6 +194,7 @@ error: Component exceeds maximum allowed lines (300). Current: 450 lines
    ```
 
 2. **Ensure proper prefix:**
+
    ```bash
    # ✅ Client-side (exposed to browser)
    NEXT_PUBLIC_SITE_URL=https://example.com
@@ -192,12 +205,14 @@ error: Component exceeds maximum allowed lines (300). Current: 450 lines
 
 3. **Restart dev server:**
    Environment variables are loaded at build time, not runtime.
+
    ```bash
    # Stop server (Ctrl+C)
    npm run dev
    ```
 
 4. **Import from correct file:**
+
    ```typescript
    // ✅ Correct
    import { env } from '@/lib/env'
@@ -214,6 +229,7 @@ error: Component exceeds maximum allowed lines (300). Current: 450 lines
 ### ❌ "Invalid URL" for Optional Environment Variable
 
 **Error:**
+
 ```
 GOOGLE_SHEETS_API_URL: Invalid URL
 ```
@@ -223,15 +239,16 @@ GOOGLE_SHEETS_API_URL: Invalid URL
 **Solution:**
 
 Our Zod schema already handles this! Just use empty string:
+
 ```bash
 # .env.local
 GOOGLE_SHEETS_API_URL=
 ```
 
 The schema transforms empty string to `undefined`:
+
 ```typescript
-GOOGLE_SHEETS_API_URL: z
-  .string()
+GOOGLE_SHEETS_API_URL: z.string()
   .url()
   .optional()
   .or(z.literal('').transform(() => undefined))
@@ -244,6 +261,7 @@ GOOGLE_SHEETS_API_URL: z
 ### ❌ Theme "Flash" on Page Load
 
 **Symptoms:**
+
 - Page loads in light mode, then switches to dark mode
 - Background color flickers
 - User sees wrong theme for ~100ms
@@ -269,6 +287,7 @@ We use `ThemeScript` component that runs BEFORE React:
 **If Flash Still Occurs:**
 
 1. **Ensure `suppressHydrationWarning` on `<html>`:**
+
    ```typescript
    <html lang="en" suppressHydrationWarning>
    ```
@@ -289,6 +308,7 @@ We use `ThemeScript` component that runs BEFORE React:
 ### ❌ Dark Mode Not Persisting
 
 **Symptoms:**
+
 - Toggle theme works
 - Refresh page → theme resets to default
 
@@ -297,6 +317,7 @@ We use `ThemeScript` component that runs BEFORE React:
 **Solution:**
 
 1. **Check ThemeProvider `setTheme` function:**
+
    ```typescript
    function setTheme(newTheme: Theme) {
      setThemeState(newTheme)
@@ -318,6 +339,7 @@ We use `ThemeScript` component that runs BEFORE React:
 ### ❌ CSS Variables Not Updating in Dark Mode
 
 **Symptoms:**
+
 - Dark mode toggle works
 - Colors don't change
 - `data-theme="dark"` is set but colors stay light
@@ -327,6 +349,7 @@ We use `ThemeScript` component that runs BEFORE React:
 **Solution:**
 
 1. **Check `globals.css` has dark mode overrides:**
+
    ```css
    /* Must use attribute selector, not class */
    [data-theme='dark'] {
@@ -337,6 +360,7 @@ We use `ThemeScript` component that runs BEFORE React:
    ```
 
 2. **Verify HTML attribute is set:**
+
    ```typescript
    // Inspect in DevTools
    <html data-theme="dark">
@@ -359,6 +383,7 @@ We use `ThemeScript` component that runs BEFORE React:
 ### ❌ Mobile Layout Completely Broken
 
 **Symptoms:**
+
 - Desktop layout on mobile
 - Horizontal scrolling
 - Text overflows screen
@@ -368,6 +393,7 @@ We use `ThemeScript` component that runs BEFORE React:
 **Solution (Already Fixed):**
 
 We added viewport to `layout.tsx`:
+
 ```typescript
 export const viewport: Viewport = {
   width: 'device-width',
@@ -383,6 +409,7 @@ export const viewport: Viewport = {
    Must be named export, not in metadata.
 
 2. **Verify no fixed widths:**
+
    ```css
    /* ❌ Wrong */
    .container {
@@ -397,6 +424,7 @@ export const viewport: Viewport = {
    ```
 
 3. **Use mobile-first breakpoints:**
+
    ```typescript
    // ✅ Mobile first
    <div className="w-full md:w-1/2 lg:w-1/3">
@@ -412,6 +440,7 @@ export const viewport: Viewport = {
 ### ❌ Touch Events Not Working
 
 **Symptoms:**
+
 - Hover effects work on desktop
 - No touch feedback on mobile
 - Buttons unresponsive on touch
@@ -419,11 +448,13 @@ export const viewport: Viewport = {
 **Solution:**
 
 1. **Add touch-action CSS:**
+
    ```typescript
    <button className="touch-manipulation active:scale-95">
    ```
 
 2. **Use onClick instead of onMouseDown:**
+
    ```typescript
    // ✅ Works on both
    <button onClick={handleClick}>
@@ -440,6 +471,7 @@ export const viewport: Viewport = {
 ### ❌ Text Too Small on Mobile
 
 **Symptoms:**
+
 - Text readable on desktop
 - Microscopic on mobile
 - Users have to zoom
@@ -449,6 +481,7 @@ export const viewport: Viewport = {
 **Solution:**
 
 Use our responsive typography system:
+
 ```typescript
 // ✅ Correct (uses clamp in globals.css)
 <h1 className="text-4xl">
@@ -459,6 +492,7 @@ Use our responsive typography system:
 ```
 
 **Our System:**
+
 ```css
 /* globals.css */
 --text-4xl: clamp(2rem, 1.5rem + 2vw, 3.5rem);
@@ -473,6 +507,7 @@ Use our responsive typography system:
 ### ❌ Animations Janky/Laggy on Mobile
 
 **Symptoms:**
+
 - Smooth on desktop
 - Stuttering on mobile
 - FPS drops below 30
@@ -482,6 +517,7 @@ Use our responsive typography system:
 **Solution:**
 
 1. **Only animate GPU-accelerated properties:**
+
    ```typescript
    // ✅ Fast (GPU accelerated)
    <motion.div
@@ -505,6 +541,7 @@ Use our responsive typography system:
    ```
 
 2. **Use `will-change` for complex animations:**
+
    ```typescript
    <motion.div
      className="will-change-transform"
@@ -513,6 +550,7 @@ Use our responsive typography system:
    ```
 
 3. **Reduce animation complexity on mobile:**
+
    ```typescript
    const { isMobile } = useBreakpoints()
 
@@ -543,6 +581,7 @@ Use our responsive typography system:
 ### ❌ Lenis Smooth Scroll Not Working
 
 **Symptoms:**
+
 - Normal scroll behavior
 - No smooth momentum
 - Scroll-triggered animations not firing
@@ -550,6 +589,7 @@ Use our responsive typography system:
 **Solution:**
 
 1. **Check LenisProvider in layout:**
+
    ```typescript
    // src/app/layout.tsx
    <LenisProvider>
@@ -558,12 +598,14 @@ Use our responsive typography system:
    ```
 
 2. **Verify client component:**
+
    ```typescript
    // LenisProvider.tsx must have:
    'use client'
    ```
 
 3. **Check requestAnimationFrame loop:**
+
    ```typescript
    useEffect(() => {
      function raf(time: number) {
@@ -575,6 +617,7 @@ Use our responsive typography system:
    ```
 
 4. **Disable on mobile if needed:**
+
    ```typescript
    const { isMobile } = useBreakpoints()
 
@@ -591,6 +634,7 @@ Use our responsive typography system:
 ### ❌ Framer Motion Animations Not Running
 
 **Symptoms:**
+
 - No animation on component mount
 - Elements appear instantly
 - Console shows no errors
@@ -598,6 +642,7 @@ Use our responsive typography system:
 **Solution:**
 
 1. **Ensure initial state is different from animate:**
+
    ```typescript
    // ❌ Won't animate (same values)
    <motion.div
@@ -613,6 +658,7 @@ Use our responsive typography system:
    ```
 
 2. **Check component is client component:**
+
    ```typescript
    'use client' // Must be at top of file
 
@@ -636,6 +682,7 @@ Use our responsive typography system:
 **Solution:**
 
 Already configured in `vitest.config.ts`:
+
 ```typescript
 resolve: {
   alias: {
@@ -645,6 +692,7 @@ resolve: {
 ```
 
 If still failing:
+
 1. Check `vitest.config.ts` exists
 2. Restart test runner
 3. Clear cache: `rm -rf node_modules/.vite`
@@ -658,6 +706,7 @@ If still failing:
 **Solution:**
 
 Mock the hook:
+
 ```typescript
 // Button.test.tsx
 import { vi } from 'vitest'
@@ -680,6 +729,7 @@ vi.mock('@/hooks/use-breakpoint', () => ({
 ### ❌ Build Works Locally But Fails on Vercel
 
 **Error:**
+
 ```
 Error: Invalid environment variables
 ```
@@ -704,6 +754,7 @@ Error: Invalid environment variables
 ### ❌ Images Not Loading in Production
 
 **Symptoms:**
+
 - Images work in dev
 - Broken in production
 - Console shows 404 errors
@@ -713,6 +764,7 @@ Error: Invalid environment variables
 **Solution:**
 
 1. **Use Next.js Image component:**
+
    ```typescript
    import Image from 'next/image'
 
@@ -725,6 +777,7 @@ Error: Invalid environment variables
    ```
 
 2. **Check images are in `public/`:**
+
    ```
    public/
    └── images/
@@ -732,12 +785,13 @@ Error: Invalid environment variables
    ```
 
 3. **Use correct paths:**
+
    ```typescript
    // ✅ Correct
-   src="/images/hero.jpg"
+   src = '/images/hero.jpg'
 
    // ❌ Wrong
-   src="./public/images/hero.jpg"
+   src = './public/images/hero.jpg'
    ```
 
 4. **For external images, add to next.config.ts:**
@@ -757,6 +811,7 @@ Error: Invalid environment variables
 ### ❌ CSS Not Applied in Production
 
 **Symptoms:**
+
 - Styles work in dev
 - Unstyled in production
 - Tailwind classes missing
@@ -766,6 +821,7 @@ Error: Invalid environment variables
 **Solution:**
 
 1. **Check `tailwind.config.ts` content paths:**
+
    ```typescript
    content: [
      './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -776,6 +832,7 @@ Error: Invalid environment variables
    ```
 
 2. **Don't use dynamic class names:**
+
    ```typescript
    // ❌ Wrong (Tailwind can't detect)
    <div className={`text-${color}-500`} />
@@ -787,10 +844,7 @@ Error: Invalid environment variables
 3. **Add to safelist if needed:**
    ```typescript
    // tailwind.config.ts
-   safelist: [
-     'text-red-500',
-     'bg-blue-600',
-   ]
+   safelist: ['text-red-500', 'bg-blue-600']
    ```
 
 ---
@@ -811,6 +865,7 @@ Follow the migration checklist from `02-COMPONENT-GUIDELINES.md`:
    - What can be extracted?
 
 2. **Break into smaller pieces:**
+
    ```
    HomeBlobs.tsx (1,113 lines)
    ↓
@@ -870,13 +925,13 @@ gsap.to('.hero', {
 
 **Common Conversions:**
 
-| GSAP | Framer Motion |
-|------|---------------|
-| `gsap.to()` | `animate={}` |
-| `gsap.from()` | `initial={}` |
+| GSAP            | Framer Motion                    |
+| --------------- | -------------------------------- |
+| `gsap.to()`     | `animate={}`                     |
+| `gsap.from()`   | `initial={}`                     |
 | `ScrollTrigger` | `useScroll()` + `useTransform()` |
-| `timeline()` | `variants` with stagger |
-| `.delay(0.2)` | `transition={{ delay: 0.2 }}` |
+| `timeline()`    | `variants` with stagger          |
+| `.delay(0.2)`   | `transition={{ delay: 0.2 }}`    |
 
 **Reference:** See `03-ANIMATION-STRATEGY.md` → Migration Guide
 
@@ -912,6 +967,7 @@ Replace with design tokens:
 ### "Hydration Error"
 
 **Full Error:**
+
 ```
 Error: Hydration failed because the initial UI does not match what was rendered on the server.
 ```
@@ -923,6 +979,7 @@ Error: Hydration failed because the initial UI does not match what was rendered 
    - Ensure ThemeScript runs before React
 
 2. **Client-only content in server component:**
+
    ```typescript
    // ❌ Wrong
    export default function Page() {
@@ -939,6 +996,7 @@ Error: Hydration failed because the initial UI does not match what was rendered 
    ```
 
 3. **Nested interactive elements:**
+
    ```typescript
    // ❌ Wrong (button in button)
    <button>
@@ -960,6 +1018,7 @@ Error: Hydration failed because the initial UI does not match what was rendered 
 **Solution:**
 
 Add proper guards:
+
 ```typescript
 // ❌ Wrong
 {data.map(item => <div>{item}</div>)}
@@ -977,6 +1036,7 @@ Add proper guards:
 **Solution:**
 
 Check useEffect dependencies:
+
 ```typescript
 // ❌ Wrong (infinite loop)
 useEffect(() => {
@@ -1005,6 +1065,7 @@ useEffect(() => {
    - `Documentation/CODEBASE_STRATEGIC_REVIEW.md`
 
 3. **Run validation:**
+
    ```bash
    npm run lint          # Check code quality
    npm run type-check    # Check TypeScript
@@ -1013,6 +1074,7 @@ useEffect(() => {
    ```
 
 4. **Clear cache:**
+
    ```bash
    rm -rf .next
    rm -rf node_modules/.cache
@@ -1054,15 +1116,18 @@ useEffect(() => {
 Found a solution to a problem? Add it here!
 
 **Template:**
+
 ```markdown
 ### ❌ [Problem Title]
 
 **Symptoms:**
+
 - What the user sees
 
 **Cause:** Why it happens
 
 **Solution:**
+
 1. Step-by-step fix
 2. With code examples
 

@@ -114,11 +114,7 @@ export function AnimatedHeroTextGSAP({
   }
 
   return (
-    <p
-      ref={textRef}
-      className={cn(className)}
-      style={{ ...style, opacity: 0 }}
-    >
+    <p ref={textRef} className={cn(className)} style={{ ...style, opacity: 0 }}>
       {renderText()}
     </p>
   )

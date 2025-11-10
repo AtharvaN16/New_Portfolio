@@ -3,6 +3,7 @@
 **Purpose:** How to build components properly - avoiding the mistakes from the old portfolio.
 
 **Prerequisites:**
+
 - Read `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` (see the 23,000-line component problem)
 - Read `01-ARCHITECTURE.md` (understand the design system)
 
@@ -26,6 +27,7 @@
 ### The Rule: **Maximum 300 Lines**
 
 **Old Portfolio Disasters:**
+
 ```
 HomeBlobs.tsx:        1,113 lines ❌
 CaseStudyAnimation.tsx: 1,845 lines ❌
@@ -39,6 +41,7 @@ Footer.tsx:             381 lines ❌
 ### Why This Matters
 
 **Problems with giant components:**
+
 - ❌ Can't understand what it does
 - ❌ Can't test in isolation
 - ❌ Can't reuse elsewhere
@@ -47,6 +50,7 @@ Footer.tsx:             381 lines ❌
 - ❌ Every change risks breaking something
 
 **Benefits of small components:**
+
 - ✅ Easy to understand
 - ✅ Easy to test
 - ✅ Reusable
@@ -57,6 +61,7 @@ Footer.tsx:             381 lines ❌
 ### ESLint Enforcement
 
 Already configured in `.eslintrc.json`:
+
 ```json
 {
   "rules": {
@@ -74,6 +79,7 @@ You'll get a warning if a component exceeds 300 lines.
 #### Strategy 1: Extract Sub-Components
 
 **Before (800 lines):**
+
 ```tsx
 function HeroSection() {
   // 100 lines of background logic
@@ -81,15 +87,12 @@ function HeroSection() {
   // 300 lines of animation logic
   // 200 lines of JSX
 
-  return (
-    <div>
-      {/* All in one giant component */}
-    </div>
-  )
+  return <div>{/* All in one giant component */}</div>
 }
 ```
 
 **After (4 components <200 lines each):**
+
 ```tsx
 // HeroSection.tsx (100 lines) - Orchestrator
 function HeroSection() {
@@ -103,18 +106,25 @@ function HeroSection() {
 }
 
 // HeroBackground.tsx (150 lines)
-function HeroBackground() { /* ... */ }
+function HeroBackground() {
+  /* ... */
+}
 
 // HeroContent.tsx (120 lines)
-function HeroContent() { /* ... */ }
+function HeroContent() {
+  /* ... */
+}
 
 // HeroAnimation.tsx (180 lines)
-function HeroAnimation() { /* ... */ }
+function HeroAnimation() {
+  /* ... */
+}
 ```
 
 #### Strategy 2: Extract Custom Hooks
 
 **Before:**
+
 ```tsx
 function Component() {
   // 50 lines of mouse tracking logic
@@ -127,6 +137,7 @@ function Component() {
 ```
 
 **After:**
+
 ```tsx
 // Component.tsx (80 lines)
 function Component() {
@@ -138,18 +149,25 @@ function Component() {
 }
 
 // hooks/use-mouse-tracking.ts (50 lines)
-export function useMouseTracking() { /* ... */ }
+export function useMouseTracking() {
+  /* ... */
+}
 
 // hooks/use-scroll-progress.ts (40 lines)
-export function useScrollProgress() { /* ... */ }
+export function useScrollProgress() {
+  /* ... */
+}
 
 // hooks/use-hero-animation.ts (60 lines)
-export function useHeroAnimation() { /* ... */ }
+export function useHeroAnimation() {
+  /* ... */
+}
 ```
 
 #### Strategy 3: Extract Constants & Types
 
 **Before:**
+
 ```tsx
 function Component() {
   const animations = {
@@ -165,6 +183,7 @@ function Component() {
 ```
 
 **After:**
+
 ```tsx
 // Component.tsx (150 lines)
 import { animations } from './animations'
@@ -175,10 +194,14 @@ function Component() {
 }
 
 // animations.ts (80 lines)
-export const animations = { /* ... */ }
+export const animations = {
+  /* ... */
+}
 
 // colors.ts (30 lines)
-export const colors = { /* ... */ }
+export const colors = {
+  /* ... */
+}
 ```
 
 ---
@@ -217,11 +240,7 @@ interface Props {
   children?: React.ReactNode
 }
 
-export function ComponentName({
-  title,
-  variant = 'primary',
-  children,
-}: Props) {
+export function ComponentName({ title, variant = 'primary', children }: Props) {
   // 1. Hooks
   const [state, setState] = useState(false)
 
@@ -235,11 +254,13 @@ export function ComponentName({
 
   // 4. Render
   return (
-    <div className={cn(
-      'base-classes',
-      variant === 'primary' && 'primary-classes',
-      isActive && 'active-classes'
-    )}>
+    <div
+      className={cn(
+        'base-classes',
+        variant === 'primary' && 'primary-classes',
+        isActive && 'active-classes'
+      )}
+    >
       <h2>{title}</h2>
       {children}
     </div>
@@ -355,6 +376,7 @@ const DEFAULT_THEME = 'light'
 ```
 
 **Old Portfolio Problem:** Inconsistent naming everywhere
+
 - `useIsVisible.ts` vs `use_progress.ts` vs `use-mobile.ts`
 - Made files hard to find
 
@@ -428,7 +450,7 @@ export function Button({ variant = 'primary', ...props }: ButtonProps) {
 }
 
 // Usage: All native button props work!
-<Button
+;<Button
   variant="primary"
   onClick={handleClick}
   type="submit"
@@ -458,7 +480,7 @@ interface Props {
 export function MetricsCard({ metrics }: Props) {
   // Validate at runtime (in development)
   if (process.env.NODE_ENV === 'development') {
-    metrics.forEach(m => MetricsSchema.parse(m))
+    metrics.forEach((m) => MetricsSchema.parse(m))
   }
 
   // ...
@@ -503,18 +525,20 @@ interface Props {
 
 export function Component({ variant, isActive, className }: Props) {
   return (
-    <div className={cn(
-      // Base classes (always applied)
-      'px-4 py-2 rounded-lg transition-colors',
+    <div
+      className={cn(
+        // Base classes (always applied)
+        'px-4 py-2 rounded-lg transition-colors',
 
-      // Conditional classes
-      variant === 'primary' && 'bg-primary text-white',
-      variant === 'secondary' && 'bg-surface text-foreground',
-      isActive && 'ring-2 ring-primary',
+        // Conditional classes
+        variant === 'primary' && 'bg-primary text-white',
+        variant === 'secondary' && 'bg-surface text-foreground',
+        isActive && 'ring-2 ring-primary',
 
-      // Allow className override
-      className
-    )}>
+        // Allow className override
+        className
+      )}
+    >
       Content
     </div>
   )
@@ -572,9 +596,7 @@ interface ButtonProps extends VariantProps<typeof buttonVariants> {
 
 export function Button({ variant, size, children }: ButtonProps) {
   return (
-    <button className={buttonVariants({ variant, size })}>
-      {children}
-    </button>
+    <button className={buttonVariants({ variant, size })}>{children}</button>
   )
 }
 ```
@@ -596,23 +618,19 @@ interface ContainerProps {
 }
 
 const sizes = {
-  sm: 'max-w-3xl',   // 768px
-  md: 'max-w-5xl',   // 1024px
-  lg: 'max-w-7xl',   // 1280px
+  sm: 'max-w-3xl', // 768px
+  md: 'max-w-5xl', // 1024px
+  lg: 'max-w-7xl', // 1280px
   full: 'max-w-none',
 }
 
 export function Container({
   children,
   className,
-  size = 'lg'
+  size = 'lg',
 }: ContainerProps) {
   return (
-    <div className={cn(
-      'mx-auto px-4 sm:px-6 lg:px-8',
-      sizes[size],
-      className
-    )}>
+    <div className={cn('mx-auto px-4 sm:px-6 lg:px-8', sizes[size], className)}>
       {children}
     </div>
   )
@@ -632,9 +650,7 @@ interface SectionProps {
 export function Section({ children, className, containerSize }: SectionProps) {
   return (
     <section className={cn('py-12 md:py-16 lg:py-20', className)}>
-      <Container size={containerSize}>
-        {children}
-      </Container>
+      <Container size={containerSize}>{children}</Container>
     </section>
   )
 }
@@ -799,11 +815,13 @@ export function ComponentName({ ...props }: Props) {
 ## 📚 Reference
 
 **Related Docs:**
+
 - Design system → `01-ARCHITECTURE.md`
 - Animation patterns → `03-ANIMATION-STRATEGY.md`
 - Decisions → `04-DECISIONS-LOG.md`
 
 **Old Portfolio Issues:**
+
 - Component size disasters → `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` Section 1.1
 - Inconsistent patterns → `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` Section 4.2
 - Magic numbers → `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` Section 4.3

@@ -12,7 +12,10 @@ interface SplitTextResult {
 
 export function SplitText(
   element: HTMLElement,
-  options: { type: 'lines'; tagName?: string } = { type: 'lines', tagName: 'span' }
+  options: { type: 'lines'; tagName?: string } = {
+    type: 'lines',
+    tagName: 'span',
+  }
 ): SplitTextResult {
   const tagName = options.tagName || 'span'
   const originalHTML = element.innerHTML

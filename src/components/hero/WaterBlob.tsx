@@ -36,15 +36,17 @@ export function WaterBlob({ className = '' }: WaterBlobProps) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
   // Get colors from design tokens
-  // Note: theme is needed as dependency because CSS variables change when theme changes
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const colors = useMemo(() => {
     if (typeof window === 'undefined') return null
 
     const root = document.documentElement
     const getColor = (variable: string) => {
       const value = getComputedStyle(root).getPropertyValue(variable).trim()
-      return value.split(' ').map((v) => parseInt(v) / 255) as [number, number, number]
+      return value.split(' ').map((v) => parseInt(v) / 255) as [
+        number,
+        number,
+        number,
+      ]
     }
 
     return {
@@ -53,6 +55,8 @@ export function WaterBlob({ className = '' }: WaterBlobProps) {
       pink: getColor('--hero-blob-pink'),
       background: getColor('--color-background'),
     }
+    // Theme is intentionally included - CSS variables change when theme changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [theme])
 
   // Check for reduced motion preference
@@ -60,7 +64,8 @@ export function WaterBlob({ className = '' }: WaterBlobProps) {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     setPrefersReducedMotion(mediaQuery.matches)
 
-    const handleChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches)
+    const handleChange = (e: MediaQueryListEvent) =>
+      setPrefersReducedMotion(e.matches)
     mediaQuery.addEventListener('change', handleChange)
     return () => mediaQuery.removeEventListener('change', handleChange)
   }, [])
@@ -122,7 +127,10 @@ export function WaterBlob({ className = '' }: WaterBlobProps) {
     const uColor1Location = gl.getUniformLocation(program, 'uColor1')
     const uColor2Location = gl.getUniformLocation(program, 'uColor2')
     const uColor3Location = gl.getUniformLocation(program, 'uColor3')
-    const uBackgroundColorLocation = gl.getUniformLocation(program, 'uBackgroundColor')
+    const uBackgroundColorLocation = gl.getUniformLocation(
+      program,
+      'uBackgroundColor'
+    )
 
     // Set initial colors
     gl.uniform3fv(uColor1Location, colors.blue)
@@ -211,7 +219,9 @@ export function WaterBlobWithBoundary(props: WaterBlobProps) {
   return (
     <ErrorBoundary
       fallback={
-        <div className={`w-full h-full hero-gradient-light ${props.className || ''}`} />
+        <div
+          className={`w-full h-full hero-gradient-light ${props.className || ''}`}
+        />
       }
     >
       <WaterBlob {...props} />

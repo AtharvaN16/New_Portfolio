@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
 import { cn } from '@/lib/utils/cn'
 
@@ -30,9 +29,17 @@ const defaultProjects: ProjectCardProps[] = [
   },
 ]
 
-export function SelectedWork({ projects = defaultProjects, className }: SelectedWorkProps) {
+export function SelectedWork({
+  projects = defaultProjects,
+  className,
+}: SelectedWorkProps) {
   return (
-    <section className={cn('w-full bg-background pb-20 pt-8 md:pb-32 md:pt-12', className)}>
+    <section
+      className={cn(
+        'w-full bg-background pb-20 pt-8 md:pb-32 md:pt-12',
+        className
+      )}
+    >
       {/* Section Title */}
       <h2 className="mb-12 text-5xl font-bold tracking-tight text-foreground md:mb-16 md:text-6xl lg:text-7xl">
         Selected Work
@@ -64,7 +71,11 @@ export function SelectedWork({ projects = defaultProjects, className }: Selected
             stroke="currentColor"
             strokeWidth={2}
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
           </svg>
         </button>
       </div>

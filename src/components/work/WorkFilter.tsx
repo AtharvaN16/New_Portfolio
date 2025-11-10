@@ -26,7 +26,10 @@ export function WorkFilter({ projects, className }: WorkFilterProps) {
     return [
       { tag: 'All', count: projects.length },
       { tag: 'Selected Work', count: tagCounts.get('Selected Work') || 0 },
-      { tag: 'Usability Testing', count: tagCounts.get('Usability Testing') || 0 },
+      {
+        tag: 'Usability Testing',
+        count: tagCounts.get('Usability Testing') || 0,
+      },
       { tag: 'Client Project', count: tagCounts.get('Client Project') || 0 },
       { tag: 'Explorations', count: tagCounts.get('Explorations') || 0 },
     ]
@@ -54,18 +57,26 @@ export function WorkFilter({ projects, className }: WorkFilterProps) {
                 <button
                   onClick={() => count > 0 && setSelectedFilter(tag)}
                   disabled={isDisabled}
-                  className={cn('group flex items-start gap-2 text-foreground transition-all', {
-                    'opacity-100': isSelected && !isDisabled,
-                    'opacity-40 hover:opacity-80': !isSelected && !isDisabled,
-                    'cursor-not-allowed opacity-20': isDisabled,
-                  })}
+                  className={cn(
+                    'group flex items-start gap-2 text-foreground transition-all',
+                    {
+                      'opacity-100': isSelected && !isDisabled,
+                      'opacity-40 hover:opacity-80': !isSelected && !isDisabled,
+                      'cursor-not-allowed opacity-20': isDisabled,
+                    }
+                  )}
                 >
-                  <span className="text-[1.125rem] font-medium leading-tight">{tag}</span>
+                  <span className="text-[1.125rem] font-medium leading-tight">
+                    {tag}
+                  </span>
                   <span className="text-xs leading-tight">{count}</span>
                 </button>
                 {/* Add separator after "All" */}
                 {index === 0 && (
-                  <span className="text-foreground opacity-20" aria-hidden="true">
+                  <span
+                    className="text-foreground opacity-20"
+                    aria-hidden="true"
+                  >
                     |
                   </span>
                 )}

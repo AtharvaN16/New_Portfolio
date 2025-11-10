@@ -29,29 +29,35 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('light')
-  const [mounted, setMounted] = useState(false)
-
-  // Initialize theme on mount
-  useEffect(() => {
-    setMounted(true)
+  // Initialize theme from localStorage/system preference immediately
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === 'undefined') return 'light'
 
     // Check localStorage first
     const stored = localStorage.getItem('theme') as Theme | null
-
     if (stored) {
-      setThemeState(stored)
-      document.documentElement.setAttribute('data-theme', stored)
-    } else {
-      // Fall back to system preference
-      const prefersDark = window.matchMedia(
-        '(prefers-color-scheme: dark)'
-      ).matches
-      const systemTheme = prefersDark ? 'dark' : 'light'
-      setThemeState(systemTheme)
-      document.documentElement.setAttribute('data-theme', systemTheme)
+      return stored
     }
+
+    // Fall back to system preference
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches
+    return prefersDark ? 'dark' : 'light'
+  })
+  const [mounted, setMounted] = useState(false)
+
+  // Set mounted flag after hydration
+  useEffect(() => {
+    // This setState is intentional for hydration detection
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true)
   }, [])
+
+  // Apply theme to DOM
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+  }, [theme])
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme)
@@ -76,11 +82,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return null
   }
 
-  return (
-    <ThemeContext.Provider value={value}>
-      {children}
-    </ThemeContext.Provider>
-  )
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
 
 export function useTheme() {

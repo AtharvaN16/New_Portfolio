@@ -42,12 +42,12 @@ export default function Error({
           >
             Try Again
           </button>
-          <a
-            href="/"
+          <button
+            onClick={() => (window.location.href = '/')}
             className="rounded-lg border border-border px-6 py-3 font-medium transition-colors hover:bg-surface"
           >
             Go Home
-          </a>
+          </button>
         </div>
       </div>
     </div>

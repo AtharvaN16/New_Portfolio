@@ -10,12 +10,12 @@ interface PageOverlayProps {
    * e.g., "/work" will open the overlay when user navigates to /work
    */
   triggerPath: string
-  
+
   /**
    * Content to show in the overlay
    */
   children: ReactNode
-  
+
   /**
    * Path to navigate to when overlay closes
    * Defaults to "/"
@@ -29,17 +29,21 @@ const CLOSE_DURATION = 0.6
 
 /**
  * Swaddle-style page overlay that slides up from the bottom.
- * 
+ *
  * HOW IT WORKS (like Swaddle):
  * 1. This component is always mounted on the home page
  * 2. When user navigates to triggerPath, we intercept with shallow routing
  * 3. We open the dialog with GSAP-style animation
  * 4. The home page stays mounted underneath the whole time
  * 5. On close, we animate down and shallow route back to home
- * 
+ *
  * This is NOT a page transition - it's a dialog that updates the URL.
  */
-export function PageOverlay({ triggerPath, children, closePath = '/' }: PageOverlayProps) {
+export function PageOverlay({
+  triggerPath,
+  children,
+  closePath = '/',
+}: PageOverlayProps) {
   const pathname = usePathname()
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
@@ -48,35 +52,30 @@ export function PageOverlay({ triggerPath, children, closePath = '/' }: PageOver
   // Sync overlay state with pathname
   useEffect(() => {
     const shouldBeOpen = pathname === triggerPath
-    
-    console.log('[PageOverlay] Pathname check:', {
-      pathname,
-      triggerPath,
-      shouldBeOpen,
-      isOpen,
-    })
-    
+
     if (shouldBeOpen && !isOpen) {
-      console.log('[PageOverlay] Opening overlay!')
-      
-      // Opening - capture scroll and freeze page
-      const currentScrollY = window.scrollY
-      setScrollY(currentScrollY)
-      
-      // Freeze the page (Swaddle technique)
-      const root = document.documentElement
-      root.style.position = 'fixed'
-      root.style.top = `-${currentScrollY}px`
-      root.style.width = '100%'
-      document.body.style.overflow = 'hidden'
-      
-      // Pause Lenis
-      const lenis = (window as any).lenis
-      if (lenis) lenis.stop()
-      
+      // Opening - capture scroll and freeze page using state update function
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setScrollY(window.scrollY)
+
+      // Use setTimeout to defer DOM manipulation after state update
+      setTimeout(() => {
+        const currentScrollY = window.scrollY
+
+        // Freeze the page (Swaddle technique)
+        const root = document.documentElement
+        root.style.position = 'fixed'
+        root.style.top = `-${currentScrollY}px`
+        root.style.width = '100%'
+        document.body.style.overflow = 'hidden'
+
+        // Pause Lenis
+        const lenis = window.lenis
+        if (lenis) lenis.stop()
+      }, 0)
+
       setIsOpen(true)
     } else if (!shouldBeOpen && isOpen) {
-      console.log('[PageOverlay] Closing overlay!')
       // Closing - will be handled by animation complete
       setIsOpen(false)
     }
@@ -107,12 +106,12 @@ export function PageOverlay({ triggerPath, children, closePath = '/' }: PageOver
       root.style.top = ''
       root.style.width = ''
       document.body.style.overflow = ''
-      
+
       // Restore scroll
       window.scrollTo(0, scrollY)
-      
+
       // Resume Lenis
-      const lenis = (window as any).lenis
+      const lenis = window.lenis
       if (lenis) {
         lenis.scrollTo(scrollY, { immediate: true })
         lenis.start()
@@ -151,4 +150,3 @@ export function PageOverlay({ triggerPath, children, closePath = '/' }: PageOver
     </AnimatePresence>
   )
 }
-

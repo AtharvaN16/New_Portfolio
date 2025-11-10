@@ -20,6 +20,13 @@ interface LenisProviderProps {
   children: ReactNode
 }
 
+// Extend window interface to include lenis
+declare global {
+  interface Window {
+    lenis?: Lenis
+  }
+}
+
 export function LenisProvider({ children }: LenisProviderProps) {
   const lenisRef = useRef<Lenis | null>(null)
 
@@ -47,7 +54,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
     })
 
     lenisRef.current = lenis
-    ;(window as any).lenis = lenis
+    window.lenis = lenis
 
     // Animation frame loop
     function raf(time: number) {
@@ -61,7 +68,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
     return () => {
       lenis.destroy()
       lenisRef.current = null
-      delete (window as any).lenis
+      delete window.lenis
     }
   }, [])
 
@@ -73,8 +80,8 @@ export function LenisProvider({ children }: LenisProviderProps) {
  *
  * Usage:
  *   const lenis = useLenis()
- *   lenis.scrollTo('#section', { offset: 100 })
+ *   lenis?.scrollTo('#section', { offset: 100 })
  */
-export function useLenis() {
-  return typeof window !== 'undefined' ? (window as any).lenis : null
+export function useLenis(): Lenis | undefined {
+  return typeof window !== 'undefined' ? window.lenis : undefined
 }

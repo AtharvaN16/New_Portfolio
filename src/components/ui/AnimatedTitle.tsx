@@ -1,15 +1,15 @@
-'use client';
+'use client'
 
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils/cn';
+import { motion } from 'framer-motion'
+import { cn } from '@/lib/utils/cn'
 
 interface AnimatedTitleProps {
   /** The text to be animated. */
-  text: string;
+  text: string
   /** The type of animation to apply. */
-  animationType?: 'fadeInUp' | 'fadeIn';
+  animationType?: 'fadeInUp' | 'fadeIn'
   /** Additional className for the h1 element. */
-  className?: string;
+  className?: string
 }
 
 /**
@@ -23,7 +23,7 @@ export function AnimatedTitle({
   animationType = 'fadeInUp',
   className,
 }: AnimatedTitleProps) {
-  const words = text.split(' ');
+  const words = text.split(' ')
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -34,7 +34,7 @@ export function AnimatedTitle({
         delayChildren: 0.2,
       },
     },
-  };
+  }
 
   const animationVariants = {
     fadeInUp: {
@@ -43,7 +43,7 @@ export function AnimatedTitle({
         opacity: 1,
         y: 0,
         transition: {
-          type: 'spring',
+          type: 'spring' as const,
           damping: 12,
           stiffness: 100,
         },
@@ -58,9 +58,9 @@ export function AnimatedTitle({
         },
       },
     },
-  };
+  }
 
-  const wordVariants = animationVariants[animationType];
+  const wordVariants = animationVariants[animationType]
 
   return (
     <motion.h1
@@ -84,5 +84,5 @@ export function AnimatedTitle({
         </motion.span>
       ))}
     </motion.h1>
-  );
+  )
 }

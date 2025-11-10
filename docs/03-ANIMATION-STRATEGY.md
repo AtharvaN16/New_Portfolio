@@ -3,6 +3,7 @@
 **Purpose:** How to implement animations properly with Framer Motion and Lenis smooth scroll.
 
 **Prerequisites:**
+
 - Read `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` (animation performance issues in old portfolio)
 - Understand you want "heavy animations" but done correctly
 
@@ -43,19 +44,20 @@ From `/Documentation/CODEBASE_STRATEGIC_REVIEW.md`:
 
 ### Why Framer Motion is Better for Us
 
-| Aspect | GSAP | Framer Motion |
-|--------|------|---------------|
-| **API Style** | Imperative (tell browser what to do) | Declarative (describe what you want) |
-| **React Integration** | Manual refs, cleanup, lifecycle | Built for React, automatic cleanup |
-| **Bundle Size** | 80KB (with plugins) | 38KB |
-| **Learning Curve** | Steeper | Easier |
-| **Responsiveness** | Manual media queries | Automatic with variants |
-| **Accessibility** | Manual `prefers-reduced-motion` | Built-in support |
-| **Type Safety** | Basic | Full TypeScript support |
+| Aspect                | GSAP                                 | Framer Motion                        |
+| --------------------- | ------------------------------------ | ------------------------------------ |
+| **API Style**         | Imperative (tell browser what to do) | Declarative (describe what you want) |
+| **React Integration** | Manual refs, cleanup, lifecycle      | Built for React, automatic cleanup   |
+| **Bundle Size**       | 80KB (with plugins)                  | 38KB                                 |
+| **Learning Curve**    | Steeper                              | Easier                               |
+| **Responsiveness**    | Manual media queries                 | Automatic with variants              |
+| **Accessibility**     | Manual `prefers-reduced-motion`      | Built-in support                     |
+| **Type Safety**       | Basic                                | Full TypeScript support              |
 
 ### Code Comparison
 
 **GSAP (Old Portfolio):**
+
 ```tsx
 // Imperative, complex, lots of refs
 useEffect(() => {
@@ -69,6 +71,7 @@ useEffect(() => {
 ```
 
 **Framer Motion (New Portfolio):**
+
 ```tsx
 // Declarative, simple, no refs needed
 <motion.div
@@ -83,11 +86,13 @@ useEffect(() => {
 ### When GSAP Might Still Be Needed
 
 **Framer Motion can't do (rare cases):**
+
 - Complex SVG path morphing
 - Extremely precise timeline orchestration
 - Specific easing curves not in Framer
 
 **Solution if needed:**
+
 - Use Framer Motion for 95% of animations
 - Use GSAP only for specific advanced cases
 - Isolate in separate components with error boundaries
@@ -106,9 +111,7 @@ useEffect(() => {
 
 ```tsx
 // Automatically enabled in layout.tsx
-<LenisProvider>
-  {children}
-</LenisProvider>
+<LenisProvider>{children}</LenisProvider>
 ```
 
 ### Configuration
@@ -134,8 +137,8 @@ function ScrollButton() {
 
   const scrollToSection = () => {
     lenis?.scrollTo('#section-id', {
-      offset: -100,      // Account for fixed navbar
-      duration: 1.5,     // Animation duration
+      offset: -100, // Account for fixed navbar
+      duration: 1.5, // Animation duration
     })
   }
 
@@ -169,15 +172,16 @@ if (prefersReducedMotion) {
 ### What to Animate (Fast)
 
 **✅ GPU-Accelerated Properties:**
+
 ```tsx
 // FAST - Uses GPU
 <motion.div
   animate={{
-    opacity: 1,        // ✅ Cheap
-    x: 100,            // ✅ Transform (translate)
-    y: -50,            // ✅ Transform (translate)
-    scale: 1.2,        // ✅ Transform (scale)
-    rotate: 45,        // ✅ Transform (rotate)
+    opacity: 1, // ✅ Cheap
+    x: 100, // ✅ Transform (translate)
+    y: -50, // ✅ Transform (translate)
+    scale: 1.2, // ✅ Transform (scale)
+    rotate: 45, // ✅ Transform (rotate)
   }}
 />
 ```
@@ -185,28 +189,30 @@ if (prefersReducedMotion) {
 ### What NOT to Animate (Slow)
 
 **❌ Layout-Triggering Properties:**
+
 ```tsx
 // SLOW - Triggers layout recalculation
 <motion.div
   animate={{
-    width: 200,        // ❌ Triggers layout
-    height: 300,       // ❌ Triggers layout
-    top: 100,          // ❌ Triggers layout
-    left: 50,          // ❌ Triggers layout
-    padding: 20,       // ❌ Triggers layout
-    margin: 10,        // ❌ Triggers layout
+    width: 200, // ❌ Triggers layout
+    height: 300, // ❌ Triggers layout
+    top: 100, // ❌ Triggers layout
+    left: 50, // ❌ Triggers layout
+    padding: 20, // ❌ Triggers layout
+    margin: 10, // ❌ Triggers layout
   }}
 />
 ```
 
 **❌ Paint-Triggering Properties:**
+
 ```tsx
 // SLOW - Triggers paint
 <motion.div
   animate={{
     background: 'red', // ❌ Triggers paint
-    boxShadow: '...',  // ❌ Triggers paint
-    borderRadius: 10,  // ❌ Triggers paint
+    boxShadow: '...', // ❌ Triggers paint
+    borderRadius: 10, // ❌ Triggers paint
   }}
 />
 ```
@@ -214,6 +220,7 @@ if (prefersReducedMotion) {
 ### Performance-First Approach
 
 **Instead of animating width:**
+
 ```tsx
 // ❌ Bad
 <motion.div animate={{ width: 200 }}>
@@ -223,6 +230,7 @@ if (prefersReducedMotion) {
 ```
 
 **Instead of animating background:**
+
 ```tsx
 // ❌ Bad
 <motion.div animate={{ background: 'blue' }}>
@@ -292,7 +300,7 @@ if (prefersReducedMotion) {
 ### Pattern 4: Stagger Children
 
 ```tsx
-<motion.div
+;<motion.div
   initial="hidden"
   animate="visible"
   variants={{
@@ -355,8 +363,7 @@ const itemVariants = {
 
 ```tsx
 import { motion } from 'framer-motion'
-
-<motion.div
+;<motion.div
   initial={{ opacity: 0, y: 50 }}
   whileInView={{ opacity: 1, y: 0 }}
   viewport={{ once: true, amount: 0.3 }}
@@ -367,6 +374,7 @@ import { motion } from 'framer-motion'
 ```
 
 **Options:**
+
 - `once: true` - Animate only once (recommended for performance)
 - `once: false` - Animate every time it enters viewport
 - `amount: 0.3` - Trigger when 30% visible
@@ -399,9 +407,7 @@ function ParallaxSection() {
   const y = useTransform(scrollYProgress, [0, 1], [0, -100])
 
   return (
-    <motion.div style={{ y }}>
-      Moves slower than scroll (parallax)
-    </motion.div>
+    <motion.div style={{ y }}>Moves slower than scroll (parallax)</motion.div>
   )
 }
 ```
@@ -413,11 +419,7 @@ function ScaleOnScroll() {
   const { scrollYProgress } = useScroll()
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.8, 1, 1.2])
 
-  return (
-    <motion.div style={{ scale }}>
-      Scales as you scroll
-    </motion.div>
-  )
+  return <motion.div style={{ scale }}>Scales as you scroll</motion.div>
 }
 ```
 
@@ -527,6 +529,7 @@ const animationsEnabled = env.NEXT_PUBLIC_ENABLE_ANIMATIONS
 ### Refactoring GSAP to Framer Motion
 
 **Old Portfolio GSAP:**
+
 ```tsx
 // HomeBlobs.tsx from old portfolio
 useEffect(() => {
@@ -544,6 +547,7 @@ useEffect(() => {
 ```
 
 **New Portfolio Framer Motion:**
+
 ```tsx
 // Cleaner, more maintainable
 const containerVariants = {
@@ -577,6 +581,7 @@ const blobVariants = {
 ### Scroll Animation Migration
 
 **Old Portfolio (GSAP ScrollTrigger):**
+
 ```tsx
 gsap.to('.section', {
   scrollTrigger: {
@@ -591,6 +596,7 @@ gsap.to('.section', {
 ```
 
 **New Portfolio (Framer Motion):**
+
 ```tsx
 <motion.div
   className="section"
@@ -642,7 +648,7 @@ export function FadeIn({ children, delay = 0 }: FadeInProps) {
 }
 
 // Usage:
-<FadeIn delay={0.2}>
+;<FadeIn delay={0.2}>
   <Content />
 </FadeIn>
 ```
@@ -686,10 +692,7 @@ export const scaleIn = {
 
 ```tsx
 // Only for animations you KNOW will happen
-<motion.div
-  style={{ willChange: 'transform' }}
-  animate={{ x: 100 }}
-/>
+<motion.div style={{ willChange: 'transform' }} animate={{ x: 100 }} />
 ```
 
 ### 2. Limit Concurrent Animations
@@ -712,9 +715,7 @@ export const scaleIn = {
 
 ```tsx
 // Can be expensive - use only when needed
-<motion.div layout>
-  {/* Only if layout actually changes */}
-</motion.div>
+<motion.div layout>{/* Only if layout actually changes */}</motion.div>
 ```
 
 ### 4. Debounce Scroll Listeners
@@ -725,9 +726,10 @@ import { useMemo } from 'react'
 import { debounce } from 'lodash'
 
 const handleScroll = useMemo(
-  () => debounce(() => {
-    // Scroll logic
-  }, 16), // ~60 FPS
+  () =>
+    debounce(() => {
+      // Scroll logic
+    }, 16), // ~60 FPS
   []
 )
 ```
@@ -737,15 +739,18 @@ const handleScroll = useMemo(
 ## 📚 References
 
 **Related Docs:**
+
 - Component patterns → `02-COMPONENT-GUIDELINES.md`
 - Architecture → `01-ARCHITECTURE.md`
 - Decisions → `04-DECISIONS-LOG.md`
 
 **Old Portfolio Issues:**
+
 - Animation performance → `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` Section 3.2
 - GSAP complexity → `/Documentation/CODEBASE_STRATEGIC_REVIEW.md` Section 1.1
 
 **External Resources:**
+
 - [Framer Motion Docs](https://www.framer.com/motion/)
 - [Lenis Smooth Scroll](https://github.com/studio-freight/lenis)
 - [Web Animation Performance](https://web.dev/animations/)

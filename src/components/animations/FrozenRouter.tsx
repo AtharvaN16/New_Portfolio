@@ -25,5 +25,9 @@ export function FrozenRouter({ children, freeze }: FrozenRouterProps) {
 
   const value = freeze && previousContext ? previousContext : context
 
-  return <LayoutRouterContext.Provider value={value}>{children}</LayoutRouterContext.Provider>
+  return (
+    <LayoutRouterContext.Provider value={value}>
+      {children}
+    </LayoutRouterContext.Provider>
+  )
 }

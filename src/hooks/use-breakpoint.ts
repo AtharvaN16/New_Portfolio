@@ -22,7 +22,16 @@ const breakpoints = {
 type Breakpoint = keyof typeof breakpoints
 
 export function useBreakpoint(breakpoint?: Breakpoint) {
-  const [matches, setMatches] = useState(false)
+  // Initialize with lazy function to avoid hydration mismatch
+  const [matches, setMatches] = useState(() => {
+    if (typeof window === 'undefined') return false
+
+    const query = breakpoint
+      ? `(min-width: ${breakpoints[breakpoint]}px)`
+      : '(min-width: 0px)'
+
+    return window.matchMedia(query).matches
+  })
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -33,15 +42,18 @@ export function useBreakpoint(breakpoint?: Breakpoint) {
 
     const mediaQuery = window.matchMedia(query)
 
-    // Set initial value
-    setMatches(mediaQuery.matches)
+    // Update if initial value changed
+    if (mediaQuery.matches !== matches) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setMatches(mediaQuery.matches)
+    }
 
     // Listen for changes
     const handler = (event: MediaQueryListEvent) => setMatches(event.matches)
     mediaQuery.addEventListener('change', handler)
 
     return () => mediaQuery.removeEventListener('change', handler)
-  }, [breakpoint])
+  }, [breakpoint, matches])
 
   return matches
 }

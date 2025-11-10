@@ -2,8 +2,8 @@
 
 import { WorkFilter } from '@/components/work/WorkFilter'
 import type { ProjectCardProps } from '@/components/work/ProjectCard'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle';
-import { GradientBar } from '@/components/ui/GradientBar';
+import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { GradientBar } from '@/components/ui/GradientBar'
 
 const allProjects: ProjectCardProps[] = [
   {
@@ -56,7 +56,10 @@ export default function WorkPage() {
 
           {/* Page Header */}
           <header className="mb-8 border-b border-border pb-8 md:mb-12 md:pb-12">
-            <AnimatedTitle text="Check out more of my work" animationType="fadeIn" />
+            <AnimatedTitle
+              text="Check out more of my work"
+              animationType="fadeIn"
+            />
           </header>
 
           {/* Filter and Projects */}

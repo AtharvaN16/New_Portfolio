@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { type ReactNode, useEffect, useRef, useState } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { FrozenRouter } from './FrozenRouter'
 import { useViewTransition } from '@/components/providers/ViewTransitionProvider'
@@ -27,7 +27,7 @@ const TRANSITION_DURATION = 0.9
  *
  * CRITICAL INSIGHT: We must capture the OLD children BEFORE Next.js
  * replaces them with the NEW page content.
- * 
+ *
  * Strategy:
  * 1. Use usePreviousValue to get children from the PREVIOUS render
  * 2. When pathname changes, freeze router and show old children in base layer
@@ -37,14 +37,17 @@ export function PageTransition({ children, className }: PageTransitionProps) {
   const pathname = usePathname()
   const previousPathname = usePreviousValue(pathname)
   const previousChildren = usePreviousValue(children)
-  
+
   const { startTransition, endTransition } = useViewTransition()
-  
-  const [transitionState, setTransitionState] = useState<TransitionState | null>(null)
+
+  const [transitionState, setTransitionState] =
+    useState<TransitionState | null>(null)
   const [hasMounted, setHasMounted] = useState(false)
 
   // Track mounted state
   useEffect(() => {
+    // This setState is intentional for hydration detection
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHasMounted(true)
   }, [])
 
@@ -55,12 +58,11 @@ export function PageTransition({ children, className }: PageTransitionProps) {
     if (!previousPathname) return // First render
     if (pathname === previousPathname) return // No change
 
-    console.log('[PageTransition] Navigation:', previousPathname, '→', pathname)
-
     // Capture scroll position NOW
     const scrollY = typeof window !== 'undefined' ? window.scrollY : 0
 
     // Start transition with frozen snapshot from PREVIOUS render
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTransitionState({
       frozenContent: previousChildren, // This is from the PREVIOUS render!
       frozenPath: previousPathname,
@@ -70,11 +72,19 @@ export function PageTransition({ children, className }: PageTransitionProps) {
     startTransition()
 
     // Pause Lenis during transition
-    const lenis = (window as any).lenis
+    const lenis = window.lenis
     if (lenis) {
       lenis.stop()
     }
-  }, [hasMounted, pathname, previousPathname, previousChildren, children, startTransition, transitionState])
+  }, [
+    hasMounted,
+    pathname,
+    previousPathname,
+    previousChildren,
+    children,
+    startTransition,
+    transitionState,
+  ])
 
   // Lock scroll during transition
   useEffect(() => {
@@ -82,7 +92,7 @@ export function PageTransition({ children, className }: PageTransitionProps) {
 
     const scrollY = transitionState.scrollY
     const root = document.documentElement
-    
+
     // Save original styles
     const originalPosition = root.style.position
     const originalTop = root.style.top
@@ -101,7 +111,7 @@ export function PageTransition({ children, className }: PageTransitionProps) {
       root.style.top = originalTop
       root.style.width = originalWidth
       document.body.style.overflow = originalOverflow
-      
+
       // Scroll to top for new page
       window.scrollTo(0, 0)
     }
@@ -127,7 +137,9 @@ export function PageTransition({ children, className }: PageTransitionProps) {
               : undefined
           }
         >
-          {isTransitioning && transitionState ? transitionState.frozenContent : children}
+          {isTransitioning && transitionState
+            ? transitionState.frozenContent
+            : children}
         </div>
       </FrozenRouter>
 
@@ -152,13 +164,13 @@ export function PageTransition({ children, className }: PageTransitionProps) {
             }}
             onAnimationComplete={(definition) => {
               if (definition !== 'animate') return
-              
+
               // Animation done - clear transition state
               setTransitionState(null)
               endTransition()
 
               // Resume Lenis
-              const lenis = (window as any).lenis
+              const lenis = window.lenis
               if (lenis) {
                 lenis.start()
               }
