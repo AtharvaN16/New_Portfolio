@@ -21,6 +21,7 @@ const CLOSE_DURATION = 0.6
 export function WorkDialog() {
   const scrollYRef = useRef(0)
   const [isOpen, setIsOpen] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
   const isClosingRef = useRef(false)
 
   // Listen for URL changes (both custom event and popstate)
@@ -31,6 +32,7 @@ export function WorkDialog() {
       if (shouldOpen && !isOpen) {
         // Opening dialog
         isClosingRef.current = false
+        setIsClosing(false)
         const currentScrollY = window.scrollY
         scrollYRef.current = currentScrollY
 
@@ -56,6 +58,7 @@ export function WorkDialog() {
       } else if (!shouldOpen && isOpen) {
         // Close dialog - trigger exit animation
         isClosingRef.current = true
+        setIsClosing(true)
         setIsOpen(false)
       }
     }
@@ -78,7 +81,7 @@ export function WorkDialog() {
     // The dialog is fully visible and covering the page, so we can safely restore it
     const savedScroll = scrollYRef.current
     const pageWrapper = document.getElementById('page-wrapper')
-    
+
     if (pageWrapper) {
       // Unfreeze page-wrapper
       pageWrapper.style.position = ''
@@ -91,7 +94,7 @@ export function WorkDialog() {
 
     // Restore scroll position
     window.scrollTo(0, savedScroll)
-    
+
     // Unlock body
     document.body.style.overflow = ''
 
@@ -114,12 +117,8 @@ export function WorkDialog() {
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
           transition={{
-            duration: OPEN_DURATION,
+            duration: isClosing ? CLOSE_DURATION : OPEN_DURATION,
             ease: TRANSITION_EASE,
-            exit: {
-              duration: CLOSE_DURATION,
-              ease: TRANSITION_EASE,
-            },
           }}
           onAnimationComplete={() => {
             // Only restore on ENTER animation (when dialog finishes sliding up)
