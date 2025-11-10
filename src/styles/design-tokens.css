@@ -1,0 +1,183 @@
+/**
+ * Design Tokens - Single Source of Truth
+ *
+ * All color, spacing, typography, and theme tokens.
+ * Imported by globals.css - do not import directly.
+ */
+
+@layer base {
+  /* ========================================
+     ROOT VARIABLES - Light Mode (Default)
+     ======================================== */
+  :root {
+    /* --- Colors: Background --- */
+    --color-background: 255 255 255; /* #ffffff */
+    --color-surface: 250 250 250; /* #fafafa */
+    --color-surface-elevated: 245 245 245; /* #f5f5f5 */
+
+    /* --- Colors: Text --- */
+    --color-foreground: 23 23 23; /* #171717 */
+    --color-text-primary: 23 23 23; /* #171717 */
+    --color-text-secondary: 107 114 128; /* #6b7280 */
+    --color-text-tertiary: 156 163 175; /* #9ca3af */
+
+    /* --- Colors: Brand --- */
+    --color-primary: 57 71 202; /* #3947ca - Your brand blue */
+    --color-primary-hover: 48 59 169; /* Darker on hover */
+    --color-accent: 79 70 229; /* #4f46e5 - Accent purple */
+
+    /* --- Colors: Hero Water Blobs (Light Mode) --- */
+    --hero-blob-blue: 57 71 202; /* #3947CA - Left blob start */
+    --hero-blob-purple: 138 106 234; /* #8A6AEA - Middle blend */
+    --hero-blob-pink: 255 103 140; /* #FF678C - Right blob end */
+
+    /* --- Colors: Semantic --- */
+    --color-success: 34 197 94; /* #22c55e */
+    --color-warning: 251 146 60; /* #fb923c */
+    --color-error: 239 68 68; /* #ef4444 */
+    --color-info: 59 130 246; /* #3b82f6 */
+
+    /* --- Colors: Borders --- */
+    --color-border: 229 231 235; /* #e5e7eb */
+    --color-border-hover: 209 213 219; /* #d1d5db */
+
+    /* --- Colors: Gradient Bar --- */
+    --color-gradient-start: 88 80 221; /* Brighter Indigo */
+    --color-gradient-end: 252 126 144; /* Brighter Coral Pink */
+
+    /* --- Colors: Grays --- */
+    --color-gray-dark: 51 51 51; /* #333333 - Dark gray for cards/surfaces */
+
+    /* --- Spacing Scale (rem) --- */
+    --space-1: 0.25rem; /* 4px */
+    --space-2: 0.5rem; /* 8px */
+    --space-3: 0.75rem; /* 12px */
+    --space-4: 1rem; /* 16px */
+    --space-5: 1.25rem; /* 20px */
+    --space-6: 1.5rem; /* 24px */
+    --space-8: 2rem; /* 32px */
+    --space-10: 2.5rem; /* 40px */
+    --space-12: 3rem; /* 48px */
+    --space-16: 4rem; /* 64px */
+    --space-20: 5rem; /* 80px */
+    --space-24: 6rem; /* 96px */
+    --space-32: 8rem; /* 128px */
+
+    /* --- Typography: Font Families --- */
+    --font-sans: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+    /* --- Typography: Font Sizes --- */
+    --text-xs: 0.75rem; /* 12px */
+    --text-sm: 0.875rem; /* 14px */
+    --text-base: 1rem; /* 16px */
+    --text-lg: 1.125rem; /* 18px */
+    --text-xl: 1.25rem; /* 20px */
+    --text-2xl: 1.5rem; /* 24px */
+    --text-3xl: 1.875rem; /* 30px */
+    --text-4xl: 2.25rem; /* 36px */
+    --text-5xl: 3rem; /* 48px */
+    --text-6xl: 3.75rem; /* 60px */
+    --text-7xl: 4.5rem; /* 72px */
+
+    /* --- Typography: Line Heights --- */
+    --leading-none: 1;
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.625;
+    --leading-loose: 2;
+
+    /* --- Border Radius --- */
+    --radius-sm: 0.25rem; /* 4px */
+    --radius-md: 0.375rem; /* 6px */
+    --radius-lg: 0.5rem; /* 8px */
+    --radius-xl: 0.75rem; /* 12px */
+    --radius-2xl: 1rem; /* 16px */
+    --radius-full: 9999px;
+
+    /* --- Shadows --- */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+    /* --- Transitions --- */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* --- Z-Index Scale --- */
+    --z-base: 0;
+    --z-dropdown: 1000;
+    --z-sticky: 1100;
+    --z-fixed: 1200;
+    --z-modal-backdrop: 1300;
+    --z-modal: 1400;
+    --z-popover: 1500;
+    --z-tooltip: 1600;
+  }
+
+  /* ========================================
+     DARK MODE - Data Attribute
+     ======================================== */
+  [data-theme='dark'] {
+    /* --- Colors: Background --- */
+    --color-background: 24 26 27; /* #181A1B - Your specified dark bg */
+    --color-surface: 32 34 35; /* #202223 - Slightly lighter surface */
+    --color-surface-elevated: 42 44 45; /* #2A2C2D - More elevated */
+
+    /* --- Colors: Text --- */
+    --color-foreground: 232 230 227; /* #E8E6E3 - Your specified text color */
+    --color-text-primary: 232 230 227; /* #E8E6E3 */
+    --color-text-secondary: 163 163 163; /* #a3a3a3 */
+    --color-text-tertiary: 115 115 115; /* #737373 */
+
+    /* --- Colors: Brand (slightly adjusted for dark) --- */
+    --color-primary: 99 102 241; /* #6366f1 - Brighter for dark */
+    --color-primary-hover: 129 140 248; /* Lighter on hover */
+    --color-accent: 139 92 246; /* #8b5cf6 */
+
+    /* --- Colors: Hero Water Blobs (Dark Mode) --- */
+    --hero-blob-blue: 99 102 241; /* #6366F1 - More vibrant purple-blue */
+    --hero-blob-purple: 167 139 250; /* #A78BFA - Brighter purple */
+    --hero-blob-pink: 236 72 153; /* #EC4899 - More vibrant pink */
+
+    /* --- Colors: Borders --- */
+    --color-border: 38 38 38; /* #262626 */
+    --color-border-hover: 64 64 64; /* #404040 */
+
+    /* --- Colors: Gradient Bar --- */
+    --color-gradient-start: 110 106 242; /* Luminous Violet */
+    --color-gradient-end: 219 90 169; /* Luminous Magenta */
+
+    /* Shadows adjusted for dark mode */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.6);
+    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.7);
+  }
+
+  /* ========================================
+     AUTO DARK MODE - System Preference
+     ======================================== */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+      /* Apply dark mode tokens if no explicit theme set */
+      --color-background: 10 10 10;
+      --color-surface: 23 23 23;
+      --color-surface-elevated: 38 38 38;
+      --color-foreground: 237 237 237;
+      --color-text-primary: 250 250 250;
+      --color-text-secondary: 163 163 163;
+      --color-text-tertiary: 115 115 115;
+      --color-primary: 99 102 241;
+      --color-primary-hover: 129 140 248;
+      --color-accent: 139 92 246;
+      --color-border: 38 38 38;
+      --color-border-hover: 64 64 64;
+    }
+  }
+}

@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
 import { cn } from '@/lib/utils/cn'
 
@@ -42,6 +43,30 @@ export function SelectedWork({ projects = defaultProjects, className }: Selected
         {projects.map((project, index) => (
           <ProjectCard key={index} {...project} />
         ))}
+      </div>
+
+      {/* Show More Work Link */}
+      <div className="mt-16 md:mt-20">
+        <button
+          onClick={() => {
+            // Use window.history.pushState to change URL without triggering Next.js navigation
+            window.history.pushState({}, '', '/work')
+            // Trigger a popstate event so our dialog component detects the change
+            window.dispatchEvent(new PopStateEvent('popstate'))
+          }}
+          className="group inline-flex items-center gap-2 text-4xl font-bold tracking-tight text-foreground transition-colors hover:text-primary md:text-5xl"
+        >
+          See More Work
+          <svg
+            className="h-8 w-8 transition-transform group-hover:translate-x-1 md:h-10 md:w-10"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </button>
       </div>
     </section>
   )

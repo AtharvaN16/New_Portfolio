@@ -11,6 +11,8 @@ export interface ProjectCardProps {
   description: string
   tags: string[]
   imageBg: string
+  imageUrl?: string // Optional project image
+  variant?: 'default' | 'compact' // default for 2-grid, compact for 3-grid
   className?: string
 }
 
@@ -21,22 +23,27 @@ export function ProjectCard({
   description,
   tags,
   imageBg,
+  imageUrl,
+  variant = 'default',
   className,
 }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
     <article className={cn('group flex flex-col', className)}>
-      {/* Card - Just the colored rectangle with hover overlay */}
+      {/* Card - Responsive height for different screen sizes */}
       <div
-        className="relative h-[500px] w-full overflow-hidden"
+        className="relative h-[280px] w-full overflow-hidden sm:h-[360px] md:h-[420px] lg:h-[500px]"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Background Color */}
+        {/* Background Color or Image */}
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundColor: imageBg }}
+          style={{
+            backgroundColor: imageBg,
+            ...(imageUrl && { backgroundImage: `url(${imageUrl})` }),
+          }}
         />
 
         {/* Frosted Glass Overlay - Appears on Hover */}
@@ -56,20 +63,20 @@ export function ProjectCard({
             >
               {/* Overlay Content */}
               <motion.div
-                className="flex h-full flex-col justify-end p-8"
+                className="flex h-full flex-col justify-end p-4 sm:p-6 md:p-8"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
                 transition={{ duration: 0.25, delay: 0.1 }}
               >
                 {/* Tags */}
-                <div className="mb-4 flex flex-wrap gap-2">
+                <div className="mb-3 flex flex-wrap gap-2 sm:mb-4">
                   {tags.map((tag, index) => (
                     <span
                       key={index}
                       className={cn(
-                        'rounded-sm border border-white/60 px-3 py-1',
-                        'text-sm font-medium text-white',
+                        'rounded-sm border border-white/60 px-2 py-0.5 sm:px-3 sm:py-1',
+                        'text-xs font-medium text-white sm:text-sm',
                         'backdrop-blur-sm'
                       )}
                     >
@@ -79,7 +86,7 @@ export function ProjectCard({
                 </div>
 
                 {/* Description */}
-                <p className="max-w-lg text-base leading-relaxed text-white">
+                <p className="max-w-lg text-sm leading-relaxed text-white sm:text-base">
                   {description}
                 </p>
               </motion.div>
@@ -89,14 +96,21 @@ export function ProjectCard({
       </div>
 
       {/* Title and Info - Outside the card, below it */}
-      <div className="mt-6 space-y-2">
+      <div className="mt-4 space-y-2 sm:mt-6">
         {/* Organization and Year */}
-        <p className="text-sm font-medium text-text-secondary">
+        <p className="text-xs font-medium text-text-secondary sm:text-sm">
           {organization} — {year}
         </p>
 
         {/* Project Title */}
-        <h3 className="text-3xl font-bold leading-tight text-foreground lg:text-4xl">
+        <h3
+          className={cn(
+            'font-bold leading-tight text-foreground',
+            variant === 'compact'
+              ? 'text-lg sm:text-xl lg:text-[1.75rem]' // 28px on large screens for 3-grid
+              : 'text-2xl sm:text-3xl lg:text-4xl' // Larger for 2-grid (home page)
+          )}
+        >
           {title}
         </h3>
       </div>

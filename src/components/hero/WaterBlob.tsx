@@ -51,6 +51,7 @@ export function WaterBlob({ className = '' }: WaterBlobProps) {
       blue: getColor('--hero-blob-blue'),
       purple: getColor('--hero-blob-purple'),
       pink: getColor('--hero-blob-pink'),
+      background: getColor('--color-background'),
     }
   }, [theme])
 
@@ -121,11 +122,13 @@ export function WaterBlob({ className = '' }: WaterBlobProps) {
     const uColor1Location = gl.getUniformLocation(program, 'uColor1')
     const uColor2Location = gl.getUniformLocation(program, 'uColor2')
     const uColor3Location = gl.getUniformLocation(program, 'uColor3')
+    const uBackgroundColorLocation = gl.getUniformLocation(program, 'uBackgroundColor')
 
     // Set initial colors
     gl.uniform3fv(uColor1Location, colors.blue)
     gl.uniform3fv(uColor2Location, colors.purple)
     gl.uniform3fv(uColor3Location, colors.pink)
+    gl.uniform3fv(uBackgroundColorLocation, colors.background)
 
     // Animation loop
     let animationId: number

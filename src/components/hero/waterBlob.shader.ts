@@ -33,6 +33,7 @@ export const fragmentShader = `
   uniform vec3 uColor1; // Blue (from design tokens)
   uniform vec3 uColor2; // Purple (from design tokens)
   uniform vec3 uColor3; // Pink (from design tokens)
+  uniform vec3 uBackgroundColor; // Background (from design tokens)
 
   // Simple noise function for organic movement
   float noise(vec2 p) {
@@ -121,8 +122,8 @@ export const fragmentShader = `
   void main() {
     vec2 uv = vUv;
 
-    // Dark background color (will show through where no water)
-    vec3 backgroundColor = vec3(0.094, 0.102, 0.106); // #181A1B
+    // Background color from design tokens (theme-aware)
+    vec3 backgroundColor = uBackgroundColor;
 
     // Create two blob shapes that move around (like old portfolio)
     // Left blob (blue/purple)

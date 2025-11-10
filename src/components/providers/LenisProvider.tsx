@@ -47,6 +47,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
     })
 
     lenisRef.current = lenis
+    ;(window as any).lenis = lenis
 
     // Animation frame loop
     function raf(time: number) {
@@ -60,6 +61,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
     return () => {
       lenis.destroy()
       lenisRef.current = null
+      delete (window as any).lenis
     }
   }, [])
 
