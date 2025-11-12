@@ -1,5 +1,7 @@
 'use client'
 
+import { useState, useRef } from 'react'
+import { AnimatePresence } from 'framer-motion'
 import { WorkFilter } from '@/components/work/WorkFilter'
 import type { ProjectCardProps } from '@/components/work/ProjectCard'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
@@ -36,7 +38,28 @@ const allProjects: ProjectCardProps[] = [
   },
 ]
 
+// Map filter names to title texts
+const filterTitleMap: Record<string, string> = {
+  All: 'Check out more of my work',
+  'Selected Work': 'Selected Work',
+  'Usability Testing': 'Usability Testing Projects',
+  'Client Project': 'Client Projects',
+  Explorations: 'Explorations',
+}
+
 export default function WorkPage() {
+  const [selectedFilter, setSelectedFilter] = useState<string>('All')
+  // Track if filter has been changed from initial 'All' state
+  // Use ref to avoid unnecessary re-renders
+  const hasChangedFilterRef = useRef(false)
+  
+  // Update ref when filter changes from initial state
+  if (selectedFilter !== 'All' && !hasChangedFilterRef.current) {
+    hasChangedFilterRef.current = true
+  }
+  
+  const titleText = filterTitleMap[selectedFilter] || 'Check out more of my work'
+
   const handleBack = () => {
     // Go back in history (this will trigger the dialog to close)
     window.history.back()
@@ -45,29 +68,43 @@ export default function WorkPage() {
   return (
     <div className="min-h-screen w-full bg-background">
       <GradientBar className="fixed left-0 top-0 z-50 w-full" height="h-8" />
-      <div className="px-6 pb-20 pt-20 md:pb-32 md:pt-24">
+      <div className="relative px-6 pb-20 pt-20 md:pb-32 md:pt-24">
         <main id="main-content">
-          {/* Back Button */}
+          {/* Back Button - Absolutely positioned on right edge */}
           <button
             onClick={handleBack}
-            className="mb-16 block text-muted-foreground transition-colors hover:text-foreground"
+            className="absolute right-6 top-20 text-muted-foreground transition-colors hover:text-foreground md:top-24"
           >
             Back
           </button>
 
           {/* Page Header */}
-          <header className="mb-8 md:mb-12">
-            <AnimatedTitle
-              text="Check out more of my work"
-              animationType="fadeIn"
-            />
+          <header className="mb-4 lg:mb-5">
+            {/* On initial load: use whileInView for slide-in animation when page transitions */}
+            {/* After filter change: use animate for immediate animation */}
+            <AnimatePresence mode="wait">
+              <AnimatedTitle
+                key={selectedFilter}
+                text={titleText}
+                animationType="fadeIn"
+                alwaysAnimate={hasChangedFilterRef.current}
+                delay={hasChangedFilterRef.current ? 0 : 0.8}
+              />
+            </AnimatePresence>
           </header>
 
-          {/* Animated Line Separator */}
-          <LineSeparator className="mb-12 md:mb-16" />
+          {/* Animated Line Separator - Animates first at 0.6s */}
+          <LineSeparator 
+            className="lg:mb-2" 
+            delay={hasChangedFilterRef.current ? 0 : 0.4}
+          />
 
           {/* Filter and Projects */}
-          <WorkFilter projects={allProjects} />
+          <WorkFilter
+            projects={allProjects}
+            selectedFilter={selectedFilter}
+            onFilterChange={setSelectedFilter}
+          />
         </main>
       </div>
     </div>

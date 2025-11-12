@@ -4,6 +4,8 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef, useState, type ReactNode } from 'react'
 import Image from 'next/image'
 import { cn } from '@/lib/utils/cn'
+import { AnimatedHeroTextGSAP } from '@/components/hero/AnimatedHeroTextGSAP'
+import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 
 interface FullpageCardProps {
   /**
@@ -115,36 +117,6 @@ export function FullpageCard({
     setMediaError(true)
   }
 
-  // Split title into words for staggered animation
-  const titleWords = title.split(' ')
-
-  // Animation variants
-  const titleContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.2,
-      },
-    },
-  }
-
-  const titleWord = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-    },
-  }
-
-  const descriptionVariant = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 0.8,
-      y: 0,
-    },
-  }
 
   /**
    * Container height calculation:
@@ -163,28 +135,15 @@ export function FullpageCard({
       >
         {/* Static content - moves with card as single unit */}
         <div className="flex min-h-screen w-full flex-col justify-start px-6 py-16 text-white sm:px-8 sm:py-20 md:py-[72px]">
-          {/* Title with word-staggered fade animation */}
-          <motion.h2
-            variants={titleContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-100px' }}
+          {/* Title with fade animation (like work page) */}
+          <AnimatedTitle
+            text={title}
+            animationType="fadeIn"
             className={cn(
               'max-w-[90%] text-4xl font-black leading-[1.1] tracking-[-1.44px] sm:max-w-[85%] sm:text-5xl md:max-w-[76%] md:text-6xl lg:text-[72px]',
               titleClassName
             )}
-          >
-            {titleWords.map((word, index) => (
-              <motion.span
-                key={index}
-                variants={titleWord}
-                className="inline-block"
-              >
-                {word}
-                {index < titleWords.length - 1 && '\u00A0'}
-              </motion.span>
-            ))}
-          </motion.h2>
+          />
 
           {/* Optional media (image or video) with error handling */}
           {mediaSrc && !mediaError && (
@@ -203,12 +162,12 @@ export function FullpageCard({
                   )}
                 />
               ) : (
-                <div className="relative h-auto w-full">
+                <div className="relative aspect-video w-full">
                   <Image
                     src={mediaSrc}
                     alt={mediaAlt}
-                    width={1200}
-                    height={675}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px"
                     onError={handleMediaError}
                     className={cn('rounded-lg object-cover', mediaClassName)}
                     priority
@@ -218,13 +177,10 @@ export function FullpageCard({
             </div>
           )}
 
-          {/* Description with fade-up animation */}
+          {/* Description with GSAP line-by-line reveal animation */}
           {description && (
-            <motion.p
-              variants={descriptionVariant}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-50px' }}
+            <AnimatedHeroTextGSAP
+              delay={0.5}
               className={cn(
                 // 420px spacing from design spec (vertical rhythm between title and description)
                 'mt-48 max-w-sm text-base font-medium leading-normal tracking-[-0.4px] sm:mt-64 sm:max-w-md sm:text-lg md:mt-[420px] md:text-[20px]',
@@ -232,7 +188,7 @@ export function FullpageCard({
               )}
             >
               {description}
-            </motion.p>
+            </AnimatedHeroTextGSAP>
           )}
 
           {children && <div className="mt-6 sm:mt-8">{children}</div>}

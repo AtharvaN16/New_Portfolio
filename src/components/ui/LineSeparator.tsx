@@ -8,6 +8,8 @@ import { useMediaQuery } from '@/hooks/use-media-query'
 interface LineSeparatorProps {
   className?: string
   enablePluck?: boolean
+  /** Delay before starting the entry animation (in seconds). */
+  delay?: number
 }
 
 /**
@@ -18,7 +20,8 @@ interface LineSeparatorProps {
  */
 export function LineSeparator({
   className,
-  enablePluck = true
+  enablePluck = true,
+  delay = 0
 }: LineSeparatorProps) {
   const svgRef = useRef<SVGSVGElement>(null)
   const pathRef = useRef<SVGPathElement>(null)
@@ -136,6 +139,7 @@ export function LineSeparator({
     // Animate: wave morphing + stroke draw
     const controls = animate(0, 1, {
       duration: 1.4,
+      delay: delay,
       ease: [0.22, 1, 0.36, 1],
       onUpdate: (latest) => {
         // Whip wave: ramps up then down

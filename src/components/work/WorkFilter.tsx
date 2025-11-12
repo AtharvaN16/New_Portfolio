@@ -1,16 +1,27 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
+import { motion } from 'framer-motion'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
 import { cn } from '@/lib/utils/cn'
 
 interface WorkFilterProps {
   projects: ProjectCardProps[]
+  selectedFilter?: string
+  onFilterChange?: (filter: string) => void
   className?: string
 }
 
-export function WorkFilter({ projects, className }: WorkFilterProps) {
-  const [selectedFilter, setSelectedFilter] = useState<string>('All')
+export function WorkFilter({
+  projects,
+  selectedFilter: controlledFilter,
+  onFilterChange,
+  className,
+}: WorkFilterProps) {
+  // Use controlled filter if provided, otherwise use internal state
+  const [internalFilter, setInternalFilter] = useState<string>('All')
+  const selectedFilter = controlledFilter ?? internalFilter
+  const setSelectedFilter = onFilterChange ?? setInternalFilter
 
   // Define custom filter options to match design
   const filterOptions = useMemo(() => {
@@ -89,7 +100,25 @@ export function WorkFilter({ projects, className }: WorkFilterProps) {
       {/* Projects Grid */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {filteredProjects.map((project, index) => (
-          <ProjectCard key={index} {...project} variant="compact" />
+          <motion.div
+            key={`${project.title}-${project.organization}`}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ 
+              opacity: 1, 
+              y: 0,
+              transition: {
+                duration: 0.5,
+                delay: index * 0.1, // Stagger based on index
+                ease: [0.22, 1, 0.36, 1],
+              }
+            }}
+            viewport={{ once: true, margin: '-50px' }}
+          >
+            <ProjectCard
+              {...project}
+              variant="compact"
+            />
+          </motion.div>
         ))}
       </div>
 
