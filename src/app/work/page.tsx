@@ -4,6 +4,7 @@ import { WorkFilter } from '@/components/work/WorkFilter'
 import type { ProjectCardProps } from '@/components/work/ProjectCard'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 import { GradientBar } from '@/components/ui/GradientBar'
+import { LineSeparator } from '@/components/ui/LineSeparator'
 
 const allProjects: ProjectCardProps[] = [
   {
@@ -55,12 +56,15 @@ export default function WorkPage() {
           </button>
 
           {/* Page Header */}
-          <header className="mb-8 border-b border-border pb-8 md:mb-12 md:pb-12">
+          <header className="mb-8 md:mb-12">
             <AnimatedTitle
               text="Check out more of my work"
               animationType="fadeIn"
             />
           </header>
+
+          {/* Animated Line Separator */}
+          <LineSeparator className="mb-12 md:mb-16" />
 
           {/* Filter and Projects */}
           <WorkFilter projects={allProjects} />

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
+import { LineSeparator } from '@/components/ui/LineSeparator'
 import { cn } from '@/lib/utils/cn'
 
 interface SelectedWorkProps {
@@ -182,6 +183,9 @@ export function SelectedWork({
           </span>
         </motion.button>
       </div>
+
+      {/* Animated Line Separator */}
+      <LineSeparator className="mt-12 md:mt-16" />
     </section>
   )
 }
