@@ -88,7 +88,7 @@ export default function WorkPage() {
                 text={titleText}
                 animationType="fadeIn"
                 alwaysAnimate={hasChangedFilterRef.current}
-                delay={hasChangedFilterRef.current ? 0 : 0.8}
+                delay={hasChangedFilterRef.current ? 0 : 0.6}
               />
             </AnimatePresence>
           </header>
@@ -96,7 +96,7 @@ export default function WorkPage() {
           {/* Animated Line Separator - Animates first at 0.6s */}
           <LineSeparator 
             className="lg:mb-2" 
-            delay={hasChangedFilterRef.current ? 0 : 0.4}
+            delay={hasChangedFilterRef.current ? 0 : 0.3}
           />
 
           {/* Filter and Projects */}
