@@ -214,6 +214,20 @@
   }
 
   /* ========================================
+     PROJECT CARD OVERLAY
+     ======================================== */
+  
+  /* Light mode: white overlay for lightening effect */
+  .project-card-overlay {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  /* Dark mode: dark overlay for darkening effect (40% opacity) */
+  [data-theme="dark"] .project-card-overlay {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  /* ========================================
      FOOTER RESUME LINK TRAVELING GRADIENT
      ======================================== */
   

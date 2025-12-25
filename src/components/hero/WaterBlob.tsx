@@ -248,6 +248,7 @@ function createAnimationLoop(
     gl.uniform3fv(programInfo.uColor1Location, colors.blue)
     gl.uniform3fv(programInfo.uColor2Location, colors.purple)
     gl.uniform3fv(programInfo.uColor3Location, colors.pink)
+    gl.uniform3fv(programInfo.uBackgroundColorLocation, colors.background)
 
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)

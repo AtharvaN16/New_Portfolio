@@ -42,25 +42,26 @@ export function ProjectCard({
   }
 
   return (
-    <article className={cn('group flex flex-col', className)}>
+    <article
+      className={cn('group flex flex-col', slug && 'cursor-pointer', className)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={handleClick}
+      role={slug ? 'button' : undefined}
+      tabIndex={slug ? 0 : undefined}
+      onKeyDown={(e) => {
+        if (slug && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault()
+          handleClick()
+        }
+      }}
+    >
       {/* Card - Responsive height for different screen sizes */}
       <div
         className={cn(
           'relative w-full overflow-hidden',
-          cardHeight || 'h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px]',
-          slug && 'cursor-pointer'
+          cardHeight || 'h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px]'
         )}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={handleClick}
-        role={slug ? 'button' : undefined}
-        tabIndex={slug ? 0 : undefined}
-        onKeyDown={(e) => {
-          if (slug && (e.key === 'Enter' || e.key === ' ')) {
-            e.preventDefault()
-            handleClick()
-          }
-        }}
       >
         {/* Background Color or Image */}
         <div
@@ -71,59 +72,27 @@ export function ProjectCard({
           }}
         />
 
-        {/* Frosted Glass Overlay - Appears on Hover */}
+        {/* Overlay - Appears on Hover - White overlay in light mode, dark overlay in dark mode */}
         <AnimatePresence>
           {isHovered && (
             <motion.div
-              className={cn(
-                'absolute inset-0 z-10',
-                'bg-black/40 backdrop-blur-md',
-                // Grainy texture effect
-                'before:absolute before:inset-0 before:bg-[url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==)] before:opacity-50'
-              )}
+              className="project-card-overlay absolute inset-0 z-10"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-            >
-              {/* Overlay Content */}
-              <motion.div
-                className="flex h-full flex-col justify-end p-4 sm:p-6 md:p-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.25, delay: 0.1 }}
-              >
-                {/* Tags */}
-                <div className="mb-3 flex flex-wrap gap-2 sm:mb-4">
-                  {tags.map((tag, index) => (
-                    <span
-                      key={index}
-                      className={cn(
-                        'rounded-sm border border-white/60 px-2 py-0.5 sm:px-3 sm:py-1',
-                        'text-xs font-medium text-white sm:text-sm',
-                        'backdrop-blur-sm'
-                      )}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Description */}
-                <p className="max-w-lg text-sm leading-relaxed text-white sm:text-base">
-                  {description}
-                </p>
-              </motion.div>
-            </motion.div>
+            />
           )}
         </AnimatePresence>
       </div>
 
       {/* Title and Info - Outside the card, below it */}
       <div className="mt-4 space-y-2 sm:mt-6">
-        {/* Organization and Year */}
-        <p className="text-xs font-medium text-text-secondary sm:text-sm">
+        {/* Organization and Year - Faded gray for dark mode, faded black for light mode */}
+        <p
+          className="text-xs font-medium sm:text-sm"
+          style={{ color: 'rgb(var(--color-text-tertiary))' }}
+        >
           {organization} — {year}
         </p>
 

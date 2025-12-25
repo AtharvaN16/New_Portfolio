@@ -122,8 +122,8 @@ export const fragmentShader = `
   void main() {
     vec2 uv = vUv;
 
-    // Pure black background (both light and dark mode)
-    vec3 backgroundColor = vec3(0.0, 0.0, 0.0);
+    // Use background color from design tokens (white in light mode, dark in dark mode)
+    vec3 backgroundColor = uBackgroundColor;
 
     // Create two blob shapes that move around (like old portfolio)
     // Left blob (blue/purple)
