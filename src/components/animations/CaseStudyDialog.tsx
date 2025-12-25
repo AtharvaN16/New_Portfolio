@@ -40,16 +40,18 @@ export function CaseStudyDialog() {
           const lenis = window.lenis
           if (lenis) lenis.stop()
 
+          // Lock body scroll manually
+          document.body.style.overflow = 'hidden'
+
           // Lock scroll and open dialog
           setShouldLockScroll(true)
           setIsOpen(true)
         }
       } else if (isOpen) {
         // Close dialog - trigger exit animation
-        // KEEP scroll locked during exit animation
         isClosingRef.current = true
         setIsOpen(false)
-        // Don't unlock scroll yet - wait for animation to complete
+        // Keep scroll locked during exit - will unlock in handleExitComplete
       }
     }
 
@@ -70,6 +72,9 @@ export function CaseStudyDialog() {
     // Dialog has fully closed - NOW unlock scroll and restore position
     setShouldLockScroll(false)
 
+    // Unlock body scroll
+    document.body.style.overflow = ''
+
     const savedScroll = scrollYRef.current
     window.scrollTo(0, savedScroll)
 
@@ -87,11 +92,12 @@ export function CaseStudyDialog() {
 
   return (
     <RemoveScroll enabled={shouldLockScroll}>
-      <AnimatePresence mode="wait">
+      <AnimatePresence onExitComplete={handleExitComplete}>
         {isOpen && caseStudy && (
           <motion.div
+            key="case-study-dialog"
             id="case-study-dialog"
-            className="dialog fixed inset-0 z-[100] overflow-y-auto"
+            className="dialog fixed inset-0 z-[100]"
             data-lenis-prevent="true"
             initial={{ y: '100%' }}
             animate={{
@@ -108,16 +114,10 @@ export function CaseStudyDialog() {
                 ease: TRANSITION_EASE,
               }
             }}
-            onAnimationComplete={() => {
-              if (isClosingRef.current) {
-                handleExitComplete()
-              }
-            }}
             style={{
               backgroundColor: 'rgb(var(--color-background))',
               willChange: 'transform',
               backfaceVisibility: 'hidden',
-              transform: 'translate3d(0, 0, 0)',
             }}
           >
             <CaseStudyDetail caseStudy={caseStudy} />

@@ -24,14 +24,14 @@ export const caseStudies: CaseStudy[] = [
     description:
       "A service design project with Pratt Institute's Office of Admissions focused on improving the end-to-end campus visit experience through research, co-design, and the redesign of visitor touchpoints and student ambassador support tools.",
     tags: ['Service design / Design thinking', 'Selected Work'],
-    imageBg: '#9370DB',
+    imageBg: 'rgb(var(--color-case-study-purple))',
     featured: true,
     category: 'service-design',
     team: ['Atharva Nayak', 'Gloria Yang', 'Sakshi Rane'],
     timeline: 'Sep - Dec 2025',
     fullDescription:
       "A service design project with Pratt Institute's Office of Admissions focused on improving the end-to-end campus visit experience through research, co-design, and the redesign of visitor touchpoints and student ambassador support tools.",
-    progressBarColor: '#FFCE2E',
+    progressBarColor: 'rgb(var(--color-case-study-gold))',
   },
   {
     slug: 'nyc-dcwp-business-licenses',
@@ -41,7 +41,7 @@ export const caseStudies: CaseStudy[] = [
     description:
       'A case study on improving how small business owners in New York City navigate and apply for business licenses through the Department of Consumer and Worker Protection portal.',
     tags: ['Selected Work', 'Client Project', 'UX Research'],
-    imageBg: '#87CEEB',
+    imageBg: 'rgb(var(--color-case-study-sky))',
     featured: true,
     category: 'ux-research',
     team: ['Atharva Nayak'],
@@ -55,7 +55,7 @@ export const caseStudies: CaseStudy[] = [
     description:
       'A comprehensive study on improving the usability and information architecture of the University of Alberta Library website to enhance student research workflows.',
     tags: ['UX Research', 'UI Design', 'Prototyping', 'Selected Work'],
-    imageBg: '#90EE90',
+    imageBg: 'rgb(var(--color-case-study-green))',
     featured: true,
     category: 'ux-research',
     team: ['Atharva Nayak', 'Research Team'],
@@ -69,7 +69,7 @@ export const caseStudies: CaseStudy[] = [
     description:
       'A usability study examining the Metropolitan Museum of Art free tours page, identifying pain points and proposing design improvements for better visitor engagement.',
     tags: ['Usability Testing', 'Design', 'Selected Work'],
-    imageBg: '#CD5C5C',
+    imageBg: 'rgb(var(--color-case-study-red))',
     featured: true,
     category: 'usability-testing',
     team: ['Atharva Nayak'],
@@ -83,7 +83,7 @@ export const caseStudies: CaseStudy[] = [
     description:
       'Designing a comprehensive digital platform for university career services, focusing on improving student-employer connections and career development resources.',
     tags: ['Client Project', 'UX Research', 'UI Design'],
-    imageBg: '#FFB6C1',
+    imageBg: 'rgb(var(--color-case-study-pink))',
     category: 'ux-research',
   },
   {
@@ -94,7 +94,7 @@ export const caseStudies: CaseStudy[] = [
     description:
       'Exploration of a mobile application that helps consumers make environmentally conscious purchasing decisions through product sustainability ratings and alternatives.',
     tags: ['Explorations', 'UI Design'],
-    imageBg: '#98FB98',
+    imageBg: 'rgb(var(--color-case-study-pale-green))',
     category: 'ui-design',
   },
 ]

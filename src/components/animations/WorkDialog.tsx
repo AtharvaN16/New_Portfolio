@@ -39,6 +39,9 @@ export function WorkDialog() {
         const lenis = window.lenis
         if (lenis) lenis.stop()
 
+        // Lock body scroll manually
+        document.body.style.overflow = 'hidden'
+
         // Lock scroll and open dialog
         setShouldLockScroll(true)
         setIsOpen(true)
@@ -68,6 +71,9 @@ export function WorkDialog() {
     // Dialog has fully closed - NOW unlock scroll and restore position
     setShouldLockScroll(false)
 
+    // Unlock body scroll
+    document.body.style.overflow = ''
+
     const savedScroll = scrollYRef.current
     window.scrollTo(0, savedScroll)
 
@@ -81,9 +87,10 @@ export function WorkDialog() {
 
   return (
     <RemoveScroll enabled={shouldLockScroll}>
-      <AnimatePresence mode="wait">
+      <AnimatePresence onExitComplete={handleExitComplete}>
         {isOpen && (
           <motion.div
+            key="work-dialog"
             id="dialog"
             className="dialog fixed inset-0 z-[100] overflow-y-auto"
             data-lenis-prevent="true"
@@ -102,16 +109,10 @@ export function WorkDialog() {
                 ease: TRANSITION_EASE,
               }
             }}
-            onAnimationComplete={() => {
-              if (isClosingRef.current) {
-                handleExitComplete()
-              }
-            }}
             style={{
               backgroundColor: 'rgb(var(--color-background))',
               willChange: 'transform',
               backfaceVisibility: 'hidden',
-              transform: 'translate3d(0, 0, 0)',
             }}
           >
             <WorkPage />

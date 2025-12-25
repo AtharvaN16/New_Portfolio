@@ -58,7 +58,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
         className="fixed top-0 left-0 right-0 h-[4px] z-[60] origin-left"
         style={{
           scaleX: scrollYProgress,
-          backgroundColor: caseStudy.progressBarColor || '#3947ca',
+          backgroundColor: caseStudy.progressBarColor || 'rgb(var(--color-primary))',
         }}
       />
 

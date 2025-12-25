@@ -30,11 +30,11 @@ export function Footer() {
   }
 
   return (
-    <footer 
-      className="w-full text-foreground footer-bg mt-[200px] md:mt-[240px] lg:mt-[280px] relative z-20 shadow-2xl"
+    <footer
+      className="w-full text-foreground footer-bg mt-[200px] md:mt-[240px] lg:mt-[280px] relative z-20"
       style={{
         backgroundColor: 'rgb(var(--color-footer-bg))',
-        boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
+        boxShadow: 'var(--shadow-2xl)',
       }}
     >
       {/* Main Footer Content */}
@@ -171,12 +171,11 @@ export function Footer() {
                   </svg>
                   {isCopied && (
                     <span
-                      style={{ color: 'rgb(34, 197, 94)' }}
                       className={cn(
                         'absolute -top-8 left-1/2 -translate-x-1/2',
                         'whitespace-nowrap rounded-md',
                         'bg-surface px-2 py-1',
-                        'text-xs font-medium',
+                        'text-xs font-medium text-success',
                         'animate-in fade-in slide-in-from-bottom-2',
                         'duration-200'
                       )}
@@ -195,8 +194,8 @@ export function Footer() {
               href="#rate-portfolio"
               className={cn(
                 'group block p-6 transition-all duration-200 max-w-[330px]',
-                'bg-surface/30 dark:bg-[#222222]/30',
-                'hover:bg-surface/50 dark:hover:bg-[#222222]/50',
+                'bg-surface-muted/30',
+                'hover:bg-surface-muted/50',
                 'focus-visible:outline-none focus-visible:ring-2',
                 'focus-visible:ring-primary focus-visible:ring-offset-2'
               )}

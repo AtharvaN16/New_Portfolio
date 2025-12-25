@@ -11,6 +11,7 @@
   --color-background: rgb(var(--color-background) / <alpha-value>);
   --color-surface: rgb(var(--color-surface) / <alpha-value>);
   --color-surface-elevated: rgb(var(--color-surface-elevated) / <alpha-value>);
+  --color-surface-muted: rgb(var(--color-surface-muted) / <alpha-value>);
 
   --color-foreground: rgb(var(--color-foreground) / <alpha-value>);
   --color-text-primary: rgb(var(--color-text-primary) / <alpha-value>);

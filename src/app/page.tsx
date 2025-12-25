@@ -37,9 +37,12 @@ export default function Home() {
       const scrollPosition = window.scrollY
       const viewportHeight = window.innerHeight
 
-      // Card exits after ~100vh of scrolling in the work section (parallaxIntensity=2)
+      // Card exits after 200vh of scrolling through its container (parallaxIntensity=2)
+      // With parallaxIntensity=2, the card moves from 0vh to -100vh over the 200vh container
+      // At 100vh: card is at -50vh (halfway out)
+      // At 200vh: card is at -100vh (fully exited)
       const scrollPastWork = scrollPosition - workPosition
-      const cardExitThreshold = viewportHeight * 1.2 // Card should be fully gone after 1.2vh
+      const cardExitThreshold = viewportHeight * 2.0 // Card is fully gone at 200vh
 
       setCardHasExited(scrollPastWork > cardExitThreshold)
 
