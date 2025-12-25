@@ -7,36 +7,19 @@ import type { ProjectCardProps } from '@/components/work/ProjectCard'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 import { GradientBar } from '@/components/ui/GradientBar'
 import { LineSeparator } from '@/components/ui/LineSeparator'
+import { caseStudies } from '@/lib/data/case-studies'
 
-const allProjects: ProjectCardProps[] = [
-  {
-    title: 'Helping New Yorkers apply for business licenses with ease',
-    organization: 'NYC DCWP',
-    year: '2024',
-    description:
-      'A case study on improving the application process for business licenses for the NYC Department of Consumer and Worker Protection.',
-    tags: ['Selected Work', 'Client Project'],
-    imageBg: '#87CEEB',
-  },
-  {
-    title: 'Improving Usability of Library Website',
-    organization: 'University of Alberta',
-    year: '2024',
-    description:
-      'A comprehensive UX redesign of the university library website, focusing on improving navigation, search functionality, and overall user experience for students and faculty.',
-    tags: ['Selected Work', 'Usability Testing'],
-    imageBg: '#90EE90',
-  },
-  {
-    title: 'Usability study on free tours page MET',
-    organization: 'Class Project',
-    year: '2024',
-    description:
-      "An in-depth usability study of the Metropolitan Museum of Art's free tours page, identifying key pain points and providing actionable recommendations to enhance visitor experience.",
-    tags: ['Selected Work', 'Usability Testing', 'Client Project'],
-    imageBg: '#CD5C5C',
-  },
-]
+// Map case studies to ProjectCardProps
+const allProjects: ProjectCardProps[] = caseStudies.map((study) => ({
+  title: study.title,
+  organization: study.organization,
+  year: study.year,
+  description: study.description,
+  tags: study.tags,
+  imageBg: study.imageBg,
+  imageUrl: study.imageUrl,
+  slug: study.slug,
+}))
 
 // Map filter names to title texts
 const filterTitleMap: Record<string, string> = {
@@ -45,6 +28,12 @@ const filterTitleMap: Record<string, string> = {
   'Usability Testing': 'Usability Testing Projects',
   'Client Project': 'Client Projects',
   Explorations: 'Explorations',
+  'Service Design': 'Service Design Projects',
+  'Design Thinking': 'Design Thinking Projects',
+  'UX Research': 'UX Research Projects',
+  'UI Design': 'UI Design Projects',
+  Prototyping: 'Prototyping Projects',
+  Design: 'Design Projects',
 }
 
 export default function WorkPage() {

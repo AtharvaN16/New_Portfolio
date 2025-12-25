@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils/cn'
 interface AnimatedHeroTextGSAPProps {
   children: string
   boldWords?: string[]
+  pronunciationWords?: Record<string, string>
   className?: string
   delay?: number
   style?: React.CSSProperties
@@ -28,6 +29,7 @@ interface AnimatedHeroTextGSAPProps {
 export function AnimatedHeroTextGSAP({
   children,
   boldWords = [],
+  pronunciationWords = {},
   className,
   delay = 0.2,
   style,
@@ -48,19 +50,80 @@ export function AnimatedHeroTextGSAP({
       tagName: 'span',
     })
 
+    const escapeHtml = (value: string) =>
+      value
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;')
+
+    const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+    /**
+     * IMPORTANT:
+     * Our SplitText utility rebuilds the lines from `textContent`, which strips any JSX markup
+     * (like <strong> or tooltip spans). So we decorate each line AFTER splitting, by turning
+     * the plain text back into HTML with controlled spans.
+     */
+    const decorateLine = (lineEl: HTMLElement) => {
+      const raw = lineEl.textContent || ''
+      let html = escapeHtml(raw)
+
+      // Pronunciation word: bold + hover tooltip above the word.
+      for (const [word, pronunciation] of Object.entries(pronunciationWords)) {
+        if (!word) continue
+        const pattern = new RegExp(`\\b${escapeRegExp(word)}\\b`, 'g')
+        const tooltip = escapeHtml(pronunciation)
+
+        html = html.replace(
+          pattern,
+          `<span class="pronunciation-word" data-pronunciation-word="${escapeHtml(word)}">${escapeHtml(
+            word
+          )}<span class="pronunciation-tooltip" aria-hidden="true">${tooltip}</span></span>`
+        )
+      }
+
+      // Bold-only words.
+      for (const word of boldWords) {
+        if (!word) continue
+        // If it's already wrapped as a pronunciation word, skip (pronunciation wrapper is bold by CSS).
+        if (pronunciationWords[word]) continue
+        const pattern = new RegExp(`\\b${escapeRegExp(word)}\\b`, 'g')
+        html = html.replace(pattern, `<span class="hero-bold-word">${escapeHtml(word)}</span>`)
+      }
+
+      lineEl.innerHTML = html
+    }
+
+    // Decorate each line after SplitText has built them.
+    split.lines.forEach(decorateLine)
+
     // Set up each line with its own mask container
+    const lineMasks: HTMLElement[] = []
     split.lines.forEach((line) => {
       // Create a wrapper div for each line with mask
       const wrapper = document.createElement('div')
       wrapper.style.cssText = `
         position: relative;
+        overflow: visible;
+        display: block;
+      `
+      
+      // Create inner mask container for overflow clipping
+      const mask = document.createElement('div')
+      mask.style.cssText = `
+        position: relative;
         overflow: hidden;
         display: block;
       `
+      mask.className = 'hero-line-mask'
+      lineMasks.push(mask)
 
-      // Move the line into the wrapper
+      // Move the line into the mask, then mask into wrapper
       line.parentNode?.insertBefore(wrapper, line)
-      wrapper.appendChild(line)
+      wrapper.appendChild(mask)
+      mask.appendChild(line)
 
       // Set line to start above its mask
       gsap.set(line, {
@@ -87,35 +150,23 @@ export function AnimatedHeroTextGSAP({
       duration: 1.0,
       ease: 'power3.out',
       delay: delay,
+      onComplete: () => {
+        // Allow tooltips to render above lines after the reveal finishes.
+        lineMasks.forEach((m) => {
+          m.style.overflow = 'visible'
+        })
+      },
     })
 
     // Cleanup
     return () => {
       split.revert()
     }
-  }, [delay])
-
-  // Render text with bold words
-  const renderText = () => {
-    if (boldWords.length === 0) {
-      return children
-    }
-
-    return children.split(' ').map((word, index) => {
-      const cleanWord = word.replace(/[—,\.]/g, '')
-      const isBold = boldWords.includes(cleanWord)
-      return (
-        <span key={index}>
-          {isBold ? <strong>{word}</strong> : word}
-          {index < children.split(' ').length - 1 ? ' ' : ''}
-        </span>
-      )
-    })
-  }
+  }, [delay, boldWords, pronunciationWords, children])
 
   return (
     <p ref={textRef} className={cn(className)} style={{ ...style, opacity: 0 }}>
-      {renderText()}
+      {children}
     </p>
   )
 }

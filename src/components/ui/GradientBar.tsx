@@ -37,6 +37,18 @@ export function GradientBar({
     ref: gradientRef as React.RefObject<HTMLElement>,
   })
 
+  // Map color names to CSS variable references
+  const getColorVar = (colorName: string) => {
+    // Remove 'bg-' prefix if present
+    const cleanName = colorName.replace('bg-', '')
+    // Return CSS variable reference that will be resolved by the browser
+    if (cleanName === 'gradient-start' || cleanName === 'gradient-end') {
+      return `rgb(var(--color-${cleanName}))`
+    }
+    // Default fallback
+    return `rgb(var(--color-${cleanName}))`
+  }
+
   return (
     <div
       ref={gradientRef}
@@ -44,13 +56,12 @@ export function GradientBar({
       style={
         {
           backgroundImage: `linear-gradient(90deg, 
-          var(--color-start) 0%, 
-          var(--color-start) ${gradientPosition - 20}%, 
-          var(--color-end) ${gradientPosition + 20}%, 
-          var(--color-end) 100%)`,
-          // Dynamically set CSS variables from Tailwind colors
-          '--color-start': `rgb(var(--color-${startColor.replace('bg-', '')}))`,
-          '--color-end': `rgb(var(--color-${endColor.replace('bg-', '')}))`,
+          ${getColorVar(startColor)} 0%, 
+          ${getColorVar(startColor)} ${gradientPosition - 20}%, 
+          ${getColorVar(endColor)} ${gradientPosition + 20}%, 
+          ${getColorVar(endColor)} 100%)`,
+          // Enhanced brightness, saturation, and luminance for gradient bars only
+          filter: 'brightness(1.15) saturate(1.3)',
         } as React.CSSProperties
       }
     />

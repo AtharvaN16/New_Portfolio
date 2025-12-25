@@ -122,8 +122,8 @@ export const fragmentShader = `
   void main() {
     vec2 uv = vUv;
 
-    // Background color from design tokens (theme-aware)
-    vec3 backgroundColor = uBackgroundColor;
+    // Pure black background (both light and dark mode)
+    vec3 backgroundColor = vec3(0.0, 0.0, 0.0);
 
     // Create two blob shapes that move around (like old portfolio)
     // Left blob (blue/purple)
@@ -144,19 +144,28 @@ export const fragmentShader = `
       blob2 -= excess * (blob2 / combined);
     }
 
-    // Mix colors based on blob influences
+    // Distinct blobs with seamless glowing intersection
     float totalWater = clamp(blob1 + blob2, 0.0, 1.0);
-    float blob1Weight = blob1 / max(totalWater, 0.1);
-    float blob2Weight = blob2 / max(totalWater, 0.1);
-
-    // Start with background, mix in blob colors with higher intensity
+    
+    // Identify the intersection boundary (smooth, no gaps)
+    float difference = abs(blob1 - blob2);
+    float isIntersection = 1.0 - smoothstep(0.0, 0.2, difference);
+    
+    // Start with background color
     vec3 color = backgroundColor;
-    color = mix(color, uColor1, blob1Weight * 1.0); // Blue/purple from left - full intensity
-    color = mix(color, uColor3, blob2Weight * 1.0); // Pink from right - full intensity
-
-    // Where blobs overlap, blend toward middle color (purple)
-    float overlap = min(blob1, blob2) * 2.0;
-    color = mix(color, uColor2, overlap * 0.1);
+    
+    // Determine which color to show based on dominance
+    // Use smooth transitions to avoid gaps
+    float blob1Dominance = smoothstep(-0.05, 0.05, blob1 - blob2);
+    
+    // In non-intersection areas, show pure colors based on dominance
+    vec3 dominantColor = mix(uColor3, uColor1, blob1Dominance);
+    color = mix(color, dominantColor, totalWater * (1.0 - isIntersection));
+    
+    // In intersection zone, ADD colors for bright glow (seamless)
+    float overlap = min(blob1, blob2);
+    vec3 glowColor = uColor1 + uColor3; // Additive light
+    color = mix(color, glowColor, overlap * isIntersection);
 
     // Add glow effect - brighten the center of blobs
     float glow = max(blob1, blob2);

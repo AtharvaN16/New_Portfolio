@@ -47,6 +47,17 @@ export function WorkDialog() {
           pageWrapper.style.willChange = 'transform' // Performance hint
         }
 
+        // Freeze footer container to prevent it from showing during transition
+        const footerContainer = document.getElementById('footer-container')
+        if (footerContainer) {
+          footerContainer.style.position = 'fixed'
+          footerContainer.style.left = '0'
+          footerContainer.style.right = '0'
+          footerContainer.style.top = `-${currentScrollY}px`
+          footerContainer.style.width = '100%'
+          footerContainer.style.willChange = 'transform'
+        }
+
         // Also lock body scroll
         document.body.style.overflow = 'hidden'
 
@@ -81,6 +92,7 @@ export function WorkDialog() {
     // The dialog is fully visible and covering the page, so we can safely restore it
     const savedScroll = scrollYRef.current
     const pageWrapper = document.getElementById('page-wrapper')
+    const footerContainer = document.getElementById('footer-container')
 
     if (pageWrapper) {
       // Unfreeze page-wrapper
@@ -90,6 +102,56 @@ export function WorkDialog() {
       pageWrapper.style.top = ''
       pageWrapper.style.width = ''
       pageWrapper.style.willChange = ''
+    }
+
+    if (footerContainer) {
+      // Unfreeze footer container
+      footerContainer.style.position = ''
+      footerContainer.style.left = ''
+      footerContainer.style.right = ''
+      footerContainer.style.top = ''
+      footerContainer.style.width = ''
+      footerContainer.style.willChange = ''
+    }
+
+    // Restore scroll position
+    window.scrollTo(0, savedScroll)
+
+    // Unlock body
+    document.body.style.overflow = ''
+
+    // Resume Lenis at the correct position
+    const lenis = window.lenis
+    if (lenis) {
+      lenis.scrollTo(savedScroll, { immediate: true })
+      lenis.start()
+    }
+  }
+
+  const handleExitComplete = () => {
+    // Exit animation complete - restore frozen state
+    const savedScroll = scrollYRef.current
+    const pageWrapper = document.getElementById('page-wrapper')
+    const footerContainer = document.getElementById('footer-container')
+
+    if (pageWrapper) {
+      // Unfreeze page-wrapper
+      pageWrapper.style.position = ''
+      pageWrapper.style.left = ''
+      pageWrapper.style.right = ''
+      pageWrapper.style.top = ''
+      pageWrapper.style.width = ''
+      pageWrapper.style.willChange = ''
+    }
+
+    if (footerContainer) {
+      // Unfreeze footer container
+      footerContainer.style.position = ''
+      footerContainer.style.left = ''
+      footerContainer.style.right = ''
+      footerContainer.style.top = ''
+      footerContainer.style.width = ''
+      footerContainer.style.willChange = ''
     }
 
     // Restore scroll position
@@ -121,8 +183,10 @@ export function WorkDialog() {
             ease: TRANSITION_EASE,
           }}
           onAnimationComplete={() => {
-            // Only restore on ENTER animation (when dialog finishes sliding up)
-            if (!isClosingRef.current) {
+            // Handle both enter and exit animations
+            if (isClosingRef.current) {
+              handleExitComplete()
+            } else {
               handleEnterComplete()
             }
           }}

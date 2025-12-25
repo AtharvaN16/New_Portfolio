@@ -14,6 +14,8 @@ export interface ProjectCardProps {
   imageUrl?: string // Optional project image
   variant?: 'default' | 'compact' // default for 2-grid, compact for 3-grid
   className?: string
+  slug?: string // Optional slug for linking to case study page
+  cardHeight?: string // Optional custom height (e.g., 'h-[400px] md:h-[500px]')
 }
 
 export function ProjectCard({
@@ -26,16 +28,38 @@ export function ProjectCard({
   imageUrl,
   variant = 'default',
   className,
+  slug,
+  cardHeight,
 }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false)
+
+  const handleClick = () => {
+    if (slug) {
+      window.history.pushState({}, '', `/case-studies/${slug}`)
+      window.dispatchEvent(new CustomEvent('casestudydialog:check'))
+    }
+  }
 
   return (
     <article className={cn('group flex flex-col', className)}>
       {/* Card - Responsive height for different screen sizes */}
       <div
-        className="relative h-[280px] w-full overflow-hidden sm:h-[360px] md:h-[420px] lg:h-[500px]"
+        className={cn(
+          'relative w-full overflow-hidden',
+          cardHeight || 'h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px]',
+          slug && 'cursor-pointer'
+        )}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        onClick={handleClick}
+        role={slug ? 'button' : undefined}
+        tabIndex={slug ? 0 : undefined}
+        onKeyDown={(e) => {
+          if (slug && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault()
+            handleClick()
+          }
+        }}
       >
         {/* Background Color or Image */}
         <div

@@ -17,8 +17,9 @@ interface HoverLinkProps {
 }
 
 /**
- * Link with skew slide-up hover animation
+ * Link with skew slide-up hover animation and underline
  * Text slides up and out while duplicate slides up from below
+ * Underline animates from left to right on hover
  */
 export function HoverLink({ href, children, className }: HoverLinkProps) {
   return (
@@ -37,6 +38,8 @@ export function HoverLink({ href, children, className }: HoverLinkProps) {
           {children}
         </div>
       </span>
+      {/* Animated underline */}
+      <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full" />
     </Link>
   )
 }

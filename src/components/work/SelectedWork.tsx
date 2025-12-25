@@ -3,34 +3,38 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
-import { LineSeparator } from '@/components/ui/LineSeparator'
 import { cn } from '@/lib/utils/cn'
+import { getFeaturedCaseStudies } from '@/lib/data/case-studies'
 
 interface SelectedWorkProps {
   projects?: ProjectCardProps[]
   className?: string
 }
 
-const defaultProjects: ProjectCardProps[] = [
-  {
-    title: 'Improving Usability of Library Website',
-    organization: 'University of Alberta',
-    year: '2024',
-    description:
-      'A comprehensive UX redesign of the university library website, focusing on improving navigation, search functionality, and overall user experience for students and faculty.',
-    tags: ['UX Research', 'UI Design', 'Prototyping'],
-    imageBg: '#90EE90', // Light green
-  },
-  {
-    title: 'Usability study on free tours page MET',
-    organization: 'Class Project',
-    year: '2024',
-    description:
-      "An in-depth usability study of the Metropolitan Museum of Art's free tours page, identifying key pain points and providing actionable recommendations to enhance visitor experience.",
-    tags: ['Usability Study', 'Design'],
-    imageBg: '#CD5C5C', // Coral/Indian red
-  },
-]
+// Get featured case studies and map to ProjectCardProps with custom heights for offset layout
+const defaultProjects: ProjectCardProps[] = getFeaturedCaseStudies()
+  .slice(0, 4)
+  .map((study, index) => {
+    // Define custom heights for each card to create masonry effect
+    const heights = [
+      'h-[280px] sm:h-[340px] md:h-[400px] lg:h-[480px]', // Card 1: Medium
+      'h-[320px] sm:h-[400px] md:h-[480px] lg:h-[580px]', // Card 2: Tall
+      'h-[300px] sm:h-[380px] md:h-[460px] lg:h-[560px]', // Card 3: Medium-tall
+      'h-[260px] sm:h-[320px] md:h-[380px] lg:h-[460px]', // Card 4: Short
+    ]
+
+    return {
+      title: study.title,
+      organization: study.organization,
+      year: study.year,
+      description: study.description,
+      tags: study.tags,
+      imageBg: study.imageBg,
+      imageUrl: study.imageUrl,
+      slug: study.slug,
+      cardHeight: heights[index],
+    }
+  })
 
 export function SelectedWork({
   projects = defaultProjects,
@@ -62,24 +66,33 @@ export function SelectedWork({
   return (
     <section
       className={cn(
-        'w-full bg-background pb-20 pt-8 md:pb-32 md:pt-12',
+        'w-full bg-background pb-0 pt-8 md:pt-12',
         className
       )}
     >
       {/* Section Title */}
-      <h2 className="mb-12 text-5xl font-bold tracking-tight text-foreground md:mb-16 md:text-6xl lg:text-7xl">
+      <h2 className="mb-8 text-5xl font-bold tracking-tight text-foreground md:mb-12 md:text-6xl lg:text-7xl">
         Selected Work
       </h2>
 
-      {/* Projects Grid - gap matches page margin (px-6 = gap-6) */}
+      {/* Projects Grid - Offset masonry layout */}
       <div className="grid gap-6 md:grid-cols-2">
         {projects.map((project, index) => (
-          <ProjectCard key={index} {...project} />
+          <ProjectCard
+            key={index}
+            {...project}
+            className={cn(
+              // Vertical offsets for masonry effect on desktop
+              // Cards 1 & 2 (top row): aligned at top
+              // Card 3: offset up slightly for visual interest
+              index === 2 && 'md:-mt-8 lg:-mt-12', // Card 3: offset up
+            )}
+          />
         ))}
       </div>
 
       {/* Show More Work Link */}
-      <div className="mt-[100px] md:mt-[133px] lg:mt-[200px] flex justify-end">
+      <div className="mt-16 mb-0 md:mt-20 lg:mt-24 flex justify-end">
         <motion.button
           onClick={() => {
             // Use window.history.pushState to change URL without triggering Next.js navigation
@@ -183,9 +196,6 @@ export function SelectedWork({
           </span>
         </motion.button>
       </div>
-
-      {/* Animated Line Separator */}
-      <LineSeparator className="mt-12 md:mt-16" />
     </section>
   )
 }

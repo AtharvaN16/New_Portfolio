@@ -37,6 +37,10 @@ const staggerContainer = {
   },
 }
 
+// Stable references for AnimatedHeroTextGSAP to prevent re-animation on re-renders
+const HERO_BOLD_WORDS = ['Atharva']
+const HERO_PRONUNCIATION = { Atharva: 'uh · thar · vuh' }
+
 export function Hero() {
   return (
     <section
@@ -52,12 +56,13 @@ export function Hero() {
         >
           {/* Hero Text + Browse work - Side by side */}
           <div
-            className="flex items-end justify-between gap-8 mb-8 mt-12"
+            className="flex items-end justify-between gap-8 mb-8 mt-12 md:mb-10 md:mt-16 lg:mb-12 lg:mt-20"
             style={{ flexShrink: 0 }}
           >
             {/* Hero Text - Single paragraph with GSAP line-by-line reveal animation */}
             <AnimatedHeroTextGSAP
-              boldWords={['Atharva']}
+              boldWords={HERO_BOLD_WORDS}
+              pronunciationWords={HERO_PRONUNCIATION}
               className="max-w-lg text-hero-body"
               delay={0.2}
             >
@@ -76,10 +81,10 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/* Animated Water Blob - Flex grow to fill space */}
+          {/* Animated Water Blob - Flex grow to fill space with max height constraints */}
           <motion.div
             variants={fadeInUp}
-            className="relative w-full flex-1 overflow-hidden"
+            className="relative w-full flex-1 overflow-hidden water-blob-container"
             style={{ minHeight: 0 }}
           >
             <WaterBlobWithBoundary />

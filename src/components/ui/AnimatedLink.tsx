@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { type ReactNode } from 'react'
+import { type ReactNode, type MouseEvent } from 'react'
 
 /**
  * AnimatedLink Component
@@ -12,7 +12,7 @@ import { type ReactNode } from 'react'
  *
  * Features:
  * - Arrow slides out right and re-enters from left on hover
- * - Smooth Framer Motion animations
+ * - Smooth Framer Motion animations with page transition easing for hash links
  * - Accessible focus states
  * - Responsive sizing
  */
@@ -24,15 +24,51 @@ interface AnimatedLinkProps {
   variant?: 'default' | 'down-arrow'
 }
 
+/**
+ * Cubic bezier easing function matching page transitions
+ * Easing: [0.87, 0, 0.13, 1] - exponential ease out
+ */
+function bezierEasing(t: number): number {
+  // Approximate cubic-bezier(0.87, 0, 0.13, 1) 
+  // This is an exponential ease-out curve
+  return 1 - Math.pow(1 - t, 4)
+}
+
 export function AnimatedLink({
   href,
   children,
   className = '',
   variant = 'default',
 }: AnimatedLinkProps) {
+  // Handle smooth scroll for hash links with page transition easing
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    // Only handle hash links
+    if (href.startsWith('#')) {
+      e.preventDefault()
+      const targetId = href.slice(1)
+      
+      // Trigger card animation immediately for #work (simultaneous with scroll)
+      if (targetId === 'work') {
+        window.dispatchEvent(new CustomEvent('force-card-up'))
+      }
+      
+      const targetElement = document.getElementById(targetId)
+      
+      if (targetElement && window.lenis) {
+        window.lenis.scrollTo(targetElement, {
+          duration: 0.9, // Match page transition duration
+          easing: bezierEasing, // Match page transition easing
+        })
+      } else if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' })
+      }
+    }
+  }
+
   return (
     <Link
       href={href}
+      onClick={handleClick}
       className={`group inline-flex items-center gap-2 text-nav-link text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded px-2 py-1 ${className}`}
     >
       {children}

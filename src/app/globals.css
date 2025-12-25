@@ -164,4 +164,102 @@
     font-weight: 500;
     line-height: 1;
   }
+
+  /* Hero: bold word + pronunciation hover tooltip (works even when injected after SplitText) */
+  .hero-bold-word {
+    font-weight: 700;
+  }
+
+  .pronunciation-word {
+    position: relative;
+    display: inline-block;
+    font-weight: 700; /* Atharva should be bold */
+    cursor: default;
+  }
+
+  .pronunciation-tooltip {
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    transform: translateX(-50%);
+    margin-bottom: 0.35rem;
+    white-space: nowrap;
+    font-size: 1rem;
+    line-height: 1;
+    color: rgb(var(--color-text-secondary));
+    opacity: 0;
+    transition: opacity 150ms ease;
+    pointer-events: none;
+  }
+
+  .pronunciation-word:hover .pronunciation-tooltip {
+    opacity: 0.6;
+  }
+
+  /* Water blob responsive max heights */
+  .water-blob-container {
+    max-height: 25rem; /* 400px on mobile */
+  }
+
+  @media (min-width: 768px) {
+    .water-blob-container {
+      max-height: 33.75rem; /* 540px on medium screens */
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .water-blob-container {
+      max-height: 46.25rem; /* 740px on large screens */
+    }
+  }
+
+  /* ========================================
+     FOOTER RESUME LINK TRAVELING GRADIENT
+     ======================================== */
+  
+  /* Traveling gradient animation */
+  @keyframes travelingGradient {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Resume link - traveling gradient applied by default */
+  .footer-resume-link {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgb(var(--color-text-secondary)) 25%,
+      rgba(255, 255, 255, 1) 50%,
+      rgb(var(--color-text-secondary)) 75%,
+      rgba(255, 255, 255, 0.3) 100%
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: travelingGradient 4s ease-in-out infinite;
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+  }
+
+  /* Light mode inverse effect */
+  [data-theme="light"] .footer-resume-link {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgb(var(--color-text-secondary)) 25%,
+      rgba(0, 0, 0, 1) 50%,
+      rgb(var(--color-text-secondary)) 75%,
+      rgba(0, 0, 0, 0.3) 100%
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  }
+
 }

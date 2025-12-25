@@ -45,18 +45,23 @@ export function LineSeparator({
     pluckXPos?: number,
     pluckAmp?: number
   ): string => {
-    const points = 5 // Same as original
-    const amp = 60 * waveT // Increased from 30 to 60 for more dramatic wave
+    // Increased points for smoother, more elegant wave
+    const points = 35
+    // More subtle amplitude for elegant wave (not too dramatic)
+    const amp = 40 * waveT
     const coords: [number, number][] = []
 
     for (let i = 0; i <= points; i++) {
       const x = (width / points) * i
       const progress = i / points
 
-      // Whip wave (decays from left to right)
-      const decay = Math.pow(progress, 1.5)
-      const phase = waveT * Math.PI * 1.2 + (1 - waveT) * Math.PI * 0.2
-      let y = 1 + Math.sin(progress * Math.PI * 1.2 + phase) * amp * decay
+      // Elegant wave: appears at the right end and decays towards left
+      // Decay curve: starts weak at left, builds up to strong at right end
+      const decay = Math.pow(progress, 0.8) // Wave is strongest at right end
+      // Traveling wave: wave travels from right to left, appearing at the end
+      const wavePhase = waveT * Math.PI * 2 - (1 - progress) * Math.PI * 2
+      // Smooth sine wave with decay - strongest at right end
+      let y = 1 + Math.sin(wavePhase) * amp * decay
 
       // Add pluck deformation if active
       if (pluckXPos !== undefined && pluckAmp !== undefined && Math.abs(pluckAmp) > 0.01) {
@@ -75,10 +80,13 @@ export function LineSeparator({
     for (let i = 0; i < points; i++) {
       const [x0, y0] = coords[i]
       const [x1, y1] = coords[i + 1]
-      const cpx1 = x0 + (x1 - x0) / 3
-      const cpy1 = y0
-      const cpx2 = x0 + 2 * (x1 - x0) / 3
-      const cpy2 = y1
+      // Improved control points for smoother curves
+      const dx = x1 - x0
+      const dy = y1 - y0
+      const cpx1 = x0 + dx / 3
+      const cpy1 = y0 + dy / 3
+      const cpx2 = x0 + 2 * dx / 3
+      const cpy2 = y0 + 2 * dy / 3
       d += ` C${cpx1} ${cpy1}, ${cpx2} ${cpy2}, ${x1} ${y1}`
     }
 
@@ -136,18 +144,29 @@ export function LineSeparator({
     path.style.strokeDasharray = `${length}`
     path.style.strokeDashoffset = `${length}`
 
-    // Animate: wave morphing + stroke draw
+    // Animate: elegant wave morphing + stroke draw
     const controls = animate(0, 1, {
-      duration: 1.4,
+      duration: 1.6, // Slightly longer for smoother animation
       delay: delay,
-      ease: [0.22, 1, 0.36, 1],
+      // Smooth, elegant easing curve (ease-out-cubic-like)
+      ease: [0.25, 0.1, 0.25, 1],
       onUpdate: (latest) => {
-        // Whip wave: ramps up then down
-        let whipT = latest < 0.7 ? latest / 0.7 : 1 - (latest - 0.7) / 0.3
-        whipT = Math.max(0, Math.min(1, whipT)) * 1.5
+        // Elegant wave: smooth rise and fall with natural decay
+        // Wave peaks around 60% of animation, then gracefully settles
+        let waveT: number
+        if (latest < 0.6) {
+          // Smooth rise: ease-in-out curve
+          const t = latest / 0.6
+          waveT = t * t * (3 - 2 * t) // Smoothstep for elegant rise
+        } else {
+          // Smooth fall: exponential decay
+          const t = (latest - 0.6) / 0.4
+          waveT = Math.pow(1 - t, 2) // Quadratic decay for graceful fall
+        }
+        waveT = Math.max(0, Math.min(1, waveT))
 
         // Update path shape and dash
-        const newPath = generatePath(width, whipT)
+        const newPath = generatePath(width, waveT)
         path.setAttribute('d', newPath)
         path.style.strokeDashoffset = `${length * (1 - latest)}`
       },

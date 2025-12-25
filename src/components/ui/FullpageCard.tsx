@@ -43,6 +43,10 @@ interface FullpageCardProps {
    */
   parallaxIntensity?: number
   /**
+   * Force card to move out of view (overrides parallax)
+   */
+  forceHidden?: boolean
+  /**
    * Additional className
    */
   className?: string
@@ -58,6 +62,10 @@ interface FullpageCardProps {
    * Media className
    */
   mediaClassName?: string
+  /**
+   * Optional slug for linking to case study page
+   */
+  slug?: string
 }
 
 /**
@@ -73,10 +81,12 @@ export function FullpageCard({
   children,
   variant = 'surface',
   parallaxIntensity = 1,
+  forceHidden = false,
   className,
   titleClassName,
   descriptionClassName,
   mediaClassName,
+  slug,
 }: FullpageCardProps) {
   // Input validation - title is required
   if (!title || title.trim().length === 0) {
@@ -117,6 +127,13 @@ export function FullpageCard({
     setMediaError(true)
   }
 
+  // Click handler for case study navigation
+  const handleClick = () => {
+    if (slug) {
+      window.history.pushState({}, '', `/case-studies/${slug}`)
+      window.dispatchEvent(new CustomEvent('casestudydialog:check'))
+    }
+  }
 
   /**
    * Container height calculation:
@@ -127,11 +144,28 @@ export function FullpageCard({
     <div ref={containerRef} className="relative h-[200vh]">
       <motion.section
         style={{ y: cardY }}
+        animate={{
+          y: forceHidden ? '-100vh' : undefined,
+        }}
+        transition={{
+          duration: 0.7,
+          ease: [0.87, 0, 0.13, 1], // Match page transition easing
+        }}
         className={cn(
           'sticky top-0 z-50 min-h-screen w-full overflow-hidden',
           variantStyles[variant],
+          slug && 'cursor-pointer',
           className
         )}
+        onClick={handleClick}
+        role={slug ? 'button' : undefined}
+        tabIndex={slug ? 0 : undefined}
+        onKeyDown={(e) => {
+          if (slug && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault()
+            handleClick()
+          }
+        }}
       >
         {/* Static content - moves with card as single unit */}
         <div className="flex min-h-screen w-full flex-col justify-start px-6 py-16 text-white sm:px-8 sm:py-20 md:py-[72px]">
