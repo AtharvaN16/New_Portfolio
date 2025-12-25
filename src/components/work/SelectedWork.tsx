@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import Masonry from 'react-masonry-css'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
 import { cn } from '@/lib/utils/cn'
 import { getFeaturedCaseStudies } from '@/lib/data/case-studies'
@@ -63,6 +64,13 @@ export function SelectedWork({
     setIsAnimating(false)
   }
 
+  // Masonry breakpoint configuration: 1 column on mobile, 2 columns on desktop
+  // react-masonry-css uses max-width breakpoints (viewport <= breakpoint uses that column count)
+  const breakpointColumnsObj = {
+    default: 2, // 2 columns for viewport > 767px (desktop)
+    767: 1, // 1 column for viewport <= 767px (mobile/tablet, matches Tailwind md:768px)
+  }
+
   return (
     <section
       className={cn(
@@ -75,29 +83,23 @@ export function SelectedWork({
         Selected Work
       </h2>
 
-      {/* Projects Grid - Offset masonry layout */}
-      <div className="grid gap-6 md:grid-cols-2">
+      {/* Projects Masonry - Automatic staggered layout with equal column gaps */}
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="flex -ml-6" // Negative left margin to offset column margins
+        columnClassName="pl-6 flex flex-col gap-6" // Left padding creates horizontal gap, gap-6 creates vertical gap
+      >
         {projects.map((project, index) => (
-          <ProjectCard
-            key={index}
-            {...project}
-            className={cn(
-              // Vertical offsets for masonry effect on desktop
-              // Cards 1 & 2 (top row): aligned at top
-              // Card 3: offset up slightly for visual interest
-              index === 2 && 'md:-mt-8 lg:-mt-12', // Card 3: offset up
-            )}
-          />
+          <ProjectCard key={index} {...project} />
         ))}
-      </div>
+      </Masonry>
 
       {/* Show More Work Link */}
       <div className="mt-16 mb-0 md:mt-20 lg:mt-24 flex justify-end">
         <motion.button
           onClick={() => {
-            // Use window.history.pushState to change URL without triggering Next.js navigation
+            // Change URL and trigger dialog - RemoveScroll handles scroll locking
             window.history.pushState({}, '', '/work')
-            // Manually trigger the dialog check (don't dispatch popstate - it creates duplicate history entries)
             window.dispatchEvent(new CustomEvent('workdialog:check'))
           }}
           onMouseEnter={handleMouseEnter}

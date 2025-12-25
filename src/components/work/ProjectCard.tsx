@@ -35,6 +35,7 @@ export function ProjectCard({
 
   const handleClick = () => {
     if (slug) {
+      // Change URL and trigger dialog - RemoveScroll handles scroll locking
       window.history.pushState({}, '', `/case-studies/${slug}`)
       window.dispatchEvent(new CustomEvent('casestudydialog:check'))
     }
@@ -129,10 +130,10 @@ export function ProjectCard({
         {/* Project Title */}
         <h3
           className={cn(
-            'font-bold leading-tight text-foreground',
+            'max-w-[85%] font-bold leading-tight text-foreground',
             variant === 'compact'
               ? 'text-lg sm:text-xl lg:text-[1.75rem]' // 28px on large screens for 3-grid
-              : 'text-2xl sm:text-3xl lg:text-4xl' // Larger for 2-grid (home page)
+              : 'text-xl sm:text-2xl lg:text-[1.75rem]' // 28px on large screens for 2-grid (home page)
           )}
         >
           {title}

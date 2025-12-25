@@ -29,6 +29,8 @@
     "next-transition-router": "^0.2.11",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-masonry-css": "^1.0.16",
+    "react-remove-scroll": "^2.7.2",
     "tailwind-merge": "^3.3.1",
     "zod": "^4.1.12"
   },
