@@ -104,6 +104,11 @@ If you can explain the flow of your code to a new teammate in 5 minutes, it's pr
 - Think of what's likely to evolve (e.g., business logic, APIs).
 - Keep those parts decoupled and easy to replace.
 
+## Project Structure
+- **Source of truth**: All development happens in `portfolio-new/`. This is where `node_modules` and the dev server run from.
+- **Do NOT create or edit files** in the root-level `src/` folder (if it exists). Always use `portfolio-new/src/`.
+- **Dev server**: Run from `portfolio-new/` directory (`cd portfolio-new && npm run dev`).
+
 ## Development Workflow Rules
 - **When uncertain**: Always consult with user before proceeding.
 - **When discussing approaches**: Guide toward the best option to take.

@@ -92,7 +92,7 @@ export function SelectedWork({
       </Masonry>
 
       {/* Show More Work Link */}
-      <div className="mt-16 mb-0 md:mt-20 lg:mt-24 flex justify-end">
+      <div className="mt-28 mb-0 md:mt-36 lg:mt-48 flex justify-end">
         <motion.button
           onClick={() => {
             // Change URL and trigger dialog - RemoveScroll handles scroll locking
