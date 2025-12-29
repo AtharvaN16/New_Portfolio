@@ -35,7 +35,6 @@ export function FullpageCardExamples() {
       <FullpageCard
         title="Building the future of design systems"
         variant="dark"
-        parallaxIntensity={1.5}
       >
         <p className="text-lg leading-relaxed opacity-80">
           Creating scalable, accessible components that empower teams to build
@@ -56,7 +55,6 @@ export function FullpageCardExamples() {
         title="Reimagining the checkout experience"
         description="How we increased conversion rates by 42% through thoughtful UX improvements and A/B testing."
         variant="surface-elevated"
-        parallaxIntensity={0.5}
       />
 
       {/* Light background with custom styling */}
