@@ -1,0 +1,43 @@
+/**
+ * Tailwind Theme Extensions
+ *
+ * Extends Tailwind with custom design tokens from globals.css
+ */
+
+@theme {
+  /* ========================================
+     COLOR PALETTE (uses CSS variables)
+     ======================================== */
+  --color-background: rgb(var(--color-background) / <alpha-value>);
+  --color-surface: rgb(var(--color-surface) / <alpha-value>);
+  --color-surface-elevated: rgb(var(--color-surface-elevated) / <alpha-value>);
+  --color-surface-muted: rgb(var(--color-surface-muted) / <alpha-value>);
+
+  --color-foreground: rgb(var(--color-foreground) / <alpha-value>);
+  --color-text-primary: rgb(var(--color-text-primary) / <alpha-value>);
+  --color-text-secondary: rgb(var(--color-text-secondary) / <alpha-value>);
+  --color-text-tertiary: rgb(var(--color-text-tertiary) / <alpha-value>);
+
+  --color-primary: rgb(var(--color-primary) / <alpha-value>);
+  --color-primary-hover: rgb(var(--color-primary-hover) / <alpha-value>);
+  --color-accent: rgb(var(--color-accent) / <alpha-value>);
+
+  --color-success: rgb(var(--color-success) / <alpha-value>);
+  --color-warning: rgb(var(--color-warning) / <alpha-value>);
+  --color-error: rgb(var(--color-error) / <alpha-value>);
+  --color-info: rgb(var(--color-info) / <alpha-value>);
+
+  --color-border: rgb(var(--color-border) / <alpha-value>);
+  --color-border-hover: rgb(var(--color-border-hover) / <alpha-value>);
+
+  --color-gray-dark: rgb(var(--color-gray-dark) / <alpha-value>);
+
+  /* ========================================
+     RESPONSIVE BREAKPOINTS
+     ======================================== */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
