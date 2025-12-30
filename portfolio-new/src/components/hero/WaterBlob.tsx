@@ -62,6 +62,12 @@ export function WaterBlob({
       : ANIMATION_SPEED_MULTIPLIER_NORMAL
   )
 
+  // Track paused state in ref so animation loop can check current value
+  const pausedRef = useRef(paused)
+  useEffect(() => {
+    pausedRef.current = paused
+  }, [paused])
+
   // Get colors from design tokens or custom palettes
   const colors = useMemo(() => {
     return getColors(theme, interactive, paletteIndex)
@@ -113,7 +119,7 @@ export function WaterBlob({
 
     const loop = () => {
       // Pause if paused prop is true OR paused by dialog
-      if (!isPausedByDialog && !paused) {
+      if (!isPausedByDialog && !pausedRef.current) {
         animate()
       }
       animationId = requestAnimationFrame(loop)
@@ -146,7 +152,8 @@ export function WaterBlob({
         gl.deleteBuffer(programInfo.posBuffer)
       }
     }
-  }, [colors, prefersReducedMotion, theme, paused]) // theme needed because we use it directly in effect
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colors, prefersReducedMotion, theme]) // paused removed - loop handles it dynamically
 
   // Handle canvas resize
   useEffect(() => {
