@@ -55,11 +55,10 @@ export default function Home() {
   // Navbar fades out as we scroll (0-15% scroll)
   const navbarOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
   
-  // Hero wrapper: QUICK fade right *before* card fully covers viewport
-  // Card hits y=0 at ~20% scroll, so we fade Hero from 1→0 between 15–20%.
-  // Result: the moment the card fully covers the viewport (>= 20%), Hero opacity is already 0.
-  const heroOpacity = useTransform(scrollYProgress, [0.15, 0.2], [1, 0])
-  const heroBlur = useTransform(scrollYProgress, [0.15, 0.2], [0, 12])
+  // Hero wrapper: INSTANT snap to invisible when card covers viewport (at 20%)
+  // Card hits y=0 at 20% scroll. Hero stays visible (opacity=1) until 20%, then snaps to 0.
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
+  const heroBlur = useTransform(scrollYProgress, [0, 0.2], [0, 12])
   const heroFilter = useBlurFilter(heroBlur)
 
   // Card parallax: starts below viewport, catches up, covers hero, exits through top
@@ -79,7 +78,7 @@ export default function Home() {
         {/* ===== LAYER 1: SelectedWork ===== */}
         {/* Always here at bottom, covered by Hero, revealed when Card exits */}
         <motion.div 
-          className="fixed inset-0 overflow-hidden"
+          className="fixed inset-0"
           style={{ 
             y: selectedWorkY,
             zIndex: 10,
@@ -95,7 +94,7 @@ export default function Home() {
         {/* ===== LAYER 2: Hero ===== */}
         {/* FIXED with solid bg to cover SelectedWork. Content moves up to simulate scroll. */}
         <motion.div 
-          className="fixed inset-0 overflow-hidden"
+          className="fixed inset-0"
           style={{ 
             zIndex: 30,
             backgroundColor: 'rgb(var(--color-background))',
