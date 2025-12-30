@@ -90,7 +90,7 @@ export default function Home() {
   )
 
   // Card parallax: starts below viewport, catches up, covers hero, exits through top
-  const cardY = useTransform(scrollYProgress, [0, 0.2, 0.5], ['100vh', '0vh', '-100vh'])
+  const cardY = useTransform(scrollYProgress, [0, 0.2, 0.5], ['100vh', '0vh', '-105vh'])
 
   // Calculate dynamic scroll distances based on actual SelectedWork content height
   const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 1000
