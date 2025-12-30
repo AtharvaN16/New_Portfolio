@@ -55,10 +55,10 @@ export default function Home() {
   // Navbar fades out as we scroll (0-15% scroll)
   const navbarOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
   
-  // Hero wrapper: INSTANT snap to invisible when card covers viewport (at 20%)
-  // Card hits y=0 at 20% scroll. Hero stays visible (opacity=1) until 20%, then snaps to 0.
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
-  const heroBlur = useTransform(scrollYProgress, [0, 0.2], [0, 12])
+  // Hero wrapper: stays visible until Card covers viewport, then snaps to invisible
+  // Card hits y=0 at 20% scroll. Hero stays at opacity=1 until 19.5%, then fades/snaps to 0 by 20%.
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.195, 0.2], [1, 1, 0])
+  const heroBlur = useTransform(scrollYProgress, [0, 0.195, 0.2], [0, 0, 12])
   const heroFilter = useBlurFilter(heroBlur)
 
   // Card parallax: starts below viewport, catches up, covers hero, exits through top
