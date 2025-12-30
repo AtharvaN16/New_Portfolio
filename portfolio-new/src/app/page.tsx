@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent, MotionValue } from 'framer-motion'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
@@ -35,7 +35,30 @@ function useBlurFilter(blur: MotionValue<number>): MotionValue<string> {
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const selectedWorkRef = useRef<HTMLDivElement>(null)
   const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
+  const [selectedWorkHeight, setSelectedWorkHeight] = useState(0)
+  
+  // Measure SelectedWork content height dynamically
+  useEffect(() => {
+    const measureHeight = () => {
+      if (selectedWorkRef.current) {
+        const height = selectedWorkRef.current.scrollHeight
+        setSelectedWorkHeight(height)
+      }
+    }
+    
+    measureHeight()
+    window.addEventListener('resize', measureHeight)
+    
+    // Re-measure after a short delay to ensure content is rendered
+    const timeout = setTimeout(measureHeight, 100)
+    
+    return () => {
+      window.removeEventListener('resize', measureHeight)
+      clearTimeout(timeout)
+    }
+  }, [])
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -69,17 +92,33 @@ export default function Home() {
   // Card parallax: starts below viewport, catches up, covers hero, exits through top
   const cardY = useTransform(scrollYProgress, [0, 0.2, 0.5], ['100vh', '0vh', '-100vh'])
 
-  // SelectedWork: stays fixed at viewport until card exits (50%), then scrolls up
-  // Increased scroll distance to -400vh to show all content (cards + footer)
+  // Calculate dynamic scroll distances based on actual SelectedWork content height
+  const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 1000
+  const selectedWorkHeightVh = selectedWorkHeight > 0 
+    ? (selectedWorkHeight / viewportHeight) * 100 
+    : 300 // fallback if not measured yet
+  const selectedWorkMoveVh = Math.max(0, selectedWorkHeightVh - 100) // Move up by (height - viewport) to reveal bottom
+  
+  // Container height: initial space (200vh for Hero/Card effects) + space to scroll SelectedWork
+  const containerHeightVh = 200 + selectedWorkMoveVh
+
+  // SelectedWork: stays fixed at viewport until card exits (50%), then scrolls up dynamically
   const selectedWorkY = useTransform(
     scrollYProgress,
     [0, 0.5, 1],
-    ['0vh', '0vh', '-400vh']
+    ['0vh', '0vh', `-${selectedWorkMoveVh}vh`]
   )
 
   return (
     <>
-      <div ref={containerRef} className="relative" style={{ height: '600vh', backgroundColor: 'rgb(var(--color-background))' }}>
+      <div 
+        ref={containerRef} 
+        className="relative" 
+        style={{ 
+          height: `${containerHeightVh}vh`, 
+          backgroundColor: 'rgb(var(--color-background))' 
+        }}
+      >
         
         {/* ===== LAYER 1: SelectedWork ===== */}
         {/* Always here at bottom, covered by Hero, revealed when Card exits */}
@@ -91,10 +130,13 @@ export default function Home() {
             backgroundColor: 'rgb(var(--color-background))',
           }}
         >
-          <div className="px-6 pt-12 pb-20">
-            <SelectedWork />
+          {/* Inner wrapper to measure actual content height */}
+          <div ref={selectedWorkRef}>
+            <div className="px-6 pt-12 pb-20">
+              <SelectedWork />
+            </div>
+            <Footer />
           </div>
-          <Footer />
         </motion.div>
 
         {/* ===== LAYER 2: Hero ===== */}
