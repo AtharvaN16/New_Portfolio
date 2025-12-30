@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
+import { motion, useScroll, useTransform, useMotionValueEvent, MotionValue } from 'framer-motion'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { Hero } from '@/components/hero/Hero'
@@ -11,13 +11,28 @@ import { WorkDialog } from '@/components/animations/WorkDialog'
 import { CaseStudyDialog } from '@/components/animations/CaseStudyDialog'
 
 /**
- * Home Page - Correct Flow
+ * Home Page - Scroll Reveal Effect
  * 
- * 1. Hero (normal scroll)
- * 2. Card (parallax - faster, catches up, covers hero, exits)
- * 3. SelectedWork (sticky underneath, revealed when card exits)
- * 4. Footer
+ * ALL LAYERS ARE FIXED for proper z-index stacking in same viewport context:
+ * z-index: 10 - SelectedWork (bottom layer, revealed when Card exits)
+ * z-index: 30 - Hero (middle layer, solid bg covers SelectedWork, content moves up to simulate scroll)
+ * z-index: 40 - Card (top layer, parallax, exits to reveal SelectedWork)
+ * 
+ * Flow:
+ * 1. Hero visible with solid bg (covers SelectedWork)
+ * 2. Hero content + Navbar move UP with scroll (simulated scroll via transform)
+ * 3. Card catches up with faster parallax, covers Hero
+ * 4. Hero fades/blurs as Card covers it
+ * 5. Card exits through top
+ * 6. SelectedWork revealed (was always underneath)
+ * 7. SelectedWork scrolls after card fully exits
  */
+
+// Helper to convert blur value to filter string
+function useBlurFilter(blur: MotionValue<number>): MotionValue<string> {
+  return useTransform(blur, (b) => b > 0 ? `blur(${b}px)` : 'none')
+}
+
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
@@ -27,59 +42,92 @@ export default function Home() {
     offset: ['start start', 'end end'],
   })
 
+  // Pause water blobs when scroll starts (performance)
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     if (latest > 0.05 && !shouldPauseBlobs) {
       setShouldPauseBlobs(true)
     }
   })
 
-  // Hero fades as card covers it (20-40% scroll)
-  const heroOpacity = useTransform(scrollYProgress, [0.2, 0.4], [1, 0])
-  const heroBlur = useTransform(scrollYProgress, [0.2, 0.4], [0, 12])
+  // Hero CONTENT moves up to simulate scrolling (0-20% scroll moves content up by 30vh)
+  const heroContentY = useTransform(scrollYProgress, [0, 0.2], ['0vh', '-30vh'])
+  
+  // Navbar fades out as we scroll (0-15% scroll)
+  const navbarOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
+  
+  // Hero wrapper: QUICK fade right *before* card fully covers viewport
+  // Card hits y=0 at ~20% scroll, so we fade Hero from 1→0 between 15–20%.
+  // Result: the moment the card fully covers the viewport (>= 20%), Hero opacity is already 0.
+  const heroOpacity = useTransform(scrollYProgress, [0.15, 0.2], [1, 0])
+  const heroBlur = useTransform(scrollYProgress, [0.15, 0.2], [0, 12])
+  const heroFilter = useBlurFilter(heroBlur)
 
-  // Card parallax: catches up to hero, covers it, exits
-  // Starts at 100vh, at 20% scroll reaches 0, at 50% scroll exits at -100vh
+  // Card parallax: starts below viewport, catches up, covers hero, exits through top
   const cardY = useTransform(scrollYProgress, [0, 0.2, 0.5], ['100vh', '0vh', '-100vh'])
+
+  // SelectedWork: stays fixed at viewport until card exits (50%), then scrolls up
+  const selectedWorkY = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    ['0vh', '0vh', '-200vh']
+  )
 
   return (
     <>
-      <div ref={containerRef} className="relative bg-background" style={{ height: '400vh' }}>
+      <div ref={containerRef} className="relative" style={{ height: '400vh', backgroundColor: 'rgb(var(--color-background))' }}>
         
-        {/* Hero - Normal document flow, scrolls at normal speed */}
-        <motion.section 
-          className="relative z-10 min-h-screen bg-background"
+        {/* ===== LAYER 1: SelectedWork ===== */}
+        {/* Always here at bottom, covered by Hero, revealed when Card exits */}
+        <motion.div 
+          className="fixed inset-0 overflow-hidden"
           style={{ 
-            opacity: heroOpacity,
-            filter: useTransform(heroBlur, (b) => b > 0 ? `blur(${b}px)` : 'none'),
+            y: selectedWorkY,
+            zIndex: 10,
+            backgroundColor: 'rgb(var(--color-background))',
           }}
         >
-          <div className="px-6 pt-6">
-            <Navbar />
+          <div className="px-6 pt-12 pb-20">
+            <SelectedWork />
           </div>
-          <main className="px-6">
-            <Hero shouldPauseBlobs={shouldPauseBlobs} />
-          </main>
-        </motion.section>
-
-        {/* Reveal Section - Card exits to reveal sticky SelectedWork */}
-        <div className="relative" style={{ height: '250vh' }}>
-          {/* SelectedWork - Sticky underneath card */}
-          <div className="sticky top-0 z-20 min-h-screen bg-background">
-            <div className="px-6 pt-12 pb-20">
-              <SelectedWork />
-            </div>
-          </div>
-        </div>
-
-        {/* Footer - Normal flow after reveal section */}
-        <div className="relative z-20 bg-background">
           <Footer />
-        </div>
+        </motion.div>
 
-        {/* Card - Fixed overlay with parallax (faster than scroll) */}
+        {/* ===== LAYER 2: Hero ===== */}
+        {/* FIXED with solid bg to cover SelectedWork. Content moves up to simulate scroll. */}
         <motion.div 
-          className="fixed inset-0 z-30 pointer-events-none"
-          style={{ y: cardY }}
+          className="fixed inset-0 overflow-hidden"
+          style={{ 
+            zIndex: 30,
+            backgroundColor: 'rgb(var(--color-background))',
+            opacity: heroOpacity,
+            filter: heroFilter,
+          }}
+        >
+          {/* Navbar - fades out separately (faster than hero content) */}
+          <motion.div 
+            className="px-6 pt-6"
+            style={{ opacity: navbarOpacity }}
+          >
+            <Navbar />
+          </motion.div>
+          
+          {/* Hero content - moves UP with scroll to simulate scrolling */}
+          <motion.main 
+            className="px-6"
+            style={{ y: heroContentY }}
+          >
+            <Hero shouldPauseBlobs={shouldPauseBlobs} />
+          </motion.main>
+        </motion.div>
+
+        {/* ===== LAYER 3: Card ===== */}
+        {/* Parallax overlay - catches up, covers Hero, exits to reveal SelectedWork */}
+        <motion.div 
+          className="fixed inset-0 pointer-events-none"
+          style={{ 
+            y: cardY,
+            zIndex: 40,
+          }}
         >
           <div className="h-screen pointer-events-auto">
             <FullpageCard
