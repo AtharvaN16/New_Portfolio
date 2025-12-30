@@ -40,7 +40,7 @@ export default function Home() {
   const selectedWorkRef = useRef<HTMLDivElement>(null)
   const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
   const [selectedWorkHeight, setSelectedWorkHeight] = useState(0)
-  
+
   // Measure SelectedWork content height dynamically (throttled with RAF)
   useEffect(() => {
     let rafId: number | null = null
@@ -73,7 +73,7 @@ export default function Home() {
       }
     }
   }, [])
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
@@ -122,7 +122,7 @@ export default function Home() {
     ? (selectedWorkHeight / viewportHeight) * 100 
     : 300 // fallback if not measured yet
   const selectedWorkMoveVh = Math.max(0, selectedWorkHeightVh - 100) // Move up by (height - viewport) to reveal bottom
-  
+
   // Container height: initial space (200vh for Hero/Card effects) + space to scroll SelectedWork
   const containerHeightVh = 200 + selectedWorkMoveVh
 
@@ -134,6 +134,28 @@ export default function Home() {
     [selectedWorkMoveVh]
   )
   const selectedWorkY = useTransform(scrollYProgress, selectedWorkRange, selectedWorkOutput)
+
+  const handleBrowseWorkClick = () => {
+    if (!containerRef.current || typeof window === 'undefined') return
+
+    // Ensure card moves up immediately (matches existing comment in AnimatedLink)
+    window.dispatchEvent(new CustomEvent('force-card-up'))
+
+    const viewportHeight = window.innerHeight
+    const containerTop = containerRef.current.offsetTop
+    const containerHeightPx = (containerHeightVh / 100) * viewportHeight
+    const maxScrollWithinContainer = Math.max(containerHeightPx - viewportHeight, 0)
+
+    // Scroll to the midpoint of the container's scroll range where SelectedWork is revealed
+    const targetProgress = 0.5
+    const targetScrollWithin = maxScrollWithinContainer * targetProgress
+    const targetScrollY = containerTop + targetScrollWithin
+
+    window.scrollTo({
+      top: targetScrollY,
+      behavior: 'smooth',
+    })
+  }
 
   return (
     <>
@@ -197,7 +219,10 @@ export default function Home() {
               willChange: 'transform',
             }}
           >
-            <Hero shouldPauseBlobs={shouldPauseBlobs} />
+            <Hero
+              shouldPauseBlobs={shouldPauseBlobs}
+              onBrowseWorkClick={handleBrowseWorkClick}
+            />
           </motion.main>
         </motion.div>
 

@@ -22,6 +22,7 @@ interface AnimatedLinkProps {
   children: ReactNode
   className?: string
   variant?: 'default' | 'down-arrow'
+  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void
 }
 
 /**
@@ -39,9 +40,17 @@ export function AnimatedLink({
   children,
   className = '',
   variant = 'default',
+  onClick,
 }: AnimatedLinkProps) {
   // Handle smooth scroll for hash links with page transition easing
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    // Allow parent components to hook into click behavior
+    if (onClick) {
+      onClick(e)
+      // If parent prevented default, skip internal hash handling
+      if (e.defaultPrevented) return
+    }
+
     // Only handle hash links
     if (href.startsWith('#')) {
       e.preventDefault()

@@ -43,9 +43,10 @@ const HERO_PRONUNCIATION = { Atharva: 'uh · thar · vuh' }
 
 interface HeroProps {
   shouldPauseBlobs?: boolean
+  onBrowseWorkClick?: () => void
 }
 
-export function Hero({ shouldPauseBlobs = false }: HeroProps) {
+export function Hero({ shouldPauseBlobs = false, onBrowseWorkClick }: HeroProps) {
   return (
     <section
       className="relative flex flex-col"
@@ -79,7 +80,16 @@ export function Hero({ shouldPauseBlobs = false }: HeroProps) {
 
             {/* Browse work link - Bottom aligned with text */}
             <motion.div variants={fadeInUp}>
-              <AnimatedLink href="#work" variant="down-arrow">
+              <AnimatedLink
+                href="#work"
+                variant="down-arrow"
+                onClick={(event) => {
+                  if (onBrowseWorkClick) {
+                    event.preventDefault()
+                    onBrowseWorkClick()
+                  }
+                }}
+              >
                 Browse work
               </AnimatedLink>
             </motion.div>
