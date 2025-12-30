@@ -65,10 +65,12 @@ export default function Home() {
     offset: ['start start', 'end end'],
   })
 
-  // Pause water blobs when scroll starts (performance)
+  // Pause/resume water blobs based on scroll position (performance)
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     if (latest > 0.03 && !shouldPauseBlobs) {
       setShouldPauseBlobs(true)
+    } else if (latest <= 0.03 && shouldPauseBlobs) {
+      setShouldPauseBlobs(false)
     }
   })
 
