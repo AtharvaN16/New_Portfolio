@@ -8,6 +8,8 @@ export interface WaterBlobProps {
   enhanced?: boolean
   /** Enable click interaction for color cycling and wave effects */
   interactive?: boolean
+  /** Pause the animation (for performance when not visible) */
+  paused?: boolean
 }
 
 export interface Colors {

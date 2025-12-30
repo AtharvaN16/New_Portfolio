@@ -46,6 +46,7 @@ export function WaterBlob({
   className = '',
   enhanced = false,
   interactive = false,
+  paused = false,
 }: WaterBlobProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { theme } = useTheme()
@@ -108,10 +109,11 @@ export function WaterBlob({
     )
 
     let animationId: number
-    let isPaused = false
+    let isPausedByDialog = false
 
     const loop = () => {
-      if (!isPaused) {
+      // Pause if paused prop is true OR paused by dialog
+      if (!isPausedByDialog && !paused) {
         animate()
       }
       animationId = requestAnimationFrame(loop)
@@ -120,10 +122,10 @@ export function WaterBlob({
 
     // Pause/resume handlers for dialog transitions
     const handlePause = () => {
-      isPaused = true
+      isPausedByDialog = true
     }
     const handleResume = () => {
-      isPaused = false
+      isPausedByDialog = false
     }
 
     // Listen for dialog events
@@ -144,7 +146,7 @@ export function WaterBlob({
         gl.deleteBuffer(programInfo.posBuffer)
       }
     }
-  }, [colors, prefersReducedMotion, theme]) // theme needed because we use it directly in effect
+  }, [colors, prefersReducedMotion, theme, paused]) // theme needed because we use it directly in effect
 
   // Handle canvas resize
   useEffect(() => {

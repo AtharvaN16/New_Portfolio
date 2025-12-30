@@ -41,7 +41,11 @@ const staggerContainer = {
 const HERO_BOLD_WORDS = ['Atharva']
 const HERO_PRONUNCIATION = { Atharva: 'uh · thar · vuh' }
 
-export function Hero() {
+interface HeroProps {
+  shouldPauseBlobs?: boolean
+}
+
+export function Hero({ shouldPauseBlobs = false }: HeroProps) {
   return (
     <section
       className="relative flex flex-col"
@@ -87,7 +91,7 @@ export function Hero() {
             className="relative w-full flex-1 overflow-hidden water-blob-container"
             style={{ minHeight: 0 }}
           >
-            <WaterBlobWithBoundary />
+            <WaterBlobWithBoundary paused={shouldPauseBlobs} />
           </motion.div>
 
           {/* Bottom Navigation Links - 16px from viewport bottom */}
