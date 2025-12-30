@@ -60,20 +60,26 @@ export default function Home() {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.195, 0.2], [1, 1, 0])
   const heroBlur = useTransform(scrollYProgress, [0, 0.195, 0.2], [0, 0, 12])
   const heroFilter = useBlurFilter(heroBlur)
+  
+  // Hero pointer-events: disable when invisible to allow clicking through to SelectedWork
+  const heroPointerEvents = useTransform(heroOpacity, (opacity) => 
+    opacity > 0 ? 'auto' : 'none'
+  )
 
   // Card parallax: starts below viewport, catches up, covers hero, exits through top
   const cardY = useTransform(scrollYProgress, [0, 0.2, 0.5], ['100vh', '0vh', '-100vh'])
 
   // SelectedWork: stays fixed at viewport until card exits (50%), then scrolls up
+  // Increased scroll distance to -400vh to show all content (cards + footer)
   const selectedWorkY = useTransform(
     scrollYProgress,
     [0, 0.5, 1],
-    ['0vh', '0vh', '-200vh']
+    ['0vh', '0vh', '-400vh']
   )
 
   return (
     <>
-      <div ref={containerRef} className="relative" style={{ height: '400vh', backgroundColor: 'rgb(var(--color-background))' }}>
+      <div ref={containerRef} className="relative" style={{ height: '600vh', backgroundColor: 'rgb(var(--color-background))' }}>
         
         {/* ===== LAYER 1: SelectedWork ===== */}
         {/* Always here at bottom, covered by Hero, revealed when Card exits */}
@@ -100,6 +106,7 @@ export default function Home() {
             backgroundColor: 'rgb(var(--color-background))',
             opacity: heroOpacity,
             filter: heroFilter,
+            pointerEvents: heroPointerEvents,
           }}
         >
           {/* Navbar - fades out separately (faster than hero content) */}
