@@ -74,8 +74,9 @@ export default function Home() {
 
   // Hero CONTENT moves up to simulate scrolling (0-20% scroll moves content up by 30vh)
   const heroContentY = useTransform(scrollYProgress, [0, 0.2], ['0vh', '-30vh'])
-  
-  // Navbar fades out as we scroll (0-15% scroll)
+
+  // Navbar slides up and out of view as we scroll (0-15% scroll)
+  const navbarY = useTransform(scrollYProgress, [0, 0.15], [0, -100])
   const navbarOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
   
   // Hero wrapper: stays visible until Card covers viewport, then snaps to invisible
@@ -151,10 +152,14 @@ export default function Home() {
             pointerEvents: heroPointerEvents,
           }}
         >
-          {/* Navbar - fades out separately (faster than hero content) */}
-          <motion.div 
+          {/* Navbar - slides up and out of view (faster than hero content) */}
+          <motion.div
             className="px-6 pt-6"
-            style={{ opacity: navbarOpacity }}
+            style={{
+              y: navbarY,
+              opacity: navbarOpacity,
+              willChange: 'transform, opacity'
+            }}
           >
             <Navbar />
           </motion.div>
