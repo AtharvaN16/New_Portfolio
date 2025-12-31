@@ -276,4 +276,27 @@
     -webkit-text-fill-color: transparent;
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
   }
+
+  /* Footer links: ensure they use secondary color by default (override footer text-foreground) */
+  .footer-all-links-wrapper .footer-link {
+    color: rgb(var(--color-text-secondary)) !important;
+  }
+  
+  /* Footer links hover effect: when hovering any link, make ALL other links color30 */
+  /* Use :has() to only apply when a link is actually being hovered */
+  .footer-all-links-wrapper:has(.footer-link:hover) .footer-link {
+    color: rgb(var(--color-text-color30)) !important;
+  }
+  .footer-all-links-wrapper:has(.footer-link:hover) .footer-link:hover {
+    color: rgb(var(--color-text-secondary)) !important;
+  }
+  /* Resume link special case - uses gradient with background-clip, so use opacity */
+  /* Color30 is 30/80 = 0.375 of secondary for visual match */
+  .footer-all-links-wrapper:has(.footer-link:hover) .footer-resume-link.footer-link {
+    opacity: 0.375;
+    transition: opacity 200ms;
+  }
+  .footer-all-links-wrapper:has(.footer-link:hover) .footer-resume-link.footer-link:hover {
+    opacity: 1;
+  }
 }

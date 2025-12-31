@@ -17,6 +17,7 @@
   --color-text-primary: rgb(var(--color-text-primary) / <alpha-value>);
   --color-text-secondary: rgb(var(--color-text-secondary) / <alpha-value>);
   --color-text-tertiary: rgb(var(--color-text-tertiary) / <alpha-value>);
+  --color-text-color30: rgb(var(--color-text-color30) / <alpha-value>);
 
   --color-primary: rgb(var(--color-primary) / <alpha-value>);
   --color-primary-hover: rgb(var(--color-primary-hover) / <alpha-value>);

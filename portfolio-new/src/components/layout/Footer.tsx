@@ -39,13 +39,13 @@ export function Footer() {
     >
       {/* Main Footer Content */}
       <div className="mx-auto max-w-[1920px] px-6 pt-16 pb-[166px] md:pt-20 md:pb-[208px] lg:pt-40 lg:pb-[250px]">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-[300px_300px_1fr] md:gap-x-16 lg:gap-x-20">
+        <div className="footer-all-links-wrapper grid grid-cols-1 gap-12 md:grid-cols-[200px_200px_1fr] md:gap-x-0">
           {/* Quick Links Section */}
           <nav aria-label={FOOTER_ARIA_LABELS.quickLinks}>
-            <h3 className="mb-8 text-xl font-bold text-foreground md:text-2xl lg:text-[32px]">
+            <h3 className="mb-6 text-lg font-bold text-foreground md:text-xl lg:text-2xl">
               Quick links
             </h3>
-            <ul className="space-y-4">
+            <ul className="space-y-2 md:space-y-3">
               {FOOTER_LINKS.quickLinks.map((link) => {
                 // Special traveling gradient effect for Resume link
                 const isResume = link.label === 'Resume'
@@ -56,9 +56,9 @@ export function Footer() {
                       <a
                         href={link.href}
                         className={cn(
-                          'footer-resume-link',
+                          'footer-resume-link footer-link',
                           'group relative inline-block',
-                          'text-base text-text-secondary sm:text-lg',
+                          'text-base text-text-secondary',
                           'focus-visible:outline-none focus-visible:ring-2',
                           'focus-visible:ring-primary focus-visible:ring-offset-2 rounded'
                         )}
@@ -77,8 +77,8 @@ export function Footer() {
                     <a
                       href={link.href}
                       className={cn(
-                        'group relative inline-block',
-                        'text-base text-text-secondary sm:text-lg',
+                        'footer-link group relative inline-block',
+                        'text-base text-text-secondary',
                         'transition-colors duration-200',
                         'focus-visible:outline-none focus-visible:ring-2',
                         'focus-visible:ring-primary focus-visible:ring-offset-2 rounded'
@@ -96,10 +96,10 @@ export function Footer() {
 
           {/* Get in Touch Section */}
           <div>
-            <h3 className="mb-8 text-xl font-bold text-foreground md:text-2xl lg:text-[32px]">
+            <h3 className="mb-6 text-lg font-bold text-foreground md:text-xl lg:text-2xl">
               Get in touch
             </h3>
-            <div className="space-y-4">
+            <div className="space-y-2 md:space-y-3">
               {/* External Links */}
               {FOOTER_LINKS.contact.map((link) => (
                 <div key={link.href}>
@@ -108,8 +108,8 @@ export function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
-                      'group relative inline-block',
-                      'text-base text-text-secondary sm:text-lg',
+                      'footer-link group relative inline-block',
+                      'text-base text-text-secondary',
                       'transition-colors duration-200',
                       'focus-visible:outline-none focus-visible:ring-2',
                       'focus-visible:ring-primary focus-visible:ring-offset-2 rounded'
@@ -127,8 +127,8 @@ export function Footer() {
                 <a
                   href={`mailto:${FOOTER_CONTACT.email}`}
                   className={cn(
-                    'group relative inline-block',
-                    'text-base text-text-secondary sm:text-lg',
+                    'footer-link group relative inline-block',
+                    'text-base text-text-secondary',
                     'transition-colors duration-200',
                     'focus-visible:outline-none focus-visible:ring-2',
                     'focus-visible:ring-primary focus-visible:ring-offset-2 rounded'
