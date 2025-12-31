@@ -11,6 +11,8 @@
  * Mobile-first responsive design using design tokens
  */
 
+import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 import { useCurrentTime } from '@/hooks/use-current-time'
 import { useEmailCopy } from '@/hooks/use-email-copy'
@@ -24,9 +26,28 @@ import { GradientBar } from '@/components/ui/GradientBar'
 export function Footer() {
   const { formattedTime, formattedDate } = useCurrentTime()
   const { isCopied, copyEmail } = useEmailCopy()
+  const [isAnimating, setIsAnimating] = useState(false)
+  const [animationCycle, setAnimationCycle] = useState(0)
+  const [showFirstArrow, setShowFirstArrow] = useState(true)
 
   const handleCopyEmail = () => {
     copyEmail(FOOTER_CONTACT.email)
+  }
+
+  const handleMouseEnter = () => {
+    if (!isAnimating) {
+      setShowFirstArrow(true)
+      setAnimationCycle((prev) => prev + 1)
+      setIsAnimating(true)
+      setTimeout(() => {
+        setShowFirstArrow(false)
+        setIsAnimating(false)
+      }, 750)
+    }
+  }
+
+  const handleMouseLeave = () => {
+    setIsAnimating(false)
   }
 
   return (
@@ -38,10 +59,116 @@ export function Footer() {
       }}
     >
       {/* Main Footer Content */}
-      <div className="mx-auto max-w-[1920px] px-6 pt-16 pb-[166px] md:pt-20 md:pb-[208px] lg:pt-40 lg:pb-[250px]">
-        <div className="footer-all-links-wrapper grid grid-cols-1 gap-12 md:grid-cols-[200px_200px_1fr] md:gap-x-0">
+      <div className="mx-auto max-w-[1920px] px-6 pt-15 md:pt-16 lg:pt-20" style={{ paddingBottom: 'calc(85vh - 300px)' }}>
+        <div className="footer-all-links-wrapper grid grid-cols-1 gap-12 lg:flex lg:items-start lg:justify-between">
+          {/* Rate My Portfolio Link - Left */}
+          <div className="order-3 lg:order-1">
+            <motion.a
+              href="#rate-portfolio"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              className="group inline-flex items-center gap-[16px] text-[28px] font-bold tracking-tight text-foreground transition-colors hover:text-primary"
+            >
+              Rate my portfolio
+              <span className="relative w-[18px] h-[18px] overflow-hidden">
+                {/* Arrow that exits top-right */}
+                <motion.span
+                  key={`exit-${animationCycle}`}
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={{ x: 0, y: 0, clipPath: 'inset(0% 0% 0% 0%)' }}
+                  animate={{
+                    x: isAnimating && showFirstArrow ? 20 : showFirstArrow ? 0 : 20,
+                    y:
+                      isAnimating && showFirstArrow
+                        ? -20
+                        : showFirstArrow
+                          ? 0
+                          : -20,
+                    clipPath:
+                      showFirstArrow && !isAnimating
+                        ? 'inset(0% 0% 0% 0%)'
+                        : 'inset(0% 0% 0% 100%)',
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    ease: [0.25, 0.1, 0.25, 1],
+                    clipPath: { duration: 0.1, delay: 0 },
+                  }}
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-[18px] h-[18px]"
+                  >
+                    <g clipPath="url(#clip0_footer_arrow)">
+                      <path
+                        d="M19.5142 14.589L19.4975 1.52369C19.4975 0.669421 18.9448 0.0664062 18.0402 0.0664062H4.97487C4.13736 0.0664062 3.56784 0.719672 3.56784 1.43993C3.56784 2.16021 4.20435 2.77998 4.92463 2.77998H8.79396L15.4272 2.54547L12.8978 4.70628L0.418761 17.2188C0.150753 17.4868 0 17.8386 0 18.1568C0 18.8771 0.653266 19.5806 1.40703 19.5806C1.7588 19.5806 2.0938 19.4467 2.36181 19.1787L14.8576 6.66607L17.052 4.13676L16.7671 10.7197V14.6561C16.7671 15.3595 17.4037 16.0295 18.1407 16.0295C18.8609 16.0295 19.5142 15.4098 19.5142 14.589Z"
+                        fill="currentColor"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_footer_arrow">
+                        <rect width="20" height="19.5812" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </motion.span>
+
+                {/* Arrow that enters from bottom-left */}
+                <motion.span
+                  key={`enter-${animationCycle}`}
+                  className="absolute inset-0 flex items-center justify-center"
+                  initial={{ x: -20, y: 20, clipPath: 'inset(100% 0% 0% 0%)' }}
+                  animate={{
+                    x: isAnimating && showFirstArrow ? 0 : showFirstArrow ? -20 : 0,
+                    y: isAnimating && showFirstArrow ? 0 : showFirstArrow ? 20 : 0,
+                    clipPath:
+                      !showFirstArrow || (showFirstArrow && isAnimating)
+                        ? 'inset(0% 0% 0% 0%)'
+                        : 'inset(100% 0% 0% 0%)',
+                  }}
+                  transition={{
+                    duration: 0.6,
+                    ease: [0.25, 0.1, 0.25, 1],
+                    delay: 0.15,
+                    clipPath: { duration: 0.1, delay: 0.15 },
+                  }}
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-[18px] h-[18px]"
+                  >
+                    <g clipPath="url(#clip0_footer_arrow_hover)">
+                      <path
+                        d="M19.5142 14.589L19.4975 1.52369C19.4975 0.669421 18.9448 0.0664062 18.0402 0.0664062H4.97487C4.13736 0.0664062 3.56784 0.719672 3.56784 1.43993C3.56784 2.16021 4.20435 2.77998 4.92463 2.77998H8.79396L15.4272 2.54547L12.8978 4.70628L0.418761 17.2188C0.150753 17.4868 0 17.8386 0 18.1568C0 18.8771 0.653266 19.5806 1.40703 19.5806C1.7588 19.5806 2.0938 19.4467 2.36181 19.1787L14.8576 6.66607L17.052 4.13676L16.7671 10.7197V14.6561C16.7671 15.3595 17.4037 16.0295 18.1407 16.0295C18.8609 16.0295 19.5142 15.4098 19.5142 14.589Z"
+                        fill="currentColor"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_footer_arrow_hover">
+                        <rect width="20" height="19.5812" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                </motion.span>
+              </span>
+            </motion.a>
+            <p className="mt-2 text-sm max-w-[270px]" style={{ color: 'rgb(var(--color-text-color30))' }}>
+              Takes less than 5 min and is anonymous. The feedback will help me get better
+            </p>
+          </div>
+
+          {/* Columns Group - closer to clock */}
+          <div className="order-1 lg:order-2 flex gap-0 lg:-ml-32">
           {/* Quick Links Section */}
-          <nav aria-label={FOOTER_ARIA_LABELS.quickLinks}>
+          <nav aria-label={FOOTER_ARIA_LABELS.quickLinks} className="w-full lg:w-[200px]">
             <h3 className="mb-6 text-lg font-bold text-foreground md:text-xl lg:text-2xl">
               Quick links
             </h3>
@@ -95,7 +222,7 @@ export function Footer() {
           </nav>
 
           {/* Get in Touch Section */}
-          <div>
+          <div className="w-full lg:w-[200px] mt-12 lg:mt-0">
             <h3 className="mb-6 text-lg font-bold text-foreground md:text-xl lg:text-2xl">
               Get in touch
             </h3>
@@ -188,50 +315,19 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Rate My Portfolio Section */}
-          <div className="lg:ml-auto">
-            <a
-              href="#rate-portfolio"
-              className={cn(
-                'group block p-6 transition-all duration-200 max-w-[330px]',
-                'bg-surface-muted/30',
-                'hover:bg-surface-muted/50',
-                'focus-visible:outline-none focus-visible:ring-2',
-                'focus-visible:ring-primary focus-visible:ring-offset-2'
-              )}
-            >
-              <div className="mb-4 flex items-center justify-between">
-                <span className="text-xl font-bold text-foreground">
-                  Rate my portfolio
-                </span>
-                <svg
-                  width="15"
-                  height="12"
-                  viewBox="0 0 15 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="transition-transform duration-200 group-hover:translate-x-1 group-hover:-translate-y-1"
-                  aria-hidden="true"
-                >
-                  <g clipPath="url(#clip0_2014_36801)">
-                    <path
-                      d="M14.209 5.85938C14.209 5.64453 14.1114 5.43946 13.9355 5.27344L8.89648 0.244141C8.72072 0.078125 8.52536 0 8.32032 0C7.89062 0 7.55859 0.322266 7.55859 0.761718C7.55859 0.9668 7.62695 1.17187 7.77344 1.30859L9.12112 2.70508L12.4218 5.68359L12.5977 5.2539L10 5.06836H0.78125C0.322266 5.06836 0 5.40039 0 5.85938C0 6.31836 0.322266 6.65039 0.78125 6.65039H10L12.5977 6.46484L12.4218 6.04492L9.12112 9.01368L7.77344 10.4102C7.62695 10.5469 7.55859 10.7519 7.55859 10.957C7.55859 11.3965 7.89062 11.7187 8.32032 11.7187C8.52536 11.7187 8.72072 11.6406 8.89648 11.4746L13.9355 6.44531C14.1114 6.2793 14.209 6.07422 14.209 5.85938Z"
-                      fill="white"
-                      fillOpacity="0.85"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_2014_36801">
-                      <rect width="14.4922" height="11.7285" fill="white" />
-                    </clipPath>
-                  </defs>
-                </svg>
+          </div>
+
+          {/* Clock Section */}
+          <div className="order-2 lg:order-3 mt-12 lg:mt-0">
+            <div className="text-sm font-black uppercase text-right md:text-base lg:text-base" style={{ color: 'rgb(var(--color-text-primary))' }}>
+              NEW YORK
+            </div>
+            <div className="mt-1 flex items-center gap-1.5">
+              <div className="h-4 w-[3px] rounded-full flex-shrink-0" style={{ backgroundColor: 'rgb(var(--color-success))' }} />
+              <div className="text-xs font-bold font-mono tabular-nums md:text-sm lg:text-sm" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                {formattedTime}
               </div>
-              <p className="text-base text-text-secondary opacity-70">
-                (Takes less than 5 min and is anonymous. The feedback will help
-                me get better)
-              </p>
-            </a>
+            </div>
           </div>
         </div>
       </div>
