@@ -12,7 +12,7 @@
  */
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 import { useCurrentTime } from '@/hooks/use-current-time'
 import { useEmailCopy } from '@/hooks/use-email-copy'
@@ -29,6 +29,27 @@ export function Footer() {
   const [isAnimating, setIsAnimating] = useState(false)
   const [animationCycle, setAnimationCycle] = useState(0)
   const [showFirstArrow, setShowFirstArrow] = useState(true)
+  const [isRatingModalOpen, setIsRatingModalOpen] = useState(false)
+  const [ratings, setRatings] = useState({
+    visualDesign: 0,
+    caseStudies: 0,
+    usability: 0,
+    overall: 0,
+  })
+  const [suggestions, setSuggestions] = useState('')
+  const [step, setStep] = useState<1 | 2>(1)
+  const [contactInfo, setContactInfo] = useState({
+    name: '',
+    email: '',
+    referralSource: '',
+    linkedinConnect: '' as 'yes' | 'no' | '',
+  })
+  const [hoveredRatings, setHoveredRatings] = useState({
+    visualDesign: 0,
+    caseStudies: 0,
+    usability: 0,
+    overall: 0,
+  })
 
   const handleCopyEmail = () => {
     copyEmail(FOOTER_CONTACT.email)
@@ -61,108 +82,114 @@ export function Footer() {
       {/* Main Footer Content */}
       <div className="mx-auto max-w-[1920px] px-6 pt-15 md:pt-16 lg:pt-20" style={{ paddingBottom: 'calc(85vh - 300px)' }}>
         <div className="footer-all-links-wrapper grid grid-cols-1 gap-12 lg:flex lg:items-start lg:justify-between">
-          {/* Rate My Portfolio Link - Left */}
-          <div className="order-3 lg:order-1">
-            <motion.a
-              href="#rate-portfolio"
+          {/* Rate My Portfolio Section - Left */}
+          <div className="order-3 lg:order-1 lg:min-w-[420px] relative z-30">
+            <motion.button
+              onClick={() => setIsRatingModalOpen(true)}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               className="group inline-flex items-center gap-[16px] text-[28px] font-bold tracking-tight text-foreground transition-colors hover:text-primary"
+              disabled={isRatingModalOpen}
             >
               Rate my portfolio
-              <span className="relative w-[18px] h-[18px] overflow-hidden">
-                {/* Arrow that exits top-right */}
-                <motion.span
-                  key={`exit-${animationCycle}`}
-                  className="absolute inset-0 flex items-center justify-center"
-                  initial={{ x: 0, y: 0, clipPath: 'inset(0% 0% 0% 0%)' }}
-                  animate={{
-                    x: isAnimating && showFirstArrow ? 20 : showFirstArrow ? 0 : 20,
-                    y:
-                      isAnimating && showFirstArrow
-                        ? -20
-                        : showFirstArrow
-                          ? 0
-                          : -20,
-                    clipPath:
-                      showFirstArrow && !isAnimating
-                        ? 'inset(0% 0% 0% 0%)'
-                        : 'inset(0% 0% 0% 100%)',
-                  }}
-                  transition={{
-                    duration: 0.6,
-                    ease: [0.25, 0.1, 0.25, 1],
-                    clipPath: { duration: 0.1, delay: 0 },
-                  }}
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-[18px] h-[18px]"
-                  >
-                    <g clipPath="url(#clip0_footer_arrow)">
-                      <path
-                        d="M19.5142 14.589L19.4975 1.52369C19.4975 0.669421 18.9448 0.0664062 18.0402 0.0664062H4.97487C4.13736 0.0664062 3.56784 0.719672 3.56784 1.43993C3.56784 2.16021 4.20435 2.77998 4.92463 2.77998H8.79396L15.4272 2.54547L12.8978 4.70628L0.418761 17.2188C0.150753 17.4868 0 17.8386 0 18.1568C0 18.8771 0.653266 19.5806 1.40703 19.5806C1.7588 19.5806 2.0938 19.4467 2.36181 19.1787L14.8576 6.66607L17.052 4.13676L16.7671 10.7197V14.6561C16.7671 15.3595 17.4037 16.0295 18.1407 16.0295C18.8609 16.0295 19.5142 15.4098 19.5142 14.589Z"
-                        fill="currentColor"
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_footer_arrow">
-                        <rect width="20" height="19.5812" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </motion.span>
+              {!isRatingModalOpen && (
+                <span className="relative w-[18px] h-[18px] overflow-hidden">
+                    {/* Arrow that exits top-right */}
+                    <motion.span
+                      key={`exit-${animationCycle}`}
+                      className="absolute inset-0 flex items-center justify-center"
+                      initial={{ x: 0, y: 0, clipPath: 'inset(0% 0% 0% 0%)' }}
+                      animate={{
+                        x: isAnimating && showFirstArrow ? 20 : showFirstArrow ? 0 : 20,
+                        y:
+                          isAnimating && showFirstArrow
+                            ? -20
+                            : showFirstArrow
+                              ? 0
+                              : -20,
+                        clipPath:
+                          showFirstArrow && !isAnimating
+                            ? 'inset(0% 0% 0% 0%)'
+                            : 'inset(0% 0% 0% 100%)',
+                      }}
+                      transition={{
+                        duration: 0.6,
+                        ease: [0.25, 0.1, 0.25, 1],
+                        clipPath: { duration: 0.1, delay: 0 },
+                      }}
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-[18px] h-[18px]"
+                      >
+                        <g clipPath="url(#clip0_footer_arrow)">
+                          <path
+                            d="M19.5142 14.589L19.4975 1.52369C19.4975 0.669421 18.9448 0.0664062 18.0402 0.0664062H4.97487C4.13736 0.0664062 3.56784 0.719672 3.56784 1.43993C3.56784 2.16021 4.20435 2.77998 4.92463 2.77998H8.79396L15.4272 2.54547L12.8978 4.70628L0.418761 17.2188C0.150753 17.4868 0 17.8386 0 18.1568C0 18.8771 0.653266 19.5806 1.40703 19.5806C1.7588 19.5806 2.0938 19.4467 2.36181 19.1787L14.8576 6.66607L17.052 4.13676L16.7671 10.7197V14.6561C16.7671 15.3595 17.4037 16.0295 18.1407 16.0295C18.8609 16.0295 19.5142 15.4098 19.5142 14.589Z"
+                            fill="currentColor"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_footer_arrow">
+                            <rect width="20" height="19.5812" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </motion.span>
 
-                {/* Arrow that enters from bottom-left */}
-                <motion.span
-                  key={`enter-${animationCycle}`}
-                  className="absolute inset-0 flex items-center justify-center"
-                  initial={{ x: -20, y: 20, clipPath: 'inset(100% 0% 0% 0%)' }}
-                  animate={{
-                    x: isAnimating && showFirstArrow ? 0 : showFirstArrow ? -20 : 0,
-                    y: isAnimating && showFirstArrow ? 0 : showFirstArrow ? 20 : 0,
-                    clipPath:
-                      !showFirstArrow || (showFirstArrow && isAnimating)
-                        ? 'inset(0% 0% 0% 0%)'
-                        : 'inset(100% 0% 0% 0%)',
-                  }}
-                  transition={{
-                    duration: 0.6,
-                    ease: [0.25, 0.1, 0.25, 1],
-                    delay: 0.15,
-                    clipPath: { duration: 0.1, delay: 0.15 },
-                  }}
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-[18px] h-[18px]"
-                  >
-                    <g clipPath="url(#clip0_footer_arrow_hover)">
-                      <path
-                        d="M19.5142 14.589L19.4975 1.52369C19.4975 0.669421 18.9448 0.0664062 18.0402 0.0664062H4.97487C4.13736 0.0664062 3.56784 0.719672 3.56784 1.43993C3.56784 2.16021 4.20435 2.77998 4.92463 2.77998H8.79396L15.4272 2.54547L12.8978 4.70628L0.418761 17.2188C0.150753 17.4868 0 17.8386 0 18.1568C0 18.8771 0.653266 19.5806 1.40703 19.5806C1.7588 19.5806 2.0938 19.4467 2.36181 19.1787L14.8576 6.66607L17.052 4.13676L16.7671 10.7197V14.6561C16.7671 15.3595 17.4037 16.0295 18.1407 16.0295C18.8609 16.0295 19.5142 15.4098 19.5142 14.589Z"
-                        fill="currentColor"
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_footer_arrow_hover">
-                        <rect width="20" height="19.5812" fill="white" />
-                      </clipPath>
-                    </defs>
-                  </svg>
-                </motion.span>
-              </span>
-            </motion.a>
-            <p className="mt-2 text-sm max-w-[270px]" style={{ color: 'rgb(var(--color-text-color30))' }}>
-              Takes less than 5 min and is anonymous. The feedback will help me get better
-            </p>
+                    {/* Arrow that enters from bottom-left */}
+                    <motion.span
+                      key={`enter-${animationCycle}`}
+                      className="absolute inset-0 flex items-center justify-center"
+                      initial={{ x: -20, y: 20, clipPath: 'inset(100% 0% 0% 0%)' }}
+                      animate={{
+                        x: isAnimating && showFirstArrow ? 0 : showFirstArrow ? -20 : 0,
+                        y: isAnimating && showFirstArrow ? 0 : showFirstArrow ? 20 : 0,
+                        clipPath:
+                          !showFirstArrow || (showFirstArrow && isAnimating)
+                            ? 'inset(0% 0% 0% 0%)'
+                            : 'inset(100% 0% 0% 0%)',
+                      }}
+                      transition={{
+                        duration: 0.6,
+                        ease: [0.25, 0.1, 0.25, 1],
+                        delay: 0.15,
+                        clipPath: { duration: 0.1, delay: 0.15 },
+                      }}
+                    >
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="w-[18px] h-[18px]"
+                      >
+                        <g clipPath="url(#clip0_footer_arrow_hover)">
+                          <path
+                            d="M19.5142 14.589L19.4975 1.52369C19.4975 0.669421 18.9448 0.0664062 18.0402 0.0664062H4.97487C4.13736 0.0664062 3.56784 0.719672 3.56784 1.43993C3.56784 2.16021 4.20435 2.77998 4.92463 2.77998H8.79396L15.4272 2.54547L12.8978 4.70628L0.418761 17.2188C0.150753 17.4868 0 17.8386 0 18.1568C0 18.8771 0.653266 19.5806 1.40703 19.5806C1.7588 19.5806 2.0938 19.4467 2.36181 19.1787L14.8576 6.66607L17.052 4.13676L16.7671 10.7197V14.6561C16.7671 15.3595 17.4037 16.0295 18.1407 16.0295C18.8609 16.0295 19.5142 15.4098 19.5142 14.589Z"
+                            fill="currentColor"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip0_footer_arrow_hover">
+                            <rect width="20" height="19.5812" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </motion.span>
+                </span>
+              )}
+            </motion.button>
+
+            {!isRatingModalOpen && (
+              <p className="mt-2 text-sm max-w-[270px]" style={{ color: 'rgb(var(--color-text-color30))' }}>
+                Takes less than 5 min and is anonymous. The feedback will help me get better
+              </p>
+            )}
           </div>
 
           {/* Columns Group - closer to clock */}
@@ -331,6 +358,377 @@ export function Footer() {
           </div>
         </div>
       </div>
+
+      {/* Rating Panel - Slides in from left */}
+      <AnimatePresence>
+        {isRatingModalOpen && (
+          <motion.div
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+            className="absolute left-0 top-0 bottom-4 w-full max-w-[500px] overflow-y-auto z-20"
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            }}
+          >
+            {/* Close Button - aligned with title center */}
+            <button
+              onClick={() => {
+                setIsRatingModalOpen(false)
+                setStep(1)
+              }}
+              className="absolute right-6 text-text-tertiary hover:text-foreground transition-colors z-40"
+              style={{ top: 'calc(var(--space-15) + 18px)' }}
+              aria-label="Close rating panel"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5 lg:w-7 lg:h-7"
+              >
+                <path
+                  d="M15 5L5 15M5 5L15 15"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </button>
+
+            {/* Content - fades in after slide, starts below "Rate my portfolio" text */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.3 }}
+              className="px-6 space-y-8"
+              style={{
+                paddingTop: '140px',
+                paddingBottom: '40px',
+              }}
+            >
+              {/* Back button for step 2 */}
+              {step === 2 && (
+                <button
+                  onClick={() => setStep(1)}
+                  className="text-sm font-medium text-foreground hover:text-primary transition-colors -mt-4 mb-4"
+                >
+                  Back
+                </button>
+              )}
+
+              <AnimatePresence mode="wait">
+                {step === 1 ? (
+                  <motion.div
+                    key="step-1"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex flex-col"
+                  >
+                    {/* Rating Categories with Circles - 48px from title, 20px gap between items */}
+                    <div className="flex flex-col gap-5" style={{ marginTop: '48px' }}>
+                {/* Visual Design */}
+                <div className="flex items-center justify-between gap-8">
+                  <div className="text-[20px] text-foreground">Visual Design</div>
+                  <div
+                    className="flex gap-2"
+                    onMouseLeave={() => setHoveredRatings((prev) => ({ ...prev, visualDesign: 0 }))}
+                  >
+                    {[1, 2, 3, 4, 5].map((rating) => {
+                      const activeRating = hoveredRatings.visualDesign || ratings.visualDesign
+                      const isFilled = activeRating >= rating
+                      return (
+                        <button
+                          key={rating}
+                          onClick={() => setRatings((prev) => ({ ...prev, visualDesign: rating }))}
+                          onMouseEnter={() => setHoveredRatings((prev) => ({ ...prev, visualDesign: rating }))}
+                          className={cn(
+                            'w-4 h-4 rounded-full border-2 transition-all',
+                            'hover:scale-110'
+                          )}
+                          style={{
+                            borderColor: isFilled ? 'rgb(var(--color-foreground))' : 'rgba(255, 255, 255, 0.2)',
+                            backgroundColor: isFilled ? 'rgb(var(--color-foreground))' : 'transparent',
+                          }}
+                          aria-label={`Rate Visual Design ${rating} out of 5`}
+                        />
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Quality of Case Studies */}
+                <div className="flex items-center justify-between gap-8">
+                  <div className="text-[20px] text-foreground">Quality of Case Studies</div>
+                  <div
+                    className="flex gap-2"
+                    onMouseLeave={() => setHoveredRatings((prev) => ({ ...prev, caseStudies: 0 }))}
+                  >
+                    {[1, 2, 3, 4, 5].map((rating) => {
+                      const activeRating = hoveredRatings.caseStudies || ratings.caseStudies
+                      const isFilled = activeRating >= rating
+                      return (
+                        <button
+                          key={rating}
+                          onClick={() => setRatings((prev) => ({ ...prev, caseStudies: rating }))}
+                          onMouseEnter={() => setHoveredRatings((prev) => ({ ...prev, caseStudies: rating }))}
+                          className={cn(
+                            'w-4 h-4 rounded-full border-2 transition-all',
+                            'hover:scale-110'
+                          )}
+                          style={{
+                            borderColor: isFilled ? 'rgb(var(--color-foreground))' : 'rgba(255, 255, 255, 0.2)',
+                            backgroundColor: isFilled ? 'rgb(var(--color-foreground))' : 'transparent',
+                          }}
+                          aria-label={`Rate Quality of Case Studies ${rating} out of 5`}
+                        />
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Usability of the Portfolio */}
+                <div className="flex items-center justify-between gap-8">
+                  <div className="text-[20px] text-foreground">Usability of the Portfolio</div>
+                  <div
+                    className="flex gap-2"
+                    onMouseLeave={() => setHoveredRatings((prev) => ({ ...prev, usability: 0 }))}
+                  >
+                    {[1, 2, 3, 4, 5].map((rating) => {
+                      const activeRating = hoveredRatings.usability || ratings.usability
+                      const isFilled = activeRating >= rating
+                      return (
+                        <button
+                          key={rating}
+                          onClick={() => setRatings((prev) => ({ ...prev, usability: rating }))}
+                          onMouseEnter={() => setHoveredRatings((prev) => ({ ...prev, usability: rating }))}
+                          className={cn(
+                            'w-4 h-4 rounded-full border-2 transition-all',
+                            'hover:scale-110'
+                          )}
+                          style={{
+                            borderColor: isFilled ? 'rgb(var(--color-foreground))' : 'rgba(255, 255, 255, 0.2)',
+                            backgroundColor: isFilled ? 'rgb(var(--color-foreground))' : 'transparent',
+                          }}
+                          aria-label={`Rate Usability of the Portfolio ${rating} out of 5`}
+                        />
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Overall */}
+                <div className="flex items-center justify-between gap-8">
+                  <div className="text-[20px] text-foreground">Overall</div>
+                  <div
+                    className="flex gap-2"
+                    onMouseLeave={() => setHoveredRatings((prev) => ({ ...prev, overall: 0 }))}
+                  >
+                    {[1, 2, 3, 4, 5].map((rating) => {
+                      const activeRating = hoveredRatings.overall || ratings.overall
+                      const isFilled = activeRating >= rating
+                      return (
+                        <button
+                          key={rating}
+                          onClick={() => setRatings((prev) => ({ ...prev, overall: rating }))}
+                          onMouseEnter={() => setHoveredRatings((prev) => ({ ...prev, overall: rating }))}
+                          className={cn(
+                            'w-4 h-4 rounded-full border-2 transition-all',
+                            'hover:scale-110'
+                          )}
+                          style={{
+                            borderColor: isFilled ? 'rgb(var(--color-foreground))' : 'rgba(255, 255, 255, 0.2)',
+                            backgroundColor: isFilled ? 'rgb(var(--color-foreground))' : 'transparent',
+                          }}
+                          aria-label={`Rate Overall ${rating} out of 5`}
+                        />
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Suggestions - 36px from last category */}
+              <div style={{ marginTop: '36px' }}>
+                <p className="text-[20px] font-medium text-foreground mb-4">
+                  Any suggestions for improvement?
+                </p>
+                <textarea
+                  value={suggestions}
+                  onChange={(e) => setSuggestions(e.target.value)}
+                  className={cn(
+                    'w-full h-[130px] px-4 py-3 rounded-sm',
+                    'bg-transparent border',
+                    'text-foreground text-sm',
+                    'focus:outline-none focus:border-foreground',
+                    'resize-none transition-colors'
+                  )}
+                  style={{
+                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                    borderColor: 'rgba(255, 255, 255, 0.2)',
+                  }}
+                />
+              </div>
+
+                    {/* Next Button - 40px gap from textarea */}
+                    <div className="flex justify-end" style={{ marginTop: '40px' }}>
+                      <button
+                        onClick={() => setStep(2)}
+                        className="text-[28px] font-bold text-foreground hover:text-primary transition-colors"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="step-2"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    transition={{ duration: 0.2 }}
+                    className="space-y-8"
+                  >
+                    {/* Header */}
+                    <div>
+                      <h4 className="text-lg font-medium text-foreground mb-2">Optional</h4>
+                      <p className="text-sm text-text-tertiary">
+                        You can skip this section if you wish to remain anonymous
+                      </p>
+                    </div>
+
+                    {/* Form Fields */}
+                    <div className="space-y-6">
+                      {/* Name */}
+                      <div>
+                        <label htmlFor="name" className="block text-sm text-foreground mb-2">
+                          Name
+                        </label>
+                        <input
+                          id="name"
+                          type="text"
+                          value={contactInfo.name}
+                          onChange={(e) =>
+                            setContactInfo((prev) => ({ ...prev, name: e.target.value }))
+                          }
+                          className={cn(
+                            'w-full px-0 py-2 text-sm text-foreground',
+                            'bg-transparent border-0 border-b border-text-tertiary',
+                            'focus:outline-none focus:border-foreground',
+                            'transition-colors placeholder:text-text-tertiary'
+                          )}
+                          placeholder=""
+                        />
+                      </div>
+
+                      {/* Email */}
+                      <div>
+                        <label htmlFor="email" className="block text-sm text-foreground mb-2">
+                          Email
+                        </label>
+                        <input
+                          id="email"
+                          type="email"
+                          value={contactInfo.email}
+                          onChange={(e) =>
+                            setContactInfo((prev) => ({ ...prev, email: e.target.value }))
+                          }
+                          className={cn(
+                            'w-full px-0 py-2 text-sm text-foreground',
+                            'bg-transparent border-0 border-b border-text-tertiary',
+                            'focus:outline-none focus:border-foreground',
+                            'transition-colors placeholder:text-text-tertiary'
+                          )}
+                          placeholder=""
+                        />
+                      </div>
+
+                      {/* Referral Source */}
+                      <div>
+                        <label htmlFor="referral" className="block text-sm text-foreground mb-2">
+                          How did you find my site?
+                        </label>
+                        <input
+                          id="referral"
+                          type="text"
+                          value={contactInfo.referralSource}
+                          onChange={(e) =>
+                            setContactInfo((prev) => ({
+                              ...prev,
+                              referralSource: e.target.value,
+                            }))
+                          }
+                          className={cn(
+                            'w-full px-0 py-2 text-sm text-foreground',
+                            'bg-transparent border-0 border-b border-text-tertiary',
+                            'focus:outline-none focus:border-foreground',
+                            'transition-colors placeholder:text-text-tertiary'
+                          )}
+                          placeholder=""
+                        />
+                      </div>
+
+                      {/* LinkedIn Connection */}
+                      <div>
+                        <label className="block text-sm text-foreground mb-3">
+                          Would you like to connect on LinkedIn?
+                        </label>
+                        <div className="flex gap-4">
+                          <button
+                            onClick={() =>
+                              setContactInfo((prev) => ({ ...prev, linkedinConnect: 'yes' }))
+                            }
+                            className={cn(
+                              'px-6 py-2 text-sm rounded-md transition-colors',
+                              contactInfo.linkedinConnect === 'yes'
+                                ? 'bg-foreground text-background'
+                                : 'bg-surface text-foreground hover:bg-text-tertiary/20'
+                            )}
+                          >
+                            Yes
+                          </button>
+                          <button
+                            onClick={() =>
+                              setContactInfo((prev) => ({ ...prev, linkedinConnect: 'no' }))
+                            }
+                            className={cn(
+                              'px-6 py-2 text-sm rounded-md transition-colors',
+                              contactInfo.linkedinConnect === 'no'
+                                ? 'bg-foreground text-background'
+                                : 'bg-surface text-foreground hover:bg-text-tertiary/20'
+                            )}
+                          >
+                            No
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Submit Button */}
+                    <div className="flex justify-end pt-2">
+                      <button
+                        onClick={() => {
+                          console.log('Submitting:', { ratings, suggestions, contactInfo })
+                          setIsRatingModalOpen(false)
+                          setStep(1)
+                        }}
+                        className="text-base font-medium text-foreground hover:text-primary transition-colors"
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Gradient Bar Below Footer */}
       <GradientBar height="h-4" className="w-full" />
