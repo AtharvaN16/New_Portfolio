@@ -74,7 +74,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-background text-text-primary overflow-y-auto h-screen"
+      className="min-h-dvh bg-background text-text-primary overflow-y-auto h-dvh"
       style={{
         overscrollBehavior: 'contain',
         WebkitOverflowScrolling: 'touch',
@@ -82,7 +82,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
     >
       {/* Scroll Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-[4px] z-[60] origin-left"
+        className="fixed top-0 left-0 right-0 h-[5px] z-[60] origin-left"
         style={{
           scaleX: scrollYProgress,
           backgroundColor:
@@ -180,27 +180,10 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
         <AnimatedTitle
           text={caseStudy.title}
           animationType="fadeIn"
-          alwaysAnimate={true}
+          alwaysAnimate
           delay={0.8}
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary mb-6 md:mb-8 leading-tight max-w-[1400px]"
         />
-
-        {/* Category Tags - Below title (temporarily hidden) */}
-        {/* <motion.div
-          className="mb-16 md:mb-24"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.8 }}
-        >
-          <p className="text-sm md:text-base text-text-secondary uppercase tracking-wider">
-            {caseStudy.tags && caseStudy.tags.length > 0
-              ? caseStudy.tags[0]
-              : caseStudy.category
-                  .split('-')
-                  .map((word) => word.toUpperCase())
-                  .join(' / ')}
-          </p>
-        </motion.div> */}
 
         {/* Metadata Layout */}
         <motion.div
@@ -303,7 +286,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
         >
           <div className="max-w-[940px] mx-auto text-left">
             {/* Main Heading */}
-            <h2 className="text-2xl md:text-[28px] font-bold text-text-primary mb-12 md:mb-16 leading-tight">
+            <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-12 md:mb-16 leading-tight">
               Helping 14000+ business owners renew and apply for licenses with
               less hassle and more clarity.
             </h2>
@@ -323,8 +306,8 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                 countless others
               </p>
               <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
-                The product is the department's online portal, which allows the
-                public to apply for or renew their licenses online.
+                The product is the department&apos;s online portal, which allows
+                the public to apply for or renew their licenses online.
               </p>
             </div>
 
@@ -337,11 +320,11 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
               <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
                 NYC DCWP Chief Information Officer Rina Sharma approached Pratt
                 Institute with a project to improve the functionality of their
-                business portal, with a specific focus on the "Home Improvement
-                License" category. This category has the highest number of
-                licensees (14000+). Many Home Improvement Contractors tend to be
-                older, may not be very tech-savvy, and often have limited
-                proficiency in English.
+                business portal, with a specific focus on the &ldquo;Home
+                Improvement License&rdquo; category. This category has the
+                highest number of licensees (14000+). Many Home Improvement
+                Contractors tend to be older, may not be very tech-savvy, and
+                often have limited proficiency in English.
               </p>
               <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
                 They wanted us to help identify pain points and areas for

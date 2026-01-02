@@ -46,11 +46,17 @@ interface HeroProps {
   onBrowseWorkClick?: () => void
 }
 
-export function Hero({ shouldPauseBlobs = false, onBrowseWorkClick }: HeroProps) {
+export function Hero({
+  shouldPauseBlobs = false,
+  onBrowseWorkClick,
+}: HeroProps) {
   return (
     <section
       className="relative flex flex-col"
-      style={{ height: 'calc(100vh - 68px)', maxHeight: 'calc(100vh - 68px)' }}
+      style={{
+        height: 'calc(100dvh - 68px)',
+        maxHeight: 'calc(100dvh - 68px)',
+      }}
     >
       <div className="max-w-[1920px] mx-auto w-full h-full flex flex-col">
         <motion.div

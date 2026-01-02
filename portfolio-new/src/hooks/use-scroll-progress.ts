@@ -19,10 +19,10 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 // Phase Boundaries (as fraction of total scroll)
 // Card exits at ~67% (when cardY = -100vh with 1.5x speed)
 // ============================================
-const PHASE_INITIAL_END = 0.15      // Initial phase ends (hero starts fading)
-const PHASE_FROST_START = 0.20      // When hero frosting begins
-const PHASE_BLOBS_PAUSE = 0.30      // When water blobs should pause
-const PHASE_CARD_EXIT = 0.67        // When card has fully exited
+const PHASE_INITIAL_END = 0.15 // Initial phase ends (hero starts fading)
+const PHASE_FROST_START = 0.2 // When hero frosting begins
+const PHASE_BLOBS_PAUSE = 0.3 // When water blobs should pause
+const PHASE_CARD_EXIT = 0.67 // When card has fully exited
 
 // ============================================
 // Types
@@ -98,7 +98,9 @@ function easeInOutCubic(t: number): number {
  * const { progress, heroOpacity, heroBlur } = useScrollProgress(400)
  * ```
  */
-export function useScrollProgress(containerHeight: number = 400): ScrollProgressResult {
+export function useScrollProgress(
+  containerHeight: number = 400
+): ScrollProgressResult {
   const [progress, setProgress] = useState(0)
   const rafRef = useRef<number | null>(null)
 
@@ -129,6 +131,7 @@ export function useScrollProgress(containerHeight: number = 400): ScrollProgress
     }
 
     // Initial calculation
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Syncing with external scroll position on mount
     calculateProgress()
 
     // Passive listener for better scroll performance
@@ -156,13 +159,19 @@ export function useScrollProgress(containerHeight: number = 400): ScrollProgress
   // Uses easeInOutCubic for smooth fade that feels natural
   const heroOpacity = isInitialPhase
     ? 1
-    : 1 - easeInOutCubic(mapRange(progress, PHASE_INITIAL_END, PHASE_CARD_EXIT, 0, 1))
+    : 1 -
+      easeInOutCubic(
+        mapRange(progress, PHASE_INITIAL_END, PHASE_CARD_EXIT, 0, 1)
+      )
 
   // Hero blur: 0 initially, increases to 12px max
   // Uses easeOutCubic so blur ramps up quickly then slows
-  const heroBlur = progress < PHASE_FROST_START
-    ? 0
-    : easeOutCubic(mapRange(progress, PHASE_FROST_START, PHASE_CARD_EXIT, 0, 1)) * 12
+  const heroBlur =
+    progress < PHASE_FROST_START
+      ? 0
+      : easeOutCubic(
+          mapRange(progress, PHASE_FROST_START, PHASE_CARD_EXIT, 0, 1)
+        ) * 12
 
   return {
     progress,
@@ -179,4 +188,3 @@ export function useScrollProgress(containerHeight: number = 400): ScrollProgress
  * Type for scroll progress context value
  */
 export type ScrollProgressContextValue = ScrollProgressResult
-

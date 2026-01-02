@@ -2,11 +2,12 @@
 
 /**
  * ScrollContainer - Basic Layout
- * 
+ *
  * Just renders children in order. No effects.
  */
 
-import React, { ReactNode, Children, isValidElement, cloneElement, ReactElement } from 'react'
+import type { ReactNode, ReactElement } from 'react'
+import React, { Children, isValidElement } from 'react'
 
 interface ScrollContainerProps {
   children: ReactNode
@@ -19,7 +20,7 @@ function isComponentType(element: ReactElement, displayName: string): boolean {
 
 export function ScrollContainer({ children }: ScrollContainerProps) {
   const childArray = Children.toArray(children)
-  
+
   let heroElement: ReactElement | null = null
   let cardElement: ReactElement | null = null
   let workElement: ReactElement | null = null
@@ -38,35 +39,26 @@ export function ScrollContainer({ children }: ScrollContainerProps) {
       {/* Hero */}
       {heroElement && (
         <section className="min-h-screen bg-background">
-          <div className="px-6 pt-[92px]">
-            {heroElement}
-          </div>
+          <div className="px-6 pt-[92px]">{heroElement}</div>
         </section>
       )}
 
       {/* FullpageCard */}
       {cardElement && (
-        <section className="min-h-screen bg-background">
-          {cardElement}
-        </section>
+        <section className="min-h-screen bg-background">{cardElement}</section>
       )}
 
       {/* Selected Work */}
       {workElement && (
         <section className="bg-background">
-          <div className="px-6 pt-12 pb-20">
-            {workElement}
-          </div>
+          <div className="px-6 pt-12 pb-20">{workElement}</div>
         </section>
       )}
 
       {/* Footer */}
       {footerElement && (
-        <footer className="bg-background">
-          {footerElement}
-        </footer>
+        <footer className="bg-background">{footerElement}</footer>
       )}
     </div>
   )
 }
-

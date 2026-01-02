@@ -72,12 +72,12 @@ export function WaterBlob({
   const colors = useMemo(() => {
     return getColors(theme, interactive, paletteIndex)
     // Theme is intentionally included - CSS variables change when theme changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [theme, interactive, paletteIndex])
 
   // Check for reduced motion preference
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Syncing with external media query on mount
     setPrefersReducedMotion(mediaQuery.matches)
 
     const handleChange = (e: MediaQueryListEvent) =>
@@ -95,6 +95,7 @@ export function WaterBlob({
 
     if (!gl) {
       console.warn('WebGL not supported, showing fallback gradient')
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- Detecting WebGL support on mount
       setHasWebGL(false)
       return
     }
@@ -152,7 +153,6 @@ export function WaterBlob({
         gl.deleteBuffer(programInfo.posBuffer)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colors, prefersReducedMotion, theme]) // paused removed - loop handles it dynamically
 
   // Handle canvas resize
@@ -162,7 +162,7 @@ export function WaterBlob({
   }, [])
 
   // Handle click for interactive mode
-  const handleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleClick = (_e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!interactive) return
 
     const palettes = theme === 'dark' ? DARK_PALETTES : LIGHT_PALETTES

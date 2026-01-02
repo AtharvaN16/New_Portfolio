@@ -21,8 +21,8 @@ export function ProjectCard({
   title,
   organization,
   year,
-  description,
-  tags,
+  description: _description,
+  tags: _tags,
   imageBg,
   imageUrl,
   variant = 'default',
@@ -84,8 +84,8 @@ export function ProjectCard({
       <div className="mt-4 space-y-2 sm:mt-6">
         {/* Organization and Year - Faded gray for dark mode, faded black for light mode */}
         <p
-          className="text-xs font-medium sm:text-sm"
-          style={{ color: 'rgb(var(--color-text-tertiary))' }}
+          className="text-base font-medium"
+          style={{ color: 'rgb(var(--color-text-secondary))' }}
         >
           {organization} — {year}
         </p>

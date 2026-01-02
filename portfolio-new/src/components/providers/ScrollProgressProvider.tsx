@@ -8,13 +8,16 @@
  * to drive all scroll-based animations.
  */
 
-import { createContext, useContext, ReactNode } from 'react'
+import type { ReactNode } from 'react'
+import { createContext, useContext } from 'react'
 import {
   useScrollProgress,
   type ScrollProgressContextValue,
 } from '@/hooks/use-scroll-progress'
 
-const ScrollProgressContext = createContext<ScrollProgressContextValue | null>(null)
+const ScrollProgressContext = createContext<ScrollProgressContextValue | null>(
+  null
+)
 
 interface ScrollProgressProviderProps {
   children: ReactNode
@@ -49,4 +52,3 @@ export function useScrollProgressContext(): ScrollProgressContextValue {
 
   return context
 }
-

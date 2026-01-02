@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { WorkFilter } from '@/components/work/WorkFilter'
 import type { ProjectCardProps } from '@/components/work/ProjectCard'
@@ -38,14 +38,8 @@ const filterTitleMap: Record<string, string> = {
 
 export default function WorkPage() {
   const [selectedFilter, setSelectedFilter] = useState<string>('All')
-  // Track if filter has been changed from initial 'All' state
-  // Use ref to avoid unnecessary re-renders
-  const hasChangedFilterRef = useRef(false)
-
-  // Update ref when filter changes from initial state
-  if (selectedFilter !== 'All' && !hasChangedFilterRef.current) {
-    hasChangedFilterRef.current = true
-  }
+  // Derive if filter has been changed from initial 'All' state
+  const hasChangedFilter = selectedFilter !== 'All'
 
   const titleText =
     filterTitleMap[selectedFilter] || 'Check out more of my work'
@@ -77,8 +71,8 @@ export default function WorkPage() {
                 key={selectedFilter}
                 text={titleText}
                 animationType="fadeIn"
-                alwaysAnimate={hasChangedFilterRef.current}
-                delay={hasChangedFilterRef.current ? 0 : 0.6}
+                alwaysAnimate={hasChangedFilter}
+                delay={hasChangedFilter ? 0 : 0.6}
               />
             </AnimatePresence>
           </header>
@@ -86,7 +80,7 @@ export default function WorkPage() {
           {/* Animated Line Separator - Animates first at 0.6s */}
           <LineSeparator
             className="lg:mb-2"
-            delay={hasChangedFilterRef.current ? 0 : 0.3}
+            delay={hasChangedFilter ? 0 : 0.3}
           />
 
           {/* Filter and Projects */}

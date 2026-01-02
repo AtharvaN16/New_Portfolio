@@ -3,7 +3,13 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
-import WorkPage from '@/app/work/page'
+import dynamic from 'next/dynamic'
+
+// Lazy load WorkPage - only loads when dialog opens
+const WorkPage = dynamic(() => import('@/app/work/page'), {
+  ssr: false,
+  loading: () => <div className="min-h-screen bg-background" />,
+})
 
 const TRANSITION_EASE: [number, number, number, number] = [0.87, 0, 0.13, 1]
 const OPEN_DURATION = 1.2

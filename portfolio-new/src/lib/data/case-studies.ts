@@ -53,6 +53,7 @@ export const caseStudies: CaseStudy[] = [
     category: 'ux-research',
     team: ['Atharva Nayak'],
     timeline: 'Jan - May 2024',
+    progressBarColor: '#3183CB',
   },
   {
     slug: 'ualberta-library-website',

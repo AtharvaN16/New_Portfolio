@@ -4,7 +4,19 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
 import { getCaseStudyBySlug } from '@/lib/data/case-studies'
-import { CaseStudyDetail } from '@/components/case-study/CaseStudyDetail'
+import dynamic from 'next/dynamic'
+
+// Lazy load CaseStudyDetail - only loads when dialog opens
+const CaseStudyDetail = dynamic(
+  () =>
+    import('@/components/case-study/CaseStudyDetail').then((mod) => ({
+      default: mod.CaseStudyDetail,
+    })),
+  {
+    ssr: false,
+    loading: () => <div className="min-h-dvh bg-background" />,
+  }
+)
 
 const TRANSITION_EASE: [number, number, number, number] = [0.87, 0, 0.13, 1]
 const OPEN_DURATION = 1.2

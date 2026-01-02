@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState, useEffect, useCallback } from 'react'
-import { motion, useMotionValue, useSpring, animate } from 'framer-motion'
+import { useMotionValue, useSpring, animate } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 import { useMediaQuery } from '@/hooks/use-media-query'
 

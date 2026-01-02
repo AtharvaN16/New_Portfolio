@@ -8,11 +8,11 @@ const siteConfig = {
   description:
     'Designer and strategist creating meaningful experiences through thoughtful design. Portfolio showcasing case studies, projects, and writings.',
   url: env.NEXT_PUBLIC_SITE_URL,
-  ogImage: '/og-image.jpg', // TODO: Add actual OG image
+  ogImage: '/og-image.jpg',
   links: {
-    twitter: 'https://twitter.com/yourhandle', // TODO: Update
-    github: 'https://github.com/yourusername', // TODO: Update
-    linkedin: 'https://linkedin.com/in/yourprofile', // TODO: Update
+    twitter: '', // Optional: Add Twitter handle if available
+    github: '', // Optional: Add GitHub profile if available
+    linkedin: 'https://www.linkedin.com/in/atharva-nayak-142b95184/',
   },
 }
 
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     title: siteConfig.title,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
-    creator: '@yourhandle', // TODO: Update
+    // creator: '@yourhandle', // Optional: Add Twitter handle if available
   },
 
   // Icons
