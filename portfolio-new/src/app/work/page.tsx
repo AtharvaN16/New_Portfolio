@@ -51,7 +51,7 @@ export default function WorkPage() {
 
   return (
     <div className="min-h-screen w-full bg-background">
-      <GradientBar className="fixed left-0 top-0 z-50 w-full" height="h-8" />
+      <GradientBar className="fixed left-0 top-0 z-50 w-full" height="h-4" />
       <div className="relative px-6 pb-20 pt-20 md:pb-32 md:pt-24">
         <main id="main-content">
           {/* Back Button - Absolutely positioned on right edge */}
