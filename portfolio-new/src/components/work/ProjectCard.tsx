@@ -94,7 +94,10 @@ export function ProjectCard({
                 {' / '}
               </span>
               <span
-                className="text-sm font-medium uppercase"
+                className={cn(
+                  'font-medium uppercase',
+                  variant === 'compact' ? 'text-xs' : 'text-sm'
+                )}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 {(variant === 'compact' ? _tags.slice(0, 2) : _tags.slice(0, 3)).join(' • ')}
