@@ -210,7 +210,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           {/* Description - Fixed max-width: responsive for different screen sizes */}
-          <div className="max-w-full sm:max-w-[25rem] md:max-w-[28.75rem]">
+          <div className="max-w-full sm:max-w-[25rem] md:max-w-[28.75rem] text-left">
             <p className="text-base md:text-lg text-text-secondary leading-relaxed">
               {caseStudy.fullDescription || caseStudy.description}
             </p>
@@ -224,7 +224,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
             <div className="flex flex-col md:flex-row md:gap-[3.5rem] md:items-start">
               {/* Team */}
               {caseStudy.team && caseStudy.team.length > 0 && (
-                <div className="md:min-w-[12.5rem] group/team">
+                <div className="md:min-w-[12.5rem] group/team text-left">
                   <h2 className="text-lg font-medium text-text-primary mb-4">
                     Team
                   </h2>
@@ -247,7 +247,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
 
               {/* Timeline */}
               {caseStudy.timeline && (
-                <div className="md:min-w-[12.5rem]">
+                <div className="md:min-w-[12.5rem] text-left">
                   <h2 className="text-lg font-medium text-text-primary mb-4">
                     Timeline
                   </h2>
@@ -292,6 +292,67 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
           </div>
         )}
       </motion.section>
+
+      {/* NYC Case Study Content Section */}
+      {caseStudy.slug === 'nyc-dcwp-business-licenses' && (
+        <motion.section
+          className="w-full px-6 py-16 md:py-24 max-w-[1920px] mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          <div className="max-w-[940px] mx-auto text-left">
+            {/* Main Heading */}
+            <h2 className="text-2xl md:text-[28px] font-bold text-text-primary mb-12 md:mb-16 leading-tight">
+              Helping 14000+ business owners renew and apply for licenses with
+              less hassle and more clarity.
+            </h2>
+
+            {/* Sub-heading */}
+            <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
+              The Client
+            </h3>
+
+            {/* Paragraphs */}
+            <div className="space-y-6 md:space-y-8">
+              <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                The New York City Department of Consumer Affairs and Worker
+                Protection is responsible for issuing licenses to over 45,000
+                businesses across more than 40 industries and enforces key
+                consumer protection, licensing, and workplace laws that impact
+                countless others
+              </p>
+              <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                The product is the department's online portal, which allows the
+                public to apply for or renew their licenses online.
+              </p>
+            </div>
+
+            {/* About the Project Section */}
+            <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px] mt-12 md:mt-16">
+              About the Project
+            </h3>
+
+            <div className="space-y-6 md:space-y-8">
+              <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                NYC DCWP Chief Information Officer Rina Sharma approached Pratt
+                Institute with a project to improve the functionality of their
+                business portal, with a specific focus on the "Home Improvement
+                License" category. This category has the highest number of
+                licensees (14000+). Many Home Improvement Contractors tend to be
+                older, may not be very tech-savvy, and often have limited
+                proficiency in English.
+              </p>
+              <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                They wanted us to help identify pain points and areas for
+                improvement in the user journey for License holders and
+                applicants, making it easier and faster to navigate the renewal
+                and application process with minimal confusion or frustration.
+              </p>
+            </div>
+          </div>
+        </motion.section>
+      )}
     </div>
   )
 }
