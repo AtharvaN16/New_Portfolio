@@ -82,12 +82,25 @@ export function ProjectCard({
 
       {/* Title and Info - Outside the card, below it */}
       <div className="mt-4 space-y-2 sm:mt-6">
-        {/* Organization and Year - Faded gray for dark mode, faded black for light mode */}
+        {/* Organization and Year with Tags */}
         <p
-          className="text-base font-medium"
+          className="text-base font-semibold"
           style={{ color: 'rgb(var(--color-text-secondary))' }}
         >
           {organization} — {year}
+          {_tags && _tags.length > 0 && (
+            <>
+              <span style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+                {' / '}
+              </span>
+              <span
+                className="text-sm font-medium uppercase"
+                style={{ color: 'rgb(var(--color-text-tertiary))' }}
+              >
+                {(variant === 'compact' ? _tags.slice(0, 2) : _tags.slice(0, 3)).join(' • ')}
+              </span>
+            </>
+          )}
         </p>
 
         {/* Project Title */}

@@ -28,7 +28,7 @@ export const caseStudies: CaseStudy[] = [
     year: '2025',
     description:
       "A service design project with Pratt Institute's Office of Admissions focused on improving the end-to-end campus visit experience through research, co-design, and the redesign of visitor touchpoints and student ambassador support tools.",
-    tags: ['Service design / Design thinking', 'Selected Work'],
+    tags: ['Service design', 'Design thinking', 'Selected Work'],
     imageBg: 'rgb(var(--color-case-study-purple))',
     imageUrl:
       '/images/case-studies/pratt-institute-visitor-experience/hero.png',
