@@ -107,7 +107,8 @@ If you can explain the flow of your code to a new teammate in 5 minutes, it's pr
 ## Project Structure
 - **Source of truth**: All development happens in `portfolio-new/`. This is where `node_modules` and the dev server run from.
 - **Do NOT create or edit files** in the root-level `src/` folder (if it exists). Always use `portfolio-new/src/`.
-- **Dev server**: Run from `portfolio-new/` directory (`cd portfolio-new && npm run dev`).
+- **Dev server**: Run from `portfolio-new/` directory (`cd portfolio-new && bun run dev`).
+- **Package manager**: Use Bun instead of npm for faster installs and better performance (`bun install`, `bun add`, `bun remove`).
 
 ## Development Workflow Rules
 - **When uncertain**: Always consult with user before proceeding.

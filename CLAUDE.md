@@ -14,30 +14,45 @@ This is a portfolio project containing two main parts:
 
 ## Development Commands
 
+**Using Bun** (faster alternative to npm, acquired by Anthropic in 2025):
+
 ```bash
 # Navigate to working directory
 cd portfolio-new
 
+# Package Management
+bun install              # Install dependencies (faster than npm)
+bun add <package>        # Add a package
+bun remove <package>     # Remove a package
+bun update               # Update all dependencies
+
 # Development
-npm run dev              # Start dev server (http://localhost:3000)
-npm run build            # Production build
-npm run start            # Run production build locally
+bun run dev              # Start dev server (http://localhost:3000)
+bun run build            # Production build
+bun run start            # Run production build locally
 
 # Code Quality
-npm run lint             # Run ESLint
-npm run lint:fix         # Auto-fix ESLint issues
-npm run format           # Format with Prettier
-npm run format:check     # Check formatting
-npm run type-check       # TypeScript type checking
+bun run lint             # Run ESLint
+bun run lint:fix         # Auto-fix ESLint issues
+bun run format           # Format with Prettier
+bun run format:check     # Check formatting
+bun run type-check       # TypeScript type checking
 
 # Testing
-npm run test             # Run tests in watch mode
-npm run test:ui          # Tests with UI
-npm run test:coverage    # Generate coverage report
+bun run test             # Run tests in watch mode
+bun run test:ui          # Tests with UI
+bun run test:coverage    # Generate coverage report
 
 # Validation (run all checks)
-npm run validate         # Lint + Format + Type-check + Test
+bun run validate         # Lint + Format + Type-check + Test
 ```
+
+**Why Bun?**
+- 25x faster package installs than npm
+- Drop-in replacement for Node.js (compatible with npm packages)
+- Built-in bundler, transpiler, and test runner
+- Powers Claude Code infrastructure
+- Open-source and MIT licensed
 
 ## Critical Development Rules
 
@@ -62,6 +77,7 @@ npm run validate         # Lint + Format + Type-check + Test
 ## Architecture Overview
 
 ### Tech Stack
+- **Runtime**: Bun (faster alternative to Node.js)
 - **Framework**: Next.js 15 (App Router) + React 19
 - **Language**: TypeScript (strict mode)
 - **Styling**: Tailwind CSS v4 with design token system
