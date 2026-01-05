@@ -412,32 +412,32 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
             </h2>
 
             {/* Sub-heading */}
-            <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
+            <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
               The Client
             </h3>
 
             {/* Paragraphs */}
             <div className="space-y-6 md:space-y-8">
-              <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
                 The New York City Department of Consumer Affairs and Worker
                 Protection is responsible for issuing licenses to over 45,000
                 businesses across more than 40 industries and enforces key
                 consumer protection, licensing, and workplace laws that impact
                 countless others
               </p>
-              <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
                 The product is the department&apos;s online portal, which allows
                 the public to apply for or renew their licenses online.
               </p>
             </div>
 
             {/* About the Project Section */}
-            <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px] mt-12 md:mt-16">
+            <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px] mt-12 md:mt-16">
               About the Project
             </h3>
 
             <div className="space-y-6 md:space-y-8">
-              <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
                 NYC DCWP Chief Information Officer Rina Sharma approached Pratt
                 Institute with a project to improve the functionality of their
                 business portal, with a specific focus on the &ldquo;Home
@@ -446,7 +446,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                 Contractors tend to be older, may not be very tech-savvy, and
                 often have limited proficiency in English.
               </p>
-              <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
                 They wanted us to help identify pain points and areas for
                 improvement in the user journey for License holders and
                 applicants, making it easier and faster to navigate the renewal
@@ -467,12 +467,12 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
         >
           <div className="max-w-[940px] mx-auto text-left">
             {/* Abstract Section */}
-            <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
+            <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
               Abstract
             </h3>
 
             <div className="space-y-6 md:space-y-8">
-              <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
                 This case study is based on a usability evaluation of Gutenberg
                 Technologies&apos; course management system (CMS), a legacy
                 e-learning content authoring platform used primarily by
@@ -485,7 +485,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                 participants to identify critical breakdowns in onboarding and
                 authoring workflows.
               </p>
-              <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
                 Findings revealed a strong learnability baseline driven by
                 familiar editor patterns, but significant usability issues caused
                 by expectation mismatches, poor feature discoverability, and
@@ -497,12 +497,39 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
               </p>
             </div>
 
+            {/* My Role Section - Visible below Abstract */}
+            <div className="mt-12 md:mt-16">
+              <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
+                My Role
+              </h3>
+
+              <div className="space-y-6 md:space-y-8">
+                <p className="text-base md:text-[18px] font-medium text-text-secondary leading-relaxed">
+                  As part of a four-person research team, I contributed to:
+                </p>
+                <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-2">
+                  <li className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
+                    Research planning and hypothesis development
+                  </li>
+                  <li className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
+                    Eye-tracking study design and moderation
+                  </li>
+                  <li className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
+                    Analyzing the insights
+                  </li>
+                  <li className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
+                    Design recommendations
+                  </li>
+                </ul>
+              </div>
+            </div>
+
             {/* Read Full Case Study Button */}
             <div className="mt-12 md:mt-16 flex items-center gap-4">
               <button
                 ref={buttonRef}
                 onClick={handleToggleContent}
-                className="group inline-flex items-center gap-2 text-base md:text-[20px] font-normal text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
+                className="group inline-flex items-center gap-2 text-base md:text-[18px] font-normal text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
               >
                 <span className="relative inline-block">
                   {isContentRevealed ? 'Hide case study' : 'Read full case study'}
@@ -528,7 +555,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                 </svg>
               </button>
               <span
-                className="text-base md:text-[20px] font-normal"
+                className="text-base md:text-[18px] font-normal"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 8 min read
@@ -552,48 +579,119 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                   <div>
 
               {/* Project Overview Section */}
-              <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
+              <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
                 Project Overview
               </h3>
 
+              <h4 className="text-lg md:text-[24px] font-bold text-primary mb-6 md:mb-[28px]">
+                Understanding First-Time User Experience in a Legacy CMS
+              </h4>
+
               <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
-                <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
                   Gutenberg Technologies is an e-learning course builder tool for
                   creating text-based learning materials like textbooks and
                   training resources, primarily used by publishers. Their course
                   management system (CMS) is outdated and difficult for new users.
                 </p>
-                <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
                   The client wanted to improve the usability of the CMS, make the
                   product more intuitive, and integrate generative AI to simplify
                   resource creation.
                 </p>
               </div>
 
-              {/* My Role Section */}
-              <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
-                My Role
+              {/* Divider */}
+              <div 
+                className="border-t my-12 md:my-16"
+                style={{ borderColor: 'rgb(var(--color-text-color30))' }}
+              />
+
+              {/* Research Objectives Section */}
+              <h3 className="text-lg md:text-[28px] font-bold text-primary mb-6 md:mb-[28px]">
+                Research Objectives
               </h3>
 
-              <div className="space-y-6 md:space-y-8">
-                <p className="text-base md:text-[20px] font-medium text-text-secondary leading-relaxed">
-                  As part of a four-person research team, I contributed to:
-                </p>
-                <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-2">
-                  <li className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
-                    Research planning and hypothesis development
-                  </li>
-                  <li className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
-                    Eye-tracking study design and moderation
-                  </li>
-                  <li className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
-                    Analyzing the insights
-                  </li>
-                  <li className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
-                    Design recommendations
-                  </li>
-                </ul>
-              </div>
+              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed mb-8 md:mb-10">
+                The objective of the study is to understand the use of the{' '}
+                <span className="font-semibold">Table of Contents</span>,{' '}
+                <span className="font-semibold">Authoring from scratch</span>, and the
+                functionality of the <span className="font-semibold">drag and drop features</span> in the CMS.
+              </p>
+
+              <ul className="space-y-6 md:space-y-7">
+                <li className="flex items-start gap-4">
+                  <span 
+                    className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0" 
+                    style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
+                  />
+                  <div>
+                    <div className="text-base md:text-[18px] font-semibold text-text-secondary leading-relaxed">
+                      Table of contents (TOC)
+                    </div>
+                    <p 
+                      className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                      style={{ color: 'rgb(var(--color-text-tertiary))' }}
+                    >
+                      Explore users&apos; challenges in creating and managing the TOC, their understanding
+                      of different options offered in TOC, and the reasoning behind their actions.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <span 
+                    className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0" 
+                    style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
+                  />
+                  <div>
+                    <div className="text-base md:text-[18px] font-semibold text-text-secondary leading-relaxed">
+                      Authoring content from scratch
+                    </div>
+                    <p 
+                      className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                      style={{ color: 'rgb(var(--color-text-tertiary))' }}
+                    >
+                      Explore users&apos; starting points, their authoring process, and where challenges
+                      or misunderstandings arise.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <span 
+                    className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0" 
+                    style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
+                  />
+                  <div>
+                    <div className="text-base md:text-[18px] font-semibold text-text-secondary leading-relaxed">
+                      Drag-and-drop
+                    </div>
+                    <p 
+                      className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                      style={{ color: 'rgb(var(--color-text-tertiary))' }}
+                    >
+                      Explore where users get confused, what creates the highest cognitive load, and
+                      why drag-and-drop feels difficult.
+                    </p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-4">
+                  <span 
+                    className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0" 
+                    style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
+                  />
+                  <div>
+                    <div className="text-base md:text-[18px] font-semibold text-text-secondary leading-relaxed">
+                      AI-assisted content generation
+                    </div>
+                    <p 
+                      className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                      style={{ color: 'rgb(var(--color-text-tertiary))' }}
+                    >
+                      Explore how users discover and interact with the &quot;Generate with AI&quot; tool.
+                    </p>
+                  </div>
+                </li>
+              </ul>
                   </div>
                 </motion.div>
               )}
