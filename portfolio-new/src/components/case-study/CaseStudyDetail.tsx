@@ -24,7 +24,6 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
   const { theme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isContentRevealed, setIsContentRevealed] = useState(false)
-  const [contentRevealKey, setContentRevealKey] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const localLenisRef = useRef<Lenis | null>(null)
@@ -139,10 +138,6 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
   const handleToggleContent = () => {
     const wasRevealed = isContentRevealed
     setIsContentRevealed(!isContentRevealed)
-    if (!wasRevealed) {
-      // Increment key when content is first revealed to trigger animations
-      setContentRevealKey(prev => prev + 1)
-    }
 
     // If hiding content, smoothly scroll to button position
     if (wasRevealed && buttonRef.current) {
@@ -504,7 +499,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
 
             {/* My Role Section - Visible below Abstract */}
             <div className="mt-12 md:mt-16">
-              <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
+              <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
                 My Role
               </h3>
 
@@ -589,10 +584,9 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
               </h3>
 
               <AnimatedTitle
-                key={`project-overview-${contentRevealKey}`}
                 text="Understanding First-Time User Experience in a Legacy CMS"
                 animationType="fadeIn"
-                alwaysAnimate
+                alwaysAnimate={false}
                 delay={0}
                 className="text-2xl md:text-[32px] font-bold text-text-primary mb-6 md:mb-8 leading-tight"
               />
@@ -722,10 +716,9 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                 </h3>
 
                 <AnimatedTitle
-                  key={`methodology-${contentRevealKey}`}
                   text="Evaluating usability through behavioral and attitudinal data"
                   animationType="fadeIn"
-                  alwaysAnimate
+                  alwaysAnimate={false}
                   delay={0}
                   className="text-2xl md:text-[32px] font-bold text-text-primary mb-6 md:mb-8 leading-tight"
                 />
