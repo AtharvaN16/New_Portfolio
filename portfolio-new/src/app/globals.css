@@ -1,7 +1,9 @@
 @import 'tailwindcss';
+@plugin '@tailwindcss/typography';
 @import '../styles/design-tokens.css';
 @import '../styles/tailwind-theme.css';
 @import '../styles/fonts.css';
+@import '../styles/prose-theme.css';
 
 /**
  * Global Styles

@@ -9,9 +9,11 @@ import { useTheme } from '@/components/providers/ThemeProvider'
 import type { CaseStudy } from '@/lib/data/case-studies'
 import { HoverLink } from '@/components/ui/HoverLink'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { CaseStudyContent } from '@/components/case-study/CaseStudyContent'
 
 interface CaseStudyDetailProps {
   caseStudy: CaseStudy
+  children?: React.ReactNode
 }
 
 const navLinks = [
@@ -20,7 +22,7 @@ const navLinks = [
   { label: 'About', href: '/about' },
 ]
 
-export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
+export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
   const { theme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isContentRevealed, setIsContentRevealed] = useState(false)
@@ -396,64 +398,17 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
         )}
       </motion.section>
 
-      {/* NYC Case Study Content Section */}
-      {caseStudy.slug === 'nyc-dcwp-business-licenses' && (
+      {/* NYC DCWP Case Study Content Section */}
+      {caseStudy.slug === 'nyc-dcwp-business-licenses' && children && (
         <motion.section
           className="w-full px-6 py-16 md:py-24 max-w-[1920px] mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <div className="max-w-[940px] mx-auto text-left">
-            {/* Main Heading */}
-            <h2 className="text-2xl md:text-[32px] font-bold text-text-primary mb-12 md:mb-16 leading-tight">
-              Helping 14000+ business owners renew and apply for licenses with
-              less hassle and more clarity.
-            </h2>
-
-            {/* Sub-heading */}
-            <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
-              The Client
-            </h3>
-
-            {/* Paragraphs */}
-            <div className="space-y-6 md:space-y-8">
-              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
-                The New York City Department of Consumer Affairs and Worker
-                Protection is responsible for issuing licenses to over 45,000
-                businesses across more than 40 industries and enforces key
-                consumer protection, licensing, and workplace laws that impact
-                countless others
-              </p>
-              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
-                The product is the department&apos;s online portal, which allows
-                the public to apply for or renew their licenses online.
-              </p>
-            </div>
-
-            {/* About the Project Section */}
-            <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px] mt-12 md:mt-16">
-              About the Project
-            </h3>
-
-            <div className="space-y-6 md:space-y-8">
-              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
-                NYC DCWP Chief Information Officer Rina Sharma approached Pratt
-                Institute with a project to improve the functionality of their
-                business portal, with a specific focus on the &ldquo;Home
-                Improvement License&rdquo; category. This category has the
-                highest number of licensees (14000+). Many Home Improvement
-                Contractors tend to be older, may not be very tech-savvy, and
-                often have limited proficiency in English.
-              </p>
-              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
-                They wanted us to help identify pain points and areas for
-                improvement in the user journey for License holders and
-                applicants, making it easier and faster to navigate the renewal
-                and application process with minimal confusion or frustration.
-              </p>
-            </div>
-          </div>
+          <CaseStudyContent>
+            {children}
+          </CaseStudyContent>
         </motion.section>
       )}
 
@@ -472,7 +427,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
             </h3>
 
             <div className="space-y-6 md:space-y-8">
-              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
+              <p className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
                 This case study is based on a usability evaluation of Gutenberg
                 Technologies&apos; course management system (CMS), a legacy
                 e-learning content authoring platform used primarily by
@@ -485,7 +440,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                 participants to identify critical breakdowns in onboarding and
                 authoring workflows.
               </p>
-              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
+              <p className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
                 Findings revealed a strong learnability baseline driven by
                 familiar editor patterns, but significant usability issues caused
                 by expectation mismatches, poor feature discoverability, and
@@ -504,20 +459,20 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
               </h3>
 
               <div className="space-y-6 md:space-y-8">
-                <p className="text-base md:text-[18px] font-medium text-text-secondary leading-relaxed">
+                <p className="text-base md:text-[20px] font-medium text-text-color90 leading-relaxed">
                   As part of a four-person research team, I contributed to:
                 </p>
                 <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-2">
-                  <li className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
+                  <li className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
                     Research planning and hypothesis development
                   </li>
-                  <li className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
+                  <li className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
                     Eye-tracking study design and moderation
                   </li>
-                  <li className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
+                  <li className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
                     Analyzing the insights
                   </li>
-                  <li className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
+                  <li className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
                     Design recommendations
                   </li>
                 </ul>
@@ -529,7 +484,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
               <button
                 ref={buttonRef}
                 onClick={handleToggleContent}
-                className="group inline-flex items-center gap-2 text-base md:text-[18px] font-normal text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
+                className="group inline-flex items-center gap-2 text-base md:text-[20px] font-normal text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
               >
                 <span className="relative inline-block">
                   {isContentRevealed ? 'Hide case study' : 'Read full case study'}
@@ -555,7 +510,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                 </svg>
               </button>
               <span
-                className="text-base md:text-[18px] font-normal"
+                className="text-base md:text-[20px] font-normal"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 8 min read
@@ -579,7 +534,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                   <div>
 
               {/* Project Overview Section */}
-              <h3 className="text-sm md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+              <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                 Project Overview
               </h3>
 
@@ -588,17 +543,17 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[32px] font-bold text-text-primary mb-6 md:mb-8 leading-tight"
+                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight"
               />
 
               <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
-                <p className="text-base md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                <p className="text-base md:text-[20px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
                   Gutenberg Technologies is an e-learning course builder tool for
                   creating text-based learning materials like textbooks and
                   training resources, primarily used by publishers. Their course
                   management system (CMS) is outdated and difficult for new users.
                 </p>
-                <p className="text-base md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                <p className="text-base md:text-[20px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
                   The client wanted to improve the usability of the CMS, make the
                   product more intuitive, and integrate generative AI to simplify
                   resource creation.
@@ -606,17 +561,17 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
               </div>
 
               {/* Divider */}
-              <div 
-                className="border-t my-12 md:my-16"
+              <div
+                className="border-t my-24 md:my-32"
                 style={{ borderColor: 'rgb(var(--color-text-color30))' }}
               />
 
               {/* Research Objectives Section */}
-              <h3 className="text-sm md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+              <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                 Research Objectives
               </h3>
 
-              <p className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+              <p className="text-base md:text-[20px] font-normal leading-relaxed mb-8 md:mb-10" style={{ color: 'rgb(var(--color-text-color90))' }}>
                 The objective of the study is to understand the use of the{' '}
                 <span className="font-semibold">Table of Contents</span>,{' '}
                 <span className="font-semibold">Authoring from scratch</span>, and the
@@ -625,18 +580,18 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
 
               <ul className="space-y-6 md:space-y-7">
                 <li className="flex items-start gap-4">
-                  <span 
-                    className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0" 
+                  <span
+                    className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
                     style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                   />
                   <div>
-                    <div 
-                      className="text-base md:text-[18px] font-semibold leading-relaxed text-text-secondary"
+                    <div
+                      className="text-base md:text-[20px] font-semibold leading-relaxed text-text-color90"
                     >
                       Table of contents (TOC)
                     </div>
-                    <p 
-                      className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                    <p
+                      className="text-base md:text-[20px] font-normal mt-1 md:mt-1.5 leading-relaxed"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       Explore users&apos; challenges in creating and managing the TOC, their understanding
@@ -645,18 +600,18 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span 
-                    className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0" 
+                  <span
+                    className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
                     style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                   />
                   <div>
-                    <div 
-                      className="text-base md:text-[18px] font-semibold leading-relaxed text-text-secondary"
+                    <div
+                      className="text-base md:text-[20px] font-semibold leading-relaxed text-text-color90"
                     >
                       Authoring content from scratch
                     </div>
-                    <p 
-                      className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                    <p
+                      className="text-base md:text-[20px] font-normal mt-1 md:mt-1.5 leading-relaxed"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       Explore users&apos; starting points, their authoring process, and where challenges
@@ -665,18 +620,18 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span 
-                    className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0" 
+                  <span
+                    className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
                     style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                   />
                   <div>
-                    <div 
-                      className="text-base md:text-[18px] font-semibold leading-relaxed text-text-secondary"
+                    <div
+                      className="text-base md:text-[20px] font-semibold leading-relaxed text-text-color90"
                     >
                       Drag-and-drop
                     </div>
-                    <p 
-                      className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                    <p
+                      className="text-base md:text-[20px] font-normal mt-1 md:mt-1.5 leading-relaxed"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       Explore where users get confused, what creates the highest cognitive load, and
@@ -685,16 +640,16 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                   </div>
                 </li>
                 <li className="flex items-start gap-4">
-                  <span 
-                    className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0" 
+                  <span
+                    className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
                     style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                   />
                   <div>
-                    <div className="text-base md:text-[18px] font-semibold text-text-secondary leading-relaxed">
+                    <div className="text-base md:text-[20px] font-semibold text-text-color90 leading-relaxed">
                       AI-assisted content generation
                     </div>
-                    <p 
-                      className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                    <p
+                      className="text-base md:text-[20px] font-normal mt-1 md:mt-1.5 leading-relaxed"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       Explore how users discover and interact with the &quot;Generate with AI&quot; tool.
@@ -704,14 +659,14 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
               </ul>
 
               {/* Divider */}
-              <div 
-                className="border-t my-12 md:my-16"
+              <div
+                className="border-t my-24 md:my-32"
                 style={{ borderColor: 'rgb(var(--color-text-color30))' }}
               />
 
               {/* Methodology Section */}
               <div className="mt-12 md:mt-16">
-                <h3 className="text-sm md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+                <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                   Methodology
                 </h3>
 
@@ -720,34 +675,34 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                   animationType="fadeIn"
                   alwaysAnimate={false}
                   delay={0}
-                  className="text-2xl md:text-[32px] font-bold text-text-primary mb-6 md:mb-8 leading-tight"
+                  className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight"
                 />
 
                 <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
-                  <p className="text-base md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                  <p className="text-base md:text-[20px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
                     We conducted <span className="font-bold">9 moderated desktop usability sessions</span> (45–60 minutes each) using <span className="font-bold">Tobii eye-tracking</span> software, with participants recruited through <span className="font-bold">dscout Private Panels</span>. To better understand user behavior, we paired eye tracking with the <span className="font-bold">Retrospective Think-Aloud (RTA)</span> method, asking participants to reflect on their actions after completing tasks. This allowed us to capture not just what users did, but where they looked and why they made specific decisions. Participants also completed the <span className="font-bold">System Usability Scale (SUS)</span> to provide a quantitative measure of overall usability.
                   </p>
                 </div>
 
-                <h4 className="text-base md:text-[18px] font-bold mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-primary))' }}>
+                <h4 className="text-base md:text-[22px] font-bold mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-primary))' }}>
                   Data Collected:
                 </h4>
 
                 <div className="space-y-3 md:space-y-4">
-                  <p className="text-sm md:text-[16px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                  <p className="text-sm md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
                     Each session captured
                   </p>
                   <ul className="space-y-3 md:space-y-4 list-disc list-inside ml-4">
-                    <li className="text-sm md:text-[16px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                    <li className="text-sm md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
                       Gaze plots, heatmaps and screen recordings
                     </li>
-                    <li className="text-sm md:text-[16px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                    <li className="text-sm md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
                       Task completion rates and time-on-task
                     </li>
-                    <li className="text-sm md:text-[16px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                    <li className="text-sm md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
                       RTA insights as participants reviewed their gaze replay and explained the reasoning behind key actions.
                     </li>
-                    <li className="text-sm md:text-[16px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                    <li className="text-sm md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
                       System Usability Scale (SUS) survey responses
                     </li>
                   </ul>

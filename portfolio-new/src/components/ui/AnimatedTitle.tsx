@@ -102,7 +102,7 @@ export function AnimatedTitle({
             viewport: { once: true, margin: '-100px' },
           })}
       className={cn(
-        'text-[2rem] font-bold leading-tight tracking-tight text-foreground md:text-[3rem] lg:text-[3.5rem]',
+        'font-bold leading-tight tracking-tight text-foreground',
         className
       )}
     >
