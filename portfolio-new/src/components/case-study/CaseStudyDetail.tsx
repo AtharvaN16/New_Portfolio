@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useScroll } from 'framer-motion'
+import { motion, useScroll, AnimatePresence } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -22,7 +22,9 @@ const navLinks = [
 export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
   const { theme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
+  const [isContentRevealed, setIsContentRevealed] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   // Scroll progress tracking for progress bar - track scroll within the container
   const { scrollYProgress } = useScroll({
@@ -68,6 +70,47 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
       window.history.back()
     } else {
       window.location.href = '/'
+    }
+  }
+
+  const handleToggleContent = () => {
+    const wasRevealed = isContentRevealed
+    setIsContentRevealed(!isContentRevealed)
+
+    // If hiding content, smoothly scroll to button position
+    if (wasRevealed && containerRef.current && buttonRef.current) {
+      // Use setTimeout to ensure state update happens first
+      setTimeout(() => {
+        const container = containerRef.current
+        const button = buttonRef.current
+        if (container && button) {
+          const buttonTop = button.offsetTop
+          const containerScrollTop = container.scrollTop
+          const targetScroll = buttonTop - 100 // Offset from top
+
+          // Smooth scroll using requestAnimationFrame for smooth animation
+          const startScroll = containerScrollTop
+          const distance = targetScroll - startScroll
+          const duration = 600 // 600ms
+          const startTime = performance.now()
+
+          const animateScroll = (currentTime: number) => {
+            const elapsed = currentTime - startTime
+            const progress = Math.min(elapsed / duration, 1)
+
+            // Easing function (ease-out)
+            const easeOut = 1 - Math.pow(1 - progress, 3)
+
+            container.scrollTop = startScroll + distance * easeOut
+
+            if (progress < 1) {
+              requestAnimationFrame(animateScroll)
+            }
+          }
+
+          requestAnimationFrame(animateScroll)
+        }
+      }, 0)
     }
   }
 
@@ -333,6 +376,151 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                 and application process with minimal confusion or frustration.
               </p>
             </div>
+          </div>
+        </motion.section>
+      )}
+
+      {/* Gutenberg CMS Case Study Content Section */}
+      {caseStudy.slug === 'gutenberg-cms-usability-evaluation' && (
+        <motion.section
+          className="w-full px-6 py-16 md:py-24 max-w-[1920px] mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          <div className="max-w-[940px] mx-auto text-left">
+            {/* Abstract Section */}
+            <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
+              Abstract
+            </h3>
+
+            <div className="space-y-6 md:space-y-8">
+              <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                This case study is based on a usability evaluation of Gutenberg
+                Technologies&apos; course management system (CMS), a legacy
+                e-learning content authoring platform used primarily by
+                publishers. The research focused on understanding how new users
+                create content, manage the table of contents, interact with
+                drag-and-drop features, and discover and use AI-assisted content
+                generation. Using moderated user testing with eye-tracking and
+                Retrospective Think-Aloud (RTA), the study triangulated
+                behavioral metrics, gaze data, and verbal feedback across nine
+                participants to identify critical breakdowns in onboarding and
+                authoring workflows.
+              </p>
+              <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                Findings revealed a strong learnability baseline driven by
+                familiar editor patterns, but significant usability issues caused
+                by expectation mismatches, poor feature discoverability, and
+                unclear system-generated structures. Key problems included
+                confusion around default template pages, forced template
+                selection during &ldquo;author from scratch&rdquo; flows, and
+                multiple points of friction in the AI content generation
+                experience.
+              </p>
+            </div>
+
+            {/* Read Full Case Study Button */}
+            <div className="mt-12 md:mt-16 flex items-center gap-4">
+              <button
+                ref={buttonRef}
+                onClick={handleToggleContent}
+                className="group inline-flex items-center gap-2 text-base md:text-[20px] font-normal text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
+              >
+                <span className="relative inline-block">
+                  {isContentRevealed ? 'Hide case study' : 'Read full case study'}
+                  {/* Animated underline */}
+                  <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full" />
+                </span>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  className="w-4 h-4 transition-transform duration-200"
+                  style={{ transform: isContentRevealed ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4 6L8 10L12 6"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              <span
+                className="text-base md:text-[20px] font-normal"
+                style={{ color: 'rgb(var(--color-text-tertiary))' }}
+              >
+                8 min read
+              </span>
+            </div>
+
+            {/* Full Case Study Content - Clean show/hide animation */}
+            <AnimatePresence initial={false}>
+              {isContentRevealed && (
+                <motion.div
+                  className="mt-12 md:mt-16"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{
+                    duration: 0.5,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
+                  {/* Content wrapper */}
+                  <div>
+
+              {/* Project Overview Section */}
+              <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
+                Project Overview
+              </h3>
+
+              <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
+                <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                  Gutenberg Technologies is an e-learning course builder tool for
+                  creating text-based learning materials like textbooks and
+                  training resources, primarily used by publishers. Their course
+                  management system (CMS) is outdated and difficult for new users.
+                </p>
+                <p className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                  The client wanted to improve the usability of the CMS, make the
+                  product more intuitive, and integrate generative AI to simplify
+                  resource creation.
+                </p>
+              </div>
+
+              {/* My Role Section */}
+              <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
+                My Role
+              </h3>
+
+              <div className="space-y-6 md:space-y-8">
+                <p className="text-base md:text-[20px] font-medium text-text-secondary leading-relaxed">
+                  As part of a four-person research team, I contributed to:
+                </p>
+                <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-2">
+                  <li className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                    Research planning and hypothesis development
+                  </li>
+                  <li className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                    Eye-tracking study design and moderation
+                  </li>
+                  <li className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                    Analyzing the insights
+                  </li>
+                  <li className="text-base md:text-[20px] font-normal text-text-secondary leading-relaxed">
+                    Design recommendations
+                  </li>
+                </ul>
+              </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </motion.section>
       )}

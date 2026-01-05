@@ -70,6 +70,23 @@ export const caseStudies: CaseStudy[] = [
     timeline: 'Mar - Jun 2024',
   },
   {
+    slug: 'gutenberg-cms-usability-evaluation',
+    title: 'Usability Evaluation of CMS Authoring Experience',
+    organization: 'Gutenberg Technologies',
+    year: '2025',
+    description:
+      'A usability study of Gutenberg Technologies\' course management system (CMS), identifying workflow challenges and proposing design improvements to make the CMS more intuitive and easier for new users to adopt.',
+    tags: ['Eye Tracking', 'Usability Study', 'Selected Work'],
+    imageBg: 'rgb(var(--color-case-study-red))',
+    imageUrl:
+      '/images/case-studies/gutenberg-cms-usability-evaluation/hero.png',
+    featured: true,
+    category: 'usability-testing',
+    team: ['Atharva Nayak', 'Gloria Yang', 'Grace Ho', 'Karla Santamaria'],
+    timeline: 'September - December 2025',
+    progressBarColor: '#2A55DF',
+  },
+  {
     slug: 'met-free-tours-usability',
     title: 'Usability study on free tours page MET',
     organization: 'Class Project',
@@ -78,7 +95,7 @@ export const caseStudies: CaseStudy[] = [
       'A usability study examining the Metropolitan Museum of Art free tours page, identifying pain points and proposing design improvements for better visitor engagement.',
     tags: ['Usability Testing', 'Design', 'Selected Work'],
     imageBg: 'rgb(var(--color-case-study-red))',
-    featured: true,
+    featured: false,
     category: 'usability-testing',
     team: ['Atharva Nayak'],
     timeline: 'Feb - Apr 2024',
