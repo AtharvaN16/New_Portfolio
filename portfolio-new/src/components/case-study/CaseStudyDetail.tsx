@@ -24,6 +24,7 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
   const { theme } = useTheme()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isContentRevealed, setIsContentRevealed] = useState(false)
+  const [contentRevealKey, setContentRevealKey] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
   const localLenisRef = useRef<Lenis | null>(null)
@@ -138,6 +139,10 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
   const handleToggleContent = () => {
     const wasRevealed = isContentRevealed
     setIsContentRevealed(!isContentRevealed)
+    if (!wasRevealed) {
+      // Increment key when content is first revealed to trigger animations
+      setContentRevealKey(prev => prev + 1)
+    }
 
     // If hiding content, smoothly scroll to button position
     if (wasRevealed && buttonRef.current) {
@@ -579,22 +584,27 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                   <div>
 
               {/* Project Overview Section */}
-              <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
+              <h3 className="text-sm md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                 Project Overview
               </h3>
 
-              <h4 className="text-lg md:text-[24px] font-bold text-primary mb-6 md:mb-[28px]">
-                Understanding First-Time User Experience in a Legacy CMS
-              </h4>
+              <AnimatedTitle
+                key={`project-overview-${contentRevealKey}`}
+                text="Understanding First-Time User Experience in a Legacy CMS"
+                animationType="fadeIn"
+                alwaysAnimate
+                delay={0}
+                className="text-2xl md:text-[32px] font-bold text-text-primary mb-6 md:mb-8 leading-tight"
+              />
 
               <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
-                <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
+                <p className="text-base md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
                   Gutenberg Technologies is an e-learning course builder tool for
                   creating text-based learning materials like textbooks and
                   training resources, primarily used by publishers. Their course
                   management system (CMS) is outdated and difficult for new users.
                 </p>
-                <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed">
+                <p className="text-base md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
                   The client wanted to improve the usability of the CMS, make the
                   product more intuitive, and integrate generative AI to simplify
                   resource creation.
@@ -608,11 +618,11 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
               />
 
               {/* Research Objectives Section */}
-              <h3 className="text-lg md:text-[28px] font-bold text-primary mb-6 md:mb-[28px]">
+              <h3 className="text-sm md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                 Research Objectives
               </h3>
 
-              <p className="text-base md:text-[18px] font-normal text-text-secondary leading-relaxed mb-8 md:mb-10">
+              <p className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10" style={{ color: 'rgb(var(--color-text-secondary))' }}>
                 The objective of the study is to understand the use of the{' '}
                 <span className="font-semibold">Table of Contents</span>,{' '}
                 <span className="font-semibold">Authoring from scratch</span>, and the
@@ -626,7 +636,9 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                     style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                   />
                   <div>
-                    <div className="text-base md:text-[18px] font-semibold text-text-secondary leading-relaxed">
+                    <div 
+                      className="text-base md:text-[18px] font-semibold leading-relaxed text-text-secondary"
+                    >
                       Table of contents (TOC)
                     </div>
                     <p 
@@ -644,7 +656,9 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                     style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                   />
                   <div>
-                    <div className="text-base md:text-[18px] font-semibold text-text-secondary leading-relaxed">
+                    <div 
+                      className="text-base md:text-[18px] font-semibold leading-relaxed text-text-secondary"
+                    >
                       Authoring content from scratch
                     </div>
                     <p 
@@ -662,7 +676,9 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                     style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                   />
                   <div>
-                    <div className="text-base md:text-[18px] font-semibold text-text-secondary leading-relaxed">
+                    <div 
+                      className="text-base md:text-[18px] font-semibold leading-relaxed text-text-secondary"
+                    >
                       Drag-and-drop
                     </div>
                     <p 
@@ -692,6 +708,58 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
                   </div>
                 </li>
               </ul>
+
+              {/* Divider */}
+              <div 
+                className="border-t my-12 md:my-16"
+                style={{ borderColor: 'rgb(var(--color-text-color30))' }}
+              />
+
+              {/* Methodology Section */}
+              <div className="mt-12 md:mt-16">
+                <h3 className="text-sm md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+                  Methodology
+                </h3>
+
+                <AnimatedTitle
+                  key={`methodology-${contentRevealKey}`}
+                  text="Evaluating usability through behavioral and attitudinal data"
+                  animationType="fadeIn"
+                  alwaysAnimate
+                  delay={0}
+                  className="text-2xl md:text-[32px] font-bold text-text-primary mb-6 md:mb-8 leading-tight"
+                />
+
+                <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
+                  <p className="text-base md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                    We conducted <span className="font-bold">9 moderated desktop usability sessions</span> (45–60 minutes each) using <span className="font-bold">Tobii eye-tracking</span> software, with participants recruited through <span className="font-bold">dscout Private Panels</span>. To better understand user behavior, we paired eye tracking with the <span className="font-bold">Retrospective Think-Aloud (RTA)</span> method, asking participants to reflect on their actions after completing tasks. This allowed us to capture not just what users did, but where they looked and why they made specific decisions. Participants also completed the <span className="font-bold">System Usability Scale (SUS)</span> to provide a quantitative measure of overall usability.
+                  </p>
+                </div>
+
+                <h4 className="text-base md:text-[18px] font-bold mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-primary))' }}>
+                  Data Collected:
+                </h4>
+
+                <div className="space-y-3 md:space-y-4">
+                  <p className="text-sm md:text-[16px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                    Each session captured
+                  </p>
+                  <ul className="space-y-3 md:space-y-4 list-disc list-inside ml-4">
+                    <li className="text-sm md:text-[16px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                      Gaze plots, heatmaps and screen recordings
+                    </li>
+                    <li className="text-sm md:text-[16px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                      Task completion rates and time-on-task
+                    </li>
+                    <li className="text-sm md:text-[16px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                      RTA insights as participants reviewed their gaze replay and explained the reasoning behind key actions.
+                    </li>
+                    <li className="text-sm md:text-[16px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                      System Usability Scale (SUS) survey responses
+                    </li>
+                  </ul>
+                </div>
+              </div>
                   </div>
                 </motion.div>
               )}
