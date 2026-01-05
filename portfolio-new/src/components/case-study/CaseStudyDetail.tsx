@@ -4,6 +4,7 @@ import { motion, useScroll, AnimatePresence } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import Lenis from 'lenis'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import type { CaseStudy } from '@/lib/data/case-studies'
 import { HoverLink } from '@/components/ui/HoverLink'
@@ -25,11 +26,72 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
   const [isContentRevealed, setIsContentRevealed] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLButtonElement>(null)
+  const localLenisRef = useRef<Lenis | null>(null)
 
   // Scroll progress tracking for progress bar - track scroll within the container
   const { scrollYProgress } = useScroll({
     container: containerRef,
   })
+
+  // Initialize local Lenis for smooth scrolling within the container
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches
+
+    // Skip smooth scroll if user prefers reduced motion
+    if (prefersReducedMotion) {
+      return
+    }
+
+    // Wait for DOM to be fully ready
+    const timeoutId = setTimeout(() => {
+      try {
+        // Initialize Lenis with the container as wrapper
+        const localLenis = new Lenis({
+          wrapper: container,
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          orientation: 'vertical',
+          gestureOrientation: 'vertical',
+          smoothWheel: true,
+          wheelMultiplier: 1,
+          touchMultiplier: 2,
+          infinite: false,
+        })
+
+        localLenisRef.current = localLenis
+
+        // Animation frame loop for local Lenis
+        let rafId: number | null = null
+
+        function raf(time: number) {
+          localLenis.raf(time)
+          rafId = requestAnimationFrame(raf)
+        }
+
+        rafId = requestAnimationFrame(raf)
+
+        // Cleanup
+        return () => {
+          if (rafId !== null) {
+            cancelAnimationFrame(rafId)
+          }
+          localLenis.destroy()
+          localLenisRef.current = null
+        }
+      } catch (error) {
+        console.error('Local Lenis initialization failed:', error)
+        // Container will still work with native scroll
+      }
+    }, 0)
+
+    return () => clearTimeout(timeoutId)
+  }, [])
 
   // Listen to container scroll - optimized with RAF throttling to prevent lag
   useEffect(() => {
@@ -78,45 +140,60 @@ export function CaseStudyDetail({ caseStudy }: CaseStudyDetailProps) {
     setIsContentRevealed(!isContentRevealed)
 
     // If hiding content, smoothly scroll to button position
-    if (wasRevealed && containerRef.current && buttonRef.current) {
+    if (wasRevealed && buttonRef.current) {
       // Use setTimeout to ensure state update happens first
       setTimeout(() => {
-        const container = containerRef.current
         const button = buttonRef.current
-        if (container && button) {
+        if (button) {
           const buttonTop = button.offsetTop
-          const containerScrollTop = container.scrollTop
           const targetScroll = buttonTop - 100 // Offset from top
 
-          // Smooth scroll using requestAnimationFrame for smooth animation
-          const startScroll = containerScrollTop
-          const distance = targetScroll - startScroll
-          const duration = 600 // 600ms
-          const startTime = performance.now()
+          // Use local Lenis instance if available, otherwise fallback to manual scroll
+          if (localLenisRef.current) {
+            localLenisRef.current.scrollTo(targetScroll, {
+              duration: 0.6,
+              easing: (t: number) => 1 - Math.pow(1 - t, 3),
+            })
+          } else if (containerRef.current) {
+            // Fallback to manual smooth scroll if Lenis not available
+            const container = containerRef.current
+            const startScroll = container.scrollTop
+            const distance = targetScroll - startScroll
+            const duration = 600
+            const startTime = performance.now()
 
-          const animateScroll = (currentTime: number) => {
-            const elapsed = currentTime - startTime
-            const progress = Math.min(elapsed / duration, 1)
+            const animateScroll = (currentTime: number) => {
+              const elapsed = currentTime - startTime
+              const progress = Math.min(elapsed / duration, 1)
+              const easeOut = 1 - Math.pow(1 - progress, 3)
+              container.scrollTop = startScroll + distance * easeOut
 
-            // Easing function (ease-out)
-            const easeOut = 1 - Math.pow(1 - progress, 3)
-
-            container.scrollTop = startScroll + distance * easeOut
-
-            if (progress < 1) {
-              requestAnimationFrame(animateScroll)
+              if (progress < 1) {
+                requestAnimationFrame(animateScroll)
+              }
             }
-          }
 
-          requestAnimationFrame(animateScroll)
+            requestAnimationFrame(animateScroll)
+          }
         }
       }, 0)
     }
   }
 
+  // Recalculate Lenis scroll bounds when content is revealed/hidden
+  useEffect(() => {
+    if (localLenisRef.current) {
+      // Wait for animation to complete before resizing
+      setTimeout(() => {
+        localLenisRef.current?.resize()
+      }, 600) // Match the animation duration from AnimatePresence
+    }
+  }, [isContentRevealed])
+
   return (
     <div
       ref={containerRef}
+      data-lenis-prevent
       className="min-h-dvh bg-background text-text-primary overflow-y-auto h-dvh"
       style={{
         overscrollBehavior: 'contain',
