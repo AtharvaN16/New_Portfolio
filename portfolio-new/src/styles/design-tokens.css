@@ -19,12 +19,21 @@
 
     /* --- Colors: Text (opacity-based) --- */
     --color-foreground: 23 23 23; /* #171717 */
-    --color-text-primary: 23 23 23; /* #171717 - 100% opacity */
-    --color-text-secondary: 69 69 69; /* ~#171717 at 80% opacity on white */
-    --color-text-tertiary: 139 139 139; /* ~#171717 at 50% opacity on white */
+    --color-text-color10: 232 232 232; /* ~#171717 at 10% opacity on white */
+    --color-text-color20: 209 209 209; /* ~#171717 at 20% opacity on white */
     --color-text-color30: 185 185 185; /* ~#171717 at 30% opacity on white */
+    --color-text-color40: 162 162 162; /* ~#171717 at 40% opacity on white */
+    --color-text-tertiary-50: 139 139 139; /* ~#171717 at 50% opacity on white */
     --color-text-color60: 116 116 116; /* ~#171717 at 60% opacity on white */
+    --color-text-color70: 93 93 93; /* ~#171717 at 70% opacity on white */
+    --color-text-secondary-80: 69 69 69; /* ~#171717 at 80% opacity on white */
     --color-text-color90: 46 46 46; /* ~#171717 at 90% opacity on white */
+    --color-text-primary-100: 23 23 23; /* #171717 - 100% opacity */
+
+    /* Backward compatibility aliases */
+    --color-text-primary: var(--color-text-primary-100);
+    --color-text-secondary: var(--color-text-secondary-80);
+    --color-text-tertiary: var(--color-text-tertiary-50);
 
     /* --- Colors: Brand --- */
     --color-primary: 57 71 202; /* #3947ca - Your brand blue */
@@ -147,12 +156,21 @@
 
     /* --- Colors: Text (opacity-based) --- */
     --color-foreground: 232 230 227; /* #E8E6E3 - Your specified text color */
-    --color-text-primary: 232 230 227; /* #E8E6E3 - 100% opacity */
-    --color-text-secondary: 192 191 189; /* ~#E8E6E3 at 80% opacity on dark bg */
-    --color-text-tertiary: 132 132 131; /* ~#E8E6E3 at 50% opacity on dark bg */
+    --color-text-color10: 45 45 45; /* ~#E8E6E3 at 10% opacity on dark bg */
+    --color-text-color20: 66 66 66; /* ~#E8E6E3 at 20% opacity on dark bg */
     --color-text-color30: 92 93 93; /* ~#E8E6E3 at 30% opacity on dark bg */
+    --color-text-color40: 107 107 107; /* ~#E8E6E3 at 40% opacity on dark bg */
+    --color-text-tertiary-50: 132 132 131; /* ~#E8E6E3 at 50% opacity on dark bg */
     --color-text-color60: 149 149 149; /* ~#E8E6E3 at 60% opacity on dark bg */
+    --color-text-color70: 170 170 170; /* ~#E8E6E3 at 70% opacity on dark bg */
+    --color-text-secondary-80: 192 191 189; /* ~#E8E6E3 at 80% opacity on dark bg */
     --color-text-color90: 209 207 204; /* ~#E8E6E3 at 90% opacity on dark bg */
+    --color-text-primary-100: 232 230 227; /* #E8E6E3 - 100% opacity */
+
+    /* Backward compatibility aliases */
+    --color-text-primary: var(--color-text-primary-100);
+    --color-text-secondary: var(--color-text-secondary-80);
+    --color-text-tertiary: var(--color-text-tertiary-50);
 
     /* --- Colors: Brand (slightly adjusted for dark) --- */
     --color-primary: 99 102 241; /* #6366f1 - Brighter for dark */
@@ -200,12 +218,22 @@
       --color-surface: 23 23 23;
       --color-surface-elevated: 38 38 38;
       --color-foreground: 237 237 237;
-      --color-text-primary: 250 250 250;
-      --color-text-secondary: 202 202 202; /* ~#FAFAFA at 80% opacity on dark bg */
-      --color-text-tertiary: 130 130 130; /* ~#FAFAFA at 50% opacity on dark bg */
+      --color-text-color10: 34 34 34; /* ~#FAFAFA at 10% opacity on dark bg */
+      --color-text-color20: 58 58 58; /* ~#FAFAFA at 20% opacity on dark bg */
       --color-text-color30: 82 82 82; /* ~#FAFAFA at 30% opacity on dark bg */
+      --color-text-color40: 106 106 106; /* ~#FAFAFA at 40% opacity on dark bg */
+      --color-text-tertiary-50: 130 130 130; /* ~#FAFAFA at 50% opacity on dark bg */
       --color-text-color60: 154 154 154; /* ~#FAFAFA at 60% opacity on dark bg */
+      --color-text-color70: 178 178 178; /* ~#FAFAFA at 70% opacity on dark bg */
+      --color-text-secondary-80: 202 202 202; /* ~#FAFAFA at 80% opacity on dark bg */
       --color-text-color90: 225 225 225; /* ~#FAFAFA at 90% opacity on dark bg */
+      --color-text-primary-100: 250 250 250; /* #FAFAFA - 100% opacity */
+      
+      /* Backward compatibility aliases */
+      --color-text-primary: var(--color-text-primary-100);
+      --color-text-secondary: var(--color-text-secondary-80);
+      --color-text-tertiary: var(--color-text-tertiary-50);
+      
       --color-primary: 99 102 241;
       --color-primary-hover: 129 140 248;
       --color-accent: 139 92 246;

@@ -10,6 +10,7 @@ import type { CaseStudy } from '@/lib/data/case-studies'
 import { HoverLink } from '@/components/ui/HoverLink'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 import { CaseStudyContent } from '@/components/case-study/CaseStudyContent'
+import { OptimizedImage } from '@/components/case-study/OptimizedImage'
 
 interface CaseStudyDetailProps {
   caseStudy: CaseStudy
@@ -563,7 +564,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
               {/* Divider */}
               <div
                 className="border-t my-24 md:my-32"
-                style={{ borderColor: 'rgb(var(--color-text-color30))' }}
+                style={{ borderColor: 'rgb(var(--color-text-color10))' }}
               />
 
               {/* Research Objectives Section */}
@@ -661,7 +662,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
               {/* Divider */}
               <div
                 className="border-t my-24 md:my-32"
-                style={{ borderColor: 'rgb(var(--color-text-color30))' }}
+                style={{ borderColor: 'rgb(var(--color-text-color10))' }}
               />
 
               {/* Methodology Section */}
@@ -678,6 +679,18 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
                   className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight"
                 />
 
+                {/* Eye Tracking Setup Image */}
+                <div className="mb-12 md:mb-16">
+                  <OptimizedImage
+                    webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/eyetracking-01.webp"
+                    fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/eyetracking-01.jpg"
+                    alt="Eye tracking setup during usability testing session"
+                    width={940}
+                    height={705}
+                    className="w-full rounded-lg"
+                  />
+                </div>
+
                 <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
                   <p className="text-base md:text-[20px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
                     We conducted <span className="font-bold">9 moderated desktop usability sessions</span> (45–60 minutes each) using <span className="font-bold">Tobii eye-tracking</span> software, with participants recruited through <span className="font-bold">dscout Private Panels</span>. To better understand user behavior, we paired eye tracking with the <span className="font-bold">Retrospective Think-Aloud (RTA)</span> method, asking participants to reflect on their actions after completing tasks. This allowed us to capture not just what users did, but where they looked and why they made specific decisions. Participants also completed the <span className="font-bold">System Usability Scale (SUS)</span> to provide a quantitative measure of overall usability.
@@ -688,24 +701,86 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
                   Data Collected:
                 </h4>
 
-                <div className="space-y-3 md:space-y-4">
-                  <p className="text-sm md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
-                    Each session captured
-                  </p>
-                  <ul className="space-y-3 md:space-y-4 list-disc list-inside ml-4">
-                    <li className="text-sm md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
-                      Gaze plots, heatmaps and screen recordings
-                    </li>
-                    <li className="text-sm md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
-                      Task completion rates and time-on-task
-                    </li>
-                    <li className="text-sm md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
-                      RTA insights as participants reviewed their gaze replay and explained the reasoning behind key actions.
-                    </li>
-                    <li className="text-sm md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
-                      System Usability Scale (SUS) survey responses
-                    </li>
-                  </ul>
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Task Performance */}
+                  <div className="space-y-3">
+                    <OptimizedImage
+                      webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/timeontask.webp"
+                      fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/timeontask.png"
+                      alt="Task Performance data"
+                      width={462}
+                      height={240}
+                      className="w-full"
+                    />
+                    <div className="space-y-1">
+                      <p className="text-[14px] font-bold leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                        Task Performance
+                      </p>
+                      <p className="text-[14px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color60))' }}>
+                        Tracking task completion, time-on-task to identify friction points across key authoring workflows.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Usability Assessment */}
+                  <div className="space-y-3">
+                    <OptimizedImage
+                      webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/SUS.webp"
+                      fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/SUS.png"
+                      alt="Usability Assessment data"
+                      width={462}
+                      height={240}
+                      className="w-full"
+                    />
+                    <div className="space-y-1">
+                      <p className="text-[14px] font-bold leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                        Usability Assessment
+                      </p>
+                      <p className="text-[14px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color60))' }}>
+                        Using System Usability Scale (SUS) responses to capture participants&apos; overall perception of ease of use and system clarity.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Gaze Data */}
+                  <div className="space-y-3">
+                    <OptimizedImage
+                      webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/Gazedata.webp"
+                      fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/Gazedata.png"
+                      alt="Gaze Data visualization"
+                      width={462}
+                      height={240}
+                      className="w-full"
+                    />
+                    <div className="space-y-1">
+                      <p className="text-[14px] font-bold leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                        Gaze Data
+                      </p>
+                      <p className="text-[14px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color60))' }}>
+                        Analyzing gaze plots, heatmaps, and gaze replays to understand where users focused their attention and what they noticed or missed.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Retrospective Think-Aloud */}
+                  <div className="space-y-3">
+                    <OptimizedImage
+                      webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/RTA.webp"
+                      fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/RTA.png"
+                      alt="Retrospective Think-Aloud notes"
+                      width={462}
+                      height={240}
+                      className="w-full"
+                    />
+                    <div className="space-y-1">
+                      <p className="text-[14px] font-bold leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                        Retrospective Think-Aloud (RTA) Notes
+                      </p>
+                      <p className="text-[14px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color60))' }}>
+                        Reviewing session replays with participants to understand the reasoning behind their actions and decisions.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
                   </div>

@@ -14,12 +14,21 @@
   --color-surface-muted: rgb(var(--color-surface-muted) / <alpha-value>);
 
   --color-foreground: rgb(var(--color-foreground) / <alpha-value>);
-  --color-text-primary: rgb(var(--color-text-primary) / <alpha-value>);
-  --color-text-secondary: rgb(var(--color-text-secondary) / <alpha-value>);
-  --color-text-tertiary: rgb(var(--color-text-tertiary) / <alpha-value>);
+  --color-text-color10: rgb(var(--color-text-color10) / <alpha-value>);
+  --color-text-color20: rgb(var(--color-text-color20) / <alpha-value>);
   --color-text-color30: rgb(var(--color-text-color30) / <alpha-value>);
+  --color-text-color40: rgb(var(--color-text-color40) / <alpha-value>);
+  --color-text-tertiary-50: rgb(var(--color-text-tertiary-50) / <alpha-value>);
   --color-text-color60: rgb(var(--color-text-color60) / <alpha-value>);
+  --color-text-color70: rgb(var(--color-text-color70) / <alpha-value>);
+  --color-text-secondary-80: rgb(var(--color-text-secondary-80) / <alpha-value>);
   --color-text-color90: rgb(var(--color-text-color90) / <alpha-value>);
+  --color-text-primary-100: rgb(var(--color-text-primary-100) / <alpha-value>);
+  
+  /* Backward compatibility aliases */
+  --color-text-primary: rgb(var(--color-text-primary-100) / <alpha-value>);
+  --color-text-secondary: rgb(var(--color-text-secondary-80) / <alpha-value>);
+  --color-text-tertiary: rgb(var(--color-text-tertiary-50) / <alpha-value>);
 
   --color-primary: rgb(var(--color-primary) / <alpha-value>);
   --color-primary-hover: rgb(var(--color-primary-hover) / <alpha-value>);
@@ -43,4 +52,16 @@
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
