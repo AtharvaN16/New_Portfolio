@@ -313,11 +313,12 @@ describe('Component', () => {
 
 1. **Always work in `portfolio-new/` directory** - old portfolio is reference only
 2. **Read `rules.md` first** - contains core development principles
-3. **Consult design tokens** before styling - check `src/app/globals.css`
-4. **Ask before creating .md files** - user permission required
-5. **Max 300 lines per file** - strict limit, refactor if exceeded
-6. **Mobile-first** - start with mobile styles, enhance for desktop
-7. **Type safety** - use strict TypeScript, avoid `any`
-8. **Test as you build** - write tests alongside features
-9. **Semantic HTML** - use proper elements, not divs everywhere
-10. **When uncertain, ask the user** - don't guess implementation details
+3. **Check library docs BEFORE coding** - understand features/best practices first (e.g., Lenis, Framer Motion)
+4. **Consult design tokens** before styling - check `src/app/globals.css`
+5. **Ask before creating .md files** - user permission required
+6. **Max 300 lines per file** - strict limit, refactor if exceeded
+7. **Mobile-first** - start with mobile styles, enhance for desktop
+8. **Type safety** - use strict TypeScript, avoid `any`
+9. **Test as you build** - write tests alongside features
+10. **Semantic HTML** - use proper elements, not divs everywhere
+11. **When uncertain, ask the user** - don't guess implementation details
