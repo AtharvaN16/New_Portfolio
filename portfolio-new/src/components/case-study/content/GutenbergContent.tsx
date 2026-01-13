@@ -635,15 +635,20 @@ export function GutenbergContent({
 
                 {/* Findings and Recommendations Section */}
                 <div className="mt-12 md:mt-16">
+                  <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
+                    Findings and Recommendations
+                  </h3>
+
+                  {/* Finding 1 */}
                   <h3
                     className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
                     style={{ color: 'rgb(var(--color-text-tertiary))' }}
                   >
-                    Findings and Recommendations
+                    Finding 1
                   </h3>
 
                   <AnimatedTitle
-                    text="Key insights and actionable design recommendations"
+                    text="Making template selection required during project creation caused expectation mismatch"
                     animationType="fadeIn"
                     alwaysAnimate={false}
                     delay={0}
@@ -655,146 +660,36 @@ export function GutenbergContent({
                       className="text-base md:text-[20px] font-normal leading-relaxed"
                       style={{ color: 'rgb(var(--color-text-color90))' }}
                     >
-                      Based on our analysis of behavioral metrics, gaze data, and
-                      participant feedback, we identified several critical usability
-                      issues and developed targeted recommendations to improve the
-                      CMS authoring experience.
+                      When users chose to &quot;Create a new project from
+                      scratch,&quot; they expected to start with a blank
+                      canvas. Instead, the system forced them to select a
+                      template before proceeding, causing confusion and
+                      frustration.
                     </p>
                   </div>
 
-                  {/* Findings subsection */}
-                  <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
-                    <h4
-                      className="text-base md:text-[22px] font-bold mb-4 md:mb-6"
-                      style={{ color: 'rgb(var(--color-text-primary))' }}
-                    >
-                      Key Findings
-                    </h4>
-                    <ul className="space-y-4 md:space-y-5">
-                      <li className="flex items-start gap-4">
-                        <span
-                          className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
-                        />
-                        <p
-                          className="text-base md:text-[20px] font-normal leading-relaxed"
-                          style={{ color: 'rgb(var(--color-text-color90))' }}
-                        >
-                          Strong learnability baseline driven by familiar editor
-                          patterns, but significant usability issues caused by
-                          expectation mismatches and poor feature discoverability.
-                        </p>
-                      </li>
-                      <li className="flex items-start gap-4">
-                        <span
-                          className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
-                        />
-                        <p
-                          className="text-base md:text-[20px] font-normal leading-relaxed"
-                          style={{ color: 'rgb(var(--color-text-color90))' }}
-                        >
-                          Confusion around default template pages and forced template
-                          selection during "author from scratch" flows created
-                          unnecessary friction.
-                        </p>
-                      </li>
-                      <li className="flex items-start gap-4">
-                        <span
-                          className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
-                        />
-                        <p
-                          className="text-base md:text-[20px] font-normal leading-relaxed"
-                          style={{ color: 'rgb(var(--color-text-color90))' }}
-                        >
-                          Multiple points of friction in the AI content generation
-                          experience, with users struggling to discover and
-                          effectively use AI-assisted features.
-                        </p>
-                      </li>
-                      <li className="flex items-start gap-4">
-                        <span
-                          className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
-                        />
-                        <p
-                          className="text-base md:text-[20px] font-normal leading-relaxed"
-                          style={{ color: 'rgb(var(--color-text-color90))' }}
-                        >
-                          Unclear system-generated structures and poor feedback
-                          mechanisms left users uncertain about their actions and
-                          system state.
-                        </p>
-                      </li>
-                    </ul>
+                  {/* Finding 1 - Image 1 */}
+                  <div className="mb-12 md:mb-16">
+                    <OptimizedImage
+                      webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f1-s1-1.webp"
+                      fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f1-s1-1.png"
+                      alt="Comparison of current and proposed design for template selection - showing how the revised title and 'Start from Scratch' option reduces confusion"
+                      width={2820}
+                      height={1621}
+                      className="w-full rounded-lg"
+                    />
                   </div>
 
-                  {/* Recommendations subsection */}
-                  <div className="space-y-6 md:space-y-8">
-                    <h4
-                      className="text-base md:text-[22px] font-bold mb-4 md:mb-6"
-                      style={{ color: 'rgb(var(--color-text-primary))' }}
-                    >
-                      Design Recommendations
-                    </h4>
-                    <ul className="space-y-4 md:space-y-5">
-                      <li className="flex items-start gap-4">
-                        <span
-                          className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
-                        />
-                        <p
-                          className="text-base md:text-[20px] font-normal leading-relaxed"
-                          style={{ color: 'rgb(var(--color-text-color90))' }}
-                        >
-                          Simplify the authoring flow by removing forced template
-                          selection and providing clearer starting points for users.
-                        </p>
-                      </li>
-                      <li className="flex items-start gap-4">
-                        <span
-                          className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
-                        />
-                        <p
-                          className="text-base md:text-[20px] font-normal leading-relaxed"
-                          style={{ color: 'rgb(var(--color-text-color90))' }}
-                        >
-                          Improve feature discoverability through better visual
-                          hierarchy, contextual hints, and progressive disclosure of
-                          advanced features.
-                        </p>
-                      </li>
-                      <li className="flex items-start gap-4">
-                        <span
-                          className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
-                        />
-                        <p
-                          className="text-base md:text-[20px] font-normal leading-relaxed"
-                          style={{ color: 'rgb(var(--color-text-color90))' }}
-                        >
-                          Enhance the AI content generation experience with clearer
-                          entry points, better feedback, and more intuitive interaction
-                          patterns.
-                        </p>
-                      </li>
-                      <li className="flex items-start gap-4">
-                        <span
-                          className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
-                        />
-                        <p
-                          className="text-base md:text-[20px] font-normal leading-relaxed"
-                          style={{ color: 'rgb(var(--color-text-color90))' }}
-                        >
-                          Provide clearer system feedback and visual indicators to help
-                          users understand system-generated structures and their current
-                          context.
-                        </p>
-                      </li>
-                    </ul>
+                  {/* Finding 1 - Image 2 */}
+                  <div className="mb-12 md:mb-16">
+                    <OptimizedImage
+                      webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f1-s1-2.webp"
+                      fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f1-s1-2.png"
+                      alt="Comparison of current and proposed design for project creation modal - showing how adding a 'Continue without a theme' option improves user experience"
+                      width={2820}
+                      height={1621}
+                      className="w-full rounded-lg"
+                    />
                   </div>
                 </div>
               </div>
