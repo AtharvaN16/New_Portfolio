@@ -655,19 +655,6 @@ export function GutenbergContent({
                     className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight"
                   />
 
-                  <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
-                    <p
-                      className="text-base md:text-[20px] font-normal leading-relaxed"
-                      style={{ color: 'rgb(var(--color-text-color90))' }}
-                    >
-                      When users chose to &quot;Create a new project from
-                      scratch,&quot; they expected to start with a blank
-                      canvas. Instead, the system forced them to select a
-                      template before proceeding, causing confusion and
-                      frustration.
-                    </p>
-                  </div>
-
                   {/* Finding 1 - Image 1 */}
                   <div className="mb-12 md:mb-16">
                     <OptimizedImage
@@ -690,6 +677,60 @@ export function GutenbergContent({
                       height={1621}
                       className="w-full rounded-lg"
                     />
+                  </div>
+
+                  {/* Data Visualization with 9 Bars */}
+                  <div className="mb-12 md:mb-16">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
+                      {/* Left Column: Bars and Stats */}
+                      <div className="flex items-start gap-4 md:gap-6">
+                        {/* 9 Vertical Bars */}
+                        <div className="flex items-end gap-[14px]">
+                          {[...Array(9)].map((_, index) => (
+                            <div
+                              key={index}
+                              className="w-[14px] h-[144px]"
+                              style={{
+                                backgroundColor: index < 7 
+                                  ? '#2A55DF' 
+                                  : 'rgb(var(--color-text-color20))',
+                              }}
+                            />
+                          ))}
+                        </div>
+
+                        {/* 7/9 Users Text */}
+                        <div>
+                          <div 
+                            className="text-5xl md:text-6xl font-bold leading-none mb-2"
+                            style={{ color: 'rgb(var(--color-text-primary))' }}
+                          >
+                            7/9
+                          </div>
+                          <div 
+                            className="text-lg md:text-xl font-medium"
+                            style={{ color: 'rgb(var(--color-text-secondary))' }}
+                          >
+                            Users
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Right Column: Description */}
+                      <div>
+                        <p
+                          className="text-[18px] font-normal leading-relaxed"
+                          style={{ color: 'rgb(var(--color-text-color90))' }}
+                        >
+                          7 out of 9 new users were confused by being asked to
+                          &quot;create a project from scratch&quot; but then
+                          immediately being forced to select a template to proceed.
+                          With only one template available, users questioned whether
+                          they were making the right choice and expressed uncertainty
+                          about how to continue.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
