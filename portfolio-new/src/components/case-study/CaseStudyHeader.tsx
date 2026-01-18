@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { HoverLink } from '@/components/ui/HoverLink'
+import { ProgressiveBlur } from '@/components/ui/ProgressiveBlur'
 
 interface CaseStudyHeaderProps {
   isScrolled: boolean
@@ -22,13 +23,13 @@ export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
 
   return (
     <motion.header
-      className="sticky top-0 z-50 bg-background"
+      className="sticky top-0 z-50"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       style={{ willChange: 'transform' }}
     >
-      <nav className="px-6 py-6 flex items-center justify-between max-w-[1920px] mx-auto">
+      <nav className="relative px-6 py-6 flex items-center justify-between max-w-[1920px] mx-auto">
         {/* Logo - slides up on scroll */}
         <motion.div
           animate={{
@@ -101,6 +102,14 @@ export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
           CLOSE
         </motion.button>
       </nav>
+      {/* Progressive blur facing downward, behind progress bar */}
+      <ProgressiveBlur
+        side="bottom"
+        height="100%"
+        strength={12}
+        steps={8}
+        className="-z-10"
+      />
     </motion.header>
   )
 }
