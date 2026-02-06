@@ -55,11 +55,14 @@ export function ProjectCard({
         }
       }}
     >
-      {/* Card - Responsive height for different screen sizes */}
+      {/* Card - Responsive height, or flex-1 to fill container when h-full is passed */}
       <div
         className={cn(
           'relative w-full overflow-hidden',
-          cardHeight || 'h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px]'
+          // If parent has h-full, use flex-1 to fill; otherwise use explicit heights
+          className?.includes('h-full')
+            ? 'flex-1 min-h-[200px]'
+            : cardHeight || 'h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px]'
         )}
       >
         {/* Background Color or Image */}

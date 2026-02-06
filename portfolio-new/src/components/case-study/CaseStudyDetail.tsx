@@ -15,11 +15,24 @@ interface CaseStudyDetailProps {
   children?: React.ReactNode
 }
 
+// Viewport fraction at which overlay has fully faded out (scroll past top)
+const HERO_OVERLAY_FADEOUT_VIEWPORT = 0.4
+// Visible hero fraction below which overlay fades back in (exiting)
+const HERO_OVERLAY_FADEIN_VISIBLE = 0.2
+// Max opacity of the dark overlay (image stays visible, only darkened)
+const HERO_OVERLAY_MAX_OPACITY = 0.55
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max)
+}
+
 export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isContentRevealed, setIsContentRevealed] = useState(false)
+  const [heroOverlayOpacity, setHeroOverlayOpacity] = useState(1)
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const heroSectionRef = useRef<HTMLElement>(null)
 
   // Smooth scroll hook
   const { lenisRef, scrollTo } = useSmoothScroll(containerRef, contentRef)
@@ -28,6 +41,62 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
   const { scrollYProgress } = useScroll({
     container: containerRef,
   })
+
+  // Hero overlay: dark at start, fades out by 40% viewport scroll, fades back in when ~20% of hero remains visible
+  useEffect(() => {
+    const container = containerRef.current
+    const heroSection = heroSectionRef.current
+    if (!container || !heroSection) return
+
+    let rafId: number | null = null
+
+    const updateOverlay = () => {
+      const viewportHeight = container.clientHeight
+      const scrollTop = container.scrollTop
+      const heroTop = heroSection.offsetTop - scrollTop
+      const heroHeight = heroSection.offsetHeight
+
+      const visibleTop = Math.max(0, heroTop)
+      const visibleBottom = Math.min(viewportHeight, heroTop + heroHeight)
+      const visibleHeight = Math.max(0, visibleBottom - visibleTop)
+      const visibleRatio = heroHeight > 0 ? visibleHeight / heroHeight : 0
+
+      let opacity: number
+      const fadeOutThreshold = HERO_OVERLAY_FADEOUT_VIEWPORT * viewportHeight
+      const atOrPast40Viewport = scrollTop >= fadeOutThreshold
+
+      if (atOrPast40Viewport && visibleRatio > HERO_OVERLAY_FADEIN_VISIBLE) {
+        // Full bright: once 40% viewport has passed, no overlay until hero exits (< 20% visible)
+        opacity = 0
+      } else if (scrollTop < fadeOutThreshold) {
+        // Phase 1: dark until 40% viewport, then instant full bright (no gradual fade)
+        opacity = 1
+      } else {
+        // Phase 2: hero exiting with only ~20% visible; fade overlay back in
+        opacity =
+          visibleRatio <= HERO_OVERLAY_FADEIN_VISIBLE
+            ? 1 - visibleRatio / HERO_OVERLAY_FADEIN_VISIBLE
+            : 0
+      }
+
+      setHeroOverlayOpacity(clamp(opacity, 0, 1))
+    }
+
+    const handleScroll = () => {
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(() => {
+        updateOverlay()
+        rafId = null
+      })
+    }
+
+    updateOverlay()
+    container.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      container.removeEventListener('scroll', handleScroll)
+      if (rafId !== null) cancelAnimationFrame(rafId)
+    }
+  }, [])
 
   // Listen to container scroll - optimized with RAF throttling
   useEffect(() => {
@@ -165,6 +234,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
 
       {/* Hero Image Section */}
       <motion.section
+        ref={heroSectionRef}
         className="w-full min-h-screen flex items-center justify-center relative z-10"
         style={{
           backgroundColor: 'rgb(var(--color-footer-bg))',
@@ -183,6 +253,12 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
                 className="object-cover"
                 sizes="100vw"
                 priority
+              />
+              {/* Scroll-driven dark overlay: darkens image at start, fades out by 40% viewport, fades back in when hero exits (~20% visible) */}
+              <div
+                className="absolute inset-0 bg-black pointer-events-none transition-opacity duration-500 ease-out"
+                style={{ opacity: heroOverlayOpacity * HERO_OVERLAY_MAX_OPACITY }}
+                aria-hidden
               />
             </div>
           </div>

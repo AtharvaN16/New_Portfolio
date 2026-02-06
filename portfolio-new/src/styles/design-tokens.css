@@ -148,11 +148,11 @@
      ======================================== */
   [data-theme='dark'] {
     /* --- Colors: Background --- */
-    --color-background: 24 26 27; /* #181A1B - Your specified dark bg */
+    --color-background: 0 0 0; /* #000000 - Pure black */
     --color-surface: 32 34 35; /* #202223 - Slightly lighter surface */
     --color-surface-elevated: 42 44 45; /* #2A2C2D - More elevated */
     --color-surface-muted: 34 34 34; /* #222222 - Subtle dark background */
-    --color-footer-bg: 42 44 45; /* #2A2C2D - Lighter gray for footer in dark mode */
+    --color-footer-bg: 24 26 27; /* #181A1B - Previous dark bg color */
 
     /* --- Colors: Text (opacity-based) --- */
     --color-foreground: 232 230 227; /* #E8E6E3 - Your specified text color */

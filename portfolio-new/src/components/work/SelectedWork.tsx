@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Masonry from 'react-masonry-css'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
 import { cn } from '@/lib/utils/cn'
 import { getFeaturedCaseStudies } from '@/lib/data/case-studies'
@@ -13,30 +12,75 @@ interface SelectedWorkProps {
   className?: string
 }
 
-// Get featured case studies and map to ProjectCardProps with custom heights for offset layout
+/**
+ * BENTO GRID CARD CONFIGURATION
+ * =============================
+ * Uses a 12-column CSS Grid for precise art-directed layouts.
+ *
+ * GRID PLACEMENT (desktop only):
+ *   - colSpan: How many columns the card spans (1-12)
+ *   - colStart: Which column to start at (1-12)
+ *   - rowSpan: How many rows the card spans
+ *   - rowStart: Which row to start at
+ *
+ * HEIGHT: Card height (affects row size on mobile)
+ *   - Format: 'h-[mobile] sm:h-[tablet] lg:h-[desktop]'
+ *
+ * The 12-column grid gives fine control:
+ *   - colSpan: 5 = ~42% width, colSpan: 6 = 50%, colSpan: 7 = ~58%
+ *   - colStart: 1 = left aligned, colStart: 6 = right half, etc.
+ *
+ * Images/videos automatically resize via CSS `object-cover` in ProjectCard
+ */
+const cardConfig = [
+  {
+    // Card 1: Top-left, narrower
+    colSpan: 5,
+    colStart: 1,
+    rowSpan: 7,
+    rowStart: 1,
+    height: 'h-[280px] sm:h-[320px] lg:h-auto',
+  },
+  {
+    // Card 2: Right side, wider, starts lower (row 5)
+    colSpan: 8,
+    colStart: 7,
+    rowSpan: 8,
+    rowStart: 5,
+    height: 'h-[300px] sm:h-[360px] lg:h-auto',
+  },
+  {
+    // Card 3: Left side, wider, below card 1
+    colSpan: 6,
+    colStart: 1,
+    rowSpan: 7,
+    rowStart: 14,
+    height: 'h-[280px] sm:h-[340px] lg:h-auto',
+  },
+  {
+    // Card 4: Right side, wider and taller
+    colSpan: 9,
+    colStart: 6,
+    rowSpan: 8,
+    rowStart: 22,
+    height: 'h-[350px] sm:h-[420px] lg:h-auto',
+  },
+]
+
+// Get featured case studies and map to ProjectCardProps with custom layout config
 const defaultProjects: ProjectCardProps[] = getFeaturedCaseStudies()
   .slice(0, 4)
-  .map((study, index) => {
-    // Define custom heights for each card to create masonry effect
-    const heights = [
-      'h-[280px] sm:h-[340px] md:h-[400px] lg:h-[480px]', // Card 1: Medium
-      'h-[320px] sm:h-[400px] md:h-[480px] lg:h-[580px]', // Card 2: Tall
-      'h-[300px] sm:h-[380px] md:h-[460px] lg:h-[560px]', // Card 3: Medium-tall
-      'h-[260px] sm:h-[320px] md:h-[380px] lg:h-[460px]', // Card 4: Short
-    ]
-
-    return {
-      title: study.title,
-      organization: study.organization,
-      year: study.year,
-      description: study.description,
-      tags: study.tags,
-      imageBg: study.imageBg,
-      imageUrl: study.imageUrl,
-      slug: study.slug,
-      cardHeight: heights[index],
-    }
-  })
+  .map((study, index) => ({
+    title: study.title,
+    organization: study.organization,
+    year: study.year,
+    description: study.description,
+    tags: study.tags,
+    imageBg: study.imageBg,
+    imageUrl: study.imageUrl,
+    slug: study.slug,
+    cardHeight: cardConfig[index].height,
+  }))
 
 export function SelectedWork({
   projects = defaultProjects,
@@ -50,30 +94,43 @@ export function SelectedWork({
     handleMouseLeave,
   } = useArrowAnimation()
 
-  // Masonry breakpoint configuration: 1 column on mobile, 2 columns on desktop
-  // react-masonry-css uses max-width breakpoints (viewport <= breakpoint uses that column count)
-  const breakpointColumnsObj = {
-    default: 2, // 2 columns for viewport > 767px (desktop)
-    767: 1, // 1 column for viewport <= 767px (mobile/tablet, matches Tailwind md:768px)
-  }
-
   return (
     <section className={cn('w-full bg-background pb-0', className)}>
       {/* Section Title - Seamless reveal with no top padding */}
-      <h2 className="mb-8 text-5xl font-bold tracking-tight text-foreground md:mb-12 md:text-6xl lg:text-7xl">
-        Selected Work
+      <h2 className="mt-8 mb-12 text-xl font-bold tracking-tight text-foreground sm:mt-10 sm:mb-16 sm:text-2xl md:mt-12 md:mb-20 md:text-3xl lg:mt-[60px] lg:mb-28 lg:text-4xl xl:mt-[72px] xl:mb-[140px] xl:text-[56px]">
+        Selected work
       </h2>
 
-      {/* Projects Masonry - Automatic staggered layout with equal column gaps */}
-      <Masonry
-        breakpointCols={breakpointColumnsObj}
-        className="flex -ml-6" // Negative left margin to offset column margins
-        columnClassName="pl-6 flex flex-col gap-6" // Left padding creates horizontal gap, gap-6 creates vertical gap
-      >
+      {/* Mobile/Tablet: Single column stack */}
+      <div className="flex flex-col gap-8 lg:hidden">
         {projects.map((project, index) => (
           <ProjectCard key={index} {...project} />
         ))}
-      </Masonry>
+      </div>
+
+      {/* Desktop (lg+): 12-column Bento Grid for art-directed layout */}
+      <div
+        className="hidden lg:grid gap-6"
+        style={{
+          gridTemplateColumns: 'repeat(12, 1fr)',
+          gridAutoRows: '60px', // Base row height - cards span multiple rows
+        }}
+      >
+        {projects.map((project, index) => {
+          const config = cardConfig[index]
+          return (
+            <div
+              key={index}
+              style={{
+                gridColumn: `${config.colStart} / span ${config.colSpan}`,
+                gridRow: `${config.rowStart} / span ${config.rowSpan}`,
+              }}
+            >
+              <ProjectCard {...project} className="h-full" />
+            </div>
+          )
+        })}
+      </div>
 
       {/* Show More Work Link */}
       <div className="mt-28 mb-0 md:mt-36 lg:mt-48 flex justify-end">
