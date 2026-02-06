@@ -117,6 +117,20 @@ If you can explain the flow of your code to a new teammate in 5 minutes, it's pr
 - **File size limit**: No file should be larger than 300 lines of code.
 - **Post-feature review**: After finishing a feature, look up best practices online to ensure we're following all best practices and avoiding common mistakes.
 
+### File Size Exceptions
+The 300-line limit exists to prevent complex, hard-to-maintain components with tangled logic. The following are acceptable exceptions:
+
+1. **Content-heavy pages** (e.g., case study content, blog posts rendered as JSX)
+   - These are essentially static documents, not complex logic
+   - Splitting would create artificial complexity (many single-use files)
+   - The "complexity" is content length, not code complexity
+   - Must still have minimal state/logic - if it has complex state management, it should be split
+
+2. **Generated/data files** (e.g., icon sets, theme tokens)
+   - Auto-generated files that shouldn't be manually edited
+
+**NOT exceptions:** Components with significant state management, multiple useEffects, business logic, or reusable UI patterns - these should always be split.
+
 ## Maintainability
 - **Naming**: Use descriptive, intention‑revealing names; avoid abbreviations and 1–2 character identifiers.
 - **Function size**: Aim for ≤50 lines; extract helper functions when branching/concerns multiply.

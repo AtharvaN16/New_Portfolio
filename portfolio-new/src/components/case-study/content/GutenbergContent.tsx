@@ -732,6 +732,84 @@ export function GutenbergContent({
                       </div>
                     </div>
                   </div>
+
+                  {/* Participant Quotes from the RTA */}
+                  <div className="mt-12 md:mt-16">
+                    <h4 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-8">
+                      Participant Quotes from the RTA
+                    </h4>
+
+                    <div className="space-y-6 md:space-y-8">
+                      {/* Quote 1 */}
+                      <div className="flex items-start gap-6">
+                        <div
+                          className="w-[2px] self-stretch flex-shrink-0"
+                          style={{ backgroundColor: 'rgb(var(--color-text-color20))' }}
+                        />
+                        <div className="flex-1 flex items-start justify-between gap-6">
+                          <p
+                            className="text-[18px] italic leading-relaxed"
+                            style={{ color: 'rgb(var(--color-text-color60))' }}
+                          >
+                            &ldquo;Can I make my own custom one or not? This is the only
+                            one available I had to go ahead with it.&rdquo;
+                          </p>
+                          <span
+                            className="text-[18px] font-semibold whitespace-nowrap"
+                            style={{ color: 'rgb(var(--color-text-primary))' }}
+                          >
+                            &ndash; P4
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Quote 2 */}
+                      <div className="flex items-start gap-6">
+                        <div
+                          className="w-[2px] self-stretch flex-shrink-0"
+                          style={{ backgroundColor: 'rgb(var(--color-text-color20))' }}
+                        />
+                        <div className="flex-1 flex items-start justify-between gap-6">
+                          <p
+                            className="text-[18px] italic leading-relaxed"
+                            style={{ color: 'rgb(var(--color-text-color60))' }}
+                          >
+                            &ldquo;there&apos;s just 1 template so... i just went ahead
+                            with it because i didn&apos;t know otherwise&rdquo;
+                          </p>
+                          <span
+                            className="text-[18px] font-semibold whitespace-nowrap"
+                            style={{ color: 'rgb(var(--color-text-primary))' }}
+                          >
+                            &ndash; P5
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Quote 3 */}
+                      <div className="flex items-start gap-6">
+                        <div
+                          className="w-[2px] self-stretch flex-shrink-0"
+                          style={{ backgroundColor: 'rgb(var(--color-text-color20))' }}
+                        />
+                        <div className="flex-1 flex items-start justify-between gap-6">
+                          <p
+                            className="text-[18px] italic leading-relaxed"
+                            style={{ color: 'rgb(var(--color-text-color60))' }}
+                          >
+                            &ldquo;I&apos;m not sure what to expect and what should I do
+                            with what (template) I&apos;m using.&rdquo;
+                          </p>
+                          <span
+                            className="text-[18px] font-semibold whitespace-nowrap"
+                            style={{ color: 'rgb(var(--color-text-primary))' }}
+                          >
+                            &ndash; P2
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </motion.div>

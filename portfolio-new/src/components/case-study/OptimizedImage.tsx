@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
+import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
 
 interface OptimizedImageProps {
   webpSrc: string

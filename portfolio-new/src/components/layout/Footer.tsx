@@ -26,7 +26,7 @@ import {
 import { GradientBar } from '@/components/ui/GradientBar'
 import { AnimatedArrow } from '@/components/ui/AnimatedArrow'
 import { FooterClock } from './FooterClock'
-import { RatingModal } from './RatingModal'
+import { RatingModal } from './rating'
 
 export function Footer() {
   const { copyEmail } = useEmailCopy()
