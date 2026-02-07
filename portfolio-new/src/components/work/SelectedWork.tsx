@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
 import { cn } from '@/lib/utils/cn'
 import { getFeaturedCaseStudies } from '@/lib/data/case-studies'
@@ -94,6 +95,27 @@ export function SelectedWork({
     handleMouseLeave,
   } = useArrowAnimation()
 
+  // Track if user has scrolled past the initial cards
+  const [hasScrolledPast, setHasScrolledPast] = useState(false)
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
+      
+      // If user has scrolled down past 800px (roughly past card 1 and 2), enable animations
+      if (currentScrollY > 800 && !hasScrolledPast) {
+        setHasScrolledPast(true)
+      }
+      
+      lastScrollY = currentScrollY
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [hasScrolledPast])
+
   return (
     <section className={cn('w-full bg-background pb-0', className)}>
       {/* Section Title - Seamless reveal with no top padding */}
@@ -118,16 +140,29 @@ export function SelectedWork({
       >
         {projects.map((project, index) => {
           const config = cardConfig[index]
+          const isCard3or4 = index === 2 || index === 3
+          const isCard1or2 = index === 0 || index === 1
+          
           return (
-            <div
+            <motion.div
               key={index}
               style={{
                 gridColumn: `${config.colStart} / span ${config.colSpan}`,
                 gridRow: `${config.rowStart} / span ${config.rowSpan}`,
               }}
+              initial={isCard3or4 ? { opacity: 0 } : (isCard1or2 && hasScrolledPast) ? { opacity: 0 } : undefined}
+              whileInView={isCard3or4 ? { opacity: 1 } : (isCard1or2 && hasScrolledPast) ? { opacity: 1 } : undefined}
+              viewport={{ once: false, margin: '-100px' }}
+              transition={
+                isCard3or4
+                  ? { duration: 1.0, delay: index === 2 ? 0 : 0.4, ease: [0.4, 0, 0.2, 1] }
+                  : (isCard1or2 && hasScrolledPast)
+                  ? { duration: 0.8, delay: index === 0 ? 0 : 0.2, ease: [0.4, 0, 0.2, 1] }
+                  : undefined
+              }
             >
               <ProjectCard {...project} className="h-full" />
-            </div>
+            </motion.div>
           )
         })}
       </div>
