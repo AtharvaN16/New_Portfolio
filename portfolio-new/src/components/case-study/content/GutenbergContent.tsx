@@ -86,7 +86,13 @@ export function GutenbergContent({
         </div>
 
         {/* Read Full Case Study Button */}
-        <div className="mt-12 md:mt-16 flex items-center gap-4">
+        <div className="mt-[100px] flex flex-col items-center gap-2">
+          <span
+            className="text-sm font-normal"
+            style={{ color: 'rgb(var(--color-text-tertiary))' }}
+          >
+            8 min read
+          </span>
           <button
             ref={buttonRef}
             onClick={onToggleContent}
@@ -116,19 +122,13 @@ export function GutenbergContent({
               />
             </svg>
           </button>
-          <span
-            className="text-base md:text-[20px] font-normal"
-            style={{ color: 'rgb(var(--color-text-tertiary))' }}
-          >
-            8 min read
-          </span>
         </div>
 
         {/* Full Case Study Content */}
         <AnimatePresence initial={false}>
           {isContentRevealed && (
             <motion.div
-              className="mt-12 md:mt-16"
+              className="mt-[160px] md:mt-[224px] lg:mt-[288px]"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -151,7 +151,7 @@ export function GutenbergContent({
                   animationType="fadeIn"
                   alwaysAnimate={false}
                   delay={0}
-                  className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight"
+                  className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
                 />
 
                 <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
@@ -297,18 +297,19 @@ export function GutenbergContent({
                     animationType="fadeIn"
                     alwaysAnimate={false}
                     delay={0}
-                    className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight"
+                    className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
                   />
 
                   {/* Eye Tracking Setup Image */}
-                  <div className="mb-12 md:mb-16">
+                  <div className="mb-12 md:mb-16 max-w-full md:max-w-[768px] mx-auto">
                     <OptimizedImage
                       webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/eyetracking-01.webp"
                       fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/eyetracking-01.jpg"
                       alt="Eye tracking setup during usability testing session"
-                      width={940}
-                      height={705}
+                      width={768}
+                      height={432}
                       className="w-full rounded-lg"
+                      imgClassName="h-full object-contain"
                     />
                   </div>
 
@@ -549,7 +550,7 @@ export function GutenbergContent({
                     <div className="space-y-8 md:space-y-12">
                       {/* Overall Score */}
                       <div className="space-y-3">
-                        <div className="text-[48px] font-bold" style={{ color: '#FF9500' }}>
+                        <div className="text-[48px] font-bold tracking-[-0.05em]" style={{ color: '#FF9500' }}>
                           60
                         </div>
                         <p
@@ -566,7 +567,7 @@ export function GutenbergContent({
                         {/* Learnability Score */}
                         <div className="space-y-3">
                           <div
-                            className="text-[32px] font-bold"
+                            className="text-[32px] font-bold tracking-[-0.05em]"
                             style={{ color: 'rgb(var(--color-text-primary))' }}
                           >
                             72.2
@@ -596,7 +597,7 @@ export function GutenbergContent({
                         {/* Usability Score */}
                         <div className="space-y-3">
                           <div
-                            className="text-[32px] font-bold"
+                            className="text-[32px] font-bold tracking-[-0.05em]"
                             style={{ color: 'rgb(var(--color-text-primary))' }}
                           >
                             56.9
@@ -652,7 +653,7 @@ export function GutenbergContent({
                     animationType="fadeIn"
                     alwaysAnimate={false}
                     delay={0}
-                    className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight"
+                    className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
                   />
 
                   {/* Finding 1 - Image 1 */}
@@ -701,8 +702,8 @@ export function GutenbergContent({
 
                         {/* 7/9 Users Text */}
                         <div>
-                          <div 
-                            className="text-5xl md:text-6xl font-bold leading-none mb-2"
+                          <div
+                            className="text-5xl md:text-6xl font-bold leading-none mb-2 tracking-[-0.05em]"
                             style={{ color: 'rgb(var(--color-text-primary))' }}
                           >
                             7/9

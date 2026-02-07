@@ -10,6 +10,7 @@ interface OptimizedImageProps {
   width: number
   height: number
   className?: string
+  imgClassName?: string
 }
 
 /**
@@ -24,6 +25,7 @@ export function OptimizedImage({
   width,
   height,
   className = '',
+  imgClassName = '',
 }: OptimizedImageProps) {
   const [containerRef, isVisible] = useIntersectionObserver<HTMLDivElement>({
     threshold: 0.1,
@@ -83,7 +85,7 @@ export function OptimizedImage({
             alt={alt}
             width={width}
             height={height}
-            className="w-full h-auto"
+            className={`w-full h-auto ${imgClassName}`}
             loading="lazy"
             decoding="async"
             onLoad={handleImageLoad}

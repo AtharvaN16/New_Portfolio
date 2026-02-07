@@ -56,9 +56,9 @@ export function Navbar() {
         </Link>
 
         {/* Navigation Links + Theme Toggle */}
-        <div className="flex items-center gap-8 md:gap-12">
+        <div className="flex items-center gap-8 md:gap-16 lg:gap-[140px]">
           {/* Nav Links */}
-          <ul className="hidden sm:flex items-center gap-10 md:gap-12">
+          <ul className="hidden sm:flex items-center gap-10 md:gap-16 lg:gap-[140px]">
             {navLinks.map((link, index) => (
               <motion.li
                 key={link.href}

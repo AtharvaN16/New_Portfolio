@@ -78,7 +78,7 @@ export function AnimatedLink({
     <Link
       href={href}
       onClick={handleClick}
-      className={`group inline-flex items-center gap-2 text-nav-link text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded px-2 py-1 ${className}`}
+      className={`group inline-flex items-center gap-2 text-[16px] font-normal text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded px-2 py-1 ${className}`}
     >
       {children}
 

@@ -175,10 +175,31 @@ export default function Home() {
     const targetScrollWithin = maxScrollWithinContainer * targetProgress
     const targetScrollY = containerTop + targetScrollWithin
 
-    window.scrollTo({
-      top: targetScrollY,
-      behavior: 'smooth',
-    })
+    // Custom smooth scroll for cross-browser consistency (matches Chrome's native behavior)
+    const startY = window.scrollY
+    const distance = targetScrollY - startY
+    const duration = 468 // Chrome's native smooth scroll duration
+    let startTime: number | null = null
+
+    // Chrome uses ease-in-out timing function
+    const easeInOutQuad = (t: number): number => {
+      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+    }
+
+    const scroll = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const easeProgress = easeInOutQuad(progress)
+
+      window.scrollTo(0, startY + distance * easeProgress)
+
+      if (progress < 1) {
+        requestAnimationFrame(scroll)
+      }
+    }
+
+    requestAnimationFrame(scroll)
   }
 
   return (

@@ -39,6 +39,7 @@
   @media (min-width: 768px) {
     .prose-case-study h2 {
       font-size: 2rem; /* 32px desktop */
+      letter-spacing: -0.05em;
       margin-bottom: 2rem; /* 32px */
       margin-top: 4rem; /* 64px */
     }

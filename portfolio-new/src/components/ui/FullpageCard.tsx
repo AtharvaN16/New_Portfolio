@@ -85,7 +85,7 @@ export function FullpageCard({
           text={title}
           animationType="fadeIn"
           className={cn(
-            'max-w-[90%] text-4xl font-black leading-[1.1] tracking-[-1.44px] sm:max-w-[85%] sm:text-5xl md:max-w-[76%] md:text-6xl lg:text-[72px]',
+            'max-w-[90%] text-4xl font-black leading-[1.1] tracking-[-0.05em] sm:max-w-[85%] sm:text-5xl md:max-w-[76%] md:text-6xl lg:text-[72px]',
             titleClassName
           )}
         />

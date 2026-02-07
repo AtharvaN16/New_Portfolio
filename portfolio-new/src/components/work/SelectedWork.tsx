@@ -97,7 +97,7 @@ export function SelectedWork({
   return (
     <section className={cn('w-full bg-background pb-0', className)}>
       {/* Section Title - Seamless reveal with no top padding */}
-      <h2 className="mt-8 mb-12 text-xl font-bold tracking-tight text-foreground sm:mt-10 sm:mb-16 sm:text-2xl md:mt-12 md:mb-20 md:text-3xl lg:mt-[60px] lg:mb-28 lg:text-4xl xl:mt-[72px] xl:mb-[140px] xl:text-[56px]">
+      <h2 className="mt-8 mb-12 text-xl font-bold tracking-[-0.05em] text-foreground sm:mt-10 sm:mb-16 sm:text-2xl md:mt-12 md:mb-20 md:text-3xl lg:mt-[60px] lg:mb-28 lg:text-4xl xl:mt-[72px] xl:mb-[140px] xl:text-[56px]">
         Selected work
       </h2>
 
@@ -142,14 +142,14 @@ export function SelectedWork({
           }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          className="group inline-flex items-center gap-[16px] text-[28px] font-bold tracking-tight text-foreground transition-colors hover:text-primary md:gap-[18px] md:text-[34px] lg:gap-[20px] lg:text-[40px]"
+          className="group inline-flex items-center gap-[16px] text-[28px] font-bold tracking-[-0.05em] text-foreground transition-colors hover:text-primary md:gap-[18px] md:text-[34px] lg:gap-[20px] lg:text-[40px]"
         >
           See More Work
           <AnimatedArrow
             isAnimating={isAnimating}
             showFirstArrow={showFirstArrow}
             animationCycle={animationCycle}
-            className="w-[21.6px] h-[21.6px] md:w-[25.2px] md:h-[25.2px] lg:w-[28.8px] lg:h-[28.8px]"
+            className="w-[22px] h-[22px] md:w-[26px] md:h-[26px] lg:w-[30px] lg:h-[30px]"
           />
         </motion.button>
       </div>

@@ -56,7 +56,7 @@ export function AnimatedArrow({
           viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-[18px] h-[18px]"
+          className="w-full h-full shrink-0"
         >
           <g clipPath="url(#clip0_arrow)">
             <path
@@ -98,7 +98,7 @@ export function AnimatedArrow({
           viewBox="0 0 20 20"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-[18px] h-[18px]"
+          className="w-full h-full shrink-0"
         >
           <g clipPath="url(#clip0_arrow_hover)">
             <path
