@@ -78,22 +78,31 @@ export function Hero({
                 boldWords={HERO_BOLD_WORDS}
                 pronunciationWords={HERO_PRONUNCIATION}
                 className="text-hero-body"
-                delay={0.2}
+                delay={1.2}
               >
                 Hi, I&apos;m Atharva — a product designer based in NYC. I love solving problems through thoughtful design and crafting delightful, user-centered experiences.
               </AnimatedHeroTextGSAP>
             </div>
 
             <div className="flex items-end gap-10 md:gap-20 lg:gap-[194px]">
-              <div className="max-w-xs text-text-secondary text-[16px] font-normal">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 1.3, ease: [0.4, 0, 0.2, 1] }}
+                className="max-w-xs text-text-secondary text-[16px] font-normal"
+              >
                 <span>Currently, </span>
                 <span className="text-text-color60">
                   MS in Human-Computer Interaction at Pratt Institute.
                 </span>
-              </div>
+              </motion.div>
 
               {/* Browse work link - Bottom aligned with text */}
-              <motion.div variants={fadeInUp}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 1.3, ease: [0.4, 0, 0.2, 1] }}
+              >
                 <AnimatedLink
                   href="#work"
                   variant="down-arrow"
@@ -112,7 +121,9 @@ export function Hero({
 
           {/* Animated Water Blob - Flex grow to fill space with max height constraints */}
           <motion.div
-            variants={fadeInUp}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.6, delay: 1.8 }}
             className="relative w-full overflow-hidden water-blob-container max-h-[280px] md:max-h-[320px] lg:max-h-[400px]"
             style={{ minHeight: 0 }}
           >
