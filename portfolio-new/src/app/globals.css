@@ -41,17 +41,17 @@
      HIDE SCROLLBAR (keep scroll functionality)
      ======================================== */
   /* Firefox */
-  html {
+  * {
     scrollbar-width: none;
   }
 
   /* Chrome, Safari, Edge */
-  html::-webkit-scrollbar {
+  *::-webkit-scrollbar {
     display: none;
   }
 
   /* IE */
-  html {
+  * {
     -ms-overflow-style: none;
   }
 
@@ -109,25 +109,6 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
-  }
-
-  /* ========================================
-     CUSTOM SCROLLBAR (Webkit only)
-     ======================================== */
-  ::-webkit-scrollbar {
-    @apply w-2;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-surface;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-border-hover rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-text-tertiary;
   }
 
   /* ========================================
