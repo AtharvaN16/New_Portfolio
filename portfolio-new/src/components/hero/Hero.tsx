@@ -89,10 +89,10 @@ export function Hero({
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.2, delay: 0.7, ease: [0.4, 0, 0.2, 1] }}
-                className="max-w-xs text-text-secondary text-[16px] font-normal"
+                className="max-w-xs text-[16px] font-normal"
               >
-                <span>Currently, </span>
-                <span className="text-text-color60">
+                <span className="text-text-secondary font-medium">Currently, </span>
+                <span style={{ color: 'rgb(var(--color-text-color60))' }}>
                   MS in Human-Computer Interaction at Pratt Institute.
                 </span>
               </motion.div>
@@ -140,7 +140,7 @@ export function Hero({
             {/* Left Link - Hover animation */}
             <HoverLink href="/resume">Résumé</HoverLink>
 
-            <div className="text-[16px] font-normal text-text-primary">
+            <div className="text-[16px] font-normal" style={{ color: 'rgb(var(--color-text-color60))' }}>
               Looking for full-time roles starting Summer &apos;26.
             </div>
 
