@@ -14,7 +14,7 @@
  */
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useTransform, useMotionValue, type MotionValue } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 import { useEmailCopy } from '@/hooks/use-email-copy'
 import { useArrowAnimation } from '@/hooks/use-arrow-animation'
@@ -28,8 +28,21 @@ import { AnimatedArrow } from '@/components/ui/AnimatedArrow'
 import { FooterClock } from './FooterClock'
 import { RatingModal } from './rating'
 
-export function Footer() {
-  const { copyEmail } = useEmailCopy()
+interface FooterProps {
+  revealProgress?: MotionValue<number>
+}
+
+export function Footer({ revealProgress }: FooterProps) {
+  const fallbackProgress = useMotionValue(1)
+  const progress = revealProgress ?? fallbackProgress
+
+  // Staggered fade-in + move-up for each section
+  // Content is at the TOP of the footer, revealed last (bottom-up reveal)
+  // so animations must play during the final ~35% of the reveal
+  const sectionOpacity = useTransform(progress, [0.8, 1.0], [0, 1])
+  const sectionY = useTransform(progress, [0.8, 1.0], [25, 0])
+
+  const { copyEmail, isCopied } = useEmailCopy()
   const {
     isAnimating,
     animationCycle,
@@ -45,7 +58,7 @@ export function Footer() {
 
   return (
     <footer
-      className="w-full text-foreground footer-bg mt-[200px] md:mt-[240px] lg:mt-[280px] relative z-20"
+      className="w-full text-foreground footer-bg relative z-20"
       style={{
         backgroundColor: 'rgb(var(--color-footer-bg))',
         boxShadow: 'var(--shadow-2xl)',
@@ -58,7 +71,10 @@ export function Footer() {
       >
         <div className="footer-all-links-wrapper grid grid-cols-1 gap-12 lg:flex lg:items-start lg:justify-between">
           {/* Rate My Portfolio Section - Left */}
-          <div className="order-3 lg:order-1 lg:min-w-[420px] relative z-30">
+          <motion.div
+            className="order-3 lg:order-1 lg:min-w-[420px] relative z-30"
+            style={{ opacity: sectionOpacity, y: sectionY }}
+          >
             <motion.button
               onClick={() => setIsRatingModalOpen(true)}
               onMouseEnter={handleMouseEnter}
@@ -85,10 +101,13 @@ export function Footer() {
                 me get better
               </p>
             )}
-          </div>
+          </motion.div>
 
           {/* Columns Group */}
-          <div className="order-1 lg:order-2 flex gap-0 lg:-ml-32">
+          <motion.div
+            className="order-1 lg:order-2 flex gap-0 lg:-ml-32"
+            style={{ opacity: sectionOpacity, y: sectionY }}
+          >
             {/* Quick Links Section */}
             <nav
               aria-label={FOOTER_ARIA_LABELS.quickLinks}
@@ -150,7 +169,7 @@ export function Footer() {
                 ))}
 
                 {/* Email with Copy Button */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 -my-1">
                   <a
                     href={`mailto:${FOOTER_CONTACT.email}`}
                     className={cn(
@@ -169,7 +188,7 @@ export function Footer() {
                     aria-label={FOOTER_ARIA_LABELS.copyEmail}
                     className={cn(
                       'group relative flex items-center justify-center',
-                      'rounded-md p-3',
+                      'rounded-md p-2',
                       'text-text-tertiary opacity-50 transition-all duration-200',
                       'hover:bg-surface hover:text-foreground hover:opacity-100',
                       'focus-visible:outline-none focus-visible:ring-2',
@@ -196,15 +215,28 @@ export function Footer() {
                       </defs>
                     </svg>
                   </button>
+                  {isCopied && (
+                    <motion.span
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="text-sm font-medium text-green-500"
+                    >
+                      Copied!
+                    </motion.span>
+                  )}
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Clock Section - Right */}
-          <div className="order-2 lg:order-3">
+          <motion.div
+            className="order-2 lg:order-3"
+            style={{ opacity: sectionOpacity, y: sectionY }}
+          >
             <FooterClock />
-          </div>
+          </motion.div>
         </div>
       </div>
 

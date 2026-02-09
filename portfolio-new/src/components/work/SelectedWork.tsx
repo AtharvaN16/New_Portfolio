@@ -168,7 +168,7 @@ export function SelectedWork({
       </div>
 
       {/* Show More Work Link */}
-      <div className="mt-28 mb-0 md:mt-36 lg:mt-48 flex justify-end">
+      <div className="mt-28 mb-32 md:mt-36 md:mb-40 lg:mt-48 lg:mb-52 flex justify-end">
         <motion.button
           onClick={() => {
             // Change URL and trigger dialog - RemoveScroll handles scroll locking

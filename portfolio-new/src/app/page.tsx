@@ -19,18 +19,20 @@ import { CaseStudyDialog } from '@/components/animations/CaseStudyDialog'
  * Home Page - Scroll Reveal Effect
  *
  * ALL LAYERS ARE FIXED for proper z-index stacking in same viewport context:
- * z-index: 10 - SelectedWork (bottom layer, revealed when Card exits)
+ * z-index:  5 - Footer (fixed at bottom, revealed when SelectedWork scrolls past)
+ * z-index: 10 - SelectedWork (covers footer, revealed when Card exits)
  * z-index: 30 - Hero (middle layer, solid bg covers SelectedWork, content moves up to simulate scroll)
  * z-index: 40 - Card (top layer, parallax, exits to reveal SelectedWork)
  *
  * Flow:
- * 1. Hero visible with solid bg (covers SelectedWork)
+ * 1. Hero visible with solid bg (covers SelectedWork + Footer)
  * 2. Hero content + Navbar move UP with scroll (simulated scroll via transform)
  * 3. Card catches up with faster parallax, covers Hero
  * 4. Hero fades as Card covers it
  * 5. Card exits through top
  * 6. SelectedWork revealed (was always underneath)
  * 7. SelectedWork scrolls after card fully exits
+ * 8. SelectedWork scrolls past viewport, revealing Footer fixed at bottom
  *
  * Performance optimizations:
  * - Memoized transform ranges (avoid array recreation)
@@ -43,8 +45,10 @@ import { CaseStudyDialog } from '@/components/animations/CaseStudyDialog'
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null)
   const selectedWorkRef = useRef<HTMLDivElement>(null)
+  const footerRef = useRef<HTMLDivElement>(null)
   const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
   const [selectedWorkHeight, setSelectedWorkHeight] = useState(0)
+  const [footerHeight, setFooterHeight] = useState(0)
 
   // Measure SelectedWork content height dynamically (throttled with RAF)
   useEffect(() => {
@@ -54,6 +58,9 @@ export default function Home() {
       if (selectedWorkRef.current) {
         const height = selectedWorkRef.current.scrollHeight
         setSelectedWorkHeight(height)
+      }
+      if (footerRef.current) {
+        setFooterHeight(footerRef.current.offsetHeight)
       }
     }
 
@@ -138,10 +145,14 @@ export default function Home() {
     typeof window !== 'undefined' ? window.innerHeight : 1000
   const selectedWorkHeightVh =
     selectedWorkHeight > 0 ? (selectedWorkHeight / viewportHeight) * 100 : 300 // fallback if not measured yet
-  const selectedWorkMoveVh = Math.max(0, selectedWorkHeightVh - 100) // Move up by (height - viewport) to reveal bottom
+  const footerHeightVh =
+    footerHeight > 0 ? (footerHeight / viewportHeight) * 100 : 0
+  const selectedWorkMoveVh = Math.max(0, selectedWorkHeightVh - 100) + footerHeightVh // Full movement to clear footer
 
-  // Container height: initial space (200vh for Hero/Card effects) + space to scroll SelectedWork
-  const containerHeightVh = 200 + selectedWorkMoveVh
+  // Container height: cap footer scroll contribution so the reveal happens faster
+  // The layer still moves the full distance, but the user scrolls less
+  const footerScrollVh = Math.min(footerHeightVh, 35)
+  const containerHeightVh = 200 + Math.max(0, selectedWorkHeightVh - 100) + footerScrollVh
 
   // SelectedWork: stays fixed at viewport until card exits (50%), then scrolls up dynamically
   // Memoize output range based on calculated height
@@ -154,6 +165,23 @@ export default function Home() {
     scrollYProgress,
     selectedWorkRange,
     selectedWorkOutput
+  )
+
+  // Footer reveal progress: maps the footer-reveal portion of scroll to 0-1
+  const contentScrollVh = Math.max(0, selectedWorkHeightVh - 100)
+  const footerRevealStart =
+    selectedWorkMoveVh > 0
+      ? 0.5 + 0.5 * contentScrollVh / selectedWorkMoveVh
+      : 1
+  const footerRevealRange = useMemo(
+    () => [footerRevealStart, 1],
+    [footerRevealStart]
+  )
+  const footerRevealOutput = useMemo(() => [0, 1], [])
+  const footerRevealProgress = useTransform(
+    scrollYProgress,
+    footerRevealRange,
+    footerRevealOutput
   )
 
   const handleBrowseWorkClick = () => {
@@ -213,9 +241,9 @@ export default function Home() {
         }}
       >
         {/* ===== LAYER 1: SelectedWork ===== */}
-        {/* Always here at bottom, covered by Hero, revealed when Card exits */}
+        {/* No bottom-0: height determined by content so background covers overflow, hiding footer until scroll clears */}
         <motion.div
-          className="fixed inset-0"
+          className="fixed top-0 left-0 right-0"
           style={{
             y: selectedWorkY,
             zIndex: 10,
@@ -228,7 +256,6 @@ export default function Home() {
             <div className="px-6 pt-12 pb-20">
               <SelectedWork />
             </div>
-            <Footer />
           </div>
         </motion.div>
 
@@ -289,6 +316,15 @@ export default function Home() {
             />
           </div>
         </motion.div>
+      </div>
+
+      {/* ===== FOOTER: Fixed at bottom, revealed when SelectedWork scrolls past ===== */}
+      <div
+        ref={footerRef}
+        className="fixed bottom-0 left-0 right-0"
+        style={{ zIndex: 5 }}
+      >
+        <Footer revealProgress={footerRevealProgress} />
       </div>
 
       <WorkDialog />
