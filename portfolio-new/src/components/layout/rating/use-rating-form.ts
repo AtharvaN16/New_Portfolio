@@ -47,11 +47,7 @@ export function useRatingForm() {
 
   const submit = useCallback(() => {
     // TODO: Send to backend/analytics service
-    if (process.env.NODE_ENV === 'development') {
-      // eslint-disable-next-line no-console
-      console.log('Rating submission:', { ratings, suggestions, contactInfo })
-    }
-  }, [ratings, suggestions, contactInfo])
+  }, [])
 
   return {
     // State

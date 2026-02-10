@@ -191,6 +191,12 @@
     --color-case-study-pale-green: 187 247 208; /* #BBF7D0 - Lighter pale green */
     --color-case-study-gold: 253 224 71; /* #FDE047 - Brighter gold for dark mode */
 
+    /* --- Colors: Semantic (adjusted for dark mode contrast) --- */
+    --color-success: 74 222 128; /* #4ADE80 - Lighter green for dark */
+    --color-warning: 255 149 0; /* #FF9500 - Brighter orange for dark */
+    --color-error: 248 113 113; /* #F87171 - Lighter red for dark */
+    --color-info: 96 165 250; /* #60A5FA - Lighter blue for dark */
+
     /* --- Colors: Borders --- */
     --color-border: 38 38 38; /* #262626 */
     --color-border-hover: 64 64 64; /* #404040 */

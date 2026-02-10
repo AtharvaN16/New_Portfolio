@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useRef } from 'react'
-import { useTheme } from '@/components/providers/ThemeProvider'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 import { OptimizedImage } from '@/components/case-study/OptimizedImage'
 
@@ -15,7 +14,6 @@ export function GutenbergContent({
   isContentRevealed,
   onToggleContent,
 }: GutenbergContentProps) {
-  const { theme } = useTheme()
   const [isSUSCalloutOpen, setIsSUSCalloutOpen] = useState(false)
   const buttonRef = useRef<HTMLButtonElement>(null)
 
@@ -550,7 +548,7 @@ export function GutenbergContent({
                     <div className="space-y-8 md:space-y-12">
                       {/* Overall Score */}
                       <div className="space-y-3">
-                        <div className="text-[48px] font-bold tracking-[-0.05em]" style={{ color: '#FF9500' }}>
+                        <div className="text-[48px] font-bold tracking-[-0.05em] text-warning">
                           60
                         </div>
                         <p
@@ -577,11 +575,7 @@ export function GutenbergContent({
                             style={{ color: 'rgb(var(--color-text-primary))' }}
                           >
                             The Learnability score was 72.2{' '}
-                            <span
-                              style={{
-                                color: theme === 'dark' ? '#4ADE80' : '#22C55E',
-                              }}
-                            >
+                            <span className="text-success">
                               — Good
                             </span>
                           </p>
@@ -607,11 +601,7 @@ export function GutenbergContent({
                             style={{ color: 'rgb(var(--color-text-primary))' }}
                           >
                             The Usability score was 56.9{' '}
-                            <span
-                              style={{
-                                color: theme === 'dark' ? '#F87171' : '#EF4444',
-                              }}
-                            >
+                            <span className="text-error">
                               — Needs improvement
                             </span>
                           </p>
@@ -692,8 +682,8 @@ export function GutenbergContent({
                               key={index}
                               className="w-[14px] h-[144px]"
                               style={{
-                                backgroundColor: index < 7 
-                                  ? '#2A55DF' 
+                                backgroundColor: index < 7
+                                  ? 'rgb(var(--color-info))'
                                   : 'rgb(var(--color-text-color20))',
                               }}
                             />

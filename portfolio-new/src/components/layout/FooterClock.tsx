@@ -15,27 +15,24 @@ import { useCurrentTime } from '@/hooks/use-current-time'
  * - Reduces Footer re-renders from ~60/min to 0
  */
 function FooterClockComponent() {
-  const { formattedTime, formattedDate } = useCurrentTime()
+  const { formattedTime } = useCurrentTime()
 
   return (
-    <div className="mt-auto">
+    <div
+      className="mt-auto text-right"
+      style={{ fontFamily: 'var(--font-jetbrains-mono), ui-monospace, monospace' }}
+    >
       <p
-        className="mb-2 text-base font-medium lg:text-lg"
-        style={{ color: 'rgb(var(--color-text-color30))' }}
+        className="mb-2 text-base font-medium lg:text-lg tracking-wide"
+        style={{ color: 'rgb(var(--color-text-tertiary-50))' }}
       >
-        New York, NY
+        NEW YORK
       </p>
       <div
-        className="text-xs font-bold font-mono tabular-nums md:text-sm lg:text-sm"
-        style={{ color: 'rgb(var(--color-text-secondary))' }}
+        className="text-base font-medium tabular-nums lg:text-lg"
+        style={{ color: 'rgb(var(--color-text-tertiary-50))' }}
       >
         {formattedTime}
-      </div>
-      <div
-        className="mt-1 text-xs font-medium md:text-sm"
-        style={{ color: 'rgb(var(--color-text-color30))' }}
-      >
-        {formattedDate}
       </div>
     </div>
   )

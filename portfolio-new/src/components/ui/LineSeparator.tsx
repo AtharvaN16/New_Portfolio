@@ -246,7 +246,7 @@ export function LineSeparator({
           ref={pathRef}
           d={generatePath(svgWidth, 0)}
           stroke="rgb(var(--color-foreground))"
-          strokeWidth="2.5"
+          strokeWidth="0.8"
           fill="none"
           strokeLinecap="round"
           transform="translate(0, 40)"

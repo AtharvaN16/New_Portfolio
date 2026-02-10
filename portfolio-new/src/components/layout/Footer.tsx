@@ -64,10 +64,10 @@ export function Footer({ revealProgress }: FooterProps) {
         boxShadow: 'var(--shadow-2xl)',
       }}
     >
-      {/* Main Footer Content */}
+      {/* Main Footer Content — bottom padding reduced by ~56px to offset credit block so footer height (and scroll layout) stays unchanged */}
       <div
         className="mx-auto max-w-[1920px] px-6 pt-15 md:pt-16 lg:pt-20"
-        style={{ paddingBottom: 'calc(85vh - 300px)' }}
+        style={{ paddingBottom: 'calc(85vh - 300px - 56px)' }}
       >
         <div className="footer-all-links-wrapper grid grid-cols-1 gap-12 lg:flex lg:items-start lg:justify-between">
           {/* Rate My Portfolio Section - Left */}
@@ -245,6 +245,24 @@ export function Footer({ revealProgress }: FooterProps) {
         isOpen={isRatingModalOpen}
         onClose={() => setIsRatingModalOpen(false)}
       />
+
+      {/* Footer bottom: credit + last updated */}
+      <div
+        className="mx-auto flex max-w-[1920px] flex-col gap-2 px-6 py-4 sm:flex-row sm:items-center sm:justify-between"
+        style={{ color: 'rgb(var(--color-text-color30))' }}
+      >
+        <p className="text-sm font-medium tabular-nums">
+          Designed + Coded with &lt;3 by Atharva
+        </p>
+        <p className="text-sm tabular-nums">
+          Last Updated:{' '}
+          {new Date().toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric',
+          })}
+        </p>
+      </div>
 
       {/* Gradient Bar Below Footer */}
       <GradientBar height="h-4" className="w-full" />

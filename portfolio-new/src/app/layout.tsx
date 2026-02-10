@@ -1,5 +1,5 @@
 'use client'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
@@ -21,6 +21,13 @@ const geistMono = Geist_Mono({
   preload: false, // Only load when needed
 })
 
+const jetbrainsMono = JetBrains_Mono({
+  variable: '--font-jetbrains-mono',
+  subsets: ['latin'],
+  display: 'swap',
+  preload: false,
+})
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,7 +39,7 @@ export default function RootLayout({
         <ThemeScript />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} font-sans antialiased`}
       >
         <ThemeProvider>
           <LenisProvider>

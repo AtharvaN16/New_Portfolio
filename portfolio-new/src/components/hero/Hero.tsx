@@ -97,11 +97,11 @@ export function Hero({
                 </span>
               </motion.div>
 
-              {/* Browse work link - Bottom aligned with text */}
+              {/* Browse work link - Bottom aligned with text (staggered after Currently...) */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, delay: 0.7, ease: [0.4, 0, 0.2, 1] }}
+                transition={{ duration: 1.2, delay: 1.1, ease: [0.4, 0, 0.2, 1] }}
               >
                 <AnimatedLink
                   href="#work"
@@ -123,7 +123,7 @@ export function Hero({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.6, delay: 1.2 }}
+            transition={{ duration: 1.6, delay: 1.4 }}
             className="relative w-full overflow-hidden water-blob-container max-h-[280px] md:max-h-[320px] lg:max-h-[400px]"
             style={{ minHeight: 0 }}
           >

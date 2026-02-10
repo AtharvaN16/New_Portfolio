@@ -1,12 +1,6 @@
 'use client'
 
-import { useRef, useState, useEffect, useMemo } from 'react'
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useMotionValueEvent,
-} from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { Hero } from '@/components/hero/Hero'
@@ -14,6 +8,7 @@ import { SelectedWork } from '@/components/work/SelectedWork'
 import { FullpageCard } from '@/components/ui/FullpageCard'
 import { WorkDialog } from '@/components/animations/WorkDialog'
 import { CaseStudyDialog } from '@/components/animations/CaseStudyDialog'
+import { useHomeScroll } from '@/hooks/use-home-scroll'
 
 /**
  * Home Page - Scroll Reveal Effect
@@ -33,202 +28,24 @@ import { CaseStudyDialog } from '@/components/animations/CaseStudyDialog'
  * 6. SelectedWork revealed (was always underneath)
  * 7. SelectedWork scrolls after card fully exits
  * 8. SelectedWork scrolls past viewport, revealing Footer fixed at bottom
- *
- * Performance optimizations:
- * - Memoized transform ranges (avoid array recreation)
- * - will-change hints for GPU acceleration
- * - Throttled resize handler with RAF
- * - Removed expensive blur filter
- * - Water blobs pause when scrolled away
  */
 
 export default function Home() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const selectedWorkRef = useRef<HTMLDivElement>(null)
-  const footerRef = useRef<HTMLDivElement>(null)
-  const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
-  const [selectedWorkHeight, setSelectedWorkHeight] = useState(0)
-  const [footerHeight, setFooterHeight] = useState(0)
-
-  // Measure SelectedWork content height dynamically (throttled with RAF)
-  useEffect(() => {
-    let rafId: number | null = null
-
-    const measureHeight = () => {
-      if (selectedWorkRef.current) {
-        const height = selectedWorkRef.current.scrollHeight
-        setSelectedWorkHeight(height)
-      }
-      if (footerRef.current) {
-        setFooterHeight(footerRef.current.offsetHeight)
-      }
-    }
-
-    const handleResize = () => {
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId)
-      }
-      rafId = requestAnimationFrame(measureHeight)
-    }
-
-    measureHeight()
-    window.addEventListener('resize', handleResize)
-
-    // Re-measure after a short delay to ensure content is rendered
-    const timeout = setTimeout(measureHeight, 100)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-      clearTimeout(timeout)
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId)
-      }
-    }
-  }, [])
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  })
-
-  // Pause/resume water blobs based on scroll position (performance)
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    if (latest > 0.03 && !shouldPauseBlobs) {
-      setShouldPauseBlobs(true)
-    } else if (latest <= 0.03 && shouldPauseBlobs) {
-      setShouldPauseBlobs(false)
-    }
-  })
-
-  // Memoize transform input arrays for performance (avoid recreating on every render)
-  const heroContentRange = useMemo(() => [0, 0.2], [])
-  const heroContentOutput = useMemo(() => ['0vh', '-30vh'], [])
-  const navbarRange = useMemo(() => [0, 0.02], [])
-  const navbarOutput = useMemo(() => [1, 0], [])
-  const heroOpacityRange = useMemo(() => [0, 0.195, 0.2], [])
-  const heroOpacityOutput = useMemo(() => [1, 1, 0], [])
-  const cardRange = useMemo(() => [0, 0.2, 0.5], [])
-  const cardOutput = useMemo(() => ['100vh', '0vh', '-105vh'], [])
-
-  // Hero CONTENT moves up to simulate scrolling (0-20% scroll moves content up by 30vh)
-  const heroContentY = useTransform(
-    scrollYProgress,
-    heroContentRange,
-    heroContentOutput
-  )
-
-  // Navbar scroll-based fade (0-2% scroll)
-  const navbarScrollOpacity = useTransform(
-    scrollYProgress,
-    navbarRange,
-    navbarOutput
-  )
-
-  // Hero wrapper: stays visible until Card covers viewport, then fades to invisible
-  // Blur removed - too expensive for 0.5% scroll range
-  const heroOpacity = useTransform(
-    scrollYProgress,
-    heroOpacityRange,
-    heroOpacityOutput
-  )
-
-  // Hero pointer-events: disable when invisible to allow clicking through to SelectedWork
-  const heroPointerEvents = useTransform(heroOpacity, (opacity: number) =>
-    opacity > 0 ? 'auto' : 'none'
-  )
-
-  // Card parallax: starts below viewport, catches up, covers hero, exits through top
-  const cardY = useTransform(scrollYProgress, cardRange, cardOutput)
-
-  // Calculate dynamic scroll distances based on actual SelectedWork content height
-  const viewportHeight =
-    typeof window !== 'undefined' ? window.innerHeight : 1000
-  const selectedWorkHeightVh =
-    selectedWorkHeight > 0 ? (selectedWorkHeight / viewportHeight) * 100 : 300 // fallback if not measured yet
-  const footerHeightVh =
-    footerHeight > 0 ? (footerHeight / viewportHeight) * 100 : 0
-  const selectedWorkMoveVh = Math.max(0, selectedWorkHeightVh - 100) + footerHeightVh // Full movement to clear footer
-
-  // Container height: cap footer scroll contribution so the reveal happens faster
-  // The layer still moves the full distance, but the user scrolls less
-  const footerScrollVh = Math.min(footerHeightVh, 35)
-  const containerHeightVh = 200 + Math.max(0, selectedWorkHeightVh - 100) + footerScrollVh
-
-  // SelectedWork: stays fixed at viewport until card exits (50%), then scrolls up dynamically
-  // Memoize output range based on calculated height
-  const selectedWorkRange = useMemo(() => [0, 0.5, 1], [])
-  const selectedWorkOutput = useMemo(
-    () => ['0vh', '0vh', `-${selectedWorkMoveVh}vh`],
-    [selectedWorkMoveVh]
-  )
-  const selectedWorkY = useTransform(
-    scrollYProgress,
-    selectedWorkRange,
-    selectedWorkOutput
-  )
-
-  // Footer reveal progress: maps the footer-reveal portion of scroll to 0-1
-  const contentScrollVh = Math.max(0, selectedWorkHeightVh - 100)
-  const footerRevealStart =
-    selectedWorkMoveVh > 0
-      ? 0.5 + 0.5 * contentScrollVh / selectedWorkMoveVh
-      : 1
-  const footerRevealRange = useMemo(
-    () => [footerRevealStart, 1],
-    [footerRevealStart]
-  )
-  const footerRevealOutput = useMemo(() => [0, 1], [])
-  const footerRevealProgress = useTransform(
-    scrollYProgress,
-    footerRevealRange,
-    footerRevealOutput
-  )
-
-  const handleBrowseWorkClick = () => {
-    if (!containerRef.current || typeof window === 'undefined') return
-
-    // Ensure card moves up immediately (matches existing comment in AnimatedLink)
-    window.dispatchEvent(new CustomEvent('force-card-up'))
-
-    const viewportHeight = window.innerHeight
-    const containerTop = containerRef.current.offsetTop
-    const containerHeightPx = (containerHeightVh / 100) * viewportHeight
-    const maxScrollWithinContainer = Math.max(
-      containerHeightPx - viewportHeight,
-      0
-    )
-
-    // Scroll to the midpoint of the container's scroll range where SelectedWork is revealed
-    const targetProgress = 0.5
-    const targetScrollWithin = maxScrollWithinContainer * targetProgress
-    const targetScrollY = containerTop + targetScrollWithin
-
-    // Custom smooth scroll for cross-browser consistency (matches Chrome's native behavior)
-    const startY = window.scrollY
-    const distance = targetScrollY - startY
-    const duration = 468 // Chrome's native smooth scroll duration
-    let startTime: number | null = null
-
-    // Chrome uses ease-in-out timing function
-    const easeInOutQuad = (t: number): number => {
-      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
-    }
-
-    const scroll = (currentTime: number) => {
-      if (startTime === null) startTime = currentTime
-      const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const easeProgress = easeInOutQuad(progress)
-
-      window.scrollTo(0, startY + distance * easeProgress)
-
-      if (progress < 1) {
-        requestAnimationFrame(scroll)
-      }
-    }
-
-    requestAnimationFrame(scroll)
-  }
+  const {
+    containerRef,
+    selectedWorkRef,
+    footerRef,
+    shouldPauseBlobs,
+    containerHeightVh,
+    heroContentY,
+    navbarScrollOpacity,
+    heroOpacity,
+    heroPointerEvents,
+    cardY,
+    selectedWorkY,
+    footerRevealProgress,
+    handleBrowseWorkClick,
+  } = useHomeScroll()
 
   return (
     <>
@@ -241,7 +58,6 @@ export default function Home() {
         }}
       >
         {/* ===== LAYER 1: SelectedWork ===== */}
-        {/* No bottom-0: height determined by content so background covers overflow, hiding footer until scroll clears */}
         <motion.div
           className="fixed top-0 left-0 right-0"
           style={{
@@ -251,7 +67,6 @@ export default function Home() {
             willChange: 'transform',
           }}
         >
-          {/* Inner wrapper to measure actual content height */}
           <div ref={selectedWorkRef}>
             <div className="px-6 pt-12 pb-20">
               <SelectedWork />
@@ -260,18 +75,16 @@ export default function Home() {
         </motion.div>
 
         {/* ===== LAYER 2: Hero ===== */}
-        {/* FIXED with solid bg to cover SelectedWork. Content moves up to simulate scroll. */}
         <motion.div
           className="fixed inset-0"
           style={{
             zIndex: 30,
             backgroundColor: 'rgb(var(--color-background))',
             opacity: heroOpacity,
-            pointerEvents: heroPointerEvents, // Dynamic - must be 'none' when invisible to allow clicks through
+            pointerEvents: heroPointerEvents,
             willChange: 'opacity',
           }}
         >
-          {/* Navbar - fades out with scroll (0-2%) */}
           <motion.div
             className="px-6 pt-6"
             style={{
@@ -282,7 +95,6 @@ export default function Home() {
             <Navbar />
           </motion.div>
 
-          {/* Hero content - moves UP with scroll to simulate scrolling */}
           <motion.main
             className="px-6"
             style={{
@@ -298,7 +110,6 @@ export default function Home() {
         </motion.div>
 
         {/* ===== LAYER 3: Card ===== */}
-        {/* Parallax overlay - catches up, covers Hero, exits to reveal SelectedWork */}
         <motion.div
           className="fixed inset-0 pointer-events-none"
           style={{
@@ -318,7 +129,7 @@ export default function Home() {
         </motion.div>
       </div>
 
-      {/* ===== FOOTER: Fixed at bottom, revealed when SelectedWork scrolls past ===== */}
+      {/* ===== FOOTER ===== */}
       <div
         ref={footerRef}
         className="fixed bottom-0 left-0 right-0"
