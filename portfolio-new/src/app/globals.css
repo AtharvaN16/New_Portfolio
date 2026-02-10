@@ -169,14 +169,21 @@
     white-space: nowrap;
     font-size: 1rem;
     line-height: 1;
-    color: rgb(var(--color-text-secondary));
+    background: linear-gradient(
+      90deg,
+      rgb(var(--color-gradient-start)),
+      rgb(var(--color-gradient-end))
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     opacity: 0;
-    transition: opacity 150ms ease;
+    transition: opacity 250ms ease;
     pointer-events: none;
   }
 
   .pronunciation-word:hover .pronunciation-tooltip {
-    opacity: 0.6;
+    opacity: 1;
   }
 
   /* Water blob responsive max heights */

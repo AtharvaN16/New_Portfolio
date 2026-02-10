@@ -35,7 +35,6 @@ export const fragmentShader = `
   uniform vec3 uColor2; // Purple (from design tokens)
   uniform vec3 uColor3; // Pink (from design tokens)
   uniform vec3 uBackgroundColor; // Background (from design tokens)
-  
   // === TUNING CONSTANTS (no more magic numbers!) ===
   const float ATMOSPHERIC_NOISE_STRENGTH = 0.03;
   const float EDGE_GLOW_STRENGTH = 0.08;
@@ -138,12 +137,13 @@ export const fragmentShader = `
 
   void main() {
     vec2 uv = vUv;
+
     vec3 backgroundColor = uBackgroundColor;
 
     // === BLOB 1 (Blue) - DOMINANT, CALM ===
     // Larger size (70% bigger), slower movement, low turbulence, smooth edges
     vec2 blob1Center = blobMotion(uTime, 0.18, vec2(0.25, 0.45), 0.0, 1.0);
-    
+
     // Calculate proximity to blob2 for edge softening
     vec2 blob2Center = blobMotion(uTime, 0.32, vec2(0.75, 0.5), 3.14159, 1.3);
     float distanceBetween = length(blob1Center - blob2Center);

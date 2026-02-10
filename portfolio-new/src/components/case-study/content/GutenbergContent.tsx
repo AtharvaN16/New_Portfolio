@@ -24,7 +24,7 @@ export function GutenbergContent({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.8 }}
     >
-      <div className="max-w-[940px] mx-auto text-left">
+      <div className="max-w-[940px] ml-auto text-left">
         {/* Abstract Section */}
         <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
           Abstract

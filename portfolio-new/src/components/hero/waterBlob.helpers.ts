@@ -191,3 +191,20 @@ export function setupCanvasResize(canvas: HTMLCanvasElement): () => void {
     window.removeEventListener('resize', handleResize)
   }
 }
+
+/**
+ * Lerp all color channels in-place toward target values.
+ * Mutates the `current` object directly so closures that captured it see updates.
+ */
+export function lerpColors(
+  current: Colors,
+  target: Colors,
+  speed: number
+): void {
+  const keys: (keyof Colors)[] = ['blue', 'purple', 'pink', 'background']
+  for (const key of keys) {
+    for (let i = 0; i < 3; i++) {
+      current[key][i] += (target[key][i] - current[key][i]) * speed
+    }
+  }
+}

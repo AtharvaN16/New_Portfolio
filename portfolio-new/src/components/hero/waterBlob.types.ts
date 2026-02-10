@@ -36,3 +36,4 @@ export const ANIMATION_SPEED_MULTIPLIER_ENHANCED = 1.5
 export const ANIMATION_SPEED_MULTIPLIER_NORMAL = 1.0
 export const ENHANCED_CONTRAST = 1.1
 export const ENHANCED_SATURATION = 1.15
+export const COLOR_LERP_SPEED = 0.045 // Per-frame lerp factor: ~75% at 0.5s, ~95% at 1s @ 60fps

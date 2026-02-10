@@ -7,39 +7,28 @@ import {
   setupWebGL,
   createAnimationLoop,
   setupCanvasResize,
+  lerpColors,
 } from './waterBlob.helpers'
 import {
   getColors,
-  getNextPaletteIndex,
   LIGHT_PALETTES,
   DARK_PALETTES,
 } from './waterBlob.colors'
-import type { WaterBlobProps } from './waterBlob.types'
+import type { WaterBlobProps, Colors } from './waterBlob.types'
 import {
   ANIMATION_SPEED_MULTIPLIER_ENHANCED,
   ANIMATION_SPEED_MULTIPLIER_NORMAL,
   ENHANCED_CONTRAST,
   ENHANCED_SATURATION,
+  COLOR_LERP_SPEED,
 } from './waterBlob.types'
 
 /**
  * WaterBlob Component
  *
- * Simplified WebGL water blob animation - MUCH better than old 1,114-line version!
- *
- * Key improvements:
- * - Modular architecture (WebGL helpers, colors, types separated)
- * - No particle system (performance killer removed)
- * - Uses design tokens (no hardcoded colors)
- * - Proper error handling with fallback
- * - Respects prefers-reduced-motion
- * - Clean separation of concerns
- *
- * What it does:
- * - Renders animated gradient blobs using WebGL
- * - Smooth color transitions
- * - Theme-aware colors (light/dark mode)
- * - Responsive canvas sizing
+ * WebGL water blob animation with smooth color transitions.
+ * Colors lerp per-frame toward their target when the palette changes,
+ * instead of tearing down and rebuilding the WebGL program.
  */
 
 export function WaterBlob({
@@ -55,7 +44,6 @@ export function WaterBlob({
 
   // Interactive mode state
   const [paletteIndex, setPaletteIndex] = useState(0)
-  const [lastPaletteIndex, setLastPaletteIndex] = useState(0)
   const animationSpeedRef = useRef(
     enhanced
       ? ANIMATION_SPEED_MULTIPLIER_ENHANCED
@@ -68,11 +56,123 @@ export function WaterBlob({
     pausedRef.current = paused
   }, [paused])
 
+  // Mutable color objects for smooth interpolation.
+  // displayColors is mutated in-place each frame; the animation loop closure
+  // holds a reference to the same object, so it always reads the latest values.
+  const displayColorsRef = useRef<Colors | null>(null)
+  const targetColorsRef = useRef<Colors | null>(null)
+  const colorsInitializedRef = useRef(false)
+
+  // Refs for gradient bar CSS variable interpolation
+  const gradientCurrentRef = useRef<{ start: number[]; end: number[] } | null>(
+    null
+  )
+  const gradientAnimFrameRef = useRef<number>(0)
+
   // Get colors from design tokens or custom palettes
   const colors = useMemo(() => {
     return getColors(theme, interactive, paletteIndex)
-    // Theme is intentionally included - CSS variables change when theme changes
   }, [theme, interactive, paletteIndex])
+
+  // Sync target color refs when palette or theme changes.
+  // On first load, snap display to target (no lerp). After that, only
+  // the target is updated — the animation loop lerps display toward it.
+  useEffect(() => {
+    if (!colors) return
+
+    if (!colorsInitializedRef.current) {
+      displayColorsRef.current = {
+        blue: [...colors.blue],
+        purple: [...colors.purple],
+        pink: [...colors.pink],
+        background: [...colors.background],
+      }
+      targetColorsRef.current = {
+        blue: [...colors.blue],
+        purple: [...colors.purple],
+        pink: [...colors.pink],
+        background: [...colors.background],
+      }
+      colorsInitializedRef.current = true
+    } else {
+      const target = targetColorsRef.current!
+      target.blue = [...colors.blue]
+      target.purple = [...colors.purple]
+      target.pink = [...colors.pink]
+      target.background = [...colors.background]
+    }
+  }, [colors])
+
+  // Smoothly animate gradient bar CSS variables toward the new palette
+  useEffect(() => {
+    if (!interactive) return
+
+    const palettes = theme === 'dark' ? DARK_PALETTES : LIGHT_PALETTES
+    const palette = palettes[paletteIndex]
+
+    const targetStart = palette[0].map((c) => c * 255)
+    const targetEnd = palette[2].map((c) => c * 255)
+
+    const toStr = (c: number[]) => c.map((v) => Math.round(v)).join(' ')
+
+    // First load — snap immediately
+    if (!gradientCurrentRef.current) {
+      gradientCurrentRef.current = {
+        start: [...targetStart],
+        end: [...targetEnd],
+      }
+      document.documentElement.style.setProperty(
+        '--color-gradient-start',
+        toStr(targetStart)
+      )
+      document.documentElement.style.setProperty(
+        '--color-gradient-end',
+        toStr(targetEnd)
+      )
+      return
+    }
+
+    const current = gradientCurrentRef.current
+
+    const animateGradient = () => {
+      let needsUpdate = false
+
+      for (let i = 0; i < 3; i++) {
+        current.start[i] +=
+          (targetStart[i] - current.start[i]) * COLOR_LERP_SPEED
+        current.end[i] += (targetEnd[i] - current.end[i]) * COLOR_LERP_SPEED
+        if (Math.abs(current.start[i] - targetStart[i]) > 0.5)
+          needsUpdate = true
+        if (Math.abs(current.end[i] - targetEnd[i]) > 0.5) needsUpdate = true
+      }
+
+      if (!needsUpdate) {
+        // Snap to exact values when close enough
+        current.start = [...targetStart]
+        current.end = [...targetEnd]
+      }
+
+      document.documentElement.style.setProperty(
+        '--color-gradient-start',
+        toStr(current.start)
+      )
+      document.documentElement.style.setProperty(
+        '--color-gradient-end',
+        toStr(current.end)
+      )
+
+      if (needsUpdate) {
+        gradientAnimFrameRef.current = requestAnimationFrame(animateGradient)
+      }
+    }
+
+    cancelAnimationFrame(gradientAnimFrameRef.current)
+    gradientAnimFrameRef.current = requestAnimationFrame(animateGradient)
+
+    return () => {
+      cancelAnimationFrame(gradientAnimFrameRef.current)
+    }
+  }, [interactive, paletteIndex, theme])
 
   // Check for reduced motion preference
   useEffect(() => {
@@ -86,9 +186,18 @@ export function WaterBlob({
     return () => mediaQuery.removeEventListener('change', handleChange)
   }, [])
 
-  // WebGL setup and animation
+  // WebGL setup and animation.
+  // Only re-runs on theme or reduced-motion changes (not palette changes).
+  // Palette transitions are handled by lerping displayColors toward targetColors
+  // each frame inside the loop, without rebuilding the WebGL program.
   useEffect(() => {
-    if (!canvasRef.current || !colors || prefersReducedMotion) return
+    if (
+      !canvasRef.current ||
+      !displayColorsRef.current ||
+      !targetColorsRef.current ||
+      prefersReducedMotion
+    )
+      return
 
     const canvas = canvasRef.current
     const gl = canvas.getContext('webgl')
@@ -100,18 +209,27 @@ export function WaterBlob({
       return
     }
 
+    // On (re)setup (e.g. theme change), snap display to target immediately
+    const display = displayColorsRef.current
+    const target = targetColorsRef.current
+    display.blue = [...target.blue]
+    display.purple = [...target.purple]
+    display.pink = [...target.pink]
+    display.background = [...target.background]
+
     const isDarkMode = theme === 'dark'
-    const programInfo = setupWebGL(gl, colors, isDarkMode)
+    const programInfo = setupWebGL(gl, display, isDarkMode)
     if (!programInfo) {
       setHasWebGL(false)
       return
     }
 
-    // Create animation loop
+    // display object is mutated in-place by lerpColors each frame,
+    // and createAnimationLoop's closure reads from the same object.
     const animate = createAnimationLoop(
       gl,
       programInfo,
-      colors,
+      display,
       animationSpeedRef.current
     )
 
@@ -119,8 +237,9 @@ export function WaterBlob({
     let isPausedByDialog = false
 
     const loop = () => {
-      // Pause if paused prop is true OR paused by dialog
       if (!isPausedByDialog && !pausedRef.current) {
+        // Smoothly interpolate display colors toward target each frame
+        lerpColors(display, target, COLOR_LERP_SPEED)
         animate()
       }
       animationId = requestAnimationFrame(loop)
@@ -135,12 +254,10 @@ export function WaterBlob({
       isPausedByDialog = false
     }
 
-    // Listen for dialog events
     window.addEventListener('workdialog:check', handlePause)
     window.addEventListener('casestudydialog:check', handlePause)
     window.addEventListener('dialog:closed', handleResume)
 
-    // Cleanup
     return () => {
       cancelAnimationFrame(animationId)
       window.removeEventListener('workdialog:check', handlePause)
@@ -153,7 +270,7 @@ export function WaterBlob({
         gl.deleteBuffer(programInfo.posBuffer)
       }
     }
-  }, [colors, prefersReducedMotion, theme]) // paused removed - loop handles it dynamically
+  }, [prefersReducedMotion, theme]) // colors removed — lerped via refs
 
   // Handle canvas resize
   useEffect(() => {
@@ -161,15 +278,13 @@ export function WaterBlob({
     return setupCanvasResize(canvasRef.current)
   }, [])
 
-  // Handle click for interactive mode - cycles sequentially through palettes
+  // Handle click for interactive mode — cycles sequentially through palettes
   const handleClick = (_e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!interactive) return
 
     const palettes = theme === 'dark' ? DARK_PALETTES : LIGHT_PALETTES
     const nextIndex = (paletteIndex + 1) % palettes.length
-
     setPaletteIndex(nextIndex)
-    setLastPaletteIndex(nextIndex)
   }
 
   // Show CSS fallback if WebGL not supported or reduced motion
