@@ -161,16 +161,12 @@ export function WaterBlob({
     return setupCanvasResize(canvasRef.current)
   }, [])
 
-  // Handle click for interactive mode
+  // Handle click for interactive mode - cycles sequentially through palettes
   const handleClick = (_e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!interactive) return
 
     const palettes = theme === 'dark' ? DARK_PALETTES : LIGHT_PALETTES
-    const nextIndex = getNextPaletteIndex(
-      paletteIndex,
-      lastPaletteIndex,
-      palettes.length
-    )
+    const nextIndex = (paletteIndex + 1) % palettes.length
 
     setPaletteIndex(nextIndex)
     setLastPaletteIndex(nextIndex)
