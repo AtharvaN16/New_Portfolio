@@ -65,7 +65,7 @@ export function FullpageCard({
   return (
     <section
       className={cn(
-        'min-h-screen w-full overflow-hidden',
+        'min-h-screen w-full overflow-hidden relative',
         variantStyles[variant],
         slug && 'cursor-pointer',
         className
@@ -80,54 +80,49 @@ export function FullpageCard({
         }
       }}
     >
-      <div className="flex min-h-screen w-full flex-col justify-start px-6 py-16 text-white sm:px-8 sm:py-20 md:py-[72px]">
+      {/* Background Image - fills entire card */}
+      {mediaSrc && !mediaError && (
+        <div className="absolute inset-0 w-full h-full">
+          {mediaType === 'video' ? (
+            <video
+              src={mediaSrc}
+              autoPlay
+              loop
+              muted
+              playsInline
+              onError={handleMediaError}
+              className={cn('w-full h-full object-cover', mediaClassName)}
+            />
+          ) : (
+            <Image
+              src={mediaSrc}
+              alt={mediaAlt}
+              fill
+              sizes="100vw"
+              onError={handleMediaError}
+              className={cn('object-cover', mediaClassName)}
+              priority
+            />
+          )}
+        </div>
+      )}
+
+      {/* Text Content - overlaid on top */}
+      <div className="relative z-10 flex min-h-screen w-full flex-col justify-start px-6 py-16 text-white sm:px-8 sm:py-20 md:py-[72px]">
         <AnimatedTitle
           text={title}
           animationType="fadeIn"
           className={cn(
-            'max-w-[90%] text-4xl font-black leading-[1.1] tracking-[-0.05em] sm:max-w-[85%] sm:text-5xl md:max-w-[76%] md:text-6xl lg:text-[72px]',
+            'max-w-[90%] text-[32px] font-black leading-[1.1] tracking-[-0.05em] sm:max-w-[85%] sm:text-[40px] md:max-w-[76%] md:text-[48px] lg:text-[54px]',
             titleClassName
           )}
         />
-
-        {mediaSrc && !mediaError && (
-          <div className="mt-6 sm:mt-8">
-            {mediaType === 'video' ? (
-              <video
-                src={mediaSrc}
-                autoPlay
-                loop
-                muted
-                playsInline
-                onError={handleMediaError}
-                className={cn(
-                  'h-auto w-full rounded-lg object-cover',
-                  mediaClassName
-                )}
-              />
-            ) : (
-              <div className="relative aspect-video w-full">
-                <Image
-                  src={mediaSrc}
-                  alt={mediaAlt}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 1200px"
-                  onError={handleMediaError}
-                  className={cn('rounded-lg object-cover', mediaClassName)}
-                  priority
-                  placeholder="blur"
-                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQ3NSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQ3NSIgZmlsbD0iIzMzMyIvPjwvc3ZnPg=="
-                />
-              </div>
-            )}
-          </div>
-        )}
 
         {description && (
           <AnimatedHeroTextGSAP
             delay={0.5}
             className={cn(
-              'mt-48 max-w-sm text-base font-medium leading-normal tracking-[-0.4px] sm:mt-64 sm:max-w-md sm:text-lg md:mt-[420px] md:text-[20px]',
+              'mt-auto max-w-sm text-base font-medium leading-normal tracking-[-0.4px] sm:max-w-md sm:text-lg md:text-[20px]',
               descriptionClassName
             )}
           >

@@ -122,6 +122,9 @@ export default function Home() {
             <FullpageCard
               title="Helping New Yorkers apply for business licenses with ease"
               description="A case study on improving the application process for business licenses for the NYC Department of Consumer and Worker Protection."
+              mediaSrc="/images/case-studies/nyc-dcwp-business-licenses/fullpage-card-v2.png"
+              mediaType="image"
+              mediaAlt="NYC DCWP Home Improvement Contractor License Application"
               variant="surface"
               slug="nyc-dcwp-business-licenses"
             />
