@@ -51,7 +51,7 @@ export const caseStudies: CaseStudy[] = [
     imageBg: 'rgb(var(--color-case-study-sky))',
     featured: true,
     category: 'ux-research',
-    team: ['Atharva Nayak'],
+    team: ['Atharva Nayak', 'Meng Shi', 'Rutuja Nagulpelli', 'Sandra Ye'],
     timeline: 'Jan - May 2024',
     progressBarColor: '#3183CB',
   },
