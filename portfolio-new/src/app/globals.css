@@ -116,21 +116,27 @@
      ======================================== */
 
   /* Hero gradient backgrounds using design tokens */
+  /* Light mode: richer, more saturated colors for visibility on white */
   .hero-gradient-light {
-    background: linear-gradient(
-      90deg,
-      rgb(var(--hero-blob-blue)) 0%,
-      rgb(var(--hero-blob-purple)) 50%,
-      rgb(var(--hero-blob-pink)) 100%
+    background: radial-gradient(
+      ellipse at 30% 50%,
+      rgba(var(--hero-blob-blue), 0.85) 0%,
+      rgba(var(--hero-blob-purple), 0.75) 40%,
+      rgba(var(--hero-blob-pink), 0.7) 80%,
+      rgba(var(--color-background), 1) 100%
     );
+    /* Subtle texture overlay for light mode (pigment effect) */
+    background-blend-mode: normal;
   }
 
+  /* Dark mode: bright, glowy colors for emissive effect on black */
   .hero-gradient-dark {
-    background: linear-gradient(
-      90deg,
-      rgb(var(--hero-blob-blue)) 0%,
-      rgb(var(--hero-blob-purple)) 50%,
-      rgb(var(--hero-blob-pink)) 100%
+    background: radial-gradient(
+      ellipse at 30% 50%,
+      rgba(var(--hero-blob-blue), 0.6) 0%,
+      rgba(var(--hero-blob-purple), 0.5) 40%,
+      rgba(var(--hero-blob-pink), 0.45) 80%,
+      rgba(var(--color-background), 1) 100%
     );
   }
 

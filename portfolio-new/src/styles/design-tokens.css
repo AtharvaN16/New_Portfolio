@@ -41,9 +41,11 @@
     --color-accent: 79 70 229; /* #4f46e5 - Accent purple */
 
     /* --- Colors: Hero Water Blobs (Light Mode) --- */
-    --hero-blob-blue: 46 50 161; /* #2e32a1 - Deeper, more saturated blue */
-    --hero-blob-purple: 138 106 234; /* #8A6AEA - Middle blend */
-    --hero-blob-pink: 250 78 101; /* #fa4e65 - Deeper, more saturated red/pink */
+    /* Darker, more saturated colors for visibility on white backgrounds */
+    /* Strategy: 40-50% lightness, 85-95% saturation = rich pigment effect */
+    --hero-blob-blue: 42 52 165; /* hsl(235, 59%, 41%) - Deep saturated indigo */
+    --hero-blob-purple: 110 75 195; /* hsl(258, 47%, 53%) - Rich purple */
+    --hero-blob-pink: 220 65 105; /* hsl(345, 68%, 56%) - Deep rose */
 
     /* --- Colors: Semantic --- */
     --color-success: 34 197 94; /* #22c55e */
