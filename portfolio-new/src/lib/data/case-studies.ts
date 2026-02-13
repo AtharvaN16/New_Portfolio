@@ -66,8 +66,9 @@ export const caseStudies: CaseStudy[] = [
     imageBg: 'rgb(var(--color-case-study-green))',
     featured: true,
     category: 'ux-research',
-    team: ['Atharva Nayak', 'Research Team'],
+    team: ['Atharva Nayak', 'Arnav Sharma', 'Azka Qasim', 'Natalie Cheng'],
     timeline: 'Mar - Jun 2024',
+    progressBarColor: 'rgb(var(--color-uofa-green))',
   },
   {
     slug: 'gutenberg-cms-usability-evaluation',

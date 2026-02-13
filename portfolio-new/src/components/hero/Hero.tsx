@@ -84,7 +84,7 @@ export function Hero({
               </AnimatedHeroTextGSAP>
             </div>
 
-            <div className="flex items-end gap-10 md:gap-20 lg:gap-[194px]">
+            <div className="flex items-end gap-10 md:gap-20 lg:gap-[196px]">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

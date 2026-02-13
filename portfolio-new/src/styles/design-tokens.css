@@ -61,6 +61,7 @@
     --color-case-study-pink: 255 182 193; /* #FFB6C1 - Light Pink */
     --color-case-study-pale-green: 152 251 152; /* #98FB98 - Pale Green */
     --color-case-study-gold: 255 206 46; /* #FFCE2E - Progress Bar Gold */
+    --color-uofa-green: 37 121 72; /* #257948 - University of Alberta green */
 
     /* --- Colors: Borders --- */
     --color-border: 229 231 235; /* #e5e7eb */
@@ -192,6 +193,7 @@
     --color-case-study-pink: 251 207 232; /* #FBCFE8 - Lighter pink */
     --color-case-study-pale-green: 187 247 208; /* #BBF7D0 - Lighter pale green */
     --color-case-study-gold: 253 224 71; /* #FDE047 - Brighter gold for dark mode */
+    --color-uofa-green: 37 121 72; /* #257948 - University of Alberta green */
 
     /* --- Colors: Semantic (adjusted for dark mode contrast) --- */
     --color-success: 74 222 128; /* #4ADE80 - Lighter green for dark */
