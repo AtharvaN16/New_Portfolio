@@ -1,21 +1,58 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useBreakpoint } from '@/hooks/use-breakpoint'
+import { FooterDustParticles } from './FooterDustParticles'
 
 interface FooterSmogProps {
   visible: boolean
 }
 
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReduced(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
+  return reduced
+}
+
 export function FooterSmog({ visible }: FooterSmogProps) {
+  const isDesktop = useBreakpoint('lg')
+  const prefersReducedMotion = usePrefersReducedMotion()
+
+  const showEffects = isDesktop && !prefersReducedMotion
+
+  return (
+    <div
+      className="absolute top-0 left-0 right-0 h-[120px] pointer-events-none z-0 overflow-hidden"
+      aria-hidden="true"
+    >
+      {/* Layer 1: Original CSS color glow */}
+      <CSSGlow visible={visible} />
+
+      {/* Layer 2: Tiny bright dust motes (desktop only) */}
+      {showEffects && <FooterDustParticles visible={visible} />}
+    </div>
+  )
+}
+
+/** Original subtle CSS gradient glow — unchanged from the working version */
+function CSSGlow({ visible }: { visible: boolean }) {
   return (
     <motion.div
-      className="absolute top-0 left-0 right-0 h-[120px] pointer-events-none z-0 overflow-hidden"
+      className="absolute inset-0"
       animate={{ opacity: visible ? 1 : 0 }}
       transition={{ duration: 1.2, ease: 'easeOut' }}
       initial={{ opacity: 0 }}
-      aria-hidden="true"
     >
-      {/* Base wash: continuous L-R gradient, ensures no gaps */}
+      {/* Base wash */}
       <div
         className="absolute inset-0"
         style={{
@@ -27,7 +64,7 @@ export function FooterSmog({ visible }: FooterSmogProps) {
         }}
       />
 
-      {/* Swell 1: left-center, extends deep — bright hotspot */}
+      {/* Swell 1 */}
       <motion.div
         className="absolute -inset-x-[5%] inset-y-0"
         animate={{ x: ['0%', '6%', '0%'] }}
@@ -39,7 +76,7 @@ export function FooterSmog({ visible }: FooterSmogProps) {
         }}
       />
 
-      {/* Swell 2: right side, shorter — creates luminance dip between swells */}
+      {/* Swell 2 */}
       <motion.div
         className="absolute -inset-x-[5%] inset-y-0"
         animate={{ x: ['0%', '-5%', '0%'], opacity: [0.8, 1, 0.8] }}
@@ -51,7 +88,7 @@ export function FooterSmog({ visible }: FooterSmogProps) {
         }}
       />
 
-      {/* Swell 3: wandering accent — adds organic variance */}
+      {/* Swell 3 */}
       <motion.div
         className="absolute -inset-x-[10%] inset-y-0"
         animate={{ x: ['-3%', '10%', '-3%'], opacity: [0.5, 1, 0.5] }}
