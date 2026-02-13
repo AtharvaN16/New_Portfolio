@@ -101,7 +101,10 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
           Object.assign(p, createParticle(w, h, false))
         }
 
-        const alpha = p.opacity * opacityRef.current
+        // Fade out as particles move further from the light source (top of footer)
+        const distFromLight = p.y
+        const fadeFactor = Math.max(0, 1 - distFromLight / h)
+        const alpha = p.opacity * opacityRef.current * fadeFactor
 
         ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`
         ctx.fillRect(
