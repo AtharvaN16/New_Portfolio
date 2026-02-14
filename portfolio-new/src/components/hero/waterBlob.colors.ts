@@ -3,161 +3,192 @@
  *
  * Defines color palettes for interactive mode and provides utilities
  * for extracting colors from design tokens.
+ *
+ * Order follows color wheel (warm → cool): Orange → Gold → Terracotta → Coral →
+ * Teal → Blue → Slate → Indigo → Violet. Cycling feels like moving around the wheel.
+ *
+ * COLOR PAIRS REFERENCE (index = palette index, Color 1/2/3 = gradient positions)
+ *
+ * LIGHT MODE (for white/light backgrounds):
+ * | Idx | Name                    | Color 1 (RGB)     | Color 2 (RGB)      | Color 3 (RGB)      |
+ * |-----|-------------------------|-------------------|--------------------|--------------------|
+ * | 0   | Orange / Purple / Cyan  | 200, 95, 25       | 125, 50, 185       | 15, 145, 175       |
+ * | 1   | Gold / Coral / Burgundy | 170, 120, 15      | 205, 85, 50        | 110, 0, 25         |
+ * | 2   | Terracotta / Rust / Plum| 190, 110, 70      | 165, 70, 45        | 115, 48, 85        |
+ * | 3   | Ocean / Coral / Sunset  | 0, 75, 140         | 210, 90, 50        | 205, 160, 25       |
+ * | 4   | Teal / Green / Amber    | 0, 100, 95        | 95, 135, 85        | 150, 120, 60       |
+ * | 5   | Navy / Ocean / Azure    | 12, 28, 80         | 0, 90, 145         | 85, 150, 190       |
+ * | 6   | Slate / Seafoam / Iris | 95, 130, 170       | 70, 145, 115       | 135, 90, 180       |
+ * | 7   | Indigo / Purple / Rose  | 42, 52, 165       | 110, 75, 195       | 220, 65, 105       |
+ * | 8   | Grape / Violet / Lavender| 58, 12, 95        | 105, 28, 175       | 145, 110, 200      |
+ *
+ * DARK MODE (for black/dark backgrounds):
+ * | Idx | Name                    | Color 1 (RGB)     | Color 2 (RGB)      | Color 3 (RGB)      |
+ * |-----|-------------------------|-------------------|--------------------|--------------------|
+ * | 0   | Orange / Purple / Cyan | 251, 146, 60      | 168, 85, 247       | 34, 211, 238       |
+ * | 1   | Gold / Coral / Burgundy | 255, 200, 50      | 255, 140, 100      | 180, 40, 60        |
+ * | 2   | Peach / Terracotta / Plum| 255, 200, 170    | 220, 120, 85       | 170, 90, 140       |
+ * | 3   | Ocean / Coral / Yellow  | 30, 130, 220      | 255, 140, 100      | 255, 225, 80       |
+ * | 4   | Teal / Sage / Sand      | 30, 180, 170      | 150, 200, 140      | 195, 165, 90       |
+ * | 5   | Navy / Cerulean / Sky   | 40, 60, 140       | 50, 150, 220       | 150, 210, 255      |
+ * | 6   | Ice Blue / Mint / Lilac | 120, 185, 255     | 80, 210, 165       | 210, 140, 255      |
+ * | 7   | Indigo / Purple / Pink  | 99, 102, 241      | 167, 139, 250      | 236, 72, 153       |
+ * | 8   | Grape / Violet / Lavender| 110, 40, 160     | 160, 70, 255       | 210, 175, 255      |
  */
 
 import type { Colors } from './waterBlob.types'
 
 /**
  * Light mode color palettes for interactive mode
- * 
+ * Ordered by color wheel (warm → cool). Default on load: index 0 (Orange).
+ *
  * Design Strategy for Light Backgrounds:
  * - DARKER cores (40-55% lightness) for visibility
  * - HIGHER saturation (80-95%) to compensate for lower luminance contrast
  * - Pigment/ink metaphor: think watercolor stains, not neon glows
- * - Colors should feel rich and vibrant, not washed out
  */
 export const LIGHT_PALETTES = [
-  // Indigo / Deep Purple / Rich Rose (original, adjusted for light mode)
-  [
-    [42 / 255, 52 / 255, 165 / 255],      // Deeper indigo (was 57,71,202)
-    [110 / 255, 75 / 255, 195 / 255],     // Richer purple (was 138,106,234)
-    [220 / 255, 65 / 255, 105 / 255],     // Deeper rose (was 255,103,140)
-  ],
-  // Orange / Purple / Cyan - now more saturated
+  // 0: Orange / Purple / Cyan (default on load)
   [
     [200 / 255, 95 / 255, 25 / 255],      // Darker orange
     [125 / 255, 50 / 255, 185 / 255],     // Deeper purple
     [15 / 255, 145 / 255, 175 / 255],     // Richer cyan
   ],
-  // Gold / Coral / Burgundy - enhanced depth
+  // 1: Gold / Coral / Burgundy
   [
     [170 / 255, 120 / 255, 15 / 255],     // Deeper gold
     [205 / 255, 85 / 255, 50 / 255],      // Richer coral
     [110 / 255, 0 / 255, 25 / 255],       // Darker burgundy
   ],
-  // Terracotta / Rust / Plum - earthy richness
+  // 2: Terracotta / Rust / Plum
   [
     [190 / 255, 110 / 255, 70 / 255],     // Richer terracotta
     [165 / 255, 70 / 255, 45 / 255],      // Deeper rust
     [115 / 255, 48 / 255, 85 / 255],      // Darker plum
   ],
-  // Deep Teal / Forest Green / Amber - natural pigments
-  [
-    [0 / 255, 100 / 255, 95 / 255],       // Darker teal
-    [95 / 255, 135 / 255, 85 / 255],      // Deeper sage
-    [150 / 255, 120 / 255, 60 / 255],     // Richer amber
-  ],
-  // Navy / Ocean Blue / Azure - deep water tones
-  [
-    [12 / 255, 28 / 255, 80 / 255],       // Darker navy
-    [0 / 255, 90 / 255, 145 / 255],       // Richer ocean
-    [85 / 255, 150 / 255, 190 / 255],     // Deeper azure (but not too light)
-  ],
-  // Grape / Violet / Lavender - royal purples
-  [
-    [58 / 255, 12 / 255, 95 / 255],       // Darker grape
-    [105 / 255, 28 / 255, 175 / 255],     // Richer violet
-    [145 / 255, 110 / 255, 200 / 255],    // Deeper lavender (less washed out)
-  ],
-  // Ocean / Coral / Sunset - vibrant natural tones
+  // 3: Ocean / Coral / Sunset
   [
     [0 / 255, 75 / 255, 140 / 255],       // Darker ocean
     [210 / 255, 90 / 255, 50 / 255],      // Richer coral
     [205 / 255, 160 / 255, 25 / 255],     // Deeper sunset gold
   ],
-  // Slate Blue / Seafoam / Iris - muted elegance
+  // 4: Teal / Green / Amber
   [
-    [95 / 255, 130 / 255, 170 / 255],     // Deeper slate (was too light)
+    [0 / 255, 100 / 255, 95 / 255],       // Darker teal
+    [95 / 255, 135 / 255, 85 / 255],      // Deeper sage
+    [150 / 255, 120 / 255, 60 / 255],     // Richer amber
+  ],
+  // 5: Navy / Ocean / Azure
+  [
+    [12 / 255, 28 / 255, 80 / 255],       // Darker navy
+    [0 / 255, 90 / 255, 145 / 255],       // Richer ocean
+    [85 / 255, 150 / 255, 190 / 255],     // Deeper azure
+  ],
+  // 6: Slate / Seafoam / Iris
+  [
+    [95 / 255, 130 / 255, 170 / 255],     // Deeper slate
     [70 / 255, 145 / 255, 115 / 255],     // Richer seafoam
     [135 / 255, 90 / 255, 180 / 255],     // Deeper iris
+  ],
+  // 7: Indigo / Purple / Rose
+  [
+    [42 / 255, 52 / 255, 165 / 255],      // Deeper indigo
+    [110 / 255, 75 / 255, 195 / 255],     // Richer purple
+    [220 / 255, 65 / 255, 105 / 255],     // Deeper rose
+  ],
+  // 8: Grape / Violet / Lavender
+  [
+    [58 / 255, 12 / 255, 95 / 255],       // Darker grape
+    [105 / 255, 28 / 255, 175 / 255],     // Richer violet
+    [145 / 255, 110 / 255, 200 / 255],    // Deeper lavender
   ],
 ]
 
 /**
  * Dark mode color palettes for interactive mode
- * Brighter/lighter values to pop against dark backgrounds
+ * Ordered by color wheel (warm → cool). Brighter values for dark backgrounds.
  */
 export const DARK_PALETTES = [
-  // Indigo / Light Purple / Pink (original)
-  [
-    [99 / 255, 102 / 255, 241 / 255],
-    [167 / 255, 139 / 255, 250 / 255],
-    [236 / 255, 72 / 255, 153 / 255],
-  ],
-  // Orange / Purple / Cyan
+  // 0: Orange / Purple / Cyan (default on load)
   [
     [251 / 255, 146 / 255, 60 / 255],
     [168 / 255, 85 / 255, 247 / 255],
     [34 / 255, 211 / 255, 238 / 255],
   ],
-  // Gold / Coral / Burgundy
+  // 1: Gold / Coral / Burgundy
   [
     [255 / 255, 200 / 255, 50 / 255],
     [255 / 255, 140 / 255, 100 / 255],
     [180 / 255, 40 / 255, 60 / 255],
   ],
-  // Peach / Terracotta / Plum
+  // 2: Peach / Terracotta / Plum
   [
     [255 / 255, 200 / 255, 170 / 255],
     [220 / 255, 120 / 255, 85 / 255],
     [170 / 255, 90 / 255, 140 / 255],
   ],
-  // Deep Teal / Sage Green / Sand
-  [
-    [30 / 255, 180 / 255, 170 / 255],
-    [150 / 255, 200 / 255, 140 / 255],
-    [195 / 255, 165 / 255, 90 / 255],
-  ],
-  // Navy / Cerulean / Sky Blue
-  [
-    [40 / 255, 60 / 255, 140 / 255],
-    [50 / 255, 150 / 255, 220 / 255],
-    [150 / 255, 210 / 255, 255 / 255],
-  ],
-  // Grape / Violet / Lavender
-  [
-    [110 / 255, 40 / 255, 160 / 255],
-    [160 / 255, 70 / 255, 255 / 255],
-    [210 / 255, 175 / 255, 255 / 255],
-  ],
-  // Ocean Blue / Coral / Sun Yellow
+  // 3: Ocean / Coral / Yellow
   [
     [30 / 255, 130 / 255, 220 / 255],
     [255 / 255, 140 / 255, 100 / 255],
     [255 / 255, 225 / 255, 80 / 255],
   ],
-  // Ice Blue / Mint / Lilac
+  // 4: Teal / Sage / Sand
+  [
+    [30 / 255, 180 / 255, 170 / 255],
+    [150 / 255, 200 / 255, 140 / 255],
+    [195 / 255, 165 / 255, 90 / 255],
+  ],
+  // 5: Navy / Cerulean / Sky Blue
+  [
+    [40 / 255, 60 / 255, 140 / 255],
+    [50 / 255, 150 / 255, 220 / 255],
+    [150 / 255, 210 / 255, 255 / 255],
+  ],
+  // 6: Ice Blue / Mint / Lilac
   [
     [120 / 255, 185 / 255, 255 / 255],
     [80 / 255, 210 / 255, 165 / 255],
     [210 / 255, 140 / 255, 255 / 255],
   ],
+  // 7: Indigo / Purple / Pink
+  [
+    [99 / 255, 102 / 255, 241 / 255],
+    [167 / 255, 139 / 255, 250 / 255],
+    [236 / 255, 72 / 255, 153 / 255],
+  ],
+  // 8: Grape / Violet / Lavender
+  [
+    [110 / 255, 40 / 255, 160 / 255],
+    [160 / 255, 70 / 255, 255 / 255],
+    [210 / 255, 175 / 255, 255 / 255],
+  ],
 ]
 
-/** Scribble colors: palette 0 (first load), 5 and 6. Dark = accessible light; light = accessible dark. */
-const SCRIBBLE_PALETTE_0_DARK = [106, 111, 255] as const  // #6A6FFF
-const SCRIBBLE_PALETTE_0_LIGHT = [55, 60, 195] as const  // Darker indigo variant on white
-const SCRIBBLE_PALETTE_5_DARK = [128, 207, 255] as const // #80CFFF azure
-const SCRIBBLE_PALETTE_6_DARK = [212, 167, 255] as const // #D4A7FF lavender
+/** Scribble colors for palettes 5 (Navy), 7 (Indigo), 8 (Grape). Dark = accessible light; light = accessible dark. */
+const SCRIBBLE_PALETTE_5_DARK = [128, 207, 255] as const  // #80CFFF azure (Navy palette)
 const SCRIBBLE_PALETTE_5_LIGHT = [0, 65, 130] as const   // Accessible darker blue on white
-const SCRIBBLE_PALETTE_6_LIGHT = [72, 28, 120] as const // Accessible darker violet on white
+const SCRIBBLE_PALETTE_7_DARK = [106, 111, 255] as const // #6A6FFF (Indigo palette)
+const SCRIBBLE_PALETTE_7_LIGHT = [55, 60, 195] as const  // Darker indigo on white
+const SCRIBBLE_PALETTE_8_DARK = [212, 167, 255] as const // #D4A7FF lavender (Grape palette)
+const SCRIBBLE_PALETTE_8_LIGHT = [72, 28, 120] as const // Accessible darker violet on white
 
 /**
- * Get scribble color for hero underline. Palettes 0, 5 and 6 use custom scribble colors;
+ * Get scribble color for hero underline. Palettes 5, 7 and 8 use custom scribble colors;
  * others use gradient-start. Returns RGB in 0–255.
  */
 export function getScribbleColor(
   paletteIndex: number,
   isDark: boolean
 ): number[] {
-  if (paletteIndex === 0) {
-    return isDark ? [...SCRIBBLE_PALETTE_0_DARK] : [...SCRIBBLE_PALETTE_0_LIGHT]
-  }
   if (paletteIndex === 5) {
     return isDark ? [...SCRIBBLE_PALETTE_5_DARK] : [...SCRIBBLE_PALETTE_5_LIGHT]
   }
-  if (paletteIndex === 6) {
-    return isDark ? [...SCRIBBLE_PALETTE_6_DARK] : [...SCRIBBLE_PALETTE_6_LIGHT]
+  if (paletteIndex === 7) {
+    return isDark ? [...SCRIBBLE_PALETTE_7_DARK] : [...SCRIBBLE_PALETTE_7_LIGHT]
+  }
+  if (paletteIndex === 8) {
+    return isDark ? [...SCRIBBLE_PALETTE_8_DARK] : [...SCRIBBLE_PALETTE_8_LIGHT]
   }
   // Other palettes: use gradient-start (caller passes palette[0] * 255)
   return []

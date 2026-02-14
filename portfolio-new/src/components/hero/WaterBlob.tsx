@@ -45,7 +45,7 @@ export function WaterBlob({
   const [isMounted, setIsMounted] = useState(false)
 
   // Interactive mode state
-  const [paletteIndex, setPaletteIndex] = useState(0)
+  const [paletteIndex, setPaletteIndex] = useState(0) // 0 = Orange / Purple / Cyan (default on load)
   const animationSpeedRef = useRef(
     enhanced
       ? ANIMATION_SPEED_MULTIPLIER_ENHANCED
