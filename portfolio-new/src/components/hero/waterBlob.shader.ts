@@ -35,13 +35,21 @@ export const fragmentShader = `
   uniform vec3 uColor2; // Purple (from design tokens)
   uniform vec3 uColor3; // Pink (from design tokens)
   uniform vec3 uBackgroundColor; // Background (from design tokens)
-  // === TUNING CONSTANTS (no more magic numbers!) ===
-  const float ATMOSPHERIC_NOISE_STRENGTH = 0.03;
-  const float EDGE_GLOW_STRENGTH = 0.08;
-  const float SUBSURFACE_SCATTER_INTENSITY = 0.05;
-  const float DENSITY_SATURATION_BOOST = 0.4;
-  const float BASE_SATURATION = 1.25;
-  const float VOLUMETRIC_DENSITY_INFLUENCE = 0.05;
+  // === TUNING CONSTANTS ===
+  // Light mode uses reduced atmospheric effects (pigment metaphor)
+  // Dark mode uses stronger glow effects (emissive metaphor)
+  const float ATMOSPHERIC_NOISE_LIGHT = 0.02;  // Reduced for light mode
+  const float ATMOSPHERIC_NOISE_DARK = 0.03;
+  const float EDGE_GLOW_LIGHT = 0.04;          // Much less glow on light
+  const float EDGE_GLOW_DARK = 0.08;
+  const float SUBSURFACE_SCATTER_LIGHT = 0.03; // Subtle on light
+  const float SUBSURFACE_SCATTER_DARK = 0.05;
+  const float DENSITY_SAT_BOOST_LIGHT = 0.55;  // More saturation for light
+  const float DENSITY_SAT_BOOST_DARK = 0.4;
+  const float BASE_SATURATION_LIGHT = 1.45;    // Higher base saturation
+  const float BASE_SATURATION_DARK = 1.25;
+  const float VOLUMETRIC_DENSITY_LIGHT = 0.08; // More density/opacity
+  const float VOLUMETRIC_DENSITY_DARK = 0.05;
 
   // Simple noise function for organic movement
   float noise(vec2 p) {
@@ -94,7 +102,7 @@ export const fragmentShader = `
   // turbulenceAmount: controls chaos (0.2 = calm, 0.6 = energetic)
   // edgeSharpness: controls edge definition (0.75 = sharp, 0.6 = soft)
   float irregularWaterShape(vec2 uv, vec2 center, float baseSize, float time, float seed, 
-                            float turbulenceAmount, float edgeSharpness, float proximityToOther) {
+                            float turbulenceAmount, float edgeSharpness, float proximityToOther, float isDark) {
     vec2 toCenter = uv - center;
     float dist = length(toCenter);
 
@@ -112,13 +120,15 @@ export const fragmentShader = `
     float edgeSoftness = mix(edgeSharpness, 0.6, proximityToOther); // Soften near other blob
     float influence = 1.0 - smoothstep(turbulentRadius * edgeSoftness, turbulentRadius * 1.5, dist);
 
-    // Very subtle volumetric density - barely noticeable depth
+    // Volumetric density - theme-specific (more opaque in light mode)
+    float volumetricStrength = mix(VOLUMETRIC_DENSITY_LIGHT, VOLUMETRIC_DENSITY_DARK, isDark);
     float densityFalloff = exp(-dist / (turbulentRadius * 0.5));
-    influence *= densityFalloff * VOLUMETRIC_DENSITY_INFLUENCE + (1.0 - VOLUMETRIC_DENSITY_INFLUENCE);
+    influence *= densityFalloff * volumetricStrength + (1.0 - volumetricStrength);
 
-    // Very subtle atmospheric texture
+    // Atmospheric texture - theme-specific (less noise in light mode)
+    float atmosphericStrength = mix(ATMOSPHERIC_NOISE_LIGHT, ATMOSPHERIC_NOISE_DARK, isDark);
     float atmosphericNoise = fractalNoise(uv * 12.0 + time * 0.08 + seed);
-    influence *= (1.0 - ATMOSPHERIC_NOISE_STRENGTH) + (ATMOSPHERIC_NOISE_STRENGTH * atmosphericNoise);
+    influence *= (1.0 - atmosphericStrength) + (atmosphericStrength * atmosphericNoise);
 
     return clamp(influence, 0.0, 1.0);
   }
@@ -149,12 +159,12 @@ export const fragmentShader = `
     float distanceBetween = length(blob1Center - blob2Center);
     float proximity1 = smoothstep(0.6, 0.3, distanceBetween); // Soften when close
     
-    float blob1 = irregularWaterShape(uv, blob1Center, 0.55, uTime, 0.0, 0.25, 0.80, proximity1);
+    float blob1 = irregularWaterShape(uv, blob1Center, 0.55, uTime, 0.0, 0.25, 0.80, proximity1, uIsDarkMode);
 
     // === BLOB 2 (Pink) - SECONDARY, ENERGETIC ===
     // Smaller size, faster movement, high turbulence, dynamic
     float proximity2 = smoothstep(0.6, 0.3, distanceBetween);
-    float blob2 = irregularWaterShape(uv, blob2Center, 0.38, uTime, 5.0, 0.55, 0.80, proximity2);
+    float blob2 = irregularWaterShape(uv, blob2Center, 0.38, uTime, 5.0, 0.55, 0.80, proximity2, uIsDarkMode);
 
     // Normalize to prevent over-saturation
     blob1 = clamp(blob1, 0.0, 1.0);
@@ -168,9 +178,11 @@ export const fragmentShader = `
 
     float totalWater = clamp(blob1 + blob2, 0.0, 1.0);
     
-    // === GLOW EFFECT (Applied to background first - physically accurate) ===
-    float glowPower = mix(0.8, 0.6, uIsDarkMode);
-    float glowStrength = mix(0.15, 0.4, uIsDarkMode);
+    // === GLOW EFFECT - Theme-specific behavior ===
+    // Dark mode: Strong glow (emissive light metaphor)
+    // Light mode: Subtle glow (pigment/ink metaphor)
+    float glowPower = mix(0.9, 0.6, uIsDarkMode);        // Sharper falloff in light mode
+    float glowStrength = mix(0.08, 0.4, uIsDarkMode);    // Much less glow in light mode
     float glowIntensity = pow(totalWater, glowPower) * glowStrength;
     vec3 color = backgroundColor + backgroundColor * glowIntensity;
     
@@ -185,9 +197,11 @@ export const fragmentShader = `
     // Blend colors with concentration gradient
     vec3 blendedColor = mix(uColor3, uColor1, mixRatio);
     
-    // === DENSITY-BASED SATURATION ===
-    // More density = more saturated (like more dye concentration)
-    float densitySaturation = BASE_SATURATION * (1.0 + totalWater * DENSITY_SATURATION_BOOST);
+    // === DENSITY-BASED SATURATION - Theme-specific ===
+    // Light mode needs MORE saturation to compensate for lower luminance contrast
+    float baseSat = mix(BASE_SATURATION_LIGHT, BASE_SATURATION_DARK, uIsDarkMode);
+    float densitySatBoost = mix(DENSITY_SAT_BOOST_LIGHT, DENSITY_SAT_BOOST_DARK, uIsDarkMode);
+    float densitySaturation = baseSat * (1.0 + totalWater * densitySatBoost);
     float luminance = dot(blendedColor, vec3(0.299, 0.587, 0.114));
     blendedColor = mix(vec3(luminance), blendedColor, densitySaturation);
     
@@ -199,14 +213,16 @@ export const fragmentShader = `
     // Composite blobs onto glowing background
     color = mix(color, blendedColor, totalWater);
     
-    // === SUBSURFACE SCATTERING (subtle light bleed) ===
+    // === SUBSURFACE SCATTERING - Theme-specific ===
+    float scatterStrength = mix(SUBSURFACE_SCATTER_LIGHT, SUBSURFACE_SCATTER_DARK, uIsDarkMode);
     float edgeDistance = 1.0 - totalWater;
-    float subsurfaceScatter = smoothstep(0.7, 1.0, edgeDistance) * totalWater * SUBSURFACE_SCATTER_INTENSITY;
+    float subsurfaceScatter = smoothstep(0.7, 1.0, edgeDistance) * totalWater * scatterStrength;
     vec3 backlight = mix(uColor1, uColor3, 0.5) * 1.3;
     color += backlight * subsurfaceScatter;
     
-    // === EDGE GLOW (luminous halos) ===
-    float edgeGlow = pow(1.0 - totalWater, 2.0) * totalWater * EDGE_GLOW_STRENGTH;
+    // === EDGE GLOW - Theme-specific ===
+    float edgeGlowStrength = mix(EDGE_GLOW_LIGHT, EDGE_GLOW_DARK, uIsDarkMode);
+    float edgeGlow = pow(1.0 - totalWater, 2.0) * totalWater * edgeGlowStrength;
     color += color * edgeGlow;
 
     // === FINAL ATMOSPHERIC FADE ===

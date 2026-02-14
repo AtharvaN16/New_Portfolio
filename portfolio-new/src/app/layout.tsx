@@ -1,5 +1,5 @@
 'use client'
-import { Geist, Geist_Mono, JetBrains_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, JetBrains_Mono, Mynerve } from 'next/font/google'
 import './globals.css'
 
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
@@ -28,6 +28,14 @@ const jetbrainsMono = JetBrains_Mono({
   preload: false,
 })
 
+const mynerve = Mynerve({
+  variable: '--font-mynerve',
+  subsets: ['latin'],
+  weight: '400',
+  display: 'swap',
+  preload: false,
+})
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -39,7 +47,7 @@ export default function RootLayout({
         <ThemeScript />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} font-sans antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${mynerve.variable} font-sans antialiased`}
       >
         <ThemeProvider>
           <LenisProvider>

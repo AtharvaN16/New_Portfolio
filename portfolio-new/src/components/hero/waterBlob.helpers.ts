@@ -162,33 +162,51 @@ export function createAnimationLoop(
 }
 
 /**
- * Setup canvas resize handler
+ * Setup canvas resize handler using ResizeObserver (modern approach)
+ * Checks dimensions before every resize to avoid unnecessary updates
  */
 export function setupCanvasResize(canvas: HTMLCanvasElement): () => void {
-  const CANVAS_RESIZE_DELAY_MS = 10
-
-  const handleResize = () => {
+  const resizeCanvasToDisplaySize = () => {
     const dpr = window.devicePixelRatio || 1
     const rect = canvas.getBoundingClientRect()
 
-    canvas.width = rect.width * dpr
-    canvas.height = rect.height * dpr
+    const displayWidth = rect.width * dpr
+    const displayHeight = rect.height * dpr
 
-    // Set viewport
-    const gl = canvas.getContext('webgl')
-    if (gl) {
-      gl.viewport(0, 0, canvas.width, canvas.height)
+    // Only resize if dimensions actually changed
+    const needResize =
+      canvas.width !== displayWidth || canvas.height !== displayHeight
+
+    if (needResize) {
+      canvas.width = displayWidth
+      canvas.height = displayHeight
+
+      // Update WebGL viewport
+      const gl = canvas.getContext('webgl')
+      if (gl) {
+        gl.viewport(0, 0, canvas.width, canvas.height)
+      }
     }
+
+    return needResize
   }
 
-  // Delay initial sizing to ensure parent has dimensions
-  const timeoutId = setTimeout(handleResize, CANVAS_RESIZE_DELAY_MS)
+  // Initial resize
+  resizeCanvasToDisplaySize()
 
-  window.addEventListener('resize', handleResize)
+  // Use ResizeObserver for efficient resize detection
+  const resizeObserver = new ResizeObserver(() => {
+    resizeCanvasToDisplaySize()
+  })
+
+  resizeObserver.observe(canvas)
+
+  // Fallback: also listen to window resize for older edge cases
+  window.addEventListener('resize', resizeCanvasToDisplaySize)
 
   return () => {
-    clearTimeout(timeoutId)
-    window.removeEventListener('resize', handleResize)
+    resizeObserver.disconnect()
+    window.removeEventListener('resize', resizeCanvasToDisplaySize)
   }
 }
 

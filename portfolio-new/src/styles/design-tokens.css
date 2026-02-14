@@ -41,9 +41,11 @@
     --color-accent: 79 70 229; /* #4f46e5 - Accent purple */
 
     /* --- Colors: Hero Water Blobs (Light Mode) --- */
-    --hero-blob-blue: 46 50 161; /* #2e32a1 - Deeper, more saturated blue */
-    --hero-blob-purple: 138 106 234; /* #8A6AEA - Middle blend */
-    --hero-blob-pink: 250 78 101; /* #fa4e65 - Deeper, more saturated red/pink */
+    /* Darker, more saturated colors for visibility on white backgrounds */
+    /* Strategy: 40-50% lightness, 85-95% saturation = rich pigment effect */
+    --hero-blob-blue: 42 52 165; /* hsl(235, 59%, 41%) - Deep saturated indigo */
+    --hero-blob-purple: 110 75 195; /* hsl(258, 47%, 53%) - Rich purple */
+    --hero-blob-pink: 220 65 105; /* hsl(345, 68%, 56%) - Deep rose */
 
     /* --- Colors: Semantic --- */
     --color-success: 34 197 94; /* #22c55e */
@@ -59,6 +61,7 @@
     --color-case-study-pink: 255 182 193; /* #FFB6C1 - Light Pink */
     --color-case-study-pale-green: 152 251 152; /* #98FB98 - Pale Green */
     --color-case-study-gold: 255 206 46; /* #FFCE2E - Progress Bar Gold */
+    --color-uofa-green: 37 121 72; /* #257948 - University of Alberta green */
 
     /* --- Colors: Borders --- */
     --color-border: 229 231 235; /* #e5e7eb */
@@ -68,6 +71,10 @@
     /* Enhanced: Increased saturation, brightness, and luminance for vibrant appearance */
     --color-gradient-start: 100 90 255; /* Vibrant Indigo - Higher saturation & brightness */
     --color-gradient-end: 255 100 150; /* Vibrant Pink - Higher saturation & brightness */
+
+    /* --- Colors: Scribble --- */
+    /* Darkened version of gradient-start for better contrast on light bg */
+    --color-scribble: 80 72 204; /* Darker indigo - 80% brightness of gradient-start */
 
     /* --- Colors: Grays --- */
     --color-gray-dark: 51 51 51; /* #333333 - Dark gray for cards/surfaces */
@@ -190,6 +197,7 @@
     --color-case-study-pink: 251 207 232; /* #FBCFE8 - Lighter pink */
     --color-case-study-pale-green: 187 247 208; /* #BBF7D0 - Lighter pale green */
     --color-case-study-gold: 253 224 71; /* #FDE047 - Brighter gold for dark mode */
+    --color-uofa-green: 37 121 72; /* #257948 - University of Alberta green */
 
     /* --- Colors: Semantic (adjusted for dark mode contrast) --- */
     --color-success: 74 222 128; /* #4ADE80 - Lighter green for dark */
@@ -205,6 +213,10 @@
     /* Enhanced: Increased saturation, brightness, and luminance for vibrant appearance */
     --color-gradient-start: 130 120 255; /* Luminous Violet - Higher brightness & saturation */
     --color-gradient-end: 255 100 200; /* Luminous Magenta - Higher brightness & saturation */
+
+    /* --- Colors: Scribble --- */
+    /* Brighter color with good contrast on dark background */
+    --color-scribble: 130 120 255; /* Luminous violet - matches gradient start for consistency */
 
     /* Shadows adjusted for dark mode */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
