@@ -13,8 +13,8 @@
  * Reduced from 737 lines to <200 lines by extracting components
  */
 
-import { useState } from 'react'
-import { motion, useTransform, useMotionValue, type MotionValue } from 'framer-motion'
+import { useState, useRef, useEffect } from 'react'
+import { motion, useTransform, useMotionValue, useMotionValueEvent, type MotionValue } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 import { useEmailCopy } from '@/hooks/use-email-copy'
 import { useArrowAnimation } from '@/hooks/use-arrow-animation'
@@ -23,9 +23,9 @@ import {
   FOOTER_CONTACT,
   FOOTER_ARIA_LABELS,
 } from '@/lib/constants/footer'
-import { GradientBar } from '@/components/ui/GradientBar'
 import { AnimatedArrow } from '@/components/ui/AnimatedArrow'
 import { FooterClock } from './FooterClock'
+import { FooterSmog } from './FooterSmog'
 import { RatingModal } from './rating'
 
 interface FooterProps {
@@ -41,6 +41,28 @@ export function Footer({ revealProgress }: FooterProps) {
   // so animations must play during the final ~35% of the reveal
   const sectionOpacity = useTransform(progress, [0.8, 1.0], [0, 1])
   const sectionY = useTransform(progress, [0.8, 1.0], [25, 0])
+
+  // Top glow - switches on 200ms after footer is fully revealed
+  const [showGlow, setShowGlow] = useState(false)
+  const glowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useMotionValueEvent(progress, 'change', (latest) => {
+    if (latest >= 0.98 && !glowTimerRef.current) {
+      glowTimerRef.current = setTimeout(() => setShowGlow(true), 100)
+    } else if (latest < 0.98) {
+      if (glowTimerRef.current) {
+        clearTimeout(glowTimerRef.current)
+        glowTimerRef.current = null
+      }
+      setShowGlow(false)
+    }
+  })
+
+  useEffect(() => {
+    return () => {
+      if (glowTimerRef.current) clearTimeout(glowTimerRef.current)
+    }
+  }, [])
 
   const { copyEmail, isCopied } = useEmailCopy()
   const {
@@ -64,9 +86,12 @@ export function Footer({ revealProgress }: FooterProps) {
         boxShadow: 'var(--shadow-2xl)',
       }}
     >
+      {/* Animated smog — color-pair-matched smoke filtering through from above */}
+      <FooterSmog visible={showGlow} />
+
       {/* Main Footer Content — bottom padding reduced by ~56px to offset credit block so footer height (and scroll layout) stays unchanged */}
       <div
-        className="mx-auto max-w-[1920px] px-6 pt-15 md:pt-16 lg:pt-20"
+        className="mx-auto max-w-[1920px] px-6 pt-24 md:pt-28 lg:pt-32"
         style={{ paddingBottom: 'calc(85vh - 300px - 56px)' }}
       >
         <div className="footer-all-links-wrapper grid grid-cols-1 gap-12 lg:flex lg:items-start lg:justify-between">
@@ -264,8 +289,6 @@ export function Footer({ revealProgress }: FooterProps) {
         </p>
       </div>
 
-      {/* Gradient Bar Below Footer */}
-      <GradientBar height="h-4" className="w-full" />
     </footer>
   )
 }

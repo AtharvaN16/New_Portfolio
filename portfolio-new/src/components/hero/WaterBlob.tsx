@@ -13,6 +13,7 @@ import {
   getColors,
   LIGHT_PALETTES,
   DARK_PALETTES,
+  getScribbleColor,
 } from './waterBlob.colors'
 import type { WaterBlobProps, Colors } from './waterBlob.types'
 import {
@@ -41,9 +42,10 @@ export function WaterBlob({
   const { theme } = useTheme()
   const [hasWebGL, setHasWebGL] = useState(true)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   // Interactive mode state
-  const [paletteIndex, setPaletteIndex] = useState(0)
+  const [paletteIndex, setPaletteIndex] = useState(0) // 0 = Orange / Purple / Cyan (default on load)
   const animationSpeedRef = useRef(
     enhanced
       ? ANIMATION_SPEED_MULTIPLIER_ENHANCED
@@ -62,6 +64,7 @@ export function WaterBlob({
   const displayColorsRef = useRef<Colors | null>(null)
   const targetColorsRef = useRef<Colors | null>(null)
   const colorsInitializedRef = useRef(false)
+  const webglInitializedRef = useRef(false)
 
   // Refs for gradient bar CSS variable interpolation
   const gradientCurrentRef = useRef<{ start: number[]; end: number[] } | null>(
@@ -70,15 +73,36 @@ export function WaterBlob({
   const gradientAnimFrameRef = useRef<number>(0)
 
   // Get colors from design tokens or custom palettes
+  // Only run client-side to avoid SSR hydration mismatches
   const colors = useMemo(() => {
+    if (!isMounted) return null
     return getColors(theme, interactive, paletteIndex)
-  }, [theme, interactive, paletteIndex])
+  }, [theme, interactive, paletteIndex, isMounted])
+
+  // Check if component is mounted (client-side only)
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   // Sync target color refs when palette or theme changes.
   // On first load, snap display to target (no lerp). After that, only
   // the target is updated — the animation loop lerps display toward it.
   useEffect(() => {
     if (!colors) return
+
+    // Validate that colors don't contain NaN values
+    const isValidColor = (color: number[]) =>
+      color.length === 3 && color.every((c) => !isNaN(c) && isFinite(c))
+
+    if (
+      !isValidColor(colors.blue) ||
+      !isValidColor(colors.purple) ||
+      !isValidColor(colors.pink) ||
+      !isValidColor(colors.background)
+    ) {
+      console.warn('WaterBlob: Invalid color values detected, skipping initialization')
+      return
+    }
 
     if (!colorsInitializedRef.current) {
       displayColorsRef.current = {
@@ -112,6 +136,9 @@ export function WaterBlob({
 
     const targetStart = palette[0].map((c) => c * 255)
     const targetEnd = palette[2].map((c) => c * 255)
+    const scribbleRgb = getScribbleColor(paletteIndex, theme === 'dark')
+    const targetScribble =
+      scribbleRgb.length > 0 ? scribbleRgb : targetStart
 
     const toStr = (c: number[]) => c.map((v) => Math.round(v)).join(' ')
 
@@ -128,6 +155,10 @@ export function WaterBlob({
       document.documentElement.style.setProperty(
         '--color-gradient-end',
         toStr(targetEnd)
+      )
+      document.documentElement.style.setProperty(
+        '--color-scribble',
+        toStr(targetScribble)
       )
       return
     }
@@ -159,6 +190,10 @@ export function WaterBlob({
       document.documentElement.style.setProperty(
         '--color-gradient-end',
         toStr(current.end)
+      )
+      document.documentElement.style.setProperty(
+        '--color-scribble',
+        toStr(targetScribble)
       )
 
       if (needsUpdate) {
@@ -195,11 +230,31 @@ export function WaterBlob({
       !canvasRef.current ||
       !displayColorsRef.current ||
       !targetColorsRef.current ||
-      prefersReducedMotion
+      prefersReducedMotion ||
+      !isMounted
     )
       return
 
     const canvas = canvasRef.current
+
+    // Ensure canvas has valid dimensions before initializing WebGL
+    const rect = canvas.getBoundingClientRect()
+    if (rect.width === 0 || rect.height === 0) {
+      console.warn('WaterBlob: Canvas has zero dimensions, deferring initialization')
+      // Retry after a short delay to allow layout to complete
+      const retryTimeout = setTimeout(() => {
+        // Trigger re-initialization by toggling a ref flag
+        if (!webglInitializedRef.current && canvasRef.current) {
+          const newRect = canvasRef.current.getBoundingClientRect()
+          if (newRect.width > 0 && newRect.height > 0) {
+            // Force re-run by updating state
+            setHasWebGL((prev) => prev)
+          }
+        }
+      }, 100)
+      return () => clearTimeout(retryTimeout)
+    }
+
     const gl = canvas.getContext('webgl')
 
     if (!gl) {
@@ -223,6 +278,8 @@ export function WaterBlob({
       setHasWebGL(false)
       return
     }
+
+    webglInitializedRef.current = true
 
     // display object is mutated in-place by lerpColors each frame,
     // and createAnimationLoop's closure reads from the same object.
@@ -269,8 +326,9 @@ export function WaterBlob({
       if (programInfo.posBuffer) {
         gl.deleteBuffer(programInfo.posBuffer)
       }
+      webglInitializedRef.current = false
     }
-  }, [prefersReducedMotion, theme]) // colors removed — lerped via refs
+  }, [prefersReducedMotion, theme, isMounted]) // colors removed — lerped via refs
 
   // Handle canvas resize
   useEffect(() => {

@@ -108,7 +108,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
           />
 
           <motion.div
-            className="flex flex-col md:flex-row gap-12 md:gap-0 mt-auto"
+            className="flex flex-col md:flex-row md:items-start gap-12 md:gap-0 mt-auto pb-3"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -122,18 +122,18 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
             <div className="md:flex-1 md:min-w-0" />
 
             {(caseStudy.team || caseStudy.timeline) && (
-              <div className="flex flex-col md:flex-row md:gap-[3.5rem] md:items-start">
+              <div className="flex flex-col md:flex-row md:justify-between md:items-start md:gap-[3.5rem]">
                 {caseStudy.team && caseStudy.team.length > 0 && (
-                  <div className="md:min-w-[12.5rem] group/team text-left">
+                  <div className="md:min-w-[12.5rem] md:w-[12.5rem] text-left">
                     <h2 className="text-lg font-medium text-text-primary mb-4">
                       Team
                     </h2>
-                    <ul className="space-y-2">
+                    <ul className="space-y-2 [&:has(a:hover)_a]:opacity-40 [&:has(a:hover)_a:hover]:opacity-100">
                       {caseStudy.team.map((member, index) => (
                         <li key={index}>
                           <a
                             href="#"
-                            className="group/link relative inline-block text-base font-normal text-text-secondary transition-opacity duration-200 group-hover/team:opacity-40 hover:!opacity-100"
+                            className="group/link relative inline-block text-base font-normal text-text-secondary transition-opacity duration-200"
                           >
                             {member}
                             <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover/link:w-full" />
@@ -145,11 +145,11 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
                 )}
 
                 {caseStudy.timeline && (
-                  <div className="md:min-w-[12.5rem] text-left">
+                  <div className="text-left md:text-left md:ml-auto">
                     <h2 className="text-lg font-medium text-text-primary mb-4">
                       Timeline
                     </h2>
-                    <p className="text-base font-normal text-text-secondary">
+                    <p className="text-base font-normal text-text-secondary whitespace-nowrap">
                       {caseStudy.timeline}
                     </p>
                   </div>
