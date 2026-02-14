@@ -166,15 +166,38 @@
     cursor: default;
   }
 
+  .pronunciation-word:hover .scribble-container {
+    pointer-events: auto;
+  }
+
+  .pronunciation-word .scribble-container {
+    /* Palette 5/6 use custom scribble colors (#80CFFF, #D4A7FF in dark); others use --color-scribble from WaterBlob or design token */
+    color: rgb(var(--color-scribble));
+    pointer-events: none;
+  }
+
+  /* Fade hero text to color30 when hovering over Atharva */
+  .text-hero-body.pronunciation-hovering {
+    color: rgb(var(--color-text-color30));
+    transition: color 350ms ease;
+  }
+
+  /* Keep the pronunciation word (Atharva) at full foreground color */
+  .text-hero-body.pronunciation-hovering .pronunciation-word {
+    color: rgb(var(--color-foreground)) !important;
+    transition: color 350ms ease;
+  }
+
   .pronunciation-tooltip {
     position: absolute;
     left: 50%;
     bottom: 100%;
     transform: translateX(-50%);
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.5rem;
     white-space: nowrap;
-    font-size: 1rem;
+    font-size: 1.5rem;
     line-height: 1;
+    font-family: var(--font-mynerve);
     background: linear-gradient(
       90deg,
       rgb(var(--color-gradient-start)),

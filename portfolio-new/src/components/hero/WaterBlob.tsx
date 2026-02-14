@@ -13,6 +13,7 @@ import {
   getColors,
   LIGHT_PALETTES,
   DARK_PALETTES,
+  getScribbleColor,
 } from './waterBlob.colors'
 import type { WaterBlobProps, Colors } from './waterBlob.types'
 import {
@@ -135,6 +136,9 @@ export function WaterBlob({
 
     const targetStart = palette[0].map((c) => c * 255)
     const targetEnd = palette[2].map((c) => c * 255)
+    const scribbleRgb = getScribbleColor(paletteIndex, theme === 'dark')
+    const targetScribble =
+      scribbleRgb.length > 0 ? scribbleRgb : targetStart
 
     const toStr = (c: number[]) => c.map((v) => Math.round(v)).join(' ')
 
@@ -151,6 +155,10 @@ export function WaterBlob({
       document.documentElement.style.setProperty(
         '--color-gradient-end',
         toStr(targetEnd)
+      )
+      document.documentElement.style.setProperty(
+        '--color-scribble',
+        toStr(targetScribble)
       )
       return
     }
@@ -182,6 +190,10 @@ export function WaterBlob({
       document.documentElement.style.setProperty(
         '--color-gradient-end',
         toStr(current.end)
+      )
+      document.documentElement.style.setProperty(
+        '--color-scribble',
+        toStr(targetScribble)
       )
 
       if (needsUpdate) {

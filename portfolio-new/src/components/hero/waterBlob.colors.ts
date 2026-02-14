@@ -134,6 +134,35 @@ export const DARK_PALETTES = [
   ],
 ]
 
+/** Scribble colors: palette 0 (first load), 5 and 6. Dark = accessible light; light = accessible dark. */
+const SCRIBBLE_PALETTE_0_DARK = [106, 111, 255] as const  // #6A6FFF
+const SCRIBBLE_PALETTE_0_LIGHT = [55, 60, 195] as const  // Darker indigo variant on white
+const SCRIBBLE_PALETTE_5_DARK = [128, 207, 255] as const // #80CFFF azure
+const SCRIBBLE_PALETTE_6_DARK = [212, 167, 255] as const // #D4A7FF lavender
+const SCRIBBLE_PALETTE_5_LIGHT = [0, 65, 130] as const   // Accessible darker blue on white
+const SCRIBBLE_PALETTE_6_LIGHT = [72, 28, 120] as const // Accessible darker violet on white
+
+/**
+ * Get scribble color for hero underline. Palettes 0, 5 and 6 use custom scribble colors;
+ * others use gradient-start. Returns RGB in 0–255.
+ */
+export function getScribbleColor(
+  paletteIndex: number,
+  isDark: boolean
+): number[] {
+  if (paletteIndex === 0) {
+    return isDark ? [...SCRIBBLE_PALETTE_0_DARK] : [...SCRIBBLE_PALETTE_0_LIGHT]
+  }
+  if (paletteIndex === 5) {
+    return isDark ? [...SCRIBBLE_PALETTE_5_DARK] : [...SCRIBBLE_PALETTE_5_LIGHT]
+  }
+  if (paletteIndex === 6) {
+    return isDark ? [...SCRIBBLE_PALETTE_6_DARK] : [...SCRIBBLE_PALETTE_6_LIGHT]
+  }
+  // Other palettes: use gradient-start (caller passes palette[0] * 255)
+  return []
+}
+
 /**
  * Get colors from design tokens or custom palettes
  * Validates that CSS variables are properly loaded before returning values

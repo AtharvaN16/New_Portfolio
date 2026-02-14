@@ -42,13 +42,13 @@ export function Footer({ revealProgress }: FooterProps) {
   const sectionOpacity = useTransform(progress, [0.8, 1.0], [0, 1])
   const sectionY = useTransform(progress, [0.8, 1.0], [25, 0])
 
-  // Top glow - switches on 2s after footer is fully revealed
+  // Top glow - switches on 200ms after footer is fully revealed
   const [showGlow, setShowGlow] = useState(false)
   const glowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useMotionValueEvent(progress, 'change', (latest) => {
     if (latest >= 0.98 && !glowTimerRef.current) {
-      glowTimerRef.current = setTimeout(() => setShowGlow(true), 400)
+      glowTimerRef.current = setTimeout(() => setShowGlow(true), 100)
     } else if (latest < 0.98) {
       if (glowTimerRef.current) {
         clearTimeout(glowTimerRef.current)

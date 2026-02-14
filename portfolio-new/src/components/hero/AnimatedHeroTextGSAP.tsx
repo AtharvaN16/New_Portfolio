@@ -4,6 +4,8 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { SplitText } from '@/lib/utils/splitText'
 import { cn } from '@/lib/utils/cn'
+import { createRoot } from 'react-dom/client'
+import { AnimatedScribble } from './AnimatedScribble'
 
 interface AnimatedHeroTextGSAPProps {
   children: string
@@ -42,6 +44,7 @@ export function AnimatedHeroTextGSAP({
     const element = textRef.current
     let split: ReturnType<typeof SplitText> | null = null
     let cancelled = false
+    const scribbleRoots: Array<ReturnType<typeof createRoot>> = []
 
     // Wait for fonts to load before splitting to avoid incorrect line breaks
     document.fonts.ready.then(() => {
@@ -162,6 +165,27 @@ export function AnimatedHeroTextGSAP({
           lineMasks.forEach((m) => {
             m.style.overflow = 'visible'
           })
+          
+          // Add scribble underlines to pronunciation words after animation completes
+          if (!cancelled) {
+            const pronunciationElements = element.querySelectorAll('.pronunciation-word')
+            pronunciationElements.forEach((wordEl) => {
+              const scribbleContainer = document.createElement('span')
+              scribbleContainer.style.cssText = `
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: -4px;
+                height: 16px;
+                pointer-events: none;
+              `
+              wordEl.appendChild(scribbleContainer)
+              
+              const root = createRoot(scribbleContainer)
+              root.render(<AnimatedScribble />)
+              scribbleRoots.push(root)
+            })
+          }
         },
       })
     })
@@ -169,6 +193,9 @@ export function AnimatedHeroTextGSAP({
     // Cleanup
     return () => {
       cancelled = true
+      scribbleRoots.forEach((root) => {
+        root.unmount()
+      })
       split?.revert()
     }
   }, [delay, boldWords, pronunciationWords, children])
