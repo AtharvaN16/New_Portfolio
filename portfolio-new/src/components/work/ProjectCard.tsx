@@ -87,35 +87,35 @@ export function ProjectCard({
       <div className="mt-4 space-y-2 sm:mt-6">
         {/* Organization and Year with Tags */}
         <p
-          className="text-base font-semibold"
+          className="text-xs font-semibold sm:text-base"
           style={{ color: 'rgb(var(--color-text-secondary))' }}
         >
           {organization} — {year}
           {_tags && _tags.length > 0 && (
-            <>
+            <span className="hidden sm:inline">
               <span style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                 {' / '}
               </span>
               <span
                 className={cn(
                   'font-medium uppercase',
-                  variant === 'compact' ? 'text-xs' : 'text-sm'
+                  variant === 'compact' ? 'text-[10px] sm:text-xs' : 'text-[10px] sm:text-sm'
                 )}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 {(variant === 'compact' ? _tags.slice(0, 2) : _tags.slice(0, 3)).join(' • ')}
               </span>
-            </>
+            </span>
           )}
         </p>
 
         {/* Project Title */}
         <h3
           className={cn(
-            'max-w-[85%] font-bold leading-tight text-foreground',
+            'font-bold leading-tight text-foreground max-w-none sm:max-w-[85%]',
             variant === 'compact'
               ? 'text-lg sm:text-xl lg:text-[1.75rem]' // 28px on large screens for 3-grid
-              : 'text-xl sm:text-2xl lg:text-[1.75rem]' // 28px on large screens for 2-grid (home page)
+              : 'text-2xl sm:text-2xl lg:text-[1.75rem]' // 24px on mobile, 28px on large screens for 2-grid (home page)
           )}
         >
           {title}
