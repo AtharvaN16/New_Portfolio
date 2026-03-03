@@ -24,10 +24,9 @@ function usePrefersReducedMotion() {
 }
 
 export function FooterSmog({ visible }: FooterSmogProps) {
-  const isDesktop = useBreakpoint('lg')
   const prefersReducedMotion = usePrefersReducedMotion()
 
-  const showEffects = isDesktop && !prefersReducedMotion
+  const showEffects = !prefersReducedMotion
 
   return (
     <div
@@ -37,7 +36,7 @@ export function FooterSmog({ visible }: FooterSmogProps) {
       {/* Layer 1: Original CSS color glow */}
       <CSSGlow visible={visible} />
 
-      {/* Layer 2: Tiny bright dust motes (desktop only) */}
+      {/* Layer 2: Tiny bright dust motes */}
       {showEffects && <FooterDustParticles visible={visible} />}
     </div>
   )

@@ -1,6 +1,7 @@
 'use client'
 
 import { memo } from 'react'
+import { cn } from '@/lib/utils/cn'
 import { useCurrentTime } from '@/hooks/use-current-time'
 
 /**
@@ -14,22 +15,26 @@ import { useCurrentTime } from '@/hooks/use-current-time'
  * - Only this small component re-renders when time updates (every second)
  * - Reduces Footer re-renders from ~60/min to 0
  */
-function FooterClockComponent() {
+interface FooterClockProps {
+  className?: string
+}
+
+function FooterClockComponent({ className }: FooterClockProps) {
   const { formattedTime } = useCurrentTime()
 
   return (
     <div
-      className="mt-auto text-right"
+      className={cn(className)}
       style={{ fontFamily: 'var(--font-jetbrains-mono), ui-monospace, monospace' }}
     >
       <p
-        className="mb-2 text-base font-medium lg:text-lg tracking-wide"
+        className="mb-1 text-sm font-medium tracking-wide lg:mb-2 lg:text-lg"
         style={{ color: 'rgb(var(--color-text-tertiary-50))' }}
       >
         NEW YORK
       </p>
       <div
-        className="text-base font-medium tabular-nums lg:text-lg"
+        className="text-sm font-medium tabular-nums lg:text-lg"
         style={{ color: 'rgb(var(--color-text-tertiary-50))' }}
       >
         {formattedTime}

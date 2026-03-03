@@ -91,13 +91,15 @@ export function Footer({ revealProgress }: FooterProps) {
 
       {/* Main Footer Content — bottom padding reduced by ~56px to offset credit block so footer height (and scroll layout) stays unchanged */}
       <div
-        className="mx-auto max-w-[1920px] px-6 pt-24 md:pt-28 lg:pt-32"
-        style={{ paddingBottom: 'calc(85vh - 300px - 56px)' }}
+        className="mx-auto max-w-[1920px] px-6 pt-24 md:pt-28 lg:pt-32 [--footer-content-height:480px] lg:[--footer-content-height:300px]"
+        style={{ 
+          paddingBottom: 'calc(85vh - var(--footer-content-height) - 56px)' 
+        }}
       >
         <div className="footer-all-links-wrapper grid grid-cols-1 gap-12 lg:flex lg:items-start lg:justify-between">
-          {/* Rate My Portfolio Section - Left */}
+          {/* Rate My Portfolio Section - Left (Hidden on Mobile) */}
           <motion.div
-            className="order-3 lg:order-1 lg:min-w-[420px] relative z-30"
+            className="hidden lg:block lg:order-1 lg:min-w-[420px] relative z-30"
             style={{ opacity: sectionOpacity, y: sectionY }}
           >
             <motion.button
@@ -130,7 +132,7 @@ export function Footer({ revealProgress }: FooterProps) {
 
           {/* Columns Group */}
           <motion.div
-            className="order-1 lg:order-2 flex gap-0 lg:-ml-32"
+            className="order-1 lg:order-2 flex flex-col gap-8 sm:flex-row sm:gap-12 lg:gap-0 lg:-ml-32"
             style={{ opacity: sectionOpacity, y: sectionY }}
           >
             {/* Quick Links Section */}
@@ -138,10 +140,10 @@ export function Footer({ revealProgress }: FooterProps) {
               aria-label={FOOTER_ARIA_LABELS.quickLinks}
               className="w-full lg:w-[200px]"
             >
-              <h3 className="mb-6 text-lg font-bold text-foreground md:text-xl lg:text-2xl">
+              <h3 className="mb-4 text-base font-bold text-foreground md:text-xl lg:mb-6 lg:text-2xl">
                 Quick links
               </h3>
-              <ul className="space-y-2 md:space-y-3">
+              <ul className="space-y-1.5 md:space-y-3">
                 {FOOTER_LINKS.quickLinks.map((link) => {
                   const isResume = link.label === 'Resume'
 
@@ -152,7 +154,7 @@ export function Footer({ revealProgress }: FooterProps) {
                         className={cn(
                           isResume && 'footer-resume-link',
                           'footer-link group relative inline-block',
-                          'text-base text-text-secondary',
+                          'text-sm md:text-base text-text-secondary',
                           'focus-visible:outline-none focus-visible:ring-2',
                           'focus-visible:ring-primary focus-visible:ring-offset-2 rounded'
                         )}
@@ -167,11 +169,11 @@ export function Footer({ revealProgress }: FooterProps) {
             </nav>
 
             {/* Get in Touch Section */}
-            <div className="w-full lg:w-[200px] mt-12 lg:mt-0">
-              <h3 className="mb-6 text-lg font-bold text-foreground md:text-xl lg:text-2xl">
+            <div className="w-full lg:w-[200px] mt-4 sm:mt-0">
+              <h3 className="mb-4 text-base font-bold text-foreground md:text-xl lg:mb-6 lg:text-2xl">
                 Get in touch
               </h3>
-              <div className="space-y-2 md:space-y-3">
+              <div className="space-y-1.5 md:space-y-3">
                 {/* External Links */}
                 {FOOTER_LINKS.contact.map((link) => (
                   <div key={link.href}>
@@ -181,7 +183,7 @@ export function Footer({ revealProgress }: FooterProps) {
                       rel="noopener noreferrer"
                       className={cn(
                         'footer-link group relative inline-block',
-                        'text-base text-text-secondary',
+                        'text-sm md:text-base text-text-secondary',
                         'transition-colors duration-200',
                         'focus-visible:outline-none focus-visible:ring-2',
                         'focus-visible:ring-primary focus-visible:ring-offset-2 rounded'
@@ -199,7 +201,7 @@ export function Footer({ revealProgress }: FooterProps) {
                     href={`mailto:${FOOTER_CONTACT.email}`}
                     className={cn(
                       'footer-link group relative inline-block',
-                      'text-base text-text-secondary',
+                      'text-sm md:text-base text-text-secondary',
                       'transition-colors duration-200',
                       'focus-visible:outline-none focus-visible:ring-2',
                       'focus-visible:ring-primary focus-visible:ring-offset-2 rounded'
@@ -245,7 +247,7 @@ export function Footer({ revealProgress }: FooterProps) {
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0 }}
-                      className="text-sm font-medium text-green-500"
+                      className="text-xs font-medium text-green-500"
                     >
                       Copied!
                     </motion.span>
@@ -257,10 +259,10 @@ export function Footer({ revealProgress }: FooterProps) {
 
           {/* Clock Section - Right */}
           <motion.div
-            className="order-2 lg:order-3"
+            className="order-2 mt-12 lg:order-3 lg:mt-0"
             style={{ opacity: sectionOpacity, y: sectionY }}
           >
-            <FooterClock />
+            <FooterClock className="text-left lg:text-right" />
           </motion.div>
         </div>
       </div>
@@ -276,10 +278,10 @@ export function Footer({ revealProgress }: FooterProps) {
         className="mx-auto flex max-w-[1920px] flex-col gap-2 px-6 py-4 sm:flex-row sm:items-center sm:justify-between"
         style={{ color: 'rgb(var(--color-text-color30))' }}
       >
-        <p className="text-sm font-medium tabular-nums">
+        <p className="text-[8px] md:text-sm font-medium tabular-nums uppercase tracking-tight opacity-80">
           Designed + Coded with &lt;3 by Atharva
         </p>
-        <p className="text-sm tabular-nums">
+        <p className="text-[8px] md:text-sm tabular-nums uppercase tracking-tight opacity-80">
           Last Updated:{' '}
           {new Date().toLocaleDateString('en-US', {
             month: 'long',
