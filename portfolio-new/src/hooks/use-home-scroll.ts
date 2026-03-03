@@ -11,13 +11,13 @@ interface HomeScrollResult {
   selectedWorkRef: React.RefObject<HTMLDivElement | null>
   footerRef: React.RefObject<HTMLDivElement | null>
   shouldPauseBlobs: boolean
-  containerHeightVh: number
-  heroContentY: MotionValue<string>
+  containerHeightPx: number
+  heroContentY: MotionValue<number>
   navbarScrollOpacity: MotionValue<number>
   heroOpacity: MotionValue<number>
   heroPointerEvents: MotionValue<'auto' | 'none'>
-  cardY: MotionValue<string>
-  selectedWorkY: MotionValue<string>
+  cardY: MotionValue<number>
+  selectedWorkY: MotionValue<number>
   footerRevealProgress: MotionValue<number>
   handleBrowseWorkClick: () => void
 }
@@ -29,40 +29,35 @@ export function useHomeScroll(): HomeScrollResult {
   const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
   const [selectedWorkHeight, setSelectedWorkHeight] = useState(0)
   const [footerHeight, setFooterHeight] = useState(0)
+  const [viewportHeight, setViewportHeight] = useState(1000)
 
-  // Measure SelectedWork content height dynamically (throttled with RAF)
+  // Measure content and viewport dynamically
   useEffect(() => {
     let rafId: number | null = null
 
-    const measureHeight = () => {
+    const measure = () => {
       if (selectedWorkRef.current) {
-        const height = selectedWorkRef.current.scrollHeight
-        setSelectedWorkHeight(height)
+        setSelectedWorkHeight(selectedWorkRef.current.scrollHeight)
       }
       if (footerRef.current) {
         setFooterHeight(footerRef.current.offsetHeight)
       }
+      setViewportHeight(window.innerHeight)
     }
 
     const handleResize = () => {
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId)
-      }
-      rafId = requestAnimationFrame(measureHeight)
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(measure)
     }
 
-    measureHeight()
+    measure()
     window.addEventListener('resize', handleResize)
-
-    // Re-measure after a short delay to ensure content is rendered
-    const timeout = setTimeout(measureHeight, 100)
+    const timeout = setTimeout(measure, 100)
 
     return () => {
       window.removeEventListener('resize', handleResize)
       clearTimeout(timeout)
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId)
-      }
+      if (rafId !== null) cancelAnimationFrame(rafId)
     }
   }, [])
 
@@ -71,7 +66,7 @@ export function useHomeScroll(): HomeScrollResult {
     offset: ['start start', 'end end'],
   })
 
-  // Pause/resume water blobs based on scroll position (performance)
+  // Pause blobs when scrolling away from Hero
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     if (latest > 0.03 && !shouldPauseBlobs) {
       setShouldPauseBlobs(true)
@@ -80,124 +75,68 @@ export function useHomeScroll(): HomeScrollResult {
     }
   })
 
-  // Memoize transform input arrays for performance
-  const heroContentRange = useMemo(() => [0, 0.2], [])
-  const heroContentOutput = useMemo(() => ['0vh', '-30vh'], [])
-  const navbarRange = useMemo(() => [0, 0.02], [])
-  const navbarOutput = useMemo(() => [1, 0], [])
-  const heroOpacityRange = useMemo(() => [0, 0.195, 0.2], [])
-  const heroOpacityOutput = useMemo(() => [1, 1, 0], [])
-  const cardRange = useMemo(() => [0, 0.2, 0.5], [])
-  const cardOutput = useMemo(() => ['100vh', '0vh', '-105vh'], [])
-
+  // Dynamic transforms in PIXELS for mobile precision
   const heroContentY = useTransform(
     scrollYProgress,
-    heroContentRange,
-    heroContentOutput
+    [0, 0.2],
+    [0, -viewportHeight * 0.3]
   )
-  const navbarScrollOpacity = useTransform(
-    scrollYProgress,
-    navbarRange,
-    navbarOutput
+  
+  const navbarScrollOpacity = useTransform(scrollYProgress, [0, 0.02], [1, 0])
+  
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.195, 0.2], [1, 1, 0])
+  const heroPointerEvents = useTransform(heroOpacity, (o: number) => o > 0 ? 'auto' : 'none')
+  
+  const cardY = useTransform(
+    scrollYProgress, 
+    [0, 0.2, 0.5], 
+    [viewportHeight, 0, -viewportHeight * 1.05]
   )
-  const heroOpacity = useTransform(
-    scrollYProgress,
-    heroOpacityRange,
-    heroOpacityOutput
-  )
-  const heroPointerEvents = useTransform(heroOpacity, (opacity: number) =>
-    opacity > 0 ? 'auto' : 'none'
-  )
-  const cardY = useTransform(scrollYProgress, cardRange, cardOutput)
 
-  // Calculate dynamic scroll distances
-  const viewportHeight =
-    typeof window !== 'undefined' ? window.innerHeight : 1000
-  const selectedWorkHeightVh =
-    selectedWorkHeight > 0 ? (selectedWorkHeight / viewportHeight) * 100 : 300
-  const footerHeightVh =
-    footerHeight > 0 ? (footerHeight / viewportHeight) * 100 : 0
-  const selectedWorkMoveVh =
-    Math.max(0, selectedWorkHeightVh - 100) + footerHeightVh
+  // SelectedWork & Footer Reveal Logic
+  const contentScrollPx = Math.max(0, selectedWorkHeight - viewportHeight)
+  const footerRevealPx = Math.min(footerHeight, viewportHeight * 0.35)
+  
+  // Total distance SelectedWork needs to move up to reveal footer
+  const selectedWorkMovePx = contentScrollPx + footerHeight
+  
+  // Total container height in pixels
+  const containerHeightPx = (viewportHeight * 2) + contentScrollPx + footerRevealPx
 
-  const footerScrollVh = Math.min(footerHeightVh, 35)
-  const containerHeightVh =
-    200 + Math.max(0, selectedWorkHeightVh - 100) + footerScrollVh
-
-  // SelectedWork transform
-  const selectedWorkRange = useMemo(() => [0, 0.5, 1], [])
-  const selectedWorkOutput = useMemo(
-    () => ['0vh', '0vh', `-${selectedWorkMoveVh}vh`],
-    [selectedWorkMoveVh]
-  )
   const selectedWorkY = useTransform(
     scrollYProgress,
-    selectedWorkRange,
-    selectedWorkOutput
+    [0, 0.5, 1],
+    [0, 0, -selectedWorkMovePx]
   )
 
-  // Footer reveal progress
-  const contentScrollVh = Math.max(0, selectedWorkHeightVh - 100)
-  const footerRevealStart =
-    selectedWorkMoveVh > 0
-      ? 0.5 + (0.5 * contentScrollVh) / selectedWorkMoveVh
-      : 1
-  const footerRevealRange = useMemo(
-    () => [footerRevealStart, 1],
-    [footerRevealStart]
-  )
-  const footerRevealOutput = useMemo(() => [0, 1], [])
+  const footerRevealStart = selectedWorkMovePx > 0 
+    ? 0.5 + (0.5 * contentScrollPx) / selectedWorkMovePx 
+    : 1
+    
   const footerRevealProgress = useTransform(
     scrollYProgress,
-    footerRevealRange,
-    footerRevealOutput
+    [footerRevealStart, 1],
+    [0, 1]
   )
 
   const handleBrowseWorkClick = useCallback(() => {
     if (!containerRef.current || typeof window === 'undefined') return
-
     window.dispatchEvent(new CustomEvent('force-card-up'))
 
-    const vh = window.innerHeight
-    const containerTop = containerRef.current.offsetTop
-    const containerHeightPx = (containerHeightVh / 100) * vh
-    const maxScrollWithinContainer = Math.max(containerHeightPx - vh, 0)
-
-    const targetProgress = 0.5
-    const targetScrollWithin = maxScrollWithinContainer * targetProgress
-    const targetScrollY = containerTop + targetScrollWithin
-
-    const startY = window.scrollY
-    const distance = targetScrollY - startY
-    const duration = 468
-    let startTime: number | null = null
-
-    const easeInOutQuad = (t: number): number => {
-      return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
-    }
-
-    const scroll = (currentTime: number) => {
-      if (startTime === null) startTime = currentTime
-      const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const easeProgress = easeInOutQuad(progress)
-
-      window.scrollTo(0, startY + distance * easeProgress)
-
-      if (progress < 1) {
-        requestAnimationFrame(scroll)
-      }
-    }
-
-    requestAnimationFrame(scroll)
-  }, [containerHeightVh])
+    const targetScrollY = containerRef.current.offsetTop + (containerHeightPx - window.innerHeight) * 0.5
+    
+    window.scrollTo({
+      top: targetScrollY,
+      behavior: 'smooth'
+    })
+  }, [containerHeightPx])
 
   return {
     containerRef,
     selectedWorkRef,
     footerRef,
     shouldPauseBlobs,
-    containerHeightVh,
+    containerHeightPx,
     heroContentY,
     navbarScrollOpacity,
     heroOpacity,
