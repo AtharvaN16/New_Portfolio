@@ -52,19 +52,23 @@ export function Footer({ revealProgress }: FooterProps) {
   // Top glow trigger.
   // Desktop: fires after the footer is fully revealed (progress >= 0.98) —
   //   a deliberate "finale" moment once content has faded in.
-  // Mobile: fires as soon as the footer top starts peeking through (progress >= 0.3).
-  //   The glow lives at the very top of the footer, which is the first part exposed
-  //   as SelectedWork slides away — so early triggering is visually correct (light
-  //   bleeding through the opening gap) and reliably reachable via touch scroll.
-  const glowThreshold = isDesktop ? 0.98 : 0.3
+  // Mobile: two-threshold system with hysteresis to handle Chrome iOS's WKWebView
+  //   resize behavior. Chrome's bars cause discrete WebView resizes that fire
+  //   window.resize, making Framer Motion recalculate useScroll's denominator
+  //   mid-scroll — footerRevealProgress oscillates around the threshold. Without
+  //   hysteresis the 100ms timer is cancelled on every dip before it fires.
+  //   Fix: fire at 0.05 (as soon as the footer top peeks through), clear only at
+  //   0.02 — the gap between thresholds absorbs WKWebView-caused jitter.
+  const glowFireThreshold = isDesktop ? 0.98 : 0.05
+  const glowClearThreshold = isDesktop ? 0.98 : 0.02
 
   const [showGlow, setShowGlow] = useState(false)
   const glowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useMotionValueEvent(progress, 'change', (latest) => {
-    if (latest >= glowThreshold && !glowTimerRef.current) {
+    if (latest >= glowFireThreshold && !glowTimerRef.current) {
       glowTimerRef.current = setTimeout(() => setShowGlow(true), 100)
-    } else if (latest < glowThreshold) {
+    } else if (latest < glowClearThreshold) {
       if (glowTimerRef.current) {
         clearTimeout(glowTimerRef.current)
         glowTimerRef.current = null
