@@ -6,10 +6,12 @@ import Image from 'next/image'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { HoverLink } from '@/components/ui/HoverLink'
 import { ProgressiveBlur } from '@/components/ui/ProgressiveBlur'
+import { NavButton } from '@/components/ui/NavButton'
 
 interface CaseStudyHeaderProps {
   isScrolled: boolean
   onClose: () => void
+  accentColor?: string
 }
 
 const navLinks = [
@@ -18,7 +20,7 @@ const navLinks = [
   { label: 'About', href: '/about' },
 ]
 
-export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
+export function CaseStudyHeader({ isScrolled, onClose, accentColor }: CaseStudyHeaderProps) {
   const { theme } = useTheme()
 
   return (
@@ -87,9 +89,7 @@ export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
         </motion.div>
 
         {/* Close Button - stays visible */}
-        <motion.button
-          onClick={onClose}
-          className="text-sm md:text-base font-medium text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded px-3 py-1.5 uppercase tracking-wider"
+        <motion.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{
@@ -97,10 +97,9 @@ export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
             delay: 0.4,
             ease: [0.22, 1, 0.36, 1],
           }}
-          whileTap={{ scale: 0.95 }}
         >
-          CLOSE
-        </motion.button>
+          <NavButton onClick={onClose} fillColor={accentColor}>CLOSE</NavButton>
+        </motion.div>
       </nav>
       {/* Progressive blur facing downward, behind progress bar */}
       <ProgressiveBlur

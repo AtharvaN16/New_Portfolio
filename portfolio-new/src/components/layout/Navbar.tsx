@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { HoverLink } from '@/components/ui/HoverLink'
+import { NavButton } from '@/components/ui/NavButton'
 
 /**
  * Navbar Component
@@ -136,13 +137,9 @@ export function Navbar() {
           </motion.button>
 
           {/* Mobile MENU button */}
-          <button
-            type="button"
-            className="sm:hidden text-[12px] font-medium tracking-[0.18em] uppercase text-text-secondary"
-            aria-label="Open menu"
-          >
+          <NavButton className="sm:hidden" aria-label="Open menu">
             MENU
-          </button>
+          </NavButton>
         </div>
       </div>
     </motion.nav>
