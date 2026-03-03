@@ -96,7 +96,7 @@ export default function Home() {
           </motion.div>
 
           <motion.main
-            className="px-6"
+            className="px-0 md:px-6"
             style={{
               y: heroContentY,
               willChange: 'transform',

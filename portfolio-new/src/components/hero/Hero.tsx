@@ -66,61 +66,62 @@ export function Hero({
           className="flex flex-col h-full"
         >
           {/* Wrapper for text + blob to keep them attached */}
-          <div className="flex flex-col mt-auto">
-          {/* Hero Text + Browse work - Side by side */}
-          <div
-            className="flex items-end justify-between mb-4 md:mb-5 lg:mb-6"
-            style={{ flexShrink: 0 }}
-          >
-            {/* Hero Text - Single paragraph with GSAP line-by-line reveal animation */}
-            <div className="w-[410px]">
-              <AnimatedHeroTextGSAP
-                boldWords={HERO_BOLD_WORDS}
-                pronunciationWords={HERO_PRONUNCIATION}
-                className="text-hero-body"
-                delay={0.6}
-              >
-                Hi, I&apos;m Atharva — a product designer based in NYC. I love solving problems through thoughtful design and crafting delightful, user-centered experiences.
-              </AnimatedHeroTextGSAP>
-            </div>
-
-            <div className="flex items-end gap-10 md:gap-20 lg:gap-[196px]">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, delay: 0.7, ease: [0.4, 0, 0.2, 1] }}
-                className="max-w-xs text-[16px] font-normal"
-              >
-                <span className="text-text-secondary font-medium">Currently, </span>
-                <span style={{ color: 'rgb(var(--color-text-color60))' }}>
-                  MS in Human-Computer Interaction at Pratt Institute.
-                </span>
-              </motion.div>
-
-              {/* Browse work link - Bottom aligned with text (staggered after Currently...) */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, delay: 1.0, ease: [0.4, 0, 0.2, 1] }}
-              >
-                <AnimatedLink
-                  href="#work"
-                  variant="down-arrow"
-                  onClick={(event) => {
-                    if (onBrowseWorkClick) {
-                      event.preventDefault()
-                      onBrowseWorkClick()
-                    }
-                  }}
+          <div className="flex flex-col mt-auto gap-4 md:gap-6">
+            {/* Hero Text + meta - stacked on mobile, horizontal on desktop */}
+            <div
+              className="flex flex-col gap-12 mb-4 md:mb-5 lg:mb-6 md:flex-row md:items-end md:justify-between md:gap-4 px-6 md:px-0"
+              style={{ flexShrink: 0 }}
+            >
+              {/* Hero Text - Single paragraph with GSAP line-by-line reveal animation */}
+              <div className="max-w-[70%] md:max-w-none md:w-[410px]">
+                <AnimatedHeroTextGSAP
+                  boldWords={HERO_BOLD_WORDS}
+                  pronunciationWords={HERO_PRONUNCIATION}
+                  className="text-hero-body"
+                  delay={0.6}
                 >
-                  Browse work
-                </AnimatedLink>
-              </motion.div>
-            </div>
-          </div>
+                  Hi, I&apos;m Atharva — a product designer based in NYC. I love solving problems through thoughtful design and crafting delightful, user-centered experiences.
+                </AnimatedHeroTextGSAP>
+              </div>
 
-          {/* Animated Water Blob - Flex grow to fill space with max height constraints */}
-          <motion.div
+              <div className="flex flex-col items-end gap-3 md:flex-row md:items-end md:gap-10 lg:gap-[196px]">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.2, delay: 0.7, ease: [0.4, 0, 0.2, 1] }}
+                  className="max-w-[50%] md:max-w-xs text-[12px] md:text-[16px] font-normal text-left"
+                >
+                  <span className="block md:inline text-text-secondary font-medium">Currently, </span>
+                  <span style={{ color: 'rgb(var(--color-text-color60))' }}>
+                    MS in Human-Computer Interaction at Pratt Institute.
+                  </span>
+                </motion.div>
+
+                {/* Browse work link - hidden on mobile, visible from md and up */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1.2, delay: 1.0, ease: [0.4, 0, 0.2, 1] }}
+                  className="hidden md:block"
+                >
+                  <AnimatedLink
+                    href="#work"
+                    variant="down-arrow"
+                    onClick={(event) => {
+                      if (onBrowseWorkClick) {
+                        event.preventDefault()
+                        onBrowseWorkClick()
+                      }
+                    }}
+                  >
+                    Browse work
+                  </AnimatedLink>
+                </motion.div>
+              </div>
+            </div>
+
+            {/* Animated Water Blob - Flex grow to fill space with max height constraints */}
+            <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.6, delay: 1.4 }}
@@ -133,18 +134,22 @@ export function Hero({
           {/* Bottom Navigation Links - 16px from viewport bottom */}
           <motion.div
             variants={fadeInUp}
-            className="flex items-center justify-between mt-4"
-            style={{ flexShrink: 0, paddingBottom: '1rem' }}
+            className="flex items-center justify-center md:justify-between mt-4 px-6 md:px-0"
+            style={{ flexShrink: 0, paddingBottom: '0.5rem' }}
           >
             {/* Left Link - Hover animation */}
-            <HoverLink href="/resume">Résumé</HoverLink>
+            <div className="hidden md:block">
+              <HoverLink href="/resume">Résumé</HoverLink>
+            </div>
 
-            <div className="text-[16px] font-normal" style={{ color: 'rgb(var(--color-text-color60))' }}>
+            <div className="text-[12px] md:text-[16px] font-normal" style={{ color: 'rgb(var(--color-text-color60))' }}>
               Looking for full-time roles starting Summer &apos;26.
             </div>
 
             {/* Right Link - Hover animation */}
-            <HoverLink href="#footer">Get in touch</HoverLink>
+            <div className="hidden md:block">
+              <HoverLink href="#footer">Get in touch</HoverLink>
+            </div>
           </motion.div>
         </motion.div>
       </div>
