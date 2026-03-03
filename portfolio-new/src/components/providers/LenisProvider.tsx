@@ -41,6 +41,14 @@ export function LenisProvider({ children }: LenisProviderProps) {
       return
     }
 
+    // Skip Lenis on touch devices — native touch scroll is already smooth,
+    // and Lenis's wheel easing adds latency that makes scroll-linked
+    // animations feel inconsistent on mobile.
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
+    if (isTouchDevice) {
+      return
+    }
+
     // Initialize Lenis
     const lenis = new Lenis({
       duration: 1.2, // Animation duration (higher = smoother but slower)

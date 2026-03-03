@@ -5,6 +5,7 @@ import {
   useMotionValueEvent,
   type MotionValue,
 } from 'framer-motion'
+import { useBreakpoints } from '@/hooks/use-breakpoint'
 
 interface HomeScrollResult {
   containerRef: React.RefObject<HTMLDivElement | null>
@@ -29,6 +30,7 @@ export function useHomeScroll(): HomeScrollResult {
   const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
   const [selectedWorkHeight, setSelectedWorkHeight] = useState(0)
   const [footerHeight, setFooterHeight] = useState(0)
+  const { isDesktop } = useBreakpoints()
 
   // Measure SelectedWork content height dynamically (throttled with RAF)
   useEffect(() => {
@@ -143,8 +145,18 @@ export function useHomeScroll(): HomeScrollResult {
       ? 0.5 + (0.5 * contentScrollVh) / selectedWorkMoveVh
       : 1
   const footerRevealRange = useMemo(
-    () => [footerRevealStart, 1],
-    [footerRevealStart]
+    () => {
+      if (!isDesktop) {
+        // On mobile/tablet, the browser bottom bar (56–84px on iOS/Android)
+        // prevents scrollYProgress from reaching 1.0. Start the reveal 8%
+        // earlier and complete it at 90% so the glow/dust fire before the
+        // browser-imposed dead zone at the scroll bottom.
+        const mobileStart = Math.min(Math.max(footerRevealStart - 0.08, 0.5), 0.85)
+        return [mobileStart, 0.90]
+      }
+      return [footerRevealStart, 1]
+    },
+    [footerRevealStart, isDesktop]
   )
   const footerRevealOutput = useMemo(() => [0, 1], [])
   const footerRevealProgress = useTransform(
