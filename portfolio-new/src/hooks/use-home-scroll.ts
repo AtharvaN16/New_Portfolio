@@ -127,7 +127,13 @@ export function useHomeScroll(): HomeScrollResult {
     200 + Math.max(0, selectedWorkHeightVh - 100) + footerScrollVh
 
   // SelectedWork transform
-  const selectedWorkRange = useMemo(() => [0, 0.5, 1], [])
+  // Mobile: cap exit at 0.90 — Chrome iOS's WKWebView discrete resize events
+  // prevent scrollYProgress from reliably reaching 1.0, so SelectedWork would
+  // stall partway up the screen. Completing at 0.90 matches the footer reveal cap.
+  const selectedWorkRange = useMemo(
+    () => (isDesktop ? [0, 0.5, 1] : [0, 0.5, 0.90]),
+    [isDesktop]
+  )
   const selectedWorkOutput = useMemo(
     () => ['0vh', '0vh', `-${selectedWorkMoveVh}vh`],
     [selectedWorkMoveVh]
