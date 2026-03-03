@@ -98,7 +98,6 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
         <CaseStudyHeader
           isScrolled={isScrolled}
           onClose={handleClose}
-          accentColor={caseStudy.progressBarColor}
         />
 
         {/* Main Content - Hero Section */}

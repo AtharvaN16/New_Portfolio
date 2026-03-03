@@ -16,7 +16,7 @@ interface NavButtonProps extends HTMLMotionProps<'button'> {
  * - Base state: Transparent background, Foreground text
  * - Desktop Hover Effect:
  *   - CSS-powered animated fill from bottom to top
- *   - Fill Color: Subtle/Pastel (Surface Elevated in Light, Subtle White Overlay in Dark)
+ *   - Default Fill: Neutral gray/white tint (bg-foreground/10 or bg-white/20)
  * - Square corners (rounded-none)
  * - Explicit z-index and pointer-events-auto to ensure hover works in dialogs
  */
@@ -32,10 +32,9 @@ export function NavButton({ children, className, ...props }: NavButtonProps) {
       {...props}
     >
       {/* Animated Fill Background (Desktop only) */}
-      {/* Light Mode: Surface Elevated (Subtle gray) */}
-      {/* Dark Mode: Subtle White Overlay (Pastel/Accessible) */}
+      {/* Neutral gray in light mode, subtle white in dark mode for clear discernability */}
       <div
-        className="absolute inset-x-0 bottom-0 z-0 hidden md:block h-0 group-hover:h-full transition-[height] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] pointer-events-none bg-surface-elevated dark:bg-white/15"
+        className="absolute inset-x-0 bottom-0 z-0 hidden md:block h-0 group-hover:h-full transition-[height] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] pointer-events-none bg-foreground/10 dark:bg-white/20"
       />
       
       {/* Label - Subtle color change on hover (Desktop only) */}

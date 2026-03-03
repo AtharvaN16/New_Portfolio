@@ -11,7 +11,6 @@ import { NavButton } from '@/components/ui/NavButton'
 interface CaseStudyHeaderProps {
   isScrolled: boolean
   onClose: () => void
-  accentColor?: string
 }
 
 const navLinks = [
@@ -20,7 +19,7 @@ const navLinks = [
   { label: 'About', href: '/about' },
 ]
 
-export function CaseStudyHeader({ isScrolled, onClose, accentColor }: CaseStudyHeaderProps) {
+export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
   const { theme } = useTheme()
 
   return (
@@ -98,7 +97,7 @@ export function CaseStudyHeader({ isScrolled, onClose, accentColor }: CaseStudyH
             ease: [0.22, 1, 0.36, 1],
           }}
         >
-          <NavButton onClick={onClose} fillColor={accentColor}>CLOSE</NavButton>
+          <NavButton onClick={onClose}>CLOSE</NavButton>
         </motion.div>
       </nav>
       {/* Progressive blur facing downward, behind progress bar */}
