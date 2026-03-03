@@ -95,7 +95,10 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
 
       {/* Content wrapper for Lenis */}
       <div ref={contentRef}>
-        <CaseStudyHeader isScrolled={isScrolled} onClose={handleClose} />
+        <CaseStudyHeader
+          isScrolled={isScrolled}
+          onClose={handleClose}
+        />
 
         {/* Main Content - Hero Section */}
         <main className="px-6 pt-4 pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100vh-6rem)] flex flex-col relative">

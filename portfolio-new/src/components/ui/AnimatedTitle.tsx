@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { Fragment } from 'react'
 import { cn } from '@/lib/utils/cn'
 
 interface AnimatedTitleProps {
@@ -19,6 +20,7 @@ interface AnimatedTitleProps {
 /**
  * A component that animates a title by staggering an effect for each word.
  * The animation triggers when the component scrolls into view.
+ * Supports \n for manual line breaks (mobile-only by default in this implementation).
  *
  * @param animationType - 'fadeInUp' (default) or 'fadeIn'.
  */
@@ -29,8 +31,6 @@ export function AnimatedTitle({
   className,
   delay = 0,
 }: AnimatedTitleProps) {
-  const words = text.split(' ')
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -89,6 +89,9 @@ export function AnimatedTitle({
 
   const wordVariants = animationVariants[animationType]
 
+  // Split by manual newline first
+  const lines = text.split('\n')
+
   return (
     <motion.h1
       variants={containerVariants}
@@ -106,15 +109,26 @@ export function AnimatedTitle({
         className
       )}
     >
-      {words.map((word, index) => (
-        <motion.span
-          key={index}
-          variants={wordVariants}
-          className="inline-block"
-        >
-          {word}
-          {index < words.length - 1 && '\u00A0' /* Add a space */}
-        </motion.span>
+      {lines.map((line, lineIndex) => (
+        <Fragment key={lineIndex}>
+          {line.split(' ').map((word, wordIndex, array) => (
+            <Fragment key={wordIndex}>
+              <motion.span
+                variants={wordVariants}
+                className="inline-block"
+              >
+                {word}
+              </motion.span>
+              {wordIndex < array.length - 1 && '\u00A0' /* Add a space */}
+            </Fragment>
+          ))}
+          {lineIndex < lines.length - 1 && (
+            <>
+              <br className="md:hidden" />
+              <span className="hidden md:inline">&nbsp;</span>
+            </>
+          )}
+        </Fragment>
       ))}
     </motion.h1>
   )
