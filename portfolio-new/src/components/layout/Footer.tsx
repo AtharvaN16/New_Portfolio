@@ -36,13 +36,9 @@ export function Footer({ revealProgress }: FooterProps) {
   const fallbackProgress = useMotionValue(1)
   const progress = revealProgress ?? fallbackProgress
 
-  // Staggered fade-in + move-up for each section
-  // Content is at the TOP of the footer, revealed last (bottom-up reveal)
-  // so animations must play during the final ~35% of the reveal
   const sectionOpacity = useTransform(progress, [0.8, 1.0], [0, 1])
   const sectionY = useTransform(progress, [0.8, 1.0], [25, 0])
 
-  // Top glow - switches on 200ms after footer is fully revealed
   const [showGlow, setShowGlow] = useState(false)
   const glowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -80,22 +76,17 @@ export function Footer({ revealProgress }: FooterProps) {
 
   return (
     <footer
-      className="w-full text-foreground footer-bg relative z-20"
+      className="w-full text-foreground footer-bg relative z-20 flex flex-col min-h-[40vh] lg:min-h-[60vh]"
       style={{
         backgroundColor: 'rgb(var(--color-footer-bg))',
         boxShadow: 'var(--shadow-2xl)',
       }}
     >
-      {/* Animated smog — color-pair-matched smoke filtering through from above */}
+      {/* Animated smog */}
       <FooterSmog visible={showGlow} />
 
-      {/* Main Footer Content — bottom padding reduced by ~56px to offset credit block so footer height (and scroll layout) stays unchanged */}
-      <div
-        className="mx-auto max-w-[1920px] px-6 pt-24 md:pt-28 lg:pt-32 [--footer-content-height:480px] lg:[--footer-content-height:300px]"
-        style={{ 
-          paddingBottom: 'calc(85svh - var(--footer-content-height) - 56px)' 
-        }}
-      >
+      {/* Main Footer Content */}
+      <div className="flex-1 mx-auto w-full max-w-[1920px] px-6 pt-20 md:pt-28 lg:pt-32 pb-24 lg:pb-32">
         <div className="footer-all-links-wrapper grid grid-cols-1 gap-12 lg:flex lg:items-start lg:justify-between">
           {/* Rate My Portfolio Section - Left (Hidden on Mobile) */}
           <motion.div
@@ -275,7 +266,7 @@ export function Footer({ revealProgress }: FooterProps) {
 
       {/* Footer bottom: credit + last updated */}
       <div
-        className="mx-auto flex max-w-[1920px] flex-col gap-2 px-6 py-4 sm:flex-row sm:items-center sm:justify-between pb-[calc(1rem+env(safe-area-inset-bottom))] md:pb-4"
+        className="mx-auto w-full max-w-[1920px] flex flex-col gap-2 px-6 py-4 sm:flex-row sm:items-center sm:justify-between pb-[calc(1.5rem+env(safe-area-inset-bottom))] md:pb-6"
         style={{ color: 'rgb(var(--color-text-color30))' }}
       >
         <p className="text-[8px] md:text-sm font-medium tabular-nums uppercase tracking-tight opacity-80">
