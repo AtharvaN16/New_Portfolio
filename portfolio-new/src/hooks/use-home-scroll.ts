@@ -29,44 +29,58 @@ export function useHomeScroll(): HomeScrollResult {
   const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
   const [selectedWorkHeight, setSelectedWorkHeight] = useState(0)
   const [footerHeight, setFooterHeight] = useState(0)
-  const [viewportHeight, setViewportHeight] = useState(1000)
+  
+  // STABLE VIEWPORT MEASUREMENT
+  // We lock the viewport height to prevent jumps when mobile URL bars show/hide.
+  const [stableViewportHeight, setStableViewportHeight] = useState(1000)
+  const lastWidth = useRef(0)
 
-  // Measure content and viewport dynamically
   useEffect(() => {
-    let rafId: number | null = null
+    if (typeof window === 'undefined') return
 
     const measure = () => {
+      const vh = window.innerHeight
+      const vw = window.innerWidth
+      
+      // Update if:
+      // 1. First measurement
+      // 2. Width changed (rotation or desktop resize)
+      // 3. Height changed significantly (>150px), likely not a URL bar toggle
+      if (
+        stableViewportHeight === 1000 || 
+        Math.abs(vw - lastWidth.current) > 2 || 
+        Math.abs(vh - stableViewportHeight) > 150
+      ) {
+        setStableViewportHeight(vh)
+        lastWidth.current = vw
+      }
+      
       if (selectedWorkRef.current) {
         setSelectedWorkHeight(selectedWorkRef.current.scrollHeight)
       }
       if (footerRef.current) {
         setFooterHeight(footerRef.current.offsetHeight)
       }
-      setViewportHeight(window.innerHeight)
-    }
-
-    const handleResize = () => {
-      if (rafId !== null) cancelAnimationFrame(rafId)
-      rafId = requestAnimationFrame(measure)
     }
 
     measure()
-    window.addEventListener('resize', handleResize)
-    const timeout = setTimeout(measure, 100)
+    window.addEventListener('resize', measure)
+    // Extra checks to ensure correct measurements after font/image loads
+    const t1 = setTimeout(measure, 100)
+    const t2 = setTimeout(measure, 1000)
 
     return () => {
-      window.removeEventListener('resize', handleResize)
-      clearTimeout(timeout)
-      if (rafId !== null) cancelAnimationFrame(rafId)
+      window.removeEventListener('resize', measure)
+      clearTimeout(t1)
+      clearTimeout(t2)
     }
-  }, [])
+  }, [stableViewportHeight])
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   })
 
-  // Pause blobs when scrolling away from Hero
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     if (latest > 0.03 && !shouldPauseBlobs) {
       setShouldPauseBlobs(true)
@@ -75,33 +89,34 @@ export function useHomeScroll(): HomeScrollResult {
     }
   })
 
-  // Dynamic transforms in PIXELS for mobile precision
+  // Use stableViewportHeight for all transforms to prevent mobile jitter
   const heroContentY = useTransform(
     scrollYProgress,
     [0, 0.2],
-    [0, -viewportHeight * 0.3]
+    [0, -stableViewportHeight * 0.3]
   )
   
   const navbarScrollOpacity = useTransform(scrollYProgress, [0, 0.02], [1, 0])
-  
   const heroOpacity = useTransform(scrollYProgress, [0, 0.195, 0.2], [1, 1, 0])
   const heroPointerEvents = useTransform(heroOpacity, (o: number) => o > 0 ? 'auto' : 'none')
   
   const cardY = useTransform(
     scrollYProgress, 
     [0, 0.2, 0.5], 
-    [viewportHeight, 0, -viewportHeight * 1.05]
+    [stableViewportHeight, 0, -stableViewportHeight * 1.05]
   )
 
   // SelectedWork & Footer Reveal Logic
-  const contentScrollPx = Math.max(0, selectedWorkHeight - viewportHeight)
-  const footerRevealPx = Math.min(footerHeight, viewportHeight * 0.35)
+  const contentScrollPx = Math.max(0, selectedWorkHeight - stableViewportHeight)
   
-  // Total distance SelectedWork needs to move up to reveal footer
-  const selectedWorkMovePx = contentScrollPx + footerHeight
+  // The reveal distance is based on the actual measured footer height.
+  // We add a small buffer or cap it to ensure a smooth transition.
+  const footerRevealPx = Math.min(footerHeight, stableViewportHeight * 0.9)
   
-  // Total container height in pixels
-  const containerHeightPx = (viewportHeight * 2) + contentScrollPx + footerRevealPx
+  const containerHeightPx = (stableViewportHeight * 2) + contentScrollPx + footerRevealPx
+
+  // SelectedWork moves up by its own overflow + the footer reveal distance
+  const selectedWorkMovePx = contentScrollPx + footerRevealPx
 
   const selectedWorkY = useTransform(
     scrollYProgress,
@@ -109,8 +124,8 @@ export function useHomeScroll(): HomeScrollResult {
     [0, 0, -selectedWorkMovePx]
   )
 
-  const footerRevealStart = selectedWorkMovePx > 0 
-    ? 0.5 + (0.5 * contentScrollPx) / selectedWorkMovePx 
+  const footerRevealStart = containerHeightPx > 0 
+    ? (stableViewportHeight * 2 + contentScrollPx) / containerHeightPx 
     : 1
     
   const footerRevealProgress = useTransform(
@@ -123,13 +138,13 @@ export function useHomeScroll(): HomeScrollResult {
     if (!containerRef.current || typeof window === 'undefined') return
     window.dispatchEvent(new CustomEvent('force-card-up'))
 
-    const targetScrollY = containerRef.current.offsetTop + (containerHeightPx - window.innerHeight) * 0.5
+    const targetScrollY = containerRef.current.offsetTop + (stableViewportHeight * 2)
     
     window.scrollTo({
       top: targetScrollY,
       behavior: 'smooth'
     })
-  }, [containerHeightPx])
+  }, [containerHeightPx, stableViewportHeight])
 
   return {
     containerRef,
