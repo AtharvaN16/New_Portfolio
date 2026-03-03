@@ -1,11 +1,13 @@
 'use client'
 
+import { useState } from 'react'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { HoverLink } from '@/components/ui/HoverLink'
 import { NavButton } from '@/components/ui/NavButton'
+import { MobileMenu } from './MobileMenu'
 
 /**
  * Navbar Component
@@ -28,8 +30,10 @@ const navLinks = [
 
 export function Navbar() {
   const { theme, toggleTheme } = useTheme()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
+    <>
     <motion.nav
       className="relative z-50"
       initial={{ y: -100, opacity: 0 }}
@@ -137,11 +141,17 @@ export function Navbar() {
           </motion.button>
 
           {/* Mobile MENU button */}
-          <NavButton className="sm:hidden" aria-label="Open menu">
+          <NavButton
+            className="sm:hidden"
+            aria-label="Open menu"
+            onClick={() => setIsMenuOpen(true)}
+          >
             MENU
           </NavButton>
         </div>
       </div>
     </motion.nav>
+    <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+    </>
   )
 }
