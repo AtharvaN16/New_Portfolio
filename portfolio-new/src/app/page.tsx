@@ -76,7 +76,7 @@ export default function Home() {
 
         {/* ===== LAYER 2: Hero ===== */}
         <motion.div
-          className="fixed inset-0"
+          className="fixed inset-0 flex flex-col"
           style={{
             zIndex: 30,
             backgroundColor: 'rgb(var(--color-background))',
@@ -96,7 +96,7 @@ export default function Home() {
           </motion.div>
 
           <motion.main
-            className="px-0 md:px-6"
+            className="px-0 md:px-6 flex-1"
             style={{
               y: heroContentY,
               willChange: 'transform',

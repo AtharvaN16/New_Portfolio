@@ -52,11 +52,7 @@ export function Hero({
 }: HeroProps) {
   return (
     <section
-      className="relative flex flex-col"
-      style={{
-        height: 'calc(100dvh - 68px)',
-        maxHeight: 'calc(100dvh - 68px)',
-      }}
+      className="relative flex flex-col h-full w-full"
     >
       <div className="max-w-[1920px] mx-auto w-full h-full flex flex-col">
         <motion.div
@@ -66,10 +62,10 @@ export function Hero({
           className="flex flex-col h-full"
         >
           {/* Wrapper for text + blob to keep them attached */}
-          <div className="flex flex-col mt-auto gap-4 md:gap-6">
+          <div className="flex flex-col mt-0 pt-[20dvh] md:mt-auto md:pt-0 gap-4 md:gap-0 flex-1 md:flex-none">
             {/* Hero Text + meta - stacked on mobile, horizontal on desktop */}
             <div
-              className="flex flex-col gap-12 mb-4 md:mb-5 lg:mb-6 md:flex-row md:items-end md:justify-between md:gap-4 px-6 md:px-0"
+              className="flex flex-col gap-12 mb-4 md:mb-5 lg:mb-6 md:flex-row md:items-end md:justify-between md:gap-4 px-6 md:px-0 md:min-h-0"
               style={{ flexShrink: 0 }}
             >
               {/* Hero Text - Single paragraph with GSAP line-by-line reveal animation */}
@@ -125,7 +121,7 @@ export function Hero({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.6, delay: 1.4 }}
-            className="relative w-full overflow-hidden water-blob-container h-[280px] max-h-[280px] md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px]"
+            className="relative w-full overflow-hidden water-blob-container flex-1 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px]"
           >
             <WaterBlobWithBoundary paused={shouldPauseBlobs} interactive />
           </motion.div>
@@ -134,22 +130,18 @@ export function Hero({
           {/* Bottom Navigation Links - 16px from viewport bottom */}
           <motion.div
             variants={fadeInUp}
-            className="flex items-center justify-center md:justify-between mt-4 px-6 md:px-0"
-            style={{ flexShrink: 0, paddingBottom: '0.5rem' }}
+            className="hidden md:flex items-center justify-between mt-4 px-6 md:px-0"
+            style={{ flexShrink: 0, paddingBottom: '1rem' }}
           >
             {/* Left Link - Hover animation */}
-            <div className="hidden md:block">
-              <HoverLink href="/resume">Résumé</HoverLink>
-            </div>
+            <HoverLink href="/resume">Résumé</HoverLink>
 
-            <div className="text-[12px] md:text-[16px] font-normal" style={{ color: 'rgb(var(--color-text-color60))' }}>
+            <div className="text-[16px] font-normal" style={{ color: 'rgb(var(--color-text-color60))' }}>
               Looking for full-time roles starting Summer &apos;26.
             </div>
 
             {/* Right Link - Hover animation */}
-            <div className="hidden md:block">
-              <HoverLink href="#footer">Get in touch</HoverLink>
-            </div>
+            <HoverLink href="#footer">Get in touch</HoverLink>
           </motion.div>
         </motion.div>
       </div>

@@ -16,6 +16,9 @@ interface AnimatedHeroTextGSAPProps {
   style?: React.CSSProperties
 }
 
+const DEFAULT_BOLD_WORDS: string[] = []
+const DEFAULT_PRONUNCIATION_WORDS: Record<string, string> = {}
+
 /**
  * AnimatedHeroTextGSAP Component
  *
@@ -30,8 +33,8 @@ interface AnimatedHeroTextGSAPProps {
  */
 export function AnimatedHeroTextGSAP({
   children,
-  boldWords = [],
-  pronunciationWords = {},
+  boldWords = DEFAULT_BOLD_WORDS,
+  pronunciationWords = DEFAULT_PRONUNCIATION_WORDS,
   className,
   delay = 0.2,
   style,
@@ -195,6 +198,8 @@ export function AnimatedHeroTextGSAP({
     // Cleanup
     return () => {
       cancelled = true
+      // Only reset if we're not cancelled by a dependency change
+      // But actually, we SHOULD reset if dependencies change to avoid dangling portals
       setScribbleContainers([])
       split?.revert()
     }
