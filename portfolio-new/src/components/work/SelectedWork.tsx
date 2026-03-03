@@ -119,14 +119,26 @@ export function SelectedWork({
   return (
     <section className={cn('w-full bg-background pb-0', className)}>
       {/* Section Title - Seamless reveal with no top padding */}
-      <h2 className="mt-8 mb-12 text-xl font-bold tracking-[-0.05em] text-foreground sm:mt-10 sm:mb-16 sm:text-2xl md:mt-12 md:mb-20 md:text-3xl lg:mt-[60px] lg:mb-28 lg:text-4xl xl:mt-[72px] xl:mb-[140px] xl:text-[56px]">
+      <h2 className="mt-8 mb-28 text-[30px] font-bold tracking-[-0.05em] text-foreground sm:mt-10 sm:mb-16 sm:text-2xl md:mt-12 md:mb-20 md:text-3xl lg:mt-[60px] lg:mb-28 lg:text-4xl xl:mt-[72px] xl:mb-[140px] xl:text-[56px]">
         Selected work
       </h2>
 
       {/* Mobile/Tablet: Single column stack */}
-      <div className="flex flex-col gap-8 lg:hidden">
+      <div className="flex flex-col gap-12 lg:hidden">
         {projects.map((project, index) => (
-          <ProjectCard key={index} {...project} />
+          <motion.div
+            key={index}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{
+              duration: 1.0,
+              delay: index % 2 === 0 ? 0 : 0.1,
+              ease: [0.4, 0, 0.2, 1],
+            }}
+          >
+            <ProjectCard {...project} />
+          </motion.div>
         ))}
       </div>
 
