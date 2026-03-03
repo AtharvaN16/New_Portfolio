@@ -12,6 +12,22 @@ import { useHomeScroll } from '@/hooks/use-home-scroll'
 
 /**
  * Home Page - Scroll Reveal Effect
+ *
+ * ALL LAYERS ARE FIXED for proper z-index stacking in same viewport context:
+ * z-index:  5 - Footer (fixed at bottom, revealed when SelectedWork scrolls past)
+ * z-index: 10 - SelectedWork (covers footer, revealed when Card exits)
+ * z-index: 30 - Hero (middle layer, solid bg covers SelectedWork, content moves up to simulate scroll)
+ * z-index: 40 - Card (top layer, parallax, exits to reveal SelectedWork)
+ *
+ * Flow:
+ * 1. Hero visible with solid bg (covers SelectedWork + Footer)
+ * 2. Hero content + Navbar move UP with scroll (simulated scroll via transform)
+ * 3. Card catches up with faster parallax, covers Hero
+ * 4. Hero fades as Card covers it
+ * 5. Card exits through top
+ * 6. SelectedWork revealed (was always underneath)
+ * 7. SelectedWork scrolls after card fully exits
+ * 8. SelectedWork scrolls past viewport, revealing Footer fixed at bottom
  */
 
 export default function Home() {
@@ -20,7 +36,7 @@ export default function Home() {
     selectedWorkRef,
     footerRef,
     shouldPauseBlobs,
-    containerHeightPx,
+    containerHeightVh,
     heroContentY,
     navbarScrollOpacity,
     heroOpacity,
@@ -37,7 +53,7 @@ export default function Home() {
         ref={containerRef}
         className="relative"
         style={{
-          height: `${containerHeightPx}px`,
+          height: `${containerHeightVh}vh`,
           backgroundColor: 'rgb(var(--color-background))',
         }}
       >
