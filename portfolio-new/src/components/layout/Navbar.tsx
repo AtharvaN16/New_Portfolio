@@ -39,7 +39,7 @@ export function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          className="relative h-11 w-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
+          className="relative h-8 w-auto sm:h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
         >
           <Image
             src={
@@ -51,7 +51,7 @@ export function Navbar() {
             width={165}
             height={44}
             priority
-            className="h-11 w-auto"
+            className="h-8 w-auto sm:h-11"
           />
         </Link>
 
@@ -75,10 +75,10 @@ export function Navbar() {
             ))}
           </ul>
 
-          {/* Theme Toggle Button */}
+          {/* Desktop/Tablet Theme Toggle */}
           <motion.button
             onClick={toggleTheme}
-            className="relative h-11 w-11 rounded-full bg-surface hover:bg-surface-elevated transition-colors duration-200 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="relative hidden h-11 w-11 rounded-full bg-surface hover:bg-surface-elevated transition-colors duration-200 sm:flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             aria-label="Toggle theme"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -134,6 +134,15 @@ export function Navbar() {
               )}
             </motion.div>
           </motion.button>
+
+          {/* Mobile MENU button */}
+          <button
+            type="button"
+            className="sm:hidden text-[12px] font-medium tracking-[0.18em] uppercase text-text-secondary"
+            aria-label="Open menu"
+          >
+            MENU
+          </button>
         </div>
       </div>
     </motion.nav>

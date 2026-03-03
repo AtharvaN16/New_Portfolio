@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { SplitText } from '@/lib/utils/splitText'
 import { cn } from '@/lib/utils/cn'
-import { createRoot } from 'react-dom/client'
+import { createPortal } from 'react-dom'
 import { AnimatedScribble } from './AnimatedScribble'
 
 interface AnimatedHeroTextGSAPProps {
@@ -37,6 +37,7 @@ export function AnimatedHeroTextGSAP({
   style,
 }: AnimatedHeroTextGSAPProps) {
   const textRef = useRef<HTMLParagraphElement>(null)
+  const [scribbleContainers, setScribbleContainers] = useState<HTMLElement[]>([])
 
   useEffect(() => {
     if (!textRef.current) return
@@ -44,7 +45,6 @@ export function AnimatedHeroTextGSAP({
     const element = textRef.current
     let split: ReturnType<typeof SplitText> | null = null
     let cancelled = false
-    const scribbleRoots: Array<ReturnType<typeof createRoot>> = []
 
     // Wait for fonts to load before splitting to avoid incorrect line breaks
     document.fonts.ready.then(() => {
@@ -169,6 +169,7 @@ export function AnimatedHeroTextGSAP({
           // Add scribble underlines to pronunciation words after animation completes
           if (!cancelled) {
             const pronunciationElements = element.querySelectorAll('.pronunciation-word')
+            const newContainers: HTMLElement[] = []
             pronunciationElements.forEach((wordEl) => {
               const scribbleContainer = document.createElement('span')
               scribbleContainer.style.cssText = `
@@ -180,11 +181,12 @@ export function AnimatedHeroTextGSAP({
                 pointer-events: none;
               `
               wordEl.appendChild(scribbleContainer)
-              
-              const root = createRoot(scribbleContainer)
-              root.render(<AnimatedScribble />)
-              scribbleRoots.push(root)
+              newContainers.push(scribbleContainer)
             })
+
+            if (!cancelled && newContainers.length > 0) {
+              setScribbleContainers(newContainers)
+            }
           }
         },
       })
@@ -193,16 +195,19 @@ export function AnimatedHeroTextGSAP({
     // Cleanup
     return () => {
       cancelled = true
-      scribbleRoots.forEach((root) => {
-        root.unmount()
-      })
+      setScribbleContainers([])
       split?.revert()
     }
   }, [delay, boldWords, pronunciationWords, children])
 
   return (
-    <p ref={textRef} className={cn(className)} style={{ ...style, opacity: 0 }}>
-      {children}
-    </p>
+    <>
+      <p ref={textRef} className={cn(className)} style={{ ...style, opacity: 0 }}>
+        {children}
+      </p>
+      {scribbleContainers.map((container, index) =>
+        createPortal(<AnimatedScribble />, container, `scribble-${index}`)
+      )}
+    </>
   )
 }

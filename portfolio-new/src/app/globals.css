@@ -142,10 +142,16 @@
 
   /* Typography utility classes for consistent styling */
   .text-hero-body {
-    font-size: var(--text-lg);
+    font-size: calc(var(--text-base) * 0.875); /* smaller on mobile (~14px if base is 16px) */
     font-weight: 500;
     line-height: 1.6;
     letter-spacing: -0.4px;
+  }
+
+  @media (min-width: 768px) {
+    .text-hero-body {
+      font-size: var(--text-lg);
+    }
   }
 
   .text-nav-link {
