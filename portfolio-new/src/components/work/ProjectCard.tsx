@@ -115,7 +115,7 @@ export function ProjectCard({
             'font-bold leading-tight text-foreground max-w-none sm:max-w-[85%]',
             variant === 'compact'
               ? 'text-lg sm:text-xl lg:text-[1.75rem]' // 28px on large screens for 3-grid
-              : 'text-2xl sm:text-2xl lg:text-[1.75rem]' // 24px on mobile, 28px on large screens for 2-grid (home page)
+              : 'text-xl sm:text-2xl lg:text-[1.75rem]' // 20px on mobile, 24px on sm, 28px on lg
           )}
         >
           {title}
