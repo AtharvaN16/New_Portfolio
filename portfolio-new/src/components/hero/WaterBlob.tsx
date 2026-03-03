@@ -43,6 +43,7 @@ export function WaterBlob({
   const [hasWebGL, setHasWebGL] = useState(true)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
+  const [retryKey, setRetryKey] = useState(0)
 
   // Interactive mode state
   const [paletteIndex, setPaletteIndex] = useState(0) // 0 = Orange / Purple / Cyan (default on load)
@@ -247,8 +248,8 @@ export function WaterBlob({
         if (!webglInitializedRef.current && canvasRef.current) {
           const newRect = canvasRef.current.getBoundingClientRect()
           if (newRect.width > 0 && newRect.height > 0) {
-            // Force re-run by updating state
-            setHasWebGL((prev) => prev)
+            // Increment retryKey to actually trigger the effect to re-run
+            setRetryKey((prev) => prev + 1)
           }
         }
       }, 100)
@@ -328,7 +329,7 @@ export function WaterBlob({
       }
       webglInitializedRef.current = false
     }
-  }, [prefersReducedMotion, theme, isMounted]) // colors removed — lerped via refs
+  }, [prefersReducedMotion, theme, isMounted, retryKey]) // colors removed — lerped via refs
 
   // Handle canvas resize
   useEffect(() => {
