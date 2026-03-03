@@ -93,7 +93,7 @@ export function Footer({ revealProgress }: FooterProps) {
       <div
         className="mx-auto max-w-[1920px] px-6 pt-24 md:pt-28 lg:pt-32 [--footer-content-height:480px] lg:[--footer-content-height:300px]"
         style={{ 
-          paddingBottom: 'calc(85vh - var(--footer-content-height) - 56px)' 
+          paddingBottom: 'calc(85svh - var(--footer-content-height) - 56px)' 
         }}
       >
         <div className="footer-all-links-wrapper grid grid-cols-1 gap-12 lg:flex lg:items-start lg:justify-between">
@@ -275,7 +275,7 @@ export function Footer({ revealProgress }: FooterProps) {
 
       {/* Footer bottom: credit + last updated */}
       <div
-        className="mx-auto flex max-w-[1920px] flex-col gap-2 px-6 py-4 sm:flex-row sm:items-center sm:justify-between"
+        className="mx-auto flex max-w-[1920px] flex-col gap-2 px-6 py-4 sm:flex-row sm:items-center sm:justify-between pb-[calc(1rem+env(safe-area-inset-bottom))] md:pb-4"
         style={{ color: 'rgb(var(--color-text-color30))' }}
       >
         <p className="text-[8px] md:text-sm font-medium tabular-nums uppercase tracking-tight opacity-80">
