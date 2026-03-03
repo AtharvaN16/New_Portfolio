@@ -124,8 +124,7 @@ export function Hero({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.6, delay: 1.4 }}
-            className="relative w-full overflow-hidden water-blob-container max-h-[280px] md:max-h-[320px] lg:max-h-[400px]"
-            style={{ minHeight: 0 }}
+            className="relative w-full overflow-hidden water-blob-container h-[280px] max-h-[280px] md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px]"
           >
             <WaterBlobWithBoundary paused={shouldPauseBlobs} interactive />
           </motion.div>
