@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import { WorkFilter } from '@/components/work/WorkFilter'
 import type { ProjectCardProps } from '@/components/work/ProjectCard'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
@@ -56,12 +56,23 @@ export default function WorkPage() {
       <div className="relative px-6 pb-20 pt-12 md:pb-32 md:pt-24">
         <main id="main-content">
           {/* Back Button - Absolutely positioned on right edge */}
-          <NavButton
-            onClick={handleBack}
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{
+              duration: 0.4,
+              delay: 0.5,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="absolute right-6 top-12 md:top-24"
           >
-            BACK
-          </NavButton>
+            <NavButton
+              onClick={handleBack}
+              className="-mr-3"
+            >
+              BACK
+            </NavButton>
+          </motion.div>
 
           {/* Page Header */}
           <header className="mb-4 lg:mb-5">
