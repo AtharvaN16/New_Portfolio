@@ -31,8 +31,9 @@ export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
       style={{ willChange: 'transform' }}
     >
       <nav className="relative px-6 py-6 flex items-center justify-between max-w-[1920px] mx-auto">
-        {/* Logo - slides up on scroll */}
+        {/* Logo - slides up on scroll, hidden on mobile */}
         <motion.div
+          className="hidden sm:block"
           animate={{
             y: isScrolled ? -100 : 0,
             opacity: isScrolled ? 0 : 1,
@@ -58,6 +59,9 @@ export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
             />
           </Link>
         </motion.div>
+
+        {/* Mobile Spacer - ensures justify-between keeps button on right when logo is hidden */}
+        <div className="sm:hidden flex-1" />
 
         {/* Centered Navigation Links - slide up on scroll */}
         <motion.div
@@ -93,11 +97,11 @@ export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
           animate={{ scale: 1, opacity: 1 }}
           transition={{
             duration: 0.4,
-            delay: 0.4,
+            delay: 0.5,
             ease: [0.22, 1, 0.36, 1],
           }}
         >
-          <NavButton onClick={onClose}>CLOSE</NavButton>
+          <NavButton onClick={onClose} className="-mr-3">CLOSE</NavButton>
         </motion.div>
       </nav>
       {/* Progressive blur facing downward, behind progress bar */}

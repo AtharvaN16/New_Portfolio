@@ -141,13 +141,24 @@ export function Navbar() {
           </motion.button>
 
           {/* Mobile MENU button */}
-          <NavButton
+          <motion.div
             className="sm:hidden"
-            aria-label="Open menu"
-            onClick={() => setIsMenuOpen(true)}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{
+              duration: 0.4,
+              delay: 0.5,
+              ease: [0.22, 1, 0.36, 1],
+            }}
           >
-            MENU
-          </NavButton>
+            <NavButton
+              className="-mr-3"
+              aria-label="Open menu"
+              onClick={() => setIsMenuOpen(true)}
+            >
+              MENU
+            </NavButton>
+          </motion.div>
         </div>
       </div>
     </motion.nav>
