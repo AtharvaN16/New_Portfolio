@@ -18,6 +18,7 @@ import { motion, useTransform, useMotionValue, useMotionValueEvent, type MotionV
 import { cn } from '@/lib/utils/cn'
 import { useEmailCopy } from '@/hooks/use-email-copy'
 import { useArrowAnimation } from '@/hooks/use-arrow-animation'
+import { useBreakpoints } from '@/hooks/use-breakpoint'
 import {
   FOOTER_LINKS,
   FOOTER_CONTACT,
@@ -35,21 +36,35 @@ interface FooterProps {
 export function Footer({ revealProgress }: FooterProps) {
   const fallbackProgress = useMotionValue(1)
   const progress = revealProgress ?? fallbackProgress
+  const { isDesktop } = useBreakpoints()
 
-  // Staggered fade-in + move-up for each section
-  // Content is at the TOP of the footer, revealed last (bottom-up reveal)
-  // so animations must play during the final ~35% of the reveal
-  const sectionOpacity = useTransform(progress, [0.8, 1.0], [0, 1])
-  const sectionY = useTransform(progress, [0.8, 1.0], [25, 0])
+  // Desktop: content fades in and moves up during the final stretch of the reveal.
+  // Mobile: content is always fully visible — scroll never reliably reaches the
+  // threshold needed, and the reveal mechanic is already handled by SelectedWork
+  // sliding away. Static fallback MotionValues keep the motion.div usage intact.
+  const desktopOpacity = useTransform(progress, [0.8, 1.0], [0, 1])
+  const desktopY = useTransform(progress, [0.8, 1.0], [25, 0])
+  const staticOpacity = useMotionValue(1)
+  const staticY = useMotionValue(0)
+  const sectionOpacity = isDesktop ? desktopOpacity : staticOpacity
+  const sectionY = isDesktop ? desktopY : staticY
 
-  // Top glow - switches on 200ms after footer is fully revealed
+  // Top glow trigger.
+  // Desktop: fires after the footer is fully revealed (progress >= 0.98) —
+  //   a deliberate "finale" moment once content has faded in.
+  // Mobile: fires as soon as the footer top starts peeking through (progress >= 0.3).
+  //   The glow lives at the very top of the footer, which is the first part exposed
+  //   as SelectedWork slides away — so early triggering is visually correct (light
+  //   bleeding through the opening gap) and reliably reachable via touch scroll.
+  const glowThreshold = isDesktop ? 0.98 : 0.3
+
   const [showGlow, setShowGlow] = useState(false)
   const glowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useMotionValueEvent(progress, 'change', (latest) => {
-    if (latest >= 0.98 && !glowTimerRef.current) {
+    if (latest >= glowThreshold && !glowTimerRef.current) {
       glowTimerRef.current = setTimeout(() => setShowGlow(true), 100)
-    } else if (latest < 0.98) {
+    } else if (latest < glowThreshold) {
       if (glowTimerRef.current) {
         clearTimeout(glowTimerRef.current)
         glowTimerRef.current = null
