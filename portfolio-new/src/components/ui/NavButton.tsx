@@ -25,7 +25,7 @@ export function NavButton({ children, className, ...props }: NavButtonProps) {
     <motion.button
       type="button"
       className={cn(
-        'group relative overflow-hidden text-[12px] md:text-[20px] tracking-normal transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 px-3 py-1.5 rounded-none bg-transparent z-[101] pointer-events-auto',
+        'group relative overflow-hidden text-[16px] md:text-[20px] tracking-normal transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 px-3 py-1.5 rounded-none bg-transparent z-[101] pointer-events-auto',
         className
       )}
       whileTap={{ scale: 0.98 }}
