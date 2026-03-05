@@ -22,7 +22,7 @@ export const PaperPlaneFlight = forwardRef<PaperPlaneFlightRef, PaperPlaneFlight
   ({ onComplete }, ref) => {
     const planeRef = useRef<SVGSVGElement>(null)
     const pathRef = useRef<SVGPathElement>(null)
-    const filterRef = useRef<FETurbulenceElement>(null)
+    const filterRef = useRef<SVGFETurbulenceElement>(null)
 
     // Path data: Straight line at 45 degrees
     const flightPathD = "M 0,0 L 1500,-1500"
