@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from 'react'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 import { AnimatedHeroTextGSAP } from '@/components/hero/AnimatedHeroTextGSAP'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
@@ -9,6 +10,7 @@ import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 interface FullpageCardProps {
   title: string
   description?: string
+  tags?: string[]
   mediaSrc?: string
   mediaType?: 'image' | 'video'
   mediaAlt?: string
@@ -27,6 +29,7 @@ interface FullpageCardProps {
 export function FullpageCard({
   title,
   description,
+  tags,
   mediaSrc,
   mediaType = 'image',
   mediaAlt = '',
