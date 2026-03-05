@@ -101,17 +101,17 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
         />
 
         {/* Main Content - Hero Section */}
-        <main className="px-6 pt-4 pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100vh-6rem)] flex flex-col relative">
+        <main className="px-6 pt-4 pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100dvh-6rem)] md:min-h-[calc(100vh-8rem)] flex flex-col relative">
           <AnimatedTitle
             text={caseStudy.title}
             animationType="fadeIn"
             alwaysAnimate
             delay={0.8}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
+            className="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
           />
 
           <motion.div
-            className="flex flex-col md:flex-row md:items-start gap-12 md:gap-0 mt-auto pb-3"
+            className="flex flex-col md:flex-row md:items-start md:gap-0 mt-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -122,21 +122,22 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
               </p>
             </div>
 
-            <div className="md:flex-1 md:min-w-0" />
+            <div className="hidden md:block md:flex-1 md:min-w-0" />
 
+            {/* Desktop Metadata (Hidden on Mobile inside Main) */}
             {(caseStudy.team || caseStudy.timeline) && (
-              <div className="flex flex-col md:flex-row md:justify-between md:items-start md:gap-[3.5rem]">
+              <div className="hidden md:flex flex-col md:flex-row md:justify-between md:items-start md:gap-[3.5rem] mt-10 md:mt-0">
                 {caseStudy.team && caseStudy.team.length > 0 && (
                   <div className="md:min-w-[12.5rem] md:w-[12.5rem] text-left">
-                    <h2 className="text-lg font-medium text-text-primary mb-4">
+                    <h2 className="text-base md:text-lg font-medium text-text-primary mb-2 md:mb-4">
                       Team
                     </h2>
-                    <ul className="space-y-2 [&:has(a:hover)_a]:opacity-40 [&:has(a:hover)_a:hover]:opacity-100">
+                    <ul className="space-y-1 md:space-y-2 [&:has(a:hover)_a]:opacity-40 [&:has(a:hover)_a:hover]:opacity-100">
                       {caseStudy.team.map((member, index) => (
                         <li key={index}>
                           <a
                             href="#"
-                            className="group/link relative inline-block text-base font-normal text-text-secondary transition-opacity duration-200"
+                            className="group/link relative inline-block text-sm md:text-base font-normal text-text-secondary transition-opacity duration-200"
                           >
                             {member}
                             <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover/link:w-full" />
@@ -149,10 +150,10 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
 
                 {caseStudy.timeline && (
                   <div className="text-left md:text-left md:ml-auto">
-                    <h2 className="text-lg font-medium text-text-primary mb-4">
+                    <h2 className="text-base md:text-lg font-medium text-text-primary mb-2 md:mb-4">
                       Timeline
                     </h2>
-                    <p className="text-base font-normal text-text-secondary whitespace-nowrap">
+                    <p className="text-sm md:text-base font-normal text-text-secondary whitespace-nowrap">
                       {caseStudy.timeline}
                     </p>
                   </div>
@@ -161,6 +162,47 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
             )}
           </motion.div>
         </main>
+
+        {/* Mobile Metadata (Below the fold) */}
+        {(caseStudy.team || caseStudy.timeline) && (
+          <motion.div
+            className="md:hidden flex flex-col gap-10 px-6 pt-12 pb-16"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            {caseStudy.team && caseStudy.team.length > 0 && (
+              <div className="text-left">
+                <h2 className="text-base font-medium text-text-primary mb-2">
+                  Team
+                </h2>
+                <ul className="space-y-1">
+                  {caseStudy.team.map((member, index) => (
+                    <li key={index}>
+                      <a
+                        href="#"
+                        className="text-sm font-normal text-text-secondary"
+                      >
+                        {member}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {caseStudy.timeline && (
+              <div className="text-left">
+                <h2 className="text-base font-medium text-text-primary mb-2">
+                  Timeline
+                </h2>
+                <p className="text-sm font-normal text-text-secondary">
+                  {caseStudy.timeline}
+                </p>
+              </div>
+            )}
+          </motion.div>
+        )}
 
         {/* Hero Image Section */}
         <motion.section
