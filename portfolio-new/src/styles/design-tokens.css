@@ -68,13 +68,13 @@
     --color-border-hover: 209 213 219; /* #d1d5db */
 
     /* --- Colors: Gradient Bar --- */
-    /* Enhanced: Increased saturation, brightness, and luminance for vibrant appearance */
-    --color-gradient-start: 100 90 255; /* Vibrant Indigo - Higher saturation & brightness */
-    --color-gradient-end: 255 100 150; /* Vibrant Pink - Higher saturation & brightness */
+    /* Enhanced: Matches WaterBlob palette 0 (Orange-Cyan) for initial consistency */
+    --color-gradient-start: 200 95 25; /* Orange - palette 0 color 1 */
+    --color-gradient-end: 15 145 175; /* Cyan - palette 0 color 3 */
 
     /* --- Colors: Scribble --- */
     /* Darkened version of gradient-start for better contrast on light bg */
-    --color-scribble: 80 72 204; /* Darker indigo - 80% brightness of gradient-start */
+    --color-scribble: 150 71 18; /* Darker orange - ~75% brightness of gradient-start */
 
     /* --- Colors: Grays --- */
     --color-gray-dark: 51 51 51; /* #333333 - Dark gray for cards/surfaces */
@@ -210,13 +210,13 @@
     --color-border-hover: 64 64 64; /* #404040 */
 
     /* --- Colors: Gradient Bar --- */
-    /* Enhanced: Increased saturation, brightness, and luminance for vibrant appearance */
-    --color-gradient-start: 130 120 255; /* Luminous Violet - Higher brightness & saturation */
-    --color-gradient-end: 255 100 200; /* Luminous Magenta - Higher brightness & saturation */
+    /* Enhanced: Matches WaterBlob palette 0 (Orange-Cyan) for initial consistency */
+    --color-gradient-start: 251 146 60; /* Orange - palette 0 color 1 */
+    --color-gradient-end: 34 211 238; /* Cyan - palette 0 color 3 */
 
     /* --- Colors: Scribble --- */
-    /* Brighter color with good contrast on dark background */
-    --color-scribble: 130 120 255; /* Luminous violet - matches gradient start for consistency */
+    /* Matches gradient start for consistency on dark backgrounds */
+    --color-scribble: 251 146 60; /* Orange */
 
     /* Shadows adjusted for dark mode */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
@@ -239,7 +239,7 @@
       --color-text-color10: 34 34 34; /* ~#FAFAFA at 10% opacity on dark bg */
       --color-text-color20: 58 58 58; /* ~#FAFAFA at 20% opacity on dark bg */
       --color-text-color30: 82 82 82; /* ~#FAFAFA at 30% opacity on dark bg */
-      --color-text-color40: 106 106 106; /* ~#FAFAFA at 40% opacity on dark bg */
+      --color-text-color40: 106 106 106; /* ~#FAFAFA at 106% opacity on dark bg */
       --color-text-tertiary-50: 130 130 130; /* ~#FAFAFA at 50% opacity on dark bg */
       --color-text-color60: 154 154 154; /* ~#FAFAFA at 60% opacity on dark bg */
       --color-text-color70: 178 178 178; /* ~#FAFAFA at 70% opacity on dark bg */

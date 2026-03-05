@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { WorkFilter } from '@/components/work/WorkFilter'
 import type { ProjectCardProps } from '@/components/work/ProjectCard'
@@ -41,6 +41,20 @@ export default function WorkPage() {
   const [selectedFilter, setSelectedFilter] = useState<string>('All')
   // Derive if filter has been changed from initial 'All' state
   const hasChangedFilter = selectedFilter !== 'All'
+
+  // Fix: Ensure page starts at the top on direct load/refresh
+  useEffect(() => {
+    // Check if we are in a dialog (rendered via WorkDialog)
+    const isInsideDialog = !!document.getElementById('dialog')
+    
+    if (!isInsideDialog) {
+      window.scrollTo(0, 0)
+      // Also scroll Lenis if available
+      if (window.lenis) {
+        window.lenis.scrollTo(0, { immediate: true })
+      }
+    }
+  }, [])
 
   const titleText =
     filterTitleMap[selectedFilter] || 'Check out more of my work'
