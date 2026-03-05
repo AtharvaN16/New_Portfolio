@@ -150,7 +150,7 @@ export function Navbar() {
                 aria-label="Open menu"
                 onClick={() => setIsMenuOpen(true)}
               >
-                MENU
+                Menu
               </NavButton>
             </motion.div>
           </div>

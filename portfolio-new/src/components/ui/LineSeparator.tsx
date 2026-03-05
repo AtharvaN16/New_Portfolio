@@ -46,8 +46,8 @@ export function LineSeparator({
       pluckXPos?: number,
       pluckAmp?: number
     ): string => {
-      // Increased points for smoother, more elegant wave
-      const points = 35
+      // More points = smoother curve and less stair-stepping when pluck deforms
+      const points = 60
       // More subtle amplitude for elegant wave (not too dramatic)
       const amp = 40 * waveT
       const coords: [number, number][] = []
@@ -57,22 +57,19 @@ export function LineSeparator({
         const progress = i / points
 
         // Elegant wave: appears at the right end and decays towards left
-        // Decay curve: starts weak at left, builds up to strong at right end
-        const decay = Math.pow(progress, 0.8) // Wave is strongest at right end
-        // Traveling wave: wave travels from right to left, appearing at the end
+        const decay = Math.pow(progress, 0.8)
         const wavePhase = waveT * Math.PI * 2 - (1 - progress) * Math.PI * 2
-        // Smooth sine wave with decay - strongest at right end
         let y = 1 + Math.sin(wavePhase) * amp * decay
 
-        // Add pluck deformation if active
+        // Pluck deformation with softer falloff for smoother gradient (less jagged)
         if (
           pluckXPos !== undefined &&
           pluckAmp !== undefined &&
           Math.abs(pluckAmp) > 0.01
         ) {
           const dist = Math.abs(x - pluckXPos)
-          const falloff = Math.exp(-Math.pow(dist / 150, 2))
-          // Anchor the ends: multiply by sin to make deformation 0 at edges
+          // Wider falloff (200) = gentler slope, smoother-looking bend
+          const falloff = Math.exp(-Math.pow(dist / 200, 2))
           const edgeAnchor = Math.sin(progress * Math.PI)
           y += pluckAmp * falloff * edgeAnchor
         }
@@ -80,18 +77,19 @@ export function LineSeparator({
         coords.push([x, y])
       }
 
-      // Build path with BEZIER curves (smooth)
+      // Smooth Bezier path: tangent-aware control points for C1 continuity (no kinks)
       let d = `M${coords[0][0]} ${coords[0][1]}`
+      const tension = 1 / 6 // Catmull-Rom style for smooth joins
       for (let i = 0; i < points; i++) {
         const [x0, y0] = coords[i]
         const [x1, y1] = coords[i + 1]
-        // Improved control points for smoother curves
-        const dx = x1 - x0
-        const dy = y1 - y0
-        const cpx1 = x0 + dx / 3
-        const cpy1 = y0 + dy / 3
-        const cpx2 = x0 + (2 * dx) / 3
-        const cpy2 = y0 + (2 * dy) / 3
+        const prev = coords[Math.max(0, i - 1)]
+        const next = coords[Math.min(points, i + 2)]
+        // Outgoing tangent at p0, incoming at p1 (avoids sharp corners)
+        const cpx1 = x0 + (x1 - prev[0]) * tension
+        const cpy1 = y0 + (y1 - prev[1]) * tension
+        const cpx2 = x1 - (next[0] - x0) * tension
+        const cpy2 = y1 - (next[1] - y0) * tension
         d += ` C${cpx1} ${cpy1}, ${cpx2} ${cpy2}, ${x1} ${y1}`
       }
 
@@ -238,19 +236,18 @@ export function LineSeparator({
         className="block"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        style={{
-          cursor: shouldEnablePluck && isInteractive ? 'pointer' : 'default',
-        }}
+        style={{ cursor: 'default' }}
       >
         <path
           ref={pathRef}
           d={generatePath(svgWidth, 0)}
-          stroke="rgb(var(--color-foreground))"
+          style={{ stroke: 'rgb(var(--color-foreground))' }}
           strokeWidth="0.8"
           fill="none"
           strokeLinecap="round"
+          strokeLinejoin="round"
+          shapeRendering="geometricPrecision"
           transform="translate(0, 40)"
-          className="transition-colors duration-300 hover:stroke-[rgb(var(--color-primary))]"
         />
       </svg>
     </div>
