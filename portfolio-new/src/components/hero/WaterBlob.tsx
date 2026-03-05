@@ -284,25 +284,32 @@ export function WaterBlob({
 
     // display object is mutated in-place by lerpColors each frame,
     // and createAnimationLoop's closure reads from the same object.
-    const animate = createAnimationLoop(
-      gl,
-      programInfo,
-      display,
-      animationSpeedRef.current
-    )
+    const animate = createAnimationLoop(gl, programInfo, display)
 
     let animationId: number
     let isPausedByDialog = false
+    // Accumulated animation time — only advances when not paused,
+    // so the blobs resume from exactly where they froze.
+    let accumulatedTime = 0
+    let lastTimestamp: number | null = null
 
-    const loop = () => {
+    const loop = (timestamp: number) => {
       if (!isPausedByDialog && !pausedRef.current) {
+        if (lastTimestamp !== null) {
+          accumulatedTime +=
+            ((timestamp - lastTimestamp) / 1000) * animationSpeedRef.current
+        }
+        lastTimestamp = timestamp
         // Smoothly interpolate display colors toward target each frame
         lerpColors(display, target, COLOR_LERP_SPEED)
-        animate()
+        animate(accumulatedTime)
+      } else {
+        // Reset so we don't count paused duration when we resume
+        lastTimestamp = null
       }
       animationId = requestAnimationFrame(loop)
     }
-    loop()
+    requestAnimationFrame(loop)
 
     // Pause/resume handlers for dialog transitions
     const handlePause = () => {

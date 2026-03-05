@@ -134,18 +134,16 @@ export function setupWebGL(
 }
 
 /**
- * Create animation loop for WebGL rendering
+ * Create animation loop for WebGL rendering.
+ * Accepts elapsed time in seconds so the caller can pause/resume without
+ * the animation jumping forward during paused intervals.
  */
 export function createAnimationLoop(
   gl: WebGLRenderingContext,
   programInfo: WebGLProgramInfo,
   colors: Colors,
-  speedMultiplier: number
-): () => void {
-  const startTime = Date.now()
-
-  const animate = () => {
-    const time = ((Date.now() - startTime) / 1000) * speedMultiplier
+): (time: number) => void {
+  const animate = (time: number) => {
     gl.uniform1f(programInfo.uTimeLocation, time)
 
     // Update colors dynamically (for interactive mode)
