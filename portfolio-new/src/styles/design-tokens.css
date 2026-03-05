@@ -96,7 +96,7 @@
 
     /* --- Typography: Font Families --- */
     --font-sans: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
-    --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+    --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 
     /* --- Typography: Font Sizes --- */
     --text-xs: 0.75rem; /* 12px */

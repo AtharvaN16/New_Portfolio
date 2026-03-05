@@ -66,10 +66,11 @@ export default function WorkPage() {
 
   return (
     <div className="min-h-screen w-full bg-background">
-      <GradientBar className="fixed left-0 top-0 z-50 w-full" height="h-2 md:h-4" />
-      <div className="relative px-6 pb-20 pt-12 md:pb-32 md:pt-24">
-        <main id="main-content">
-          {/* Back Button - Absolutely positioned on right edge */}
+      <GradientBar className="fixed left-0 top-0 z-[60] w-full" height="h-2 md:h-4" />
+      
+      {/* Header with Back Button - 30px gap from GradientBar */}
+      <header className="relative z-50">
+        <nav className="px-6 pt-[38px] md:pt-[46px] pb-6 flex items-center justify-end max-w-[1920px] mx-auto">
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -78,16 +79,14 @@ export default function WorkPage() {
               delay: 0.5,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="absolute right-6 top-12 md:top-24"
           >
-            <NavButton
-              onClick={handleBack}
-              className="-mr-3"
-            >
-              BACK
-            </NavButton>
+            <NavButton onClick={handleBack} className="-mr-3">Back</NavButton>
           </motion.div>
+        </nav>
+      </header>
 
+      <div className="relative px-6 pb-20 pt-4 md:pb-32 md:pt-8">
+        <main id="main-content">
           {/* Page Header */}
           <header className="mb-4 lg:mb-5">
             {/* On initial load: use whileInView for slide-in animation when page transitions */}

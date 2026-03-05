@@ -25,7 +25,7 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
   subsets: ['latin'],
   display: 'swap',
-  preload: false,
+  preload: true,
 })
 
 const mynerve = Mynerve({
