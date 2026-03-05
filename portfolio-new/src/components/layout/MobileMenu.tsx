@@ -87,7 +87,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               className="flex-1 flex flex-col justify-center items-end"
               aria-label="Mobile navigation"
             >
-              <ul className="flex flex-col items-end gap-5">
+              <ul className="flex flex-col items-end gap-4">
                 {menuLinks.map((link, index) => (
                   <motion.li
                     key={link.href}
@@ -103,7 +103,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     <Link
                       href={link.href}
                       onClick={onClose}
-                      className="text-5xl font-medium text-foreground leading-none tracking-tight hover:opacity-40 transition-opacity duration-200"
+                      className="text-[40px] font-medium text-foreground leading-none tracking-tight hover:opacity-40 transition-opacity duration-200"
                     >
                       {link.label}
                     </Link>
