@@ -207,7 +207,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
         {/* Hero Image Section */}
         <motion.section
           ref={heroSectionRef}
-          className="w-full min-h-screen flex items-center justify-center relative z-10"
+          className="w-full md:min-h-screen flex items-center justify-center relative z-10"
           style={{
             backgroundColor: 'rgb(var(--color-footer-bg))',
           }}
@@ -216,8 +216,8 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
           transition={{ duration: 0.6, delay: 0.6 }}
         >
           {caseStudy.imageUrl ? (
-            <div className="relative w-full h-full">
-              <div className="relative w-full aspect-[16/10] md:aspect-[16/9]">
+            <div className="relative w-full">
+              <div className="relative w-full aspect-[16/9]">
                 <Image
                   src={caseStudy.imageUrl}
                   alt={`${caseStudy.title} - Hero Image`}
@@ -234,8 +234,8 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
               </div>
             </div>
           ) : (
-            <div className="text-center">
-              <p className="text-6xl font-bold text-text-secondary/30 uppercase tracking-widest">
+            <div className="text-center py-20 md:py-0">
+              <p className="text-4xl md:text-6xl font-bold text-text-secondary/30 uppercase tracking-widest">
                 IMAGE
               </p>
             </div>
