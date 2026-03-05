@@ -6,6 +6,7 @@ import {
   type MotionValue,
 } from 'framer-motion'
 import { useBreakpoints } from '@/hooks/use-breakpoint'
+import { useLenis } from '@/components/providers/LenisProvider'
 
 interface HomeScrollResult {
   containerRef: React.RefObject<HTMLDivElement | null>
@@ -31,6 +32,7 @@ export function useHomeScroll(): HomeScrollResult {
   const [selectedWorkHeight, setSelectedWorkHeight] = useState(0)
   const [footerHeight, setFooterHeight] = useState(0)
   const { isDesktop } = useBreakpoints()
+  const lenis = useLenis()
 
   // Measure SelectedWork content height dynamically (throttled with RAF)
   useEffect(() => {
@@ -171,6 +173,59 @@ export function useHomeScroll(): HomeScrollResult {
     footerRevealOutput
   )
 
+  /**
+   * Scroll Snap/Nudge Logic
+   * If the user stops scrolling when the footer is almost fully revealed,
+   * automatically nudge the scroll to the end to trigger the glow effect.
+   */
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout
+
+    const unsubscribe = scrollYProgress.on('change', () => {
+      // We only nudge on desktop where the glow threshold is high (0.98).
+      // On mobile, the glow triggers much earlier (0.05) so it's less critical.
+      if (!isDesktop) return
+
+      clearTimeout(timeoutId)
+
+      const progress = footerRevealProgress.get()
+
+      // Trigger zone: between 85% and 99% revealed
+      if (progress > 0.85 && progress < 0.99) {
+        timeoutId = setTimeout(() => {
+          // Re-verify after settling
+          const currentProgress = footerRevealProgress.get()
+          if (currentProgress > 0.85 && currentProgress < 0.99) {
+            const vh = window.innerHeight
+            const containerTop = containerRef.current?.offsetTop || 0
+            const maxScrollWithinContainer = (containerHeightVh / 100) * vh - vh
+            const targetScrollY = containerTop + maxScrollWithinContainer
+
+            if (lenis) {
+              lenis.scrollTo(targetScrollY, {
+                duration: 1.2,
+                easing: (t) => 1 - Math.pow(1 - t, 4), // Quartic ease out
+              })
+            } else {
+              window.scrollTo({ top: targetScrollY, behavior: 'smooth' })
+            }
+          }
+        }, 150)
+      }
+    })
+
+    return () => {
+      unsubscribe()
+      clearTimeout(timeoutId)
+    }
+  }, [
+    isDesktop,
+    lenis,
+    footerRevealProgress,
+    scrollYProgress,
+    containerHeightVh,
+  ])
+
   const handleBrowseWorkClick = useCallback(() => {
     if (!containerRef.current || typeof window === 'undefined') return
 
@@ -184,6 +239,15 @@ export function useHomeScroll(): HomeScrollResult {
     const targetProgress = 0.5
     const targetScrollWithin = maxScrollWithinContainer * targetProgress
     const targetScrollY = containerTop + targetScrollWithin
+
+    // Use Lenis if available for a smoother experience
+    if (lenis) {
+      lenis.scrollTo(targetScrollY, {
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      })
+      return
+    }
 
     const startY = window.scrollY
     const distance = targetScrollY - startY
@@ -208,7 +272,7 @@ export function useHomeScroll(): HomeScrollResult {
     }
 
     requestAnimationFrame(scroll)
-  }, [containerHeightVh])
+  }, [containerHeightVh, lenis])
 
   return {
     containerRef,
