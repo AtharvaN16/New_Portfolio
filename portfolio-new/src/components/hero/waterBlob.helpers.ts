@@ -163,23 +163,41 @@ export function createAnimationLoop(
 
 /**
  * Setup canvas resize handler using ResizeObserver (modern approach)
- * Checks dimensions before every resize to avoid unnecessary updates
+ * Checks dimensions before every resize to avoid unnecessary updates.
+ * On mobile, it ignores small height changes typical of address bar toggling.
  */
 export function setupCanvasResize(canvas: HTMLCanvasElement): () => void {
+  let lastWidth = 0
+  let lastHeight = 0
+
   const resizeCanvasToDisplaySize = () => {
     const dpr = window.devicePixelRatio || 1
     const rect = canvas.getBoundingClientRect()
 
-    const displayWidth = rect.width * dpr
-    const displayHeight = rect.height * dpr
+    const displayWidth = Math.round(rect.width * dpr)
+    const displayHeight = Math.round(rect.height * dpr)
 
-    // Only resize if dimensions actually changed
+    // Check if the change is significant enough to warrant a resize.
+    // On mobile, height changes < 60px (dpr adjusted) are likely just the address bar.
+    const isMobile = window.matchMedia('(pointer: coarse)').matches
+    const heightDiff = Math.abs(displayHeight - lastHeight)
+    const widthDiff = Math.abs(displayWidth - lastWidth)
+
+    // Logic: 
+    // 1. If width changed, always resize.
+    // 2. If it's NOT mobile, always resize on any change.
+    // 3. If it IS mobile, only resize height if the change is > 60px (address bar threshold).
     const needResize =
-      canvas.width !== displayWidth || canvas.height !== displayHeight
+      lastWidth === 0 || // First run
+      widthDiff > 0 ||
+      (!isMobile && heightDiff > 0) ||
+      (isMobile && heightDiff > 60 * dpr)
 
     if (needResize) {
       canvas.width = displayWidth
       canvas.height = displayHeight
+      lastWidth = displayWidth
+      lastHeight = displayHeight
 
       // Update WebGL viewport
       const gl = canvas.getContext('webgl')

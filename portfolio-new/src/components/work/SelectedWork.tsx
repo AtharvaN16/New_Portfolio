@@ -128,6 +128,7 @@ export function SelectedWork({
         {projects.map((project, index) => (
           <motion.div
             key={index}
+            className="gpu-accelerate"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: '-50px' }}
@@ -158,6 +159,7 @@ export function SelectedWork({
           return (
             <motion.div
               key={index}
+              className="gpu-accelerate"
               style={{
                 gridColumn: `${config.colStart} / span ${config.colSpan}`,
                 gridRow: `${config.rowStart} / span ${config.rowSpan}`,

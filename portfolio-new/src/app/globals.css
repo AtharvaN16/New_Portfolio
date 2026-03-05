@@ -35,6 +35,9 @@
       'calt' 1;
     margin: 0;
     padding: 0;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* ========================================
@@ -325,5 +328,13 @@
   .footer-all-links-wrapper:has(.footer-link:hover)
     .footer-resume-link.footer-link:hover {
     opacity: 1;
+  }
+
+  /* GPU acceleration for smoother animations and to prevent flickering/jittering */
+  .gpu-accelerate {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+    will-change: transform, opacity;
   }
 }

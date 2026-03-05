@@ -58,7 +58,7 @@ export function ProjectCard({
       {/* Card - Responsive height, or flex-1 to fill container when h-full is passed */}
       <div
         className={cn(
-          'relative w-full overflow-hidden',
+          'relative w-full overflow-hidden gpu-accelerate',
           // If parent has h-full, use flex-1 to fill; otherwise use explicit heights
           className?.includes('h-full')
             ? 'flex-1 min-h-[200px]'
@@ -67,7 +67,7 @@ export function ProjectCard({
       >
         {/* Background Color or Image */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center gpu-accelerate"
           style={{
             backgroundColor: imageBg,
             ...(imageUrl && { backgroundImage: `url(${imageUrl})` }),
