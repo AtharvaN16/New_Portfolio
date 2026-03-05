@@ -338,3 +338,17 @@
     will-change: transform, opacity;
   }
 }
+
+@layer utilities {
+  .vulf-mono-italic {
+    font-family: 'Vulf Mono', monospace !important;
+    font-style: italic !important;
+    font-weight: 400 !important;
+  }
+  
+  .vulf-mono-italic-light {
+    font-family: 'Vulf Mono', monospace !important;
+    font-style: italic !important;
+    font-weight: 300 !important;
+  }
+}

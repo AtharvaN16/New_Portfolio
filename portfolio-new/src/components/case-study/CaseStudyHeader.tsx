@@ -101,7 +101,7 @@ export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
             ease: [0.22, 1, 0.36, 1],
           }}
         >
-          <NavButton onClick={onClose} className="-mr-3">CLOSE</NavButton>
+          <NavButton onClick={onClose} className="-mr-3">Close</NavButton>
         </motion.div>
       </nav>
       {/* Progressive blur facing downward, behind progress bar */}

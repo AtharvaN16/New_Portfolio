@@ -9,8 +9,8 @@ interface NavButtonProps extends HTMLMotionProps<'button'> {
 }
 
 /**
- * A standardized navigation button used for actions like "MENU", "CLOSE", and "BACK".
- * Features a consistent uppercase, tracked style across the application.
+ * A standardized navigation button used for actions like "Menu", "Close", and "Back".
+ * Features a consistent title-case, normal tracked style across the application.
  * 
  * Composition:
  * - Base state: Transparent background, Foreground text
@@ -25,7 +25,7 @@ export function NavButton({ children, className, ...props }: NavButtonProps) {
     <motion.button
       type="button"
       className={cn(
-        'group relative overflow-hidden text-[12px] md:text-sm font-medium tracking-[0.18em] uppercase transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 px-3 py-1.5 rounded-none bg-transparent z-[101] pointer-events-auto',
+        'group relative overflow-hidden text-[12px] md:text-[20px] tracking-normal transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 px-3 py-1.5 rounded-none bg-transparent z-[101] pointer-events-auto',
         className
       )}
       whileTap={{ scale: 0.98 }}
@@ -38,7 +38,7 @@ export function NavButton({ children, className, ...props }: NavButtonProps) {
       />
       
       {/* Label - Subtle color change on hover (Desktop only) */}
-      <span className="relative z-10 block transition-colors duration-300 text-text-secondary group-hover:md:text-foreground pointer-events-none">
+      <span className="relative z-10 block transition-colors duration-300 text-text-secondary group-hover:md:text-foreground pointer-events-none vulf-mono-italic leading-none">
         {children}
       </span>
     </motion.button>

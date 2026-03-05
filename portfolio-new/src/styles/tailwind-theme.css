@@ -45,6 +45,12 @@
   --color-gray-dark: rgb(var(--color-gray-dark) / <alpha-value>);
 
   /* ========================================
+     TYPOGRAPHY
+     ======================================== */
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  /* ========================================
      RESPONSIVE BREAKPOINTS
      ======================================== */
   --breakpoint-sm: 640px;

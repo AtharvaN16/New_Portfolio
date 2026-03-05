@@ -77,10 +77,12 @@ export function WorkFilter({
                     }
                   )}
                 >
-                  <span className="text-[1.125rem] font-medium leading-tight">
+                  <span className="vulf-mono-italic-light text-[1.125rem] md:text-[20px] leading-tight uppercase">
                     {tag}
                   </span>
-                  <span className="text-xs leading-tight">{count}</span>
+                  <span className="vulf-mono-italic-light text-xs md:text-[20px] leading-tight uppercase">{count}</span>
+
+
                 </button>
                 {/* Add separator after "All" */}
                 {index === 0 && (
