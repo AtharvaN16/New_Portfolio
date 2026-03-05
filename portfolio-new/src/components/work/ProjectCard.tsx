@@ -85,28 +85,12 @@ export function ProjectCard({
 
       {/* Title and Info - Outside the card, below it */}
       <div className="mt-4 space-y-2 sm:mt-6">
-        {/* Organization and Year with Tags */}
+        {/* Organization and Year */}
         <p
           className="text-xs font-semibold sm:text-base"
           style={{ color: 'rgb(var(--color-text-secondary))' }}
         >
           {organization} — {year}
-          {_tags && _tags.length > 0 && (
-            <span className="hidden sm:inline">
-              <span style={{ color: 'rgb(var(--color-text-tertiary))' }}>
-                {' / '}
-              </span>
-              <span
-                className={cn(
-                  'font-medium uppercase',
-                  variant === 'compact' ? 'text-[10px] sm:text-xs' : 'text-[10px] sm:text-sm'
-                )}
-                style={{ color: 'rgb(var(--color-text-tertiary))' }}
-              >
-                {(variant === 'compact' ? _tags.slice(0, 2) : _tags.slice(0, 3)).join(' • ')}
-              </span>
-            </span>
-          )}
         </p>
 
         {/* Project Title */}
@@ -120,6 +104,27 @@ export function ProjectCard({
         >
           {title}
         </h3>
+
+        {/* Tags - Now below the title with increased spacing */}
+        {_tags && _tags.length > 0 && (
+          <div className="hidden sm:flex flex-wrap gap-x-2 mt-4 lg:mt-8">
+            <span
+              className="uppercase sm:text-base"
+              style={{ 
+                color: 'rgb(var(--color-text-tertiary))',
+                fontFamily: "'Vulf Mono', monospace",
+                fontStyle: 'italic',
+                fontWeight: 300,
+                fontSize: '16px'
+              }}
+            >
+              {_tags
+                .filter((tag) => tag !== 'Selected Work')
+                .slice(0, variant === 'compact' ? 2 : 3)
+                .join(' • ')}
+            </span>
+          </div>
+        )}
       </div>
     </article>
   )
