@@ -15,7 +15,7 @@
  */
 
 import { useState, useRef, useEffect } from 'react'
-import { motion, useTransform, useMotionValue, useMotionValueEvent, AnimatePresence, type MotionValue } from 'framer-motion'
+import { motion, useTransform, useMotionValue, useMotionValueEvent, AnimatePresence, type MotionValue, type Variants } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 import { useEmailCopy } from '@/hooks/use-email-copy'
 import { useBreakpoints } from '@/hooks/use-breakpoint'
@@ -93,7 +93,7 @@ export function Footer({ revealProgress }: FooterProps) {
   }
 
   // Form variants for staggered animation
-  const formVariants = {
+  const formVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -104,7 +104,7 @@ export function Footer({ revealProgress }: FooterProps) {
     },
   }
 
-  const fieldVariants = {
+  const fieldVariants: Variants = {
     hidden: { opacity: 0, y: 10 },
     visible: { 
       opacity: 1, 
