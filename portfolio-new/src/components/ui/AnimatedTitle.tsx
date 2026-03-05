@@ -119,13 +119,13 @@ export function AnimatedTitle({
               >
                 {word}
               </motion.span>
-              {wordIndex < array.length - 1 && '\u00A0' /* Add a space */}
+              {wordIndex < array.length - 1 && ' ' /* Add a regular space */}
             </Fragment>
           ))}
           {lineIndex < lines.length - 1 && (
             <>
               <br className="md:hidden" />
-              <span className="hidden md:inline">&nbsp;</span>
+              <span className="hidden md:inline"> </span>
             </>
           )}
         </Fragment>
