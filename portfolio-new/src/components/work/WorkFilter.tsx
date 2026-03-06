@@ -77,10 +77,10 @@ export function WorkFilter({
                     }
                   )}
                 >
-                  <span className="vulf-mono-italic-light text-[1.125rem] md:text-[20px] leading-tight uppercase">
+                  <span className="font-sans font-medium tracking-[0.1em] text-[1rem] md:text-[18px] leading-tight uppercase">
                     {tag}
                   </span>
-                  <span className="vulf-mono-italic-light text-xs md:text-[20px] leading-tight uppercase">{count}</span>
+                  <span className="font-sans font-medium tracking-[0.1em] text-[0.75rem] md:text-[18px] leading-tight uppercase">{count}</span>
 
 
                 </button>
