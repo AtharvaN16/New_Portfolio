@@ -217,17 +217,23 @@ export function Footer({ revealProgress }: FooterProps) {
                       setIsSubmitting(true)
                       setErrorMessage(null)
                       
-                      const formData = new FormData(e.currentTarget)
-                      const response = await sendMessage(formData)
-                      
-                      if (response.success) {
-                        setIsFlying(true)
-                        setIsFormOpen(false) // Close fields immediately
-                        setIsSent(false) // Reset success state when sending a new one
-                        flightRef.current?.play()
-                      } else {
+                      try {
+                        const formData = new FormData(e.currentTarget)
+                        const response = await sendMessage(formData)
+                        
+                        if (response.success) {
+                          setIsFlying(true)
+                          setIsFormOpen(false) // Close fields immediately
+                          setIsSent(false) // Reset success state when sending a new one
+                          flightRef.current?.play()
+                        } else {
+                          setIsSubmitting(false)
+                          setErrorMessage(response.error || 'Failed to send')
+                        }
+                      } catch (err) {
                         setIsSubmitting(false)
-                        setErrorMessage(response.error || 'Failed to send')
+                        setErrorMessage('A network error occurred. Please try again.')
+                        console.error('Form submission error:', err)
                       }
                     }}
                   >
