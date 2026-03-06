@@ -18,6 +18,13 @@ import {
   type ReactNode,
 } from 'react'
 
+// Add types for View Transitions API
+declare global {
+  interface Document {
+    startViewTransition(callback: () => void): void
+  }
+}
+
 type Theme = 'light' | 'dark'
 
 interface ThemeContextType {
@@ -71,7 +78,18 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       theme,
       setTheme,
       toggleTheme: () => {
-        setTheme(theme === 'light' ? 'dark' : 'light')
+        const newTheme = theme === 'light' ? 'dark' : 'light'
+
+        // Fallback for browsers that don't support View Transitions API
+        if (!document.startViewTransition) {
+          setTheme(newTheme)
+          return
+        }
+
+        // Gentle cross-fade animation using View Transitions API
+        document.startViewTransition(() => {
+          setTheme(newTheme)
+        })
       },
     }),
     [theme]
