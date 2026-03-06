@@ -84,13 +84,13 @@ export function ProjectCard({
       </div>
 
       {/* Title and Info - Outside the card, below it */}
-      <div className="mt-4 space-y-2 sm:mt-6">
-        {/* Organization and Year */}
+      <div className="mt-4 space-y-1 sm:mt-6">
+        {/* Organization (Company Name) */}
         <p
-          className="text-xs font-semibold sm:text-base"
+          className="text-[16px] font-semibold md:text-[18px]"
           style={{ color: 'rgb(var(--color-text-secondary))' }}
         >
-          {organization} — {year}
+          {organization}
         </p>
 
         {/* Project Title */}
@@ -98,33 +98,31 @@ export function ProjectCard({
           className={cn(
             'font-bold leading-tight text-foreground max-w-none sm:max-w-[85%]',
             variant === 'compact'
-              ? 'text-lg sm:text-xl lg:text-[1.75rem]' // 28px on large screens for 3-grid
-              : 'text-xl sm:text-2xl lg:text-[1.75rem]' // 20px on mobile, 24px on sm, 28px on lg
+              ? 'text-[20px] sm:text-xl lg:text-[1.75rem]'
+              : 'text-[20px] sm:text-2xl lg:text-[1.75rem]'
           )}
         >
           {title}
         </h3>
 
-        {/* Tags - Now below the title with increased spacing */}
-        {_tags && _tags.length > 0 && (
-          <div className="hidden sm:flex flex-wrap gap-x-2 mt-4 lg:mt-8">
-            <span
-              className="uppercase sm:text-base"
-              style={{ 
-                color: 'rgb(var(--color-text-tertiary))',
-                fontFamily: "'Vulf Mono', monospace",
-                fontStyle: 'italic',
-                fontWeight: 300,
-                fontSize: '16px'
-              }}
-            >
-              {_tags
+        {/* Tags and Year */}
+        <div className="flex flex-wrap items-center gap-x-2 pt-3">
+          <span 
+            className="font-sans font-normal tracking-normal text-[14px] md:text-[18px]"
+            style={{ color: 'rgb(var(--color-text-tertiary-50))' }}
+          >
+            {(() => {
+              const displayTags = (_tags || [])
                 .filter((tag) => tag !== 'Selected Work')
-                .slice(0, variant === 'compact' ? 2 : 3)
-                .join(' • ')}
-            </span>
-          </div>
-        )}
+                .slice(0, 2)
+              
+              if (displayTags.length > 0) {
+                return `${displayTags.join(' / ')} / ${year}`
+              }
+              return year
+            })()}
+          </span>
+        </div>
       </div>
     </article>
   )
