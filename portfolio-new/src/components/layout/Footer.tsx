@@ -29,6 +29,8 @@ import { FooterSmog } from './FooterSmog'
 import { PaperPlane } from '@/components/ui/PaperPlane'
 import { PaperPlaneFlight, type PaperPlaneFlightRef } from '@/components/animations/PaperPlaneFlight'
 
+import { sendMessage } from '@/app/actions/send-message'
+
 interface FooterProps {
   revealProgress?: MotionValue<number>
 }
@@ -37,6 +39,8 @@ export function Footer({ revealProgress }: FooterProps) {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [isFlying, setIsFlying] = useState(false)
   const [isSent, setIsSent] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const flightRef = useRef<PaperPlaneFlightRef>(null)
 
   // Auto-fade success message after 2 seconds and bring plane back
@@ -45,7 +49,7 @@ export function Footer({ revealProgress }: FooterProps) {
       const timer = setTimeout(() => {
         setIsSent(false)
         setIsFlying(false) // Static plane pops back in after message fades
-      }, 2000)
+      }, 4000)
       return () => clearTimeout(timer)
     }
   }, [isSent])
@@ -140,6 +144,7 @@ export function Footer({ revealProgress }: FooterProps) {
                 onClick={() => {
                   setIsFormOpen(!isFormOpen)
                   setIsFlying(false)
+                  setErrorMessage(null)
                   if (!isFormOpen) setIsSent(false) // Clear success message when opening form
                 }}
                 className="group inline-flex items-center gap-[16px] text-[28px] font-bold tracking-tight text-foreground transition-colors hover:text-primary"
@@ -167,6 +172,7 @@ export function Footer({ revealProgress }: FooterProps) {
                         ref={flightRef} 
                         onComplete={() => {
                           setIsSent(true) // Trigger success message when flight is done
+                          setIsSubmitting(false)
                         }} 
                       />
                     )}
@@ -186,6 +192,16 @@ export function Footer({ revealProgress }: FooterProps) {
                     Your message has been sent
                   </motion.p>
                 )}
+                {errorMessage && !isFormOpen && (
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute top-full left-0 mt-4 text-sm md:text-base font-medium text-red-500"
+                  >
+                    {errorMessage}
+                  </motion.p>
+                )}
               </AnimatePresence>
 
               <AnimatePresence>
@@ -196,18 +212,31 @@ export function Footer({ revealProgress }: FooterProps) {
                     animate="visible"
                     exit="hidden"
                     className="absolute top-full left-0 mt-8 space-y-10 w-full max-w-[360px] z-40"
-                    onSubmit={(e) => {
+                    onSubmit={async (e) => {
                       e.preventDefault()
-                      setIsFlying(true)
-                      setIsFormOpen(false) // Close fields immediately
-                      setIsSent(false) // Reset success state when sending a new one
-                      flightRef.current?.play()
+                      setIsSubmitting(true)
+                      setErrorMessage(null)
+                      
+                      const formData = new FormData(e.currentTarget)
+                      const response = await sendMessage(formData)
+                      
+                      if (response.success) {
+                        setIsFlying(true)
+                        setIsFormOpen(false) // Close fields immediately
+                        setIsSent(false) // Reset success state when sending a new one
+                        flightRef.current?.play()
+                      } else {
+                        setIsSubmitting(false)
+                        setErrorMessage(response.error || 'Failed to send')
+                      }
                     }}
                   >
                     <motion.div variants={fieldVariants} className="relative">
                       <textarea
+                        name="message"
                         placeholder="Message"
                         rows={1}
+                        required
                         className="contact-placeholder w-full bg-transparent border-b py-2 text-lg focus:border-primary focus:outline-none transition-colors resize-none overflow-hidden"
                         style={{ borderBottomColor: 'rgb(var(--color-text-color70))' }}
                         onInput={(e) => {
@@ -230,6 +259,7 @@ export function Footer({ revealProgress }: FooterProps) {
                         <motion.div variants={fieldVariants} className="relative">
                           <input
                             type="text"
+                            name="linkedin"
                             placeholder="LinkedIn"
                             className="contact-placeholder w-full bg-transparent border-b py-2 text-lg focus:border-primary focus:outline-none transition-colors"
                             style={{ borderBottomColor: 'rgb(var(--color-text-color70))' }}
@@ -239,6 +269,7 @@ export function Footer({ revealProgress }: FooterProps) {
                         <motion.div variants={fieldVariants} className="relative">
                           <input
                             type="email"
+                            name="email"
                             placeholder="Email"
                             className="contact-placeholder w-full bg-transparent border-b py-2 text-lg focus:border-primary focus:outline-none transition-colors"
                             style={{ borderBottomColor: 'rgb(var(--color-text-color70))' }}
@@ -250,9 +281,13 @@ export function Footer({ revealProgress }: FooterProps) {
                     <motion.div variants={fieldVariants} className="flex justify-end pt-8">
                       <button
                         type="submit"
-                        className="text-sm font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors py-2"
+                        disabled={isSubmitting}
+                        className={cn(
+                          "text-sm font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors py-2",
+                          isSubmitting && "opacity-50 cursor-not-allowed"
+                        )}
                       >
-                        Send
+                        {isSubmitting ? 'Sending...' : 'Send'}
                       </button>
                     </motion.div>
                   </motion.form>
