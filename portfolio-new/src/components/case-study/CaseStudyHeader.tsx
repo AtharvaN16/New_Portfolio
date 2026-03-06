@@ -61,7 +61,7 @@ export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
         </motion.div>
 
         {/* Mobile Spacer - ensures justify-between keeps button on right when logo is hidden */}
-        <div className="sm:hidden flex-1" />
+        <div className="sm:hidden flex-1 h-8" />
 
         {/* Centered Navigation Links - slide up on scroll */}
         <motion.div

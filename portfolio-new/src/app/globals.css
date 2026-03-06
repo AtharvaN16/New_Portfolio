@@ -38,6 +38,35 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Gentle theme transition */
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease,
+      border-color 0.4s ease;
+  }
+
+  /* Ensure fixed layers in Home and other large surfaces also transition smoothly */
+  div[style*='background-color: rgb(var(--color-background))'],
+  div[style*='background-color: rgb(var(--color-surface))'],
+  .bg-background,
+  .bg-surface,
+  .bg-surface-elevated,
+  header,
+  footer,
+  section,
+  article,
+  nav {
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease,
+      border-color 0.4s ease;
+  }
+
+  /* Customize View Transitions API (Chrome/Safari/Edge) */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* ========================================

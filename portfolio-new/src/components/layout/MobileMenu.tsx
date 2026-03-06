@@ -76,7 +76,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           {/* Content */}
           <div className="relative flex flex-col h-full px-6 pt-6 pb-8" style={{ zIndex: 1 }}>
             {/* Close button */}
-            <div className="flex justify-end">
+            <div className="flex items-center justify-end h-8">
               <NavButton onClick={onClose} aria-label="Close menu" className="-mr-3">
                 Close
               </NavButton>

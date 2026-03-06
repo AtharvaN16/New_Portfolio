@@ -265,14 +265,8 @@ export function WaterBlob({
       return
     }
 
-    // On (re)setup (e.g. theme change), snap display to target immediately
-    const display = displayColorsRef.current
-    const target = targetColorsRef.current
-    display.blue = [...target.blue]
-    display.purple = [...target.purple]
-    display.pink = [...target.pink]
-    display.background = [...target.background]
-
+    const display = displayColorsRef.current!
+    const target = targetColorsRef.current!
     const isDarkMode = theme === 'dark'
     const programInfo = setupWebGL(gl, display, isDarkMode)
     if (!programInfo) {
