@@ -1,8 +1,14 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { WaterBlobWithBoundary } from './WaterBlobWithBoundary'
+import dynamic from 'next/dynamic'
 import { AnimatedLink } from '@/components/ui/AnimatedLink'
+
+const WaterBlobWithBoundary = dynamic(
+  () =>
+    import('./WaterBlobWithBoundary').then((mod) => mod.WaterBlobWithBoundary),
+  { ssr: false }
+)
 import { AnimatedHeroTextGSAP } from './AnimatedHeroTextGSAP'
 import { HoverLink } from '@/components/ui/HoverLink'
 

@@ -9,11 +9,19 @@ import {
 } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 import { PaperPlane } from '@/components/ui/PaperPlane'
-import {
-  PaperPlaneFlight,
-  type PaperPlaneFlightRef,
-} from '@/components/animations/PaperPlaneFlight'
 import { sendMessage } from '@/app/actions/send-message'
+import type { PaperPlaneFlightRef } from '@/components/animations/PaperPlaneFlight'
+import dynamic from 'next/dynamic'
+
+const PaperPlaneFlight = dynamic(
+  () =>
+    import('@/components/animations/PaperPlaneFlight').then(
+      (mod) => mod.PaperPlaneFlight
+    ),
+  {
+    ssr: false,
+  }
+)
 
 interface FooterMessageSectionProps {
   sectionOpacity: MotionValue<number>
@@ -55,6 +63,11 @@ export function FooterMessageSection({
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [isTappingMessage, setIsTappingMessage] = useState(false)
   const flightRef = useRef<PaperPlaneFlightRef>(null)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const handleTapMessage = () => {
     setIsTappingMessage(true)
@@ -124,7 +137,7 @@ export function FooterMessageSection({
               <PaperPlane className="w-[28px] h-[28px] text-foreground" />
             </motion.div>
             <div className="absolute top-0 left-0">
-              {isDesktop && (
+              {isMounted && isDesktop && (
                 <PaperPlaneFlight
                   ref={flightRef}
                   onComplete={() => {
