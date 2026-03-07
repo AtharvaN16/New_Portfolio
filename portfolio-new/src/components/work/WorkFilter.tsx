@@ -57,7 +57,7 @@ export function WorkFilter({
   return (
     <div className={cn('w-full', className)}>
       {/* Filter Tabs */}
-      <div className="mb-12">
+      <div className="mb-24 lg:mb-36">
         <div className="flex flex-wrap items-center gap-4 md:gap-6">
           {filterOptions.map(({ tag, count }, index) => {
             const isSelected = selectedFilter === tag
@@ -77,12 +77,12 @@ export function WorkFilter({
                     }
                   )}
                 >
-                  <span className="font-sans font-medium tracking-[0.1em] text-[1rem] md:text-[18px] leading-tight uppercase">
+                  <span className="font-sans font-medium text-[14px] lg:text-[16px] 2xl:text-[18px] leading-tight">
                     {tag}
                   </span>
-                  <span className="font-sans font-medium tracking-[0.1em] text-[0.75rem] md:text-[18px] leading-tight uppercase">{count}</span>
-
-
+                  <span className="font-sans font-medium text-[10px] lg:text-[12px] 2xl:text-[14px] leading-tight">
+                    {count}
+                  </span>
                 </button>
                 {/* Add separator after "All" */}
                 {index === 0 && (
@@ -116,7 +116,12 @@ export function WorkFilter({
             }}
             viewport={{ once: true, margin: '-50px' }}
           >
-            <ProjectCard {...project} variant="compact" />
+            <ProjectCard
+              {...project}
+              variant="compact"
+              imagePriority={index < 2}
+              imageSizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
           </motion.div>
         ))}
       </div>

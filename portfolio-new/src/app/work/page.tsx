@@ -24,17 +24,17 @@ const allProjects: ProjectCardProps[] = caseStudies.map((study) => ({
 
 // Map filter names to title texts
 const filterTitleMap: Record<string, string> = {
-  All: 'Check out\nmore of my work',
+  All: 'Check out more of my work',
   'Selected Work': 'Selected Work',
-  'Usability Testing': 'Usability Testing Projects',
+  'Usability Testing': 'Usability Testing',
   'Client Project': 'Client Projects',
   Explorations: 'Explorations',
-  'Service Design': 'Service Design Projects',
-  'Design Thinking': 'Design Thinking Projects',
-  'UX Research': 'UX Research Projects',
-  'UI Design': 'UI Design Projects',
-  Prototyping: 'Prototyping Projects',
-  Design: 'Design Projects',
+  'Service Design': 'Service Design',
+  'Design Thinking': 'Design Thinking',
+  'UX Research': 'UX Research',
+  'UI Design': 'UI Design',
+  Prototyping: 'Prototyping',
+  Design: 'Design',
 }
 
 export default function WorkPage() {
@@ -46,7 +46,7 @@ export default function WorkPage() {
   useEffect(() => {
     // Check if we are in a dialog (rendered via WorkDialog)
     const isInsideDialog = !!document.getElementById('dialog')
-    
+
     if (!isInsideDialog) {
       window.scrollTo(0, 0)
       // Also scroll Lenis if available
@@ -66,8 +66,11 @@ export default function WorkPage() {
 
   return (
     <div className="min-h-screen w-full bg-background">
-      <GradientBar className="fixed left-0 top-0 z-[60] w-full" height="h-2 md:h-4" />
-      
+      <GradientBar
+        className="fixed left-0 top-0 z-[60] w-full"
+        height="h-2 md:h-4"
+      />
+
       {/* Header with Back Button - 30px gap from GradientBar */}
       <header className="relative z-50">
         <nav className="px-6 2xl:px-[140px] pt-[38px] md:pt-[46px] pb-6 flex items-center justify-end max-w-[1920px] mx-auto">
@@ -80,7 +83,9 @@ export default function WorkPage() {
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            <NavButton onClick={handleBack} className="-mr-3">Back</NavButton>
+            <NavButton onClick={handleBack} className="-mr-3">
+              Back
+            </NavButton>
           </motion.div>
         </nav>
       </header>
@@ -98,14 +103,15 @@ export default function WorkPage() {
                 animationType="fadeIn"
                 alwaysAnimate={hasChangedFilter}
                 delay={hasChangedFilter ? 0 : 0.6}
-                className="text-3xl md:text-6xl lg:text-7xl leading-[1.1] md:leading-tight"
+                className="text-[28px] lg:text-[36px] 2xl:text-[42px] font-bold leading-[1.1] lg:leading-tight max-w-[65%] lg:max-w-none"
               />
             </AnimatePresence>
           </header>
 
-          {/* Animated Line Separator - Animates first at 0.6s */}
+          {/* Animated Line Separator - 50% opacity on all screens */}
           <LineSeparator
-            className="lg:mb-2"
+            className="lg:mb-[16px]"
+            opacity={0.5}
             delay={hasChangedFilter ? 0 : 0.3}
           />
 

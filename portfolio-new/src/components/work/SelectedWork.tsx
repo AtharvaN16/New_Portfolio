@@ -101,7 +101,7 @@ export function SelectedWork({
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
-      
+
       // If user has scrolled down past 800px (roughly past card 1 and 2), enable animations
       if (currentScrollY > 800 && !hasScrolledPast) {
         setHasScrolledPast(true)
@@ -134,7 +134,11 @@ export function SelectedWork({
               ease: [0.4, 0, 0.2, 1],
             }}
           >
-            <ProjectCard {...project} />
+            <ProjectCard
+              {...project}
+              imageSizes="(max-width: 1024px) 100vw, 75vw"
+              imageFetchPriority="low"
+            />
           </motion.div>
         ))}
       </div>
@@ -151,7 +155,7 @@ export function SelectedWork({
           const config = cardConfig[index]
           const isCard3or4 = index === 2 || index === 3
           const isCard1or2 = index === 0 || index === 1
-          
+
           return (
             <motion.div
               key={index}
@@ -160,18 +164,43 @@ export function SelectedWork({
                 gridColumn: `${config.colStart} / span ${config.colSpan}`,
                 gridRow: `${config.rowStart} / span ${config.rowSpan}`,
               }}
-              initial={isCard3or4 ? { opacity: 0 } : (isCard1or2 && hasScrolledPast) ? { opacity: 0 } : undefined}
-              whileInView={isCard3or4 ? { opacity: 1 } : (isCard1or2 && hasScrolledPast) ? { opacity: 1 } : undefined}
+              initial={
+                isCard3or4
+                  ? { opacity: 0 }
+                  : isCard1or2 && hasScrolledPast
+                    ? { opacity: 0 }
+                    : undefined
+              }
+              whileInView={
+                isCard3or4
+                  ? { opacity: 1 }
+                  : isCard1or2 && hasScrolledPast
+                    ? { opacity: 1 }
+                    : undefined
+              }
               viewport={{ once: false, margin: '-100px' }}
               transition={
                 isCard3or4
-                  ? { duration: 1.0, delay: index === 2 ? 0 : 0.4, ease: [0.4, 0, 0.2, 1] }
-                  : (isCard1or2 && hasScrolledPast)
-                  ? { duration: 0.8, delay: index === 0 ? 0 : 0.2, ease: [0.4, 0, 0.2, 1] }
-                  : undefined
+                  ? {
+                      duration: 1.0,
+                      delay: index === 2 ? 0 : 0.4,
+                      ease: [0.4, 0, 0.2, 1],
+                    }
+                  : isCard1or2 && hasScrolledPast
+                    ? {
+                        duration: 0.8,
+                        delay: index === 0 ? 0 : 0.2,
+                        ease: [0.4, 0, 0.2, 1],
+                      }
+                    : undefined
               }
             >
-              <ProjectCard {...project} className="h-full" />
+              <ProjectCard
+                {...project}
+                className="h-full"
+                imageSizes="(max-width: 1024px) 100vw, 75vw"
+                imageFetchPriority="low"
+              />
             </motion.div>
           )
         })}

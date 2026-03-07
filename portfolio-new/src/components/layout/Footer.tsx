@@ -25,7 +25,8 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
   const progress = revealProgress ?? fallbackProgress
   const { isDesktop } = useBreakpoints()
 
-  const [isAccessibilityModalOpen, setIsAccessibilityModalOpen] = useState(false)
+  const [isAccessibilityModalOpen, setIsAccessibilityModalOpen] =
+    useState(false)
 
   const desktopOpacity = useTransform(progress, [0.8, 1.0], [0, 1])
   const desktopY = useTransform(progress, [0.8, 1.0], [25, 0])
@@ -134,9 +135,9 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
         </p>
       </div>
 
-      <AccessibilityModal 
-        isOpen={isAccessibilityModalOpen} 
-        onClose={() => setIsAccessibilityModalOpen(false)} 
+      <AccessibilityModal
+        isOpen={isAccessibilityModalOpen}
+        onClose={() => setIsAccessibilityModalOpen(false)}
       />
     </footer>
   )

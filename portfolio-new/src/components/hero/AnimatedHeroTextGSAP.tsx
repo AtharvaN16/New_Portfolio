@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
 import { SplitText } from '@/lib/utils/splitText'
 import { cn } from '@/lib/utils/cn'
 import { createPortal } from 'react-dom'
@@ -43,7 +42,9 @@ export function AnimatedHeroTextGSAP({
   as: Component = 'p',
 }: AnimatedHeroTextGSAPProps) {
   const textRef = useRef<HTMLParagraphElement>(null)
-  const [scribbleContainers, setScribbleContainers] = useState<HTMLElement[]>([])
+  const [scribbleContainers, setScribbleContainers] = useState<HTMLElement[]>(
+    []
+  )
   const { reducedMotion: prefersReducedMotion } = useAccessibility()
 
   useEffect(() => {
@@ -54,7 +55,10 @@ export function AnimatedHeroTextGSAP({
     let cancelled = false
 
     // Wait for fonts to load before splitting to avoid incorrect line breaks
-    document.fonts.ready.then(() => {
+    document.fonts.ready.then(async () => {
+      if (cancelled || !textRef.current) return
+
+      const { gsap } = await import('gsap')
       if (cancelled || !textRef.current) return
 
       // Make visible
@@ -88,7 +92,9 @@ export function AnimatedHeroTextGSAP({
         let html = escapeHtml(raw)
 
         // Pronunciation word: bold + hover tooltip above the word.
-        for (const [word, pronunciation] of Object.entries(pronunciationWords)) {
+        for (const [word, pronunciation] of Object.entries(
+          pronunciationWords
+        )) {
           if (!word) continue
           const pattern = new RegExp(`\\b${escapeRegExp(word)}\\b`, 'g')
           const tooltip = escapeHtml(pronunciation)
@@ -172,10 +178,12 @@ export function AnimatedHeroTextGSAP({
           lineMasks.forEach((m) => {
             m.style.overflow = 'visible'
           })
-          
+
           // Add scribble underlines to pronunciation words after animation completes
           if (!cancelled) {
-            const pronunciationElements = element.querySelectorAll('.pronunciation-word')
+            const pronunciationElements = element.querySelectorAll(
+              '.pronunciation-word'
+            )
             const newContainers: HTMLElement[] = []
             pronunciationElements.forEach((wordEl) => {
               const scribbleContainer = document.createElement('span')
@@ -211,7 +219,11 @@ export function AnimatedHeroTextGSAP({
 
   return (
     <>
-      <Component ref={textRef} className={cn(className)} style={{ ...style, opacity: 0 }}>
+      <Component
+        ref={textRef}
+        className={cn(className)}
+        style={{ ...style, opacity: 0 }}
+      >
         {children}
       </Component>
       {scribbleContainers.map((container, index) =>
