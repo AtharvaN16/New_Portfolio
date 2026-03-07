@@ -101,7 +101,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
         />
 
         {/* Main Content - Hero Section */}
-        <main className="px-6 pt-4 pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100dvh-6rem)] md:min-h-[calc(100vh-8rem)] flex flex-col relative">
+        <main className="px-6 2xl:px-[140px] pt-4 pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100dvh-6rem)] md:min-h-[calc(100vh-8rem)] flex flex-col relative">
           <AnimatedTitle
             text={caseStudy.title}
             animationType="fadeIn"
@@ -166,7 +166,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
         {/* Mobile Metadata (Below the fold) */}
         {(caseStudy.team || caseStudy.timeline) && (
           <motion.div
-            className="md:hidden flex flex-col gap-10 px-6 pt-12 pb-16"
+            className="md:hidden flex flex-col gap-10 px-6 2xl:px-[140px] pt-12 pb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}

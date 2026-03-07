@@ -19,7 +19,7 @@ export function GutenbergContent({
 
   return (
     <motion.section
-      className="w-full px-6 py-16 md:py-24 max-w-[1920px] mx-auto"
+      className="w-full px-6 2xl:px-[140px] py-16 md:py-24 max-w-[1920px] mx-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.8 }}
