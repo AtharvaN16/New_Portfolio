@@ -109,7 +109,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     <Link
                       href={link.href}
                       onClick={onClose}
-                      className="text-[40px] font-medium text-foreground leading-none tracking-tight hover:opacity-40 transition-opacity duration-200"
+                      className="text-[40px] font-medium text-foreground leading-none tracking-tight"
                     >
                       {link.label}
                     </Link>
@@ -130,8 +130,9 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               <Expand
                 toggled={theme === 'light'}
                 toggle={toggleTheme}
-                duration={750}
+                duration={350}
                 reversed
+                idPrefix="mobile-"
                 className="h-12 w-12 text-[28px] flex-shrink-0 scale-x-[-1] flex items-center justify-center text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 aria-label="Toggle theme"
               />
