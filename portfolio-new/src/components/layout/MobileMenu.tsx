@@ -1,5 +1,7 @@
 'use client'
 
+import { Expand } from '@theme-toggles/react'
+import '@theme-toggles/react/css/Expand.css'
 import { useEffect, useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -153,13 +155,15 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               transition={{ duration: 0.3, delay: 0.45 }}
               className="flex justify-end"
             >
-              <button
-                onClick={toggleTheme}
-                className="text-text-secondary text-[12px] font-medium tracking-[0.18em] uppercase focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              {/* @ts-expect-error - Theme Toggles library has peer dependency conflicts with React 19 types */}
+              <Expand
+                toggled={theme === 'light'}
+                toggle={toggleTheme}
+                duration={750}
+                reversed
+                className="h-12 w-12 text-[28px] flex-shrink-0 scale-x-[-1] flex items-center justify-center text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 aria-label="Toggle theme"
-              >
-                {theme === 'dark' ? 'Light mode' : 'Dark mode'}
-              </button>
+              />
             </motion.div>
           </div>
         </motion.div>

@@ -3,6 +3,9 @@
 import { useState, useRef } from 'react'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Expand } from '@theme-toggles/react'
+import '@theme-toggles/react/css/Expand.css'
+import { useBreakpoint } from '@/hooks/use-breakpoint'
 import Image from 'next/image'
 import Link from 'next/link'
 import { HoverLink } from '@/components/ui/HoverLink'
@@ -24,6 +27,7 @@ const navLinks = [
 
 export function Navbar() {
   const { theme, toggleTheme } = useTheme()
+  const isSm = useBreakpoint('sm')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [comingSoonLabel, setComingSoonLabel] = useState<string | null>(null)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
@@ -106,64 +110,24 @@ export function Navbar() {
             </ul>
 
             {/* Desktop/Tablet Theme Toggle */}
-            <motion.button
-              onClick={toggleTheme}
-              className="relative hidden h-11 w-11 rounded-full bg-surface hover:bg-surface-elevated transition-colors duration-200 sm:flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              aria-label="Toggle theme"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              whileTap={{ scale: 0.9 }}
-            >
+            {isSm && (
               <motion.div
-                initial={false}
-                animate={{ rotate: theme === 'dark' ? 180 : 0 }}
-                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                className="text-text-primary"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="hidden sm:flex"
               >
-                {theme === 'dark' ? (
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    className="h-5 w-5"
-                  >
-                    <circle
-                      cx="10"
-                      cy="10"
-                      r="4"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      fill="none"
-                    />
-                    <path
-                      d="M10 2V4M10 16V18M18 10H16M4 10H2M15.66 4.34L14.24 5.76M5.76 14.24L4.34 15.66M15.66 15.66L14.24 14.24M5.76 5.76L4.34 4.34"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    className="h-5 w-5"
-                  >
-                    <path
-                      d="M17 10.5C16 14 13 17 9 17C5 17 2 14 2 10C2 6 5 3 9 3C9.5 3 10 3.1 10.5 3.2C9.5 4.5 9 6.2 9 8C9 11.9 12.1 15 16 15C16.3 15 16.7 15 17 14.9V10.5Z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      fill="currentColor"
-                    />
-                  </svg>
-                )}
+                {/* @ts-expect-error - Theme Toggles library has peer dependency conflicts with React 19 types */}
+                <Expand
+                  toggled={theme === 'light'}
+                  toggle={toggleTheme}
+                  duration={750}
+                  reversed
+                  className="h-11 w-11 text-[22px] scale-x-[-1] rounded-full bg-surface hover:bg-surface-elevated transition-colors duration-200 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-text-primary"
+                  aria-label="Toggle theme"
+                />
               </motion.div>
-            </motion.button>
+            )}
 
             {/* Mobile MENU button */}
             <motion.div
