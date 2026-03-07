@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { FooterDustParticles } from './FooterDustParticles'
+import { useBreakpoints } from '@/hooks/use-breakpoint'
 
 interface FooterSmogProps {
   visible: boolean
@@ -26,6 +27,7 @@ function usePrefersReducedMotion() {
 
 export function FooterSmog({ visible }: FooterSmogProps) {
   const prefersReducedMotion = usePrefersReducedMotion()
+  const { isDesktop } = useBreakpoints()
 
   const showEffects = !prefersReducedMotion
 
@@ -35,7 +37,7 @@ export function FooterSmog({ visible }: FooterSmogProps) {
       aria-hidden="true"
     >
       {/* Layer 1: Original CSS color glow */}
-      <CSSGlow visible={visible} />
+      <CSSGlow visible={visible} isDesktop={isDesktop} />
 
       {/* Layer 2: Tiny bright dust motes */}
       {showEffects && <FooterDustParticles visible={visible} />}
@@ -44,7 +46,19 @@ export function FooterSmog({ visible }: FooterSmogProps) {
 }
 
 /** Original subtle CSS gradient glow — unchanged from the working version */
-function CSSGlow({ visible }: { visible: boolean }) {
+function CSSGlow({
+  visible,
+  isDesktop,
+}: {
+  visible: boolean
+  isDesktop: boolean
+}) {
+  // Mobile intensities (more aggressive)
+  const baseAlpha = isDesktop ? '0.2' : '0.4'
+  const swell1Alpha = isDesktop ? '0.4' : '0.65'
+  const swell2Alpha = isDesktop ? '0.35' : '0.55'
+  const swell3Alpha = isDesktop ? '0.3' : '0.5'
+
   return (
     <motion.div
       className="absolute inset-0"
@@ -56,11 +70,10 @@ function CSSGlow({ visible }: { visible: boolean }) {
       <div
         className="absolute inset-0"
         style={{
-          background:
-            'linear-gradient(to right, rgb(var(--color-gradient-start) / 0.2), rgb(var(--color-gradient-end) / 0.15))',
-          maskImage: 'linear-gradient(to bottom, black 0%, transparent 55%)',
+          background: `linear-gradient(to right, rgb(var(--color-gradient-start) / ${baseAlpha}), rgb(var(--color-gradient-end) / 0.15))`,
+          maskImage: 'linear-gradient(to bottom, black 0%, transparent 75%)',
           WebkitMaskImage:
-            'linear-gradient(to bottom, black 0%, transparent 55%)',
+            'linear-gradient(to bottom, black 0%, transparent 75%)',
           filter: 'blur(6px)',
         }}
       />
@@ -71,8 +84,7 @@ function CSSGlow({ visible }: { visible: boolean }) {
         animate={{ x: ['0%', '6%', '0%'] }}
         transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
         style={{
-          background:
-            'radial-gradient(ellipse 35% 110% at 28% 0%, rgb(var(--color-gradient-start) / 0.4) 0%, transparent 70%)',
+          background: `radial-gradient(ellipse 35% 110% at 28% 0%, rgb(var(--color-gradient-start) / ${swell1Alpha}) 0%, transparent 70%)`,
           filter: 'blur(30px)',
         }}
       />
@@ -83,8 +95,7 @@ function CSSGlow({ visible }: { visible: boolean }) {
         animate={{ x: ['0%', '-5%', '0%'], opacity: [0.8, 1, 0.8] }}
         transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
         style={{
-          background:
-            'radial-gradient(ellipse 30% 75% at 72% 0%, rgb(var(--color-gradient-end) / 0.35) 0%, transparent 70%)',
+          background: `radial-gradient(ellipse 30% 75% at 72% 0%, rgb(var(--color-gradient-end) / ${swell2Alpha}) 0%, transparent 70%)`,
           filter: 'blur(35px)',
         }}
       />
@@ -95,8 +106,7 @@ function CSSGlow({ visible }: { visible: boolean }) {
         animate={{ x: ['-3%', '10%', '-3%'], opacity: [0.5, 1, 0.5] }}
         transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
         style={{
-          background:
-            'radial-gradient(ellipse 25% 90% at 50% 0%, rgb(var(--color-gradient-start) / 0.3) 0%, transparent 65%)',
+          background: `radial-gradient(ellipse 25% 90% at 50% 0%, rgb(var(--color-gradient-start) / ${swell3Alpha}) 0%, transparent 65%)`,
           filter: 'blur(28px)',
         }}
       />
