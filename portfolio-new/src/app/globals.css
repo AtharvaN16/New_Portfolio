@@ -270,6 +270,12 @@
     }
   }
 
+  @media (min-width: 1536px) {
+    .water-blob-container {
+      max-height: 60rem; /* 960px on extra large screens */
+    }
+  }
+
   /* ========================================
      PROJECT CARD OVERLAY
      ======================================== */

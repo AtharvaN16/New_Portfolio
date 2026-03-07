@@ -70,7 +70,7 @@ export default function WorkPage() {
       
       {/* Header with Back Button - 30px gap from GradientBar */}
       <header className="relative z-50">
-        <nav className="px-6 pt-[38px] md:pt-[46px] pb-6 flex items-center justify-end max-w-[1920px] mx-auto">
+        <nav className="px-6 2xl:px-[140px] pt-[38px] md:pt-[46px] pb-6 flex items-center justify-end max-w-[1920px] mx-auto">
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -85,7 +85,7 @@ export default function WorkPage() {
         </nav>
       </header>
 
-      <div className="relative px-6 pb-20 pt-4 md:pb-32 md:pt-8">
+      <div className="relative px-6 2xl:px-[140px] pb-20 pt-4 md:pb-32 md:pt-8">
         <main id="main-content">
           {/* Page Header */}
           <header className="mb-4 lg:mb-5">
