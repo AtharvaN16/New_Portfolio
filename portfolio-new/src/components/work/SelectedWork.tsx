@@ -125,13 +125,13 @@ export function SelectedWork({
           <motion.div
             key={index}
             className="gpu-accelerate"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{
-              duration: 1.0,
-              delay: index % 2 === 0 ? 0 : 0.1,
-              ease: [0.4, 0, 0.2, 1],
+              duration: 0.5,
+              delay: index * 0.1,
+              ease: [0.22, 1, 0.36, 1],
             }}
           >
             <ProjectCard

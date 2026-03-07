@@ -100,7 +100,7 @@ export function WorkFilter({
       </div>
 
       {/* Projects Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-12 md:gap-6 md:grid-cols-2 lg:grid-cols-3">
         {filteredProjects.map((project, index) => (
           <motion.div
             key={`${project.title}-${project.organization}`}
