@@ -13,6 +13,7 @@ export function WaterBlobWithBoundary(props: WaterBlobProps) {
       fallback={
         <div
           className={`w-full h-full ${theme === 'dark' ? 'hero-gradient-dark' : 'hero-gradient-light'} ${props.className || ''}`}
+          suppressHydrationWarning
         />
       }
     >

@@ -5,7 +5,6 @@ import { useTheme } from '@/components/providers/ThemeProvider'
 import { motion } from 'framer-motion'
 import { Expand } from '@theme-toggles/react'
 import '@theme-toggles/react/css/Expand.css'
-import { useBreakpoint } from '@/hooks/use-breakpoint'
 import Image from 'next/image'
 import Link from 'next/link'
 import { HoverLink } from '@/components/ui/HoverLink'
@@ -27,7 +26,6 @@ const navLinks = [
 
 export function Navbar() {
   const { theme, toggleTheme } = useTheme()
-  const isSm = useBreakpoint('sm')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
@@ -80,28 +78,26 @@ export function Navbar() {
             </ul>
 
             {/* Desktop/Tablet Theme Toggle */}
-            {isSm && (
-              <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{
-                  duration: 0.4,
-                  delay: 0.4,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="hidden sm:flex"
-              >
-                {/* @ts-expect-error - Theme Toggles library has peer dependency conflicts with React 19 types */}
-                <Expand
-                  toggled={theme === 'light'}
-                  toggle={toggleTheme}
-                  duration={750}
-                  reversed
-                  className="h-11 w-11 text-[22px] scale-x-[-1] rounded-full bg-surface hover:bg-surface-elevated transition-colors duration-200 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-text-primary"
-                  aria-label="Toggle theme"
-                />
-              </motion.div>
-            )}
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{
+                duration: 0.4,
+                delay: 0.4,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="hidden sm:flex"
+            >
+              {/* @ts-expect-error - Theme Toggles library has peer dependency conflicts with React 19 types */}
+              <Expand
+                toggled={theme === 'light'}
+                toggle={toggleTheme}
+                duration={750}
+                reversed
+                className="h-11 w-11 text-[22px] scale-x-[-1] rounded-full bg-surface hover:bg-surface-elevated transition-colors duration-200 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-text-primary"
+                aria-label="Toggle theme"
+              />
+            </motion.div>
 
             {/* Mobile MENU button */}
             <motion.div

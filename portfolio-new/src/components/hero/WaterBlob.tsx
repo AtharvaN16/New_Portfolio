@@ -260,6 +260,7 @@ export function WaterBlob({
       <div
         className={`w-full h-full ${theme === 'dark' ? 'hero-gradient-dark' : 'hero-gradient-light'} ${className}`}
         aria-hidden="true"
+        suppressHydrationWarning
       />
     )
   }
@@ -269,6 +270,7 @@ export function WaterBlob({
       ref={canvasRef}
       onClick={handleClick}
       className={`w-full h-full block ${interactive ? 'cursor-pointer' : ''} ${theme === 'dark' ? 'hero-gradient-dark' : 'hero-gradient-light'} ${enhanced ? 'shadow-inner' : ''} ${className}`}
+      suppressHydrationWarning
       style={
         enhanced
           ? {
