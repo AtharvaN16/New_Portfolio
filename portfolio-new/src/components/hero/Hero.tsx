@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { WaterBlobWithBoundary } from './WaterBlob'
+import { WaterBlobWithBoundary } from './WaterBlobWithBoundary'
 import { AnimatedLink } from '@/components/ui/AnimatedLink'
 import { AnimatedHeroTextGSAP } from './AnimatedHeroTextGSAP'
 import { HoverLink } from '@/components/ui/HoverLink'

@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils/cn'
-import { ComponentPropsWithoutRef } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 type BlurSide = 'top' | 'bottom' | 'left' | 'right'
 

@@ -23,7 +23,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
   const heroSectionRef = useRef<HTMLElement>(null)
 
   // Smooth scroll hook
-  const { lenisRef, scrollTo } = useSmoothScroll(containerRef, contentRef)
+  useSmoothScroll(containerRef, contentRef)
 
   // Scroll progress tracking for progress bar
   const { scrollYProgress } = useScroll({

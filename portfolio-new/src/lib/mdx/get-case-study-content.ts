@@ -11,7 +11,7 @@ export async function getCaseStudyContent(slug: string) {
       `@/content/case-studies/${slug}.mdx`
     )
     return mdxModule.default
-  } catch (error) {
+  } catch {
     // Return null if no MDX file exists for this case study
     return null
   }

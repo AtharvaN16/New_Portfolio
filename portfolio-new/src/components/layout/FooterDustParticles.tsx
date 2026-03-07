@@ -37,8 +37,9 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
   const particlesRef = useRef<Particle[]>([])
   const opacityRef = useRef(0)
   const visibleRef = useRef(visible)
-
-  visibleRef.current = visible
+  useEffect(() => {
+    visibleRef.current = visible
+  }, [visible])
 
   useEffect(() => {
     const canvas = canvasRef.current
