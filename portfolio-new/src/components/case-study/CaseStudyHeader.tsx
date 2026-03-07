@@ -30,7 +30,7 @@ export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       style={{ willChange: 'transform' }}
     >
-      <nav className="relative px-6 py-6 flex items-center justify-between max-w-[1920px] mx-auto">
+      <nav className="relative px-6 2xl:px-[140px] py-6 flex items-center justify-between max-w-[1920px] mx-auto">
         {/* Logo - slides up on scroll, hidden on mobile */}
         <motion.div
           className="hidden sm:block"

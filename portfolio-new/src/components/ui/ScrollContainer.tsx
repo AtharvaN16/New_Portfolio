@@ -39,7 +39,7 @@ export function ScrollContainer({ children }: ScrollContainerProps) {
       {/* Hero */}
       {heroElement && (
         <section className="min-h-screen bg-background">
-          <div className="px-6 pt-[92px]">{heroElement}</div>
+          <div className="px-6 2xl:px-[140px] pt-[92px]">{heroElement}</div>
         </section>
       )}
 
@@ -51,7 +51,7 @@ export function ScrollContainer({ children }: ScrollContainerProps) {
       {/* Selected Work */}
       {workElement && (
         <section className="bg-background">
-          <div className="px-6 pt-12 pb-20">{workElement}</div>
+          <div className="px-6 2xl:px-[140px] pt-12 pb-20">{workElement}</div>
         </section>
       )}
 

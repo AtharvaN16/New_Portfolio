@@ -128,7 +128,7 @@ export function Footer({ revealProgress }: FooterProps) {
       <FooterSmog visible={showGlow} />
 
       <div
-        className="mx-auto max-w-[1920px] px-6 pt-24 md:pt-28 lg:pt-32 [--footer-content-height:480px] lg:[--footer-content-height:300px]"
+        className="mx-auto max-w-[1920px] px-6 2xl:px-[140px] pt-24 md:pt-28 lg:pt-32 [--footer-content-height:480px] lg:[--footer-content-height:300px]"
         style={{ 
           paddingBottom: 'calc(85vh - var(--footer-content-height) - 56px)' 
         }}
@@ -460,7 +460,7 @@ export function Footer({ revealProgress }: FooterProps) {
       </div>
 
       <div
-        className="mx-auto flex max-w-[1920px] flex-col gap-2 px-6 py-4 sm:flex-row sm:items-center sm:justify-between"
+        className="mx-auto flex max-w-[1920px] flex-col gap-2 px-6 2xl:px-[140px] py-4 sm:flex-row sm:items-center sm:justify-between"
         style={{ color: 'rgb(var(--color-text-color30))' }}
       >
         <p className="vulf-mono-italic-light text-[10px] md:text-sm tabular-nums opacity-80">

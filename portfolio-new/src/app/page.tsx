@@ -68,7 +68,7 @@ export default function Home() {
           }}
         >
           <div ref={selectedWorkRef}>
-            <div className="px-6 pt-12 pb-20">
+            <div className="px-6 2xl:px-[140px] pt-12 pb-20">
               <SelectedWork />
             </div>
           </div>
@@ -86,7 +86,7 @@ export default function Home() {
           }}
         >
           <motion.div
-            className="px-6 pt-6"
+            className="px-6 2xl:px-[140px] pt-6"
             style={{
               opacity: navbarScrollOpacity,
               willChange: 'opacity',
@@ -96,7 +96,7 @@ export default function Home() {
           </motion.div>
 
           <motion.main
-            className="px-0 md:px-6 flex-1"
+            className="px-0 md:px-6 2xl:px-[140px] flex-1"
             style={{
               y: heroContentY,
               willChange: 'transform',
