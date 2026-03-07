@@ -1,15 +1,32 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { Hero } from '@/components/hero/Hero'
 import { SelectedWork } from '@/components/work/SelectedWork'
 import { FullpageCard } from '@/components/ui/FullpageCard'
-import { WorkDialog } from '@/components/animations/WorkDialog'
-import { CaseStudyDialog } from '@/components/animations/CaseStudyDialog'
 import { useHomeScroll } from '@/hooks/use-home-scroll'
+import dynamic from 'next/dynamic'
+
+const WorkDialog = dynamic(
+  () =>
+    import('@/components/animations/WorkDialog').then((mod) => mod.WorkDialog),
+  {
+    ssr: false,
+  }
+)
+
+const CaseStudyDialog = dynamic(
+  () =>
+    import('@/components/animations/CaseStudyDialog').then(
+      (mod) => mod.CaseStudyDialog
+    ),
+  {
+    ssr: false,
+  }
+)
 
 /**
  * Home Page - Scroll Reveal Effect
@@ -32,7 +49,9 @@ import { useHomeScroll } from '@/hooks/use-home-scroll'
  */
 
 export default function Home() {
-  const [shouldTriggerFooterShimmer, setShouldTriggerFooterShimmer] = useState(false)
+  const [shouldTriggerFooterShimmer, setShouldTriggerFooterShimmer] =
+    useState(false)
+  const [shouldLoadDialogs, setShouldLoadDialogs] = useState(false)
 
   const {
     containerRef,
@@ -57,6 +76,27 @@ export default function Home() {
     // Reset after some time so it can be re-triggered
     setTimeout(() => setShouldTriggerFooterShimmer(false), 3100)
   }, [handleGetInTouchClick])
+
+  useEffect(() => {
+    const checkDialogRoute = () => {
+      const path = window.location.pathname
+      if (path === '/work' || path.startsWith('/case-studies/')) {
+        setShouldLoadDialogs(true)
+      }
+    }
+
+    checkDialogRoute()
+
+    window.addEventListener('popstate', checkDialogRoute)
+    window.addEventListener('workdialog:check', checkDialogRoute)
+    window.addEventListener('casestudydialog:check', checkDialogRoute)
+
+    return () => {
+      window.removeEventListener('popstate', checkDialogRoute)
+      window.removeEventListener('workdialog:check', checkDialogRoute)
+      window.removeEventListener('casestudydialog:check', checkDialogRoute)
+    }
+  }, [])
 
   return (
     <>
@@ -135,7 +175,7 @@ export default function Home() {
               title="Helping New Yorkers apply for business licenses with ease"
               description="A case study on improving the application process for business licenses for the NYC Department of Consumer and Worker Protection."
               tags={['Selected Work', 'Client Project', 'UX Research']}
-              mediaSrc="/images/case-studies/nyc-dcwp-business-licenses/fullpage-card-v2.png"
+              mediaSrc="/images/case-studies/nyc-dcwp-business-licenses/fullpage-card-v2.webp"
               mediaType="image"
               mediaAlt="NYC DCWP Home Improvement Contractor License Application"
               variant="surface"
@@ -151,14 +191,18 @@ export default function Home() {
         className="fixed bottom-0 left-0 right-0"
         style={{ zIndex: 5 }}
       >
-        <Footer 
-          revealProgress={footerRevealProgress} 
+        <Footer
+          revealProgress={footerRevealProgress}
           triggerShimmer={shouldTriggerFooterShimmer}
         />
       </div>
 
-      <WorkDialog />
-      <CaseStudyDialog />
+      {shouldLoadDialogs && (
+        <>
+          <WorkDialog />
+          <CaseStudyDialog />
+        </>
+      )}
     </>
   )
 }

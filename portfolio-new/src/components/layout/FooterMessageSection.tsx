@@ -1,10 +1,18 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, type MotionValue, type Variants } from 'framer-motion'
+import {
+  AnimatePresence,
+  motion,
+  type MotionValue,
+  type Variants,
+} from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 import { PaperPlane } from '@/components/ui/PaperPlane'
-import { PaperPlaneFlight, type PaperPlaneFlightRef } from '@/components/animations/PaperPlaneFlight'
+import {
+  PaperPlaneFlight,
+  type PaperPlaneFlightRef,
+} from '@/components/animations/PaperPlaneFlight'
 import { sendMessage } from '@/app/actions/send-message'
 
 interface FooterMessageSectionProps {
@@ -187,7 +195,9 @@ export function FooterMessageSection({
               }}
             >
               <motion.div variants={fieldVariants} className="relative">
-                <label htmlFor="footer-message" className="sr-only">Message</label>
+                <label htmlFor="footer-message" className="sr-only">
+                  Message
+                </label>
                 <textarea
                   id="footer-message"
                   name="message"
@@ -195,7 +205,9 @@ export function FooterMessageSection({
                   rows={1}
                   required
                   className="contact-placeholder w-full bg-transparent border-b py-2 text-lg focus:border-primary focus:outline-none transition-colors resize-none overflow-hidden"
-                  style={{ borderBottomColor: 'rgb(var(--color-text-color70))' }}
+                  style={{
+                    borderBottomColor: 'rgb(var(--color-text-color70))',
+                  }}
                   onInput={(e) => {
                     const target = e.target as HTMLTextAreaElement
                     target.style.height = 'auto'
@@ -213,32 +225,43 @@ export function FooterMessageSection({
 
                 <div className="space-y-8 !mt-4">
                   <motion.div variants={fieldVariants} className="relative">
-                    <label htmlFor="footer-linkedin" className="sr-only">LinkedIn Profile (Optional)</label>
+                    <label htmlFor="footer-linkedin" className="sr-only">
+                      LinkedIn Profile (Optional)
+                    </label>
                     <input
                       id="footer-linkedin"
                       type="text"
                       name="linkedin"
                       placeholder="LinkedIn"
                       className="contact-placeholder w-full bg-transparent border-b py-2 text-lg focus:border-primary focus:outline-none transition-colors"
-                      style={{ borderBottomColor: 'rgb(var(--color-text-color70))' }}
+                      style={{
+                        borderBottomColor: 'rgb(var(--color-text-color70))',
+                      }}
                     />
                   </motion.div>
 
                   <motion.div variants={fieldVariants} className="relative">
-                    <label htmlFor="footer-email" className="sr-only">Your Email Address (Optional)</label>
+                    <label htmlFor="footer-email" className="sr-only">
+                      Your Email Address (Optional)
+                    </label>
                     <input
                       id="footer-email"
                       type="email"
                       name="email"
                       placeholder="Email"
                       className="contact-placeholder w-full bg-transparent border-b py-2 text-lg focus:border-primary focus:outline-none transition-colors"
-                      style={{ borderBottomColor: 'rgb(var(--color-text-color70))' }}
+                      style={{
+                        borderBottomColor: 'rgb(var(--color-text-color70))',
+                      }}
                     />
                   </motion.div>
                 </div>
               </div>
 
-              <motion.div variants={fieldVariants} className="flex justify-end pt-8">
+              <motion.div
+                variants={fieldVariants}
+                className="flex justify-end pt-8"
+              >
                 <button
                   type="submit"
                   disabled={isSubmitting}

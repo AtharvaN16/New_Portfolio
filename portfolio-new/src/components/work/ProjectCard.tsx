@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { cn } from '@/lib/utils/cn'
 
 export interface ProjectCardProps {
@@ -11,6 +12,9 @@ export interface ProjectCardProps {
   tags: string[]
   imageBg: string
   imageUrl?: string // Optional project image
+  imageSizes?: string
+  imagePriority?: boolean
+  imageFetchPriority?: 'high' | 'low' | 'auto'
   variant?: 'default' | 'compact' // default for 2-grid, compact for 3-grid
   className?: string
   slug?: string // Optional slug for linking to case study page
@@ -25,6 +29,9 @@ export function ProjectCard({
   tags: _tags,
   imageBg,
   imageUrl,
+  imageSizes,
+  imagePriority = false,
+  imageFetchPriority,
   variant = 'default',
   className,
   slug,
@@ -67,12 +74,25 @@ export function ProjectCard({
       >
         {/* Background Color or Image */}
         <div
-          className="absolute inset-0 bg-cover bg-center gpu-accelerate"
-          style={{
-            backgroundColor: imageBg,
-            ...(imageUrl && { backgroundImage: `url(${imageUrl})` }),
-          }}
-        />
+          className="absolute inset-0 gpu-accelerate"
+          style={{ backgroundColor: imageBg }}
+        >
+          {imageUrl && (
+            <Image
+              src={imageUrl}
+              alt={title}
+              fill
+              sizes={
+                imageSizes ??
+                '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'
+              }
+              priority={imagePriority}
+              loading={imagePriority ? 'eager' : 'lazy'}
+              fetchPriority={imageFetchPriority}
+              className="object-cover"
+            />
+          )}
+        </div>
 
         {/* Overlay - Appears on Hover - CSS transition for performance */}
         <div
@@ -107,7 +127,7 @@ export function ProjectCard({
 
         {/* Tags and Year */}
         <div className="flex flex-wrap items-center gap-x-2 pt-3">
-          <span 
+          <span
             className="font-sans font-normal tracking-normal text-[14px] md:text-[18px]"
             style={{ color: 'rgb(var(--color-text-tertiary-50))' }}
           >
@@ -115,7 +135,7 @@ export function ProjectCard({
               const displayTags = (_tags || [])
                 .filter((tag) => tag !== 'Selected Work')
                 .slice(0, 2)
-              
+
               if (displayTags.length > 0) {
                 return `${displayTags.join(' / ')} / ${year}`
               }
