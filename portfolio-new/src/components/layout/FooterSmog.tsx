@@ -59,7 +59,8 @@ function CSSGlow({ visible }: { visible: boolean }) {
           background:
             'linear-gradient(to right, rgb(var(--color-gradient-start) / 0.2), rgb(var(--color-gradient-end) / 0.15))',
           maskImage: 'linear-gradient(to bottom, black 0%, transparent 55%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 55%)',
+          WebkitMaskImage:
+            'linear-gradient(to bottom, black 0%, transparent 55%)',
           filter: 'blur(6px)',
         }}
       />

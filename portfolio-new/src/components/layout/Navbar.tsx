@@ -84,7 +84,11 @@ export function Navbar() {
               <motion.div
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                transition={{
+                  duration: 0.4,
+                  delay: 0.4,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
                 className="hidden sm:flex"
               >
                 {/* @ts-expect-error - Theme Toggles library has peer dependency conflicts with React 19 types */}
@@ -122,10 +126,7 @@ export function Navbar() {
         </div>
       </motion.nav>
 
-      <MobileMenu
-        isOpen={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
-      />
+      <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </>
   )
 }

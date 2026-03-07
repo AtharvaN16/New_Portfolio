@@ -10,6 +10,8 @@ interface LineSeparatorProps {
   enablePluck?: boolean
   /** Delay before starting the entry animation (in seconds). */
   delay?: number
+  /** Opacity of the line (0 to 1). Default: 1. */
+  opacity?: number
 }
 
 /**
@@ -22,6 +24,7 @@ export function LineSeparator({
   className,
   enablePluck = true,
   delay = 0,
+  opacity = 1,
 }: LineSeparatorProps) {
   const svgRef = useRef<SVGSVGElement>(null)
   const pathRef = useRef<SVGPathElement>(null)
@@ -241,7 +244,7 @@ export function LineSeparator({
         <path
           ref={pathRef}
           d={generatePath(svgWidth, 0)}
-          style={{ stroke: 'rgb(var(--color-foreground))' }}
+          style={{ stroke: 'rgb(var(--color-foreground))', opacity }}
           strokeWidth="0.8"
           fill="none"
           strokeLinecap="round"

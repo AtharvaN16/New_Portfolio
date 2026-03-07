@@ -29,7 +29,10 @@ export function FooterLinksSection({
       className="order-1 lg:order-2 flex flex-col gap-8 sm:flex-row sm:gap-12 lg:gap-0 lg:-ml-32"
       style={{ opacity: sectionOpacity, y: sectionY }}
     >
-      <nav aria-label={FOOTER_ARIA_LABELS.quickLinks} className="w-full lg:w-[200px]">
+      <nav
+        aria-label={FOOTER_ARIA_LABELS.quickLinks}
+        className="w-full lg:w-[200px]"
+      >
         <h3 className="mb-4 text-base font-bold text-foreground md:text-xl lg:mb-6 lg:text-2xl">
           Quick links
         </h3>

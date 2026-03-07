@@ -33,7 +33,7 @@ export function AnimatedTitle({
   delay = 0,
 }: AnimatedTitleProps) {
   const { reducedMotion: prefersReducedMotion } = useAccessibility()
-  
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -116,10 +116,7 @@ export function AnimatedTitle({
         <Fragment key={lineIndex}>
           {line.split(' ').map((word, wordIndex, array) => (
             <Fragment key={wordIndex}>
-              <motion.span
-                variants={wordVariants}
-                className="inline-block"
-              >
+              <motion.span variants={wordVariants} className="inline-block">
                 {word}
               </motion.span>
               {wordIndex < array.length - 1 && ' ' /* Add a regular space */}
