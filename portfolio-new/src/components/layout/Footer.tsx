@@ -33,15 +33,26 @@ import { sendMessage } from '@/app/actions/send-message'
 
 interface FooterProps {
   revealProgress?: MotionValue<number>
+  triggerShimmer?: boolean
 }
 
-export function Footer({ revealProgress }: FooterProps) {
+export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [isFlying, setIsFlying] = useState(false)
   const [isSent, setIsSent] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [isTappingMessage, setIsTappingMessage] = useState(false)
   const flightRef = useRef<PaperPlaneFlightRef>(null)
+
+  const handleTapMessage = () => {
+    setIsTappingMessage(true)
+    setTimeout(() => setIsTappingMessage(false), 200)
+    setIsFormOpen(!isFormOpen)
+    setIsFlying(false)
+    setErrorMessage(null)
+    if (!isFormOpen) setIsSent(false)
+  }
 
   // Auto-fade success message after 2 seconds and bring plane back
   useEffect(() => {
@@ -70,11 +81,14 @@ export function Footer({ revealProgress }: FooterProps) {
   const glowClearThreshold = isDesktop ? 0.98 : 0.02
 
   const [showGlow, setShowGlow] = useState(false)
+  const [playShimmer, setPlayShimmer] = useState(false)
   const glowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useMotionValueEvent(progress, 'change', (latest) => {
     if (latest >= glowFireThreshold && !glowTimerRef.current) {
-      glowTimerRef.current = setTimeout(() => setShowGlow(true), 100)
+      glowTimerRef.current = setTimeout(() => {
+        setShowGlow(true)
+      }, 100)
     } else if (latest < glowClearThreshold) {
       if (glowTimerRef.current) {
         clearTimeout(glowTimerRef.current)
@@ -83,6 +97,17 @@ export function Footer({ revealProgress }: FooterProps) {
       queueMicrotask(() => setShowGlow(false))
     }
   })
+
+  // Play shimmer when explicitly triggered (e.g., from hero "Get in touch" link)
+  useEffect(() => {
+    if (triggerShimmer) {
+      setPlayShimmer(true)
+      const timer = setTimeout(() => {
+        setPlayShimmer(false)
+      }, 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [triggerShimmer])
 
   useEffect(() => {
     return () => {
@@ -141,13 +166,13 @@ export function Footer({ revealProgress }: FooterProps) {
           >
             <div className="relative">
               <motion.button
-                onClick={() => {
-                  setIsFormOpen(!isFormOpen)
-                  setIsFlying(false)
-                  setErrorMessage(null)
-                  if (!isFormOpen) setIsSent(false) // Clear success message when opening form
-                }}
-                className="group inline-flex items-start gap-[16px] text-base font-bold tracking-tight text-foreground md:text-xl lg:text-2xl transition-colors hover:text-primary"
+                onClick={handleTapMessage}
+                animate={{ scale: isTappingMessage ? 0.94 : 1 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                className={cn(
+                  "group inline-flex items-start gap-[16px] text-base font-bold tracking-tight text-foreground md:text-xl lg:text-2xl transition-all duration-500 hover:text-primary relative outline-none",
+                  playShimmer && "shimmer-glow"
+                )}
               >
                 Send a message
                 <div className="relative w-[28px] h-[28px] mt-0.5">
@@ -359,7 +384,10 @@ export function Footer({ revealProgress }: FooterProps) {
 
             {/* Get in Touch Section */}
             <div className="w-full lg:w-[200px] mt-4 sm:mt-0">
-              <h3 className="mb-4 text-base font-bold text-foreground md:text-xl lg:mb-6 lg:text-2xl">
+              <h3 className={cn(
+                "mb-4 text-base font-bold text-foreground md:text-xl lg:mb-6 lg:text-2xl relative inline-block",
+                playShimmer && "shimmer-glow"
+              )}>
                 Get in touch
               </h3>
               <div className="space-y-1.5 md:space-y-3">
