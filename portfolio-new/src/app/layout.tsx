@@ -1,7 +1,6 @@
 import { Geist, Geist_Mono, JetBrains_Mono, Mynerve } from 'next/font/google'
 import './globals.css'
 
-import { ThemeScript } from '@/components/ThemeScript'
 import { AppProviders } from './AppProviders'
 import { metadata, viewport } from './metadata'
 
@@ -43,10 +42,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <ThemeScript />
-      </head>
+    <html lang="en" data-theme="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${mynerve.variable} font-sans antialiased`}
       >

@@ -40,21 +40,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // value that ThemeScript already applied to <html data-theme="..."> so that
   // the React state matches what the browser is already showing.
   const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return 'dark'
-
-    // ThemeScript runs before React and sets data-theme — read it to stay consistent
-    const dataTheme = document.documentElement.getAttribute(
-      'data-theme'
-    ) as Theme | null
-    if (dataTheme === 'light' || dataTheme === 'dark') return dataTheme
-
-    // Fallback (shouldn't normally reach here)
-    const stored = localStorage.getItem('theme') as Theme | null
-    if (stored === 'light' || stored === 'dark') return stored
-
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light'
+    return 'dark'
   })
 
   // Apply theme to DOM when it changes

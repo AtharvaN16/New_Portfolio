@@ -36,6 +36,7 @@ function FooterClockComponent({ className }: FooterClockProps) {
       <div
         className="text-sm font-medium tabular-nums lg:text-lg"
         style={{ color: 'rgb(var(--color-text-tertiary-50))' }}
+        suppressHydrationWarning
       >
         {formattedTime}
       </div>

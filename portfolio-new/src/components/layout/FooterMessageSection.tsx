@@ -63,6 +63,11 @@ export function FooterMessageSection({
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [isTappingMessage, setIsTappingMessage] = useState(false)
   const flightRef = useRef<PaperPlaneFlightRef>(null)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const handleTapMessage = () => {
     setIsTappingMessage(true)
@@ -132,7 +137,7 @@ export function FooterMessageSection({
               <PaperPlane className="w-[28px] h-[28px] text-foreground" />
             </motion.div>
             <div className="absolute top-0 left-0">
-              {isDesktop && (
+              {isMounted && isDesktop && (
                 <PaperPlaneFlight
                   ref={flightRef}
                   onComplete={() => {
