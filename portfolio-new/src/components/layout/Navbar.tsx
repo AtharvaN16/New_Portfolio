@@ -29,16 +29,6 @@ export function Navbar() {
   const { theme, toggleTheme } = useTheme()
   const isSm = useBreakpoint('sm')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [comingSoonLabel, setComingSoonLabel] = useState<string | null>(null)
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
-
-  const handleComingSoon = (label: string) => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    setComingSoonLabel(label)
-    timeoutRef.current = setTimeout(() => {
-      setComingSoonLabel(null)
-    }, 1500)
-  }
 
   return (
     <>
@@ -84,27 +74,7 @@ export function Navbar() {
                   }}
                   className="relative flex flex-col items-center"
                 >
-                  <HoverLink
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      handleComingSoon(link.label)
-                    }}
-                  >
-                    {link.label}
-                  </HoverLink>
-                  <AnimatePresence>
-                    {comingSoonLabel === link.label && (
-                      <motion.span
-                        initial={{ opacity: 0, y: 4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 2 }}
-                        className="absolute top-full mt-1 text-[10px] uppercase tracking-wider font-medium text-text-color60 whitespace-nowrap pointer-events-none"
-                      >
-                        Coming Soon
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
+                  <HoverLink href={link.href}>{link.label}</HoverLink>
                 </motion.li>
               ))}
             </ul>
