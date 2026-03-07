@@ -446,11 +446,11 @@ export function Footer({ revealProgress }: FooterProps) {
         className="mx-auto flex max-w-[1920px] flex-col gap-2 px-6 py-4 sm:flex-row sm:items-center sm:justify-between"
         style={{ color: 'rgb(var(--color-text-color30))' }}
       >
-        <p className="text-[8px] md:text-sm font-medium tabular-nums uppercase tracking-tight opacity-80">
+        <p className="vulf-mono-italic-light text-[10px] md:text-sm tabular-nums opacity-80">
           Designed + Coded with &lt;3 by Atharva
         </p>
-        <p className="text-[8px] md:text-sm tabular-nums uppercase tracking-tight opacity-80">
-          Last Updated:{' '}
+        <p className="vulf-mono-italic-light text-[10px] md:text-sm tabular-nums opacity-80">
+          Last updated:{' '}
           {new Date().toLocaleDateString('en-US', {
             month: 'long',
             day: 'numeric',
