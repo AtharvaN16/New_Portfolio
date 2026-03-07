@@ -49,7 +49,7 @@ export function Footer({ revealProgress }: FooterProps) {
       const timer = setTimeout(() => {
         setIsSent(false)
         setIsFlying(false) // Static plane pops back in after message fades
-      }, 4000)
+      }, 2000)
       return () => clearTimeout(timer)
     }
   }, [isSent])
@@ -80,7 +80,7 @@ export function Footer({ revealProgress }: FooterProps) {
         clearTimeout(glowTimerRef.current)
         glowTimerRef.current = null
       }
-      setShowGlow(false)
+      queueMicrotask(() => setShowGlow(false))
     }
   })
 
@@ -147,23 +147,40 @@ export function Footer({ revealProgress }: FooterProps) {
                   setErrorMessage(null)
                   if (!isFormOpen) setIsSent(false) // Clear success message when opening form
                 }}
-                className="group inline-flex items-center gap-[16px] text-[28px] font-bold tracking-tight text-foreground transition-colors hover:text-primary"
+                className="group inline-flex items-start gap-[16px] text-base font-bold tracking-tight text-foreground md:text-xl lg:text-2xl transition-colors hover:text-primary"
               >
                 Send a message
-                <div className="relative w-[36px] h-[36px]">
+                <div className="relative w-[28px] h-[28px] mt-0.5">
                   <motion.div
                     initial={false}
-                    animate={isFlying ? { scale: 0, opacity: 0 } : { scale: 1, opacity: 1 }}
-                    transition={{ 
-                      type: 'spring', 
-                      stiffness: 500, 
-                      damping: 15,
-                      mass: 0.8,
-                      restDelta: 0.001
+                    animate={{
+                      y: isFormOpen || isFlying ? 0 : [0, -4, 0],
+                      scale: isFlying ? 0 : 1,
+                      opacity: isFlying ? 0 : 1,
+                    }}
+                    transition={{
+                      y:
+                        isFormOpen || isFlying
+                          ? { duration: 0.25, ease: 'easeOut' }
+                          : { repeat: Infinity, duration: 1.5, ease: 'easeInOut' },
+                      scale: {
+                        type: 'spring',
+                        stiffness: 500,
+                        damping: 15,
+                        mass: 0.8,
+                        restDelta: 0.001,
+                      },
+                      opacity: {
+                        type: 'spring',
+                        stiffness: 500,
+                        damping: 15,
+                        mass: 0.8,
+                        restDelta: 0.001,
+                      },
                     }}
                   >
                     <PaperPlane
-                      className="w-[36px] h-[36px] text-foreground"
+                      className="w-[28px] h-[28px] text-foreground"
                     />
                   </motion.div>
                   <div className="absolute top-0 left-0">
