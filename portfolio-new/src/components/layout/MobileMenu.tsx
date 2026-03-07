@@ -1,6 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Expand } from '@theme-toggles/react'
+import '@theme-toggles/react/css/Expand.css'
+import { useEffect, useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
@@ -23,14 +25,27 @@ const menuLinks = [
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { theme, toggleTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const [comingSoonLabel, setComingSoonLabel] = useState<string | null>(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
+  const handleComingSoon = (label: string) => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    setComingSoonLabel(label)
+    timeoutRef.current = setTimeout(() => {
+      setComingSoonLabel(null)
+    }, 1500)
+  }
+
   // Scroll lock + escape key
   useEffect(() => {
-    if (!isOpen) return
+    if (!isOpen) {
+      setComingSoonLabel(null)
+      return
+    }
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -87,7 +102,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               className="flex-1 flex flex-col justify-center items-end"
               aria-label="Mobile navigation"
             >
-              <ul className="flex flex-col items-end gap-4">
+              <ul className="flex flex-col items-end gap-6">
                 {menuLinks.map((link, index) => (
                   <motion.li
                     key={link.href}
@@ -99,14 +114,34 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       delay: 0.06 + index * 0.07,
                       ease: [0.22, 1, 0.36, 1],
                     }}
+                    className="flex flex-col items-end"
                   >
                     <Link
                       href={link.href}
-                      onClick={onClose}
+                      onClick={(e) => {
+                        if (['Writings', 'Explorations', 'About'].includes(link.label)) {
+                          e.preventDefault()
+                          handleComingSoon(link.label)
+                        } else {
+                          onClose()
+                        }
+                      }}
                       className="text-[40px] font-medium text-foreground leading-none tracking-tight hover:opacity-40 transition-opacity duration-200"
                     >
                       {link.label}
                     </Link>
+                    <AnimatePresence>
+                      {comingSoonLabel === link.label && (
+                        <motion.span
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 4 }}
+                          className="text-[12px] uppercase tracking-[0.2em] font-medium text-text-color60 mt-3 pointer-events-none"
+                        >
+                          Coming Soon
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
                   </motion.li>
                 ))}
               </ul>
@@ -120,13 +155,15 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               transition={{ duration: 0.3, delay: 0.45 }}
               className="flex justify-end"
             >
-              <button
-                onClick={toggleTheme}
-                className="text-text-secondary text-[12px] font-medium tracking-[0.18em] uppercase focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              {/* @ts-expect-error - Theme Toggles library has peer dependency conflicts with React 19 types */}
+              <Expand
+                toggled={theme === 'light'}
+                toggle={toggleTheme}
+                duration={750}
+                reversed
+                className="h-12 w-12 text-[28px] flex-shrink-0 scale-x-[-1] flex items-center justify-center text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 aria-label="Toggle theme"
-              >
-                {theme === 'dark' ? 'Light mode' : 'Dark mode'}
-              </button>
+              />
             </motion.div>
           </div>
         </motion.div>

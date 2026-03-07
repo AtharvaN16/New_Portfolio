@@ -1,6 +1,5 @@
-'use client'
-
-import { motion } from 'framer-motion'
+import { useState, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTheme } from '@/components/providers/ThemeProvider'
@@ -21,6 +20,16 @@ const navLinks = [
 
 export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
   const { theme } = useTheme()
+  const [comingSoonLabel, setComingSoonLabel] = useState<string | null>(null)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const handleComingSoon = (label: string) => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    setComingSoonLabel(label)
+    timeoutRef.current = setTimeout(() => {
+      setComingSoonLabel(null)
+    }, 1500)
+  }
 
   return (
     <motion.header
@@ -84,8 +93,29 @@ export function CaseStudyHeader({ isScrolled, onClose }: CaseStudyHeaderProps) {
                   delay: 0.1 + index * 0.1,
                   ease: [0.22, 1, 0.36, 1],
                 }}
+                className="relative flex flex-col items-center"
               >
-                <HoverLink href={link.href}>{link.label}</HoverLink>
+                <HoverLink
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleComingSoon(link.label)
+                  }}
+                >
+                  {link.label}
+                </HoverLink>
+                <AnimatePresence>
+                  {comingSoonLabel === link.label && (
+                    <motion.span
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 2 }}
+                      className="absolute top-full mt-1 text-[10px] uppercase tracking-wider font-medium text-text-color60 whitespace-nowrap pointer-events-none"
+                    >
+                      Coming Soon
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </motion.li>
             ))}
           </ul>

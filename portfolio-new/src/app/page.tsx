@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
@@ -31,6 +32,8 @@ import { useHomeScroll } from '@/hooks/use-home-scroll'
  */
 
 export default function Home() {
+  const [shouldTriggerFooterShimmer, setShouldTriggerFooterShimmer] = useState(false)
+
   const {
     containerRef,
     selectedWorkRef,
@@ -45,7 +48,15 @@ export default function Home() {
     selectedWorkY,
     footerRevealProgress,
     handleBrowseWorkClick,
+    handleGetInTouchClick,
   } = useHomeScroll()
+
+  const handleGetInTouchWithShimmer = useCallback(() => {
+    handleGetInTouchClick()
+    setShouldTriggerFooterShimmer(true)
+    // Reset after some time so it can be re-triggered
+    setTimeout(() => setShouldTriggerFooterShimmer(false), 3100)
+  }, [handleGetInTouchClick])
 
   return (
     <>
@@ -105,6 +116,7 @@ export default function Home() {
             <Hero
               shouldPauseBlobs={shouldPauseBlobs}
               onBrowseWorkClick={handleBrowseWorkClick}
+              onGetInTouchClick={handleGetInTouchWithShimmer}
             />
           </motion.main>
         </motion.div>
@@ -139,7 +151,10 @@ export default function Home() {
         className="fixed bottom-0 left-0 right-0"
         style={{ zIndex: 5 }}
       >
-        <Footer revealProgress={footerRevealProgress} />
+        <Footer 
+          revealProgress={footerRevealProgress} 
+          triggerShimmer={shouldTriggerFooterShimmer}
+        />
       </div>
 
       <WorkDialog />

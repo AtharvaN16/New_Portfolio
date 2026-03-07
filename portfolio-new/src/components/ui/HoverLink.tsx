@@ -14,6 +14,10 @@ interface HoverLinkProps {
    * Additional className
    */
   className?: string
+  /**
+   * Optional click handler
+   */
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void
 }
 
 /**
@@ -21,25 +25,24 @@ interface HoverLinkProps {
  * Text slides up and out while duplicate slides up from below
  * Underline animates from left to right on hover
  */
-export function HoverLink({ href, children, className }: HoverLinkProps) {
+export function HoverLink({ href, children, className, onClick }: HoverLinkProps) {
   return (
     <Link
       href={href}
+      onClick={onClick}
       className={cn(
-        'group relative inline-block text-nav-link text-text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded',
+        'group relative inline-block text-nav-link text-text-primary transition-colors duration-200 transition-transform duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded active:scale-[0.97] active:text-text-color30',
         className
       )}
     >
-      <span className="relative inline-flex overflow-hidden">
-        <div className="translate-y-0 skew-y-0 transition-all duration-500 ease-in-out group-hover:-translate-y-[110%] group-hover:skew-y-12">
+      <span className="relative inline-flex overflow-hidden text-inherit isolate">
+        <div className="translate-y-0 skew-y-0 transition-all duration-500 ease-in-out group-hover:-translate-y-[120%] group-hover:skew-y-12">
           {children}
         </div>
-        <div className="absolute translate-y-[110%] skew-y-12 opacity-0 transition-all duration-500 ease-in-out group-hover:translate-y-0 group-hover:skew-y-0 group-hover:opacity-100">
+        <div className="absolute inset-0 translate-y-[120%] skew-y-12 opacity-0 transition-all duration-500 ease-in-out group-hover:translate-y-0 group-hover:skew-y-0 group-hover:opacity-100">
           {children}
         </div>
       </span>
-      {/* Animated underline */}
-      <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full" />
     </Link>
   )
 }
