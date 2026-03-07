@@ -9,11 +9,19 @@ import {
 } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 import { PaperPlane } from '@/components/ui/PaperPlane'
-import {
-  PaperPlaneFlight,
-  type PaperPlaneFlightRef,
-} from '@/components/animations/PaperPlaneFlight'
 import { sendMessage } from '@/app/actions/send-message'
+import type { PaperPlaneFlightRef } from '@/components/animations/PaperPlaneFlight'
+import dynamic from 'next/dynamic'
+
+const PaperPlaneFlight = dynamic(
+  () =>
+    import('@/components/animations/PaperPlaneFlight').then(
+      (mod) => mod.PaperPlaneFlight
+    ),
+  {
+    ssr: false,
+  }
+)
 
 interface FooterMessageSectionProps {
   sectionOpacity: MotionValue<number>

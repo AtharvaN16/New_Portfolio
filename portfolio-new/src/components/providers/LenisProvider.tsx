@@ -14,7 +14,7 @@
  */
 
 import { type ReactNode, useEffect, useRef } from 'react'
-import Lenis from 'lenis'
+import type Lenis from 'lenis'
 
 interface LenisProviderProps {
   children: ReactNode
@@ -35,46 +35,47 @@ export function LenisProvider({ children }: LenisProviderProps) {
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches
-
-    // Skip smooth scroll if user prefers reduced motion
-    if (prefersReducedMotion) {
-      return
-    }
+    if (prefersReducedMotion) return
 
     // Skip Lenis on touch devices — native touch scroll is already smooth,
     // and Lenis's wheel easing adds latency that makes scroll-linked
     // animations feel inconsistent on mobile.
     const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
-    if (isTouchDevice) {
-      return
-    }
+    if (isTouchDevice) return
 
-    // Initialize Lenis
-    const lenis = new Lenis({
-      duration: 1.2, // Animation duration (higher = smoother but slower)
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Easing function
-      orientation: 'vertical', // Vertical scrolling
-      gestureOrientation: 'vertical',
-      smoothWheel: true, // Enable smooth scroll on wheel
-      wheelMultiplier: 1, // Scroll speed multiplier
-      touchMultiplier: 2, // Touch scroll speed
-      infinite: false, // Disable infinite scroll
+    let rafId = 0
+    let cancelled = false
+
+    // Dynamically import Lenis so it doesn't inflate the initial bundle
+    import('lenis').then(({ default: LenisClass }) => {
+      if (cancelled) return
+
+      const lenis = new LenisClass({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+        infinite: false,
+      })
+
+      lenisRef.current = lenis
+      window.lenis = lenis
+
+      function raf(time: number) {
+        lenis.raf(time)
+        rafId = requestAnimationFrame(raf)
+      }
+
+      rafId = requestAnimationFrame(raf)
     })
 
-    lenisRef.current = lenis
-    window.lenis = lenis
-
-    // Animation frame loop
-    function raf(time: number) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
-
-    requestAnimationFrame(raf)
-
-    // Cleanup on unmount
     return () => {
-      lenis.destroy()
+      cancelled = true
+      cancelAnimationFrame(rafId)
+      lenisRef.current?.destroy()
       lenisRef.current = null
       delete window.lenis
     }

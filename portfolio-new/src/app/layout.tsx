@@ -1,11 +1,11 @@
-'use client'
 import { Geist, Geist_Mono, JetBrains_Mono, Mynerve } from 'next/font/google'
 import './globals.css'
 
-import { ThemeProvider } from '@/components/providers/ThemeProvider'
-import { LenisProvider } from '@/components/providers/LenisProvider'
 import { ThemeScript } from '@/components/ThemeScript'
-import { AccessibilityProvider } from '@/components/providers/AccessibilityProvider'
+import { AppProviders } from './AppProviders'
+import { metadata, viewport } from './metadata'
+
+export { metadata, viewport }
 
 // Font Configuration
 const geistSans = Geist({
@@ -19,14 +19,14 @@ const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
   display: 'swap',
-  preload: false, // Only load when needed
+  preload: false,
 })
 
 const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
   subsets: ['latin'],
   display: 'swap',
-  preload: true,
+  preload: false,
 })
 
 const mynerve = Mynerve({
@@ -50,21 +50,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${mynerve.variable} font-sans antialiased`}
       >
-        <AccessibilityProvider>
-          <ThemeProvider>
-            <LenisProvider>
-              {/* Skip to main content link (accessibility) */}
-              <a
-                href="#main-content"
-                className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
-              >
-                Skip to main content
-              </a>
+        <AppProviders>
+          {/* Skip to main content link (accessibility) */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
+          >
+            Skip to main content
+          </a>
 
-              {children}
-            </LenisProvider>
-          </ThemeProvider>
-        </AccessibilityProvider>
+          {children}
+        </AppProviders>
       </body>
     </html>
   )
