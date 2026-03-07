@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState, useMemo } from 'react'
 import { useTheme } from '@/components/providers/ThemeProvider'
-import { ErrorBoundary } from '@/components/error/ErrorBoundary'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 import {
   setupWebGL,
   createAnimationLoop,
@@ -13,7 +13,6 @@ import {
   getColors,
   LIGHT_PALETTES,
   DARK_PALETTES,
-  getScribbleColor,
 } from './waterBlob.colors'
 import type { WaterBlobProps, Colors } from './waterBlob.types'
 import {
@@ -23,6 +22,7 @@ import {
   ENHANCED_SATURATION,
   COLOR_LERP_SPEED,
 } from './waterBlob.types'
+import { useWaterBlobGradientVars } from './use-water-blob-gradient-vars'
 
 /**
  * WaterBlob Component
@@ -40,9 +40,8 @@ export function WaterBlob({
 }: WaterBlobProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { theme } = useTheme()
+  const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
   const [hasWebGL, setHasWebGL] = useState(true)
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
   const [retryKey, setRetryKey] = useState(0)
 
   // Interactive mode state
@@ -54,10 +53,10 @@ export function WaterBlob({
   )
 
   // Track paused state in ref so animation loop can check current value
-  const pausedRef = useRef(paused)
+  const pausedRef = useRef(paused || pauseWebGL)
   useEffect(() => {
-    pausedRef.current = paused
-  }, [paused])
+    pausedRef.current = paused || pauseWebGL
+  }, [paused, pauseWebGL])
 
   // Mutable color objects for smooth interpolation.
   // displayColors is mutated in-place each frame; the animation loop closure
@@ -74,16 +73,10 @@ export function WaterBlob({
   const gradientAnimFrameRef = useRef<number>(0)
 
   // Get colors from design tokens or custom palettes
-  // Only run client-side to avoid SSR hydration mismatches
+  // `getColors` safely returns null on server.
   const colors = useMemo(() => {
-    if (!isMounted) return null
     return getColors(theme, interactive, paletteIndex)
-  }, [theme, interactive, paletteIndex, isMounted])
-
-  // Check if component is mounted (client-side only)
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
+  }, [theme, interactive, paletteIndex])
 
   // Sync target color refs when palette or theme changes.
   // On first load, snap display to target (no lerp). After that, only
@@ -128,99 +121,13 @@ export function WaterBlob({
     }
   }, [colors])
 
-  // Smoothly animate gradient bar CSS variables toward the new palette
-  useEffect(() => {
-    if (!interactive) return
-
-    const palettes = theme === 'dark' ? DARK_PALETTES : LIGHT_PALETTES
-    const palette = palettes[paletteIndex]
-
-    const targetStart = palette[0].map((c) => c * 255)
-    const targetEnd = palette[2].map((c) => c * 255)
-    const scribbleRgb = getScribbleColor(paletteIndex, theme === 'dark')
-    const targetScribble =
-      scribbleRgb.length > 0 ? scribbleRgb : targetStart
-
-    const toStr = (c: number[]) => c.map((v) => Math.round(v)).join(' ')
-
-    // First load — snap immediately
-    if (!gradientCurrentRef.current) {
-      gradientCurrentRef.current = {
-        start: [...targetStart],
-        end: [...targetEnd],
-      }
-      document.documentElement.style.setProperty(
-        '--color-gradient-start',
-        toStr(targetStart)
-      )
-      document.documentElement.style.setProperty(
-        '--color-gradient-end',
-        toStr(targetEnd)
-      )
-      document.documentElement.style.setProperty(
-        '--color-scribble',
-        toStr(targetScribble)
-      )
-      return
-    }
-
-    const current = gradientCurrentRef.current
-
-    const animateGradient = () => {
-      let needsUpdate = false
-
-      for (let i = 0; i < 3; i++) {
-        current.start[i] +=
-          (targetStart[i] - current.start[i]) * COLOR_LERP_SPEED
-        current.end[i] += (targetEnd[i] - current.end[i]) * COLOR_LERP_SPEED
-        if (Math.abs(current.start[i] - targetStart[i]) > 0.5)
-          needsUpdate = true
-        if (Math.abs(current.end[i] - targetEnd[i]) > 0.5) needsUpdate = true
-      }
-
-      if (!needsUpdate) {
-        // Snap to exact values when close enough
-        current.start = [...targetStart]
-        current.end = [...targetEnd]
-      }
-
-      document.documentElement.style.setProperty(
-        '--color-gradient-start',
-        toStr(current.start)
-      )
-      document.documentElement.style.setProperty(
-        '--color-gradient-end',
-        toStr(current.end)
-      )
-      document.documentElement.style.setProperty(
-        '--color-scribble',
-        toStr(targetScribble)
-      )
-
-      if (needsUpdate) {
-        gradientAnimFrameRef.current = requestAnimationFrame(animateGradient)
-      }
-    }
-
-    cancelAnimationFrame(gradientAnimFrameRef.current)
-    gradientAnimFrameRef.current = requestAnimationFrame(animateGradient)
-
-    return () => {
-      cancelAnimationFrame(gradientAnimFrameRef.current)
-    }
-  }, [interactive, paletteIndex, theme])
-
-  // Check for reduced motion preference
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Syncing with external media query on mount
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    const handleChange = (e: MediaQueryListEvent) =>
-      setPrefersReducedMotion(e.matches)
-    mediaQuery.addEventListener('change', handleChange)
-    return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [])
+  useWaterBlobGradientVars({
+    interactive,
+    paletteIndex,
+    theme,
+    gradientCurrentRef,
+    gradientAnimFrameRef,
+  })
 
   // WebGL setup and animation.
   // Only re-runs on theme or reduced-motion changes (not palette changes).
@@ -232,7 +139,7 @@ export function WaterBlob({
       !displayColorsRef.current ||
       !targetColorsRef.current ||
       prefersReducedMotion ||
-      !isMounted
+      pauseWebGL
     )
       return
 
@@ -330,7 +237,7 @@ export function WaterBlob({
       }
       webglInitializedRef.current = false
     }
-  }, [prefersReducedMotion, theme, isMounted, retryKey]) // colors removed — lerped via refs
+  }, [prefersReducedMotion, theme, retryKey, pauseWebGL]) // colors removed — lerped via refs
 
   // Handle canvas resize
   useEffect(() => {
@@ -347,12 +254,12 @@ export function WaterBlob({
     setPaletteIndex(nextIndex)
   }
 
-  // Show CSS fallback if WebGL not supported or reduced motion
-  if (!hasWebGL || prefersReducedMotion) {
+  // Show CSS fallback if WebGL not supported or reduced motion or paused
+  if (!hasWebGL || prefersReducedMotion || pauseWebGL) {
     return (
       <div
         className={`w-full h-full ${theme === 'dark' ? 'hero-gradient-dark' : 'hero-gradient-light'} ${className}`}
-        aria-label="Decorative gradient background"
+        aria-hidden="true"
       />
     )
   }
@@ -369,30 +276,7 @@ export function WaterBlob({
             }
           : undefined
       }
-      aria-label={
-        interactive
-          ? 'Interactive animated gradient - click to change colors'
-          : 'Animated gradient background'
-      }
-      role={interactive ? 'button' : undefined}
-      tabIndex={interactive ? 0 : undefined}
+      aria-hidden="true"
     />
-  )
-}
-
-// Wrap with error boundary
-export function WaterBlobWithBoundary(props: WaterBlobProps) {
-  const { theme } = useTheme()
-
-  return (
-    <ErrorBoundary
-      fallback={
-        <div
-          className={`w-full h-full ${theme === 'dark' ? 'hero-gradient-dark' : 'hero-gradient-light'} ${props.className || ''}`}
-        />
-      }
-    >
-      <WaterBlob {...props} />
-    </ErrorBoundary>
   )
 }

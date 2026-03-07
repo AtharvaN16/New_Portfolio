@@ -99,8 +99,6 @@ export function SelectedWork({
   const [hasScrolledPast, setHasScrolledPast] = useState(false)
 
   useEffect(() => {
-    let lastScrollY = window.scrollY
-
     const handleScroll = () => {
       const currentScrollY = window.scrollY
       
@@ -108,8 +106,6 @@ export function SelectedWork({
       if (currentScrollY > 800 && !hasScrolledPast) {
         setHasScrolledPast(true)
       }
-      
-      lastScrollY = currentScrollY
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Fragment } from 'react'
 import { cn } from '@/lib/utils/cn'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 interface AnimatedTitleProps {
   /** The text to be animated. */
@@ -31,12 +32,14 @@ export function AnimatedTitle({
   className,
   delay = 0,
 }: AnimatedTitleProps) {
+  const { reducedMotion: prefersReducedMotion } = useAccessibility()
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08,
+        staggerChildren: prefersReducedMotion ? 0.04 : 0.08,
         delayChildren: 0.2 + delay,
       },
     },
@@ -52,7 +55,7 @@ export function AnimatedTitle({
 
   const animationVariants = {
     fadeInUp: {
-      hidden: { opacity: 0, y: 20 },
+      hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 20 },
       visible: {
         opacity: 1,
         y: 0,
@@ -64,7 +67,7 @@ export function AnimatedTitle({
       },
       exit: {
         opacity: 0,
-        y: -10,
+        y: prefersReducedMotion ? 0 : -10,
         transition: {
           duration: 0.15,
         },

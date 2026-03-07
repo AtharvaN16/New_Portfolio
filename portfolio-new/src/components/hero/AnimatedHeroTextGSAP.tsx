@@ -6,6 +6,7 @@ import { SplitText } from '@/lib/utils/splitText'
 import { cn } from '@/lib/utils/cn'
 import { createPortal } from 'react-dom'
 import { AnimatedScribble } from './AnimatedScribble'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 interface AnimatedHeroTextGSAPProps {
   children: string
@@ -14,6 +15,7 @@ interface AnimatedHeroTextGSAPProps {
   className?: string
   delay?: number
   style?: React.CSSProperties
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div'
 }
 
 const DEFAULT_BOLD_WORDS: string[] = []
@@ -38,9 +40,11 @@ export function AnimatedHeroTextGSAP({
   className,
   delay = 0.2,
   style,
+  as: Component = 'p',
 }: AnimatedHeroTextGSAPProps) {
   const textRef = useRef<HTMLParagraphElement>(null)
   const [scribbleContainers, setScribbleContainers] = useState<HTMLElement[]>([])
+  const { reducedMotion: prefersReducedMotion } = useAccessibility()
 
   useEffect(() => {
     if (!textRef.current) return
@@ -143,14 +147,14 @@ export function AnimatedHeroTextGSAP({
 
         // Set line to start above its mask
         gsap.set(line, {
-          y: '-100%',
+          y: prefersReducedMotion ? '0%' : '-100%',
           opacity: 1,
         })
       })
 
       // Set up each line with different starting positions and fade
       split.lines.forEach((line, index) => {
-        const startOffset = -(index + 1) * 100
+        const startOffset = prefersReducedMotion ? 0 : -(index + 1) * 100
         gsap.set(line, {
           y: `${startOffset}%`,
           opacity: 0.4,
@@ -161,7 +165,7 @@ export function AnimatedHeroTextGSAP({
       gsap.to(split.lines, {
         y: '0%',
         opacity: 1,
-        duration: 1.0,
+        duration: prefersReducedMotion ? 0.5 : 1.0,
         ease: 'power3.out',
         delay: delay,
         onComplete: () => {
@@ -203,13 +207,13 @@ export function AnimatedHeroTextGSAP({
       setScribbleContainers([])
       split?.revert()
     }
-  }, [delay, boldWords, pronunciationWords, children])
+  }, [delay, boldWords, pronunciationWords, children, prefersReducedMotion])
 
   return (
     <>
-      <p ref={textRef} className={cn(className)} style={{ ...style, opacity: 0 }}>
+      <Component ref={textRef} className={cn(className)} style={{ ...style, opacity: 0 }}>
         {children}
-      </p>
+      </Component>
       {scribbleContainers.map((container, index) =>
         createPortal(<AnimatedScribble />, container, `scribble-${index}`)
       )}

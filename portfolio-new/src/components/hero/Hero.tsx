@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { WaterBlobWithBoundary } from './WaterBlob'
+import { WaterBlobWithBoundary } from './WaterBlobWithBoundary'
 import { AnimatedLink } from '@/components/ui/AnimatedLink'
 import { AnimatedHeroTextGSAP } from './AnimatedHeroTextGSAP'
 import { HoverLink } from '@/components/ui/HoverLink'
@@ -73,6 +73,7 @@ export function Hero({
               {/* Hero Text - Single paragraph with GSAP line-by-line reveal animation */}
               <div className="max-w-[70%] md:max-w-none md:w-[410px]">
                 <AnimatedHeroTextGSAP
+                  as="h1"
                   boldWords={HERO_BOLD_WORDS}
                   pronunciationWords={HERO_PRONUNCIATION}
                   className="text-hero-body"
