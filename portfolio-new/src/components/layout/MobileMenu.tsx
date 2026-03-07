@@ -25,25 +25,14 @@ const menuLinks = [
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { theme, toggleTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const [comingSoonLabel, setComingSoonLabel] = useState<string | null>(null)
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  const handleComingSoon = (label: string) => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    setComingSoonLabel(label)
-    timeoutRef.current = setTimeout(() => {
-      setComingSoonLabel(null)
-    }, 1500)
-  }
-
   // Scroll lock + escape key
   useEffect(() => {
     if (!isOpen) {
-      setComingSoonLabel(null)
       return
     }
 
@@ -118,30 +107,11 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   >
                     <Link
                       href={link.href}
-                      onClick={(e) => {
-                        if (['Writings', 'Explorations', 'About'].includes(link.label)) {
-                          e.preventDefault()
-                          handleComingSoon(link.label)
-                        } else {
-                          onClose()
-                        }
-                      }}
+                      onClick={onClose}
                       className="text-[40px] font-medium text-foreground leading-none tracking-tight hover:opacity-40 transition-opacity duration-200"
                     >
                       {link.label}
                     </Link>
-                    <AnimatePresence>
-                      {comingSoonLabel === link.label && (
-                        <motion.span
-                          initial={{ opacity: 0, y: 8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 4 }}
-                          className="text-[12px] uppercase tracking-[0.2em] font-medium text-text-color60 mt-3 pointer-events-none"
-                        >
-                          Coming Soon
-                        </motion.span>
-                      )}
-                    </AnimatePresence>
                   </motion.li>
                 ))}
               </ul>
