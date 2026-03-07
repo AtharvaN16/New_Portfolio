@@ -4,7 +4,7 @@
  * Theme Provider - Manages dark/light mode
  *
  * Features:
- * - Respects system preference by default
+ * - Dark mode by default
  * - Persists user choice to localStorage
  * - No flash of wrong theme on load
  */
@@ -17,13 +17,6 @@ import {
   useMemo,
   type ReactNode,
 } from 'react'
-
-// Add types for View Transitions API
-declare global {
-  interface Document {
-    startViewTransition(callback: () => void): void
-  }
-}
 
 type Theme = 'light' | 'dark'
 
@@ -39,11 +32,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // Initialize theme: on the server default to 'dark'; on the client read the
   // value that ThemeScript already applied to <html data-theme="..."> so that
   // the React state matches what the browser is already showing.
-  const [theme, setThemeState] = useState<Theme>(() => {
-    return 'dark'
-  })
+  const [theme, setThemeState] = useState<Theme>('dark')
 
-  // Apply theme to DOM when it changes
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
   }, [theme])
@@ -61,17 +51,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       setTheme,
       toggleTheme: () => {
         const newTheme = theme === 'light' ? 'dark' : 'light'
-
-        // Fallback for browsers that don't support View Transitions API
-        if (!document.startViewTransition) {
-          setTheme(newTheme)
-          return
-        }
-
-        // Gentle cross-fade animation using View Transitions API
-        document.startViewTransition(() => {
-          setTheme(newTheme)
-        })
+        setTheme(newTheme)
       },
     }),
     [theme]
