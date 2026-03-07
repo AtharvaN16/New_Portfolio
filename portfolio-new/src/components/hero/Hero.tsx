@@ -44,11 +44,13 @@ const HERO_PRONUNCIATION = { Atharva: 'uh · thar · vuh' }
 interface HeroProps {
   shouldPauseBlobs?: boolean
   onBrowseWorkClick?: () => void
+  onGetInTouchClick?: () => void
 }
 
 export function Hero({
   shouldPauseBlobs = false,
   onBrowseWorkClick,
+  onGetInTouchClick,
 }: HeroProps) {
   return (
     <section
@@ -141,7 +143,17 @@ export function Hero({
             </div>
 
             {/* Right Link - Hover animation */}
-            <HoverLink href="#footer">Get in touch</HoverLink>
+            <HoverLink
+              href="#footer"
+              onClick={(e) => {
+                if (onGetInTouchClick) {
+                  e.preventDefault()
+                  onGetInTouchClick()
+                }
+              }}
+            >
+              Get in touch
+            </HoverLink>
           </motion.div>
         </motion.div>
       </div>

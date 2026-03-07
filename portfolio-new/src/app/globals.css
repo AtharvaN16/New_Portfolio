@@ -305,6 +305,53 @@
     }
   }
 
+  @keyframes shimmerScale {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Shimmer glow effect for titles */
+  .shimmer-glow {
+    display: inline-block;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.8) 20%,
+      rgba(255, 255, 255, 1) 50%,
+      rgba(255, 255, 255, 0.8) 80%,
+      rgba(255, 255, 255, 0.2) 100%
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: travelingGradient 3s ease-in-out infinite, shimmerScale 3s ease-in-out infinite;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.7), 0 0 5px rgba(255, 255, 255, 0.5);
+    transform-origin: left center;
+    transition: all 0.8s ease-in-out;
+  }
+
+  [data-theme='light'] .shimmer-glow {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.7) 20%,
+      rgba(0, 0, 0, 1) 50%,
+      rgba(0, 0, 0, 0.7) 80%,
+      rgba(0, 0, 0, 0.2) 100%
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.3), 0 0 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.8s ease-in-out;
+  }
+
   /* Resume link - traveling gradient applied by default */
   .footer-resume-link {
     background: linear-gradient(

@@ -22,6 +22,7 @@ interface HomeScrollResult {
   selectedWorkY: MotionValue<string>
   footerRevealProgress: MotionValue<number>
   handleBrowseWorkClick: () => void
+  handleGetInTouchClick: () => void
 }
 
 export function useHomeScroll(): HomeScrollResult {
@@ -274,6 +275,24 @@ export function useHomeScroll(): HomeScrollResult {
     requestAnimationFrame(scroll)
   }, [containerHeightVh, lenis])
 
+  const handleGetInTouchClick = useCallback(() => {
+    if (!containerRef.current || typeof window === 'undefined') return
+
+    const vh = window.innerHeight
+    const containerTop = containerRef.current.offsetTop
+    const containerHeightPx = (containerHeightVh / 100) * vh
+    const targetScrollY = containerTop + containerHeightPx - vh
+
+    if (lenis) {
+      lenis.scrollTo(targetScrollY, {
+        duration: 1.5,
+        easing: (t) => 1 - Math.pow(1 - t, 4), // Quartic ease out
+      })
+    } else {
+      window.scrollTo({ top: targetScrollY, behavior: 'smooth' })
+    }
+  }, [containerHeightVh, lenis])
+
   return {
     containerRef,
     selectedWorkRef,
@@ -288,5 +307,6 @@ export function useHomeScroll(): HomeScrollResult {
     selectedWorkY,
     footerRevealProgress,
     handleBrowseWorkClick,
+    handleGetInTouchClick,
   }
 }
