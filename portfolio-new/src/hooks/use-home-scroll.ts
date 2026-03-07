@@ -164,8 +164,6 @@ export function useHomeScroll(): HomeScrollResult {
     let timeoutId: NodeJS.Timeout
 
     const unsubscribe = scrollYProgress.on('change', () => {
-      if (!isDesktop) return
-
       clearTimeout(timeoutId)
 
       const progress = footerRevealProgress.get()
