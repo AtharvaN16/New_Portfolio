@@ -2,9 +2,10 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
-import { type ReactNode, useEffect, useState } from 'react'
+import { type ReactNode } from 'react'
 import { FrozenRouter } from './FrozenRouter'
 import { usePreviousValue } from '@/hooks/use-previous-value'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 interface PageSlideTransitionProps {
   children: ReactNode
@@ -22,48 +23,32 @@ const DURATION = 1.0
 export function PageSlideTransition({ children }: PageSlideTransitionProps) {
   const pathname = usePathname()
   const previousPathname = usePreviousValue(pathname)
-  const [isTransitioning, setIsTransitioning] = useState(false)
-  const [displayChildren, setDisplayChildren] = useState(children)
+  const { reducedMotion: prefersReducedMotion } = useAccessibility()
 
   const isSubPage = (path: string) => path === '/work' || path.startsWith('/case-studies/')
   const isHome = (path: string) => path === '/'
 
-  useEffect(() => {
-    if (!previousPathname) return
+  const isTransitioning = Boolean(
+    previousPathname &&
+      ((isSubPage(previousPathname) && isHome(pathname)) ||
+        (isHome(previousPathname) && isSubPage(pathname)))
+  )
 
-    // Case 1: Navigating from SubPage back to Home (Slide Down)
-    if (isSubPage(previousPathname) && isHome(pathname)) {
-      setIsTransitioning(true)
-    } 
-    // Case 2: Navigating from Home to SubPage (Slide Up)
-    else if (isHome(previousPathname) && isSubPage(pathname)) {
-      setIsTransitioning(true)
-    }
-
-    // Always update display children when not freezing
-    if (!isTransitioning) {
-      setDisplayChildren(children)
-    }
-  }, [pathname, previousPathname, children, isTransitioning])
-
-  const handleExitComplete = () => {
-    setIsTransitioning(false)
-    setDisplayChildren(children)
-  }
-
-  // If we're on a subpage, we want it to be able to exit with a slide down
-  const shouldAnimate = isSubPage(pathname) || (previousPathname && isSubPage(previousPathname))
+  const initialY = !prefersReducedMotion && isSubPage(pathname) && isHome(previousPathname || '') ? '100%' : 0
+  const initialOpacity = prefersReducedMotion ? 0 : 1
+  const exitY = !prefersReducedMotion && isSubPage(pathname) ? '100%' : 0
+  const exitOpacity = prefersReducedMotion ? 0 : 1
 
   return (
-    <AnimatePresence mode="popLayout" onExitComplete={handleExitComplete}>
+    <AnimatePresence mode="popLayout">
       <motion.div
         key={pathname}
-        initial={isSubPage(pathname) && isHome(previousPathname || '') ? { y: '100%' } : false}
-        animate={{ y: 0 }}
-        exit={isSubPage(pathname) ? { y: '100%' } : { y: 0 }}
+        initial={{ y: initialY, opacity: initialOpacity }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: exitY, opacity: exitOpacity }}
         transition={{
-          duration: DURATION,
-          ease: TRANSITION_EASE,
+          duration: prefersReducedMotion ? 0.4 : DURATION,
+          ease: prefersReducedMotion ? 'easeOut' : TRANSITION_EASE,
         }}
         style={{
           width: '100%',

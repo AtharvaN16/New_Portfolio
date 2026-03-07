@@ -2,7 +2,7 @@
 
 import { Expand } from '@theme-toggles/react'
 import '@theme-toggles/react/css/Expand.css'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
@@ -27,6 +27,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- Required to avoid createPortal access before document is available.
     setMounted(true)
   }, [])
 

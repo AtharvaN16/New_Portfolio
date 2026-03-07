@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useTheme } from '@/components/providers/ThemeProvider'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Expand } from '@theme-toggles/react'
 import '@theme-toggles/react/css/Expand.css'
 import { useBreakpoint } from '@/hooks/use-breakpoint'

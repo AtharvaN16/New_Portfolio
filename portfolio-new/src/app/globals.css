@@ -442,3 +442,35 @@
     font-weight: 300 !important;
   }
 }
+
+/* Accessibility Overrides */
+:root.dyslexia-font {
+  --font-geist-sans: 'OpenDyslexic', sans-serif !important;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://opendyslexic.org/font/OpenDyslexic-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root.high-contrast {
+  --color-text-secondary: var(--color-text-primary);
+  --color-text-tertiary: var(--color-text-primary);
+  --color-text-color30: var(--color-text-primary);
+  --color-text-color60: var(--color-text-primary);
+  --color-text-color70: var(--color-text-primary);
+  --color-text-color90: var(--color-text-primary);
+  filter: contrast(1.1);
+}
+
+:root.high-contrast .opacity-40,
+:root.high-contrast .opacity-50,
+:root.high-contrast .opacity-60,
+:root.high-contrast .opacity-70,
+:root.high-contrast .opacity-80 {
+  opacity: 1 !important;
+}
+
