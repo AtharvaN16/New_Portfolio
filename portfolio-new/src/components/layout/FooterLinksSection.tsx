@@ -13,12 +13,14 @@ interface FooterLinksSectionProps {
   sectionOpacity: MotionValue<number>
   sectionY: MotionValue<number>
   playShimmer: boolean
+  onOpenAccessibility?: () => void
 }
 
 export function FooterLinksSection({
   sectionOpacity,
   sectionY,
   playShimmer,
+  onOpenAccessibility,
 }: FooterLinksSectionProps) {
   const { copyEmail, isCopied } = useEmailCopy()
 
@@ -53,6 +55,22 @@ export function FooterLinksSection({
               </li>
             )
           })}
+          {onOpenAccessibility && (
+            <li key="accessibility">
+              <button
+                onClick={onOpenAccessibility}
+                className={cn(
+                  'footer-link group relative inline-block',
+                  'text-sm md:text-base text-text-secondary',
+                  'focus-visible:outline-none focus-visible:ring-2',
+                  'focus-visible:ring-primary focus-visible:ring-offset-2 rounded text-left'
+                )}
+              >
+                Accessibility
+                <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full" />
+              </button>
+            </li>
+          )}
         </ul>
       </nav>
 

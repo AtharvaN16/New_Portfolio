@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { type ReactNode } from 'react'
 import { FrozenRouter } from './FrozenRouter'
 import { usePreviousValue } from '@/hooks/use-previous-value'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 interface PageSlideTransitionProps {
   children: ReactNode
@@ -22,6 +23,7 @@ const DURATION = 1.0
 export function PageSlideTransition({ children }: PageSlideTransitionProps) {
   const pathname = usePathname()
   const previousPathname = usePreviousValue(pathname)
+  const { reducedMotion: prefersReducedMotion } = useAccessibility()
 
   const isSubPage = (path: string) => path === '/work' || path.startsWith('/case-studies/')
   const isHome = (path: string) => path === '/'
@@ -32,16 +34,21 @@ export function PageSlideTransition({ children }: PageSlideTransitionProps) {
         (isHome(previousPathname) && isSubPage(pathname)))
   )
 
+  const initialY = !prefersReducedMotion && isSubPage(pathname) && isHome(previousPathname || '') ? '100%' : 0
+  const initialOpacity = prefersReducedMotion ? 0 : 1
+  const exitY = !prefersReducedMotion && isSubPage(pathname) ? '100%' : 0
+  const exitOpacity = prefersReducedMotion ? 0 : 1
+
   return (
     <AnimatePresence mode="popLayout">
       <motion.div
         key={pathname}
-        initial={isSubPage(pathname) && isHome(previousPathname || '') ? { y: '100%' } : false}
-        animate={{ y: 0 }}
-        exit={isSubPage(pathname) ? { y: '100%' } : { y: 0 }}
+        initial={{ y: initialY, opacity: initialOpacity }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: exitY, opacity: exitOpacity }}
         transition={{
-          duration: DURATION,
-          ease: TRANSITION_EASE,
+          duration: prefersReducedMotion ? 0.4 : DURATION,
+          ease: prefersReducedMotion ? 'easeOut' : TRANSITION_EASE,
         }}
         style={{
           width: '100%',

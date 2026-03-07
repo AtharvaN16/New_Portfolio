@@ -187,7 +187,9 @@ export function FooterMessageSection({
               }}
             >
               <motion.div variants={fieldVariants} className="relative">
+                <label htmlFor="footer-message" className="sr-only">Message</label>
                 <textarea
+                  id="footer-message"
                   name="message"
                   placeholder="Message"
                   rows={1}
@@ -211,7 +213,9 @@ export function FooterMessageSection({
 
                 <div className="space-y-8 !mt-4">
                   <motion.div variants={fieldVariants} className="relative">
+                    <label htmlFor="footer-linkedin" className="sr-only">LinkedIn Profile (Optional)</label>
                     <input
+                      id="footer-linkedin"
                       type="text"
                       name="linkedin"
                       placeholder="LinkedIn"
@@ -221,7 +225,9 @@ export function FooterMessageSection({
                   </motion.div>
 
                   <motion.div variants={fieldVariants} className="relative">
+                    <label htmlFor="footer-email" className="sr-only">Your Email Address (Optional)</label>
                     <input
+                      id="footer-email"
                       type="email"
                       name="email"
                       placeholder="Email"

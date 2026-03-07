@@ -5,6 +5,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { LenisProvider } from '@/components/providers/LenisProvider'
 import { ThemeScript } from '@/components/ThemeScript'
+import { AccessibilityProvider } from '@/components/providers/AccessibilityProvider'
 
 // Font Configuration
 const geistSans = Geist({
@@ -49,19 +50,21 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${mynerve.variable} font-sans antialiased`}
       >
-        <ThemeProvider>
-          <LenisProvider>
-            {/* Skip to main content link (accessibility) */}
-            <a
-              href="#main-content"
-              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
-            >
-              Skip to main content
-            </a>
+        <AccessibilityProvider>
+          <ThemeProvider>
+            <LenisProvider>
+              {/* Skip to main content link (accessibility) */}
+              <a
+                href="#main-content"
+                className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
+              >
+                Skip to main content
+              </a>
 
-            {children}
-          </LenisProvider>
-        </ThemeProvider>
+              {children}
+            </LenisProvider>
+          </ThemeProvider>
+        </AccessibilityProvider>
       </body>
     </html>
   )

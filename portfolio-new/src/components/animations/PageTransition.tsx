@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { FrozenRouter } from './FrozenRouter'
 import { useViewTransition } from '@/components/providers/ViewTransitionProvider'
 import { usePreviousValue } from '@/hooks/use-previous-value'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 interface PageTransitionProps {
   children: ReactNode
@@ -37,6 +38,7 @@ export function PageTransition({ children, className }: PageTransitionProps) {
   const pathname = usePathname()
   const previousPathname = usePreviousValue(pathname)
   const previousChildren = usePreviousValue(children)
+  const { reducedMotion: prefersReducedMotion } = useAccessibility()
 
   const { startTransition, endTransition } = useViewTransition()
 
@@ -148,12 +150,12 @@ export function PageTransition({ children, className }: PageTransitionProps) {
         {transitionState && (
           <motion.div
             key={transitionState.newPath}
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
+            initial={{ y: prefersReducedMotion ? 0 : '100%', opacity: prefersReducedMotion ? 0 : 1 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: prefersReducedMotion ? 0 : '100%', opacity: prefersReducedMotion ? 0 : 1 }}
             transition={{
-              duration: TRANSITION_DURATION,
-              ease: TRANSITION_EASE,
+              duration: prefersReducedMotion ? 0.4 : TRANSITION_DURATION,
+              ease: prefersReducedMotion ? 'easeOut' : TRANSITION_EASE,
             }}
             style={{
               position: 'fixed',

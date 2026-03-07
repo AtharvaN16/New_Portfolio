@@ -13,6 +13,7 @@ import { FooterClock } from './FooterClock'
 import { FooterSmog } from './FooterSmog'
 import { FooterLinksSection } from './FooterLinksSection'
 import { FooterMessageSection } from './FooterMessageSection'
+import { AccessibilityModal } from './AccessibilityModal'
 
 interface FooterProps {
   revealProgress?: MotionValue<number>
@@ -23,6 +24,8 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
   const fallbackProgress = useMotionValue(1)
   const progress = revealProgress ?? fallbackProgress
   const { isDesktop } = useBreakpoints()
+
+  const [isAccessibilityModalOpen, setIsAccessibilityModalOpen] = useState(false)
 
   const desktopOpacity = useTransform(progress, [0.8, 1.0], [0, 1])
   const desktopY = useTransform(progress, [0.8, 1.0], [25, 0])
@@ -102,6 +105,7 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
             sectionOpacity={sectionOpacity}
             sectionY={sectionY}
             playShimmer={playShimmer}
+            onOpenAccessibility={() => setIsAccessibilityModalOpen(true)}
           />
 
           <motion.div
@@ -129,6 +133,11 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
           })}
         </p>
       </div>
+
+      <AccessibilityModal 
+        isOpen={isAccessibilityModalOpen} 
+        onClose={() => setIsAccessibilityModalOpen(false)} 
+      />
     </footer>
   )
 }

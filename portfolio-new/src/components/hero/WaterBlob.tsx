@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useMemo } from 'react'
 import { useTheme } from '@/components/providers/ThemeProvider'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 import {
   setupWebGL,
   createAnimationLoop,
@@ -39,8 +40,8 @@ export function WaterBlob({
 }: WaterBlobProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { theme } = useTheme()
+  const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
   const [hasWebGL, setHasWebGL] = useState(true)
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
   const [retryKey, setRetryKey] = useState(0)
 
   // Interactive mode state
@@ -52,10 +53,10 @@ export function WaterBlob({
   )
 
   // Track paused state in ref so animation loop can check current value
-  const pausedRef = useRef(paused)
+  const pausedRef = useRef(paused || pauseWebGL)
   useEffect(() => {
-    pausedRef.current = paused
-  }, [paused])
+    pausedRef.current = paused || pauseWebGL
+  }, [paused, pauseWebGL])
 
   // Mutable color objects for smooth interpolation.
   // displayColors is mutated in-place each frame; the animation loop closure
@@ -128,18 +129,6 @@ export function WaterBlob({
     gradientAnimFrameRef,
   })
 
-  // Check for reduced motion preference
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Syncing with external media query on mount
-    setPrefersReducedMotion(mediaQuery.matches)
-
-    const handleChange = (e: MediaQueryListEvent) =>
-      setPrefersReducedMotion(e.matches)
-    mediaQuery.addEventListener('change', handleChange)
-    return () => mediaQuery.removeEventListener('change', handleChange)
-  }, [])
-
   // WebGL setup and animation.
   // Only re-runs on theme or reduced-motion changes (not palette changes).
   // Palette transitions are handled by lerping displayColors toward targetColors
@@ -149,7 +138,8 @@ export function WaterBlob({
       !canvasRef.current ||
       !displayColorsRef.current ||
       !targetColorsRef.current ||
-      prefersReducedMotion
+      prefersReducedMotion ||
+      pauseWebGL
     )
       return
 
@@ -247,7 +237,7 @@ export function WaterBlob({
       }
       webglInitializedRef.current = false
     }
-  }, [prefersReducedMotion, theme, retryKey]) // colors removed — lerped via refs
+  }, [prefersReducedMotion, theme, retryKey, pauseWebGL]) // colors removed — lerped via refs
 
   // Handle canvas resize
   useEffect(() => {
@@ -264,12 +254,12 @@ export function WaterBlob({
     setPaletteIndex(nextIndex)
   }
 
-  // Show CSS fallback if WebGL not supported or reduced motion
-  if (!hasWebGL || prefersReducedMotion) {
+  // Show CSS fallback if WebGL not supported or reduced motion or paused
+  if (!hasWebGL || prefersReducedMotion || pauseWebGL) {
     return (
       <div
         className={`w-full h-full ${theme === 'dark' ? 'hero-gradient-dark' : 'hero-gradient-light'} ${className}`}
-        aria-label="Decorative gradient background"
+        aria-hidden="true"
       />
     )
   }
@@ -286,13 +276,7 @@ export function WaterBlob({
             }
           : undefined
       }
-      aria-label={
-        interactive
-          ? 'Interactive animated gradient - click to change colors'
-          : 'Animated gradient background'
-      }
-      role={interactive ? 'button' : undefined}
-      tabIndex={interactive ? 0 : undefined}
+      aria-hidden="true"
     />
   )
 }
