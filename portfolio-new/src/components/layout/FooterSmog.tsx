@@ -31,7 +31,7 @@ export function FooterSmog({ visible }: FooterSmogProps) {
 
   return (
     <div
-      className="absolute top-0 left-0 right-0 h-[120px] pointer-events-none z-0 overflow-hidden"
+      className="absolute top-0 left-0 right-0 h-[160px] md:h-[120px] pointer-events-none z-0 overflow-hidden"
       aria-hidden="true"
     >
       {/* Layer 1: Original CSS color glow */}
