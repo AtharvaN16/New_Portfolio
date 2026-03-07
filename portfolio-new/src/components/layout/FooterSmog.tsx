@@ -68,6 +68,7 @@ function CSSGlow({
     >
       {/* Base wash */}
       <div
+        suppressHydrationWarning
         className="absolute inset-0"
         style={{
           background: `linear-gradient(to right, rgb(var(--color-gradient-start) / ${baseAlpha}), rgb(var(--color-gradient-end) / 0.15))`,
@@ -80,6 +81,7 @@ function CSSGlow({
 
       {/* Swell 1 */}
       <motion.div
+        suppressHydrationWarning
         className="absolute -inset-x-[5%] inset-y-0"
         animate={{ x: ['0%', '6%', '0%'] }}
         transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
@@ -91,6 +93,7 @@ function CSSGlow({
 
       {/* Swell 2 */}
       <motion.div
+        suppressHydrationWarning
         className="absolute -inset-x-[5%] inset-y-0"
         animate={{ x: ['0%', '-5%', '0%'], opacity: [0.8, 1, 0.8] }}
         transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
@@ -102,6 +105,7 @@ function CSSGlow({
 
       {/* Swell 3 */}
       <motion.div
+        suppressHydrationWarning
         className="absolute -inset-x-[10%] inset-y-0"
         animate={{ x: ['-3%', '10%', '-3%'], opacity: [0.5, 1, 0.5] }}
         transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}

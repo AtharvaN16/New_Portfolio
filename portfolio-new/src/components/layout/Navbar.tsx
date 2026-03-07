@@ -92,8 +92,9 @@ export function Navbar() {
               <Expand
                 toggled={theme === 'light'}
                 toggle={toggleTheme}
-                duration={750}
+                duration={350}
                 reversed
+                idPrefix="navbar-"
                 className="h-11 w-11 text-[22px] scale-x-[-1] rounded-full bg-surface hover:bg-surface-elevated transition-colors duration-200 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-text-primary"
                 aria-label="Toggle theme"
               />
