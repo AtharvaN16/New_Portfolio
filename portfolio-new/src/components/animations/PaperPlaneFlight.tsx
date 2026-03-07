@@ -26,7 +26,7 @@ export const PaperPlaneFlight = forwardRef<PaperPlaneFlightRef, PaperPlaneFlight
 
     // Path data: Straight line at 45 degrees
     const flightPathD = "M 0,0 L 1500,-1500"
-    const PLANE_SIZE = 36
+    const PLANE_SIZE = 28
     // Nose tip in SVG (23x23) is ~ (21.3, 2.8)
     // Scaled to PLANE_SIZE: (21.3 * 36/23, 2.8 * 36/23) = (33.3, 4.4)
     const NOSE_OFFSET_X = (21.3 * PLANE_SIZE) / 23
@@ -52,7 +52,7 @@ export const PaperPlaneFlight = forwardRef<PaperPlaneFlightRef, PaperPlaneFlight
         
         // Setup simple trail: a dash that follows the plane
         const trailLength = 80
-        const gap = 34 // distance from nose to tail
+        const gap = 26 // distance from nose to tail (scaled for PLANE_SIZE 28)
         const initialOffset = trailLength + gap
         
         gsap.set(path, { 
