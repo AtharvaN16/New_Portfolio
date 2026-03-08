@@ -12,6 +12,7 @@ interface HomeScrollResult {
   containerRef: React.RefObject<HTMLDivElement | null>
   selectedWorkRef: React.RefObject<HTMLDivElement | null>
   footerRef: React.RefObject<HTMLDivElement | null>
+  scrollYProgress: MotionValue<number>
   shouldPauseBlobs: boolean
   containerHeightVh: number
   heroContentY: MotionValue<string>
@@ -37,6 +38,7 @@ export function useHomeScroll(): HomeScrollResult {
 
   useEffect(() => {
     let rafId: number | null = null
+    let resizeObserver: ResizeObserver | null = null
 
     const measureHeight = () => {
       if (selectedWorkRef.current) {
@@ -58,11 +60,28 @@ export function useHomeScroll(): HomeScrollResult {
     measureHeight()
     window.addEventListener('resize', handleResize)
 
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(() => {
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId)
+        }
+        rafId = requestAnimationFrame(measureHeight)
+      })
+
+      if (selectedWorkRef.current) {
+        resizeObserver.observe(selectedWorkRef.current)
+      }
+      if (footerRef.current) {
+        resizeObserver.observe(footerRef.current)
+      }
+    }
+
     const timeout = setTimeout(measureHeight, 100)
 
     return () => {
       window.removeEventListener('resize', handleResize)
       clearTimeout(timeout)
+      resizeObserver?.disconnect()
       if (rafId !== null) {
         cancelAnimationFrame(rafId)
       }
@@ -271,6 +290,7 @@ export function useHomeScroll(): HomeScrollResult {
     containerRef,
     selectedWorkRef,
     footerRef,
+    scrollYProgress,
     shouldPauseBlobs,
     containerHeightVh,
     heroContentY,

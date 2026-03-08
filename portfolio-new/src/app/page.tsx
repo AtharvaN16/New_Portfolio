@@ -57,6 +57,7 @@ export default function Home() {
     containerRef,
     selectedWorkRef,
     footerRef,
+    scrollYProgress,
     shouldPauseBlobs,
     containerHeightVh,
     heroContentY,
@@ -120,7 +121,11 @@ export default function Home() {
         >
           <div ref={selectedWorkRef}>
             <div className="px-6 2xl:px-[140px] pt-12 pb-20">
-              <SelectedWork />
+              <SelectedWork
+                enableHomeCardRecede
+                homeScrollProgress={scrollYProgress}
+                desktopSpacingScale={1.12}
+              />
             </div>
           </div>
         </motion.div>

@@ -1,8 +1,16 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import Image from 'next/image'
+import {
+  motion,
+  useAnimationFrame,
+  useMotionValue,
+  useTransform,
+  type MotionValue,
+} from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
+import { useBreakpoint } from '@/hooks/use-breakpoint'
 
 export interface ProjectCardProps {
   title: string
@@ -19,6 +27,8 @@ export interface ProjectCardProps {
   className?: string
   slug?: string // Optional slug for linking to case study page
   cardHeight?: string // Optional custom height (e.g., 'h-[400px] md:h-[500px]')
+  recedeEffect?: 'none' | 'homeDesktop'
+  homeScrollProgress?: MotionValue<number>
 }
 
 export function ProjectCard({
@@ -36,8 +46,71 @@ export function ProjectCard({
   className,
   slug,
   cardHeight,
+  recedeEffect = 'none',
+  homeScrollProgress: _homeScrollProgress,
 }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const cardRef = useRef<HTMLElement>(null)
+  const isDesktop = useBreakpoint('lg')
+  const edgeProgress = useMotionValue(0)
+
+  const shouldApplyRecede = recedeEffect === 'homeDesktop' && isDesktop
+
+  const updateEdgeProgress = useCallback(() => {
+    if (!shouldApplyRecede || !cardRef.current) {
+      edgeProgress.set(0)
+      return
+    }
+
+    const rect = cardRef.current.getBoundingClientRect()
+    const visibleHeight =
+      Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0)
+    const clampedVisibleHeight = Math.max(0, visibleHeight)
+    const cardHeightPx = Math.max(rect.height, 1)
+    const visibleRatio = clampedVisibleHeight / cardHeightPx
+
+    const isExitingTop = rect.top < 0
+    const isEnteringBottom = rect.bottom > window.innerHeight
+
+    if ((!isExitingTop && !isEnteringBottom) || visibleRatio > 0.25) {
+      edgeProgress.set(0)
+      return
+    }
+
+    // 0 progress at 25% visible, 1 progress at 5% visible.
+    const progress = (0.25 - visibleRatio) / 0.2
+    edgeProgress.set(Math.min(1, Math.max(0, progress)))
+  }, [edgeProgress, shouldApplyRecede])
+
+  useAnimationFrame(() => {
+    if (!shouldApplyRecede) return
+    updateEdgeProgress()
+  })
+
+  const z = useTransform(
+    edgeProgress,
+    [0, 1],
+    shouldApplyRecede ? ['0px', '-100px'] : ['0px', '0px']
+  )
+
+  const scale = useTransform(
+    edgeProgress,
+    [0, 1],
+    shouldApplyRecede ? [1, 0.96] : [1, 1]
+  )
+
+  const blurValue = useTransform(
+    edgeProgress,
+    [0, 1],
+    shouldApplyRecede ? ['0px', '20px'] : ['0px', '0px']
+  )
+  const filter = useTransform(blurValue, (v) => `blur(${v})`)
+
+  const overlayOpacity = useTransform(
+    edgeProgress,
+    [0, 1],
+    shouldApplyRecede ? [0, 0.6] : [0, 0]
+  )
 
   const handleClick = () => {
     if (slug) {
@@ -48,7 +121,8 @@ export function ProjectCard({
   }
 
   return (
-    <article
+    <motion.article
+      ref={cardRef}
       className={cn('group flex flex-col', slug && 'cursor-pointer', className)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -61,6 +135,15 @@ export function ProjectCard({
           handleClick()
         }
       }}
+      style={
+        shouldApplyRecede
+          ? {
+              scale,
+              z,
+              filter,
+            }
+          : undefined
+      }
     >
       {/* Card - Responsive height, or flex-1 to fill container when h-full is passed */}
       <div
@@ -93,6 +176,17 @@ export function ProjectCard({
             />
           )}
         </div>
+
+        {/* Melting Overlay - Matches background for receding effect */}
+        {shouldApplyRecede && (
+          <motion.div
+            className="absolute inset-0 z-20 pointer-events-none"
+            style={{
+              backgroundColor: 'rgb(var(--color-background))',
+              opacity: overlayOpacity,
+            }}
+          />
+        )}
 
         {/* Overlay - Appears on Hover - CSS transition for performance */}
         <div
@@ -144,6 +238,6 @@ export function ProjectCard({
           </span>
         </div>
       </div>
-    </article>
+    </motion.article>
   )
 }

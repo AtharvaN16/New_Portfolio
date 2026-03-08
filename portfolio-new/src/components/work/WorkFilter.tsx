@@ -129,7 +129,7 @@ export function WorkFilter({
       {/* Empty State */}
       {filteredProjects.length === 0 && (
         <div className="py-20 text-center">
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-text-tertiary">
             No projects found with this filter.
           </p>
         </div>

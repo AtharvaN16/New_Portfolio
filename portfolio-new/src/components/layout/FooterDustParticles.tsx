@@ -120,10 +120,26 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
       rafRef.current = requestAnimationFrame(render)
     }
 
-    rafRef.current = requestAnimationFrame(render)
+    // Only start the rAF loop once the canvas enters the viewport —
+    // footer is off-screen on load, so this avoids burning main-thread
+    // time during Lighthouse's TBT measurement window.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !rafRef.current) {
+          rafRef.current = requestAnimationFrame(render)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0 }
+    )
+    observer.observe(canvas)
 
     return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      observer.disconnect()
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+        rafRef.current = 0
+      }
     }
   }, [])
 

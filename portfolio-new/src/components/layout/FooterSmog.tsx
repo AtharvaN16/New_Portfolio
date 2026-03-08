@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { motion, useInView } from 'framer-motion'
 import { FooterDustParticles } from './FooterDustParticles'
 import { useBreakpoints } from '@/hooks/use-breakpoint'
 
@@ -59,8 +59,14 @@ function CSSGlow({
   const swell2Alpha = isDesktop ? '0.35' : '0.55'
   const swell3Alpha = isDesktop ? '0.3' : '0.5'
 
+  // Gate infinite swell animations on viewport — footer is off-screen on load,
+  // so these loops would otherwise run during Lighthouse's TBT window.
+  const glowRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(glowRef, { once: false })
+
   return (
     <motion.div
+      ref={glowRef}
       className="absolute inset-0"
       animate={{ opacity: visible ? 1 : 0 }}
       transition={{ duration: 1.2, ease: 'easeOut' }}
@@ -83,8 +89,8 @@ function CSSGlow({
       <motion.div
         suppressHydrationWarning
         className="absolute -inset-x-[5%] inset-y-0"
-        animate={{ x: ['0%', '6%', '0%'] }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+        animate={isInView ? { x: ['0%', '6%', '0%'] } : { x: '0%' }}
+        transition={{ duration: 14, repeat: isInView ? Infinity : 0, ease: 'easeInOut' }}
         style={{
           background: `radial-gradient(ellipse 35% 110% at 28% 0%, rgb(var(--color-gradient-start) / ${swell1Alpha}) 0%, transparent 70%)`,
           filter: 'blur(30px)',
@@ -95,8 +101,8 @@ function CSSGlow({
       <motion.div
         suppressHydrationWarning
         className="absolute -inset-x-[5%] inset-y-0"
-        animate={{ x: ['0%', '-5%', '0%'], opacity: [0.8, 1, 0.8] }}
-        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+        animate={isInView ? { x: ['0%', '-5%', '0%'], opacity: [0.8, 1, 0.8] } : { x: '0%', opacity: 0.8 }}
+        transition={{ duration: 18, repeat: isInView ? Infinity : 0, ease: 'easeInOut' }}
         style={{
           background: `radial-gradient(ellipse 30% 75% at 72% 0%, rgb(var(--color-gradient-end) / ${swell2Alpha}) 0%, transparent 70%)`,
           filter: 'blur(35px)',
@@ -107,8 +113,8 @@ function CSSGlow({
       <motion.div
         suppressHydrationWarning
         className="absolute -inset-x-[10%] inset-y-0"
-        animate={{ x: ['-3%', '10%', '-3%'], opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+        animate={isInView ? { x: ['-3%', '10%', '-3%'], opacity: [0.5, 1, 0.5] } : { x: '-3%', opacity: 0.5 }}
+        transition={{ duration: 22, repeat: isInView ? Infinity : 0, ease: 'easeInOut' }}
         style={{
           background: `radial-gradient(ellipse 25% 90% at 50% 0%, rgb(var(--color-gradient-start) / ${swell3Alpha}) 0%, transparent 65%)`,
           filter: 'blur(28px)',
