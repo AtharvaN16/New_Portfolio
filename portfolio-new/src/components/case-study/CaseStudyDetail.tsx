@@ -227,11 +227,10 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
                   priority
                 />
                 <div
-                  className="absolute inset-0 bg-black pointer-events-none transition-opacity duration-500 ease-out"
-                  style={{ opacity: heroOverlayOpacity * HERO_OVERLAY_MAX_OPACITY }}
-                  aria-hidden
-                />
-              </div>
+                   className="absolute inset-0 bg-background pointer-events-none transition-opacity duration-500 ease-out"
+                   style={{ opacity: heroOverlayOpacity * HERO_OVERLAY_MAX_OPACITY }}
+                   aria-hidden
+                 />              </div>
             </div>
           ) : (
             <div className="text-center py-20 md:py-0">
