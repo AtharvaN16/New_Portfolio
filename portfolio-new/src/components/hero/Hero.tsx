@@ -103,7 +103,7 @@ export function Hero({
                   <span className="block md:inline text-text-secondary font-medium">
                     Currently,{' '}
                   </span>
-                  <span style={{ color: 'rgb(var(--color-text-color60))' }}>
+                  <span style={{ color: 'rgb(var(--color-text-color70))' }}>
                     MS in Human-Computer Interaction at Pratt Institute.
                   </span>
                 </motion.div>

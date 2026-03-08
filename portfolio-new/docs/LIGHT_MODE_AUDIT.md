@@ -346,21 +346,21 @@ Based on the audit, here is the recommended order of implementation, categorized
 ### Phase 1: Low Risk (Accessibility & Text Contrast)
 *Objective: Fix WCAG failures and text legibility with surgical CSS/component property changes.*
 
-- [ ] **1. Footer Bottom Bar (Issue 4):** Increase contrast of copyright/date text (currently `#b9b9b9` on `#f0f0f0` = ~1.7:1). Use `--color-text-color60` or higher.
-- [ ] **2. ProjectCard Metadata (Issue 5):** Bump contrast for tags and year (currently `#8b8b8b` on `#fafcfe` = ~3.1:1). Use `--color-text-color70`.
-- [ ] **3. Case Study List Descriptions (Issue 7):** Fix contrast in `prose-theme.css` for bulleted sub-text.
-- [ ] **4. Hero Subtext (Issue 8):** Increase contrast for "MS in Human-Computer Interaction..." by changing from `color-text-color60` to `color-text-color70`.
-- [ ] **5. AnimatedLink Default (Issue 9):** Adjust default color from `color-text-color60` to `color-text-color70`.
-- [ ] **6. WorkFilter Empty State (Issue 11):** Replace undefined `text-muted-foreground` with `text-text-tertiary`.
-- [ ] **7. Prose Section Headers (Issue 14):** Increase contrast for uppercase headers like "PROJECT OVERVIEW".
+- [x] **1. Footer Bottom Bar (Issue 4):** Increase contrast of copyright/date text (currently `#b9b9b9` on `#f0f0f0` = ~1.7:1). Use `--color-text-color60` or higher.
+- [x] **2. ProjectCard Metadata (Issue 5):** Bump contrast for tags and year (currently `#8b8b8b` on `#fafcfe` = ~3.1:1). Use `--color-text-color70`.
+- [x] **3. Case Study List Descriptions (Issue 7):** Fix contrast in `prose-theme.css` for bulleted sub-text.
+- [x] **4. Hero Subtext (Issue 8):** Increase contrast for "MS in Human-Computer Interaction..." by changing from `color-text-color60` to `color-text-color70`.
+- [x] **5. AnimatedLink Default (Issue 9):** Adjust default color from `color-text-color60` to `color-text-color70`.
+- [x] **6. WorkFilter Empty State (Issue 11):** Replace undefined `text-muted-foreground` with `text-text-tertiary`.
+- [x] **7. Prose Section Headers (Issue 14):** Increase contrast for uppercase headers like "PROJECT OVERVIEW".
 
 ### Phase 2: Medium Risk (UI Logic & Structure)
 *Objective: Fix interactive states, themed overlays, and component-level visual polish.*
 
-- [ ] **8. NavButton Theme Variant (Issue 10):** Fix the `dark:` variant mismatch by ensuring Tailwind responds to `[data-theme='dark']`.
-- [ ] **9. Case Study Hero Overlay (Issue 13):** Replace hardcoded `bg-black` with `bg-background` for a smoother, theme-aware scroll transition.
-- [ ] **10. Project Card Elevation:** Add a subtle shadow in light mode (`shadow-sm` on card, `shadow-md` on hover) to improve depth perception.
-- [ ] **11. Design Token Refinement:** Slightly darken the light mode footer (`#e8e8e8`) and add a subtle warmth to the page background (`#fafaf8`).
+- [x] **8. NavButton Theme Variant (Issue 10):** Fix the `dark:` variant mismatch by ensuring Tailwind responds to `[data-theme='dark']`.
+- [x] **9. Case Study Hero Overlay (Issue 13):** Replace hardcoded `bg-black` with `bg-background` for a smoother, theme-aware scroll transition.
+- [x] **10. Project Card Elevation:** Add a subtle shadow in light mode (`shadow-sm` on card, `shadow-md` on hover) to improve depth perception.
+- [x] **11. Design Token Refinement:** Slightly darken the light mode footer (`#e8e8e8`) and add a subtle warmth to the page background (`#fafaf8`).
 
 ### Phase 3: High Risk (Visual Effects & Shaders)
 *Objective: Address complex canvas logic, shaders, and advanced light-mode physics.*
@@ -369,11 +369,11 @@ Based on the audit, here is the recommended order of implementation, categorized
 - [ ] **13. Footer Smog/Glow (Issue 6):** Adjust gradient opacities and blur for light mode to prevent the "muddy" appearance.
 - [ ] **14. Hero Gradient Opacity (Issue 12):** Reduce light mode radial gradient opacities (from 70-85% down to 55-70%).
 - [ ] **15. WaterBlob Shader Physics (Deep Dive):**
-    - Implement `mix-blend-mode: multiply` on the canvas for "ink-on-paper" physics.
-    - Update `uBackgroundColor` in light mode to pure white to support blending.
-    - Reduce shader saturation to prevent color clipping in light mode.
-    - Implement pigment edge darkening (the "watercolor signature").
-    - Replace additive glow with subtle depth darkening in light mode.
+    - [ ] Implement `mix-blend-mode: multiply` on the canvas for "ink-on-paper" physics.
+    - [ ] Update `uBackgroundColor` in light mode to pure white to support blending.
+    - [ ] Reduce shader saturation to prevent color clipping in light mode.
+    - [ ] Implement pigment edge darkening (the "watercolor signature").
+    - [ ] Replace additive glow with subtle depth darkening in light mode.
 
 ---
 

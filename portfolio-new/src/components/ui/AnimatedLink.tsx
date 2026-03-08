@@ -92,7 +92,7 @@ export function AnimatedLink({
       onClick={handleClick}
       className={`group inline-flex items-center gap-2 text-[16px] font-normal hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded px-2 py-1 ${className}`}
       style={{ color: 'rgb(var(--color-text-color70))' }}
-    >
+      >
       {children}
 
       {variant === 'default' && (
