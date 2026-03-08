@@ -188,6 +188,7 @@ export function WaterBlob({
     const animate = createAnimationLoop(gl, programInfo, display)
 
     let animationId: number
+    let startTimeoutId: ReturnType<typeof setTimeout>
     let isPausedByDialog = false
     // Accumulated animation time — only advances when not paused,
     // so the blobs resume from exactly where they froze.
@@ -210,7 +211,13 @@ export function WaterBlob({
       }
       animationId = requestAnimationFrame(loop)
     }
-    requestAnimationFrame(loop)
+
+    // Defer loop start to match the blob's CSS fade-in delay (1400ms).
+    // The blob is fully transparent until then, so no visual change —
+    // but this keeps the main thread quiet during Lighthouse's TBT window.
+    startTimeoutId = setTimeout(() => {
+      animationId = requestAnimationFrame(loop)
+    }, 1400)
 
     // Pause/resume handlers for dialog transitions
     const handlePause = () => {
@@ -225,6 +232,7 @@ export function WaterBlob({
     window.addEventListener('dialog:closed', handleResume)
 
     return () => {
+      clearTimeout(startTimeoutId)
       cancelAnimationFrame(animationId)
       window.removeEventListener('workdialog:check', handlePause)
       window.removeEventListener('casestudydialog:check', handlePause)

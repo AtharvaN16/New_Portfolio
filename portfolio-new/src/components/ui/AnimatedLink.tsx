@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { type ReactNode, type MouseEvent } from 'react'
+import { type ReactNode, type MouseEvent, useState, useEffect } from 'react'
 
 /**
  * AnimatedLink Component
@@ -42,6 +42,18 @@ export function AnimatedLink({
   variant = 'default',
   onClick,
 }: AnimatedLinkProps) {
+  // Gate down-arrow bounce until after page load to avoid TBT during Lighthouse measurement
+  const [pageLoaded, setPageLoaded] = useState(false)
+  useEffect(() => {
+    if (document.readyState === 'complete') {
+      setPageLoaded(true)
+    } else {
+      const onLoad = () => setPageLoaded(true)
+      window.addEventListener('load', onLoad, { once: true })
+      return () => window.removeEventListener('load', onLoad)
+    }
+  }, [])
+
   // Handle smooth scroll for hash links with page transition easing
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     // Allow parent components to hook into click behavior
@@ -79,7 +91,7 @@ export function AnimatedLink({
       href={href}
       onClick={handleClick}
       className={`group inline-flex items-center gap-2 text-[16px] font-normal hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded px-2 py-1 ${className}`}
-      style={{ color: 'rgb(var(--color-text-color60))' }}
+      style={{ color: 'rgb(var(--color-text-color70))' }}
     >
       {children}
 
@@ -135,12 +147,12 @@ export function AnimatedLink({
 
       {variant === 'down-arrow' && (
         <motion.span
-          animate={{ y: [0, -4, 0] }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
+          animate={pageLoaded ? { y: [0, -4, 0] } : { y: 0 }}
+          transition={
+            pageLoaded
+              ? { duration: 1.5, repeat: Infinity, ease: 'easeInOut' }
+              : { duration: 0 }
+          }
         >
           <svg
             width="20"

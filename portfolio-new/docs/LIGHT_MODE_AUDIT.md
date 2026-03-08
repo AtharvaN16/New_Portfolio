@@ -6,6 +6,27 @@
 
 ---
 
+## Implementation Progress
+
+Updated: March 8, 2026
+
+- [x] ~~1. RatingModal: Hardcoded Dark Background~~ (`rating/` module removed as dead code)
+- [ ] 2. FooterDustParticles: White Particles on Light Background
+- [x] ~~3. AccessibilityModal: Toggle Knob Invisible in Inactive State~~
+- [x] ~~4. Footer Bottom Bar: Text is Nearly Invisible~~
+- [x] ~~5. ProjectCard Tags + Year: Insufficient Contrast~~
+- [ ] 6. FooterSmog / CSSGlow: Effect Breaks Down in Light Mode
+- [x] ~~7. Case Study List Item Descriptions: Contrast Failure~~
+- [ ] 8. Hero Subtext: Borderline Contrast
+- [x] ~~9. AnimatedLink Default Color: Same Borderline Issue~~
+- [ ] 10. NavButton: `dark:` Prefix Doesn't Match Theme System
+- [x] ~~11. WorkFilter Empty State: Undefined Token~~
+- [ ] 12. Hero Gradient Background Opacity: Heavy in Light Mode
+- [ ] 13. Case Study Hero: Hardcoded Black Overlay
+- [x] ~~14. `section-header` Color in Prose: Tertiary at Low Contrast~~
+
+---
+
 ## Executive Summary
 
 Light mode was clearly designed as a secondary concern. The dark mode implementation is polished, but light mode has **3 critical bugs**, **4 high-severity issues**, and several medium/low concerns. The most acute problems are broken component backgrounds, nearly invisible text at the footer, and dust particles designed exclusively for dark backgrounds.
@@ -25,7 +46,7 @@ Light mode was clearly designed as a secondary concern. The dark mode implementa
 
 ## Critical Issues
 
-### 1. RatingModal: Hardcoded Dark Background
+### 1. ~~RatingModal: Hardcoded Dark Background~~
 
 **File:** `src/components/layout/rating/RatingModal.tsx:55`
 
@@ -33,9 +54,11 @@ Light mode was clearly designed as a secondary concern. The dark mode implementa
 className="... bg-black/50"
 ```
 
-The rating modal uses a hardcoded `bg-black/50` background. In light mode, this renders as a dark gray semi-transparent panel sliding in from the left of a white/light page. It looks completely broken — like a dark overlay from a different app.
+The rating modal used a hardcoded `bg-black/50` background. In light mode, this rendered as a dark gray semi-transparent panel sliding in from the left of a white/light page.
 
-**Fix:** Replace with a theme-aware background.
+**Status (March 8, 2026):** This component set was unused and has been removed (`src/components/layout/rating/` deleted), so this issue is no longer applicable.
+
+**Alternative fix (if reintroduced):** Replace with a theme-aware background.
 ```tsx
 // Use surface with backdrop-blur instead
 className="... bg-surface/90 backdrop-blur-xl border-r border-border"
@@ -316,21 +339,41 @@ The scroll-driven overlay that darkens the hero image as you scroll is hardcoded
 
 ---
 
-## Recommended Fix Priority
+## Phased Fix Plan
 
-| Priority | Issue | Files |
-|----------|-------|-------|
-| Fix immediately | RatingModal dark background | `RatingModal.tsx` |
-| Fix immediately | Dust particles invisible in light mode | `FooterDustParticles.tsx` |
-| Fix immediately | Accessibility toggle off state invisible | `AccessibilityModal.tsx` |
-| Fix soon | Footer copyright text contrast (#b9b9b9) | `Footer.tsx` |
-| Fix soon | ProjectCard tags contrast (#8b8b8b) | `ProjectCard.tsx` |
-| Fix soon | Case study list descriptions contrast | `prose-theme.css` |
-| Fix soon | FooterSmog looks muddy in light mode | `FooterSmog.tsx` |
-| Consider | NavButton `dark:` vs data-attribute | `NavButton.tsx` |
-| Consider | `text-muted-foreground` undefined token | `WorkFilter.tsx` |
-| Consider | Hero subtext mobile contrast | `Hero.tsx` |
-| Low | Hero gradient opacity levels | `globals.css` |
+Based on the audit, here is the recommended order of implementation, categorized by danger level (impact on core systems/shading vs simple CSS/component fixes).
+
+### Phase 1: Low Risk (Accessibility & Text Contrast)
+*Objective: Fix WCAG failures and text legibility with surgical CSS/component property changes.*
+
+- [ ] **1. Footer Bottom Bar (Issue 4):** Increase contrast of copyright/date text (currently `#b9b9b9` on `#f0f0f0` = ~1.7:1). Use `--color-text-color60` or higher.
+- [ ] **2. ProjectCard Metadata (Issue 5):** Bump contrast for tags and year (currently `#8b8b8b` on `#fafcfe` = ~3.1:1). Use `--color-text-color70`.
+- [ ] **3. Case Study List Descriptions (Issue 7):** Fix contrast in `prose-theme.css` for bulleted sub-text.
+- [ ] **4. Hero Subtext (Issue 8):** Increase contrast for "MS in Human-Computer Interaction..." by changing from `color-text-color60` to `color-text-color70`.
+- [ ] **5. AnimatedLink Default (Issue 9):** Adjust default color from `color-text-color60` to `color-text-color70`.
+- [ ] **6. WorkFilter Empty State (Issue 11):** Replace undefined `text-muted-foreground` with `text-text-tertiary`.
+- [ ] **7. Prose Section Headers (Issue 14):** Increase contrast for uppercase headers like "PROJECT OVERVIEW".
+
+### Phase 2: Medium Risk (UI Logic & Structure)
+*Objective: Fix interactive states, themed overlays, and component-level visual polish.*
+
+- [ ] **8. NavButton Theme Variant (Issue 10):** Fix the `dark:` variant mismatch by ensuring Tailwind responds to `[data-theme='dark']`.
+- [ ] **9. Case Study Hero Overlay (Issue 13):** Replace hardcoded `bg-black` with `bg-background` for a smoother, theme-aware scroll transition.
+- [ ] **10. Project Card Elevation:** Add a subtle shadow in light mode (`shadow-sm` on card, `shadow-md` on hover) to improve depth perception.
+- [ ] **11. Design Token Refinement:** Slightly darken the light mode footer (`#e8e8e8`) and add a subtle warmth to the page background (`#fafaf8`).
+
+### Phase 3: High Risk (Visual Effects & Shaders)
+*Objective: Address complex canvas logic, shaders, and advanced light-mode physics.*
+
+- [ ] **12. Footer Dust Particles (Issue 2):** Implement theme-aware color logic for the canvas (white particles on dark, subtle dark particles on light).
+- [ ] **13. Footer Smog/Glow (Issue 6):** Adjust gradient opacities and blur for light mode to prevent the "muddy" appearance.
+- [ ] **14. Hero Gradient Opacity (Issue 12):** Reduce light mode radial gradient opacities (from 70-85% down to 55-70%).
+- [ ] **15. WaterBlob Shader Physics (Deep Dive):**
+    - Implement `mix-blend-mode: multiply` on the canvas for "ink-on-paper" physics.
+    - Update `uBackgroundColor` in light mode to pure white to support blending.
+    - Reduce shader saturation to prevent color clipping in light mode.
+    - Implement pigment edge darkening (the "watercolor signature").
+    - Replace additive glow with subtle depth darkening in light mode.
 
 ---
 

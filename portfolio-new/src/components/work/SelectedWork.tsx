@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, type MotionValue } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
 import { cn } from '@/lib/utils/cn'
@@ -11,6 +11,9 @@ import { useArrowAnimation } from '@/hooks/use-arrow-animation'
 interface SelectedWorkProps {
   projects?: ProjectCardProps[]
   className?: string
+  enableHomeCardRecede?: boolean
+  homeScrollProgress?: MotionValue<number>
+  desktopSpacingScale?: number
 }
 
 /**
@@ -86,6 +89,9 @@ const defaultProjects: ProjectCardProps[] = getFeaturedCaseStudies()
 export function SelectedWork({
   projects = defaultProjects,
   className,
+  enableHomeCardRecede = false,
+  homeScrollProgress,
+  desktopSpacingScale = 1,
 }: SelectedWorkProps) {
   const {
     isAnimating,
@@ -149,10 +155,16 @@ export function SelectedWork({
         style={{
           gridTemplateColumns: 'repeat(12, 1fr)',
           gridAutoRows: '60px', // Base row height - cards span multiple rows
+          perspective: '1200px',
+          transformStyle: 'preserve-3d',
         }}
       >
         {projects.map((project, index) => {
           const config = cardConfig[index]
+          const scaledRowStart = Math.max(
+            1,
+            Math.round(1 + (config.rowStart - 1) * desktopSpacingScale)
+          )
           const isCard3or4 = index === 2 || index === 3
           const isCard1or2 = index === 0 || index === 1
 
@@ -162,7 +174,7 @@ export function SelectedWork({
               className="gpu-accelerate"
               style={{
                 gridColumn: `${config.colStart} / span ${config.colSpan}`,
-                gridRow: `${config.rowStart} / span ${config.rowSpan}`,
+                gridRow: `${scaledRowStart} / span ${config.rowSpan}`,
               }}
               initial={
                 isCard3or4
@@ -200,6 +212,8 @@ export function SelectedWork({
                 className="h-full"
                 imageSizes="(max-width: 1024px) 100vw, 75vw"
                 imageFetchPriority="low"
+                recedeEffect={enableHomeCardRecede ? 'homeDesktop' : 'none'}
+                homeScrollProgress={homeScrollProgress}
               />
             </motion.div>
           )
