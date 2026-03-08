@@ -65,6 +65,9 @@ export function WaterBlob({
   const targetColorsRef = useRef<Colors | null>(null)
   const colorsInitializedRef = useRef(false)
   const webglInitializedRef = useRef(false)
+  // Tracks whether the rAF loop has ever started; used to gate the initial
+  // 1400ms defer so theme-switch re-runs start immediately (no jank).
+  const hasEverStartedRef = useRef(false)
 
   // Refs for gradient bar CSS variable interpolation
   const gradientCurrentRef = useRef<{ start: number[]; end: number[] } | null>(
@@ -212,12 +215,14 @@ export function WaterBlob({
       animationId = requestAnimationFrame(loop)
     }
 
-    // Defer loop start to match the blob's CSS fade-in delay (1400ms).
-    // The blob is fully transparent until then, so no visual change —
-    // but this keeps the main thread quiet during Lighthouse's TBT window.
+    // On first mount: defer by 1400ms (blob fade-in delay — invisible during this window,
+    // so no visual change). On re-runs caused by theme/retry changes: start immediately
+    // so theme switches are seamless with no pause or color glitch.
+    const loopDelay = hasEverStartedRef.current ? 0 : 1400
+    hasEverStartedRef.current = true
     startTimeoutId = setTimeout(() => {
       animationId = requestAnimationFrame(loop)
-    }, 1400)
+    }, loopDelay)
 
     // Pause/resume handlers for dialog transitions
     const handlePause = () => {

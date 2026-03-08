@@ -93,27 +93,56 @@ These numbers were captured from the production Vercel URL before any optimizati
 
 **Build result:** `/` now shows `○ (Static)` — prerendered as static content. Previously the ThemeProvider null-return prevented any static prerendering.
 
+## 2026-03-08 — Desktop TBT Reduction Plan
+
+**Target:** atharva.design desktop — Performance 60 → 80+
+**Constraint:** Zero visual/animation regressions
+
+### PSI Audit Context (March 8, 2026)
+
+- TBT: **22,650ms** — dominant score drag (~30% of Lighthouse score)
+- FCP: 0.3s ✅, LCP: 0.6s ✅ — already good
+- Speed Index: 7.8s ❌
+- Total main-thread work: 34.6s; "Other" category: 33,252ms (96% of total)
+- Root cause: four continuous animation loops start on mount → TTI never reached within 30s → Lighthouse times out → all frame work accumulates into TBT
+
+**Four animation loops identified:**
+1. **WaterBlob** (`WaterBlob.tsx`) — WebGL rAF at 60fps, starts immediately
+2. **FooterDustParticles** (`FooterDustParticles.tsx`) — canvas rAF, starts immediately even though footer is off-screen
+3. **FooterSmog swells** (`FooterSmog.tsx`) — 3× Framer Motion `repeat: Infinity`, start immediately
+4. **AnimatedLink down-arrow** (`AnimatedLink.tsx`) — Framer Motion `repeat: Infinity` bounce, starts immediately
+
+### Execution Checklist
+
+- [x] **Pillar 2: `.browserslistrc`** — Modern browser targets; eliminates 13.7 KiB legacy polyfill chunk (Array.at, Object.fromEntries, String.trimStart, etc.)
+- [x] **Pillar 4: LCP image priority** — `imagePriority={true}` + `imageFetchPriority="high"` for index 0 in `SelectedWork.tsx` (was `lazy`/`low` on the LCP element)
+- [x] **Pillar 3: Font preload** — `<link rel="preload">` for `Satoshi-Variable.woff2` + `VulfMonoDemo-LightItalic.otf` in `layout.tsx`; moves font fetch parallel to HTML parsing
+- [x] **Pillar 1c: AnimatedLink defer** — down-arrow `repeat: Infinity` bounce gated on `window.load` event; static until load, then bounces
+- [x] **Pillar 1b: FooterDustParticles gating** — `IntersectionObserver` on canvas; rAF loop only starts when footer enters viewport
+- [x] **Pillar 1a: FooterSmog gating** — `useInView` gates all three swell `repeat: Infinity` animations; off-screen = no work, in-view = full swells
+- [x] **Pillar 1d: WaterBlob loop defer** — rAF loop start deferred by 1400ms on first mount only (matches existing CSS fade-in delay; blob is invisible during that window). Subsequent re-runs (theme switch, retry) are immediate to avoid animation jank.
+
+### Visual Change Confirmation
+
+| Change | Visual impact |
+|---|---|
+| WaterBlob loop defer | None — blob invisible during 1400ms window; loop starts as it fades in |
+| FooterSmog viewport gating | None — 14–22s cycles; footer slides in from bottom; cycle-start vs mid-cycle imperceptible |
+| FooterDustParticles gating | None — particles fade via opacity; same visual result |
+| AnimatedLink defer | None — hero GSAP takes ~1s; arrow bouncing before eye reaches it |
+| `.browserslistrc` | None — build config only |
+| Font preload | None — same fonts, load faster |
+| LCP image priority | None — same image, fetched sooner |
+
+### Next: Measure Impact
+- Deploy to Vercel → run PSI and record new desktop TBT / Performance score
+- Record new baseline here under a new dated section
+- If TBT still >5,000ms, investigate: GSAP bundle size, Framer Motion tree-shaking, unused route JS
+
 ## Current Priorities
-1. Re-run LHCI after deploy to measure LCP improvement from SSR fix.
+1. Deploy TBT reduction changes and run PSI to measure improvement.
 2. Reduce mobile unused JS and TBT on `/` and `/work`.
 3. Preserve all current interaction and animation quality.
-
-## Active Workstreams
-- Image Delivery
-  - Keep modern formats (`webp`/`avif`) for large hero/card media.
-  - Keep responsive `sizes` and low fetch priority for below-the-fold media.
-- JS Payload
-  - Defer non-critical client code and route-specific UI.
-  - Prefer on-demand imports for heavy libs where behavior remains unchanged.
-- Validation
-  - Run `bun run build` and `bun run lhci` after each change set.
-  - Keep LHCI assertions baseline-safe; tighten gradually as metrics improve.
-
-## Next Actions
-1. Deploy to Vercel and run PSI / LHCI to measure the LCP improvement from the SSR fix.
-2. Record new medians in this file under a new baseline section.
-3. If LCP is still above 2.5s, investigate whether the `page.tsx` hero animation delays (GSAP 0.6s delay + 1.0s duration) are the remaining bottleneck.
-4. Investigate reduction options for large initial script chunks (`framer-motion`, `gsap`) with no visual/animation regressions.
 
 ## Lighthouse CI
 - Workflow: `.github/workflows/lighthouse-ci.yml`

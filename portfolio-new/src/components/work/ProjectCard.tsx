@@ -148,7 +148,7 @@ export function ProjectCard({
       {/* Card - Responsive height, or flex-1 to fill container when h-full is passed */}
       <div
         className={cn(
-          'relative w-full overflow-hidden gpu-accelerate',
+          'relative w-full overflow-hidden gpu-accelerate shadow-sm hover:shadow-md transition-shadow duration-300',
           // If parent has h-full, use flex-1 to fill; otherwise use explicit heights
           className?.includes('h-full')
             ? 'flex-1 min-h-[200px]'
@@ -223,7 +223,7 @@ export function ProjectCard({
         <div className="flex flex-wrap items-center gap-x-2 pt-3">
           <span
             className="font-sans font-normal tracking-normal text-[14px] md:text-[18px]"
-            style={{ color: 'rgb(var(--color-text-tertiary-50))' }}
+            style={{ color: 'rgb(var(--color-text-color70))' }}
           >
             {(() => {
               const displayTags = (_tags || [])

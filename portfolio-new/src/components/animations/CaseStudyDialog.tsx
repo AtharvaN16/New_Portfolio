@@ -120,6 +120,7 @@ export function CaseStudyDialog() {
             }}
             style={{
               backgroundColor: 'rgb(var(--color-background))',
+              boxShadow: 'var(--shadow-2xl)',
               willChange: 'transform',
               backfaceVisibility: 'hidden',
             }}
