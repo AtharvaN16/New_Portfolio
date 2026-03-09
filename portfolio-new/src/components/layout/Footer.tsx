@@ -135,10 +135,12 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
         </p>
       </div>
 
-      <AccessibilityModal
-        isOpen={isAccessibilityModalOpen}
-        onClose={() => setIsAccessibilityModalOpen(false)}
-      />
+      {isDesktop && (
+        <AccessibilityModal
+          isOpen={isAccessibilityModalOpen}
+          onClose={() => setIsAccessibilityModalOpen(false)}
+        />
+      )}
     </footer>
   )
 }
