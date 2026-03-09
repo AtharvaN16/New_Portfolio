@@ -1,6 +1,5 @@
 'use client'
 
-import { useContext } from 'react'
 import { useMediaQuery } from './use-media-query'
 
 /**

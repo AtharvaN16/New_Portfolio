@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { type ReactNode, type MouseEvent, useState, useEffect } from 'react'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 /**
  * AnimatedLink Component
@@ -42,6 +43,9 @@ export function AnimatedLink({
   variant = 'default',
   onClick,
 }: AnimatedLinkProps) {
+  const { reducedMotion, pauseWebGL } = useAccessibility()
+  const shouldPause = reducedMotion || pauseWebGL
+
   // Gate down-arrow bounce until after page load to avoid TBT during Lighthouse measurement
   const [pageLoaded, setPageLoaded] = useState(false)
   useEffect(() => {
@@ -147,9 +151,9 @@ export function AnimatedLink({
 
       {variant === 'down-arrow' && (
         <motion.span
-          animate={pageLoaded ? { y: [0, -4, 0] } : { y: 0 }}
+          animate={pageLoaded && !shouldPause ? { y: [0, -4, 0] } : { y: 0 }}
           transition={
-            pageLoaded
+            pageLoaded && !shouldPause
               ? { duration: 1.5, repeat: Infinity, ease: 'easeInOut' }
               : { duration: 0 }
           }

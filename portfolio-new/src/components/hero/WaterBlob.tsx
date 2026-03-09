@@ -221,6 +221,7 @@ export function WaterBlob({
     // so theme switches are seamless with no pause or color glitch.
     const loopDelay = hasEverStartedRef.current ? 0 : 1400
     hasEverStartedRef.current = true
+    // eslint-disable-next-line prefer-const
     startTimeoutId = setTimeout(() => {
       animationId = requestAnimationFrame(loop)
     }, loopDelay)
