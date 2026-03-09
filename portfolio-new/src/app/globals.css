@@ -504,12 +504,24 @@
 }
 
 :root.a11y-word-spacing-wide p,
-:root.a11y-word-spacing-wide li {
+:root.a11y-word-spacing-wide li,
+:root.a11y-word-spacing-wide h1,
+:root.a11y-word-spacing-wide h2,
+:root.a11y-word-spacing-wide h3,
+:root.a11y-word-spacing-wide h4,
+:root.a11y-word-spacing-wide h5,
+:root.a11y-word-spacing-wide h6 {
   word-spacing: 0.2em !important;
 }
 
 :root.a11y-word-spacing-wider p,
-:root.a11y-word-spacing-wider li {
+:root.a11y-word-spacing-wider li,
+:root.a11y-word-spacing-wider h1,
+:root.a11y-word-spacing-wider h2,
+:root.a11y-word-spacing-wider h3,
+:root.a11y-word-spacing-wider h4,
+:root.a11y-word-spacing-wider h5,
+:root.a11y-word-spacing-wider h6 {
   word-spacing: 0.4em !important;
 }
 
