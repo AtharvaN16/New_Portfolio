@@ -252,9 +252,22 @@
     opacity: 1;
   }
 
+  /* Water blob fade-in on mount — CSS animation is reliable in SSR/production unlike Framer Motion initial prop */
+  @keyframes blob-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
   /* Water blob responsive max heights */
   .water-blob-container {
     max-height: 22.5rem; /* 360px on mobile */
+    animation: blob-fade-in 1.6s ease-out 1.4s both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .water-blob-container {
+      animation: none;
+    }
   }
 
   @media (min-width: 768px) {

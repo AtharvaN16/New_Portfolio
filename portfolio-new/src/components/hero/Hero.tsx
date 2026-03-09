@@ -136,14 +136,10 @@ export function Hero({
             </div>
 
             {/* Animated Water Blob - Flex grow to fill space with max height constraints */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.6, delay: 1.4 }}
-              className="relative w-full overflow-hidden water-blob-container flex-1 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]"
-            >
+            {/* CSS animation handles fade-in (more reliable than Framer Motion initial prop in SSR/production) */}
+            <div className="relative w-full overflow-hidden water-blob-container flex-1 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]">
               <WaterBlobWithBoundary paused={shouldPauseBlobs} interactive />
-            </motion.div>
+            </div>
           </div>
 
           {/* Bottom Navigation Links - 16px from viewport bottom */}
