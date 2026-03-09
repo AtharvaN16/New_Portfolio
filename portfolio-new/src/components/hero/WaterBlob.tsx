@@ -177,8 +177,9 @@ export function WaterBlob({
 
     const display = displayColorsRef.current!
     const target = targetColorsRef.current!
-    const isDarkMode = theme === 'dark'
-    const programInfo = setupWebGL(gl, display, isDarkMode)
+    // Always render with dark-mode blob constants (glow, scatter, saturation).
+    // Light mode achieves its look via the background color (#fafaf8) + vivid colors.
+    const programInfo = setupWebGL(gl, display, true)
     if (!programInfo) {
       setHasWebGL(false)
       return
