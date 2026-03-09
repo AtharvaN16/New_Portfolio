@@ -11,10 +11,12 @@ type ColorBlindnessType =
   | 'tritanopia'
   | 'achromatopsia'
 
+type ReadableFontType = 'none' | 'opendyslexic' | 'atkinson'
+
 interface AccessibilitySettings {
   reducedMotion: boolean
   highContrast: boolean
-  dyslexiaFont: boolean
+  readableFont: ReadableFontType
   pauseWebGL: boolean
   textSize: TextSizeLevel
   invertColors: boolean
@@ -29,7 +31,7 @@ interface AccessibilitySettings {
 interface AccessibilityContextType extends AccessibilitySettings {
   setReducedMotion: (value: boolean) => void
   setHighContrast: (value: boolean) => void
-  setDyslexiaFont: (value: boolean) => void
+  setReadableFont: (value: ReadableFontType) => void
   setPauseWebGL: (value: boolean) => void
   setTextSize: (value: TextSizeLevel) => void
   setInvertColors: (value: boolean) => void
@@ -50,7 +52,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   
   const [reducedMotion, setReducedMotion] = useState(false)
   const [highContrast, setHighContrast] = useState(false)
-  const [dyslexiaFont, setDyslexiaFont] = useState(false)
+  const [readableFont, setReadableFont] = useState<ReadableFontType>('none')
   const [pauseWebGL, setPauseWebGL] = useState(false)
   const [textSize, setTextSize] = useState<TextSizeLevel>('default')
   const [invertColors, setInvertColors] = useState(false)
@@ -71,7 +73,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
         // eslint-disable-next-line react-hooks/set-state-in-effect -- Hydrates persisted a11y preferences on mount.
         setReducedMotion(parsed.reducedMotion ?? osReducedMotion)
         setHighContrast(parsed.highContrast ?? false)
-        setDyslexiaFont(parsed.dyslexiaFont ?? false)
+        setReadableFont(parsed.readableFont ?? (parsed.dyslexiaFont ? 'opendyslexic' : 'none'))
         setPauseWebGL(parsed.pauseWebGL ?? false)
         setTextSize(parsed.textSize ?? 'default')
         setInvertColors(parsed.invertColors ?? false)
@@ -94,7 +96,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     const settings = {
       reducedMotion,
       highContrast,
-      dyslexiaFont,
+      readableFont,
       pauseWebGL,
       textSize,
       invertColors,
@@ -110,13 +112,17 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     // Apply classes to document element
     const root = document.documentElement
     root.classList.toggle('high-contrast', highContrast)
-    root.classList.toggle('dyslexia-font', dyslexiaFont)
     root.classList.toggle('a11y-invert', invertColors)
     root.classList.toggle('a11y-grayscale', grayscale)
     root.classList.toggle('a11y-highlight-links', highlightLinks)
     root.classList.toggle('a11y-align-left', alignTextLeft)
     root.classList.toggle('a11y-hide-images', hideImages)
     root.classList.toggle('a11y-big-cursor', bigCursor)
+
+    // Handle Readable Fonts
+    root.classList.remove('dyslexia-font', 'atkinson-font')
+    if (readableFont === 'opendyslexic') root.classList.add('dyslexia-font')
+    if (readableFont === 'atkinson') root.classList.add('atkinson-font')
 
     root.classList.remove('a11y-text-large', 'a11y-text-larger')
     if (textSize === 'large') root.classList.add('a11y-text-large')
@@ -140,7 +146,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   }, [
     reducedMotion,
     highContrast,
-    dyslexiaFont,
+    readableFont,
     pauseWebGL,
     textSize,
     invertColors,
@@ -160,7 +166,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const resetSettings = () => {
     setReducedMotion(osReducedMotion)
     setHighContrast(false)
-    setDyslexiaFont(false)
+    setReadableFont('none')
     setPauseWebGL(false)
     setTextSize('default')
     setInvertColors(false)
@@ -177,7 +183,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       value={{
         reducedMotion,
         highContrast,
-        dyslexiaFont,
+        readableFont,
         pauseWebGL,
         textSize,
         invertColors,
@@ -189,7 +195,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
         colorBlindnessType,
         setReducedMotion,
         setHighContrast,
-        setDyslexiaFont,
+        setReadableFont,
         setPauseWebGL,
         setTextSize,
         setInvertColors,
