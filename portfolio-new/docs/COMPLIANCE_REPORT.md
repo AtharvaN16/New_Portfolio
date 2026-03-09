@@ -1,7 +1,7 @@
 # Portfolio Codebase Compliance Report
 
 > **Living document**
-> Updated after each audit with current, reproducible results.
+> Update after each check.
 
 ---
 
