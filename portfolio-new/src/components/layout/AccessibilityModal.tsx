@@ -230,10 +230,11 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
 
                         <Section title="Line Height">
                           <SegmentedButtons
+                            icon={<LineHeightIcon />}
                             options={[
                               { value: 'default', label: 'Default' },
-                              { value: 'relaxed', label: 'Relaxed' },
-                              { value: 'loose', label: 'Loose' },
+                              { value: 'relaxed', label: '+' },
+                              { value: 'loose', label: '++' },
                             ]}
                             value={lineHeight}
                             onChange={(value) =>
@@ -246,10 +247,11 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
 
                         <Section title="Letter Spacing">
                           <SegmentedButtons
+                            icon={<LetterSpacingIcon />}
                             options={[
                               { value: 'default', label: 'Default' },
-                              { value: 'wide', label: 'Wide' },
-                              { value: 'wider', label: 'Wider' },
+                              { value: 'wide', label: '+' },
+                              { value: 'wider', label: '++' },
                             ]}
                             value={letterSpacing}
                             onChange={(value) =>
@@ -262,10 +264,11 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
 
                         <Section title="Word Spacing">
                           <SegmentedButtons
+                            icon={<WordSpacingIcon />}
                             options={[
                               { value: 'default', label: 'Default' },
-                              { value: 'wide', label: 'Wide' },
-                              { value: 'wider', label: 'Wider' },
+                              { value: 'wide', label: '+' },
+                              { value: 'wider', label: '++' },
                             ]}
                             value={wordSpacing}
                             onChange={(value) =>
@@ -299,14 +302,21 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
 
 function Section({
   title,
+  icon,
   children,
 }: {
   title: string
+  icon?: ReactNode
   children: ReactNode
 }) {
   return (
     <section className="flex flex-col items-start">
-      <h3 className="mb-4 text-sm font-bold text-foreground md:text-base relative inline-block uppercase tracking-[0.05em]">
+      <h3 className="mb-4 text-sm font-bold text-foreground md:text-base relative inline-flex items-center gap-2 uppercase tracking-[0.05em]">
+        {icon && (
+          <span className="flex-shrink-0 opacity-80" aria-hidden>
+            {icon}
+          </span>
+        )}
         {title}
       </h3>
       <div className="space-y-3 flex flex-col items-stretch w-fit">
@@ -520,16 +530,46 @@ function ReadingGuideIcon() {
   )
 }
 
+function LineHeightIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <line x1="4" y1="18" x2="20" y2="18" />
+    </svg>
+  )
+}
+
+function LetterSpacingIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="5" y1="4" x2="5" y2="20" />
+      <line x1="19" y1="4" x2="19" y2="20" />
+    </svg>
+  )
+}
+
+function WordSpacingIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="6" width="6" height="12" rx="1" />
+      <rect x="15" y="6" width="6" height="12" rx="1" />
+    </svg>
+  )
+}
+
 function SegmentedButtons({
   options,
   value,
   onChange,
   className,
+  icon,
 }: {
   options: Array<{ value: string; label: string }>
   value: string
   onChange: (value: string) => void
   className?: string
+  icon?: ReactNode
 }) {
   return (
     <div
@@ -547,7 +587,7 @@ function SegmentedButtons({
             key={option.value}
             onClick={() => onChange(option.value)}
             className={cn(
-              'a11y-option group relative flex items-center justify-center px-4 py-2.5 text-sm md:text-base rounded-none text-center transition-all duration-200 border w-full h-full',
+              'a11y-option group relative flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm md:text-base rounded-none text-center transition-all duration-200 border w-full h-full',
               selected
                 ? 'bg-foreground/10 dark:bg-white/20 text-foreground font-bold border-foreground'
                 : 'bg-foreground/10 dark:bg-white/20 text-text-tertiary border-transparent hover:text-text-secondary hover:bg-foreground/20 dark:hover:bg-white/30'
@@ -555,11 +595,11 @@ function SegmentedButtons({
             aria-pressed={selected}
           >
             <span className="relative inline-flex flex-col items-center justify-center">
-              {/* Actual label */}
-              <span className={cn(selected ? 'font-bold' : 'font-normal')}>{option.label}</span>
-              
+              <span className={cn('inline-flex items-center gap-1.5', selected ? 'font-bold' : 'font-normal')}>
+                {icon && option.value !== 'default' && <span className="flex-shrink-0 opacity-80" aria-hidden>{icon}</span>}
+                {option.label}
+              </span>
               {/* Ghost elements to reserve space for ALL possible font-weight/font-family combinations */}
-              {/* This prevents the button from jumping when the site font changes */}
               <span className="invisible h-0 font-bold overflow-hidden dyslexia-font" aria-hidden="true" style={{ fontFamily: "'OpenDyslexic', sans-serif" }}>
                 {option.label}
               </span>
