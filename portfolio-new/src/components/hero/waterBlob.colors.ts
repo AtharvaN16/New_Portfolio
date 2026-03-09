@@ -236,12 +236,15 @@ export function getColors(
     return normalized as [number, number, number]
   }
 
+  // Both modes use DARK_PALETTES (vivid colors). Light mode uses the actual page bg
+  // (#fafaf8) so blobs render on white; dark mode reads background from CSS tokens.
+  const isLight = theme !== 'dark'
+  const lightBg: [number, number, number] = [250 / 255, 250 / 255, 248 / 255] // #fafaf8
+
   if (interactive) {
-    const palettes = theme === 'dark' ? DARK_PALETTES : LIGHT_PALETTES
-    const palette = palettes[paletteIndex]
-    
-    // Still need to get background color from CSS
-    const background = getColor('--color-background')
+    // Always use DARK_PALETTES — vivid colors look correct on both black and white backgrounds
+    const palette = DARK_PALETTES[paletteIndex]
+    const background = isLight ? lightBg : getColor('--color-background')
     if (!background) return null
 
     return {
@@ -252,16 +255,17 @@ export function getColors(
     }
   }
 
-  // Non-interactive mode: get all colors from CSS variables
+  // Non-interactive mode: get blob colors from CSS variables
   const blue = getColor('--hero-blob-blue')
   const purple = getColor('--hero-blob-purple')
   const pink = getColor('--hero-blob-pink')
-  const background = getColor('--color-background')
 
-  // Return null if any color failed to load
-  if (!blue || !purple || !pink || !background) {
+  if (!blue || !purple || !pink) {
     return null
   }
+
+  const background = isLight ? lightBg : getColor('--color-background')
+  if (!background) return null
 
   return { blue, purple, pink, background }
 }

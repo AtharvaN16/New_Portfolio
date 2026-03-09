@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { FooterDustParticles } from './FooterDustParticles'
 import { useBreakpoints } from '@/hooks/use-breakpoint'
+import { useTheme } from '@/components/providers/ThemeProvider'
 
 interface FooterSmogProps {
   visible: boolean
@@ -28,6 +29,7 @@ function usePrefersReducedMotion() {
 export function FooterSmog({ visible }: FooterSmogProps) {
   const prefersReducedMotion = usePrefersReducedMotion()
   const { isDesktop } = useBreakpoints()
+  const { theme } = useTheme()
 
   const showEffects = !prefersReducedMotion
 
@@ -37,7 +39,7 @@ export function FooterSmog({ visible }: FooterSmogProps) {
       aria-hidden="true"
     >
       {/* Layer 1: Original CSS color glow */}
-      <CSSGlow visible={visible} isDesktop={isDesktop} />
+      <CSSGlow visible={visible} isDesktop={isDesktop} theme={theme} />
 
       {/* Layer 2: Tiny bright dust motes */}
       {showEffects && <FooterDustParticles visible={visible} />}
@@ -49,15 +51,17 @@ export function FooterSmog({ visible }: FooterSmogProps) {
 function CSSGlow({
   visible,
   isDesktop,
+  theme,
 }: {
   visible: boolean
   isDesktop: boolean
+  theme: string
 }) {
-  // Mobile intensities (more aggressive)
-  const baseAlpha = isDesktop ? '0.2' : '0.4'
-  const swell1Alpha = isDesktop ? '0.4' : '0.65'
-  const swell2Alpha = isDesktop ? '0.35' : '0.55'
-  const swell3Alpha = isDesktop ? '0.3' : '0.5'
+  const isLight = theme === 'light'
+  const baseAlpha   = isLight ? '0.30' : (isDesktop ? '0.2' : '0.4')
+  const swell1Alpha = isLight ? '0.45' : (isDesktop ? '0.4' : '0.65')
+  const swell2Alpha = isLight ? '0.38' : (isDesktop ? '0.35' : '0.55')
+  const swell3Alpha = isLight ? '0.32' : (isDesktop ? '0.3' : '0.5')
 
   // Gate infinite swell animations on viewport — footer is off-screen on load,
   // so these loops would otherwise run during Lighthouse's TBT window.
