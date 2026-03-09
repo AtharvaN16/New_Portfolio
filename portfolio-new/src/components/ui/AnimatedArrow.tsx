@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 interface AnimatedArrowProps {
   isAnimating: boolean
@@ -29,6 +30,9 @@ export function AnimatedArrow({
   animationCycle,
   className = 'w-[18px] h-[18px]',
 }: AnimatedArrowProps) {
+  const { reducedMotion, pauseWebGL } = useAccessibility()
+  const arrowDuration = reducedMotion || pauseWebGL ? 0 : 0.6
+
   return (
     <span className={`relative overflow-hidden ${className}`}>
       {/* Arrow that exits top-right */}
@@ -45,9 +49,9 @@ export function AnimatedArrow({
               : 'inset(0% 0% 0% 100%)',
         }}
         transition={{
-          duration: 0.6,
+          duration: arrowDuration,
           ease: [0.25, 0.1, 0.25, 1],
-          clipPath: { duration: 0.1, delay: 0 },
+          clipPath: { duration: arrowDuration ? 0.1 : 0, delay: 0 },
         }}
       >
         <svg
@@ -86,10 +90,10 @@ export function AnimatedArrow({
               : 'inset(100% 0% 0% 0%)',
         }}
         transition={{
-          duration: 0.6,
+          duration: arrowDuration,
           ease: [0.25, 0.1, 0.25, 1],
-          delay: 0.15,
-          clipPath: { duration: 0.1, delay: 0.15 },
+          delay: arrowDuration ? 0.15 : 0,
+          clipPath: { duration: arrowDuration ? 0.1 : 0, delay: arrowDuration ? 0.15 : 0 },
         }}
       >
         <svg

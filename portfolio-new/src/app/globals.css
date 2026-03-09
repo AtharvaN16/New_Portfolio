@@ -120,7 +120,7 @@
     @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
   }
 
-  /* Reduce motion for users who prefer it */
+  /* Reduce motion for users who prefer it (OS-level) */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -130,6 +130,16 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
+  }
+
+  /* App-level reduced motion class — mirrors OS media query for manual toggle.
+     Only disables CSS animations (keyframes), not transitions, to preserve
+     hover micro-interactions. GSAP/Framer Motion are handled per-component. */
+  :root.a11y-reduced-motion *,
+  :root.a11y-reduced-motion *::before,
+  :root.a11y-reduced-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 
   /* ========================================
@@ -465,17 +475,48 @@ body {
   font-size: 125%;
 }
 
-:root.a11y-align-left p,
-:root.a11y-align-left li,
-:root.a11y-align-left h1,
-:root.a11y-align-left h2,
-:root.a11y-align-left h3,
-:root.a11y-align-left h4,
-:root.a11y-align-left h5,
-:root.a11y-align-left h6,
-:root.a11y-align-left blockquote {
-  text-align: left !important;
+:root.a11y-leading-relaxed p,
+:root.a11y-leading-relaxed li {
+  line-height: 1.8 !important;
 }
+
+:root.a11y-leading-loose p,
+:root.a11y-leading-loose li {
+  line-height: 2.2 !important;
+}
+
+:root.a11y-tracking-wide p,
+:root.a11y-tracking-wide li,
+:root.a11y-tracking-wide h1,
+:root.a11y-tracking-wide h2,
+:root.a11y-tracking-wide h3,
+:root.a11y-tracking-wide h4,
+:root.a11y-tracking-wide h5,
+:root.a11y-tracking-wide h6 {
+  letter-spacing: 0.1em !important;
+}
+
+:root.a11y-tracking-wider p,
+:root.a11y-tracking-wider li,
+:root.a11y-tracking-wider h1,
+:root.a11y-tracking-wider h2,
+:root.a11y-tracking-wider h3,
+:root.a11y-tracking-wider h4,
+:root.a11y-tracking-wider h5,
+:root.a11y-tracking-wider h6 {
+  letter-spacing: 0.2em !important;
+}
+
+:root.a11y-word-spacing-wide p,
+:root.a11y-word-spacing-wide li {
+  word-spacing: 0.2em !important;
+}
+
+:root.a11y-word-spacing-wider p,
+:root.a11y-word-spacing-wider li {
+  word-spacing: 0.4em !important;
+}
+
 
 :root.a11y-highlight-links a {
   background-color: rgba(255, 235, 59, 0.4) !important;

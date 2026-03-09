@@ -38,7 +38,8 @@ export function PageTransition({ children, className }: PageTransitionProps) {
   const pathname = usePathname()
   const previousPathname = usePreviousValue(pathname)
   const previousChildren = usePreviousValue(children)
-  const { reducedMotion: prefersReducedMotion } = useAccessibility()
+  const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
+  const shouldPause = prefersReducedMotion || pauseWebGL
 
   const { startTransition, endTransition } = useViewTransition()
 
@@ -150,12 +151,12 @@ export function PageTransition({ children, className }: PageTransitionProps) {
         {transitionState && (
           <motion.div
             key={transitionState.newPath}
-            initial={{ y: prefersReducedMotion ? 0 : '100%', opacity: prefersReducedMotion ? 0 : 1 }}
+            initial={{ y: shouldPause ? 0 : '100%', opacity: shouldPause ? 0 : 1 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: prefersReducedMotion ? 0 : '100%', opacity: prefersReducedMotion ? 0 : 1 }}
+            exit={{ y: shouldPause ? 0 : '100%', opacity: shouldPause ? 0 : 1 }}
             transition={{
-              duration: prefersReducedMotion ? 0.4 : TRANSITION_DURATION,
-              ease: prefersReducedMotion ? 'easeOut' : TRANSITION_EASE,
+              duration: shouldPause ? 0.15 : TRANSITION_DURATION,
+              ease: shouldPause ? 'easeOut' : TRANSITION_EASE,
             }}
             style={{
               position: 'fixed',
