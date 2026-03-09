@@ -32,15 +32,16 @@ export function AnimatedTitle({
   className,
   delay = 0,
 }: AnimatedTitleProps) {
-  const { reducedMotion: prefersReducedMotion } = useAccessibility()
+  const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
+  const shouldPause = prefersReducedMotion || pauseWebGL
 
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: prefersReducedMotion ? 0.04 : 0.08,
-        delayChildren: 0.2 + delay,
+        staggerChildren: shouldPause ? 0 : 0.08,
+        delayChildren: shouldPause ? 0 : 0.2 + delay,
       },
     },
     exit: {
@@ -48,28 +49,29 @@ export function AnimatedTitle({
       transition: {
         staggerChildren: 0.02,
         staggerDirection: -1,
-        duration: 0.15,
+        duration: shouldPause ? 0 : 0.15,
       },
     },
   }
 
   const animationVariants = {
     fadeInUp: {
-      hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 20 },
+      hidden: { opacity: 0, y: shouldPause ? 0 : 20 },
       visible: {
         opacity: 1,
         y: 0,
         transition: {
           type: 'spring' as const,
           damping: 12,
-          stiffness: 100,
+          stiffness: shouldPause ? 1000 : 100,
+          duration: shouldPause ? 0 : undefined,
         },
       },
       exit: {
         opacity: 0,
-        y: prefersReducedMotion ? 0 : -10,
+        y: shouldPause ? 0 : -10,
         transition: {
-          duration: 0.15,
+          duration: shouldPause ? 0 : 0.15,
         },
       },
     },
@@ -78,13 +80,13 @@ export function AnimatedTitle({
       visible: {
         opacity: 1,
         transition: {
-          duration: 0.5,
+          duration: shouldPause ? 0 : 0.5,
         },
       },
       exit: {
         opacity: 0,
         transition: {
-          duration: 0.15,
+          duration: shouldPause ? 0 : 0.15,
         },
       },
     },

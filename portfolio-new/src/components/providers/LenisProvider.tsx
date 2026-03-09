@@ -31,7 +31,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
   const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
-    // Check if user prefers reduced motion
+    // Check OS-level reduced motion preference
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches

@@ -11,13 +11,6 @@ interface AccessibilityModalProps {
   onClose: () => void
 }
 
-const drawerTransition = {
-  type: 'spring' as const,
-  stiffness: 500,
-  damping: 38,
-  mass: 0.9,
-}
-
 export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
   const {
     reducedMotion,
@@ -25,20 +18,26 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
     readableFont,
     pauseWebGL,
     textSize,
+    lineHeight,
+    letterSpacing,
+    wordSpacing,
+    readingGuide,
     invertColors,
     grayscale,
     highlightLinks,
-    alignTextLeft,
     hideImages,
     bigCursor,
     colorBlindnessType,
     setHighContrast,
     setReadableFont,
     setTextSize,
+    setLineHeight,
+    setLetterSpacing,
+    setWordSpacing,
+    setReadingGuide,
     setInvertColors,
     setGrayscale,
     setHighlightLinks,
-    setAlignTextLeft,
     setHideImages,
     setBigCursor,
     setColorBlindnessType,
@@ -47,6 +46,10 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
   } = useAccessibility()
 
   const pauseAnimations = reducedMotion && pauseWebGL
+
+  const drawerTransition = reducedMotion
+    ? { duration: 0.01 }
+    : { type: 'spring' as const, stiffness: 500, damping: 38, mass: 0.9 }
 
   useEffect(() => {
     if (!isOpen) return
@@ -70,28 +73,28 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
         <>
           <motion.button
             type="button"
-            className="fixed inset-0 z-[100] bg-black/45 backdrop-blur-sm"
+            className="fixed inset-0 z-[100000] bg-black/45 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: reducedMotion ? 0.01 : 0.22, ease: [0.22, 1, 0.36, 1] }}
             onClick={onClose}
             aria-label="Close accessibility drawer"
           />
 
           <motion.section
-            initial={{ y: '100%', opacity: 0.92 }}
+            initial={{ y: reducedMotion ? 0 : '100%', opacity: 0.92 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: '100%', opacity: 0.98 }}
+            exit={{ y: reducedMotion ? 0 : '100%', opacity: 0.98 }}
             transition={drawerTransition}
-            className="fixed inset-x-0 bottom-0 z-[101]"
+            className="fixed inset-0 md:inset-x-0 md:bottom-0 md:top-auto z-[100001]"
             role="dialog"
             aria-modal="true"
             aria-labelledby="acc-drawer-title"
           >
-            <div className="mx-auto max-w-[1920px] px-4 md:px-6 2xl:px-[140px]">
+            <div className="mx-auto h-full md:h-auto max-w-[1920px] px-4 md:px-6 2xl:px-[140px]">
               <div
-                className="max-h-[90vh] lg:max-h-[98vh] w-full shadow-2xl overflow-y-auto border-t border-foreground/10"
+                className="h-full md:h-auto md:max-h-[90vh] lg:max-h-[98vh] w-full shadow-2xl overflow-y-auto border-t border-foreground/10"
                 style={{
                   backgroundColor: 'rgb(var(--color-footer-bg))',
                 }}
@@ -99,11 +102,19 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
                 <header className="sticky top-0 z-[102] flex items-center justify-between px-5 md:px-8 pt-7 md:pt-8 pb-5 bg-[rgb(var(--color-footer-bg))] shadow-lg md:shadow-none">
                   <h2
                     id="acc-drawer-title"
-                    className="text-[26px] leading-none font-bold text-foreground"
+                    className="max-w-[60%] md:max-w-none text-[26px] leading-none font-bold text-foreground"
                   >
                     Accessibility Options
                   </h2>
-                  <NavButton onClick={onClose} aria-label="Close accessibility drawer" className="-mr-3">
+                  <NavButton
+                    onClick={(event) => {
+                      event.preventDefault()
+                      event.stopPropagation()
+                      onClose()
+                    }}
+                    aria-label="Close accessibility drawer"
+                    className="-mr-3"
+                  >
                     Close
                   </NavButton>
                 </header>
@@ -133,10 +144,7 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
                           />
                         </Section>
 
-                        <section className="flex flex-col items-start pt-2">
-                          <h3 className="mb-4 text-sm font-bold text-foreground md:text-base relative inline-block uppercase tracking-[0.05em]">
-                            Color Blindness
-                          </h3>
+                        <Section title="Color Blindness">
                           <SegmentedButtons
                             options={[
                               { value: 'none', label: 'None' },
@@ -157,7 +165,7 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
                               )
                             }
                           />
-                        </section>
+                        </Section>
                       </div>
 
                       <div className="space-y-6 order-3 lg:order-2">
@@ -171,6 +179,12 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
                             active={highlightLinks}
                             onToggle={() => setHighlightLinks(!highlightLinks)}
                             icon={<LinkIcon />}
+                          />
+                          <ToggleCard
+                            label="Reading Guide"
+                            active={readingGuide}
+                            onToggle={() => setReadingGuide(!readingGuide)}
+                            icon={<ReadingGuideIcon />}
                           />
                           <div className="hidden md:block">
                             <ToggleCard
@@ -209,6 +223,54 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
                             onChange={(value) =>
                               setTextSize(
                                 value as 'default' | 'large' | 'larger'
+                              )
+                            }
+                          />
+                        </Section>
+
+                        <Section title="Line Height">
+                          <SegmentedButtons
+                            options={[
+                              { value: 'default', label: 'Default' },
+                              { value: 'relaxed', label: 'Relaxed' },
+                              { value: 'loose', label: 'Loose' },
+                            ]}
+                            value={lineHeight}
+                            onChange={(value) =>
+                              setLineHeight(
+                                value as 'default' | 'relaxed' | 'loose'
+                              )
+                            }
+                          />
+                        </Section>
+
+                        <Section title="Letter Spacing">
+                          <SegmentedButtons
+                            options={[
+                              { value: 'default', label: 'Default' },
+                              { value: 'wide', label: 'Wide' },
+                              { value: 'wider', label: 'Wider' },
+                            ]}
+                            value={letterSpacing}
+                            onChange={(value) =>
+                              setLetterSpacing(
+                                value as 'default' | 'wide' | 'wider'
+                              )
+                            }
+                          />
+                        </Section>
+
+                        <Section title="Word Spacing">
+                          <SegmentedButtons
+                            options={[
+                              { value: 'default', label: 'Default' },
+                              { value: 'wide', label: 'Wide' },
+                              { value: 'wider', label: 'Wider' },
+                            ]}
+                            value={wordSpacing}
+                            onChange={(value) =>
+                              setWordSpacing(
+                                value as 'default' | 'wide' | 'wider'
                               )
                             }
                           />
@@ -262,6 +324,7 @@ function ReadableFontDropdown({
   onChange: (value: 'none' | 'opendyslexic' | 'atkinson') => void
 }) {
   const [isOpen, setIsOpen] = useState(false)
+  const { reducedMotion } = useAccessibility()
 
   const options = [
     { value: 'none', label: 'None' },
@@ -303,7 +366,7 @@ function ReadableFontDropdown({
         </div>
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: reducedMotion ? 0 : 0.2 }}
           className="opacity-50 ml-2"
         >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
@@ -316,7 +379,7 @@ function ReadableFontDropdown({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2, ease: 'easeInOut' }}
+            transition={{ duration: reducedMotion ? 0.01 : 0.2, ease: 'easeInOut' }}
             className="absolute top-full left-0 right-0 z-[110] overflow-hidden bg-foreground/95 dark:bg-black/95 backdrop-blur-md shadow-2xl"
           >
             <div className="p-1.5 flex flex-col gap-1">
@@ -448,6 +511,12 @@ function PauseIcon() {
 function CursorIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3z" /><path d="m13 13 6 6" /></svg>
+  )
+}
+
+function ReadingGuideIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="2" y1="12" x2="22" y2="12" /><path d="M2 12h20" /><path d="M5 7v10" /><path d="M19 7v10" /></svg>
   )
 }
 

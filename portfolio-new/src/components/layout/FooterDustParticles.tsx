@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 /**
  * FooterDustParticles - Sparse, high-luminance dust motes
@@ -37,9 +38,16 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
   const particlesRef = useRef<Particle[]>([])
   const opacityRef = useRef(0)
   const visibleRef = useRef(visible)
+  const { reducedMotion, pauseWebGL } = useAccessibility()
+  const pausedRef = useRef(reducedMotion || pauseWebGL)
+
   useEffect(() => {
     visibleRef.current = visible
   }, [visible])
+
+  useEffect(() => {
+    pausedRef.current = reducedMotion || pauseWebGL
+  }, [reducedMotion, pauseWebGL])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -64,6 +72,14 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
       if (canvas.width !== cw || canvas.height !== ch) {
         canvas.width = cw
         canvas.height = ch
+      }
+
+      // When paused, clear canvas and skip particle updates
+      if (pausedRef.current) {
+        ctx.clearRect(0, 0, cw, ch)
+        opacityRef.current = 0
+        rafRef.current = requestAnimationFrame(render)
+        return
       }
 
       const target = visibleRef.current ? 1 : 0

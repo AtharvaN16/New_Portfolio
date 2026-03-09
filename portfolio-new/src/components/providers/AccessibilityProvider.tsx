@@ -4,6 +4,10 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 import { useReducedMotion } from '@/hooks/use-reduced-motion'
 
 type TextSizeLevel = 'default' | 'large' | 'larger'
+type LineHeightLevel = 'default' | 'relaxed' | 'loose'
+type LetterSpacingLevel = 'default' | 'wide' | 'wider'
+type WordSpacingLevel = 'default' | 'wide' | 'wider'
+
 type ColorBlindnessType =
   | 'none'
   | 'protanopia'
@@ -19,10 +23,13 @@ interface AccessibilitySettings {
   readableFont: ReadableFontType
   pauseWebGL: boolean
   textSize: TextSizeLevel
+  lineHeight: LineHeightLevel
+  letterSpacing: LetterSpacingLevel
+  wordSpacing: WordSpacingLevel
+  readingGuide: boolean
   invertColors: boolean
   grayscale: boolean
   highlightLinks: boolean
-  alignTextLeft: boolean
   hideImages: boolean
   bigCursor: boolean
   colorBlindnessType: ColorBlindnessType
@@ -34,10 +41,13 @@ interface AccessibilityContextType extends AccessibilitySettings {
   setReadableFont: (value: ReadableFontType) => void
   setPauseWebGL: (value: boolean) => void
   setTextSize: (value: TextSizeLevel) => void
+  setLineHeight: (value: LineHeightLevel) => void
+  setLetterSpacing: (value: LetterSpacingLevel) => void
+  setWordSpacing: (value: WordSpacingLevel) => void
+  setReadingGuide: (value: boolean) => void
   setInvertColors: (value: boolean) => void
   setGrayscale: (value: boolean) => void
   setHighlightLinks: (value: boolean) => void
-  setAlignTextLeft: (value: boolean) => void
   setHideImages: (value: boolean) => void
   setBigCursor: (value: boolean) => void
   setColorBlindnessType: (value: ColorBlindnessType) => void
@@ -49,16 +59,19 @@ const AccessibilityContext = createContext<AccessibilityContextType | undefined>
 
 export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const osReducedMotion = useReducedMotion()
-  
+
   const [reducedMotion, setReducedMotion] = useState(false)
   const [highContrast, setHighContrast] = useState(false)
   const [readableFont, setReadableFont] = useState<ReadableFontType>('none')
   const [pauseWebGL, setPauseWebGL] = useState(false)
   const [textSize, setTextSize] = useState<TextSizeLevel>('default')
+  const [lineHeight, setLineHeight] = useState<LineHeightLevel>('default')
+  const [letterSpacing, setLetterSpacing] = useState<LetterSpacingLevel>('default')
+  const [wordSpacing, setWordSpacing] = useState<WordSpacingLevel>('default')
+  const [readingGuide, setReadingGuide] = useState(false)
   const [invertColors, setInvertColors] = useState(false)
   const [grayscale, setGrayscale] = useState(false)
   const [highlightLinks, setHighlightLinks] = useState(false)
-  const [alignTextLeft, setAlignTextLeft] = useState(false)
   const [hideImages, setHideImages] = useState(false)
   const [bigCursor, setBigCursor] = useState(false)
   const [colorBlindnessType, setColorBlindnessType] =
@@ -76,10 +89,13 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
         setReadableFont(parsed.readableFont ?? (parsed.dyslexiaFont ? 'opendyslexic' : 'none'))
         setPauseWebGL(parsed.pauseWebGL ?? false)
         setTextSize(parsed.textSize ?? 'default')
+        setLineHeight(parsed.lineHeight ?? 'default')
+        setLetterSpacing(parsed.letterSpacing ?? 'default')
+        setWordSpacing(parsed.wordSpacing ?? 'default')
+        setReadingGuide(parsed.readingGuide ?? false)
         setInvertColors(parsed.invertColors ?? false)
         setGrayscale(parsed.grayscale ?? false)
         setHighlightLinks(parsed.highlightLinks ?? false)
-        setAlignTextLeft(parsed.alignTextLeft ?? false)
         setHideImages(parsed.hideImages ?? false)
         setBigCursor(parsed.bigCursor ?? false)
         setColorBlindnessType(parsed.colorBlindnessType ?? 'none')
@@ -91,7 +107,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     }
   }, [osReducedMotion])
 
-  // Save to localStorage when settings change
+  // Save to localStorage and apply CSS classes when settings change
   useEffect(() => {
     const settings = {
       reducedMotion,
@@ -99,10 +115,13 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       readableFont,
       pauseWebGL,
       textSize,
+      lineHeight,
+      letterSpacing,
+      wordSpacing,
+      readingGuide,
       invertColors,
       grayscale,
       highlightLinks,
-      alignTextLeft,
       hideImages,
       bigCursor,
       colorBlindnessType,
@@ -111,11 +130,11 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
 
     // Apply classes to document element
     const root = document.documentElement
+    root.classList.toggle('a11y-reduced-motion', reducedMotion)
     root.classList.toggle('high-contrast', highContrast)
     root.classList.toggle('a11y-invert', invertColors)
     root.classList.toggle('a11y-grayscale', grayscale)
     root.classList.toggle('a11y-highlight-links', highlightLinks)
-    root.classList.toggle('a11y-align-left', alignTextLeft)
     root.classList.toggle('a11y-hide-images', hideImages)
     root.classList.toggle('a11y-big-cursor', bigCursor)
 
@@ -127,6 +146,21 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     root.classList.remove('a11y-text-large', 'a11y-text-larger')
     if (textSize === 'large') root.classList.add('a11y-text-large')
     if (textSize === 'larger') root.classList.add('a11y-text-larger')
+
+    // Line Height
+    root.classList.remove('a11y-leading-relaxed', 'a11y-leading-loose')
+    if (lineHeight === 'relaxed') root.classList.add('a11y-leading-relaxed')
+    if (lineHeight === 'loose') root.classList.add('a11y-leading-loose')
+
+    // Letter Spacing
+    root.classList.remove('a11y-tracking-wide', 'a11y-tracking-wider')
+    if (letterSpacing === 'wide') root.classList.add('a11y-tracking-wide')
+    if (letterSpacing === 'wider') root.classList.add('a11y-tracking-wider')
+
+    // Word Spacing
+    root.classList.remove('a11y-word-spacing-wide', 'a11y-word-spacing-wider')
+    if (wordSpacing === 'wide') root.classList.add('a11y-word-spacing-wide')
+    if (wordSpacing === 'wider') root.classList.add('a11y-word-spacing-wider')
 
     root.classList.remove(
       'a11y-cvd-protanopia',
@@ -149,10 +183,13 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     readableFont,
     pauseWebGL,
     textSize,
+    lineHeight,
+    letterSpacing,
+    wordSpacing,
+    readingGuide,
     invertColors,
     grayscale,
     highlightLinks,
-    alignTextLeft,
     hideImages,
     bigCursor,
     colorBlindnessType,
@@ -169,10 +206,13 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     setReadableFont('none')
     setPauseWebGL(false)
     setTextSize('default')
+    setLineHeight('default')
+    setLetterSpacing('default')
+    setWordSpacing('default')
+    setReadingGuide(false)
     setInvertColors(false)
     setGrayscale(false)
     setHighlightLinks(false)
-    setAlignTextLeft(false)
     setHideImages(false)
     setBigCursor(false)
     setColorBlindnessType('none')
@@ -186,10 +226,13 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
         readableFont,
         pauseWebGL,
         textSize,
+        lineHeight,
+        letterSpacing,
+        wordSpacing,
+        readingGuide,
         invertColors,
         grayscale,
         highlightLinks,
-        alignTextLeft,
         hideImages,
         bigCursor,
         colorBlindnessType,
@@ -198,10 +241,13 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
         setReadableFont,
         setPauseWebGL,
         setTextSize,
+        setLineHeight,
+        setLetterSpacing,
+        setWordSpacing,
+        setReadingGuide,
         setInvertColors,
         setGrayscale,
         setHighlightLinks,
-        setAlignTextLeft,
         setHideImages,
         setBigCursor,
         setColorBlindnessType,

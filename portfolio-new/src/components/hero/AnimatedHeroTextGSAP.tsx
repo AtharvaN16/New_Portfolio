@@ -45,7 +45,8 @@ export function AnimatedHeroTextGSAP({
   const [scribbleContainers, setScribbleContainers] = useState<HTMLElement[]>(
     []
   )
-  const { reducedMotion: prefersReducedMotion } = useAccessibility()
+  const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
+  const shouldPause = prefersReducedMotion || pauseWebGL
 
   useEffect(() => {
     if (!textRef.current) return
@@ -153,17 +154,17 @@ export function AnimatedHeroTextGSAP({
 
         // Set line to start above its mask
         gsap.set(line, {
-          y: prefersReducedMotion ? '0%' : '-100%',
+          y: shouldPause ? '0%' : '-100%',
           opacity: 1,
         })
       })
 
       // Set up each line with different starting positions and fade
       split.lines.forEach((line, index) => {
-        const startOffset = prefersReducedMotion ? 0 : -(index + 1) * 100
+        const startOffset = shouldPause ? 0 : -(index + 1) * 100
         gsap.set(line, {
           y: `${startOffset}%`,
-          opacity: 0.4,
+          opacity: shouldPause ? 1 : 0.4,
         })
       })
 
@@ -171,9 +172,9 @@ export function AnimatedHeroTextGSAP({
       gsap.to(split.lines, {
         y: '0%',
         opacity: 1,
-        duration: prefersReducedMotion ? 0.5 : 1.0,
+        duration: shouldPause ? 0 : 1.0,
         ease: 'power3.out',
-        delay: delay,
+        delay: shouldPause ? 0 : delay,
         onComplete: () => {
           lineMasks.forEach((m) => {
             m.style.overflow = 'visible'
@@ -215,7 +216,7 @@ export function AnimatedHeroTextGSAP({
       setScribbleContainers([])
       split?.revert()
     }
-  }, [delay, boldWords, pronunciationWords, children, prefersReducedMotion])
+  }, [delay, boldWords, pronunciationWords, children, prefersReducedMotion, pauseWebGL, shouldPause])
 
   return (
     <>
