@@ -59,7 +59,7 @@ export function FooterLinksSection({
             )
           })}
           {onOpenAccessibility && (
-            <li key="accessibility">
+            <li key="accessibility" className="hidden lg:list-item">
               <button
                 onClick={onOpenAccessibility}
                 className={cn(

@@ -452,10 +452,6 @@
   --a11y-image-placeholder-dark: 62 66 71;
 }
 
-body {
-  filter: var(--a11y-filter-cvd) var(--a11y-filter-invert)
-    var(--a11y-filter-grayscale) var(--a11y-filter-contrast);
-}
 
 :root.dyslexia-font {
   --font-geist-sans: 'OpenDyslexic', sans-serif !important;
