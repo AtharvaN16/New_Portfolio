@@ -2,6 +2,9 @@ import type { NextConfig } from 'next'
 import createMDX from '@next/mdx'
 
 const nextConfig: NextConfig = {
+  // Disable Strict Mode so dev matches production (no double-mount masking animation bugs)
+  reactStrictMode: false,
+
   // Configure MDX file extensions
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
 
