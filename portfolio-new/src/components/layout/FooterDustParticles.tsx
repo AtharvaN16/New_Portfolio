@@ -107,7 +107,10 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
         const fadeFactor = Math.max(0, 1 - distFromLight / h)
         const alpha = p.opacity * opacityRef.current * fadeFactor
 
-        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+        ctx.fillStyle = isDark
+          ? `rgba(255, 255, 255, ${alpha})`
+          : `rgba(0, 0, 0, ${alpha * 0.4})`
         ctx.fillRect(
           Math.round(p.x),
           Math.round(p.y),

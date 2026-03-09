@@ -44,9 +44,9 @@ export const fragmentShader = `
   const float EDGE_GLOW_DARK = 0.08;
   const float SUBSURFACE_SCATTER_LIGHT = 0.03; // Subtle on light
   const float SUBSURFACE_SCATTER_DARK = 0.05;
-  const float DENSITY_SAT_BOOST_LIGHT = 0.55;  // More saturation for light
+  const float DENSITY_SAT_BOOST_LIGHT = 0.20;  // Reduced: avoids color clipping on light bg
   const float DENSITY_SAT_BOOST_DARK = 0.4;
-  const float BASE_SATURATION_LIGHT = 1.45;    // Higher base saturation
+  const float BASE_SATURATION_LIGHT = 1.15;    // Reduced: colors are already saturated palette choices
   const float BASE_SATURATION_DARK = 1.25;
   const float VOLUMETRIC_DENSITY_LIGHT = 0.08; // More density/opacity
   const float VOLUMETRIC_DENSITY_DARK = 0.05;
@@ -184,7 +184,11 @@ export const fragmentShader = `
     float glowPower = mix(0.9, 0.6, uIsDarkMode);        // Sharper falloff in light mode
     float glowStrength = mix(0.08, 0.4, uIsDarkMode);    // Much less glow in light mode
     float glowIntensity = pow(totalWater, glowPower) * glowStrength;
-    vec3 color = backgroundColor + backgroundColor * glowIntensity;
+    // Dark mode: additive glow (emissive effect on dark background)
+    // Light mode: subtle depth cue shadow under blobs (glow on white just clips to 1.0)
+    float depthCue = glowIntensity * 0.04 * (1.0 - uIsDarkMode);
+    vec3 color = backgroundColor * (1.0 - depthCue)
+               + backgroundColor * glowIntensity * uIsDarkMode;
     
     // === NATURAL CONCENTRATION GRADIENT MIXING ===
     // Use cubic easing for more realistic color pooling (not linear)
@@ -205,10 +209,14 @@ export const fragmentShader = `
     float luminance = dot(blendedColor, vec3(0.299, 0.587, 0.114));
     blendedColor = mix(vec3(luminance), blendedColor, densitySaturation);
     
-    // === HIGHLIGHTS (thick areas) & SHADOWS (thin edges) ===
+    // === HIGHLIGHTS (thick areas) & PIGMENT EDGE DARKENING (thin edges) ===
     float highlight = pow(totalWater, 0.5) * mixingIntensity * 0.3; // Bright where overlapping
-    float shadow = pow(1.0 - totalWater, 1.5) * 0.15; // Darken thin edges
-    blendedColor = blendedColor * (1.0 + highlight) * (1.0 - shadow);
+    // Watercolor pigment accumulation at edges — dark ring at blob boundary, light mode only
+    float pigmentEdge = smoothstep(0.0, 0.4, totalWater)
+                      * (1.0 - smoothstep(0.4, 0.9, totalWater))
+                      * 0.25
+                      * (1.0 - uIsDarkMode);
+    blendedColor = blendedColor * (1.0 + highlight) * (1.0 - pigmentEdge);
     
     // Composite blobs onto glowing background
     color = mix(color, blendedColor, totalWater);

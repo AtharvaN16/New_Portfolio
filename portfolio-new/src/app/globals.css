@@ -141,9 +141,9 @@
   .hero-gradient-light {
     background: radial-gradient(
       ellipse at 30% 50%,
-      rgba(var(--hero-blob-blue), 0.85) 0%,
-      rgba(var(--hero-blob-purple), 0.75) 40%,
-      rgba(var(--hero-blob-pink), 0.7) 80%,
+      rgba(var(--hero-blob-blue), 0.60) 0%,
+      rgba(var(--hero-blob-purple), 0.50) 40%,
+      rgba(var(--hero-blob-pink), 0.45) 80%,
       rgba(var(--color-background), 1) 100%
     );
     /* Subtle texture overlay for light mode (pigment effect) */
@@ -401,6 +401,15 @@
     opacity: 1;
   }
 
+  /* Accessibility drawer option hover behavior: fade siblings on hover */
+  .a11y-options-group:has(.a11y-option:hover) .a11y-option {
+    opacity: 0.4;
+  }
+
+  .a11y-options-group:has(.a11y-option:hover) .a11y-option:hover {
+    opacity: 1;
+  }
+
   /* GPU acceleration for smoother animations and to prevent flickering/jittering */
   .gpu-accelerate {
     transform: translateZ(0);
@@ -433,16 +442,59 @@
 }
 
 /* Accessibility Overrides */
+:root {
+  --a11y-filter-contrast: ;
+  --a11y-filter-invert: ;
+  --a11y-filter-grayscale: ;
+  --a11y-filter-cvd: ;
+  --a11y-image-placeholder-light: 221 225 230;
+  --a11y-image-placeholder-dark: 62 66 71;
+}
+
+body {
+  filter: var(--a11y-filter-cvd) var(--a11y-filter-invert)
+    var(--a11y-filter-grayscale) var(--a11y-filter-contrast);
+}
+
 :root.dyslexia-font {
   --font-geist-sans: 'OpenDyslexic', sans-serif !important;
 }
 
-@font-face {
-  font-family: 'OpenDyslexic';
-  src: url('https://opendyslexic.org/font/OpenDyslexic-Regular.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+:root.a11y-text-large {
+  font-size: 112.5%;
+}
+
+:root.a11y-text-larger {
+  font-size: 125%;
+}
+
+:root.a11y-align-left p,
+:root.a11y-align-left li,
+:root.a11y-align-left h1,
+:root.a11y-align-left h2,
+:root.a11y-align-left h3,
+:root.a11y-align-left h4,
+:root.a11y-align-left h5,
+:root.a11y-align-left h6,
+:root.a11y-align-left blockquote {
+  text-align: left !important;
+}
+
+:root.a11y-highlight-links a {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 3px !important;
+}
+
+:root.a11y-highlight-links a:hover {
+  opacity: 1 !important;
+}
+
+:root.a11y-big-cursor,
+:root.a11y-big-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='44' viewBox='0 0 30 44'%3E%3Cpath d='M3 2l22 16-12 3 6 18-7 3-6-18-6 7z' fill='%23ffffff' stroke='%23000000' stroke-width='2'/%3E%3C/svg%3E")
+      2 2,
+    auto !important;
 }
 
 :root.high-contrast {
@@ -452,7 +504,32 @@
   --color-text-color60: var(--color-text-primary);
   --color-text-color70: var(--color-text-primary);
   --color-text-color90: var(--color-text-primary);
-  filter: contrast(1.1);
+  --a11y-filter-contrast: contrast(1.14);
+}
+
+:root.a11y-invert {
+  --a11y-filter-invert: invert(1) hue-rotate(180deg);
+}
+
+:root.a11y-grayscale {
+  --a11y-filter-grayscale: grayscale(1);
+}
+
+/* Approximate CVD simulation filters for preview preference states. */
+:root.a11y-cvd-protanopia {
+  --a11y-filter-cvd: sepia(0.22) saturate(0.72) hue-rotate(-22deg);
+}
+
+:root.a11y-cvd-deuteranopia {
+  --a11y-filter-cvd: sepia(0.18) saturate(0.68) hue-rotate(14deg);
+}
+
+:root.a11y-cvd-tritanopia {
+  --a11y-filter-cvd: sepia(0.24) saturate(0.65) hue-rotate(165deg);
+}
+
+:root.a11y-cvd-achromatopsia {
+  --a11y-filter-cvd: grayscale(1) contrast(1.04);
 }
 
 :root.high-contrast .opacity-40,
@@ -463,3 +540,23 @@
   opacity: 1 !important;
 }
 
+:root.a11y-hide-images img,
+:root.a11y-hide-images svg image {
+  box-shadow: inset 0 0 0 9999px
+    rgba(var(--a11y-image-placeholder-light), 0.96) !important;
+  filter: grayscale(1) contrast(0.8) !important;
+}
+
+:root[data-theme='dark'].a11y-hide-images img,
+:root[data-theme='dark'].a11y-hide-images svg image {
+  box-shadow: inset 0 0 0 9999px
+    rgba(var(--a11y-image-placeholder-dark), 0.96) !important;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://opendyslexic.org/font/OpenDyslexic-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
