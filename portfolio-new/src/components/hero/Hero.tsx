@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import dynamic from 'next/dynamic'
+import { useEffect, useState } from 'react'
 import { AnimatedLink } from '@/components/ui/AnimatedLink'
 
 const WaterBlobWithBoundary = dynamic(
@@ -58,6 +59,13 @@ export function Hero({
   onBrowseWorkClick,
   onGetInTouchClick,
 }: HeroProps) {
+  const [blobVisible, setBlobVisible] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setBlobVisible(true), 1750)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <section className="relative flex flex-col h-full w-full">
       <div className="max-w-[1920px] mx-auto w-full h-full flex flex-col">
@@ -136,8 +144,13 @@ export function Hero({
             </div>
 
             {/* Animated Water Blob - Flex grow to fill space with max height constraints */}
-            {/* CSS animation handles fade-in (more reliable than Framer Motion initial prop in SSR/production) */}
-            <div className="relative w-full overflow-hidden water-blob-container flex-1 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]">
+            <div
+              className="relative w-full overflow-hidden water-blob-container flex-1 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]"
+              style={{
+                opacity: blobVisible ? 1 : 0,
+                transition: 'opacity 2.5s ease-out',
+              }}
+            >
               <WaterBlobWithBoundary paused={shouldPauseBlobs} interactive />
             </div>
           </div>

@@ -219,7 +219,7 @@ export function WaterBlob({
     // On first mount: defer by 1400ms (blob fade-in delay — invisible during this window,
     // so no visual change). On re-runs caused by theme/retry changes: start immediately
     // so theme switches are seamless with no pause or color glitch.
-    const loopDelay = hasEverStartedRef.current ? 0 : 1400
+    const loopDelay = hasEverStartedRef.current ? 0 : 1550 // 200ms before blobVisible fires at 1750ms
     hasEverStartedRef.current = true
     // eslint-disable-next-line prefer-const
     startTimeoutId = setTimeout(() => {
