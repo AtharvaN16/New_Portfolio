@@ -368,12 +368,7 @@ Based on the audit, here is the recommended order of implementation, categorized
 - [ ] **12. Footer Dust Particles (Issue 2):** Implement theme-aware color logic for the canvas (white particles on dark, subtle dark particles on light).
 - [ ] **13. Footer Smog/Glow (Issue 6):** Adjust gradient opacities and blur for light mode to prevent the "muddy" appearance.
 - [ ] **14. Hero Gradient Opacity (Issue 12):** Reduce light mode radial gradient opacities (from 70-85% down to 55-70%).
-- [ ] **15. WaterBlob Shader Physics (Deep Dive):**
-    - [ ] Implement `mix-blend-mode: multiply` on the canvas for "ink-on-paper" physics.
-    - [ ] Update `uBackgroundColor` in light mode to pure white to support blending.
-    - [ ] Reduce shader saturation to prevent color clipping in light mode.
-    - [ ] Implement pigment edge darkening (the "watercolor signature").
-    - [ ] Replace additive glow with subtle depth darkening in light mode.
+
 
 ---
 
