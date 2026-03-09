@@ -200,6 +200,40 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     setPauseWebGL(value)
   }
 
+  // Color/contrast filters are mutually exclusive: only one can be active at a time
+  const setHighContrastExclusive = (value: boolean) => {
+    setHighContrast(value)
+    if (value) {
+      setInvertColors(false)
+      setGrayscale(false)
+      setColorBlindnessType('none')
+    }
+  }
+  const setInvertColorsExclusive = (value: boolean) => {
+    setInvertColors(value)
+    if (value) {
+      setHighContrast(false)
+      setGrayscale(false)
+      setColorBlindnessType('none')
+    }
+  }
+  const setGrayscaleExclusive = (value: boolean) => {
+    setGrayscale(value)
+    if (value) {
+      setHighContrast(false)
+      setInvertColors(false)
+      setColorBlindnessType('none')
+    }
+  }
+  const setColorBlindnessTypeExclusive = (value: ColorBlindnessType) => {
+    setColorBlindnessType(value)
+    if (value !== 'none') {
+      setHighContrast(false)
+      setInvertColors(false)
+      setGrayscale(false)
+    }
+  }
+
   const resetSettings = () => {
     setReducedMotion(osReducedMotion)
     setHighContrast(false)
@@ -237,7 +271,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
         bigCursor,
         colorBlindnessType,
         setReducedMotion,
-        setHighContrast,
+        setHighContrast: setHighContrastExclusive,
         setReadableFont,
         setPauseWebGL,
         setTextSize,
@@ -245,12 +279,12 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
         setLetterSpacing,
         setWordSpacing,
         setReadingGuide,
-        setInvertColors,
-        setGrayscale,
+        setInvertColors: setInvertColorsExclusive,
+        setGrayscale: setGrayscaleExclusive,
         setHighlightLinks,
         setHideImages,
         setBigCursor,
-        setColorBlindnessType,
+        setColorBlindnessType: setColorBlindnessTypeExclusive,
         setPauseAnimations,
         resetSettings,
       }}
