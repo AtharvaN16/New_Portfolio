@@ -11,24 +11,24 @@
      ======================================== */
   :root {
     /* --- Colors: Background --- */
-    --color-background: 250 250 248; /* #fafaf8 - subtle warm tint */
-    --color-surface: 246 246 244; /* #f6f6f4 - consistent warm step */
-    --color-surface-elevated: 242 242 240; /* #f2f2f0 */
+    --color-background: 247 247 245; /* #F7F7F5 - Bone/Linen, warm human white */
+    --color-surface: 255 255 255; /* #FFFFFF - Pure white for cards/foreground sections */
+    --color-surface-elevated: 241 243 245; /* #F1F3F5 - Subtle panel gray */
     --color-surface-muted: 226 228 232; /* #e2e4e8 */
     --color-footer-bg: 232 232 232; /* #e8e8e8 - stronger step down from page */
 
     /* --- Colors: Text (opacity-based) --- */
-    --color-foreground: 23 23 23; /* #171717 */
-    --color-text-color10: 232 232 232; /* ~#171717 at 10% opacity on white */
-    --color-text-color20: 209 209 209; /* ~#171717 at 20% opacity on white */
-    --color-text-color30: 185 185 185; /* ~#171717 at 30% opacity on white */
-    --color-text-color40: 162 162 162; /* ~#171717 at 40% opacity on white */
-    --color-text-tertiary-50: 139 139 139; /* ~#171717 at 50% opacity on white */
-    --color-text-color60: 116 116 116; /* ~#171717 at 60% opacity on white */
-    --color-text-color70: 93 93 93; /* ~#171717 at 70% opacity on white */
-    --color-text-secondary-80: 69 69 69; /* ~#171717 at 80% opacity on white */
-    --color-text-color90: 46 46 46; /* ~#171717 at 90% opacity on white */
-    --color-text-primary-100: 23 23 23; /* #171717 - 100% opacity */
+    --color-foreground: 17 17 17; /* #111111 - Sharp, premium primary text */
+    --color-text-color10: 233 233 233; /* ~#111111 at 10% opacity on white */
+    --color-text-color20: 212 212 212; /* ~#111111 at 20% opacity on white */
+    --color-text-color30: 191 191 191; /* ~#111111 at 30% opacity on white */
+    --color-text-color40: 169 169 169; /* ~#111111 at 40% opacity on white */
+    --color-text-tertiary-50: 148 148 148; /* ~#111111 at 50% opacity on white */
+    --color-text-color60: 126 126 126; /* ~#111111 at 60% opacity on white */
+    --color-text-color70: 119 119 119; /* #777777 - Premium labels/metadata */
+    --color-text-secondary-80: 85 85 85; /* #555555 - Softer premium body text */
+    --color-text-color90: 43 43 43; /* ~#111111 at 90% opacity on white */
+    --color-text-primary-100: 17 17 17; /* #111111 - 100% opacity */
 
     /* Backward compatibility aliases */
     --color-text-primary: var(--color-text-primary-100);
@@ -134,7 +134,7 @@
 
     /* --- Shadows --- */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-md: 0 1px 2px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.06); /* Premium 2026 shadow */
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
