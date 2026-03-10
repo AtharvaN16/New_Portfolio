@@ -148,7 +148,8 @@ export function ProjectCard({
       {/* Card - Responsive height, or flex-1 to fill container when h-full is passed */}
       <div
         className={cn(
-          'relative w-full overflow-hidden gpu-accelerate shadow-sm hover:shadow-md transition-shadow duration-300',
+          'relative w-full overflow-hidden gpu-accelerate transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]',
+          'shadow-md hover:shadow-xl [data-theme="dark"]:shadow-none [data-theme="dark"]:hover:shadow-none',
           // If parent has h-full, use flex-1 to fill; otherwise use explicit heights
           className?.includes('h-full')
             ? 'flex-1 min-h-[200px]'

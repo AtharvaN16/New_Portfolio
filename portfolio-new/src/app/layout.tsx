@@ -3,6 +3,7 @@ import './globals.css'
 
 import { AppProviders } from './AppProviders'
 import { metadata, viewport } from './metadata'
+import { TextureOverlay } from '@/components/layout/TextureOverlay'
 
 export { metadata, viewport }
 
@@ -62,6 +63,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${mynerve.variable} font-sans antialiased`}
       >
         <AppProviders>
+          <TextureOverlay />
           {/* Skip to main content link (accessibility) */}
           <a
             href="#main-content"
