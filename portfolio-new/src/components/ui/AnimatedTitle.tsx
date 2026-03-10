@@ -16,6 +16,10 @@ interface AnimatedTitleProps {
   className?: string
   /** Delay before starting the animation (in seconds). */
   delay?: number
+  /** Stagger time between words (in seconds). Default: 0.08. */
+  stagger?: number
+  /** Duration of the animation per word (in seconds). */
+  duration?: number
 }
 
 /**
@@ -31,6 +35,8 @@ export function AnimatedTitle({
   alwaysAnimate = false,
   className,
   delay = 0,
+  stagger = 0.08,
+  duration,
 }: AnimatedTitleProps) {
   const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
   const shouldPause = prefersReducedMotion || pauseWebGL
@@ -40,7 +46,7 @@ export function AnimatedTitle({
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: shouldPause ? 0 : 0.08,
+        staggerChildren: shouldPause ? 0 : stagger,
         delayChildren: shouldPause ? 0 : 0.2 + delay,
       },
     },
@@ -64,7 +70,7 @@ export function AnimatedTitle({
           type: 'spring' as const,
           damping: 12,
           stiffness: shouldPause ? 1000 : 100,
-          duration: shouldPause ? 0 : undefined,
+          duration: shouldPause ? 0 : duration,
         },
       },
       exit: {
@@ -80,7 +86,7 @@ export function AnimatedTitle({
       visible: {
         opacity: 1,
         transition: {
-          duration: shouldPause ? 0 : 0.5,
+          duration: shouldPause ? 0 : (duration ?? 0.5),
         },
       },
       exit: {
