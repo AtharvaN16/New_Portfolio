@@ -12,7 +12,7 @@
 > This is the single source of truth for resuming across token-limit resets.
 
 **Last updated:** 2026-03-10
-**Current tier:** Tier 2 complete — starting Tier 3
+**Current tier:** Tier 3 complete — awaiting Tier 4 approval
 **Build status:** ✅ Clean (`bun run build` passes, zero TS errors)
 
 ### Completed
@@ -28,14 +28,20 @@
 
 ### Next action
 
-**Tier 3, item 3.1** — Refactor `travelingGradient` to compositor-compatible approach.
-- File: `src/app/globals.css` — `.footer-resume-link` and `.shimmer-glow` animate `background-position`
-- Replace with `::before` pseudo-element using `transform: translateX(...)` + `overflow: hidden`
+**Plan complete.** All actionable items resolved. LCP stays ~3.6s (animation kept by design). Run `bun run lhci` after next production deploy to confirm no regressions.
+
+### Completed (post-plan accessibility pass)
+
+| # | Fix | Status | Notes |
+|---|-----|--------|-------|
+| A | Skip links not focusable | ✅ Resolved | Caused by ThemeProvider `return null` (fixed 2026-03-07). Skip link now in SSR output. |
+| B | Invalid ARIA role on `<section>` / `<article>` | ✅ Fixed | Removed `role="button"` (not allowed on those elements); added `aria-label="View [title] case study"` in `FullpageCard.tsx` + `ProjectCard.tsx` |
+| C | `font-display: swap` | ✅ Already done | `layout.tsx` had `display: 'swap'` for JetBrains Mono + Mynerve. Fallback variants are Next.js internals, not changeable. |
+| D | Maskable icon | ✅ Done | `site.webmanifest`: added `"purpose": "any"` to existing icons + maskable entry for icon-512.png |
 
 ### Open questions / blockers
 
-- PWA icons: need `public/icons/icon-192.png` + `public/icons/icon-512.png` (square logo PNG exports at 192px and 512px on `#0a0a0a` background). User to export from Figma or confirm Claude should generate.
-- Tier 1 LHCI run: not yet run against production. Run after deploying.
+- LHCI run: not yet run against production. Run after deploying.
 
 ---
 
@@ -180,7 +186,7 @@ Expected impact of any option: **LCP 3,598ms → ~1,100–1,500ms.** Highest-imp
 
 Two Next.js CSS chunks block render for ~150ms. Fix requires inlining critical CSS or `optimizeCss` (uses `critters`). Very high risk of theme flash and style ordering issues.
 
-**Defer until 4.1 is complete and LCP is remeasured.**
+**Not pursuing.** 4.1 was rejected (animation kept as designed), so LCP stays ~3.6s. Saving ~150ms from render start does not move LCP under the 2.5s target, so the risk/reward is not justified.
 
 ### Tier 4 Checkpoint
 
@@ -195,16 +201,16 @@ Two Next.js CSS chunks block render for ~150ms. Fix requires inlining critical C
 
 | # | Fix | File(s) | Risk | Status | Primary Impact |
 |---|-----|---------|------|--------|----------------|
-| 1.1 | Create site.webmanifest | `public/site.webmanifest` | Zero | ✅ Done (icons pending) | PWA + Best Practices |
+| 1.1 | Create site.webmanifest | `public/site.webmanifest` | Zero | ✅ Done | PWA + Best Practices |
 | 1.2 | `id="main-content"` on main | `src/app/page.tsx` | Zero | ✅ Done | Accessibility |
 | 1.3 | `prefetch={false}` for missing routes | `HoverLink.tsx`, `Navbar.tsx`, `Hero.tsx`, `MobileMenu.tsx` | Zero | ✅ Done | Console errors |
 | 2.1 | Conditional `priority` on FullpageCard | `FullpageCard.tsx`, `page.tsx` | Low | ✅ Done | Image audit |
 | 2.2 | Cache headers for font + favicon | `next.config.ts` | Low | ✅ Done | Asset checklist |
-| 3.1 | `travelingGradient` → `transform` | `globals.css` | Medium | ⬜ Pending | Composited animations |
-| 3.2 | `shimmerScale` timing fix | `globals.css` | Medium | ⬜ Pending | Composited animations |
-| 3.3 | Heading hierarchy | `Hero.tsx`, `SelectedWork.tsx` | Medium | ⬜ Pending | Accessibility |
-| 4.1 | LCP element opacity | `Hero.tsx` | High | 🔒 Needs approval | **LCP 3.6s → ~1.2s** |
-| 4.2 | Render-blocking CSS | `next.config.ts` | Very High | 🔒 Deferred | ~150ms render start |
+| 3.1 | `travelingGradient` → `transform` | `globals.css` | Medium | 🚫 Not fixable | `background-clip: text` requires `background-position` — no compositor-safe equivalent |
+| 3.2 | `shimmerScale` timing fix | `globals.css` | Medium | ✅ Done | Composited animations |
+| 3.3 | Heading hierarchy | `WorkFilter.tsx` | Medium | ✅ Done | Accessibility |
+| 4.1 | LCP element opacity | `Hero.tsx` | High | 🚫 Rejected — animation kept as designed | LCP stays ~3.6s |
+| 4.2 | Render-blocking CSS | `next.config.ts` | Very High | 🚫 Not pursuing — 4.1 rejected so ~150ms saving won't move LCP past 2.5s threshold | ~150ms render start |
 
 ---
 

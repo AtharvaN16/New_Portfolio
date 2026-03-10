@@ -56,13 +56,13 @@ function FilterTitleItem({
       onMouseLeave={onMouseLeave}
       className="group relative flex items-start gap-1 text-left outline-none"
     >
-      <h2 
+      <span
         className="text-[18px] lg:text-[36px] 2xl:text-[42px] font-bold leading-[1.1] tracking-tight flex flex-wrap"
         style={{
-          color: isSelected 
-            ? 'rgb(var(--color-foreground))' 
-            : isHovered 
-              ? 'rgb(var(--color-text-color70))' 
+          color: isSelected
+            ? 'rgb(var(--color-foreground))'
+            : isHovered
+              ? 'rgb(var(--color-text-color70))'
               : 'rgb(var(--color-text-color40))'
         }}
       >
@@ -83,7 +83,7 @@ function FilterTitleItem({
         >
           {count}
         </motion.span>
-      </h2>
+      </span>
     </button>
   )
 }
