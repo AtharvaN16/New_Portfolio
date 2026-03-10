@@ -3,7 +3,11 @@
 import { motion } from 'framer-motion'
 import type { CaseStudy } from '@/lib/data/case-studies'
 import { CaseStudyContent } from '@/components/case-study/CaseStudyContent'
-import { GutenbergContent } from '@/components/case-study/content/GutenbergContent'
+import {
+  GutenbergContent,
+  NycDcwpBusinessLicensesContent,
+  PrattVisitorExperienceContent,
+} from '@/components/case-study/content'
 
 interface CaseStudyContentRendererProps {
   caseStudy: CaseStudy
@@ -26,6 +30,17 @@ export function CaseStudyContentRenderer({
           onToggleContent={onToggleContent}
         />
       )
+
+    case 'pratt-institute-visitor-experience':
+      return (
+        <PrattVisitorExperienceContent
+          isContentRevealed={isContentRevealed}
+          onToggleContent={onToggleContent}
+        />
+      )
+
+    case 'nyc-dcwp-business-licenses':
+      return <NycDcwpBusinessLicensesContent />
 
     default:
       return children ? (
