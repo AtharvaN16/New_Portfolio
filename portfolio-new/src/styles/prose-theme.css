@@ -78,11 +78,11 @@
 
   /* Uppercase section headers (like "PROJECT OVERVIEW") */
   .prose-case-study h3.section-header {
-    color: rgb(var(--color-text-color60));
+    color: rgb(var(--color-text-secondary));
     font-size: 0.875rem; /* 14px */
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
     margin-bottom: 1.5rem;
     margin-top: 0;
   }
@@ -186,7 +186,7 @@
   /* List item description */
   .prose-case-study ul li p,
   .prose-case-study ul li .list-description {
-    color: rgb(var(--color-text-color70));
+    color: rgb(var(--color-text-tertiary));
     font-size: 1rem;
     line-height: 1.625;
     margin: 0;

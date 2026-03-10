@@ -29,13 +29,13 @@ function FooterClockComponent({ className }: FooterClockProps) {
     >
       <p
         className="mb-1 text-sm font-medium tracking-wide lg:mb-2 lg:text-lg"
-        style={{ color: 'rgb(var(--color-text-tertiary-50))' }}
+        style={{ color: 'rgb(var(--color-text-secondary))' }}
       >
         NEW YORK
       </p>
       <div
         className="text-sm font-medium tabular-nums lg:text-lg"
-        style={{ color: 'rgb(var(--color-text-tertiary-50))' }}
+        style={{ color: 'rgb(var(--color-text-secondary))' }}
         suppressHydrationWarning
       >
         {formattedTime}
