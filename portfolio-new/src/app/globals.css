@@ -2,6 +2,9 @@
 @plugin '@tailwindcss/typography';
 @import '../styles/design-tokens.css';
 @import '../styles/tailwind-theme.css';
+
+/* Wire Tailwind's dark: variant to data-theme="dark" (portfolio uses attribute-based theming, not OS media query) */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 @import '../styles/fonts.css';
 @import '../styles/prose-theme.css';
 

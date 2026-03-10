@@ -25,20 +25,20 @@ export function NavButton({ children, className, ...props }: NavButtonProps) {
     <motion.button
       type="button"
       className={cn(
-        'group relative overflow-hidden text-[14px] md:text-[18px] tracking-normal transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 px-3 py-1.5 rounded-none bg-transparent z-[101] pointer-events-auto',
+        'group relative overflow-hidden cursor-pointer text-[14px] md:text-[18px] tracking-normal transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 px-3 py-1.5 rounded-none bg-transparent z-[101] pointer-events-auto',
         className
       )}
       whileTap={{ scale: 0.98 }}
       {...props}
     >
       {/* Animated Fill Background (Desktop only) */}
-      {/* Neutral gray in light mode, subtle white in dark mode for clear discernability */}
+      {/* Explicit black/white to avoid circular --color-foreground CSS variable issue */}
       <div
-        className="absolute inset-x-0 bottom-0 z-0 hidden md:block h-0 group-hover:h-full transition-[height] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] pointer-events-none bg-foreground/10 dark:bg-white/20"
+        className="absolute inset-x-0 bottom-0 z-0 hidden md:block h-0 group-hover:h-full transition-[height] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] pointer-events-none bg-black/[0.12] dark:bg-white/20"
       />
       
       {/* Label - Subtle color change on hover (Desktop only) */}
-      <span className="relative z-10 block transition-colors duration-300 text-text-secondary group-hover:md:text-foreground pointer-events-none font-sans font-medium tracking-[0.1em] uppercase leading-none">
+      <span className="relative z-10 block transition-colors duration-300 text-text-secondary md:group-hover:text-foreground pointer-events-none font-sans font-medium tracking-[0.1em] uppercase leading-none">
         {children}
       </span>
     </motion.button>
