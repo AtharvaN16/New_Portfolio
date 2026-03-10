@@ -7,16 +7,12 @@ import { getCaseStudyBySlug } from '@/lib/data/case-studies'
 import { useImageDominantColor } from '@/hooks/use-image-dominant-color'
 import dynamic from 'next/dynamic'
 
-// Lazy load detail components - only loads when dialog opens
 const CaseStudyDetail = dynamic(
   () =>
     import('@/components/case-study/CaseStudyDetail').then((mod) => ({
       default: mod.CaseStudyDetail,
     })),
-  {
-    ssr: false,
-    loading: () => <div className="min-h-dvh bg-background" />,
-  }
+  { ssr: false, loading: () => <div className="min-h-dvh bg-background" /> }
 )
 
 const ShowcaseDetail = dynamic(
@@ -24,10 +20,7 @@ const ShowcaseDetail = dynamic(
     import('@/components/case-study/ShowcaseDetail').then((mod) => ({
       default: mod.ShowcaseDetail,
     })),
-  {
-    ssr: false,
-    loading: () => <div className="min-h-dvh bg-background" />,
-  }
+  { ssr: false, loading: () => <div className="min-h-dvh bg-background" /> }
 )
 
 const TRANSITION_EASE: [number, number, number, number] = [0.87, 0, 0.13, 1]
@@ -35,11 +28,16 @@ const OPEN_DURATION = 1.2
 const CLOSE_DURATION = 1.0
 
 /**
- * Swaddle-style dialog for case study detail pages.
- * Opens when navigating to /case-studies/[slug]
- * Regular case studies: slide up/down animation
- * Showcase variant: color flash entry, fade exit
+ * Flash overlay state for showcase transitions.
+ * Lives at CaseStudyDialog level so it survives dialog mount/unmount,
+ * enabling a smooth reveal of the portfolio page after exit.
  */
+interface FlashState {
+  visible: boolean
+  opacity: number
+  duration: number
+}
+
 export function CaseStudyDialog() {
   const scrollYRef = useRef(0)
   const [isOpen, setIsOpen] = useState(false)
@@ -47,7 +45,14 @@ export function CaseStudyDialog() {
   const isClosingRef = useRef(false)
   const [shouldLockScroll, setShouldLockScroll] = useState(false)
 
-  // Listen for URL changes
+  // Flash overlay — managed here so it outlives the dialog for exit reveals
+  const [flash, setFlash] = useState<FlashState>({ visible: false, opacity: 1, duration: 0 })
+  // Exit always uses site background color (black/white), entry uses dominant image color
+  const [flashBgColor, setFlashBgColor] = useState<string>('rgb(var(--color-background))')
+  const wasShowcaseRef = useRef(false)
+  const flashTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // URL listener
   useEffect(() => {
     const checkURL = () => {
       const path = window.location.pathname
@@ -72,32 +77,81 @@ export function CaseStudyDialog() {
     checkURL()
     window.addEventListener('popstate', checkURL)
     window.addEventListener('casestudydialog:check', checkURL)
-
     return () => {
       window.removeEventListener('popstate', checkURL)
       window.removeEventListener('casestudydialog:check', checkURL)
     }
   }, [isOpen, currentSlug])
 
-  const handleExitComplete = () => {
-    setShouldLockScroll(false)
-    document.body.style.overflow = ''
-    const savedScroll = scrollYRef.current
-    window.scrollTo(0, savedScroll)
-    setCurrentSlug(null)
-    window.dispatchEvent(new CustomEvent('dialog:closed'))
-  }
-
   const caseStudy = currentSlug ? getCaseStudyBySlug(currentSlug) : null
   const isShowcase = caseStudy?.pageVariant === 'showcase'
 
-  // Extract dominant color from showcase hero image for the flash effect
-  const flashColor = useImageDominantColor(
-    isShowcase ? caseStudy?.imageUrl : undefined
-  )
+  const flashColor = useImageDominantColor(isShowcase ? caseStudy?.imageUrl : undefined)
+
+  // Entry flash: dominant image color, hold briefly, then fade to reveal
+  useEffect(() => {
+    if (!isOpen || !isShowcase) return
+    wasShowcaseRef.current = true
+    setFlashBgColor(flashColor || 'rgb(var(--color-background))')
+    setFlash({ visible: true, opacity: 1, duration: 0 })
+
+    const timer = setTimeout(() => {
+      setFlash({ visible: true, opacity: 0, duration: 0.45 })  // slightly faster reveal
+    }, 250)                                                      // shorter hold
+
+    flashTimerRef.current = timer
+    return () => clearTimeout(timer)
+  }, [isOpen, isShowcase, flashColor])
+
+  // Exit flash: always site background color (theme-aware black/white), quick cover + quick reveal
+  const handleShowcaseClose = () => {
+    if (flashTimerRef.current) clearTimeout(flashTimerRef.current)
+    setFlashBgColor('rgb(var(--color-background))')             // theme bg, not dominant color
+    setFlash({ visible: true, opacity: 1, duration: 0.18 })    // fast cover
+
+    setTimeout(() => {
+      if (window.history.length > 1) {
+        window.history.back()
+      } else {
+        window.location.href = '/'
+      }
+    }, 220)                                                      // navigate once opaque
+  }
+
+  const handleExitComplete = () => {
+    setShouldLockScroll(false)
+    document.body.style.overflow = ''
+    setCurrentSlug(null)
+    window.dispatchEvent(new CustomEvent('dialog:closed'))
+
+    if (wasShowcaseRef.current) {
+      wasShowcaseRef.current = false
+      window.scrollTo(0, scrollYRef.current)
+      setFlash({ visible: true, opacity: 0, duration: 0.35 })  // quick reveal of portfolio
+      const timer = setTimeout(() => setFlash({ visible: false, opacity: 0, duration: 0 }), 450)
+      flashTimerRef.current = timer
+    } else {
+      window.scrollTo(0, scrollYRef.current)
+    }
+  }
 
   return (
     <RemoveScroll enabled={shouldLockScroll}>
+      {/*
+        Flash overlay lives OUTSIDE the dialog AnimatePresence so it persists
+        through dialog unmount, allowing the exit reveal to play over the portfolio.
+      */}
+      {flash.visible && (
+        <motion.div
+          className="fixed inset-0 z-[200] pointer-events-none"
+          initial={false}
+          animate={{ opacity: flash.opacity }}
+          transition={{ duration: flash.duration, ease: 'easeInOut' }}
+          style={{ backgroundColor: flashBgColor }}
+          aria-hidden
+        />
+      )}
+
       <AnimatePresence onExitComplete={handleExitComplete}>
         {isOpen && caseStudy && (
           <motion.div
@@ -109,16 +163,14 @@ export function CaseStudyDialog() {
             animate={
               isShowcase
                 ? { opacity: 1 }
-                : {
-                    y: 0,
-                    transition: { duration: OPEN_DURATION, ease: TRANSITION_EASE },
-                  }
+                : { y: 0, transition: { duration: OPEN_DURATION, ease: TRANSITION_EASE } }
             }
             exit={
               isShowcase
                 ? {
+                    // Exit instantly — flash overlay at z-[200] covers the dialog
                     opacity: 0,
-                    transition: { duration: 0.4, ease: 'easeIn' },
+                    transition: { duration: 0.01 },
                   }
                 : {
                     y: '100%',
@@ -133,7 +185,7 @@ export function CaseStudyDialog() {
             }}
           >
             {isShowcase ? (
-              <ShowcaseDetail caseStudy={caseStudy} flashColor={flashColor} />
+              <ShowcaseDetail caseStudy={caseStudy} onClose={handleShowcaseClose} />
             ) : (
               <CaseStudyDetail caseStudy={caseStudy} />
             )}
