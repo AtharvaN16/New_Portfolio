@@ -61,9 +61,9 @@ function CSSGlow({
   const height2 = isLight ? '65%' : '85%'
   const height3 = isLight ? '75%' : '100%'
 
-  // Dither opacity: must be visible enough to break 8-bit gradient quantization.
-  // Research confirms 0.25–0.35 with mix-blend-mode: overlay is the effective range.
-  const ditherOpacity = isLight ? 0.30 : 0.22
+  // Dither opacity: reduced to compensate for the global TextureOverlay grain.
+  // Ensures gradient smoothing without excessive perceived noise.
+  const ditherOpacity = isLight ? 0.12 : 0.18
 
   return (
     // Outer wrapper handles the opacity fade so dither and gradients fade together.

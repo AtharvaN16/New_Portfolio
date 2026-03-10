@@ -11,7 +11,7 @@ export function TextureOverlay() {
   const isDark = theme === 'dark'
   
   // Explicitly defined opacities to ensure zero leakage between themes
-  const opacity = isDark ? 0.018 : 0.15
+  const opacity = isDark ? 0.025 : 0.2
 
   return (
     <>
