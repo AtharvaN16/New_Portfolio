@@ -19,9 +19,9 @@ import { MobileMenu } from './MobileMenu'
  */
 
 const navLinks = [
-  { label: 'Writings', href: '/writings' },
-  { label: 'Explorations', href: '/explorations' },
-  { label: 'About', href: '/about' },
+  { label: 'Writings', href: '/writings', prefetch: false },
+  { label: 'Explorations', href: '/explorations', prefetch: false },
+  { label: 'About', href: '/about', prefetch: false },
 ]
 
 export function Navbar() {
@@ -72,7 +72,7 @@ export function Navbar() {
                   }}
                   className="relative flex flex-col items-center"
                 >
-                  <HoverLink href={link.href}>{link.label}</HoverLink>
+                  <HoverLink href={link.href} prefetch={link.prefetch}>{link.label}</HoverLink>
                 </motion.li>
               ))}
             </ul>

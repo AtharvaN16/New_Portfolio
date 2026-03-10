@@ -15,11 +15,11 @@ interface MobileMenuProps {
 }
 
 const menuLinks = [
-  { label: 'Writings', href: '/writings' },
-  { label: 'Explorations', href: '/explorations' },
-  { label: 'About', href: '/about' },
-  { label: 'Résumé', href: '/resume' },
-  { label: 'Get in touch', href: '#footer' },
+  { label: 'Writings', href: '/writings', prefetch: false },
+  { label: 'Explorations', href: '/explorations', prefetch: false },
+  { label: 'About', href: '/about', prefetch: false },
+  { label: 'Résumé', href: '/resume', prefetch: false },
+  { label: 'Get in touch', href: '#footer', prefetch: undefined },
 ]
 
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
@@ -109,6 +109,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     <Link
                       href={link.href}
                       onClick={onClose}
+                      prefetch={link.prefetch}
                       className="text-[40px] font-medium text-foreground leading-none tracking-tight"
                     >
                       {link.label}

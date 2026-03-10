@@ -96,8 +96,8 @@ export function CaseStudyDialog() {
     setFlash({ visible: true, opacity: 1, duration: 0 })
 
     const timer = setTimeout(() => {
-      setFlash({ visible: true, opacity: 0, duration: 0.45 })  // slightly faster reveal
-    }, 250)                                                      // shorter hold
+      setFlash({ visible: true, opacity: 0, duration: 0.3 })  // faster reveal (was 0.45)
+    }, 200)                                                      // shorter hold (was 250)
 
     flashTimerRef.current = timer
     return () => clearTimeout(timer)
@@ -107,7 +107,7 @@ export function CaseStudyDialog() {
   const handleShowcaseClose = () => {
     if (flashTimerRef.current) clearTimeout(flashTimerRef.current)
     setFlashBgColor('rgb(var(--color-background))')             // theme bg, not dominant color
-    setFlash({ visible: true, opacity: 1, duration: 0.18 })    // fast cover
+    setFlash({ visible: true, opacity: 1, duration: 0.15 })    // even faster cover (was 0.18)
 
     setTimeout(() => {
       if (window.history.length > 1) {
@@ -115,7 +115,7 @@ export function CaseStudyDialog() {
       } else {
         window.location.href = '/'
       }
-    }, 220)                                                      // navigate once opaque
+    }, 180)                                                      // navigate once opaque (was 220)
   }
 
   const handleExitComplete = () => {
@@ -127,8 +127,8 @@ export function CaseStudyDialog() {
     if (wasShowcaseRef.current) {
       wasShowcaseRef.current = false
       window.scrollTo(0, scrollYRef.current)
-      setFlash({ visible: true, opacity: 0, duration: 0.35 })  // quick reveal of portfolio
-      const timer = setTimeout(() => setFlash({ visible: false, opacity: 0, duration: 0 }), 450)
+      setFlash({ visible: true, opacity: 0, duration: 0.25 })  // quick reveal of portfolio (was 0.35)
+      const timer = setTimeout(() => setFlash({ visible: false, opacity: 0, duration: 0 }), 350) // was 450
       flashTimerRef.current = timer
     } else {
       window.scrollTo(0, scrollYRef.current)
