@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation'
 import { CaseStudyDetail } from '@/components/case-study/CaseStudyDetail'
 import { getCaseStudyBySlug, caseStudies } from '@/lib/data/case-studies'
-import { getCaseStudyContent } from '@/lib/mdx/get-case-study-content'
 import type { Metadata } from 'next'
 
 interface CaseStudyPageProps {
@@ -49,12 +48,5 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     notFound()
   }
 
-  // Try to load MDX content for this case study
-  const ContentComponent = await getCaseStudyContent(slug)
-
-  return (
-    <CaseStudyDetail caseStudy={caseStudy}>
-      {ContentComponent && <ContentComponent />}
-    </CaseStudyDetail>
-  )
+  return <CaseStudyDetail caseStudy={caseStudy} />
 }
