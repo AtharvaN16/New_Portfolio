@@ -1,26 +1,21 @@
 'use client'
 
 import React from 'react'
+import { useTheme } from '@/components/providers/ThemeProvider'
 
 /**
  * TextureOverlay - Implements the "Sensory Grit" (Digital Defrost) 2026 design trend.
- *
- * This component provides a microscopic, high-frequency grain texture across the
- * entire application using a performant SVG noise filter.
- *
- * Metaphor: "The Tooth of the Interface"
- * - Adds a paper-like quality to the screen.
- * - Breaks up clinical CSS perfection.
- * - Subtle shimmer that adds human touch/authenticity.
- *
- * Technical:
- * - Uses feTurbulence for scalable, zero-asset grain.
- * - Opacity is theme-aware: higher in light mode (absorptive) and lower in dark mode (emissive).
  */
 export function TextureOverlay() {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+  
+  // Explicitly defined opacities to ensure zero leakage between themes
+  const opacity = isDark ? 0.018 : 0.15
+
   return (
     <>
-      {/* SVG Filter Definition - Hidden from view */}
+      {/* SVG Filter Definition */}
       <svg
         className="sr-only pointer-events-none absolute"
         aria-hidden="true"
@@ -40,10 +35,13 @@ export function TextureOverlay() {
 
       {/* The Overlay Layer */}
       <div
-        className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.12] [data-theme='dark']:opacity-[0.018] contrast-[120%] [data-theme='dark']:brightness-[120%]"
+        className="fixed inset-0 pointer-events-none z-[9999] contrast-[120%]"
         style={{
           filter: 'url(#sensory-grit)',
-        }}
+          opacity: opacity,
+          // Add a subtle brightness boost only in dark mode to keep it "emissive"
+          brightness: isDark ? '1.2' : '1.0'
+        } as React.CSSProperties}
         aria-hidden="true"
       />
     </>
