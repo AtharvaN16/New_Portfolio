@@ -76,7 +76,7 @@ export function FullpageCard({
         className
       )}
       onClick={handleClick}
-      role={slug ? 'button' : undefined}
+      aria-label={slug ? `View ${title} case study` : undefined}
       tabIndex={slug ? 0 : undefined}
       onKeyDown={(e) => {
         if (slug && (e.key === 'Enter' || e.key === ' ')) {

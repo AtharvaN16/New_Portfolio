@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
 import dynamic from 'next/dynamic'
@@ -87,7 +87,7 @@ export function WorkDialog() {
     <RemoveScroll enabled={shouldLockScroll}>
       <AnimatePresence onExitComplete={handleExitComplete}>
         {isOpen && (
-          <motion.div
+          <m.div
             key="work-dialog"
             id="dialog"
             className="dialog fixed inset-0 z-[100] overflow-y-auto"
@@ -115,7 +115,7 @@ export function WorkDialog() {
             }}
           >
             <WorkPage />
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </RemoveScroll>

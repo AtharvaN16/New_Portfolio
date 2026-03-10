@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { ProgressiveBlur } from '@/components/ui/ProgressiveBlur'
 import { NavButton } from '@/components/ui/NavButton'
 
@@ -8,7 +8,7 @@ interface CaseStudyHeaderProps {
 
 export function CaseStudyHeader({ onClose }: CaseStudyHeaderProps) {
   return (
-    <motion.header
+    <m.header
       className="sticky top-0 z-50"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -17,7 +17,7 @@ export function CaseStudyHeader({ onClose }: CaseStudyHeaderProps) {
     >
       <nav className="relative px-6 2xl:px-[140px] py-6 flex items-center justify-end max-w-[1920px] mx-auto">
         {/* Close Button - stays visible */}
-        <motion.div
+        <m.div
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{
@@ -29,7 +29,7 @@ export function CaseStudyHeader({ onClose }: CaseStudyHeaderProps) {
           <NavButton onClick={onClose} className="-mr-3">
             Close
           </NavButton>
-        </motion.div>
+        </m.div>
       </nav>
       {/* Progressive blur facing downward, behind progress bar */}
       <ProgressiveBlur
@@ -39,6 +39,6 @@ export function CaseStudyHeader({ onClose }: CaseStudyHeaderProps) {
         steps={8}
         className="-z-10"
       />
-    </motion.header>
+    </m.header>
   )
 }

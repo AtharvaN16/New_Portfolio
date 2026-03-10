@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, type MotionValue, useTransform, useScroll } from 'framer-motion'
+import { m, type MotionValue, useTransform, useScroll } from 'framer-motion'
 import { useRef } from 'react'
 import Image from 'next/image'
 import type { CaseStudy } from '@/lib/data/case-studies'
@@ -15,13 +15,16 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
   const heroSectionRef = useRef<HTMLElement>(null)
 
   // Parallax: image moves UP as user scrolls through the 200dvh hero.
+  // The travel distance is 100vh (200vh total height - 100vh viewport).
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroSectionRef,
     container: containerRef,
     offset: ['start start', 'end start'],
   })
   
-  const imageParallaxY = useTransform(heroProgress, [0, 1], ['0%', '-20%'])
+  // To match scroll speed 1:1, we move the image by the same amount as the scroll (100vh).
+  // With a 200vh tall image container, -50% translation equals -100vh.
+  const imageParallaxY = useTransform(heroProgress, [0, 1], ['0%', '-50%'])
 
   return (
     <section
@@ -30,10 +33,13 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
       style={{ height: '200dvh' }}
     >
       <div className="sticky top-0 h-dvh overflow-hidden">
-        {/* Parallax image — extended vertically for travel room */}
+        {/* 
+          Parallax image — 200% height ensures it always covers the 100vh viewport 
+          even when translated up by 100vh.
+        */}
         {caseStudy.imageUrl && (
-          <motion.div
-            className="absolute inset-x-0 -top-[15%] -bottom-[15%]"
+          <m.div
+            className="absolute inset-x-0 top-0 h-[200%]"
             style={{ y: imageParallaxY }}
           >
             <Image
@@ -44,7 +50,7 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
               sizes="100vw"
               priority
             />
-          </motion.div>
+          </m.div>
         )}
 
         <div className="absolute inset-0 bg-black/30" aria-hidden />
@@ -55,11 +61,12 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
             text={caseStudy.title}
             animationType="fadeIn"
             alwaysAnimate
-            delay={0.4}
+            delay={0.3}
+            stagger={0.04}
+            duration={0.3}
             className="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
           />
-
-          <motion.div
+          <m.div
             className="flex flex-col md:flex-row md:items-start md:gap-0 mt-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -109,7 +116,7 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
                 )}
               </div>
             )}
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { useRef } from 'react'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 
@@ -54,7 +54,7 @@ export function PrattVisitorExperienceContent({
   const buttonRef = useRef<HTMLButtonElement>(null)
 
   return (
-    <motion.section
+    <m.section
       className="w-full px-6 2xl:px-[140px] py-16 md:py-24 max-w-[1920px] mx-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -147,7 +147,7 @@ export function PrattVisitorExperienceContent({
 
         <AnimatePresence initial={false}>
           {isContentRevealed && (
-            <motion.div
+            <m.div
               className="mt-[160px] md:mt-[224px] lg:mt-[288px]"
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -487,10 +487,10 @@ export function PrattVisitorExperienceContent({
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </div>
-    </motion.section>
+    </m.section>
   )
 }

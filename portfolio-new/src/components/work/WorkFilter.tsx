@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
 import { MasonryGrid } from './MasonryGrid'
 import { cn } from '@/lib/utils/cn'
@@ -56,34 +56,34 @@ function FilterTitleItem({
       onMouseLeave={onMouseLeave}
       className="group relative flex items-start gap-1 text-left outline-none"
     >
-      <h2 
+      <span
         className="text-[18px] lg:text-[36px] 2xl:text-[42px] font-bold leading-[1.1] tracking-tight flex flex-wrap"
         style={{
-          color: isSelected 
-            ? 'rgb(var(--color-foreground))' 
-            : isHovered 
-              ? 'rgb(var(--color-text-color70))' 
+          color: isSelected
+            ? 'rgb(var(--color-foreground))'
+            : isHovered
+              ? 'rgb(var(--color-text-color70))'
               : 'rgb(var(--color-text-color40))'
         }}
       >
         {text.split(' ').map((word, i) => (
-          <motion.span
+          <m.span
             key={`${text}-${word}-${i}`}
             variants={wordVariants}
             className="inline-block mr-[0.25em]"
           >
             {word}
-          </motion.span>
+          </m.span>
         ))}
         {/* Count Badge - also animates with words */}
-        <motion.span
+        <m.span
           variants={wordVariants}
           className="text-[10px] lg:text-[18px] 2xl:text-[20px] font-medium opacity-50 mt-1"
           style={{ color: 'inherit' }}
         >
           {count}
-        </motion.span>
-      </h2>
+        </m.span>
+      </span>
     </button>
   )
 }
@@ -152,7 +152,7 @@ export function WorkFilter({
   return (
     <div className={cn('w-full', className)}>
       <div className="mb-14 lg:mb-20">
-        <motion.div 
+        <m.div 
           className="flex flex-col gap-6 lg:gap-10"
           variants={containerVariants}
           initial="hidden"
@@ -173,14 +173,14 @@ export function WorkFilter({
                 
                 {/* Slash Separator - Animated in sequence */}
                 {index < filterOptions.length - 1 && (
-                  <motion.span 
+                  <m.span 
                     variants={itemVariants}
                     className="text-[14px] lg:text-[28px] 2xl:text-[34px] font-medium opacity-20 mx-0.5" 
                     style={{ color: 'rgb(var(--color-text-color40))' }} 
                     aria-hidden="true" 
                   >
                     /
-                  </motion.span>
+                  </m.span>
                 )}
               </React.Fragment>
             ))}
@@ -190,14 +190,14 @@ export function WorkFilter({
             className="opacity-50"
             delay={hasChangedFilter ? 0 : 0.2}
           />
-        </motion.div>
+        </m.div>
       </div>
 
       <MasonryGrid
         items={filteredProjects}
         gap={24}
         renderItem={(project, index) => (
-          <motion.div
+          <m.div
             key={`${project.title}-${project.organization}`}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{
@@ -219,7 +219,7 @@ export function WorkFilter({
               imagePriority={index < 3}
               imageSizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
-          </motion.div>
+          </m.div>
         )}
       />
 

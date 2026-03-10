@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, type ReactNode } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 import { cn } from '@/lib/utils/cn'
 import { NavButton } from '@/components/ui/NavButton'
@@ -71,7 +71,7 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
     <AnimatePresence>
       {isOpen && (
         <>
-          <motion.button
+          <m.button
             type="button"
             className="fixed inset-0 z-[100000] bg-black/45 backdrop-blur-sm"
             initial={{ opacity: 0 }}
@@ -82,7 +82,7 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
             aria-label="Close accessibility drawer"
           />
 
-          <motion.section
+          <m.section
             initial={{ y: reducedMotion ? 0 : '100%', opacity: 0.92 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: reducedMotion ? 0 : '100%', opacity: 0.98 }}
@@ -293,7 +293,7 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
                 </div>
               </div>
             </div>
-          </motion.section>
+          </m.section>
         </>
       )}
     </AnimatePresence>
@@ -374,18 +374,18 @@ function ReadableFontDropdown({
             </span>
           </span>
         </div>
-        <motion.span
+        <m.span
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: reducedMotion ? 0 : 0.2 }}
           className="opacity-50 ml-2"
         >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-        </motion.span>
+        </m.span>
       </button>
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div
+          <m.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -426,7 +426,7 @@ function ReadableFontDropdown({
                 </button>
               ))}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

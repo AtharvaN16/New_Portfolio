@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { m, useScroll, useTransform } from 'framer-motion'
 import { useState, useRef } from 'react'
 import Image from 'next/image'
 import type { CaseStudy } from '@/lib/data/case-studies'
@@ -39,7 +39,7 @@ export function ShowcaseDetail({ caseStudy, onClose }: ShowcaseDetailProps) {
       style={{ overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' }}
     >
       {/* Scroll Progress Bar */}
-      <motion.div
+      <m.div
         className="fixed top-0 left-0 right-0 h-[5px] z-[60] origin-left"
         style={{
           scaleX: scrollYProgress,
@@ -55,7 +55,7 @@ export function ShowcaseDetail({ caseStudy, onClose }: ShowcaseDetailProps) {
 
         {/* Mobile metadata — mirrors CaseStudyDetail */}
         {(caseStudy.team || caseStudy.timeline) && (
-          <motion.div
+          <m.div
             className="md:hidden flex flex-col gap-10 px-6 2xl:px-[140px] pt-12 pb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -81,7 +81,7 @@ export function ShowcaseDetail({ caseStudy, onClose }: ShowcaseDetailProps) {
                 <p className="text-sm font-medium text-text-secondary">{caseStudy.timeline}</p>
               </div>
             )}
-          </motion.div>
+          </m.div>
         )}
 
         <CaseStudyContentRenderer

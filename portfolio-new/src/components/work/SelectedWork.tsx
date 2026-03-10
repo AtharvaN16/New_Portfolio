@@ -1,7 +1,7 @@
 'use client'
 
 import {
-  motion,
+  m,
   type MotionValue,
   useTransform,
   useMotionValue,
@@ -153,7 +153,7 @@ export function SelectedWork({
   return (
     <section className={cn('w-full bg-background pb-0', className)}>
       {/* Section Title - Seamless reveal with scroll-driven animation */}
-      <motion.h2
+      <m.h2
         className="mt-8 mb-28 text-[30px] font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 sm:text-2xl md:mt-12 md:mb-20 md:text-3xl lg:mt-[60px] lg:mb-28 lg:text-4xl xl:mt-[72px] xl:mb-[140px] xl:text-[56px]"
         style={{
           color: 'rgb(var(--color-foreground))',
@@ -162,12 +162,12 @@ export function SelectedWork({
         }}
       >
         Selected work
-      </motion.h2>
+      </m.h2>
 
       {/* Mobile/Tablet: Single column stack */}
       <div className="flex flex-col gap-12 lg:hidden">
         {projects.map((project, index) => (
-          <motion.div
+          <m.div
             key={`${project.title}-${project.organization}`}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{
@@ -186,7 +186,7 @@ export function SelectedWork({
               imageSizes="(max-width: 1024px) 100vw, 75vw"
               imageFetchPriority="low"
             />
-          </motion.div>
+          </m.div>
         ))}
       </div>
 
@@ -210,7 +210,7 @@ export function SelectedWork({
           const isCard1or2 = index === 0 || index === 1
 
           return (
-            <motion.div
+            <m.div
               key={index}
               className="gpu-accelerate"
               style={{
@@ -256,14 +256,14 @@ export function SelectedWork({
                 recedeEffect={enableHomeCardRecede ? 'homeDesktop' : 'none'}
                 homeScrollProgress={homeScrollProgress}
               />
-            </motion.div>
+            </m.div>
           )
         })}
       </div>
 
       {/* Show More Work Link */}
       <div className="mt-40 mb-32 md:mt-52 md:mb-40 lg:mt-72 lg:mb-52 flex justify-end">
-        <motion.button
+        <m.button
           onClick={() => {
             // Change URL and trigger dialog - RemoveScroll handles scroll locking
             window.history.pushState({}, '', '/work')
@@ -280,7 +280,7 @@ export function SelectedWork({
             animationCycle={animationCycle}
             className="w-[22px] h-[22px] md:w-[26px] md:h-[26px] lg:w-[30px] lg:h-[30px]"
           />
-        </motion.button>
+        </m.button>
       </div>
     </section>
   )

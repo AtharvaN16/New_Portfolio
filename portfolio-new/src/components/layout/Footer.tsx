@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import {
-  motion,
+  m,
   useMotionValue,
   useMotionValueEvent,
   useTransform,
@@ -109,12 +109,12 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
             onOpenAccessibility={() => setIsAccessibilityModalOpen(true)}
           />
 
-          <motion.div
+          <m.div
             className="order-2 mt-12 lg:order-3 lg:mt-0"
             style={{ opacity: sectionOpacity, y: sectionY }}
           >
             <FooterClock className="text-left lg:text-right" />
-          </motion.div>
+          </m.div>
         </div>
       </div>
 

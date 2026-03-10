@@ -54,9 +54,9 @@ export default function RootLayout({
       />
       <link
         rel="preload"
-        href="/fonts/VulfMonoDemo-LightItalic.otf"
+        href="/fonts/VulfMonoDemo-LightItalic.woff2"
         as="font"
-        type="font/otf"
+        type="font/woff2"
         crossOrigin="anonymous"
       />
       <body

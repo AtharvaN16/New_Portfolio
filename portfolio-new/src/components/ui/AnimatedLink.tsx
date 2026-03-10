@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import Link from 'next/link'
 import { type ReactNode, type MouseEvent, useState, useEffect } from 'react'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
@@ -101,7 +101,7 @@ export function AnimatedLink({
 
       {variant === 'default' && (
         <span className="relative w-4 h-4 overflow-hidden">
-          <motion.span
+          <m.span
             className="absolute inset-0 flex items-center justify-center"
             initial={{ x: 0, opacity: 1 }}
             whileHover={{ x: 16, opacity: 0 }}
@@ -122,9 +122,9 @@ export function AnimatedLink({
                 strokeLinejoin="round"
               />
             </svg>
-          </motion.span>
+          </m.span>
 
-          <motion.span
+          <m.span
             className="absolute inset-0 flex items-center justify-center"
             initial={{ x: -16, opacity: 0 }}
             whileHover={{ x: 0, opacity: 1 }}
@@ -145,12 +145,12 @@ export function AnimatedLink({
                 strokeLinejoin="round"
               />
             </svg>
-          </motion.span>
+          </m.span>
         </span>
       )}
 
       {variant === 'down-arrow' && (
-        <motion.span
+        <m.span
           animate={pageLoaded && !shouldPause ? { y: [0, -4, 0] } : { y: 0 }}
           transition={
             pageLoaded && !shouldPause
@@ -174,7 +174,7 @@ export function AnimatedLink({
               strokeLinejoin="round"
             />
           </svg>
-        </motion.span>
+        </m.span>
       )}
     </Link>
   )

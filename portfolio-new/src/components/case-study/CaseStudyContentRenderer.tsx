@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import type { CaseStudy } from '@/lib/data/case-studies'
 import { CaseStudyContent } from '@/components/case-study/CaseStudyContent'
 import {
@@ -53,14 +53,14 @@ export function CaseStudyContentRenderer({
 
     default:
       return children ? (
-        <motion.section
+        <m.section
           className="w-full px-6 2xl:px-[140px] py-16 md:py-24 max-w-[1920px] mx-auto"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <CaseStudyContent>{children}</CaseStudyContent>
-        </motion.section>
+        </m.section>
       ) : null
   }
 }

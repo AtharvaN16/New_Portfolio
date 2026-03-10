@@ -61,7 +61,9 @@
 
 @font-face {
   font-family: 'Vulf Mono';
-  src: local('Vulf Mono Light Italic'), local('Vulf Mono'), url('/fonts/VulfMonoDemo-LightItalic.otf') format('opentype');
+  src: local('Vulf Mono Light Italic'), local('Vulf Mono'),
+       url('/fonts/VulfMonoDemo-LightItalic.woff2') format('woff2'),
+       url('/fonts/VulfMonoDemo-LightItalic.otf') format('opentype');
   font-weight: 300;
   font-style: italic;
   font-display: swap;
