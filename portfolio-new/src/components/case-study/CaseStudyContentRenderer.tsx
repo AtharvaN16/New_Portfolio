@@ -7,6 +7,7 @@ import {
   GutenbergContent,
   NycDcwpBusinessLicensesContent,
   PrattVisitorExperienceContent,
+  SnakesShowcaseContent,
 } from '@/components/case-study/content'
 
 interface CaseStudyContentRendererProps {
@@ -41,6 +42,14 @@ export function CaseStudyContentRenderer({
 
     case 'nyc-dcwp-business-licenses':
       return <NycDcwpBusinessLicensesContent />
+
+    case 'snakes':
+      return (
+        <SnakesShowcaseContent
+          isContentRevealed={isContentRevealed}
+          onToggleContent={onToggleContent}
+        />
+      )
 
     default:
       return children ? (

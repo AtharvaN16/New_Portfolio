@@ -105,13 +105,10 @@ export function CaseStudyDialog() {
             id="case-study-dialog"
             className="dialog fixed inset-0 z-[100]"
             data-lenis-prevent="true"
-            initial={isShowcase ? { opacity: 0 } : { y: '100%' }}
+            initial={isShowcase ? { opacity: 1 } : { y: '100%' }}
             animate={
               isShowcase
-                ? {
-                    opacity: 1,
-                    transition: { duration: 0.5, delay: 0.15, ease: 'easeOut' },
-                  }
+                ? { opacity: 1 }
                 : {
                     y: 0,
                     transition: { duration: OPEN_DURATION, ease: TRANSITION_EASE },
