@@ -1,13 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import { WorkFilter } from '@/components/work/WorkFilter'
 import type { ProjectCardProps } from '@/components/work/ProjectCard'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 import { GradientBar } from '@/components/ui/GradientBar'
 import { NavButton } from '@/components/ui/NavButton'
-import { LineSeparator } from '@/components/ui/LineSeparator'
 import { caseStudies } from '@/lib/data/case-studies'
 
 // Map case studies to ProjectCardProps
@@ -21,21 +19,6 @@ const allProjects: ProjectCardProps[] = caseStudies.map((study) => ({
   imageUrl: study.imageUrl,
   slug: study.slug,
 }))
-
-// Map filter names to title texts
-const filterTitleMap: Record<string, string> = {
-  All: 'Check out more of my work',
-  'Selected Work': 'Selected Work',
-  'Usability Testing': 'Usability Testing',
-  'Client Project': 'Client Projects',
-  Explorations: 'Explorations',
-  'Service Design': 'Service Design',
-  'Design Thinking': 'Design Thinking',
-  'UX Research': 'UX Research',
-  'UI Design': 'UI Design',
-  Prototyping: 'Prototyping',
-  Design: 'Design',
-}
 
 export default function WorkPage() {
   const [selectedFilter, setSelectedFilter] = useState<string>('All')
@@ -55,9 +38,6 @@ export default function WorkPage() {
       }
     }
   }, [])
-
-  const titleText =
-    filterTitleMap[selectedFilter] || 'Check out more of my work'
 
   const handleBack = () => {
     // Go back in history (this will trigger the dialog to close)
@@ -92,34 +72,12 @@ export default function WorkPage() {
 
       <div className="relative px-6 2xl:px-[140px] pb-20 pt-4 md:pb-32 md:pt-8">
         <main id="main-content">
-          {/* Page Header */}
-          <header className="mb-4 lg:mb-5">
-            {/* On initial load: use whileInView for slide-in animation when page transitions */}
-            {/* After filter change: use animate for immediate animation */}
-            <AnimatePresence mode="wait">
-              <AnimatedTitle
-                key={selectedFilter}
-                text={titleText}
-                animationType="fadeIn"
-                alwaysAnimate={hasChangedFilter}
-                delay={hasChangedFilter ? 0 : 0.6}
-                className="text-[28px] lg:text-[36px] 2xl:text-[42px] font-bold leading-[1.1] lg:leading-tight max-w-[65%] lg:max-w-none"
-              />
-            </AnimatePresence>
-          </header>
-
-          {/* Animated Line Separator - 50% opacity on all screens */}
-          <LineSeparator
-            className="lg:mb-[16px]"
-            opacity={0.5}
-            delay={hasChangedFilter ? 0 : 0.3}
-          />
-
-          {/* Filter and Projects */}
+          {/* Combined Filter and Projects */}
           <WorkFilter
             projects={allProjects}
             selectedFilter={selectedFilter}
             onFilterChange={setSelectedFilter}
+            hasChangedFilter={hasChangedFilter}
           />
         </main>
       </div>
