@@ -236,16 +236,14 @@ export function getColors(
     return normalized as [number, number, number]
   }
 
-  // Both modes use DARK_PALETTES (vivid colors). Light mode uses the actual page bg
-  // (#fafaf8) so blobs render on white; dark mode reads background from CSS tokens.
-  const isLight = theme !== 'dark'
-  const lightBg: [number, number, number] = [250 / 255, 250 / 255, 248 / 255] // #fafaf8
+  // Use the actual page background from CSS tokens for both modes.
+  // This ensures the blob canvas perfectly matches the site background.
+  const background = getColor('--color-background')
+  if (!background) return null
 
   if (interactive) {
     // Always use DARK_PALETTES — vivid colors look correct on both black and white backgrounds
     const palette = DARK_PALETTES[paletteIndex]
-    const background = isLight ? lightBg : getColor('--color-background')
-    if (!background) return null
 
     return {
       blue: palette[0] as [number, number, number],
@@ -263,9 +261,6 @@ export function getColors(
   if (!blue || !purple || !pink) {
     return null
   }
-
-  const background = isLight ? lightBg : getColor('--color-background')
-  if (!background) return null
 
   return { blue, purple, pink, background }
 }
