@@ -27,7 +27,7 @@ export const caseStudies: CaseStudy[] = [
     organization: 'Pratt Institute',
     year: '2025',
     description:
-      "A service design project with Pratt Institute's Office of Admissions focused on improving the end-to-end campus visit experience through research, co-design, and the redesign of visitor touchpoints and student ambassador support tools.",
+      "Redesigning Pratt's campus visit experience through ambassador support tools and a clearer physical-digital information system for prospective students and families.",
     tags: ['Service design', 'Design thinking', 'Selected Work'],
     imageBg: 'rgb(var(--color-case-study-purple))',
     imageUrl:
@@ -37,7 +37,7 @@ export const caseStudies: CaseStudy[] = [
     team: ['Atharva Nayak', 'Gloria Yang', 'Sakshi Rane'],
     timeline: 'Sep - Dec 2025',
     fullDescription:
-      "A service design project with Pratt Institute's Office of Admissions focused on improving the end-to-end campus visit experience through research, co-design, and the redesign of visitor touchpoints and student ambassador support tools.",
+      "A service design project with Pratt Institute's Office of Admissions that improved the visitor journey by making tours more consistent for ambassadors and key information easier for visitors to access before, during, and after their campus visit.",
     progressBarColor: 'rgb(var(--color-case-study-gold))',
   },
   {
