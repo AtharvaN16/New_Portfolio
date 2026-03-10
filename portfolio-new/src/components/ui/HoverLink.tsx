@@ -32,7 +32,7 @@ export function HoverLink({ href, children, className, onClick }: HoverLinkProps
       onClick={onClick}
       style={{ transition: 'transform 150ms ease-out' }}
       className={cn(
-        'group relative inline-block text-nav-link text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded active:scale-[0.97]',
+        'group relative inline-block text-nav-link text-text-secondary hover:text-foreground transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded active:scale-[0.97]',
         className
       )}
     >

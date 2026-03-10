@@ -120,12 +120,12 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
 
       <div
         className="mx-auto flex max-w-[1920px] flex-col gap-2 px-6 2xl:px-[140px] py-4 sm:flex-row sm:items-center sm:justify-between"
-        style={{ color: 'rgb(var(--color-text-color60))' }}
+        style={{ color: 'rgb(var(--color-text-secondary))' }}
       >
-        <p className="vulf-mono-italic-light text-[10px] md:text-sm tabular-nums opacity-80">
+        <p className="vulf-mono-italic-light text-[10px] md:text-sm tabular-nums">
           Designed + Coded with &lt;3 by Atharva
         </p>
-        <p className="vulf-mono-italic-light text-[10px] md:text-sm tabular-nums opacity-80">
+        <p className="vulf-mono-italic-light text-[10px] md:text-sm tabular-nums">
           Last updated:{' '}
           {new Date().toLocaleDateString('en-US', {
             month: 'long',

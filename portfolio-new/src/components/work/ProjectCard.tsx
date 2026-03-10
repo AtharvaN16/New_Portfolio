@@ -223,8 +223,8 @@ export function ProjectCard({
         {/* Tags and Year */}
         <div className="flex flex-wrap items-center gap-x-2 pt-3">
           <span
-            className="font-sans font-normal tracking-normal text-[14px] md:text-[18px]"
-            style={{ color: 'rgb(var(--color-text-color70))' }}
+            className="font-sans font-medium tracking-normal text-[14px] md:text-[18px]"
+            style={{ color: 'rgb(var(--color-text-tertiary))' }}
           >
             {(() => {
               const displayTags = (_tags || [])

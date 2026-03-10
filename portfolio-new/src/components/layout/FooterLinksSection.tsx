@@ -128,7 +128,7 @@ export function FooterLinksSection({
                 className={cn(
                   'group relative flex items-center justify-center',
                   'rounded-md p-2',
-                  'text-text-tertiary opacity-50 transition-all duration-200',
+                  'text-text-secondary opacity-70 transition-all duration-200',
                   'hover:bg-surface hover:text-foreground hover:opacity-100',
                   'focus-visible:outline-none focus-visible:ring-2',
                   'focus-visible:ring-primary focus-visible:ring-offset-2'
