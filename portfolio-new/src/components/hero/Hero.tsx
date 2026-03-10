@@ -106,12 +106,12 @@ export function Hero({
                     delay: 0.7,
                     ease: [0.4, 0, 0.2, 1],
                   }}
-                  className="max-w-[50%] md:max-w-xs text-[12px] md:text-[16px] font-normal text-left"
+                  className="max-w-[50%] md:max-w-xs text-[12px] md:text-[16px] font-medium text-left"
                 >
-                  <span className="block md:inline text-text-secondary font-medium">
+                  <span className="block md:inline text-text-secondary">
                     Currently,{' '}
                   </span>
-                  <span style={{ color: 'rgb(var(--color-text-color70))' }}>
+                  <span style={{ color: 'rgb(var(--color-text-secondary))' }}>
                     MS in Human-Computer Interaction at Pratt Institute.
                   </span>
                 </motion.div>
@@ -165,8 +165,8 @@ export function Hero({
             <HoverLink href="/resume">Résumé</HoverLink>
 
             <div
-              className="text-[16px] font-normal"
-              style={{ color: 'rgb(var(--color-text-color60))' }}
+              className="text-[16px] font-medium"
+              style={{ color: 'rgb(var(--color-text-secondary))' }}
             >
               Looking for full-time roles starting Summer &apos;26.
             </div>

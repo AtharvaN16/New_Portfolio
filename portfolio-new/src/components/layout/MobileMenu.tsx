@@ -71,10 +71,10 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             style={{
               backgroundColor:
                 theme === 'dark'
-                  ? 'rgba(0, 0, 0, 0.88)'
-                  : 'rgba(250, 252, 254, 0.88)',
-              backdropFilter: 'blur(24px)',
-              WebkitBackdropFilter: 'blur(24px)',
+                  ? 'rgba(0, 0, 0, 0.92)'
+                  : 'rgba(247, 247, 245, 0.94)',
+              backdropFilter: 'blur(32px)',
+              WebkitBackdropFilter: 'blur(32px)',
             }}
           />
 

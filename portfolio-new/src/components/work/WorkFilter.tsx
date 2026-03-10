@@ -69,10 +69,10 @@ export function WorkFilter({
                   onClick={() => count > 0 && setSelectedFilter(tag)}
                   disabled={isDisabled}
                   className={cn(
-                    'group flex items-start gap-2 text-foreground transition-all',
+                    'group flex items-start gap-2 transition-all',
                     {
-                      'opacity-100': isSelected && !isDisabled,
-                      'opacity-40 hover:opacity-80': !isSelected && !isDisabled,
+                      'text-foreground opacity-100': isSelected && !isDisabled,
+                      'text-text-secondary hover:text-foreground': !isSelected && !isDisabled,
                       'cursor-not-allowed opacity-20': isDisabled,
                     }
                   )}

@@ -40,7 +40,7 @@ export function TextureOverlay() {
 
       {/* The Overlay Layer */}
       <div
-        className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.055] [data-theme='dark']:opacity-[0.015] contrast-[120%] brightness-[120%]"
+        className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.12] [data-theme='dark']:opacity-[0.018] contrast-[120%] [data-theme='dark']:brightness-[120%]"
         style={{
           filter: 'url(#sensory-grit)',
         }}

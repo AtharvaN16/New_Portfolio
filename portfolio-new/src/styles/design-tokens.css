@@ -23,10 +23,10 @@
     --color-text-color20: 212 212 212; /* ~#111111 at 20% opacity on white */
     --color-text-color30: 191 191 191; /* ~#111111 at 30% opacity on white */
     --color-text-color40: 169 169 169; /* ~#111111 at 40% opacity on white */
-    --color-text-tertiary-50: 148 148 148; /* ~#111111 at 50% opacity on white */
+    --color-text-tertiary-50: 93 93 93; /* #5D5D5D - Accessible tertiary for tags/metadata */
     --color-text-color60: 126 126 126; /* ~#111111 at 60% opacity on white */
-    --color-text-color70: 119 119 119; /* #777777 - Premium labels/metadata */
-    --color-text-secondary-80: 85 85 85; /* #555555 - Softer premium body text */
+    --color-text-color70: 119 119 119; /* #777777 - Premium labels (requires medium weight) */
+    --color-text-secondary-80: 85 85 85; /* #555555 - Softer premium body/secondary text */
     --color-text-color90: 43 43 43; /* ~#111111 at 90% opacity on white */
     --color-text-primary-100: 17 17 17; /* #111111 - 100% opacity */
 

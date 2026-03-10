@@ -394,16 +394,17 @@
   /* Footer links hover effect: when hovering any link, make ALL other links color30 */
   /* Use :has() to only apply when a link is actually being hovered */
   .footer-all-links-wrapper:has(.footer-link:hover) .footer-link {
-    color: rgb(var(--color-text-color30)) !important;
+    color: rgb(var(--color-text-secondary)) !important;
+    opacity: 0.5 !important;
   }
   .footer-all-links-wrapper:has(.footer-link:hover) .footer-link:hover {
     color: rgb(var(--color-text-secondary)) !important;
+    opacity: 1 !important;
   }
   /* Resume link special case - uses gradient with background-clip, so use opacity */
-  /* Color30 is 30/80 = 0.375 of secondary for visual match */
   .footer-all-links-wrapper:has(.footer-link:hover)
     .footer-resume-link.footer-link {
-    opacity: 0.375;
+    opacity: 0.5;
     transition: opacity 200ms;
   }
   .footer-all-links-wrapper:has(.footer-link:hover)

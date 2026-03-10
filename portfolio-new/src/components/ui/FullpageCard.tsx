@@ -67,7 +67,8 @@ export function FullpageCard({
   return (
     <section
       className={cn(
-        'min-h-screen w-full overflow-hidden relative',
+        'min-h-screen w-full overflow-hidden relative transition-all duration-500',
+        'shadow-md [data-theme="dark"]:shadow-none',
         variantStyles[variant],
         slug && 'cursor-pointer',
         className
