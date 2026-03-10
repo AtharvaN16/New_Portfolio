@@ -182,7 +182,7 @@ export function Hero({
             </div>
 
             {/* Right Link - Hover animation */}
-            <HoverLink href="/resume">Résumé</HoverLink>
+            <HoverLink href="/resume" prefetch={false}>Résumé</HoverLink>
           </motion.div>
         </motion.div>
       </div>

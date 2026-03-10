@@ -18,6 +18,11 @@ interface HoverLinkProps {
    * Optional click handler
    */
   onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void
+  /**
+   * Whether to prefetch the route. Set to false for routes that don't exist yet
+   * to suppress RSC prefetch 404s in the console.
+   */
+  prefetch?: boolean
 }
 
 /**
@@ -25,11 +30,12 @@ interface HoverLinkProps {
  * Text slides up and out while duplicate slides up from below
  * Underline animates from left to right on hover
  */
-export function HoverLink({ href, children, className, onClick }: HoverLinkProps) {
+export function HoverLink({ href, children, className, onClick, prefetch }: HoverLinkProps) {
   return (
     <Link
       href={href}
       onClick={onClick}
+      prefetch={prefetch}
       style={{ transition: 'transform 150ms ease-out' }}
       className={cn(
         'group relative inline-block text-nav-link text-text-secondary hover:text-foreground transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded active:scale-[0.97]',

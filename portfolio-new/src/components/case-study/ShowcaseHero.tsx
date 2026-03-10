@@ -8,7 +8,7 @@ import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 
 interface ShowcaseHeroProps {
   caseStudy: CaseStudy
-  containerRef: React.RefObject<HTMLDivElement>
+  containerRef: React.RefObject<HTMLDivElement | null>
 }
 
 export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
