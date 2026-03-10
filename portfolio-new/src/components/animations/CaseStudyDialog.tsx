@@ -4,13 +4,25 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
 import { getCaseStudyBySlug } from '@/lib/data/case-studies'
+import { useImageDominantColor } from '@/hooks/use-image-dominant-color'
 import dynamic from 'next/dynamic'
 
-// Lazy load CaseStudyDetail - only loads when dialog opens
+// Lazy load detail components - only loads when dialog opens
 const CaseStudyDetail = dynamic(
   () =>
     import('@/components/case-study/CaseStudyDetail').then((mod) => ({
       default: mod.CaseStudyDetail,
+    })),
+  {
+    ssr: false,
+    loading: () => <div className="min-h-dvh bg-background" />,
+  }
+)
+
+const ShowcaseDetail = dynamic(
+  () =>
+    import('@/components/case-study/ShowcaseDetail').then((mod) => ({
+      default: mod.ShowcaseDetail,
     })),
   {
     ssr: false,
@@ -25,7 +37,8 @@ const CLOSE_DURATION = 1.0
 /**
  * Swaddle-style dialog for case study detail pages.
  * Opens when navigating to /case-studies/[slug]
- * Uses same transition as WorkDialog
+ * Regular case studies: slide up/down animation
+ * Showcase variant: color flash entry, fade exit
  */
 export function CaseStudyDialog() {
   const scrollYRef = useRef(0)
@@ -43,30 +56,20 @@ export function CaseStudyDialog() {
       if (caseStudyMatch) {
         const slug = caseStudyMatch[1]
         if (!isOpen || currentSlug !== slug) {
-          // Opening dialog - save scroll position
           isClosingRef.current = false
           setCurrentSlug(slug)
           scrollYRef.current = window.scrollY
-
-          // Lock body scroll manually
           document.body.style.overflow = 'hidden'
-
-          // Lock scroll and open dialog
           setShouldLockScroll(true)
           setIsOpen(true)
         }
       } else if (isOpen) {
-        // Close dialog - trigger exit animation
         isClosingRef.current = true
         setIsOpen(false)
-        // Keep scroll locked during exit - will unlock in handleExitComplete
       }
     }
 
-    // Check on mount
     checkURL()
-
-    // Listen for navigation events
     window.addEventListener('popstate', checkURL)
     window.addEventListener('casestudydialog:check', checkURL)
 
@@ -77,22 +80,21 @@ export function CaseStudyDialog() {
   }, [isOpen, currentSlug])
 
   const handleExitComplete = () => {
-    // Dialog has fully closed - NOW unlock scroll and restore position
     setShouldLockScroll(false)
-
-    // Unlock body scroll
     document.body.style.overflow = ''
-
     const savedScroll = scrollYRef.current
     window.scrollTo(0, savedScroll)
-
     setCurrentSlug(null)
-
-    // Notify Water Blob to resume animation
     window.dispatchEvent(new CustomEvent('dialog:closed'))
   }
 
   const caseStudy = currentSlug ? getCaseStudyBySlug(currentSlug) : null
+  const isShowcase = caseStudy?.pageVariant === 'showcase'
+
+  // Extract dominant color from showcase hero image for the flash effect
+  const flashColor = useImageDominantColor(
+    isShowcase ? caseStudy?.imageUrl : undefined
+  )
 
   return (
     <RemoveScroll enabled={shouldLockScroll}>
@@ -103,29 +105,38 @@ export function CaseStudyDialog() {
             id="case-study-dialog"
             className="dialog fixed inset-0 z-[100]"
             data-lenis-prevent="true"
-            initial={{ y: '100%' }}
-            animate={{
-              y: 0,
-              transition: {
-                duration: OPEN_DURATION,
-                ease: TRANSITION_EASE,
-              },
-            }}
-            exit={{
-              y: '100%',
-              transition: {
-                duration: CLOSE_DURATION,
-                ease: TRANSITION_EASE,
-              },
-            }}
+            initial={isShowcase ? { opacity: 1 } : { y: '100%' }}
+            animate={
+              isShowcase
+                ? { opacity: 1 }
+                : {
+                    y: 0,
+                    transition: { duration: OPEN_DURATION, ease: TRANSITION_EASE },
+                  }
+            }
+            exit={
+              isShowcase
+                ? {
+                    opacity: 0,
+                    transition: { duration: 0.4, ease: 'easeIn' },
+                  }
+                : {
+                    y: '100%',
+                    transition: { duration: CLOSE_DURATION, ease: TRANSITION_EASE },
+                  }
+            }
             style={{
               backgroundColor: 'rgb(var(--color-background))',
               boxShadow: 'var(--shadow-2xl)',
-              willChange: 'transform',
+              willChange: 'transform, opacity',
               backfaceVisibility: 'hidden',
             }}
           >
-            <CaseStudyDetail caseStudy={caseStudy} />
+            {isShowcase ? (
+              <ShowcaseDetail caseStudy={caseStudy} flashColor={flashColor} />
+            ) : (
+              <CaseStudyDetail caseStudy={caseStudy} />
+            )}
           </motion.div>
         )}
       </AnimatePresence>

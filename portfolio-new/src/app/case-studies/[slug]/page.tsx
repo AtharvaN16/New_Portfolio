@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { CaseStudyDetail } from '@/components/case-study/CaseStudyDetail'
+import { ShowcaseDetail } from '@/components/case-study/ShowcaseDetail'
 import { getCaseStudyBySlug, caseStudies } from '@/lib/data/case-studies'
 import type { Metadata } from 'next'
 
@@ -9,7 +10,7 @@ interface CaseStudyPageProps {
   }>
 }
 
-// Generate static params for all case studies
+// Generate static params for all case studies (including snakes)
 export async function generateStaticParams() {
   return caseStudies.map((study) => ({
     slug: study.slug,
@@ -46,6 +47,10 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
   if (!caseStudy) {
     notFound()
+  }
+
+  if (caseStudy.pageVariant === 'showcase') {
+    return <ShowcaseDetail caseStudy={caseStudy} />
   }
 
   return <CaseStudyDetail caseStudy={caseStudy} />

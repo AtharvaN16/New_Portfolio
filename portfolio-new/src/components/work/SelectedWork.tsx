@@ -1,6 +1,11 @@
 'use client'
 
-import { motion, type MotionValue, useTransform, useMotionValue } from 'framer-motion'
+import {
+  motion,
+  type MotionValue,
+  useTransform,
+  useMotionValue,
+} from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
 import { cn } from '@/lib/utils/cn'
@@ -72,19 +77,38 @@ const cardConfig = [
 ]
 
 // Get featured case studies and map to ProjectCardProps with custom layout config
-const defaultProjects: ProjectCardProps[] = getFeaturedCaseStudies()
-  .slice(0, 4)
-  .map((study, index) => ({
-    title: study.title,
-    organization: study.organization,
-    year: study.year,
-    description: study.description,
-    tags: study.tags,
-    imageBg: study.imageBg,
-    imageUrl: study.imageUrl,
-    slug: study.slug,
-    cardHeight: cardConfig[index].height,
-  }))
+const featuredStudies = getFeaturedCaseStudies()
+
+// Define the projects manually to ensure exact ordering and content as requested
+const defaultProjects: ProjectCardProps[] = [
+  // Card 1 (UofA moves here)
+  {
+    ...featuredStudies.find((s) => s.slug === 'ualberta-library-website')!,
+    cardHeight: cardConfig[0].height,
+  },
+  // Card 2 (NYC DCWP stays here)
+  {
+    ...featuredStudies.find((s) => s.slug === 'nyc-dcwp-business-licenses')!,
+    cardHeight: cardConfig[1].height,
+  },
+  // Card 3 (New Snakes project replaces UofA)
+  {
+    title: 'Designing an Interactive Experience to learn about snakes',
+    organization: 'Personal Project',
+    year: '2026',
+    description:
+      'A study on the movement and behavior of snakes in digital environments.',
+    tags: ['Exploration', 'Vibe Coded', 'Data Visualization', '2026'],
+    imageBg: 'rgb(var(--color-case-study-purple))',
+    slug: 'snakes',
+    cardHeight: cardConfig[2].height,
+  },
+  // Card 4 (Gutenberg stays here)
+  {
+    ...featuredStudies.find((s) => s.slug === 'gutenberg-cms-usability-evaluation')!,
+    cardHeight: cardConfig[3].height,
+  },
+]
 
 export function SelectedWork({
   projects = defaultProjects,

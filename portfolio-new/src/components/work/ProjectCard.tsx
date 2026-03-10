@@ -254,7 +254,7 @@ export function ProjectCard({
             {(() => {
               const displayTags = (_tags || [])
                 .filter((tag) => tag !== 'Selected Work')
-                .slice(0, 2)
+                .slice(0, 3)
 
               if (displayTags.length > 0) {
                 return `${displayTags.join(' / ')} / ${year}`
