@@ -152,6 +152,7 @@ export default function Home() {
           </motion.div>
 
           <motion.main
+            id="main-content"
             className="px-0 md:px-6 2xl:px-[140px] flex-1"
             style={{
               y: heroContentY,

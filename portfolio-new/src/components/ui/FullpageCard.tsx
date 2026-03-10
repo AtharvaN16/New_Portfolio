@@ -13,6 +13,7 @@ interface FullpageCardProps {
   mediaSrc?: string
   mediaType?: 'image' | 'video'
   mediaAlt?: string
+  priority?: boolean
   children?: ReactNode
   variant?: 'surface' | 'surface-elevated' | 'dark' | 'light'
   className?: string
@@ -32,6 +33,7 @@ export function FullpageCard({
   mediaSrc,
   mediaType = 'image',
   mediaAlt = '',
+  priority = false,
   children,
   variant = 'surface',
   className,
@@ -104,7 +106,7 @@ export function FullpageCard({
               sizes="100vw"
               onError={handleMediaError}
               className={cn('object-cover', mediaClassName)}
-              priority
+              priority={priority}
             />
           )}
         </div>
@@ -116,7 +118,7 @@ export function FullpageCard({
           text={title}
           animationType="fadeIn"
           className={cn(
-            'max-w-[90%] text-[32px] font-black leading-[1.1] tracking-[-0.05em] sm:max-w-[85%] sm:text-[40px] md:max-w-[76%] 2xl:max-w-[60%] md:text-[48px] lg:text-[54px]',
+            'max-w-[90%] text-[32px] font-black leading-[1.1] tracking-[-0.05em] sm:max-w-[85%] sm:text-[40px] md:max-w-[76%] 2xl:max-w-[1400px] md:text-[48px] lg:text-[54px]',
             titleClassName
           )}
         />

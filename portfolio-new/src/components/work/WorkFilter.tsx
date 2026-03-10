@@ -159,8 +159,7 @@ export function WorkFilter({
           animate="visible"
         >
           <div className="flex flex-wrap items-center gap-x-2 lg:gap-x-4 gap-y-2 lg:gap-y-2 max-w-[95%] lg:max-w-[60%]">
-            {filterOptions.map((opt, index) => (
-              <React.Fragment key={opt.tag}>
+            {filterOptions.map((opt, index) => (              <React.Fragment key={opt.tag}>
                 <FilterTitleItem
                   text={filterTitleMap[opt.tag] || opt.tag}
                   count={opt.count}

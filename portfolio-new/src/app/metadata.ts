@@ -75,11 +75,9 @@ export const metadata: Metadata = {
     // creator: '@yourhandle', // Optional: Add Twitter handle if available
   },
 
-  // Icons
+  // Icons — icon.png in app/ is auto-wired by Next.js App Router
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
+    icon: '/favicon.png',
   },
 
   // Web App Manifest
