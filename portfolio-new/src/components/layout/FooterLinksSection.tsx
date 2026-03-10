@@ -160,7 +160,7 @@ export function FooterLinksSection({
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0 }}
-                    className="text-xs font-medium text-green-500 whitespace-nowrap"
+                    className="text-xs font-medium text-[rgb(var(--color-success))] whitespace-nowrap"
                   >
                     Copied!
                   </motion.span>

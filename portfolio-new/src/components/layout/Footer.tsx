@@ -123,7 +123,7 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
         style={{ color: 'rgb(var(--color-text-secondary))' }}
       >
         <p className="vulf-mono-italic-light text-[10px] md:text-sm tabular-nums">
-          Designed + Coded with &lt;3 by Atharva
+          Designed + Coded by Atharva
         </p>
         <p className="vulf-mono-italic-light text-[10px] md:text-sm tabular-nums">
           Last updated:{' '}
