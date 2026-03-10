@@ -121,7 +121,7 @@ export const PaperPlaneFlight = forwardRef<PaperPlaneFlightRef, PaperPlaneFlight
             ref={pathRef}
             d={flightPathD}
             fill="none"
-            stroke="white"
+            stroke="currentColor"
             strokeWidth="2"
             strokeDasharray="100, 2000"
             strokeLinecap="round"
@@ -133,7 +133,7 @@ export const PaperPlaneFlight = forwardRef<PaperPlaneFlightRef, PaperPlaneFlight
         <div className="absolute" style={{ top: '0px', left: '0px' }}>
           <PaperPlane
             ref={planeRef}
-            className="text-white"
+            className="text-current"
             style={{ 
               width: `${PLANE_SIZE}px`, 
               height: `${PLANE_SIZE}px`,

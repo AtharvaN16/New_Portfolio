@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, type MotionValue } from 'framer-motion'
+import { motion, type MotionValue, useTransform, useMotionValue } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
 import { cn } from '@/lib/utils/cn'
@@ -104,6 +104,14 @@ export function SelectedWork({
   // Track if user has scrolled past the initial cards
   const [hasScrolledPast, setHasScrolledPast] = useState(false)
 
+  // Title animation driven by scroll progress
+  // Reveal starts when FullpageCard is almost fully moved up (between 0.44 and 0.5 progress)
+  const defaultProgress = useMotionValue(1)
+  const progress = homeScrollProgress || defaultProgress
+
+  const titleOpacity = useTransform(progress, [0.44, 0.5], [0, 1])
+  const titleY = useTransform(progress, [0.44, 0.5], [20, 0])
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
@@ -120,10 +128,17 @@ export function SelectedWork({
 
   return (
     <section className={cn('w-full bg-background pb-0', className)}>
-      {/* Section Title - Seamless reveal with no top padding */}
-      <h2 className="mt-8 mb-28 text-[30px] font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 sm:text-2xl md:mt-12 md:mb-20 md:text-3xl lg:mt-[60px] lg:mb-28 lg:text-4xl xl:mt-[72px] xl:mb-[140px] xl:text-[56px]" style={{ color: 'rgb(var(--color-foreground))' }}>
+      {/* Section Title - Seamless reveal with scroll-driven animation */}
+      <motion.h2
+        className="mt-8 mb-28 text-[30px] font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 sm:text-2xl md:mt-12 md:mb-20 md:text-3xl lg:mt-[60px] lg:mb-28 lg:text-4xl xl:mt-[72px] xl:mb-[140px] xl:text-[56px]"
+        style={{
+          color: 'rgb(var(--color-foreground))',
+          opacity: titleOpacity,
+          y: titleY,
+        }}
+      >
         Selected work
-      </h2>
+      </motion.h2>
 
       {/* Mobile/Tablet: Single column stack */}
       <div className="flex flex-col gap-12 lg:hidden">
