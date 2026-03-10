@@ -38,7 +38,7 @@ export function FooterLinksSection({
         </h3>
         <ul className="space-y-1.5 md:space-y-3">
           {FOOTER_LINKS.quickLinks.map((link) => {
-            const isResume = link.label === 'Resume'
+            const isResume = link.label === 'Résumé'
 
             return (
               <li key={link.href}>

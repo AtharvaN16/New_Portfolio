@@ -6,7 +6,7 @@
 
 export const FOOTER_LINKS = {
   quickLinks: [
-    { label: 'Resume', href: '/resume' },
+    { label: 'Résumé', href: '/resume' },
     { label: 'Work', href: '/work' },
     { label: 'Explorations', href: '/explorations' },
     { label: 'Writings', href: '/writings' },
