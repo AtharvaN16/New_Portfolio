@@ -162,16 +162,6 @@ export function Hero({
             style={{ flexShrink: 0, paddingBottom: '1rem' }}
           >
             {/* Left Link - Hover animation */}
-            <HoverLink href="/resume">Résumé</HoverLink>
-
-            <div
-              className="text-[16px] font-normal"
-              style={{ color: 'rgb(var(--color-text-secondary))' }}
-            >
-              Looking for full-time roles starting Summer &apos;26.
-            </div>
-
-            {/* Right Link - Hover animation */}
             <HoverLink
               href="#footer"
               onClick={(e) => {
@@ -183,6 +173,16 @@ export function Hero({
             >
               Get in touch
             </HoverLink>
+
+            <div
+              className="text-[16px] font-normal"
+              style={{ color: 'rgb(var(--color-text-secondary))' }}
+            >
+              Looking for full-time roles starting Summer &apos;26.
+            </div>
+
+            {/* Right Link - Hover animation */}
+            <HoverLink href="/resume">Résumé</HoverLink>
           </motion.div>
         </motion.div>
       </div>
