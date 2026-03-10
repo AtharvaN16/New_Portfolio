@@ -16,7 +16,6 @@ interface CaseStudyDetailProps {
 }
 
 export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
-  const [isScrolled, setIsScrolled] = useState(false)
   const [isContentRevealed, setIsContentRevealed] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
@@ -32,38 +31,6 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
 
   // Hero overlay opacity
   const heroOverlayOpacity = useHeroOverlay(containerRef, heroSectionRef)
-
-  // Listen to container scroll - optimized with RAF throttling
-  useEffect(() => {
-    const container = containerRef.current
-    if (!container) return
-
-    let rafId: number | null = null
-    let lastScrolled = false
-
-    const handleScroll = () => {
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId)
-      }
-
-      rafId = requestAnimationFrame(() => {
-        const scrolled = container.scrollTop > 50
-        if (scrolled !== lastScrolled) {
-          setIsScrolled(scrolled)
-          lastScrolled = scrolled
-        }
-        rafId = null
-      })
-    }
-
-    container.addEventListener('scroll', handleScroll, { passive: true })
-    return () => {
-      container.removeEventListener('scroll', handleScroll)
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId)
-      }
-    }
-  }, [])
 
   const handleClose = () => {
     if (window.history.length > 1) {
@@ -95,10 +62,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
 
       {/* Content wrapper for Lenis */}
       <div ref={contentRef}>
-        <CaseStudyHeader
-          isScrolled={isScrolled}
-          onClose={handleClose}
-        />
+        <CaseStudyHeader onClose={handleClose} />
 
         {/* Main Content - Hero Section */}
         <main className="px-6 2xl:px-[140px] pt-4 pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100dvh-5.75rem)] md:min-h-[calc(100vh-5.75rem)] flex flex-col relative">

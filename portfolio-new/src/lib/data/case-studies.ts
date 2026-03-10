@@ -18,6 +18,8 @@ export interface CaseStudy {
   timeline?: string
   fullDescription?: string
   progressBarColor?: string
+  pageVariant?: 'case-study' | 'showcase'
+  heroTextLight?: boolean
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -122,6 +124,22 @@ export const caseStudies: CaseStudy[] = [
     tags: ['Explorations', 'UI Design'],
     imageBg: 'rgb(var(--color-case-study-pale-green))',
     category: 'ui-design',
+  },
+  {
+    slug: 'snakes',
+    title: 'Designing an Interactive Experience to learn about snakes',
+    organization: 'Personal Project',
+    year: '2026',
+    description:
+      'A study on the movement and behavior of snakes in digital environments.',
+    tags: ['Exploration', 'Vibe Coded', 'Data Visualization'],
+    imageBg: 'rgb(var(--color-case-study-purple))',
+    imageUrl: '/images/case-studies/snakes/hero.png',
+    featured: true,
+    category: 'ui-design',
+    pageVariant: 'showcase',
+    heroTextLight: false,
+    timeline: '2026',
   },
 ]
 
