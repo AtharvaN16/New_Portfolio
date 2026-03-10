@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, type HTMLMotionProps } from 'framer-motion'
+import { m, type HTMLMotionProps } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 
 interface NavButtonProps extends HTMLMotionProps<'button'> {
@@ -22,7 +22,7 @@ interface NavButtonProps extends HTMLMotionProps<'button'> {
  */
 export function NavButton({ children, className, ...props }: NavButtonProps) {
   return (
-    <motion.button
+    <m.button
       type="button"
       className={cn(
         'group relative overflow-hidden cursor-pointer text-[14px] md:text-[18px] tracking-normal transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 px-3 py-1.5 rounded-none bg-transparent z-[101] pointer-events-auto',
@@ -41,6 +41,6 @@ export function NavButton({ children, className, ...props }: NavButtonProps) {
       <span className="relative z-10 block transition-colors duration-300 text-text-secondary md:group-hover:text-foreground pointer-events-none font-sans font-medium tracking-[0.1em] uppercase leading-none">
         {children}
       </span>
-    </motion.button>
+    </m.button>
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 
 interface LineSeparatorProps {
@@ -37,7 +37,7 @@ export function LineSeparator({
         className="block overflow-visible"
         style={{ color: 'rgb(var(--color-foreground))' }}
       >
-        <motion.path
+        <m.path
           d="M 0 40 L 1000 40"
           stroke="currentColor"
           strokeWidth="0.8"

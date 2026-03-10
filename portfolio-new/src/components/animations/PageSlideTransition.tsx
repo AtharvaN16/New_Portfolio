@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { usePathname } from 'next/navigation'
 import { type ReactNode } from 'react'
 import { FrozenRouter } from './FrozenRouter'
@@ -41,7 +41,7 @@ export function PageSlideTransition({ children }: PageSlideTransitionProps) {
 
   return (
     <AnimatePresence mode="popLayout">
-      <motion.div
+      <m.div
         key={pathname}
         initial={{ y: initialY, opacity: initialOpacity }}
         animate={{ y: 0, opacity: 1 }}
@@ -62,7 +62,7 @@ export function PageSlideTransition({ children }: PageSlideTransitionProps) {
         <FrozenRouter freeze={isTransitioning}>
           {children}
         </FrozenRouter>
-      </motion.div>
+      </m.div>
     </AnimatePresence>
   )
 }

@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import {
-  motion,
+  m,
   useAnimationFrame,
   useMotionValue,
   useTransform,
@@ -146,13 +146,13 @@ export function ProjectCard({
   }
 
   return (
-    <motion.article
+    <m.article
       ref={cardRef}
       className={cn('group flex flex-col', slug && 'cursor-pointer', className)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
-      role={slug ? 'button' : undefined}
+      aria-label={slug ? `View ${title} case study` : undefined}
       tabIndex={slug ? 0 : undefined}
       onKeyDown={(e) => {
         if (slug && (e.key === 'Enter' || e.key === ' ')) {
@@ -205,7 +205,7 @@ export function ProjectCard({
 
         {/* Melting Overlay - Matches background for receding effect */}
         {shouldApplyRecede && (
-          <motion.div
+          <m.div
             className="absolute inset-0 z-20 pointer-events-none"
             style={{
               backgroundColor: 'rgb(var(--color-background))',
@@ -264,6 +264,6 @@ export function ProjectCard({
           </span>
         </div>
       </div>
-    </motion.article>
+    </m.article>
   )
 }

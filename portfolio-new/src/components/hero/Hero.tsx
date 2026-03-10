@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import { AnimatedLink } from '@/components/ui/AnimatedLink'
@@ -69,7 +69,7 @@ export function Hero({
   return (
     <section className="relative flex flex-col h-full w-full">
       <div className="max-w-[1920px] mx-auto w-full h-full flex flex-col">
-        <motion.div
+        <m.div
           variants={staggerContainer}
           initial="initial"
           animate="animate"
@@ -98,7 +98,7 @@ export function Hero({
               </div>
 
               <div className="flex flex-col items-end gap-3 md:flex-row md:items-end md:gap-10 lg:gap-[196px]">
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
@@ -114,10 +114,10 @@ export function Hero({
                   <span style={{ color: 'rgb(var(--color-text-secondary))' }}>
                     MS in Human-Computer Interaction at Pratt Institute.
                   </span>
-                </motion.div>
+                </m.div>
 
                 {/* Browse work link - hidden on mobile, visible from md and up */}
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
@@ -139,7 +139,7 @@ export function Hero({
                   >
                     Browse work
                   </AnimatedLink>
-                </motion.div>
+                </m.div>
               </div>
             </div>
 
@@ -156,7 +156,7 @@ export function Hero({
           </div>
 
           {/* Bottom Navigation Links - 16px from viewport bottom */}
-          <motion.div
+          <m.div
             variants={fadeInUp}
             className="hidden md:flex items-center justify-between mt-4 px-6 md:px-0"
             style={{ flexShrink: 0, paddingBottom: '1rem' }}
@@ -183,8 +183,8 @@ export function Hero({
 
             {/* Right Link - Hover animation */}
             <HoverLink href="/resume" prefetch={false}>Résumé</HoverLink>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </div>
     </section>
   )

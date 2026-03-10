@@ -297,22 +297,22 @@
      FOOTER RESUME LINK TRAVELING GRADIENT
      ======================================== */
 
-  /* Traveling gradient animation */
-  @keyframes travelingGradient {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
-  }
-
   @keyframes shimmerScale {
     0%, 100% {
       transform: scale(1);
     }
     50% {
       transform: scale(1.05);
+    }
+  }
+
+  /* Traveling gradient — background-position animation (background-clip: text requires this approach) */
+  @keyframes travelingGradient {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
     }
   }
 
@@ -331,7 +331,7 @@
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: travelingGradient 3s ease-in-out infinite, shimmerScale 3s ease-in-out infinite;
+    animation: travelingGradient 3s linear infinite, shimmerScale 3s linear infinite;
     text-shadow: 0 0 15px rgba(255, 255, 255, 0.7), 0 0 5px rgba(255, 255, 255, 0.5);
     transform-origin: left center;
     transition: all 0.8s ease-in-out;
@@ -354,7 +354,7 @@
     transition: all 0.8s ease-in-out;
   }
 
-  /* Resume link - traveling gradient applied by default */
+  /* Resume link - traveling gradient */
   .footer-resume-link {
     background: linear-gradient(
       90deg,
@@ -368,7 +368,7 @@
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: travelingGradient 4s ease-in-out infinite;
+    animation: travelingGradient 4s linear infinite;
     text-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
   }
 

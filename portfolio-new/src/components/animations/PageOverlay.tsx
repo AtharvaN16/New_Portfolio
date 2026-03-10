@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState, type ReactNode } from 'react'
 
@@ -122,7 +122,7 @@ export function PageOverlay({
   return (
     <AnimatePresence initial={false} onExitComplete={handleAnimationComplete}>
       {isOpen && (
-        <motion.div
+        <m.div
           initial={{ y: '100%' }}
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
@@ -145,7 +145,7 @@ export function PageOverlay({
           }}
         >
           {children}
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   )

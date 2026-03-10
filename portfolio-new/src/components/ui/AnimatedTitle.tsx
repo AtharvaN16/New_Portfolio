@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Fragment } from 'react'
 import { cn } from '@/lib/utils/cn'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
@@ -16,6 +16,10 @@ interface AnimatedTitleProps {
   className?: string
   /** Delay before starting the animation (in seconds). */
   delay?: number
+  /** Stagger time between words (in seconds). Default: 0.08. */
+  stagger?: number
+  /** Duration of the animation per word (in seconds). */
+  duration?: number
 }
 
 /**
@@ -31,6 +35,8 @@ export function AnimatedTitle({
   alwaysAnimate = false,
   className,
   delay = 0,
+  stagger = 0.08,
+  duration,
 }: AnimatedTitleProps) {
   const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
   const shouldPause = prefersReducedMotion || pauseWebGL
@@ -40,7 +46,7 @@ export function AnimatedTitle({
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: shouldPause ? 0 : 0.08,
+        staggerChildren: shouldPause ? 0 : stagger,
         delayChildren: shouldPause ? 0 : 0.2 + delay,
       },
     },
@@ -64,7 +70,7 @@ export function AnimatedTitle({
           type: 'spring' as const,
           damping: 12,
           stiffness: shouldPause ? 1000 : 100,
-          duration: shouldPause ? 0 : undefined,
+          duration: shouldPause ? 0 : duration,
         },
       },
       exit: {
@@ -80,7 +86,7 @@ export function AnimatedTitle({
       visible: {
         opacity: 1,
         transition: {
-          duration: shouldPause ? 0 : 0.5,
+          duration: shouldPause ? 0 : (duration ?? 0.5),
         },
       },
       exit: {
@@ -98,7 +104,7 @@ export function AnimatedTitle({
   const lines = text.split('\n')
 
   return (
-    <motion.h1
+    <m.h1
       variants={containerVariants}
       initial="hidden"
       exit="exit"
@@ -118,9 +124,9 @@ export function AnimatedTitle({
         <Fragment key={lineIndex}>
           {line.split(' ').map((word, wordIndex, array) => (
             <Fragment key={wordIndex}>
-              <motion.span variants={wordVariants} className="inline-block">
+              <m.span variants={wordVariants} className="inline-block">
                 {word}
-              </motion.span>
+              </m.span>
               {wordIndex < array.length - 1 && ' ' /* Add a regular space */}
             </Fragment>
           ))}
@@ -132,6 +138,6 @@ export function AnimatedTitle({
           )}
         </Fragment>
       ))}
-    </motion.h1>
+    </m.h1>
   )
 }

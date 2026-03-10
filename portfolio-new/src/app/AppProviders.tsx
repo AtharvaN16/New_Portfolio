@@ -1,6 +1,7 @@
 'use client'
 
 import { type ReactNode } from 'react'
+import { LazyMotion, domAnimation } from 'framer-motion'
 import { ThemeProvider } from '@/components/providers/ThemeProvider'
 import { LenisProvider } from '@/components/providers/LenisProvider'
 import { AccessibilityProvider } from '@/components/providers/AccessibilityProvider'
@@ -9,14 +10,16 @@ import { A11yFilterOverlay } from '@/components/layout/A11yFilterOverlay'
 
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
-    <AccessibilityProvider>
-      <ThemeProvider>
-        <LenisProvider>
-          {children}
-          <ReadingGuide />
-          <A11yFilterOverlay />
-        </LenisProvider>
-      </ThemeProvider>
-    </AccessibilityProvider>
+    <LazyMotion features={domAnimation}>
+      <AccessibilityProvider>
+        <ThemeProvider>
+          <LenisProvider>
+            {children}
+            <ReadingGuide />
+            <A11yFilterOverlay />
+          </LenisProvider>
+        </ThemeProvider>
+      </AccessibilityProvider>
+    </LazyMotion>
   )
 }

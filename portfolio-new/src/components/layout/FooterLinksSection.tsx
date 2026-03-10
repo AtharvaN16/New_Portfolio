@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatePresence, motion, type MotionValue } from 'framer-motion'
+import { AnimatePresence, m, type MotionValue } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 import { useEmailCopy } from '@/hooks/use-email-copy'
 import {
@@ -25,7 +25,7 @@ export function FooterLinksSection({
   const { copyEmail, isCopied } = useEmailCopy()
 
   return (
-    <motion.div
+    <m.div
       className="order-1 lg:order-2 flex flex-col gap-8 sm:flex-row sm:gap-12 lg:gap-0 lg:-ml-32"
       style={{ opacity: sectionOpacity, y: sectionY }}
     >
@@ -156,20 +156,20 @@ export function FooterLinksSection({
               </button>
               <AnimatePresence>
                 {isCopied && (
-                  <motion.span
+                  <m.span
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0 }}
                     className="text-xs font-medium text-[rgb(var(--color-success))] whitespace-nowrap"
                   >
                     Copied!
-                  </motion.span>
+                  </m.span>
                 )}
               </AnimatePresence>
             </div>
           </div>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   )
 }

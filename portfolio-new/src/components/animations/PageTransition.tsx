@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { type ReactNode, useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { FrozenRouter } from './FrozenRouter'
@@ -149,7 +149,7 @@ export function PageTransition({ children, className }: PageTransitionProps) {
       {/* Overlay - NEW content slides from bottom */}
       <AnimatePresence initial={false} mode="wait">
         {transitionState && (
-          <motion.div
+          <m.div
             key={transitionState.newPath}
             initial={{ y: shouldPause ? 0 : '100%', opacity: shouldPause ? 0 : 1 }}
             animate={{ y: 0, opacity: 1 }}
@@ -180,7 +180,7 @@ export function PageTransition({ children, className }: PageTransitionProps) {
             }}
           >
             <div className={className}>{children}</div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

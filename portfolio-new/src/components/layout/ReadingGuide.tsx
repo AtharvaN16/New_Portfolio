@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 interface HighlightRect {
@@ -263,13 +263,13 @@ export function ReadingGuide() {
 
           {/* Tooltip: keep motion.div — low frequency, animation is perceptible */}
           {hasSentence && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               className="fixed bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/80 backdrop-blur-md text-white text-xs rounded-full border border-white/10"
             >
               Press <span className="font-bold text-primary">{isMac ? '⌥ Option' : 'Alt'} + R</span> to read aloud
-            </motion.div>
+            </m.div>
           )}
         </div>
       )}
