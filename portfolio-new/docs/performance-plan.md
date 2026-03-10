@@ -12,7 +12,7 @@
 > This is the single source of truth for resuming across token-limit resets.
 
 **Last updated:** 2026-03-10
-**Current tier:** Tier 1 complete — starting Tier 2
+**Current tier:** Tier 2 complete — starting Tier 3
 **Build status:** ✅ Clean (`bun run build` passes, zero TS errors)
 
 ### Completed
@@ -23,12 +23,14 @@
 | 1.2 | `id="main-content"` on `<motion.main>` | ✅ Done | `src/app/page.tsx` line 154 |
 | 1.3 | `prefetch={false}` for missing routes | ✅ Done | `HoverLink.tsx` (new prop), `Navbar.tsx`, `Hero.tsx`, `MobileMenu.tsx` |
 | — | Fix pre-existing TS error | ✅ Done | `ShowcaseHero.tsx`: `RefObject<HTMLDivElement>` → `RefObject<HTMLDivElement \| null>` |
+| 2.1 | Conditional `priority` on `FullpageCard` | ✅ Done | `FullpageCard.tsx`: `priority` prop added (default `false`), replaces hardcoded `priority`. Card is below-fold — no call site needs `priority={true}`. |
+| 2.2 | Cache headers for font + favicon | ✅ Done | `next.config.ts`: `/fonts/(.*)` → `max-age=31536000, immutable`; `/favicon.ico` → `max-age=86400` |
 
 ### Next action
 
-**Tier 2, item 2.1** — Add conditional `priority` prop to `FullpageCard`.
-- File: `src/components/ui/FullpageCard.tsx` (find the `<Image>` with hardcoded `priority`)
-- Then: pass `priority={true}` from `src/app/page.tsx` for the first card only
+**Tier 3, item 3.1** — Refactor `travelingGradient` to compositor-compatible approach.
+- File: `src/app/globals.css` — `.footer-resume-link` and `.shimmer-glow` animate `background-position`
+- Replace with `::before` pseudo-element using `transform: translateX(...)` + `overflow: hidden`
 
 ### Open questions / blockers
 
@@ -196,8 +198,8 @@ Two Next.js CSS chunks block render for ~150ms. Fix requires inlining critical C
 | 1.1 | Create site.webmanifest | `public/site.webmanifest` | Zero | ✅ Done (icons pending) | PWA + Best Practices |
 | 1.2 | `id="main-content"` on main | `src/app/page.tsx` | Zero | ✅ Done | Accessibility |
 | 1.3 | `prefetch={false}` for missing routes | `HoverLink.tsx`, `Navbar.tsx`, `Hero.tsx`, `MobileMenu.tsx` | Zero | ✅ Done | Console errors |
-| 2.1 | Conditional `priority` on FullpageCard | `FullpageCard.tsx`, `page.tsx` | Low | ⬜ Next | Image audit |
-| 2.2 | Cache headers for font + favicon | `next.config.ts` | Low | ⬜ Pending | Asset checklist |
+| 2.1 | Conditional `priority` on FullpageCard | `FullpageCard.tsx`, `page.tsx` | Low | ✅ Done | Image audit |
+| 2.2 | Cache headers for font + favicon | `next.config.ts` | Low | ✅ Done | Asset checklist |
 | 3.1 | `travelingGradient` → `transform` | `globals.css` | Medium | ⬜ Pending | Composited animations |
 | 3.2 | `shimmerScale` timing fix | `globals.css` | Medium | ⬜ Pending | Composited animations |
 | 3.3 | Heading hierarchy | `Hero.tsx`, `SelectedWork.tsx` | Medium | ⬜ Pending | Accessibility |

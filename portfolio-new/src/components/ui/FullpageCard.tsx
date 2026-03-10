@@ -13,6 +13,7 @@ interface FullpageCardProps {
   mediaSrc?: string
   mediaType?: 'image' | 'video'
   mediaAlt?: string
+  priority?: boolean
   children?: ReactNode
   variant?: 'surface' | 'surface-elevated' | 'dark' | 'light'
   className?: string
@@ -32,6 +33,7 @@ export function FullpageCard({
   mediaSrc,
   mediaType = 'image',
   mediaAlt = '',
+  priority = false,
   children,
   variant = 'surface',
   className,
@@ -104,7 +106,7 @@ export function FullpageCard({
               sizes="100vw"
               onError={handleMediaError}
               className={cn('object-cover', mediaClassName)}
-              priority
+              priority={priority}
             />
           )}
         </div>
