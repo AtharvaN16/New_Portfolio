@@ -99,7 +99,7 @@ export function ShowcaseDetail({ caseStudy, onClose }: ShowcaseDetailProps) {
                 text={caseStudy.title}
                 animationType="fadeIn"
                 alwaysAnimate
-                delay={0.8}
+                delay={0.4}
                 className="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
               />
 
@@ -107,7 +107,7 @@ export function ShowcaseDetail({ caseStudy, onClose }: ShowcaseDetailProps) {
                 className="flex flex-col md:flex-row md:items-start md:gap-0 mt-auto"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
               >
                 {/* Description */}
                 <div className="max-w-full sm:max-w-[25rem] md:max-w-[28.75rem] text-left">
