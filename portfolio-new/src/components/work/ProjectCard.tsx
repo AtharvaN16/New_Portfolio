@@ -29,6 +29,8 @@ export interface ProjectCardProps {
   cardHeight?: string // Optional custom height (e.g., 'h-[400px] md:h-[500px]')
   recedeEffect?: 'none' | 'homeDesktop'
   homeScrollProgress?: MotionValue<number>
+  isMasonry?: boolean
+  masonryIndex?: number
 }
 
 export function ProjectCard({
@@ -48,6 +50,8 @@ export function ProjectCard({
   cardHeight,
   recedeEffect = 'none',
   homeScrollProgress: _homeScrollProgress,
+  isMasonry = false,
+  masonryIndex = 0,
 }: ProjectCardProps) {
   const [isHovered, setIsHovered] = useState(false)
   const cardRef = useRef<HTMLElement>(null)
@@ -120,6 +124,27 @@ export function ProjectCard({
     }
   }
 
+  // Determine dynamic height for masonry layout
+  const getMasonryHeight = () => {
+    if (!isMasonry)
+      return cardHeight || 'h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px]'
+
+    // Pattern of heights for masonry look on desktop
+    const desktopHeights = [
+      'lg:h-[350px]',
+      'lg:h-[480px]',
+      'lg:h-[400px]',
+      'lg:h-[520px]',
+      'lg:h-[380px]',
+    ]
+    const tabletHeights = ['md:h-[320px]', 'md:h-[400px]']
+
+    const dH = desktopHeights[masonryIndex % desktopHeights.length]
+    const tH = tabletHeights[masonryIndex % tabletHeights.length]
+
+    return cn('h-[280px]', tH, dH)
+  }
+
   return (
     <motion.article
       ref={cardRef}
@@ -153,7 +178,7 @@ export function ProjectCard({
           // If parent has h-full, use flex-1 to fill; otherwise use explicit heights
           className?.includes('h-full')
             ? 'flex-1 min-h-[200px]'
-            : cardHeight || 'h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px]'
+            : getMasonryHeight()
         )}
       >
         {/* Background Color or Image */}
