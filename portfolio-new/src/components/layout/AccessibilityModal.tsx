@@ -349,8 +349,8 @@ function ReadableFontDropdown({
         className={cn(
           'a11y-option group flex w-full items-center justify-between gap-3 px-4 py-2.5 rounded-none text-left transition-all duration-200 border',
           value !== 'none'
-            ? 'bg-foreground/10 dark:bg-white/20 text-foreground font-bold border-foreground'
-            : 'bg-foreground/10 dark:bg-white/20 text-text-tertiary border-transparent hover:text-text-secondary hover:bg-foreground/20 dark:hover:bg-white/30'
+            ? 'bg-black/[0.15] dark:bg-white/20 text-foreground font-bold border-foreground'
+            : 'bg-black/[0.06] dark:bg-white/10 text-text-tertiary border-transparent hover:text-text-secondary hover:bg-black/[0.12] dark:hover:bg-white/20'
         )}
       >
         <div className="flex items-center gap-3">
@@ -450,8 +450,8 @@ function ToggleCard({
       className={cn(
         'a11y-option group flex w-full items-center gap-3 px-4 py-2.5 rounded-none text-left transition-all duration-200 border',
         active
-          ? 'bg-foreground/10 dark:bg-white/20 text-foreground font-bold border-foreground'
-          : 'bg-foreground/10 dark:bg-white/20 text-text-tertiary border-transparent hover:text-text-secondary hover:bg-foreground/20 dark:hover:bg-white/30'
+          ? 'bg-black/[0.15] dark:bg-white/20 text-foreground font-bold border-foreground'
+          : 'bg-black/[0.06] dark:bg-white/10 text-text-tertiary border-transparent hover:text-text-secondary hover:bg-black/[0.12] dark:hover:bg-white/20'
       )}
       aria-pressed={active}
     >
@@ -589,8 +589,8 @@ function SegmentedButtons({
             className={cn(
               'a11y-option group relative flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm md:text-base rounded-none text-center transition-all duration-200 border w-full h-full',
               selected
-                ? 'bg-foreground/10 dark:bg-white/20 text-foreground font-bold border-foreground'
-                : 'bg-foreground/10 dark:bg-white/20 text-text-tertiary border-transparent hover:text-text-secondary hover:bg-foreground/20 dark:hover:bg-white/30'
+                ? 'bg-black/[0.15] dark:bg-white/20 text-foreground font-bold border-foreground'
+                : 'bg-black/[0.06] dark:bg-white/10 text-text-tertiary border-transparent hover:text-text-secondary hover:bg-black/[0.12] dark:hover:bg-white/20'
             )}
             aria-pressed={selected}
           >

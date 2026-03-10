@@ -107,7 +107,6 @@ export function FooterMessageSection({
           Send a message
           <div className="relative w-[28px] h-[28px] mt-0.5">
             <motion.div
-              initial={false}
               animate={{
                 y: isFormOpen || isFlying ? 0 : [0, -4, 0],
                 scale: isFlying ? 0 : 1,
