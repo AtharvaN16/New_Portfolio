@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
+import { MasonryGrid } from './MasonryGrid'
 import { cn } from '@/lib/utils/cn'
 
 interface WorkFilterProps {
@@ -69,18 +70,24 @@ export function WorkFilter({
                   onClick={() => count > 0 && setSelectedFilter(tag)}
                   disabled={isDisabled}
                   className={cn(
-                    'group flex items-start gap-2 transition-all',
+                    'group flex items-start gap-2 transition-all duration-300',
                     {
                       'text-foreground opacity-100': isSelected && !isDisabled,
-                      'text-text-secondary hover:text-foreground': !isSelected && !isDisabled,
+                      'text-foreground opacity-40 hover:opacity-70': !isSelected && !isDisabled,
                       'cursor-not-allowed opacity-20': isDisabled,
                     }
                   )}
                 >
-                  <span className="font-sans font-medium text-[14px] lg:text-[16px] 2xl:text-[18px] leading-tight">
+                  <span className={cn(
+                    "font-sans text-[14px] lg:text-[16px] 2xl:text-[18px] leading-tight transition-all",
+                    isSelected ? "font-bold" : "font-medium"
+                  )}>
                     {tag}
                   </span>
-                  <span className="font-sans font-medium text-[10px] lg:text-[12px] 2xl:text-[14px] leading-tight">
+                  <span className={cn(
+                    "font-sans text-[10px] lg:text-[12px] 2xl:text-[14px] leading-tight transition-all",
+                    isSelected ? "font-bold" : "font-medium"
+                  )}>
                     {count}
                   </span>
                 </button>
@@ -100,8 +107,10 @@ export function WorkFilter({
       </div>
 
       {/* Projects Grid */}
-      <div className="grid gap-12 md:gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filteredProjects.map((project, index) => (
+      <MasonryGrid
+        items={filteredProjects}
+        gap={24}
+        renderItem={(project, index) => (
           <motion.div
             key={`${project.title}-${project.organization}`}
             initial={{ opacity: 0, y: 30 }}
@@ -110,7 +119,7 @@ export function WorkFilter({
               y: 0,
               transition: {
                 duration: 0.5,
-                delay: index * 0.1, // Stagger based on index
+                delay: (index % 3) * 0.1,
                 ease: [0.22, 1, 0.36, 1],
               },
             }}
@@ -119,12 +128,14 @@ export function WorkFilter({
             <ProjectCard
               {...project}
               variant="compact"
-              imagePriority={index < 2}
+              isMasonry
+              masonryIndex={index}
+              imagePriority={index < 3}
               imageSizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           </motion.div>
-        ))}
-      </div>
+        )}
+      />
 
       {/* Empty State */}
       {filteredProjects.length === 0 && (
