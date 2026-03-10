@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
 import { getCaseStudyBySlug } from '@/lib/data/case-studies'
@@ -142,7 +142,7 @@ export function CaseStudyDialog() {
         through dialog unmount, allowing the exit reveal to play over the portfolio.
       */}
       {flash.visible && (
-        <motion.div
+        <m.div
           className="fixed inset-0 z-[200] pointer-events-none"
           initial={false}
           animate={{ opacity: flash.opacity }}
@@ -154,7 +154,7 @@ export function CaseStudyDialog() {
 
       <AnimatePresence onExitComplete={handleExitComplete}>
         {isOpen && caseStudy && (
-          <motion.div
+          <m.div
             key="case-study-dialog"
             id="case-study-dialog"
             className="dialog fixed inset-0 z-[100]"
@@ -189,7 +189,7 @@ export function CaseStudyDialog() {
             ) : (
               <CaseStudyDetail caseStudy={caseStudy} />
             )}
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </RemoveScroll>

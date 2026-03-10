@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { Hero } from '@/components/hero/Hero'
@@ -110,7 +110,7 @@ export default function Home() {
         }}
       >
         {/* ===== LAYER 1: SelectedWork ===== */}
-        <motion.div
+        <m.div
           className="fixed top-0 left-0 right-0"
           style={{
             y: selectedWorkY,
@@ -128,10 +128,10 @@ export default function Home() {
               />
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* ===== LAYER 2: Hero ===== */}
-        <motion.div
+        <m.div
           className="fixed inset-0 flex flex-col"
           style={{
             zIndex: 30,
@@ -141,7 +141,7 @@ export default function Home() {
             willChange: 'opacity',
           }}
         >
-          <motion.div
+          <m.div
             className="px-6 2xl:px-[140px] pt-6"
             style={{
               opacity: navbarScrollOpacity,
@@ -149,9 +149,9 @@ export default function Home() {
             }}
           >
             <Navbar />
-          </motion.div>
+          </m.div>
 
-          <motion.main
+          <m.main
             id="main-content"
             className="px-0 md:px-6 2xl:px-[140px] flex-1"
             style={{
@@ -164,11 +164,11 @@ export default function Home() {
               onBrowseWorkClick={handleBrowseWorkClick}
               onGetInTouchClick={handleGetInTouchWithShimmer}
             />
-          </motion.main>
-        </motion.div>
+          </m.main>
+        </m.div>
 
         {/* ===== LAYER 3: Card ===== */}
-        <motion.div
+        <m.div
           className="fixed inset-0 pointer-events-none"
           style={{
             y: cardY,
@@ -188,7 +188,7 @@ export default function Home() {
               slug="nyc-dcwp-business-licenses"
             />
           </div>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* ===== FOOTER ===== */}

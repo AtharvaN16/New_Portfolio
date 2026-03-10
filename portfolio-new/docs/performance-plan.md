@@ -38,6 +38,8 @@
 | B | Invalid ARIA role on `<section>` / `<article>` | ✅ Fixed | Removed `role="button"` (not allowed on those elements); added `aria-label="View [title] case study"` in `FullpageCard.tsx` + `ProjectCard.tsx` |
 | C | `font-display: swap` | ✅ Already done | `layout.tsx` had `display: 'swap'` for JetBrains Mono + Mynerve. Fallback variants are Next.js internals, not changeable. |
 | D | Maskable icon | ✅ Done | `site.webmanifest`: added `"purpose": "any"` to existing icons + maskable entry for icon-512.png |
+| F/I | Reduce unused JS / JS execution time | ✅ Done — LazyMotion refactor | Replaced all `motion.X` → `m.X` across 34 files; added `<LazyMotion features={domAnimation}>` in `AppProviders.tsx`. Excludes `domMax` (layout animations + drag, unused). ~15–20KB Framer savings. |
+| G | VulfMono .otf → .woff2 | ✅ Done | Converted `VulfMonoDemo-LightItalic.otf` → `.woff2` (14K → 11K); updated preload in `layout.tsx` + `@font-face` in `fonts.css` |
 
 ### Open questions / blockers
 

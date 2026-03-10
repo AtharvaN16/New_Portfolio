@@ -4,7 +4,7 @@ import { Expand } from '@theme-toggles/react'
 import '@theme-toggles/react/css/Expand.css'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { NavButton } from '@/components/ui/NavButton'
@@ -53,7 +53,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const overlay = (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <m.div
           // Portal to body so it sits above WebGL canvas compositing layers
           className="fixed inset-0 sm:hidden flex flex-col"
           style={{ zIndex: 99999 }}
@@ -94,7 +94,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             >
               <ul className="flex flex-col items-end gap-6">
                 {menuLinks.map((link, index) => (
-                  <motion.li
+                  <m.li
                     key={link.href}
                     initial={{ opacity: 0, y: 28 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -114,13 +114,13 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                     >
                       {link.label}
                     </Link>
-                  </motion.li>
+                  </m.li>
                 ))}
               </ul>
             </nav>
 
             {/* Theme toggle */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -137,9 +137,9 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 className="h-12 w-12 text-[28px] flex-shrink-0 scale-x-[-1] flex items-center justify-center text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 aria-label="Toggle theme"
               />
-            </motion.div>
+            </m.div>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   )

@@ -1,10 +1,10 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 export function NycDcwpBusinessLicensesContent() {
   return (
-    <motion.section
+    <m.section
       className="w-full px-6 2xl:px-[140px] py-16 md:py-24 max-w-[1920px] mx-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -58,6 +58,6 @@ export function NycDcwpBusinessLicensesContent() {
           </section>
         </div>
       </div>
-    </motion.section>
+    </m.section>
   )
 }

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import {
   AnimatePresence,
-  motion,
+  m,
   type MotionValue,
   type Variants,
 } from 'framer-motion'
@@ -90,12 +90,12 @@ export function FooterMessageSection({
   }, [isSent])
 
   return (
-    <motion.div
+    <m.div
       className="hidden lg:block lg:order-1 lg:min-w-[420px] relative z-30"
       style={{ opacity: sectionOpacity, y: sectionY }}
     >
       <div className="relative">
-        <motion.button
+        <m.button
           onClick={handleTapMessage}
           animate={{ scale: isTappingMessage ? 0.94 : 1 }}
           transition={{ type: 'spring', stiffness: 400, damping: 17 }}
@@ -106,7 +106,7 @@ export function FooterMessageSection({
         >
           Send a message
           <div className="relative w-[28px] h-[28px] mt-0.5">
-            <motion.div
+            <m.div
               animate={{
                 y: isFormOpen || isFlying ? 0 : [0, -4, 0],
                 scale: isFlying ? 0 : 1,
@@ -134,7 +134,7 @@ export function FooterMessageSection({
               }}
             >
               <PaperPlane className="w-[28px] h-[28px] text-foreground" />
-            </motion.div>
+            </m.div>
             <div className="absolute top-0 left-0">
               {isMounted && isDesktop && (
                 <PaperPlaneFlight
@@ -147,11 +147,11 @@ export function FooterMessageSection({
               )}
             </div>
           </div>
-        </motion.button>
+        </m.button>
 
         <AnimatePresence>
           {isSent && !isFormOpen && (
-            <motion.p
+            <m.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -159,23 +159,23 @@ export function FooterMessageSection({
               style={{ color: 'rgb(var(--color-text-tertiary-50))' }}
             >
               Your message has been sent
-            </motion.p>
+            </m.p>
           )}
           {errorMessage && !isFormOpen && (
-            <motion.p
+            <m.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               className="absolute top-full left-0 mt-4 text-sm md:text-base font-medium text-red-500"
             >
               {errorMessage}
-            </motion.p>
+            </m.p>
           )}
         </AnimatePresence>
 
         <AnimatePresence>
           {isFormOpen && (
-            <motion.form
+            <m.form
               variants={formVariants}
               initial="hidden"
               animate="visible"
@@ -206,7 +206,7 @@ export function FooterMessageSection({
                 }
               }}
             >
-              <motion.div variants={fieldVariants} className="relative">
+              <m.div variants={fieldVariants} className="relative">
                 <label htmlFor="footer-message" className="sr-only">
                   Message
                 </label>
@@ -226,17 +226,17 @@ export function FooterMessageSection({
                     target.style.height = `${target.scrollHeight}px`
                   }}
                 />
-              </motion.div>
+              </m.div>
 
               <div className="space-y-6">
-                <motion.div variants={fieldVariants} className="pt-2">
+                <m.div variants={fieldVariants} className="pt-2">
                   <h3 className="text-[14px] font-bold text-foreground uppercase tracking-tight">
                     Optional
                   </h3>
-                </motion.div>
+                </m.div>
 
                 <div className="space-y-8 !mt-4">
-                  <motion.div variants={fieldVariants} className="relative">
+                  <m.div variants={fieldVariants} className="relative">
                     <label htmlFor="footer-linkedin" className="sr-only">
                       LinkedIn Profile (Optional)
                     </label>
@@ -250,9 +250,9 @@ export function FooterMessageSection({
                         borderBottomColor: 'rgb(var(--color-text-color70))',
                       }}
                     />
-                  </motion.div>
+                  </m.div>
 
-                  <motion.div variants={fieldVariants} className="relative">
+                  <m.div variants={fieldVariants} className="relative">
                     <label htmlFor="footer-email" className="sr-only">
                       Your Email Address (Optional)
                     </label>
@@ -266,11 +266,11 @@ export function FooterMessageSection({
                         borderBottomColor: 'rgb(var(--color-text-color70))',
                       }}
                     />
-                  </motion.div>
+                  </m.div>
                 </div>
               </div>
 
-              <motion.div
+              <m.div
                 variants={fieldVariants}
                 className="flex justify-end pt-8"
               >
@@ -284,11 +284,11 @@ export function FooterMessageSection({
                 >
                   {isSubmitting ? 'Sending...' : 'Send'}
                 </button>
-              </motion.div>
-            </motion.form>
+              </m.div>
+            </m.form>
           )}
         </AnimatePresence>
       </div>
-    </motion.div>
+    </m.div>
   )
 }

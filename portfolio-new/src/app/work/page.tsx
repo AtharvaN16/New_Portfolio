@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { WorkFilter } from '@/components/work/WorkFilter'
 import type { ProjectCardProps } from '@/components/work/ProjectCard'
 import { GradientBar } from '@/components/ui/GradientBar'
@@ -54,7 +54,7 @@ export default function WorkPage() {
       {/* Header with Back Button - 30px gap from GradientBar */}
       <header className="relative z-50">
         <nav className="px-6 2xl:px-[140px] pt-[38px] md:pt-[46px] pb-6 flex items-center justify-end max-w-[1920px] mx-auto">
-          <motion.div
+          <m.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{
@@ -66,7 +66,7 @@ export default function WorkPage() {
             <NavButton onClick={handleBack} className="-mr-3">
               Back
             </NavButton>
-          </motion.div>
+          </m.div>
         </nav>
       </header>
 

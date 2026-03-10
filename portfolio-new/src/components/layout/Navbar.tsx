@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useTheme } from '@/components/providers/ThemeProvider'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Expand } from '@theme-toggles/react'
 import '@theme-toggles/react/css/Expand.css'
 import Image from 'next/image'
@@ -30,7 +30,7 @@ export function Navbar() {
 
   return (
     <>
-      <motion.nav
+      <m.nav
         className="relative z-50"
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -61,7 +61,7 @@ export function Navbar() {
             {/* Nav Links */}
             <ul className="hidden sm:flex items-center gap-10 md:gap-16 lg:gap-[140px]">
               {navLinks.map((link, index) => (
-                <motion.li
+                <m.li
                   key={link.href}
                   initial={{ y: -20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -73,12 +73,12 @@ export function Navbar() {
                   className="relative flex flex-col items-center"
                 >
                   <HoverLink href={link.href} prefetch={link.prefetch}>{link.label}</HoverLink>
-                </motion.li>
+                </m.li>
               ))}
             </ul>
 
             {/* Desktop/Tablet Theme Toggle */}
-            <motion.div
+            <m.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{
@@ -98,10 +98,10 @@ export function Navbar() {
                 className="h-11 w-11 text-[22px] scale-x-[-1] rounded-full bg-surface hover:bg-surface-elevated transition-colors duration-200 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 text-text-primary"
                 aria-label="Toggle theme"
               />
-            </motion.div>
+            </m.div>
 
             {/* Mobile MENU button */}
-            <motion.div
+            <m.div
               className="sm:hidden"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -118,10 +118,10 @@ export function Navbar() {
               >
                 Menu
               </NavButton>
-            </motion.div>
+            </m.div>
           </div>
         </div>
-      </motion.nav>
+      </m.nav>
 
       <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </>

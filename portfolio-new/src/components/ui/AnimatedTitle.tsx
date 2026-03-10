@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Fragment } from 'react'
 import { cn } from '@/lib/utils/cn'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
@@ -98,7 +98,7 @@ export function AnimatedTitle({
   const lines = text.split('\n')
 
   return (
-    <motion.h1
+    <m.h1
       variants={containerVariants}
       initial="hidden"
       exit="exit"
@@ -118,9 +118,9 @@ export function AnimatedTitle({
         <Fragment key={lineIndex}>
           {line.split(' ').map((word, wordIndex, array) => (
             <Fragment key={wordIndex}>
-              <motion.span variants={wordVariants} className="inline-block">
+              <m.span variants={wordVariants} className="inline-block">
                 {word}
-              </motion.span>
+              </m.span>
               {wordIndex < array.length - 1 && ' ' /* Add a regular space */}
             </Fragment>
           ))}
@@ -132,6 +132,6 @@ export function AnimatedTitle({
           )}
         </Fragment>
       ))}
-    </motion.h1>
+    </m.h1>
   )
 }

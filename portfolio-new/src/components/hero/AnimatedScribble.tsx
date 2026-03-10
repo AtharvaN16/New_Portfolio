@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 /**
  * AnimatedScribble Component
@@ -128,7 +128,7 @@ export function AnimatedScribble({
         pointerEvents: 'none',
       }}
     >
-      <motion.svg
+      <m.svg
         key={currentIndex}
         viewBox="0 0 148 16"
         preserveAspectRatio="none"
@@ -142,7 +142,7 @@ export function AnimatedScribble({
         animate={{ opacity: 1 }}
         transition={{ duration: 0 }}
       >
-        <motion.path
+        <m.path
           d={SCRIBBLE_PATHS[currentIndex]}
           fill="none"
           stroke="currentColor"
@@ -157,7 +157,7 @@ export function AnimatedScribble({
               : { duration: 0 }
           }
         />
-      </motion.svg>
+      </m.svg>
     </span>
   )
 }

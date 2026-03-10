@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { FooterDustParticles } from './FooterDustParticles'
 import { useBreakpoints } from '@/hooks/use-breakpoint'
 import { useTheme } from '@/components/providers/ThemeProvider'
@@ -67,7 +67,7 @@ function CSSGlow({
 
   return (
     // Outer wrapper handles the opacity fade so dither and gradients fade together.
-    <motion.div
+    <m.div
       className="absolute inset-0"
       animate={{ opacity: visible ? 1 : 0 }}
       transition={{ duration: 1.2, ease: 'easeOut' }}
@@ -95,7 +95,7 @@ function CSSGlow({
         />
 
         {/* Swell 1 */}
-        <motion.div
+        <m.div
           suppressHydrationWarning
           className="absolute -inset-x-[10%] inset-y-0"
           animate={animateSwells
@@ -108,7 +108,7 @@ function CSSGlow({
         />
 
         {/* Swell 2 */}
-        <motion.div
+        <m.div
           suppressHydrationWarning
           className="absolute -inset-x-[10%] inset-y-0"
           animate={animateSwells
@@ -121,7 +121,7 @@ function CSSGlow({
         />
 
         {/* Swell 3 */}
-        <motion.div
+        <m.div
           suppressHydrationWarning
           className="absolute -inset-x-[15%] inset-y-0"
           animate={animateSwells
@@ -148,6 +148,6 @@ function CSSGlow({
           opacity: ditherOpacity,
         }}
       />
-    </motion.div>
+    </m.div>
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 interface AnimatedArrowProps {
@@ -36,7 +36,7 @@ export function AnimatedArrow({
   return (
     <span className={`relative overflow-hidden ${className}`}>
       {/* Arrow that exits top-right */}
-      <motion.span
+      <m.span
         key={`exit-${animationCycle}`}
         className="absolute inset-0 flex items-center justify-center"
         initial={{ x: 0, y: 0, clipPath: 'inset(0% 0% 0% 0%)' }}
@@ -74,10 +74,10 @@ export function AnimatedArrow({
             </clipPath>
           </defs>
         </svg>
-      </motion.span>
+      </m.span>
 
       {/* Arrow that enters from bottom-left */}
-      <motion.span
+      <m.span
         key={`enter-${animationCycle}`}
         className="absolute inset-0 flex items-center justify-center"
         initial={{ x: -20, y: 20, clipPath: 'inset(100% 0% 0% 0%)' }}
@@ -116,7 +116,7 @@ export function AnimatedArrow({
             </clipPath>
           </defs>
         </svg>
-      </motion.span>
+      </m.span>
     </span>
   )
 }

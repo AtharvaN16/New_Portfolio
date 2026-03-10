@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, type MotionValue, useTransform, useScroll } from 'framer-motion'
+import { m, type MotionValue, useTransform, useScroll } from 'framer-motion'
 import { useRef } from 'react'
 import Image from 'next/image'
 import type { CaseStudy } from '@/lib/data/case-studies'
@@ -32,7 +32,7 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
       <div className="sticky top-0 h-dvh overflow-hidden">
         {/* Parallax image — extended vertically for travel room */}
         {caseStudy.imageUrl && (
-          <motion.div
+          <m.div
             className="absolute inset-x-0 -top-[15%] -bottom-[15%]"
             style={{ y: imageParallaxY }}
           >
@@ -44,7 +44,7 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
               sizes="100vw"
               priority
             />
-          </motion.div>
+          </m.div>
         )}
 
         <div className="absolute inset-0 bg-black/30" aria-hidden />
@@ -59,7 +59,7 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
             className="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
           />
 
-          <motion.div
+          <m.div
             className="flex flex-col md:flex-row md:items-start md:gap-0 mt-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -109,7 +109,7 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
                 )}
               </div>
             )}
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useScroll } from 'framer-motion'
+import { m, useScroll } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import type { CaseStudy } from '@/lib/data/case-studies'
@@ -50,7 +50,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
       }}
     >
       {/* Scroll Progress Bar */}
-      <motion.div
+      <m.div
         className="fixed top-0 left-0 right-0 h-[5px] z-[60] origin-left"
         style={{
           scaleX: scrollYProgress,
@@ -74,7 +74,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
             className="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
           />
 
-          <motion.div
+          <m.div
             className="flex flex-col md:flex-row md:items-start md:gap-0 mt-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -124,12 +124,12 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
                 )}
               </div>
             )}
-          </motion.div>
+          </m.div>
         </main>
 
         {/* Mobile Metadata (Below the fold) */}
         {(caseStudy.team || caseStudy.timeline) && (
-          <motion.div
+          <m.div
             className="md:hidden flex flex-col gap-10 px-6 2xl:px-[140px] pt-12 pb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -165,11 +165,11 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
                 </p>
               </div>
             )}
-          </motion.div>
+          </m.div>
         )}
 
         {/* Hero Image Section */}
-        <motion.section
+        <m.section
           ref={heroSectionRef}
           className="w-full md:min-h-screen flex items-center justify-center relative z-10"
           style={{
@@ -203,7 +203,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
               </p>
             </div>
           )}
-        </motion.section>
+        </m.section>
 
         {/* Case Study Specific Content */}
         <CaseStudyContentRenderer
