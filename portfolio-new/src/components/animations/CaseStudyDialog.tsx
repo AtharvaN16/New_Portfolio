@@ -97,7 +97,7 @@ export function CaseStudyDialog() {
 
     const timer = setTimeout(() => {
       setFlash({ visible: true, opacity: 0, duration: 0.3 })  // faster reveal (was 0.45)
-    }, 150)                                                      // shorter hold (was 250)
+    }, 200)                                                      // shorter hold (was 250)
 
     flashTimerRef.current = timer
     return () => clearTimeout(timer)

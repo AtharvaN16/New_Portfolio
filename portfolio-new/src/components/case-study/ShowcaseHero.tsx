@@ -26,7 +26,7 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
   return (
     <section
       ref={heroSectionRef}
-      className="relative -mt-[5.75rem]"
+      className="relative -mt-[4.625rem] md:-mt-[4.875rem]"
       style={{ height: '200dvh' }}
     >
       <div className="sticky top-0 h-dvh overflow-hidden">
@@ -50,7 +50,7 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
         <div className="absolute inset-0 bg-black/30" aria-hidden />
 
         {/* Text layout — identical structure to CaseStudyDetail's main section */}
-        <div className="relative z-10 h-full flex flex-col px-6 2xl:px-[140px] pt-[5.75rem] pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto">
+        <div className="relative z-10 h-full flex flex-col px-6 2xl:px-[140px] pt-[4.625rem] md:pt-[4.875rem] pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto">
           <AnimatedTitle
             text={caseStudy.title}
             animationType="fadeIn"
