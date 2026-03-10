@@ -101,7 +101,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
         />
 
         {/* Main Content - Hero Section */}
-        <main className="px-6 2xl:px-[140px] pt-4 pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100dvh-6rem)] md:min-h-[calc(100vh-8rem)] flex flex-col relative">
+        <main className="px-6 2xl:px-[140px] pt-4 pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100dvh-5.75rem)] md:min-h-[calc(100vh-5.75rem)] flex flex-col relative">
           <AnimatedTitle
             text={caseStudy.title}
             animationType="fadeIn"
