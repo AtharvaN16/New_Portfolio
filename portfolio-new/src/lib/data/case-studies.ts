@@ -139,7 +139,7 @@ export const caseStudies: CaseStudy[] = [
     category: 'ui-design',
     pageVariant: 'showcase',
     heroTextLight: false,
-    timeline: '2026',
+    timeline: 'Weekend Project',
   },
 ]
 
