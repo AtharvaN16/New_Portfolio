@@ -230,7 +230,7 @@ export function ProjectCard({
           className="text-[16px] font-semibold md:text-[18px]"
           style={{ color: 'rgb(var(--color-text-secondary))' }}
         >
-          {organization}
+          {organization} — {year}
         </p>
 
         {/* Project Title */}
@@ -245,22 +245,16 @@ export function ProjectCard({
           {title}
         </h3>
 
-        {/* Tags and Year */}
+        {/* Tags */}
         <div className="flex flex-wrap items-center gap-x-2 pt-3">
           <span
             className="font-sans font-medium tracking-normal text-[14px] md:text-[18px]"
             style={{ color: 'rgb(var(--color-text-tertiary))' }}
           >
-            {(() => {
-              const displayTags = (_tags || [])
-                .filter((tag) => tag !== 'Selected Work')
-                .slice(0, 3)
-
-              if (displayTags.length > 0) {
-                return `${displayTags.join(' / ')} / ${year}`
-              }
-              return year
-            })()}
+            {(_tags || [])
+              .filter((tag) => tag !== 'Selected Work' && tag !== year)
+              .slice(0, 3)
+              .join(' / ')}
           </span>
         </div>
       </div>
