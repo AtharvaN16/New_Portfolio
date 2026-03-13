@@ -1,4 +1,6 @@
 export { GutenbergContent } from './GutenbergContent'
+export { MetFreeToursContent } from './MetFreeToursContent'
 export { NycDcwpBusinessLicensesContent } from './NycDcwpBusinessLicensesContent'
 export { PrattVisitorExperienceContent } from './PrattVisitorExperienceContent'
 export { SnakesShowcaseContent } from './SnakesShowcaseContent'
+export { UAlbertaLibraryContent } from './UAlbertaLibraryContent'

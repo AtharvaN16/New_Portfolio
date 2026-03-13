@@ -5,9 +5,11 @@ import type { CaseStudy } from '@/lib/data/case-studies'
 import { CaseStudyContent } from '@/components/case-study/CaseStudyContent'
 import {
   GutenbergContent,
+  MetFreeToursContent,
   NycDcwpBusinessLicensesContent,
   PrattVisitorExperienceContent,
   SnakesShowcaseContent,
+  UAlbertaLibraryContent,
 } from '@/components/case-study/content'
 
 interface CaseStudyContentRendererProps {
@@ -46,6 +48,22 @@ export function CaseStudyContentRenderer({
     case 'snakes':
       return (
         <SnakesShowcaseContent
+          isContentRevealed={isContentRevealed}
+          onToggleContent={onToggleContent}
+        />
+      )
+
+    case 'met-free-tours-usability':
+      return (
+        <MetFreeToursContent
+          isContentRevealed={isContentRevealed}
+          onToggleContent={onToggleContent}
+        />
+      )
+
+    case 'ualberta-library-website':
+      return (
+        <UAlbertaLibraryContent
           isContentRevealed={isContentRevealed}
           onToggleContent={onToggleContent}
         />
