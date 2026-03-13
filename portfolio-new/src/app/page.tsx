@@ -28,6 +28,16 @@ const CaseStudyDialog = dynamic(
   }
 )
 
+const ExplorationsDialog = dynamic(
+  () =>
+    import('@/components/animations/ExplorationsDialog').then(
+      (mod) => mod.ExplorationsDialog
+    ),
+  {
+    ssr: false,
+  }
+)
+
 /**
  * Home Page - Scroll Reveal Effect
  *
@@ -81,7 +91,11 @@ export default function Home() {
   useEffect(() => {
     const checkDialogRoute = () => {
       const path = window.location.pathname
-      if (path === '/work' || path.startsWith('/case-studies/')) {
+      if (
+        path === '/work' ||
+        path === '/explorations' ||
+        path.startsWith('/case-studies/')
+      ) {
         setShouldLoadDialogs(true)
       }
     }
@@ -90,11 +104,13 @@ export default function Home() {
 
     window.addEventListener('popstate', checkDialogRoute)
     window.addEventListener('workdialog:check', checkDialogRoute)
+    window.addEventListener('explorationsdialog:check', checkDialogRoute)
     window.addEventListener('casestudydialog:check', checkDialogRoute)
 
     return () => {
       window.removeEventListener('popstate', checkDialogRoute)
       window.removeEventListener('workdialog:check', checkDialogRoute)
+      window.removeEventListener('explorationsdialog:check', checkDialogRoute)
       window.removeEventListener('casestudydialog:check', checkDialogRoute)
     }
   }, [])
@@ -206,6 +222,7 @@ export default function Home() {
       {shouldLoadDialogs && (
         <>
           <WorkDialog />
+          <ExplorationsDialog />
           <CaseStudyDialog />
         </>
       )}

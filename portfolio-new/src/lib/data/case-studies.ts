@@ -104,28 +104,6 @@ export const caseStudies: CaseStudy[] = [
     timeline: 'Feb - Apr 2024',
   },
   {
-    slug: 'career-services-platform',
-    title: 'Transforming Career Services Through Digital Innovation',
-    organization: 'University of Alberta',
-    year: '2023',
-    description:
-      'Designing a comprehensive digital platform for university career services, focusing on improving student-employer connections and career development resources.',
-    tags: ['Client Project', 'UX Research', 'UI Design'],
-    imageBg: 'rgb(var(--color-case-study-pink))',
-    category: 'ux-research',
-  },
-  {
-    slug: 'sustainable-shopping-app',
-    title: 'Sustainable Shopping Companion',
-    organization: 'Personal Project',
-    year: '2023',
-    description:
-      'Exploration of a mobile application that helps consumers make environmentally conscious purchasing decisions through product sustainability ratings and alternatives.',
-    tags: ['Explorations', 'UI Design'],
-    imageBg: 'rgb(var(--color-case-study-pale-green))',
-    category: 'ui-design',
-  },
-  {
     slug: 'snakes',
     title: 'Designing an Interactive Experience to learn about snakes',
     organization: 'Personal Project',

@@ -20,7 +20,7 @@ import { MobileMenu } from './MobileMenu'
 
 const navLinks = [
   { label: 'Writings', href: '/writings', prefetch: false },
-  { label: 'Explorations', href: '/explorations', prefetch: false },
+  { label: 'Explorations', href: '/explorations', prefetch: true },
   { label: 'About', href: '/about', prefetch: false },
 ]
 
@@ -72,7 +72,15 @@ export function Navbar() {
                   }}
                   className="relative flex flex-col items-center"
                 >
-                  <HoverLink href={link.href} prefetch={link.prefetch}>{link.label}</HoverLink>
+                  <HoverLink
+                href={link.href}
+                prefetch={link.prefetch}
+                onClick={link.href === '/explorations' ? (e) => {
+                  e.preventDefault()
+                  window.history.pushState({}, '', '/explorations')
+                  window.dispatchEvent(new CustomEvent('explorationsdialog:check'))
+                } : undefined}
+              >{link.label}</HoverLink>
                 </m.li>
               ))}
             </ul>
