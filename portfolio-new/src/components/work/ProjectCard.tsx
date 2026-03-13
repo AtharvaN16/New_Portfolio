@@ -226,12 +226,14 @@ export function ProjectCard({
       {/* Title and Info - Outside the card, below it */}
       <div className="mt-4 space-y-1 sm:mt-6">
         {/* Organization (Company Name) */}
-        <p
-          className="text-[16px] font-semibold md:text-[18px]"
-          style={{ color: 'rgb(var(--color-text-secondary))' }}
-        >
-          {organization} — {year}
-        </p>
+        {(organization || year) && (
+          <p
+            className="text-[16px] font-semibold md:text-[18px]"
+            style={{ color: 'rgb(var(--color-text-secondary))' }}
+          >
+            {organization ? `${organization} — ${year}` : year}
+          </p>
+        )}
 
         {/* Project Title */}
         <h3
