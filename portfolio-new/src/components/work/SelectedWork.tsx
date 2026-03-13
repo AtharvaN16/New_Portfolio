@@ -98,7 +98,7 @@ const defaultProjects: ProjectCardProps[] = [
     year: '2026',
     description:
       'A study on the movement and behavior of snakes in digital environments.',
-    tags: ['Exploration', 'Vibe Coded', 'Data Visualization', '2026'],
+    tags: ['Exploration', 'Vibe Coded', 'Data Visualization'],
     imageBg: 'rgb(var(--color-case-study-purple))',
     slug: 'snakes',
     cardHeight: cardConfig[2].height,
