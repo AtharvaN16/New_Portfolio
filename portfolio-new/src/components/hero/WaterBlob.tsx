@@ -234,15 +234,14 @@ export function WaterBlob({
       isPausedByDialog = false
     }
 
-    window.addEventListener('workdialog:check', handlePause)
-    window.addEventListener('casestudydialog:check', handlePause)
+    const dialogOpenEvents = ['workdialog:check', 'casestudydialog:check', 'explorationsdialog:check']
+    dialogOpenEvents.forEach(ev => window.addEventListener(ev, handlePause))
     window.addEventListener('dialog:closed', handleResume)
 
     return () => {
       clearTimeout(startTimeoutId)
       cancelAnimationFrame(animationId)
-      window.removeEventListener('workdialog:check', handlePause)
-      window.removeEventListener('casestudydialog:check', handlePause)
+      dialogOpenEvents.forEach(ev => window.removeEventListener(ev, handlePause))
       window.removeEventListener('dialog:closed', handleResume)
       gl.deleteProgram(programInfo.program)
       gl.deleteShader(programInfo.vertShader)

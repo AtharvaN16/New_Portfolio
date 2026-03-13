@@ -108,8 +108,15 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   >
                     <Link
                       href={link.href}
-                      onClick={onClose}
                       prefetch={link.prefetch}
+                      onClick={(e) => {
+                        if (link.href === '/explorations') {
+                          e.preventDefault()
+                          window.history.pushState({}, '', '/explorations')
+                          window.dispatchEvent(new CustomEvent('explorationsdialog:check'))
+                        }
+                        onClose()
+                      }}
                       className="text-[40px] font-medium text-foreground leading-none tracking-tight"
                     >
                       {link.label}
