@@ -20,7 +20,7 @@ import { MobileMenu } from './MobileMenu'
 
 const navLinks = [
   { label: 'Writings', href: '/writings', prefetch: false },
-  { label: 'Explorations', href: '/explorations', prefetch: false },
+  { label: 'Explorations', href: '/explorations', prefetch: true },
   { label: 'About', href: '/about', prefetch: false },
 ]
 

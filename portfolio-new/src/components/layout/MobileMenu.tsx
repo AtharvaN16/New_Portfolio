@@ -16,7 +16,7 @@ interface MobileMenuProps {
 
 const menuLinks = [
   { label: 'Writings', href: '/writings', prefetch: false },
-  { label: 'Explorations', href: '/explorations', prefetch: false },
+  { label: 'Explorations', href: '/explorations', prefetch: true },
   { label: 'About', href: '/about', prefetch: false },
   { label: 'Résumé', href: '/resume', prefetch: false },
   { label: 'Get in touch', href: '#footer', prefetch: undefined },
