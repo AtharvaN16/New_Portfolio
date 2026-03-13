@@ -79,7 +79,7 @@ export function ExplorationsDialog() {
           <m.div
             key="explorations-dialog"
             id="dialog"
-            className="dialog fixed inset-0 z-[100] overflow-y-auto"
+            className="dialog fixed inset-0 z-[100]"
             data-lenis-prevent="true"
             initial={{ y: '100%' }}
             animate={{
@@ -99,7 +99,7 @@ export function ExplorationsDialog() {
             style={{
               backgroundColor: 'rgb(var(--color-background))',
               boxShadow: 'var(--shadow-2xl)',
-              willChange: 'transform',
+              willChange: 'transform, opacity',
               backfaceVisibility: 'hidden',
             }}
           >

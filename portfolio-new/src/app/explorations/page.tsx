@@ -1,12 +1,13 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useRef } from 'react'
 import { m } from 'framer-motion'
 import { ProjectCard, type ProjectCardProps } from '@/components/work/ProjectCard'
 import { MasonryGrid } from '@/components/work/MasonryGrid'
-import { NavButton } from '@/components/ui/NavButton'
 import { caseStudies } from '@/lib/data/case-studies'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { CaseStudyHeader } from '@/components/case-study/CaseStudyHeader'
+import { useSmoothScroll } from '@/hooks/use-smooth-scroll'
 
 // Map case studies to ProjectCardProps and filter for Explorations
 const explorationProjects: ProjectCardProps[] = caseStudies
@@ -26,46 +27,29 @@ const explorationProjects: ProjectCardProps[] = caseStudies
   }))
 
 export default function ExplorationsPage() {
-  // Fix: Ensure page starts at the top on direct load/refresh
-  useEffect(() => {
-    // Check if we are in a dialog
-    const isInsideDialog = !!document.getElementById('dialog')
+  const containerRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
 
-    if (!isInsideDialog) {
-      window.scrollTo(0, 0)
-      if (window.lenis) {
-        window.lenis.scrollTo(0, { immediate: true })
-      }
-    }
-  }, [])
+  // Use the same smooth scroll as Case Study pages
+  useSmoothScroll(containerRef, contentRef)
 
-  const handleBack = () => {
+  const handleClose = () => {
     window.history.back()
   }
 
   return (
-    <div className="min-h-screen w-full bg-background">
-      {/* Header with Back Button */}
-      <header className="relative z-50">
-        <nav className="px-6 2xl:px-[140px] pt-[38px] md:pt-[46px] pb-6 flex items-center justify-end max-w-[1920px] mx-auto">
-          <m.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{
-              duration: 0.4,
-              delay: 0.5,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            <NavButton onClick={handleBack} className="-mr-3">
-              Back
-            </NavButton>
-          </m.div>
-        </nav>
-      </header>
+    <div
+      ref={containerRef}
+      className="min-h-dvh bg-background text-text-primary overflow-y-auto h-dvh"
+      style={{
+        overscrollBehavior: 'contain',
+        WebkitOverflowScrolling: 'touch',
+      }}
+    >
+      <div ref={contentRef}>
+        <CaseStudyHeader onClose={handleClose} />
 
-      <div className="relative px-6 2xl:px-[140px] pb-20 pt-4 md:pb-32 md:pt-8">
-        <main id="main-content" className="max-w-[1920px] mx-auto">
+        <main className="px-6 2xl:px-[140px] pt-4 pb-20 md:pb-32 max-w-[1920px] mx-auto min-h-[calc(100dvh-4.625rem)] md:min-h-[calc(100dvh-4.875rem)] flex flex-col relative">
           <div className="mb-14 lg:mb-20">
             <AnimatedTitle
               text="Explorations"
