@@ -75,10 +75,21 @@ export function Navbar() {
                   <HoverLink
                 href={link.href}
                 prefetch={link.prefetch}
+                onMouseEnter={link.href === '/explorations' ? () => {
+                  window.dispatchEvent(new CustomEvent('explorationsdialog:preload'))
+                } : undefined}
                 onClick={link.href === '/explorations' ? (e) => {
                   e.preventDefault()
                   window.history.pushState({}, '', '/explorations')
                   window.dispatchEvent(new CustomEvent('explorationsdialog:check'))
+                } : link.href === '/about' ? (e) => {
+                  e.preventDefault()
+                  window.history.pushState({}, '', '/about')
+                  window.dispatchEvent(new CustomEvent('aboutdialog:check'))
+                } : link.href === '/writings' ? (e) => {
+                  e.preventDefault()
+                  window.history.pushState({}, '', '/writings')
+                  window.dispatchEvent(new CustomEvent('writingsdialog:check'))
                 } : undefined}
               >{link.label}</HoverLink>
                 </m.li>

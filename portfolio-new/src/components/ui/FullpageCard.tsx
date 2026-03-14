@@ -75,6 +75,16 @@ export function FullpageCard({
         slug && 'cursor-pointer',
         className
       )}
+      onMouseEnter={() => {
+        if (slug) {
+          window.dispatchEvent(new CustomEvent('casestudydialog:preload'))
+        }
+      }}
+      onPointerDown={() => {
+        if (slug) {
+          window.dispatchEvent(new CustomEvent('casestudydialog:preload'))
+        }
+      }}
       onClick={handleClick}
       aria-label={slug ? `View ${title} case study` : undefined}
       tabIndex={slug ? 0 : undefined}

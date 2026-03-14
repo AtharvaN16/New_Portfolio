@@ -23,6 +23,12 @@ const ShowcaseDetail = dynamic(
   { ssr: false, loading: () => <div className="min-h-dvh bg-background" /> }
 )
 
+// Preload function
+const preloadCaseStudyPages = () => {
+  import('@/components/case-study/CaseStudyDetail')
+  import('@/components/case-study/ShowcaseDetail')
+}
+
 const TRANSITION_EASE: [number, number, number, number] = [0.87, 0, 0.13, 1]
 const OPEN_DURATION = 1.2
 const CLOSE_DURATION = 1.0
@@ -44,6 +50,26 @@ export function CaseStudyDialog() {
   const [currentSlug, setCurrentSlug] = useState<string | null>(null)
   const isClosingRef = useRef(false)
   const [shouldLockScroll, setShouldLockScroll] = useState(false)
+
+  // Preload on mount and on event
+  useEffect(() => {
+    const handlePreload = () => {
+      preloadCaseStudyPages()
+    }
+
+    // Preload on idle
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(() => handlePreload())
+      } else {
+        setTimeout(handlePreload, 2000)
+      }
+    }
+
+    window.addEventListener('casestudydialog:preload', handlePreload)
+    return () =>
+      window.removeEventListener('casestudydialog:preload', handlePreload)
+  }, [])
 
   // Flash overlay — managed here so it outlives the dialog for exit reveals
   const [flash, setFlash] = useState<FlashState>({ visible: false, opacity: 1, duration: 0 })

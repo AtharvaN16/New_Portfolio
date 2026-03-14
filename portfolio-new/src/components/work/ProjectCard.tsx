@@ -149,7 +149,17 @@ export function ProjectCard({
     <m.article
       ref={cardRef}
       className={cn('group flex flex-col', slug && 'cursor-pointer', className)}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => {
+        setIsHovered(true)
+        if (slug) {
+          window.dispatchEvent(new CustomEvent('casestudydialog:preload'))
+        }
+      }}
+      onPointerDown={() => {
+        if (slug) {
+          window.dispatchEvent(new CustomEvent('casestudydialog:preload'))
+        }
+      }}
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick}
       aria-label={slug ? `View ${title} case study` : undefined}

@@ -24,6 +24,7 @@ interface AnimatedLinkProps {
   className?: string
   variant?: 'default' | 'down-arrow'
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void
+  style?: React.CSSProperties
 }
 
 /**
@@ -42,6 +43,7 @@ export function AnimatedLink({
   className = '',
   variant = 'default',
   onClick,
+  style,
 }: AnimatedLinkProps) {
   const { reducedMotion, pauseWebGL } = useAccessibility()
   const shouldPause = reducedMotion || pauseWebGL
@@ -95,7 +97,10 @@ export function AnimatedLink({
       href={href}
       onClick={handleClick}
       className={`group inline-flex items-center gap-2 text-[16px] font-normal hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded px-2 py-1 ${className}`}
-      style={{ color: 'rgb(var(--color-text-color70))' }}
+      style={{ 
+        color: 'rgb(var(--color-text-secondary))',
+        ...style 
+      }}
       >
       {children}
 

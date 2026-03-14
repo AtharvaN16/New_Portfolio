@@ -269,7 +269,13 @@ export function SelectedWork({
             window.history.pushState({}, '', '/work')
             window.dispatchEvent(new CustomEvent('workdialog:check'))
           }}
-          onMouseEnter={handleMouseEnter}
+          onMouseEnter={() => {
+            handleMouseEnter()
+            window.dispatchEvent(new CustomEvent('workdialog:preload'))
+          }}
+          onPointerDown={() => {
+            window.dispatchEvent(new CustomEvent('workdialog:preload'))
+          }}
           onMouseLeave={handleMouseLeave}
           className="group inline-flex items-center gap-[16px] text-[28px] font-bold tracking-[-0.05em] text-foreground transition-colors hover:text-primary md:gap-[18px] md:text-[34px] lg:gap-[20px] lg:text-[40px]"
         >
