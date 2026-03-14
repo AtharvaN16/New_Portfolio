@@ -114,6 +114,14 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                           e.preventDefault()
                           window.history.pushState({}, '', '/explorations')
                           window.dispatchEvent(new CustomEvent('explorationsdialog:check'))
+                        } else if (link.href === '/about') {
+                          e.preventDefault()
+                          window.history.pushState({}, '', '/about')
+                          window.dispatchEvent(new CustomEvent('aboutdialog:check'))
+                        } else if (link.href === '/writings') {
+                          e.preventDefault()
+                          window.history.pushState({}, '', '/writings')
+                          window.dispatchEvent(new CustomEvent('writingsdialog:check'))
                         }
                         onClose()
                       }}

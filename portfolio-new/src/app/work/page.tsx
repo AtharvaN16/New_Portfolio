@@ -48,7 +48,7 @@ export default function WorkPage() {
     <div className="min-h-screen w-full bg-background">
       <GradientBar
         className="fixed left-0 top-0 z-[60] w-full"
-        height="h-2 md:h-4"
+        height="h-2"
       />
 
       {/* Header with Back Button - 30px gap from GradientBar */}
