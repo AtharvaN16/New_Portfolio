@@ -5,15 +5,15 @@ import { useEffect, useState, useRef } from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
 import dynamic from 'next/dynamic'
 
-// Lazy load ExplorationsPage - only loads when dialog opens
-const ExplorationsPage = dynamic(() => import('@/app/explorations/page'), {
+// Lazy load AboutPage - only loads when dialog opens
+const AboutPage = dynamic(() => import('@/app/about/page'), {
   ssr: false,
   loading: () => <div className="min-h-screen bg-background" />,
 })
 
 // Preload function
-const preloadExplorationsPage = () => {
-  const p = import('@/app/explorations/page')
+const preloadAboutPage = () => {
+  const p = import('@/app/about/page')
   return p
 }
 
@@ -22,10 +22,10 @@ const OPEN_DURATION = 1.2
 const CLOSE_DURATION = 1.0
 
 /**
- * Explorations-specific dialog that slides up from bottom.
- * Follows the same pattern as WorkDialog.
+ * About-specific dialog that slides up from bottom.
+ * Follows the same pattern as ExplorationsDialog.
  */
-export function ExplorationsDialog() {
+export function AboutDialog() {
   const scrollYRef = useRef(0)
   const [isOpen, setIsOpen] = useState(false)
   const isClosingRef = useRef(false)
@@ -34,7 +34,7 @@ export function ExplorationsDialog() {
   // Preload on mount and on event
   useEffect(() => {
     const handlePreload = () => {
-      preloadExplorationsPage()
+      preloadAboutPage()
     }
 
     // Preload on idle
@@ -46,15 +46,14 @@ export function ExplorationsDialog() {
       }
     }
 
-    window.addEventListener('explorationsdialog:preload', handlePreload)
-    return () =>
-      window.removeEventListener('explorationsdialog:preload', handlePreload)
+    window.addEventListener('aboutdialog:preload', handlePreload)
+    return () => window.removeEventListener('aboutdialog:preload', handlePreload)
   }, [])
 
   // Listen for URL changes
   useEffect(() => {
     const checkURL = () => {
-      const shouldOpen = window.location.pathname === '/explorations'
+      const shouldOpen = window.location.pathname === '/about'
 
       if (shouldOpen && !isOpen) {
         // Opening dialog - save scroll position
@@ -79,11 +78,11 @@ export function ExplorationsDialog() {
 
     // Listen for popstate and custom events
     window.addEventListener('popstate', checkURL)
-    window.addEventListener('explorationsdialog:check', checkURL)
+    window.addEventListener('aboutdialog:check', checkURL)
 
     return () => {
       window.removeEventListener('popstate', checkURL)
-      window.removeEventListener('explorationsdialog:check', checkURL)
+      window.removeEventListener('aboutdialog:check', checkURL)
     }
   }, [isOpen])
 
@@ -103,7 +102,7 @@ export function ExplorationsDialog() {
       <AnimatePresence onExitComplete={handleExitComplete}>
         {isOpen && (
           <m.div
-            key="explorations-dialog"
+            key="about-dialog"
             id="dialog"
             className="dialog fixed inset-0 z-[100]"
             data-lenis-prevent="true"
@@ -129,7 +128,7 @@ export function ExplorationsDialog() {
               backfaceVisibility: 'hidden',
             }}
           >
-            <ExplorationsPage />
+            <AboutPage />
           </m.div>
         )}
       </AnimatePresence>

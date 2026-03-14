@@ -8,35 +8,11 @@ import { Hero } from '@/components/hero/Hero'
 import { SelectedWork } from '@/components/work/SelectedWork'
 import { FullpageCard } from '@/components/ui/FullpageCard'
 import { useHomeScroll } from '@/hooks/use-home-scroll'
-import dynamic from 'next/dynamic'
-
-const WorkDialog = dynamic(
-  () =>
-    import('@/components/animations/WorkDialog').then((mod) => mod.WorkDialog),
-  {
-    ssr: false,
-  }
-)
-
-const CaseStudyDialog = dynamic(
-  () =>
-    import('@/components/animations/CaseStudyDialog').then(
-      (mod) => mod.CaseStudyDialog
-    ),
-  {
-    ssr: false,
-  }
-)
-
-const ExplorationsDialog = dynamic(
-  () =>
-    import('@/components/animations/ExplorationsDialog').then(
-      (mod) => mod.ExplorationsDialog
-    ),
-  {
-    ssr: false,
-  }
-)
+import { WorkDialog } from '@/components/animations/WorkDialog'
+import { CaseStudyDialog } from '@/components/animations/CaseStudyDialog'
+import { ExplorationsDialog } from '@/components/animations/ExplorationsDialog'
+import { AboutDialog } from '@/components/animations/AboutDialog'
+import { WritingsDialog } from '@/components/animations/WritingsDialog'
 
 /**
  * Home Page - Scroll Reveal Effect
@@ -89,11 +65,18 @@ export default function Home() {
   }, [handleGetInTouchClick])
 
   useEffect(() => {
+    // Load dialogs after a short delay to keep initial paint light
+    const timer = setTimeout(() => {
+      setShouldLoadDialogs(true)
+    }, 1000)
+
     const checkDialogRoute = () => {
       const path = window.location.pathname
       if (
         path === '/work' ||
         path === '/explorations' ||
+        path === '/about' ||
+        path === '/writings' ||
         path.startsWith('/case-studies/')
       ) {
         setShouldLoadDialogs(true)
@@ -106,12 +89,17 @@ export default function Home() {
     window.addEventListener('workdialog:check', checkDialogRoute)
     window.addEventListener('explorationsdialog:check', checkDialogRoute)
     window.addEventListener('casestudydialog:check', checkDialogRoute)
+    window.addEventListener('aboutdialog:check', checkDialogRoute)
+    window.addEventListener('writingsdialog:check', checkDialogRoute)
 
     return () => {
+      clearTimeout(timer)
       window.removeEventListener('popstate', checkDialogRoute)
       window.removeEventListener('workdialog:check', checkDialogRoute)
       window.removeEventListener('explorationsdialog:check', checkDialogRoute)
       window.removeEventListener('casestudydialog:check', checkDialogRoute)
+      window.removeEventListener('aboutdialog:check', checkDialogRoute)
+      window.removeEventListener('writingsdialog:check', checkDialogRoute)
     }
   }, [])
 
@@ -224,6 +212,8 @@ export default function Home() {
           <WorkDialog />
           <ExplorationsDialog />
           <CaseStudyDialog />
+          <AboutDialog />
+          <WritingsDialog />
         </>
       )}
     </>

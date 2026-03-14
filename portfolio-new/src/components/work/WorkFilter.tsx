@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
-import { m } from 'framer-motion'
+import React, { useState, useMemo, useEffect } from 'react'
+import { m, type Variants } from 'framer-motion'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
 import { MasonryGrid } from './MasonryGrid'
 import { cn } from '@/lib/utils/cn'
@@ -44,7 +44,7 @@ function FilterTitleItem({
   isSelected: boolean
   onClick: () => void
   count: number
-  wordVariants: any
+  wordVariants: Variants
   onMouseEnter: () => void
   onMouseLeave: () => void
   isHovered: boolean
@@ -100,9 +100,21 @@ export function WorkFilter({
   
   const [internalFilter, setInternalFilter] = useState<string>('All')
   const [hoveredFilter, setHoveredFilter] = useState<string | null>(null)
+  const [isDialogSettled, setIsDialogSettled] = useState(() => {
+    if (typeof document === 'undefined') return false
+    return !document.getElementById('dialog')
+  })
   
   const selectedFilter = controlledFilter ?? internalFilter
   const setSelectedFilter = onFilterChange ?? setInternalFilter
+
+  // Wait for dialog animation to be mostly complete before starting card entrance
+  useEffect(() => {
+    if (!isDialogSettled) {
+      const timer = setTimeout(() => setIsDialogSettled(true), 1100)
+      return () => clearTimeout(timer)
+    }
+  }, [isDialogSettled])
 
   const filterOptions = useMemo(() => {
     const tagCounts = new Map<string, number>()
@@ -175,7 +187,7 @@ export function WorkFilter({
                 {index < filterOptions.length - 1 && (
                   <m.span 
                     variants={itemVariants}
-                    className="text-[14px] lg:text-[28px] 2xl:text-[34px] font-medium opacity-20 mx-0.5" 
+                    className="text-[18px] lg:text-[36px] 2xl:text-[42px] font-bold opacity-20 mx-0.5" 
                     style={{ color: 'rgb(var(--color-text-color40))' }} 
                     aria-hidden="true" 
                   >
@@ -196,31 +208,54 @@ export function WorkFilter({
       <MasonryGrid
         items={filteredProjects}
         gap={24}
-        renderItem={(project, index) => (
-          <m.div
-            key={`${project.title}-${project.organization}`}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-              transition: {
-                duration: 0.5,
-                delay: (index % 3) * 0.1,
-                ease: [0.22, 1, 0.36, 1],
-              },
-            }}
-            viewport={{ once: true, margin: '-50px' }}
-          >
-            <ProjectCard
-              {...project}
-              variant="compact"
-              isMasonry
-              masonryIndex={index}
-              imagePriority={index < 3}
-              imageSizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            />
-          </m.div>
-        )}
+        renderItem={(project, index) => {
+          // Cards at top of list should animate based on dialog state or filter changes
+          // Cards further down can use whileInView for scroll-based entrance
+          const isInitialCard = index < 6
+
+          return (
+            <m.div
+              key={`${project.title}-${project.organization}`}
+              initial={{ opacity: 0, y: 30 }}
+              animate={
+                isDialogSettled || (hasChangedFilter && isInitialCard)
+                  ? {
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        duration: 0.5,
+                        delay: (index % 3) * 0.1,
+                        ease: [0.22, 1, 0.36, 1],
+                      },
+                    }
+                  : undefined
+              }
+              whileInView={
+                !isInitialCard
+                  ? {
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        duration: 0.5,
+                        delay: (index % 3) * 0.1,
+                        ease: [0.22, 1, 0.36, 1],
+                      },
+                    }
+                  : undefined
+              }
+              viewport={{ once: true, margin: '-50px' }}
+            >
+              <ProjectCard
+                {...project}
+                variant="compact"
+                isMasonry
+                masonryIndex={index}
+                imagePriority={index < 3}
+                imageSizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </m.div>
+          )
+        }}
       />
 
       {filteredProjects.length === 0 && (

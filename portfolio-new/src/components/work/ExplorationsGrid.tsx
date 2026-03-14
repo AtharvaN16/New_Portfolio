@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { m } from 'framer-motion'
 import { ProjectCard, type ProjectCardProps } from './ProjectCard'
 
@@ -29,31 +30,64 @@ function getBentoConfig(index: number, totalCards: number) {
 }
 
 export function ExplorationsGrid({ projects }: ExplorationsGridProps) {
+  const [isDialogSettled, setIsDialogSettled] = useState(() => {
+    if (typeof document === 'undefined') return false
+    return !document.getElementById('dialog')
+  })
+
+  // Wait for dialog animation to be mostly complete before starting card entrance
+  useEffect(() => {
+    if (!isDialogSettled) {
+      const timer = setTimeout(() => setIsDialogSettled(true), 1100)
+      return () => clearTimeout(timer)
+    }
+  }, [isDialogSettled])
+
   return (
     <>
       {/* Mobile/Tablet: single column stack */}
       <div className="flex flex-col gap-12 lg:hidden">
-        {projects.map((project, index) => (
-          <m.div
-            key={`${project.title}-${project.organization}`}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-              transition: {
-                duration: 0.5,
-                delay: index * 0.1,
-                ease: [0.22, 1, 0.36, 1],
-              },
-            }}
-            viewport={{ once: true, margin: '-50px' }}
-          >
-            <ProjectCard
-              {...project}
-              imageSizes="(max-width: 1024px) 100vw, 75vw"
-            />
-          </m.div>
-        ))}
+        {projects.map((project, index) => {
+          const isInitialCard = index < 4
+          return (
+            <m.div
+              key={`${project.title}-${project.organization}`}
+              initial={{ opacity: 0, y: 30 }}
+              animate={
+                isDialogSettled && isInitialCard
+                  ? {
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        duration: 0.5,
+                        delay: index * 0.1,
+                        ease: [0.22, 1, 0.36, 1],
+                      },
+                    }
+                  : undefined
+              }
+              whileInView={
+                !isInitialCard
+                  ? {
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        duration: 0.5,
+                        delay: index * 0.1,
+                        ease: [0.22, 1, 0.36, 1],
+                      },
+                    }
+                  : undefined
+              }
+              viewport={{ once: true, margin: '-50px' }}
+            >
+              <ProjectCard
+                {...project}
+                imageSizes="(max-width: 1024px) 100vw, 75vw"
+              />
+            </m.div>
+          )
+        })}
       </div>
 
       {/* Desktop: 12-column bento grid */}

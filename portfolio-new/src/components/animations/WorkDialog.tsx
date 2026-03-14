@@ -11,6 +11,12 @@ const WorkPage = dynamic(() => import('@/app/work/page'), {
   loading: () => <div className="min-h-screen bg-background" />,
 })
 
+// Preload function
+const preloadWorkPage = () => {
+  const p = import('@/app/work/page')
+  return p
+}
+
 const TRANSITION_EASE: [number, number, number, number] = [0.87, 0, 0.13, 1]
 const OPEN_DURATION = 1.2
 const CLOSE_DURATION = 1.0
@@ -30,6 +36,25 @@ export function WorkDialog() {
   const [isOpen, setIsOpen] = useState(false)
   const isClosingRef = useRef(false)
   const [shouldLockScroll, setShouldLockScroll] = useState(false)
+
+  // Preload on mount and on event
+  useEffect(() => {
+    const handlePreload = () => {
+      preloadWorkPage()
+    }
+
+    // Preload on idle
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(() => handlePreload())
+      } else {
+        setTimeout(handlePreload, 2000)
+      }
+    }
+
+    window.addEventListener('workdialog:preload', handlePreload)
+    return () => window.removeEventListener('workdialog:preload', handlePreload)
+  }, [])
 
   // Listen for URL changes (both custom event and popstate)
   useEffect(() => {
