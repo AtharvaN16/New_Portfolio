@@ -192,7 +192,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
                   quality={100}
                 />
                 <div
-                   className="absolute inset-0 bg-background pointer-events-none transition-opacity duration-500 ease-out"
+                   className="absolute inset-0 bg-black pointer-events-none"
                    style={{ opacity: heroOverlayOpacity * HERO_OVERLAY_MAX_OPACITY }}
                    aria-hidden
                  />              </div>
