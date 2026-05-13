@@ -1,11 +1,11 @@
 import { useState, useEffect, type RefObject } from 'react'
 
-// Viewport fraction at which overlay has fully faded out (scroll past top)
-const HERO_OVERLAY_FADEOUT_VIEWPORT = 0.4
-// Visible hero fraction below which overlay fades back in (exiting)
+// Fraction of hero height at which the overlay is fully gone
+const FADE_OUT_BY = 0.55
+// When the hero is less than this fraction visible (scrolling away), fade back in
 const HERO_OVERLAY_FADEIN_VISIBLE = 0.2
-// Max opacity of the scroll overlay — keep low so the hero stays crisp (high reads as “blurry”)
-export const HERO_OVERLAY_MAX_OPACITY = 0.28
+// Max opacity of the dark overlay at rest
+export const HERO_OVERLAY_MAX_OPACITY = 0.65
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max)
@@ -27,8 +27,8 @@ export function useHeroOverlay(
     const updateOverlay = () => {
       const viewportHeight = container.clientHeight
       const scrollTop = container.scrollTop
-      const heroTop = heroSection.offsetTop - scrollTop
       const heroHeight = heroSection.offsetHeight
+      const heroTop = heroSection.offsetTop - scrollTop
 
       const visibleTop = Math.max(0, heroTop)
       const visibleBottom = Math.min(viewportHeight, heroTop + heroHeight)
@@ -36,18 +36,17 @@ export function useHeroOverlay(
       const visibleRatio = heroHeight > 0 ? visibleHeight / heroHeight : 0
 
       let opacity: number
-      const fadeOutThreshold = HERO_OVERLAY_FADEOUT_VIEWPORT * viewportHeight
-      const atOrPast40Viewport = scrollTop >= fadeOutThreshold
+      const fadeOutScrollDistance = heroHeight * FADE_OUT_BY
 
-      if (atOrPast40Viewport && visibleRatio > HERO_OVERLAY_FADEIN_VISIBLE) {
+      if (scrollTop <= fadeOutScrollDistance) {
+        // Smoothly fade from 1 → 0 as we scroll to FADE_OUT_BY of hero height
+        opacity = 1 - scrollTop / fadeOutScrollDistance
+      } else if (visibleRatio > HERO_OVERLAY_FADEIN_VISIBLE) {
+        // Hero still prominently visible — overlay fully gone
         opacity = 0
-      } else if (scrollTop < fadeOutThreshold) {
-        opacity = 1
       } else {
-        opacity =
-          visibleRatio <= HERO_OVERLAY_FADEIN_VISIBLE
-            ? 1 - visibleRatio / HERO_OVERLAY_FADEIN_VISIBLE
-            : 0
+        // Hero scrolling out of view — fade back in
+        opacity = 1 - visibleRatio / HERO_OVERLAY_FADEIN_VISIBLE
       }
 
       setHeroOverlayOpacity(clamp(opacity, 0, 1))
