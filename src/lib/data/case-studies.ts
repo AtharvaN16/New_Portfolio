@@ -181,17 +181,17 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'alo-yoga-digital-analytics',
-    title: 'Alo Yoga: The Mindful Logic of Discovery',
-    organization: 'Personal Project',
+    title: 'Alo Yoga Digital Strategy',
+    organization: 'Class Project',
     year: '2026',
-    description: 'A deep dive into why one of the world\'s most recognized lifestyle brands is quietly losing the search war.',
+    description: 'A digital analytics study of Alo Yoga\'s SEO health, keyword coverage, and social strategy, benchmarked against the competition.',
     tags: ['Digital Analytics', 'SEO Strategy', 'Selected Work'],
-    imageBg: '#E8E1D4', // Premium Bone/Cream color
+    imageBg: '#E8E1D4',
     featured: true,
     category: 'digital-analytics',
-    team: ['Atharva Nayak'],
+    team: ['Myra', 'Lanting', 'Carol', 'Anvita', 'Atharva Nayak'],
     timeline: 'Spring 2026',
-    progressBarColor: '#1F3A66', // Deep Anthracite/Blue
+    progressBarColor: '#1F3A66',
   },
   {
     slug: 'snakes',

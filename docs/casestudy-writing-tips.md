@@ -161,7 +161,38 @@ If someone scrolls quickly through your page, they should be able to answer thes
 - What happened after the change?
 - Why should I trust your judgment?
 
+## 13. Show then tell — visuals lead, text explains
+
+From Perry Wang's work: put the figure, screenshot, or diagram first. Let the reader look at it, then explain what they're seeing. Reversing this (explaining first, then showing) makes the reader do extra work.
+
+## 14. Pair before/after for every problem you name
+
+Don't just describe the current state or just show the solution. Show both together so the improvement is legible. Perry's case studies do this consistently — each module gets an explicit "before" and an explicit "after," often in the same frame.
+
+## 15. Include what you abandoned and why
+
+Rejected approaches are not failures to hide. They show judgment. Rachel cut a game simulation feature from PokerGPT's MVP and explains why. Perry documents layouts and flows that didn't make the cut. A reader who only sees the final decision can't tell if it was the only option or the right one.
+
+## 16. Use casual framing for hard topics
+
+The goal is to be readable, not to sound serious. Perry writes "You gotta start somewhere" in a section about a complex firmware problem. Rachel says "I didn't know how to play poker, so I learned." This doesn't undermine credibility — it makes the work easier to follow.
+
+## 17. Let numbers carry weight without dramatizing them
+
+You don't need to frame a statistic as surprising or alarming. "1M+ controllers updated" does the work on its own. "9.35M monthly visits vs. 37.92M" tells the story. State the number, let the reader do the math.
+
+## 18. Name sections for what they are, not what you want them to mean
+
+Avoid editorial chapter names that interpret findings before the reader gets to them. "Technical SEO," "Keyword Coverage," "Social Performance" are better than "The Wall," "The Void," or "The Echo Chamber." Plain names respect the reader.
+
+## 19. Describe what you did before describing what you found
+
+Open each section with method or action, not conclusion. "We crawled the site using Screaming Frog and found..." beats "Alo's site is largely invisible to search engines." The second is a verdict. The first earns it.
+
 ## References
 
 - Rachel Chen, OpenAI/Tomo: https://www.rachelchen.tech/projects/openai
+- Rachel Chen, PokerGPT: https://www.rachelchen.tech/projects/pokergpt
+- Perry Wang, Test Hub Next: https://perryw-2023.webflow.io/test-hub-next
+- Perry Wang, Stadia Bluetooth: https://perryw-2023.webflow.io/stadia-bluetooth
 - Oishee Sen, Outlook Mobile Web: https://oisheesen.webflow.io/work/outlookmobileweb
