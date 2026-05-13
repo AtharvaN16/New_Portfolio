@@ -4,9 +4,12 @@ import { m } from 'framer-motion'
 import type { CaseStudy } from '@/lib/data/case-studies'
 import { CaseStudyContent } from '@/components/case-study/CaseStudyContent'
 import {
+  AloYogaContent,
   GutenbergContent,
+  ImdbIaRedesignContent,
   MetFreeToursContent,
   NycDcwpBusinessLicensesContent,
+  NycThirdSpacesContent,
   PrattVisitorExperienceContent,
   SnakesShowcaseContent,
   UAlbertaLibraryContent,
@@ -15,15 +18,15 @@ import {
 interface CaseStudyContentRendererProps {
   caseStudy: CaseStudy
   children?: React.ReactNode
-  isContentRevealed: boolean
-  onToggleContent: () => void
+  isContentRevealed?: boolean
+  onToggleContent?: () => void
 }
 
 export function CaseStudyContentRenderer({
   caseStudy,
   children,
-  isContentRevealed,
-  onToggleContent,
+  isContentRevealed = false,
+  onToggleContent = () => {},
 }: CaseStudyContentRendererProps) {
   switch (caseStudy.slug) {
     case 'gutenberg-cms-usability-evaluation':
@@ -31,6 +34,9 @@ export function CaseStudyContentRenderer({
         <GutenbergContent
           isContentRevealed={isContentRevealed}
           onToggleContent={onToggleContent}
+          progressBarColor={
+            caseStudy.progressBarColor || 'rgb(var(--color-primary))'
+          }
         />
       )
 
@@ -43,15 +49,37 @@ export function CaseStudyContentRenderer({
       )
 
     case 'nyc-dcwp-business-licenses':
-      return <NycDcwpBusinessLicensesContent />
-
-    case 'snakes':
       return (
-        <SnakesShowcaseContent
+        <NycDcwpBusinessLicensesContent
+          isContentRevealed={isContentRevealed}
+          onToggleContent={onToggleContent}
+          progressBarColor={
+            caseStudy.progressBarColor || 'rgb(var(--color-primary))'
+          }
+        />
+      )
+
+    case 'nyc-third-spaces-ethnography':
+      return (
+        <NycThirdSpacesContent
           isContentRevealed={isContentRevealed}
           onToggleContent={onToggleContent}
         />
       )
+
+    case 'snakes':
+      return <SnakesShowcaseContent />
+
+    case 'alo-yoga-digital-analytics':
+      return (
+        <AloYogaContent
+          isContentRevealed={isContentRevealed}
+          onToggleContent={onToggleContent}
+        />
+      )
+
+    case 'imdb-ia-redesign':
+      return <ImdbIaRedesignContent />
 
     case 'met-free-tours-usability':
       return (
