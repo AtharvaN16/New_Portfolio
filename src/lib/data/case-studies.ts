@@ -187,7 +187,7 @@ export const caseStudies: CaseStudy[] = [
     description: 'A digital analytics study of Alo Yoga\'s SEO health, keyword coverage, and social strategy, benchmarked against the competition.',
     tags: ['Digital Analytics', 'SEO Strategy', 'Selected Work'],
     imageBg: '#E8E1D4',
-    imageUrl: '/images/case-studies/alo-yoga-digital-analytics/hero-v2.png',
+    imageUrl: '/images/case-studies/alo-yoga-digital-analytics/hero-v3.png',
     featured: true,
     category: 'digital-analytics',
     team: ['Atharva Nayak', 'Anvita Shah', 'Carol Bai', 'Lanting Ko', 'Myra Chen'],
