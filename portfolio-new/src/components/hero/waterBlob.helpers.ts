@@ -89,6 +89,7 @@ export function getUniformLocations(
       program,
       'uBackgroundColor'
     ),
+    uYOffsetLocation: gl.getUniformLocation(program, 'uYOffset'),
   }
 }
 
@@ -142,9 +143,11 @@ export function createAnimationLoop(
   gl: WebGLRenderingContext,
   programInfo: WebGLProgramInfo,
   colors: Colors,
+  getYOffset: () => number = () => 0,
 ): (time: number) => void {
   const animate = (time: number) => {
     gl.uniform1f(programInfo.uTimeLocation, time)
+    gl.uniform1f(programInfo.uYOffsetLocation, getYOffset())
 
     // Update colors dynamically (for interactive mode)
     gl.uniform3fv(programInfo.uColor1Location, colors.blue)

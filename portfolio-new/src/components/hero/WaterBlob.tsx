@@ -69,6 +69,9 @@ export function WaterBlob({
   // 1400ms defer so theme-switch re-runs start immediately (no jank).
   const hasEverStartedRef = useRef(false)
 
+  // Entry animation: blobs start below canvas (UV space) and rise to normal position
+  const yOffsetRef = useRef(-0.7)
+
   // Refs for gradient bar CSS variable interpolation
   const gradientCurrentRef = useRef<{ start: number[]; end: number[] } | null>(
     null
@@ -189,7 +192,11 @@ export function WaterBlob({
 
     // display object is mutated in-place by lerpColors each frame,
     // and createAnimationLoop's closure reads from the same object.
-    const animate = createAnimationLoop(gl, programInfo, display)
+    // Only reset Y offset on first mount, not on theme switches
+    if (!hasEverStartedRef.current) {
+      yOffsetRef.current = -0.7
+    }
+    const animate = createAnimationLoop(gl, programInfo, display, () => yOffsetRef.current)
 
     let animationId: number
     let startTimeoutId: ReturnType<typeof setTimeout>
@@ -206,6 +213,12 @@ export function WaterBlob({
             ((timestamp - lastTimestamp) / 1000) * animationSpeedRef.current
         }
         lastTimestamp = timestamp
+        // Lerp blobs up from entry position to normal (ease-out, ~1.5s to settle)
+        if (yOffsetRef.current < -0.001) {
+          yOffsetRef.current += (0 - yOffsetRef.current) * 0.035
+        } else {
+          yOffsetRef.current = 0
+        }
         // Smoothly interpolate display colors toward target each frame
         lerpColors(display, target, COLOR_LERP_SPEED)
         animate(accumulatedTime)
@@ -219,7 +232,7 @@ export function WaterBlob({
     // On first mount: defer by 1400ms (blob fade-in delay — invisible during this window,
     // so no visual change). On re-runs caused by theme/retry changes: start immediately
     // so theme switches are seamless with no pause or color glitch.
-    const loopDelay = hasEverStartedRef.current ? 0 : 1550 // 200ms before blobVisible fires at 1750ms
+    const loopDelay = hasEverStartedRef.current ? 0 : 900 // 200ms before blobVisible fires at 1100ms
     hasEverStartedRef.current = true
     // eslint-disable-next-line prefer-const
     startTimeoutId = setTimeout(() => {

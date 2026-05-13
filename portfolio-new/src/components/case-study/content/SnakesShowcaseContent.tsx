@@ -1,38 +1,51 @@
 'use client'
 
-import { m, AnimatePresence } from 'framer-motion'
+import { m } from 'framer-motion'
+import Image from 'next/image'
+import { AnimatedArrow } from '@/components/ui/AnimatedArrow'
+import { useArrowAnimation } from '@/hooks/use-arrow-animation'
 
-interface SnakesShowcaseContentProps {
-  isContentRevealed: boolean
-  onToggleContent: () => void
-}
+const LIVE_SITE_URL = 'https://snakes.atharva.design/'
 
-export function SnakesShowcaseContent({
-  isContentRevealed,
-  onToggleContent,
-}: SnakesShowcaseContentProps) {
+/** Matches source PNG dimensions (2940×1842) for stable layout / LCP hints */
+const SHOT_WIDTH = 2940
+const SHOT_HEIGHT = 1842
+
+const SNAKE_SCREENSHOTS = Array.from({ length: 13 }, (_, i) => ({
+  src: `/images/case-studies/snakes/${i + 1}.png`,
+  alt: `Snakes data visualization project — screenshot ${i + 1} of 13`,
+}))
+
+export function SnakesShowcaseContent() {
+  const {
+    isAnimating,
+    animationCycle,
+    showFirstArrow,
+    handleMouseEnter,
+    handleMouseLeave,
+  } = useArrowAnimation()
+
   return (
     <m.section
-      className="w-full px-6 2xl:px-[140px] py-16 md:py-24 max-w-[1920px] mx-auto"
+      className="w-full px-6 lg:px-16 py-16 md:py-24 max-w-[1920px] mx-auto"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.8 }}
     >
-      <div className="max-w-[940px] mx-auto text-left">
-        {/* Abstract */}
+      <div className="max-w-[1044px] mx-auto text-left">
         <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
           Abstract
         </h3>
 
         <div className="space-y-6 md:space-y-8">
-          <p className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
             This showcase is a personal exploration into interactive data visualization,
             centered on the taxonomy and behavior of snakes. The goal was to design an
             experience that makes biological information — species rankings, venom
             classification, and geographic distribution — feel navigable and visually
             engaging for a general audience.
           </p>
-          <p className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
             The project was vibe-coded over a weekend, prioritizing feel and motion over
             completeness. It served as a test bed for ideas around scroll-driven
             storytelling, ambient UI, and data-first design — exploring how visual
@@ -40,106 +53,52 @@ export function SnakesShowcaseContent({
           </p>
         </div>
 
-        {/* My Role */}
-        <div className="mt-12 md:mt-16">
-          <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
-            My Role
-          </h3>
-
-          <div className="space-y-6 md:space-y-8">
-            <p className="text-base md:text-[20px] font-medium text-text-color90 leading-relaxed">
-              Solo project — I handled all aspects:
-            </p>
-            <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-2">
-              <li className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
-                Concept and interaction design
-              </li>
-              <li className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
-                Data visualization and taxonomy mapping
-              </li>
-              <li className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
-                Visual design and motion direction
-              </li>
-              <li className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
-                Frontend implementation (vibe-coded)
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        {/* Read more toggle */}
-        <div className="mt-[100px] flex flex-col items-center gap-2">
-          <span
-            className="text-sm font-normal"
-            style={{ color: 'rgb(var(--color-text-tertiary))' }}
+        <div className="mt-16 md:mt-24 lg:mt-32 flex justify-end">
+          <m.a
+            href={LIVE_SITE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="group inline-flex items-center gap-[16px] text-[28px] font-bold tracking-[-0.05em] text-foreground transition-colors hover:text-primary md:gap-[18px] md:text-[34px] lg:gap-[20px] lg:text-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
           >
-            3 min read
-          </span>
-          <button
-            onClick={onToggleContent}
-            className="group inline-flex items-center gap-2 text-base md:text-[20px] font-normal text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
-          >
-            <span className="relative inline-block">
-              {isContentRevealed ? 'Hide writeup' : 'Read full writeup'}
-              <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full" />
-            </span>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              className="w-4 h-4 transition-transform duration-200"
-              style={{ transform: isContentRevealed ? 'rotate(180deg)' : 'rotate(0deg)' }}
-              aria-hidden="true"
-            >
-              <path
-                d="M4 6L8 10L12 6"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+            Check the live site
+            <AnimatedArrow
+              isAnimating={isAnimating}
+              showFirstArrow={showFirstArrow}
+              animationCycle={animationCycle}
+              className="w-[22px] h-[22px] md:w-[26px] md:h-[26px] lg:w-[30px] lg:h-[30px]"
+            />
+          </m.a>
         </div>
+      </div>
 
-        {/* Expanded content placeholder */}
-        <AnimatePresence initial={false}>
-          {isContentRevealed && (
-            <m.div
-              className="mt-[160px] md:mt-[224px]"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
-                style={{ color: 'rgb(var(--color-text-tertiary))' }}
+      {/* Full width between section gutters: 24px (mobile) / 64px lg+ */}
+      <div className="mt-12 md:mt-16 lg:mt-20 w-full">
+        <h4 className="sr-only">Project screenshots</h4>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 [&>*:last-child:nth-child(odd)]:col-start-1">
+          {SNAKE_SCREENSHOTS.map((shot, i) => {
+            const isLastOdd = i === SNAKE_SCREENSHOTS.length - 1 && SNAKE_SCREENSHOTS.length % 2 !== 0
+            return (
+              <div
+                key={shot.src}
+                className="relative w-full"
+                style={{ aspectRatio: `${SHOT_WIDTH} / ${SHOT_HEIGHT}` }}
               >
-                Design Process
-              </h3>
-
-              <div className="space-y-6 md:space-y-8">
-                <p
-                  className="text-base md:text-[20px] font-normal leading-relaxed"
-                  style={{ color: 'rgb(var(--color-text-color90))' }}
-                >
-                  The interface began as a simple taxonomy browser and evolved into a
-                  more ambient, exploratory experience. Early iterations used cards;
-                  the final version leans on a ranked list with inline species detail,
-                  keeping the data dense without overwhelming.
-                </p>
-                <p
-                  className="text-base md:text-[20px] font-normal leading-relaxed"
-                  style={{ color: 'rgb(var(--color-text-color90))' }}
-                >
-                  Full writeup coming soon.
-                </p>
+                <Image
+                  src={shot.src}
+                  alt={shot.alt}
+                  fill
+                  sizes="(max-width: 639px) 100vw, (max-width: 1023px) 45vw, calc((100vw - 128px) / 2)"
+                  className={`object-contain ${isLastOdd ? 'object-left-top' : 'object-top'}`}
+                  loading="lazy"
+                  quality={85}
+                  decoding="async"
+                />
               </div>
-            </m.div>
-          )}
-        </AnimatePresence>
+            )
+          })}
+        </div>
       </div>
     </m.section>
   )

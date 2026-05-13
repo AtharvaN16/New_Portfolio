@@ -11,7 +11,7 @@
 @layer components {
   /* Base prose styles - matches case study content */
   .prose-case-study {
-    @apply max-w-[940px] ml-auto text-left;
+    @apply max-w-[1044px] ml-auto text-left;
 
     /* Base text */
     color: rgb(var(--color-text-color90));

@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from 'react'
 import Image from 'next/image'
+import { CASE_STUDY_RETURN_PATH_KEY } from '@/lib/case-study-overlay'
 import { cn } from '@/lib/utils/cn'
 import { AnimatedHeroTextGSAP } from '@/components/hero/AnimatedHeroTextGSAP'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
@@ -61,6 +62,14 @@ export function FullpageCard({
 
   const handleClick = () => {
     if (slug) {
+      try {
+        sessionStorage.setItem(
+          CASE_STUDY_RETURN_PATH_KEY,
+          window.location.pathname
+        )
+      } catch {
+        /* ignore quota / private mode */
+      }
       window.history.pushState({}, '', `/case-studies/${slug}`)
       window.dispatchEvent(new CustomEvent('casestudydialog:check'))
     }

@@ -35,6 +35,7 @@ export const fragmentShader = `
   uniform vec3 uColor2; // Purple (from design tokens)
   uniform vec3 uColor3; // Pink (from design tokens)
   uniform vec3 uBackgroundColor; // Background (from design tokens)
+  uniform float uYOffset; // Vertical offset for entry animation (UV space, lerps to 0)
   // === TUNING CONSTANTS ===
   // Light mode uses reduced atmospheric effects (pigment metaphor)
   // Dark mode uses stronger glow effects (emissive metaphor)
@@ -153,9 +154,11 @@ export const fragmentShader = `
     // === BLOB 1 (Blue) - DOMINANT, CALM ===
     // Larger size (70% bigger), slower movement, low turbulence, smooth edges
     vec2 blob1Center = blobMotion(uTime, 0.18, vec2(0.25, 0.45), 0.0, 1.0);
+    blob1Center.y += uYOffset;
 
     // Calculate proximity to blob2 for edge softening
     vec2 blob2Center = blobMotion(uTime, 0.32, vec2(0.75, 0.5), 3.14159, 1.3);
+    blob2Center.y += uYOffset;
     float distanceBetween = length(blob1Center - blob2Center);
     float proximity1 = smoothstep(0.6, 0.3, distanceBetween); // Soften when close
     

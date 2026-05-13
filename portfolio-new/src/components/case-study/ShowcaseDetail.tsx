@@ -1,10 +1,8 @@
 'use client'
 
-import { m, useScroll, useTransform } from 'framer-motion'
-import { useState, useRef } from 'react'
-import Image from 'next/image'
+import { m, useScroll } from 'framer-motion'
+import { useRef } from 'react'
 import type { CaseStudy } from '@/lib/data/case-studies'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 import { CaseStudyHeader } from '@/components/case-study/CaseStudyHeader'
 import { ShowcaseHero } from '@/components/case-study/ShowcaseHero'
 import { CaseStudyContentRenderer } from '@/components/case-study/CaseStudyContentRenderer'
@@ -18,7 +16,6 @@ interface ShowcaseDetailProps {
 }
 
 export function ShowcaseDetail({ caseStudy, onClose }: ShowcaseDetailProps) {
-  const [isContentRevealed, setIsContentRevealed] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
@@ -84,11 +81,7 @@ export function ShowcaseDetail({ caseStudy, onClose }: ShowcaseDetailProps) {
           </m.div>
         )}
 
-        <CaseStudyContentRenderer
-          caseStudy={caseStudy}
-          isContentRevealed={isContentRevealed}
-          onToggleContent={() => setIsContentRevealed(!isContentRevealed)}
-        />
+        <CaseStudyContentRenderer caseStudy={caseStudy} />
       </div>
     </div>
   )

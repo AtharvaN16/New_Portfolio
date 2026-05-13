@@ -30,6 +30,8 @@ export const viewport: Viewport = {
 
 // SEO Metadata
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
+
   // Basic metadata
   title: {
     default: siteConfig.title,

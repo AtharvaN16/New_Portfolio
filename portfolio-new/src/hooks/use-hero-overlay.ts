@@ -4,8 +4,8 @@ import { useState, useEffect, type RefObject } from 'react'
 const HERO_OVERLAY_FADEOUT_VIEWPORT = 0.4
 // Visible hero fraction below which overlay fades back in (exiting)
 const HERO_OVERLAY_FADEIN_VISIBLE = 0.2
-// Max opacity of the dark overlay (image stays visible, only darkened)
-export const HERO_OVERLAY_MAX_OPACITY = 0.55
+// Max opacity of the scroll overlay — keep low so the hero stays crisp (high reads as “blurry”)
+export const HERO_OVERLAY_MAX_OPACITY = 0.28
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max)

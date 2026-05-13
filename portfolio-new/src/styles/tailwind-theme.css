@@ -49,6 +49,8 @@
      ======================================== */
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --text-case-heading: var(--font-size-case-heading);
+  --text-insight-num: var(--font-size-insight-num);
 
   /* ========================================
      RESPONSIVE BREAKPOINTS

@@ -9,6 +9,7 @@ import {
   useTransform,
   type MotionValue,
 } from 'framer-motion'
+import { CASE_STUDY_RETURN_PATH_KEY } from '@/lib/case-study-overlay'
 import { cn } from '@/lib/utils/cn'
 import { useBreakpoint } from '@/hooks/use-breakpoint'
 
@@ -20,24 +21,29 @@ export interface ProjectCardProps {
   tags: string[]
   imageBg: string
   imageUrl?: string // Optional project image
+  thumbnailUrl?: string // Optional landscape card thumbnail; falls back to imageUrl
   imageSizes?: string
   imagePriority?: boolean
   imageFetchPriority?: 'high' | 'low' | 'auto'
-  variant?: 'default' | 'compact' // default for 2-grid, compact for 3-grid
+  variant?: 'default' | 'compact' | 'sub-case' // default for 2-grid, compact for 3-grid, sub-case for inline mini case studies
   className?: string
   slug?: string // Optional slug for linking to case study page
   cardHeight?: string // Optional custom height (e.g., 'h-[400px] md:h-[500px]')
+  readTime?: string // Only used by sub-case variant
+  glowColor?: string // Glow color for sub-case hover effect (e.g. '#3183CB')
+  anchorId?: string // Scroll-to anchor id; used by sub-case cards instead of slug navigation
   recedeEffect?: 'none' | 'homeDesktop'
   homeScrollProgress?: MotionValue<number>
   isMasonry?: boolean
   masonryIndex?: number
+  heroImageFill?: boolean // Fill the full card height; use for portrait/non-16:9 heroes
 }
 
 export function ProjectCard({
   title,
   organization,
   year,
-  description: _description,
+  description,
   tags: _tags,
   imageBg,
   imageUrl,
@@ -52,7 +58,14 @@ export function ProjectCard({
   homeScrollProgress: _homeScrollProgress,
   isMasonry = false,
   masonryIndex = 0,
+  readTime,
+  glowColor = 'rgb(var(--color-primary))',
+  heroImageFill = false,
+  thumbnailUrl,
+  anchorId,
 }: ProjectCardProps) {
+  // For card rendering, always prefer the dedicated landscape thumbnail when provided
+  const cardImageUrl = thumbnailUrl ?? imageUrl
   const [isHovered, setIsHovered] = useState(false)
   const cardRef = useRef<HTMLElement>(null)
   const isDesktop = useBreakpoint('lg')
@@ -117,38 +130,38 @@ export function ProjectCard({
   )
 
   const handleClick = () => {
+    if (anchorId) {
+      document.getElementById(anchorId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      return
+    }
     if (slug) {
       // Change URL and trigger dialog - RemoveScroll handles scroll locking
+      try {
+        sessionStorage.setItem(
+          CASE_STUDY_RETURN_PATH_KEY,
+          window.location.pathname
+        )
+      } catch {
+        /* ignore quota / private mode */
+      }
       window.history.pushState({}, '', `/case-studies/${slug}`)
       window.dispatchEvent(new CustomEvent('casestudydialog:check'))
     }
   }
 
-  // Determine dynamic height for masonry layout
   const getMasonryHeight = () => {
     if (!isMasonry)
       return cardHeight || 'h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px]'
 
-    // Pattern of heights for masonry look on desktop
-    const desktopHeights = [
-      'lg:h-[350px]',
-      'lg:h-[480px]',
-      'lg:h-[400px]',
-      'lg:h-[520px]',
-      'lg:h-[380px]',
-    ]
+    const desktopHeights = ['lg:h-[350px]', 'lg:h-[480px]', 'lg:h-[400px]', 'lg:h-[520px]', 'lg:h-[380px]']
     const tabletHeights = ['md:h-[320px]', 'md:h-[400px]']
-
-    const dH = desktopHeights[masonryIndex % desktopHeights.length]
-    const tH = tabletHeights[masonryIndex % tabletHeights.length]
-
-    return cn('h-[280px]', tH, dH)
+    return cn('h-[280px]', tabletHeights[masonryIndex % tabletHeights.length], desktopHeights[masonryIndex % desktopHeights.length])
   }
 
   return (
     <m.article
       ref={cardRef}
-      className={cn('group flex flex-col', slug && 'cursor-pointer', className)}
+      className={cn('group flex flex-col', (slug || anchorId) && 'cursor-pointer', className)}
       onMouseEnter={() => {
         setIsHovered(true)
         if (slug) {
@@ -180,38 +193,106 @@ export function ProjectCard({
           : undefined
       }
     >
-      {/* Card - Responsive height, or flex-1 to fill container when h-full is passed */}
       <div
         className={cn(
-          'relative w-full overflow-hidden gpu-accelerate transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]',
-          'shadow-md hover:shadow-xl [data-theme="dark"]:shadow-none [data-theme="dark"]:hover:shadow-none',
-          // If parent has h-full, use flex-1 to fill; otherwise use explicit heights
-          className?.includes('h-full')
-            ? 'flex-1 min-h-[200px]'
-            : getMasonryHeight()
+          // no translateZ here — gpu-accelerate on image ancestors can soften raster content
+          'relative w-full overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]',
+          variant === 'sub-case'
+            ? 'aspect-[4/3]'
+            : cn(
+                'shadow-md hover:shadow-xl [data-theme="dark"]:shadow-none [data-theme="dark"]:hover:shadow-none',
+                isMasonry
+                  ? cn('flex items-center justify-center', getMasonryHeight())
+                  : className?.includes('h-full')
+                    ? 'flex-1 min-h-[200px]'
+                    : getMasonryHeight()
+              )
         )}
       >
-        {/* Background Color or Image */}
+        {/* Base: imageBg for non-image cards; neutral dark for masonry+image (blurred layer provides color) */}
         <div
-          className="absolute inset-0 gpu-accelerate"
-          style={{ backgroundColor: imageBg }}
-        >
-          {imageUrl && (
+          className="absolute inset-0 z-0"
+          style={{ backgroundColor: variant === 'sub-case' ? imageBg : (isMasonry && cardImageUrl ? '#111' : imageBg) }}
+        />
+
+        {/* Frosted bars — blurred image provides image-matched color in the bar regions */}
+        {cardImageUrl && isMasonry && variant !== 'sub-case' && (
+          <Image
+            src={cardImageUrl}
+            alt=""
+            fill
+            aria-hidden
+            sizes={imageSizes ?? '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'}
+            priority={imagePriority}
+            loading={imagePriority ? 'eager' : 'lazy'}
+            quality={60}
+            className="object-cover scale-125 blur-2xl z-0"
+          />
+        )}
+
+        {/* 10% tint overlay for sub-case */}
+        {variant === 'sub-case' && (
+          <div className="absolute inset-0 z-10 pointer-events-none [data-theme='dark']:bg-black/10 [data-theme='light']:bg-white/10" />
+        )}
+
+        {/* Main image */}
+        {cardImageUrl && (
+          variant === 'sub-case' ? (
+            <m.div
+              className="absolute w-[70%] left-1/2 -translate-x-1/2 z-20"
+              style={{ top: '35%' }}
+              animate={{ y: isHovered ? -32 : 0 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {/* Glow behind the image */}
+              <m.div
+                className="absolute inset-[-25%] -z-10 rounded-full blur-3xl"
+                style={{ backgroundColor: glowColor }}
+                animate={{ opacity: isHovered ? 0.45 : 0 }}
+                transition={{ duration: 0.4 }}
+              />
+              <Image
+                src={cardImageUrl}
+                alt={title}
+                width={0}
+                height={0}
+                sizes={imageSizes ?? '(max-width: 768px) 75vw, (max-width: 1024px) 38vw, 28vw'}
+                priority={imagePriority}
+                loading={imagePriority ? 'eager' : 'lazy'}
+                fetchPriority={imageFetchPriority}
+                quality={92}
+                className="w-full h-auto shadow-2xl"
+              />
+            </m.div>
+          ) : isMasonry ? (
+            // Standard 16:9 hero: constrain to ratio so blurred background bars show as intended
+            <div className="relative w-full aspect-[16/9] z-10 shrink-0 overflow-hidden">
+              <Image
+                src={cardImageUrl}
+                alt={title}
+                fill
+                sizes={imageSizes ?? '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'}
+                priority={imagePriority}
+                loading={imagePriority ? 'eager' : 'lazy'}
+                fetchPriority={imageFetchPriority}
+                quality={92}
+                className="object-cover"
+              />
+            </div>
+          ) : (
             <Image
-              src={imageUrl}
+              src={cardImageUrl}
               alt={title}
               fill
-              sizes={
-                imageSizes ??
-                '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'
-              }
+              sizes={imageSizes ?? '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'}
               priority={imagePriority}
               loading={imagePriority ? 'eager' : 'lazy'}
               fetchPriority={imageFetchPriority}
+              quality={92}
               className="object-cover"
             />
-          )}
-        </div>
+          )
+        )}
 
         {/* Melting Overlay - Matches background for receding effect */}
         {shouldApplyRecede && (
@@ -235,40 +316,48 @@ export function ProjectCard({
 
       {/* Title and Info - Outside the card, below it */}
       <div className="mt-4 space-y-1 sm:mt-6">
-        {/* Organization (Company Name) */}
-        {(organization || year) && (
-          <p
-            className="text-[16px] font-semibold md:text-[18px]"
-            style={{ color: 'rgb(var(--color-text-secondary))' }}
-          >
-            {organization ? `${organization} — ${year}` : year}
-          </p>
+        {variant === 'sub-case' ? (
+          <h3 className="font-bold leading-tight text-foreground text-[16px] sm:text-[18px] lg:text-[20px]">
+            {title}
+          </h3>
+        ) : (
+          <>
+            {/* Organization (Company Name) */}
+            {(organization || year) && (
+              <p
+                className="text-[16px] font-semibold md:text-[18px]"
+                style={{ color: 'rgb(var(--color-text-secondary))' }}
+              >
+                {organization ? `${organization} — ${year}` : year}
+              </p>
+            )}
+
+            {/* Project Title */}
+            <h3
+              className={cn(
+                'font-bold leading-tight text-foreground max-w-none sm:max-w-[85%]',
+                variant === 'compact'
+                  ? 'text-[20px] sm:text-xl lg:text-[1.75rem]'
+                  : 'text-[20px] sm:text-2xl lg:text-[1.75rem]'
+              )}
+            >
+              {title}
+            </h3>
+
+            {/* Tags */}
+            <div className="flex flex-wrap items-center gap-x-2 pt-3">
+              <span
+                className="font-sans font-medium tracking-normal text-[14px] md:text-[18px]"
+                style={{ color: 'rgb(var(--color-text-tertiary))' }}
+              >
+                {(_tags || [])
+                  .filter((tag) => tag !== 'Selected Work' && tag !== year)
+                  .slice(0, 3)
+                  .join(' / ')}
+              </span>
+            </div>
+          </>
         )}
-
-        {/* Project Title */}
-        <h3
-          className={cn(
-            'font-bold leading-tight text-foreground max-w-none sm:max-w-[85%]',
-            variant === 'compact'
-              ? 'text-[20px] sm:text-xl lg:text-[1.75rem]'
-              : 'text-[20px] sm:text-2xl lg:text-[1.75rem]'
-          )}
-        >
-          {title}
-        </h3>
-
-        {/* Tags */}
-        <div className="flex flex-wrap items-center gap-x-2 pt-3">
-          <span
-            className="font-sans font-medium tracking-normal text-[14px] md:text-[18px]"
-            style={{ color: 'rgb(var(--color-text-tertiary))' }}
-          >
-            {(_tags || [])
-              .filter((tag) => tag !== 'Selected Work' && tag !== year)
-              .slice(0, 3)
-              .join(' / ')}
-          </span>
-        </div>
       </div>
     </m.article>
   )

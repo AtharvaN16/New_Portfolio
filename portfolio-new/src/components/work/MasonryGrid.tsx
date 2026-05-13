@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useMemo, useEffect, useState } from 'react'
-import { useBreakpoints } from '@/hooks/use-breakpoints'
+import { useBreakpoints } from '@/hooks/use-breakpoint'
 
 interface MasonryGridProps<T> {
   items: T[]

@@ -8,6 +8,7 @@ import { m, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { NavButton } from '@/components/ui/NavButton'
+import { cn } from '@/lib/utils/cn'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -93,44 +94,55 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               aria-label="Mobile navigation"
             >
               <ul className="flex flex-col items-end gap-6">
-                {menuLinks.map((link, index) => (
-                  <m.li
-                    key={link.href}
-                    initial={{ opacity: 0, y: 28 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 14 }}
-                    transition={{
-                      duration: 0.45,
-                      delay: 0.06 + index * 0.07,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    className="flex flex-col items-end"
-                  >
-                    <Link
-                      href={link.href}
-                      prefetch={link.prefetch}
-                      onClick={(e) => {
-                        if (link.href === '/explorations') {
-                          e.preventDefault()
-                          window.history.pushState({}, '', '/explorations')
-                          window.dispatchEvent(new CustomEvent('explorationsdialog:check'))
-                        } else if (link.href === '/about') {
-                          e.preventDefault()
-                          window.history.pushState({}, '', '/about')
-                          window.dispatchEvent(new CustomEvent('aboutdialog:check'))
-                        } else if (link.href === '/writings') {
-                          e.preventDefault()
-                          window.history.pushState({}, '', '/writings')
-                          window.dispatchEvent(new CustomEvent('writingsdialog:check'))
-                        }
-                        onClose()
+                {menuLinks.map((link, index) => {
+                  const isComingSoon = link.href === '/writings' || link.href === '/about';
+                  return (
+                    <m.li
+                      key={link.href}
+                      initial={{ opacity: 0, y: 28 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 14 }}
+                      transition={{
+                        duration: 0.45,
+                        delay: 0.06 + index * 0.07,
+                        ease: [0.22, 1, 0.36, 1],
                       }}
-                      className="text-[40px] font-medium text-foreground leading-none tracking-tight"
+                      className="flex flex-col items-end group"
                     >
-                      {link.label}
-                    </Link>
-                  </m.li>
-                ))}
+                      <Link
+                        href={isComingSoon ? '#' : link.href}
+                        prefetch={link.prefetch}
+                        onClick={(e) => {
+                          if (isComingSoon) {
+                            e.preventDefault();
+                            return;
+                          }
+                          if (link.href === '/explorations') {
+                            e.preventDefault()
+                            window.history.pushState({}, '', '/explorations')
+                            window.dispatchEvent(new CustomEvent('explorationsdialog:check'))
+                          }
+                          onClose()
+                        }}
+                        className={cn(
+                          "text-[40px] font-medium leading-none tracking-tight transition-colors duration-300",
+                          isComingSoon 
+                            ? "text-text-color60 cursor-default" 
+                            : "text-foreground active:opacity-70"
+                        )}
+                      >
+                        {link.label}
+                      </Link>
+                      {isComingSoon && (
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-1">
+                          <span className="text-[10px] uppercase tracking-widest font-medium text-text-color60">
+                            Coming soon
+                          </span>
+                        </div>
+                      )}
+                    </m.li>
+                  );
+                })}
               </ul>
             </nav>
 

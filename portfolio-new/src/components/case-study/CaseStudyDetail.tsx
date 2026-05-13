@@ -181,7 +181,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
         >
           {caseStudy.imageUrl ? (
             <div className="relative w-full">
-              <div className="relative w-full aspect-[16/9]">
+              <div className="relative w-full h-screen">
                 <Image
                   src={caseStudy.imageUrl}
                   alt={`${caseStudy.title} - Hero Image`}
@@ -189,6 +189,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
                   className="object-cover"
                   sizes="100vw"
                   priority
+                  quality={100}
                 />
                 <div
                    className="absolute inset-0 bg-background pointer-events-none transition-opacity duration-500 ease-out"

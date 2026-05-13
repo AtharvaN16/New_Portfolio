@@ -27,6 +27,7 @@ export interface WebGLProgramInfo {
   uColor2Location: WebGLUniformLocation | null
   uColor3Location: WebGLUniformLocation | null
   uBackgroundColorLocation: WebGLUniformLocation | null
+  uYOffsetLocation: WebGLUniformLocation | null
   posBuffer: WebGLBuffer | null
   vertShader: WebGLShader
   fragShader: WebGLShader
