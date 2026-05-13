@@ -1,42 +1,45 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- Core app code lives in `src/` using Next.js App Router.
-- Routes and top-level pages are in `src/app/` (for example `src/app/page.tsx`, `src/app/work/page.tsx`).
-- Reusable UI and feature components are in `src/components/` (`ui/`, `layout/`, `hero/`, `animations/`, `providers/`).
-- Shared logic is in `src/lib/` (`utils/`, `data/`, `mdx/`) and custom hooks are in `src/hooks/`.
-- Global styles and tokens are in `src/styles/`; static files are in `public/`.
-- Tests live in `tests/` with `tests/unit/` and `tests/setup.ts`.
-- Documentation and architecture notes are in `docs/`.
+- **Application Root**: The project has been flattened; all code lives in the root directory.
+- **Core App**: Source code lives in `src/` using Next.js App Router.
+- **Routes**: Top-level pages are in `src/app/`.
+- **Components**: Reusable UI and feature components are in `src/components/` (`ui/`, `layout/`, `hero/`, `animations/`, `providers/`).
+- **Logic**: Shared logic in `src/lib/` and custom hooks in `src/hooks/`.
+- **Styles**: Global styles and tokens in `src/app/globals.css`.
+- **Assets**: Static files in `public/`.
+- **Tests**: Located in `tests/`.
+- **Specialized Skills**: Agent-specific procedural guides in `skills/`.
 
-## Build, Test, and Development Commands
-- `npm run dev`: start local development server.
-- `npm run build`: create production build.
-- `npm run start`: run production build locally.
-- `npm run lint` / `npm run lint:fix`: run/fix ESLint issues.
-- `npm run format` / `npm run format:check`: apply/check Prettier formatting.
-- `npm run type-check`: run TypeScript checks without emit.
-- `npm run test`, `npm run test:ui`, `npm run test:coverage`: run Vitest (watch, UI, coverage).
-- `npm run validate`: full gate (lint, format check, type check, tests).
+## 🛠 Official Deployment Workflow
+
+To ensure a stable production environment, we follow this branch-based strategy:
+
+1.  **Develop in `dev` branch**: All new features and bug fixes happen here.
+2.  **Verify & Sync**: Once ready, merge `dev` into `main`.
+3.  **Deploy from `main`**: Pushing to the `main` branch on GitHub automatically triggers a Vercel production deployment.
+
+## Build, Test, and Development Commands (Bun)
+- `bun run dev`: start local development server.
+- `bun run build`: create production build.
+- `bun run lint` / `bun run lint:fix`: run/fix ESLint issues.
+- `bun run format` / `bun run format:check`: apply/check Prettier formatting.
+- `bun run type-check`: run TypeScript checks without emit.
+- `bun run test`: run Vitest.
+- `bun run validate`: full gate (lint, format check, type check, tests).
+
+## 🛠 Specialized Skills (Agent Capabilities)
+
+This project uses specialized skills in `skills/` to ensure high-quality engineering.
+- **TDD**: ALWAYS use TDD for new features or bug fixes.
+- **Diagnose**: Use this structured approach for debugging.
+- **Caveman**: Use for compressed status updates to save context.
 
 ## Coding Style & Naming Conventions
 - TypeScript + React functional components are standard.
-- Prettier rules: 2 spaces, single quotes, no semicolons, 80-char line width.
-- Follow ESLint (`eslint.config.mjs`), including `consistent-type-imports` and no unused vars (prefix intentional unused values with `_`).
-- Use `PascalCase` for components (`ProjectCard.tsx`), `camelCase` for hooks/utilities (`use-media-query.ts`, `splitText.ts`), and kebab-case for route folders.
-
-## Testing Guidelines
-- Framework: Vitest + Testing Library (`jsdom` environment).
-- Keep unit tests under `tests/unit/`; use `*.test.ts` or `*.test.tsx` naming.
-- Prefer behavior-focused tests over implementation details.
-- Run `npm run test:coverage` for high-impact UI or logic changes.
-
-## Commit & Pull Request Guidelines
-- Current history favors imperative, descriptive commit subjects (for example: `Refactor WaterBlob component...`, `Add FooterSmog component...`).
-- Keep commits scoped to a single concern.
-- PRs should include: concise summary, changed areas, test/validation results (`npm run validate`), and screenshots/GIFs for visual changes.
-- Link related issues/tasks and note any env/config changes (for example updates to `.env.example`).
+- Use `PascalCase` for components (`ProjectCard.tsx`), `camelCase` for hooks/utilities (`use-media-query.ts`).
+- **File size limit**: No file should be larger than 300 lines.
 
 ## Security & Configuration Tips
 - Never commit secrets; use `.env.local` and keep `.env.example` updated.
-- Validate environment variables through `src/lib/env.ts` when adding new config.
+- Validate environment variables through `src/lib/env.ts`.
