@@ -1,0 +1,6 @@
+{
+  "buildCommand": "bun run build",
+  "outputDirectory": ".next",
+  "rootDirectory": "portfolio-new",
+  "framework": "nextjs"
+}
