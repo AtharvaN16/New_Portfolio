@@ -80,7 +80,7 @@ export function CaseStudyVideo({ src, alt, className }: CaseStudyVideoProps) {
         ref={videoRef}
         src={src}
         aria-label={alt}
-        className="w-full h-auto block scale-[1.04]"
+        className="w-full h-auto block"
         playsInline
         muted
         preload="none"

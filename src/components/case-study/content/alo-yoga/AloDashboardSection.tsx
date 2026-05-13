@@ -66,15 +66,13 @@ export function AloDashboardSection() {
 
       {/* Dashboard overview video */}
       <div
-        className="mb-3 rounded-2xl overflow-hidden p-4 md:p-8 flex items-center justify-center"
+        className="mb-3 p-4 md:p-8"
         style={{ backgroundColor: 'rgb(var(--color-surface-elevated))' }}
       >
-        <div className="w-full rounded-lg overflow-hidden shadow-xl">
-          <CaseStudyVideo
-            src="/videos/case-studies/alo-yoga-digital-analytics/dashboard-overview.mp4"
-            alt="Alo Analytics Dashboard overview walkthrough"
-          />
-        </div>
+        <CaseStudyVideo
+          src="/videos/case-studies/alo-yoga-digital-analytics/dashboard-overview.mp4"
+          alt="Alo Analytics Dashboard overview walkthrough"
+        />
       </div>
       <p
         className="text-sm mb-12 md:mb-16"
