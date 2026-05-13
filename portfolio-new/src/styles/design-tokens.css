@@ -61,7 +61,10 @@
     --color-case-study-pink: 255 182 193; /* #FFB6C1 - Light Pink */
     --color-case-study-pale-green: 152 251 152; /* #98FB98 - Pale Green */
     --color-case-study-gold: 255 206 46; /* #FFCE2E - Progress Bar Gold */
+    --color-case-study-teal: 94 234 212; /* #5EEAD4 - Teal for digital analytics */
+    --color-case-study-met: 227 3 42; /* #e3032a - Metropolitan Museum brand red */
     --color-uofa-green: 37 121 72; /* #257948 - University of Alberta green */
+    --color-case-study-snakes-progress: 155 125 85; /* #9B7D55 - Darker beige for light mode */
 
     /* --- Colors: Borders --- */
     --color-border: 229 231 235; /* #e5e7eb */
@@ -71,6 +74,9 @@
     /* Enhanced: Matches WaterBlob palette 0 (Orange-Cyan) for initial consistency */
     --color-gradient-start: 200 95 25; /* Orange - palette 0 color 1 */
     --color-gradient-end: 15 145 175; /* Cyan - palette 0 color 3 */
+
+    /* --- Filter expanded glow (light mode = subtle gray) --- */
+    --filter-glow: 0 4px 24px rgba(0,0,0,0.09), 0 1px 4px rgba(0,0,0,0.06);
 
     /* --- Colors: Scribble --- */
     /* Darkened version of gradient-start for better contrast on light bg */
@@ -115,6 +121,9 @@
     --text-5xl: 3rem; /* 48px */
     --text-6xl: 3.75rem; /* 60px */
     --text-7xl: 4.5rem; /* 72px */
+    /* Case study section titles (use with text-lg or text-xl on small screens, md:text-case-heading) */
+    --font-size-case-heading: 1.75rem; /* 28px */
+    --font-size-insight-num: 2rem;     /* 32px — insight finding number */
 
     /* --- Typography: Line Heights --- */
     --leading-none: 1;
@@ -202,7 +211,10 @@
     --color-case-study-pink: 251 207 232; /* #FBCFE8 - Lighter pink */
     --color-case-study-pale-green: 187 247 208; /* #BBF7D0 - Lighter pale green */
     --color-case-study-gold: 253 224 71; /* #FDE047 - Brighter gold for dark mode */
+    --color-case-study-teal: 45 212 191; /* #2DD4BF - Brighter teal for dark mode */
+    --color-case-study-met: 227 3 42; /* #e3032a - MET brand red (same in dark for fidelity) */
     --color-uofa-green: 37 121 72; /* #257948 - University of Alberta green */
+    --color-case-study-snakes-progress: 230 205 165; /* #E6CDA5 - Light beige for dark mode */
 
     /* --- Colors: Semantic (adjusted for dark mode contrast) --- */
     --color-success: 74 222 128; /* #4ADE80 - Lighter green for dark */
@@ -218,6 +230,9 @@
     /* Enhanced: Matches WaterBlob palette 0 (Orange-Cyan) for initial consistency */
     --color-gradient-start: 251 146 60; /* Orange - palette 0 color 1 */
     --color-gradient-end: 34 211 238; /* Cyan - palette 0 color 3 */
+
+    /* --- Filter expanded glow (dark mode = orange/cyan from gradient palette) --- */
+    --filter-glow: 0 0 28px rgba(251,146,60,0.22), 0 0 56px rgba(34,211,238,0.12), 0 4px 12px rgba(0,0,0,0.4);
 
     /* --- Colors: Scribble --- */
     /* Matches gradient start for consistency on dark backgrounds */

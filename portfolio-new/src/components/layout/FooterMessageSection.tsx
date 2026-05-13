@@ -10,12 +10,12 @@ import {
 import { cn } from '@/lib/utils/cn'
 import { PaperPlane } from '@/components/ui/PaperPlane'
 import { sendMessage } from '@/app/actions/send-message'
-import type { PaperPlaneFlightRef } from '@/components/animations/PaperPlaneFlight'
+import type { PaperPlaneFlightRef } from '@/components/dialogs/PaperPlaneFlight'
 import dynamic from 'next/dynamic'
 
 const PaperPlaneFlight = dynamic(
   () =>
-    import('@/components/animations/PaperPlaneFlight').then(
+    import('@/components/dialogs/PaperPlaneFlight').then(
       (mod) => mod.PaperPlaneFlight
     ),
   {

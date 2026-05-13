@@ -62,7 +62,7 @@ export function Hero({
   const [blobVisible, setBlobVisible] = useState(false)
 
   useEffect(() => {
-    const timer = setTimeout(() => setBlobVisible(true), 1750)
+    const timer = setTimeout(() => setBlobVisible(true), 1100)
     return () => clearTimeout(timer)
   }, [])
 
@@ -148,7 +148,7 @@ export function Hero({
               className="relative w-full overflow-hidden water-blob-container flex-1 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]"
               style={{
                 opacity: blobVisible ? 1 : 0,
-                transition: 'opacity 2.5s ease-out',
+                transition: 'opacity 1.2s ease-out',
               }}
             >
               <WaterBlobWithBoundary paused={shouldPauseBlobs} interactive />

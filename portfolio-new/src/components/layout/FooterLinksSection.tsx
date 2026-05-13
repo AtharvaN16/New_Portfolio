@@ -39,21 +39,35 @@ export function FooterLinksSection({
         <ul className="space-y-1.5 md:space-y-3">
           {FOOTER_LINKS.quickLinks.map((link) => {
             const isResume = link.label === 'Résumé'
+            const isComingSoon = link.label === 'Writings' || link.label === 'About'
 
             return (
               <li key={link.href}>
                 <a
-                  href={link.href}
+                  href={isComingSoon ? '#' : link.href}
+                  onClick={isComingSoon ? (e) => e.preventDefault() : undefined}
                   className={cn(
                     isResume && 'footer-resume-link',
                     'footer-link group relative inline-block',
-                    'text-sm md:text-base text-text-secondary',
+                    'text-sm md:text-base transition-colors duration-300',
+                    isComingSoon 
+                      ? 'text-text-color60 cursor-default' 
+                      : 'text-text-secondary hover:text-foreground',
                     'focus-visible:outline-none focus-visible:ring-2',
                     'focus-visible:ring-primary focus-visible:ring-offset-2 rounded'
                   )}
                 >
                   {link.label}
-                  <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full" />
+                  {!isComingSoon && (
+                    <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full" />
+                  )}
+                  {isComingSoon && (
+                    <div className="absolute top-full left-0 mt-0.5 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
+                      <span className="text-[10px] uppercase tracking-widest font-medium text-text-color60">
+                        Coming soon
+                      </span>
+                    </div>
+                  )}
                 </a>
               </li>
             )

@@ -433,6 +433,20 @@
 }
 
 @layer utilities {
+  /* Fix: Tailwind generates `color: var(--color-text-colorN)` but the tokens store
+     raw RGB channels (e.g. "119 119 119"), not valid CSS color values. These
+     overrides wrap them in rgb() so the utilities actually work. */
+  .text-text-color10 { color: rgb(var(--color-text-color10)); }
+  .text-text-color20 { color: rgb(var(--color-text-color20)); }
+  .text-text-color30 { color: rgb(var(--color-text-color30)); }
+  .text-text-color40 { color: rgb(var(--color-text-color40)); }
+  .text-text-color60 { color: rgb(var(--color-text-color60)); }
+  .text-text-color70 { color: rgb(var(--color-text-color70)); }
+  .text-text-color90 { color: rgb(var(--color-text-color90)); }
+  .text-text-primary  { color: rgb(var(--color-text-primary-100)); }
+  .text-text-secondary { color: rgb(var(--color-text-secondary-80)); }
+  .text-text-tertiary  { color: rgb(var(--color-text-tertiary-50)); }
+
   .vulf-mono-italic {
     font-family: 'Vulf Mono', monospace !important;
     font-style: italic !important;

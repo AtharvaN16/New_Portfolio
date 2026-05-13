@@ -8,11 +8,11 @@ import { Hero } from '@/components/hero/Hero'
 import { SelectedWork } from '@/components/work/SelectedWork'
 import { FullpageCard } from '@/components/ui/FullpageCard'
 import { useHomeScroll } from '@/hooks/use-home-scroll'
-import { WorkDialog } from '@/components/animations/WorkDialog'
-import { CaseStudyDialog } from '@/components/animations/CaseStudyDialog'
-import { ExplorationsDialog } from '@/components/animations/ExplorationsDialog'
-import { AboutDialog } from '@/components/animations/AboutDialog'
-import { WritingsDialog } from '@/components/animations/WritingsDialog'
+import { WorkDialog } from '@/components/dialogs/WorkDialog'
+import { CaseStudyDialog } from '@/components/dialogs/CaseStudyDialog'
+import { ExplorationsDialog } from '@/components/dialogs/ExplorationsDialog'
+import { AboutDialog } from '@/components/dialogs/AboutDialog'
+import { WritingsDialog } from '@/components/dialogs/WritingsDialog'
 
 /**
  * Home Page - Scroll Reveal Effect

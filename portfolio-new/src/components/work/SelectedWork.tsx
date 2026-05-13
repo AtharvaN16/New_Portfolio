@@ -74,6 +74,14 @@ const cardConfig = [
     rowStart: 22,
     height: 'h-[350px] sm:h-[420px] lg:h-auto',
   },
+  {
+    // Card 5: Left side, medium width
+    colSpan: 7,
+    colStart: 1,
+    rowSpan: 7,
+    rowStart: 32,
+    height: 'h-[280px] sm:h-[320px] lg:h-auto',
+  },
 ]
 
 // Get featured case studies and map to ProjectCardProps with custom layout config
@@ -81,7 +89,7 @@ const featuredStudies = getFeaturedCaseStudies()
 
 // Define the projects manually to ensure exact ordering and content as requested
 const defaultProjects: ProjectCardProps[] = [
-  // Card 1 (UofA moves here)
+  // Card 1 (UofA)
   {
     ...featuredStudies.find((s) => s.slug === 'ualberta-library-website')!,
     cardHeight: cardConfig[0].height,
@@ -91,22 +99,20 @@ const defaultProjects: ProjectCardProps[] = [
     ...featuredStudies.find((s) => s.slug === 'nyc-dcwp-business-licenses')!,
     cardHeight: cardConfig[1].height,
   },
-  // Card 3 (New Snakes project replaces UofA)
+  // Card 3 (Pratt Institute Visitor Experience)
   {
-    title: 'Designing an Interactive Experience to learn about snakes',
-    organization: 'Personal Project',
-    year: '2026',
-    description:
-      'A study on the movement and behavior of snakes in digital environments.',
-    tags: ['Exploration', 'Vibe Coded', 'Data Visualization'],
-    imageBg: 'rgb(var(--color-case-study-purple))',
-    slug: 'snakes',
+    ...featuredStudies.find((s) => s.slug === 'pratt-institute-visitor-experience')!,
     cardHeight: cardConfig[2].height,
   },
   // Card 4 (Gutenberg stays here)
   {
     ...featuredStudies.find((s) => s.slug === 'gutenberg-cms-usability-evaluation')!,
     cardHeight: cardConfig[3].height,
+  },
+  // Card 5 (NYC Third Spaces Ethnography)
+  {
+    ...featuredStudies.find((s) => s.slug === 'nyc-third-spaces-ethnography')!,
+    cardHeight: cardConfig[4].height,
   },
 ]
 
@@ -206,7 +212,7 @@ export function SelectedWork({
             1,
             Math.round(1 + (config.rowStart - 1) * desktopSpacingScale)
           )
-          const isCard3or4 = index === 2 || index === 3
+          const isCard3or4 = index === 2 || index === 3 || index === 4
           const isCard1or2 = index === 0 || index === 1
 
           return (

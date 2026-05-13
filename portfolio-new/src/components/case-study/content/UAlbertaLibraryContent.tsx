@@ -1,7 +1,8 @@
 'use client'
 
-import { m, AnimatePresence } from 'framer-motion'
+import { m } from 'framer-motion'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 
 interface UAlbertaLibraryContentProps {
   isContentRevealed: boolean
@@ -97,21 +98,21 @@ export function UAlbertaLibraryContent({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.8 }}
     >
-      <div className="max-w-[940px] mx-auto text-left">
+      <div className="max-w-[1044px] mx-auto text-left">
         {/* Abstract */}
         <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
           Abstract
         </h3>
 
         <div className="space-y-6 md:space-y-8">
-          <p className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
             This case study documents a usability study of the University of
             Alberta Library website, conducted to understand how students
             navigate, discover resources, and access library services. The
             research focused on four core areas: the homepage, hours and
             locations, subject guides, and library services.
           </p>
-          <p className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
             Through moderated user interviews with 8 UAlberta students, the
             study surfaced a consistent pattern: the website works well for
             users who already know what they are looking for, but creates
@@ -127,7 +128,7 @@ export function UAlbertaLibraryContent({
           <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
             My Role
           </h3>
-          <p className="text-base md:text-[20px] font-medium text-text-color90 leading-relaxed mb-4">
+          <p className="text-base md:text-[18px] font-medium text-text-color70 leading-relaxed mb-4">
             As part of a four-person research team, I contributed to:
           </p>
           <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-2">
@@ -139,7 +140,7 @@ export function UAlbertaLibraryContent({
             ].map((item) => (
               <li
                 key={item}
-                className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed"
+                className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed"
               >
                 {item}
               </li>
@@ -147,56 +148,11 @@ export function UAlbertaLibraryContent({
           </ul>
         </div>
 
-        {/* Read Full Case Study Button */}
-        <div className="mt-[100px] flex flex-col items-center gap-2">
-          <span
-            className="text-sm font-normal"
-            style={{ color: 'rgb(var(--color-text-tertiary))' }}
-          >
-            10 min read
-          </span>
-          <button
-            onClick={onToggleContent}
-            className="group inline-flex items-center gap-2 text-base md:text-[20px] font-normal text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
-          >
-            <span className="relative inline-block">
-              {isContentRevealed ? 'Hide case study' : 'Read full case study'}
-              <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full" />
-            </span>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              className="w-4 h-4 transition-transform duration-200"
-              style={{
-                transform: isContentRevealed
-                  ? 'rotate(180deg)'
-                  : 'rotate(0deg)',
-              }}
-              aria-hidden="true"
-            >
-              <path
-                d="M4 6L8 10L12 6"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-
-        {/* Full Case Study Content */}
-        <AnimatePresence initial={false}>
-          {isContentRevealed && (
-            <m.div
-              className="mt-[160px] md:mt-[224px] lg:mt-[288px]"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
+        <CaseStudyReadMore
+          readTime="10 min read"
+          isContentRevealed={isContentRevealed}
+          onToggleContent={onToggleContent}
+        >
               {/* Project Overview */}
               <h3
                 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
@@ -215,7 +171,7 @@ export function UAlbertaLibraryContent({
 
               <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
                 <p
-                  className="text-base md:text-[20px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-relaxed"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   The University of Alberta Library website serves as the
@@ -226,7 +182,7 @@ export function UAlbertaLibraryContent({
                   have never used a library website before.
                 </p>
                 <p
-                  className="text-base md:text-[20px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-relaxed"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   The client wanted to understand how well students could
@@ -253,7 +209,7 @@ export function UAlbertaLibraryContent({
               </h3>
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The study was structured around four goals:
@@ -287,11 +243,11 @@ export function UAlbertaLibraryContent({
                       }}
                     />
                     <div>
-                      <div className="text-base md:text-[20px] font-semibold leading-relaxed text-text-color90">
+                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-color70">
                         {obj.title}
                       </div>
                       <p
-                        className="text-base md:text-[20px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                        className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
                         style={{ color: 'rgb(var(--color-text-tertiary))' }}
                       >
                         {obj.body}
@@ -321,7 +277,7 @@ export function UAlbertaLibraryContent({
 
               <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
                 <p
-                  className="text-base md:text-[20px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-relaxed"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   We conducted{' '}
@@ -406,7 +362,7 @@ export function UAlbertaLibraryContent({
                 className="mb-8 md:mb-12 space-y-3"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
-                <p className="text-base md:text-[20px] font-normal leading-relaxed">
+                <p className="text-base md:text-[18px] font-normal leading-relaxed">
                   The homepage search bar and navigation were appreciated by
                   participants as clear and useful. However, the content below
                   the hero section felt disconnected from everyday student
@@ -414,7 +370,7 @@ export function UAlbertaLibraryContent({
                   found what they needed in the first viewport and stopped
                   there.
                 </p>
-                <p className="text-base md:text-[20px] font-normal leading-relaxed">
+                <p className="text-base md:text-[18px] font-normal leading-relaxed">
                   The &ldquo;Did You Know&rdquo; and featured content sections
                   skewed toward research-heavy users rather than addressing the
                   full range of student use cases like booking study rooms or
@@ -500,7 +456,7 @@ export function UAlbertaLibraryContent({
               />
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 Students naturally turned to the Hours &amp; Locations page
@@ -628,7 +584,7 @@ export function UAlbertaLibraryContent({
               />
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 Navigating to a specific subject guide required multiple steps
@@ -717,7 +673,7 @@ export function UAlbertaLibraryContent({
               />
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The All Services page worked reasonably well for users who
@@ -798,7 +754,7 @@ export function UAlbertaLibraryContent({
               />
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed mb-6"
+                className="text-base md:text-[18px] font-normal leading-relaxed mb-6"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The University of Alberta Library website effectively surfaces
@@ -809,7 +765,7 @@ export function UAlbertaLibraryContent({
               </p>
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed"
+                className="text-base md:text-[18px] font-normal leading-relaxed"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The four recommendations — making the homepage more useful
@@ -820,9 +776,7 @@ export function UAlbertaLibraryContent({
                 know what they are looking for. Each change reduces that
                 requirement.
               </p>
-            </m.div>
-          )}
-        </AnimatePresence>
+        </CaseStudyReadMore>
       </div>
     </m.section>
   )

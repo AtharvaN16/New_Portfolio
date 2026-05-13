@@ -46,9 +46,10 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
               src={caseStudy.imageUrl}
               alt={`${caseStudy.title} hero`}
               fill
-              className="object-cover"
+              className="object-cover [filter:contrast(1.05)]"
               sizes="100vw"
               priority
+              quality={95}
             />
           </m.div>
         )}

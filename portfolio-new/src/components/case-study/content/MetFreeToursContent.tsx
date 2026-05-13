@@ -1,7 +1,8 @@
 'use client'
 
-import { m, AnimatePresence } from 'framer-motion'
+import { m } from 'framer-motion'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 
 interface MetFreeToursContentProps {
   isContentRevealed: boolean
@@ -97,23 +98,23 @@ export function MetFreeToursContent({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.8 }}
     >
-      <div className="max-w-[940px] mx-auto text-left">
+      <div className="max-w-[1044px] mx-auto text-left">
         {/* Abstract */}
         <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
           Abstract
         </h3>
 
         <div className="space-y-6 md:space-y-8">
-          <p className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
-            The Metropolitan Museum of Art offers free guided tours daily — but
+          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+            The Metropolitan Museum of Art offers free guided tours daily, but
             half the participants in this study didn&apos;t know they existed.
             This case study evaluates the usability of The Met&apos;s Free Tours
             page, identifying why visitors miss this offering and what it takes
             to make it discoverable, comprehensible, and actionable.
           </p>
-          <p className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
             Through unmoderated remote user testing with 12 participants, the
-            study exposed six usability problems — from broken filters and a
+            study exposed six usability problems, from broken filters and a
             misleading breadcrumb to the absence of any booking closure. Two
             focused redesigns were proposed: a restructured Free Tours landing
             page and a richer tour details page that removes ambiguity and
@@ -121,83 +122,11 @@ export function MetFreeToursContent({
           </p>
         </div>
 
-        {/* My Role */}
-        <div className="mt-12 md:mt-16">
-          <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
-            My Role
-          </h3>
-          <p className="text-base md:text-[20px] font-medium text-text-color90 leading-relaxed mb-4">
-            As part of a four-person research team for INFO-644-02: Usability
-            Theory &amp; Practice, I contributed to:
-          </p>
-          <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-2">
-            {[
-              'Designing research goals, tasks, and screener for unmoderated testing',
-              'Recruiting and coordinating participants via Userlytics',
-              'Analyzing task completion data and behavioral patterns across 12 sessions',
-              'Synthesizing six usability problems from test recordings and difficulty ratings',
-              'Developing and presenting redesign recommendations for both the landing and detail pages',
-            ].map((item) => (
-              <li
-                key={item}
-                className="text-base md:text-[20px] font-normal text-text-color90 leading-relaxed"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Read Full Case Study Button */}
-        <div className="mt-[100px] flex flex-col items-center gap-2">
-          <span
-            className="text-sm font-normal"
-            style={{ color: 'rgb(var(--color-text-tertiary))' }}
-          >
-            8 min read
-          </span>
-          <button
-            onClick={onToggleContent}
-            className="group inline-flex items-center gap-2 text-base md:text-[20px] font-normal text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
-          >
-            <span className="relative inline-block">
-              {isContentRevealed ? 'Hide case study' : 'Read full case study'}
-              <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full" />
-            </span>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              className="w-4 h-4 transition-transform duration-200"
-              style={{
-                transform: isContentRevealed
-                  ? 'rotate(180deg)'
-                  : 'rotate(0deg)',
-              }}
-              aria-hidden="true"
-            >
-              <path
-                d="M4 6L8 10L12 6"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-
-        {/* Full Case Study Content */}
-        <AnimatePresence initial={false}>
-          {isContentRevealed && (
-            <m.div
-              className="mt-[160px] md:mt-[224px] lg:mt-[288px]"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
+        <CaseStudyReadMore
+          readTime="8 min read"
+          isContentRevealed={isContentRevealed}
+          onToggleContent={onToggleContent}
+        >
               {/* Project Overview */}
               <h3
                 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
@@ -216,7 +145,7 @@ export function MetFreeToursContent({
 
               <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
                 <p
-                  className="text-base md:text-[20px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-relaxed"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   The Metropolitan Museum of Art — one of the world&apos;s
@@ -228,7 +157,7 @@ export function MetFreeToursContent({
                   on.
                 </p>
                 <p
-                  className="text-base md:text-[20px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-relaxed"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   The research question was straightforward: is The Met&apos;s
@@ -255,7 +184,7 @@ export function MetFreeToursContent({
               </h3>
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The study was structured around five questions:
@@ -292,11 +221,11 @@ export function MetFreeToursContent({
                       }}
                     />
                     <div>
-                      <div className="text-base md:text-[20px] font-semibold leading-relaxed text-text-color90">
+                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-color70">
                         {obj.title}
                       </div>
                       <p
-                        className="text-base md:text-[20px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                        className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
                         style={{ color: 'rgb(var(--color-text-tertiary))' }}
                       >
                         {obj.body}
@@ -326,7 +255,7 @@ export function MetFreeToursContent({
 
               <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
                 <p
-                  className="text-base md:text-[20px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-relaxed"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   We chose{' '}
@@ -343,7 +272,7 @@ export function MetFreeToursContent({
                   were accepted.
                 </p>
                 <p
-                  className="text-base md:text-[20px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-relaxed"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   We rated task difficulty on a 1–7 scale. Tasks 3 and 4 —
@@ -435,7 +364,7 @@ export function MetFreeToursContent({
                 className="mb-8 md:mb-12 space-y-4"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
-                <p className="text-base md:text-[20px] font-normal leading-relaxed">
+                <p className="text-base md:text-[18px] font-normal leading-relaxed">
                   When tasked with finding guided tour information, 6 of 12
                   participants navigated to{' '}
                   <span className="font-bold">Plan Your Visit</span> — a page
@@ -443,7 +372,7 @@ export function MetFreeToursContent({
                   clear mental model: museum-goers think of tours as part of
                   planning a visit, not as a separate events-adjacent section.
                 </p>
-                <p className="text-base md:text-[20px] font-normal leading-relaxed">
+                <p className="text-base md:text-[18px] font-normal leading-relaxed">
                   Only 3 of those 6 found their way out. The other half had to
                   be redirected. The issue wasn&apos;t a label — it was
                   taxonomy. Free Tours lives in the wrong part of the site for
@@ -515,7 +444,7 @@ export function MetFreeToursContent({
               />
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 Tours were arranged chronologically in a long vertical list with
@@ -603,7 +532,7 @@ export function MetFreeToursContent({
               />
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 All 12 participants used filters when searching for a specific
@@ -637,11 +566,11 @@ export function MetFreeToursContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <div>
-                      <div className="text-base md:text-[20px] font-semibold leading-relaxed text-text-color90">
+                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-color70">
                         {obj.title}
                       </div>
                       <p
-                        className="text-base md:text-[20px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                        className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
                         style={{ color: 'rgb(var(--color-text-tertiary))' }}
                       >
                         {obj.body}
@@ -717,7 +646,7 @@ export function MetFreeToursContent({
               />
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 When opening a tour details page from the listing, the breadcrumb
@@ -791,7 +720,7 @@ export function MetFreeToursContent({
               />
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 Asked to describe what a free tour at The Met entails, most
@@ -866,7 +795,7 @@ export function MetFreeToursContent({
               />
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 Public Collection Tours are first-come, first-served — no
@@ -949,7 +878,7 @@ export function MetFreeToursContent({
               />
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed mb-6"
+                className="text-base md:text-[18px] font-normal leading-relaxed mb-6"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The Met&apos;s free tours aren&apos;t a hidden secret — they&apos;re
@@ -960,7 +889,7 @@ export function MetFreeToursContent({
               </p>
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed mb-6"
+                className="text-base md:text-[18px] font-normal leading-relaxed mb-6"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The two redesigns address each layer: the landing page fixes
@@ -972,7 +901,7 @@ export function MetFreeToursContent({
               </p>
 
               <p
-                className="text-base md:text-[20px] font-normal leading-relaxed"
+                className="text-base md:text-[18px] font-normal leading-relaxed"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 What would be measured next: filter usage rate, Add to Calendar
@@ -981,9 +910,7 @@ export function MetFreeToursContent({
                 first-time visitor who can find, understand, and decide on a
                 tour in under two minutes — without needing to use ctrl+f.
               </p>
-            </m.div>
-          )}
-        </AnimatePresence>
+        </CaseStudyReadMore>
       </div>
     </m.section>
   )

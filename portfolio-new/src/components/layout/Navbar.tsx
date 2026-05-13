@@ -70,11 +70,12 @@ export function Navbar() {
                     delay: 0.1 + index * 0.1,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="relative flex flex-col items-center"
+                  className="relative"
                 >
                   <HoverLink
                 href={link.href}
                 prefetch={link.prefetch}
+                comingSoon={link.href === '/writings' || link.href === '/about'}
                 onMouseEnter={link.href === '/explorations' ? () => {
                   window.dispatchEvent(new CustomEvent('explorationsdialog:preload'))
                 } : undefined}
