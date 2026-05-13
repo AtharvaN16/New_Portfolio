@@ -1,59 +1,70 @@
-# Project: Atharva Nayak's Portfolio
+# Atharva Nayak's Portfolio - Project Context
 
-## Project Overview
+This document serves as the primary instructional context for Gemini CLI when working on Atharva Nayak's personal portfolio.
 
-This directory contains the source code and related assets for Atharva Nayak's personal portfolio website. The main project is a modern, performant, and accessible website built with Next.js 15, React 19, and TypeScript. The project is well-structured, with a focus on code quality, performance, and accessibility.
+## 🚀 Project Overview
 
-The portfolio also includes a directory of "Old portfolio components", which contains a WebGL-based hero section from a previous version of the site. This component has been archived due to performance and maintainability concerns.
+A modern, high-performance, and accessible personal portfolio website built with Next.js 15 (App Router), React 19, and TypeScript. 
 
-## Building and Running
+**Structure Update**: The project has been flattened. The application code now lives in the **root directory** (no longer in `portfolio-new/`).
 
-The main project is located in the `portfolio-new` directory. To build and run the project, follow these steps:
+## 🛠 Official Deployment Workflow
 
-1.  **Navigate to the project directory:**
-    ```bash
-    cd portfolio-new
-    ```
+To ensure a stable production environment, we follow this branch-based strategy:
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
+1.  **Develop in `dev` branch**: All new features and bug fixes happen here.
+2.  **Verify & Sync**: Once ready, merge `dev` into `main`.
+3.  **Deploy from `main`**: Pushing to the `main` branch on GitHub automatically triggers a Vercel production deployment.
 
-3.  **Set up environment variables:**
-    ```bash
-    cp .env.example .env.local
-    ```
-    Edit `.env.local` with the required values.
+## 🏗️ Architecture & Conventions
 
-4.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
+### 1. Design Token System
+All styling should derive from design tokens defined in `src/app/globals.css`. Avoid hardcoded values; use Tailwind classes that reference these tokens.
 
-## Development Conventions
+### 2. Component Guidelines
+- **Size Limit**: Components should ideally be under **300 lines**.
+- **Separation of Concerns**:
+  - `src/components/ui`: Low-level, reusable primitive components.
+  - `src/components/layout`: Structural components like Navbar and Footer.
+  - `src/components/case-study`: Components specific to case study rendering.
 
-The project follows a strict set of development conventions, enforced by ESLint, Prettier, and TypeScript.
+### 3. State & Theme
+- Managed via `ThemeProvider` (`data-theme` attribute).
+- `ThemeScript` prevents FOUC in the root layout.
 
-*   **Code Style:** The project uses Prettier for automatic code formatting.
-*   **Linting:** ESLint is used to enforce code quality and catch potential errors.
-*   **Typing:** The project is written in TypeScript and uses strict mode for type safety.
-*   **Testing:** The project uses Vitest and Testing Library for unit and integration tests.
+### 4. Animations Strategy
+- **Smooth Scroll**: Powered by `Lenis`.
+- **GSAP**: Used for complex timeline-based and looping data animations.
+- **Framer Motion**: Used for declarative UI transitions.
 
-## Directory Overview
+## 🛠️ Building and Running (Using Bun)
 
-*   `portfolio-new/`: The main Next.js project directory.
-    *   `src/`: The source code for the portfolio website.
-    *   `tests/`: Unit and integration tests.
-    *   `public/`: Static assets like images and videos.
-*   `Old portfolio components/`: Contains a WebGL-based hero section from a previous version of the portfolio.
-*   `satoshi/`: Contains the Satoshi font files used in the project.
-*   `Documentation/`: Contains project-related documentation.
-*   `Swaddle/`: This directory appears to contain a large number of HTML files, possibly scraped from a website. I was unable to access this directory during my analysis.
-*   `Icons/`: Contains SVG icons used in the project.
+| Task | Command |
+| :--- | :--- |
+| **Development** | `bun run dev` |
+| **Production Build** | `bun run build` |
+| **Linting** | `bun run lint` |
+| **Type Checking** | `bun run type-check` |
+| **Testing** | `bun run test` |
+| **Full Validation** | `bun run validate` |
 
-## Key Files
+## 🛠 Specialized Skills (Matt Pocock Skills)
 
-*   `portfolio-new/README.md`: The main README file for the portfolio project, containing detailed information about the project's features, tech stack, and setup instructions.
-*   `portfolio-new/package.json`: The `package.json` file, which lists the project's dependencies and scripts.
-*   `Old portfolio components/HOMEBLOBS_COMPONENT_DOCUMENTATION.md`: Detailed documentation for the old WebGL-based hero section.
+This project integrates specialized skills located in `skills/`. Gemini CLI should reference these when performing relevant tasks:
+
+- **TDD**: `skills/engineering/tdd/SKILL.md` (Use for all feature/bugfix implementation).
+- **Diagnose**: `skills/engineering/diagnose/SKILL.md` (Use for debugging).
+- **Caveman**: `skills/productivity/caveman/SKILL.md` (Use for token efficiency).
+
+## 📂 Key Directory Map
+
+- `src/app/`: Routing, global styles, and root layout.
+- `src/components/`: Component library categorized by function.
+- `src/hooks/`: Custom React hooks.
+- `src/lib/`: Utilities, constants, and data definitions.
+- `tests/`: Vitest test suite.
+- `docs/`: In-depth documentation on architecture and decisions.
+
+---
+
+**Note:** This file is a living document. Update it as new architectural decisions are made.
