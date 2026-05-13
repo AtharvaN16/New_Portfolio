@@ -1,6 +1,3 @@
 {
-  "installCommand": "cd portfolio-new && bun install",
-  "buildCommand": "cd portfolio-new && bun run build",
-  "outputDirectory": "portfolio-new/.next",
   "framework": "nextjs"
 }
