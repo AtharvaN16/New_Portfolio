@@ -100,8 +100,8 @@ const quadrantLabels = [
 ] as const
 
 const AXIS = {
-  xTitleY: P.bottom + 20,
-  yTitleX: 44,
+  xTitleY: P.bottom + 35,
+  yTitleX: 25,
 } as const
 
 const BRAND_MARKER_EASE = [0.22, 1, 0.36, 1] as const
@@ -114,12 +114,15 @@ export function AloSearchPositionMap() {
   const hoveredData = hoveredBrand ? brands.find((b) => b.name === hoveredBrand) ?? null : null
 
   return (
-    <div className="w-full overflow-hidden">
+    <div 
+      className="w-full overflow-hidden flex justify-center"
+      style={{ background: 'linear-gradient(180deg, #A8D3FF 0%, #FFF4DF 100%)' }}
+    >
       <svg
         role="img"
         aria-label="Competitive position map for Alo Yoga search visibility"
         viewBox="0 0 820 500"
-        className="h-auto w-full"
+        className="h-auto w-full max-w-5xl block"
       >
         <defs>
           {/* Four corner radials layered on one plot rect — avoids left/right rectangular "halves". */}
@@ -169,7 +172,7 @@ export function AloSearchPositionMap() {
           </radialGradient>
         </defs>
 
-        <rect width="820" height="500" fill={C.base} />
+        <rect x={P.left} y={P.top} width={plotW} height={plotH} fill={C.base} />
         <rect x={P.left} y={P.top} width={plotW} height={plotH} fill="url(#aloMap-r-tr)" />
         <rect x={P.left} y={P.top} width={plotW} height={plotH} fill="url(#aloMap-r-bl)" />
         <rect x={P.left} y={P.top} width={plotW} height={plotH} fill="url(#aloMap-r-br)" />
@@ -209,7 +212,7 @@ export function AloSearchPositionMap() {
           x={(P.left + P.right) / 2}
           y={AXIS.xTitleY}
           textAnchor="middle"
-          fill={C.axisTitle}
+          fill="rgba(0, 0, 0, 0.8)"
           style={{ fontSize: 13, fontWeight: 600 }}
         >
           Sport breadth (Yoga-only → Multi-sport)
@@ -220,7 +223,7 @@ export function AloSearchPositionMap() {
           y={midY}
           textAnchor="middle"
           transform={`rotate(-90 ${AXIS.yTitleX} ${midY})`}
-          fill={C.axisTitle}
+          fill="rgba(0, 0, 0, 0.8)"
           style={{ fontSize: 13, fontWeight: 600 }}
         >
           Audience gender balance

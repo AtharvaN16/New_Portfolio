@@ -43,16 +43,30 @@ export function AloDashboardSection() {
         className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
-        Deliverable — Web Performance Dashboard
+        Web Performance Dashboard
       </h3>
 
-      <AnimatedTitle
-        text="We built a dashboard to track what would matter going forward"
-        animationType="fadeIn"
-        alwaysAnimate={false}
-        delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
-      />
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
+        <AnimatedTitle
+          text="We built a dashboard to track what would matter going forward"
+          animationType="fadeIn"
+          alwaysAnimate={false}
+          delay={0}
+          className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] max-w-[600px]"
+        />
+
+        <a
+          href="https://alo-dashboard-iyhcja0ii-anayak-2220s-projects.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex shrink-0 items-center justify-center gap-2 text-sm font-bold uppercase tracking-widest border px-6 py-4 transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-900 border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-100"
+        >
+          View Live Dashboard
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 12L12 4M12 4H5.5M12 4V10.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </a>
+      </div>
 
       <p
         className="text-base md:text-[18px] font-normal leading-relaxed mb-10 max-w-[680px]"
@@ -66,65 +80,22 @@ export function AloDashboardSection() {
 
       {/* Dashboard overview video */}
       <div
-        className="mb-3 p-8 md:p-16"
-        style={{ backgroundColor: 'rgb(var(--color-surface-elevated))' }}
+        className="mb-3 p-8 md:p-12 lg:p-16 flex justify-center"
+        style={{ background: 'linear-gradient(180deg, #A8D3FF 0%, #FFF4DF 100%)' }}
       >
-        <CaseStudyVideo
-          src="/videos/case-studies/alo-yoga-digital-analytics/dashboard-overview.mp4"
-          alt="Alo Analytics Dashboard overview walkthrough"
-        />
+        <div className="w-full max-w-5xl shadow-2xl rounded-xl overflow-hidden">
+          <CaseStudyVideo
+            src="/videos/case-studies/alo-yoga-digital-analytics/dashboard-overview.mp4"
+            alt="Alo Analytics Dashboard overview walkthrough"
+          />
+        </div>
       </div>
       <p
         className="text-sm mb-12 md:mb-16"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
-        Alo Analytics Dashboard — Overview. 4.3M organic sessions (30D), 3.84% conversion rate,
-        412K total backlinks. Mock data, refreshed May 2026.
+        Alo Analytics Dashboard with mock data
       </p>
-
-      {/* Three category cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-        {categories.map(({ number, name, question, items }) => (
-          <div
-            key={name}
-            className="p-6 md:p-7 rounded-2xl flex flex-col gap-5"
-            style={{ backgroundColor: 'rgb(var(--color-surface-elevated))' }}
-          >
-            <div>
-              <p
-                className="text-3xl font-bold tracking-[-0.05em] mb-1 leading-none"
-                style={{ color: 'rgb(var(--color-text-color30))' }}
-              >
-                {number}
-              </p>
-              <h4 className="text-lg font-bold text-text-primary mb-1">
-                {name}
-              </h4>
-              <p
-                className="text-sm font-medium"
-                style={{ color: 'rgb(var(--color-text-secondary))' }}
-              >
-                {question}
-              </p>
-            </div>
-            <ul className="space-y-2 mt-auto">
-              {items.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-3 text-sm"
-                  style={{ color: 'rgb(var(--color-text-color90))' }}
-                >
-                  <span
-                    className="mt-1.5 h-1.5 w-1.5 rounded-full shrink-0"
-                    style={{ backgroundColor: 'rgb(var(--color-text-color30))' }}
-                  />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
     </div>
   )
 }
