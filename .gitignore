@@ -54,4 +54,10 @@ yarn-error.log*
 next-env.d.ts
 *.zip
 Inspiration/
-Accessibility Final Presentation copy.pdf
+
+# Local reference assets (not for git or deploy)
+Digital_Accessibility_Casestudy_Reference/
+user provided assets/
+.superdesign/
+**/Accessibility Final Presentation copy.pdf
+*.pptx
