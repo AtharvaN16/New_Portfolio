@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { CaseStudyContentRenderer } from '@/components/case-study/CaseStudyContentRenderer'
-import { IndexabilityWall } from '@/components/case-study/content/IndexabilityWall'
+import { AloSearchForbidden } from '@/components/case-study/content/alo-yoga/AloSearchForbidden'
 import { PlatformRoleGrid } from '@/components/case-study/content/PlatformRoleGrid'
 import { AloCompetitiveSection } from '@/components/case-study/content/alo-yoga/AloCompetitiveSection'
 import { AloSEOSection } from '@/components/case-study/content/alo-yoga/AloSEOSection'
@@ -22,19 +22,13 @@ describe('Alo case study responsive and theme tokens', () => {
     expect(screen.getAllByText('Proposed role')[0]).toHaveClass('sm:hidden')
   })
 
-  it('uses theme tokens for the indexability illustration shell and svg colors', () => {
-    const { container } = render(<IndexabilityWall />)
+  it('renders the search-to-forbidden illustration shell with correct base classes', () => {
+    const { container } = render(<AloSearchForbidden />)
     const shell = container.firstElementChild
-    const wall = container.querySelector('line')
-    const bot = container.querySelector('circle')
-    const label = screen.getByText('G')
-    const error = screen.getByText('403')
 
-    expect(shell).toHaveClass('bg-surface-elevated', 'border-border')
-    expect(wall).toHaveAttribute('stroke', 'rgb(var(--color-alo-data-accent))')
-    expect(bot).toHaveAttribute('fill', 'rgb(var(--color-alo-data-accent))')
-    expect(label).toHaveAttribute('fill', 'rgb(var(--color-background))')
-    expect(error).toHaveAttribute('fill', 'rgb(var(--color-error))')
+    expect(shell).toHaveClass('bg-white', 'shadow-2xl', 'border-neutral-200')
+    expect(screen.getByText('G')).toBeInTheDocument()
+    expect(screen.getByText('o')).toBeTruthy()
   })
 
   it('uses token-backed colors for competitive comparison surfaces and trends', () => {

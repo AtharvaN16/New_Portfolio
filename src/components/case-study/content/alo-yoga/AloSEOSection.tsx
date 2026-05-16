@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
-import { IndexabilityWall } from '../IndexabilityWall'
+import { AloSearchForbidden } from './AloSearchForbidden'
 import { AloKeywordInsights } from './AloKeywordInsights'
 import { AloSearchPositionMap } from './AloSearchPositionMap'
 import { AloKeywordRecommendations } from './AloKeywordRecommendations'
@@ -51,16 +51,20 @@ export function AloSEOSection() {
       {/* Primary CTA to expand details */}
       <div className="mt-12 mb-16 flex justify-center md:justify-start">
         <button
+          type="button"
           onClick={() => setIsKeywordStrategyOpen(!isKeywordStrategyOpen)}
-          className="group flex items-center justify-center gap-3 px-8 py-4 border border-neutral-200 dark:border-neutral-800 text-text-primary font-bold uppercase tracking-widest text-sm transition-all duration-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 min-w-[280px]"
+          className="group grid w-full max-w-[min(100%,20rem)] grid-cols-[1fr_auto] items-center gap-2 border border-neutral-200 px-5 py-4 text-center text-sm font-bold uppercase tracking-widest text-text-primary transition-all duration-300 hover:bg-neutral-50 dark:border-neutral-800 dark:hover:bg-neutral-900 sm:w-[20rem] sm:max-w-[20rem]"
         >
-          <span>{isKeywordStrategyOpen ? 'Close Strategy Details' : 'Expand to Read in Detail'}</span>
+          <span className="min-w-0 text-center leading-snug">
+            {isKeywordStrategyOpen ? 'Close Strategy Details' : 'Expand to Read in Detail'}
+          </span>
           <svg
             width="16"
             height="16"
             viewBox="0 0 16 16"
             fill="none"
-            className="transition-transform duration-300"
+            aria-hidden
+            className="shrink-0 transition-transform duration-300"
             style={{ transform: isKeywordStrategyOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
           >
             <path
@@ -100,7 +104,7 @@ export function AloSEOSection() {
         className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
-        Finding 2 — Technical SEO
+        Technical SEO
       </h3>
 
       <AnimatedTitle
@@ -111,24 +115,14 @@ export function AloSEOSection() {
         className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
       />
 
+      {/* IndexabilityWall visual first */}
+      <AloSearchForbidden />
       <p
-        className="text-base md:text-[18px] font-normal leading-relaxed mb-10 max-w-[680px]"
+        className="text-base md:text-[18px] font-normal leading-relaxed mb-10 md:mb-12 max-w-[680px]"
         style={{ color: 'rgb(var(--color-text-color90))' }}
       >
-        We crawled aloyoga.com using Screaming Frog and ran a full technical and on-page audit.
-        Before any keyword strategy can work, these underlying issues need to be resolved —
-        Google can&apos;t rank pages it can&apos;t crawl.
-      </p>
-
-      {/* IndexabilityWall visual first */}
-      <div className="mb-4 flex justify-center md:justify-start">
-        <IndexabilityWall />
-      </div>
-      <p
-        className="text-sm mb-10 md:mb-12"
-        style={{ color: 'rgb(var(--color-text-tertiary))' }}
-      >
-        Out of 392 URLs crawled, 143 were non-indexable — blocked from appearing in search results.
+        &ldquo;Indexable&rdquo; pages are those that Google can successfully crawl and include in its search results.
+        &ldquo;Non-indexable&rdquo; pages are those that search engines are instructed to ignore or those that fail to load correctly.
       </p>
 
       {/* Stats grid */}

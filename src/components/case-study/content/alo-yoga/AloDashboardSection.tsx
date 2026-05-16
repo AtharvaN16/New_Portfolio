@@ -66,7 +66,7 @@ export function AloDashboardSection() {
 
       {/* Dashboard overview video */}
       <div
-        className="mb-3 p-4 md:p-8"
+        className="mb-3 p-8 md:p-16"
         style={{ backgroundColor: 'rgb(var(--color-surface-elevated))' }}
       >
         <CaseStudyVideo
