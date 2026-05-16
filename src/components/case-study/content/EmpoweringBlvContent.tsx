@@ -126,10 +126,149 @@ export function EmpoweringBlvContent({
                  animationType="fadeIn"
                  className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
                />
-               <p className="text-base md:text-[18px] text-text-color90 leading-relaxed mb-8">
+               <p className="text-base md:text-[18px] text-text-color90 leading-relaxed mb-12">
                  We analyzed audio descriptions from institutions like Tate Modern, MoMA, and the Guggenheim. 
-                 The results revealed structural mechanisms—Ordering, Certainty, and Omission—that resolve interpretation before the visitor even arrives.
+                 The results revealed three structural mechanisms that "fix" meaning before the visitor arrives:
                </p>
+               
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                 {[
+                   {
+                     title: '01. Ordering',
+                     desc: 'Interpretive claims (e.g., "a joyous circle") precede perceptual details, telling visitors what to feel before they know what they are seeing.'
+                   },
+                   {
+                     title: '02. Certainty',
+                     desc: 'Using words like "represents" or "depicts" to present a single curated meaning as fact, rather than one of many possibilities.'
+                   },
+                   {
+                     title: '03. Omission',
+                     desc: 'Leaving out the specific perceptual grounding (scale, texture, spatial arrangement) needed for visitors to form their own readings.'
+                   }
+                 ].map((item) => (
+                   <div key={item.title} className="p-6 rounded-xl border border-text-color10 bg-text-color5/5">
+                     <h4 className="text-lg font-bold text-text-primary mb-3">{item.title}</h4>
+                     <p className="text-sm text-text-color70 leading-relaxed">{item.desc}</p>
+                   </div>
+                 ))}
+               </div>
+             </div>
+
+             {/* The Solution */}
+             <div>
+               <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+                 The Solution
+               </h3>
+               <AnimatedTitle
+                 text="Negotiable Interpretation"
+                 animationType="fadeIn"
+                 className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
+               />
+               <div className="space-y-8">
+                 <p className="text-base md:text-[18px] text-text-color90 leading-relaxed">
+                   Instead of a static recording, we proposed a **Conversational Interface** that allows for 
+                   turn-by-turn negotiation. In this paradigm, accessibility is not just access to *content*, 
+                   but access to the *process* of interpretation.
+                 </p>
+                 
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mt-12">
+                   <div className="space-y-4">
+                     <h4 className="text-xl font-bold text-text-primary">Positioning</h4>
+                     <p className="text-text-color70 leading-relaxed italic">
+                       "Just tell me what’s there."
+                     </p>
+                     <p className="text-text-color70 leading-relaxed">
+                       The visitor begins by declaring an interpretive stance. The system responds with perceptual detail only—color, layout, material—leaving affect and symbolism out unless requested.
+                     </p>
+                   </div>
+                   <div className="space-y-4">
+                     <h4 className="text-xl font-bold text-text-primary">Reframing</h4>
+                     <p className="text-text-color70 leading-relaxed italic">
+                       "For me, this almost feels threatening."
+                     </p>
+                     <p className="text-text-color70 leading-relaxed">
+                       When a visitor pushes back on a framing, the system follows rather than corrects. It treats their interpretation as input to the encounter, not as a deviation from a canonical account.
+                     </p>
+                   </div>
+                 </div>
+               </div>
+             </div>
+
+             {/* The Design Probe */}
+             <div>
+               <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+                 The Design Probe
+               </h3>
+               <AnimatedTitle
+                 text="The Four Stances"
+                 animationType="fadeIn"
+                 className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
+               />
+               <div className="space-y-12">
+                 <p className="text-base md:text-[18px] text-text-color90 leading-relaxed">
+                   To operationalize this, we designed a conversational probe where visitors can select from four 
+                   distinct "stances" to frame their encounter:
+                 </p>
+                 
+                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                   {[
+                     { label: 'Technical', icon: '⚙️', desc: 'Focus on dimensions, materials, and composition.' },
+                     { label: 'Emotional', icon: '❤️', desc: 'Focus on affect, mood, and subjective response.' },
+                     { label: 'Contextual', icon: '🏛️', desc: 'Focus on historical background and curation.' },
+                     { label: 'Musical', icon: '🎵', desc: 'Translating visual rhythm into auditory patterns.' }
+                   ].map((stance) => (
+                     <div key={stance.label} className="flex flex-col items-center text-center p-6 border border-text-color10 rounded-2xl hover:border-primary/50 transition-colors">
+                       <span className="text-3xl mb-4">{stance.icon}</span>
+                       <h5 className="font-bold text-text-primary mb-2">{stance.label}</h5>
+                       <p className="text-xs text-text-color60">{stance.desc}</p>
+                     </div>
+                   ))}
+                 </div>
+
+                 <div className="bg-primary/5 p-8 rounded-3xl border border-primary/20">
+                    <h4 className="text-lg font-bold text-text-primary mb-4">Why this matters</h4>
+                    <p className="text-text-color70 leading-relaxed">
+                      By making the "frame" explicit, the system reveals curatorial authority as authority rather than 
+                      as invisible fact. This transparency is itself an equity intervention, opening the artistic 
+                      encounter to genuine participation from the BLV community.
+                    </p>
+                 </div>
+               </div>
+             </div>
+
+             {/* Reflection */}
+             <div className="py-16 md:py-24 border-t border-text-color10">
+               <h3 className="text-sm md:text-[16px] font-bold uppercase mb-8" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+                 Conclusion & Reflection
+               </h3>
+
+               <div className="max-w-[760px] space-y-8">
+                 <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+                   Working on this project shifted my understanding of what "accessibility" truly means. 
+                   It is not enough to simply provide a verbal description of an image; true accessibility 
+                   requires redistributing the power to create meaning. 
+                 </p>
+                 <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+                   Individually, this project challenged me to think beyond UI components and into the 
+                   ethics of interpretation. Analyzing the institutional descriptions of museums I had 
+                   visited myself was a humbling experience—it forced me to recognize the "invisible" 
+                   authority I had taken for granted as a sighted visitor. If I were to continue this 
+                   work, I would focus on scaling the "Musical" stance, exploring how cross-modal 
+                   translation can provide even richer pathways for autonomous exploration.
+                 </p>
+               </div>
+
+               <div className="mt-32 md:mt-48 pt-16 md:pt-24 border-t border-text-color10">
+                 <h3 className="text-3xl md:text-[48px] font-bold uppercase tracking-[-0.02em] mb-6 md:mb-8 text-primary">
+                   References
+                 </h3>
+                 <div className="space-y-4 text-sm text-text-color60 leading-relaxed font-mono">
+                    <p>Candlin, F. (2003). Blindness, art and exclusion in museums and galleries. International Journal of Art and Design, 22(1), 100–110.</p>
+                    <p>Eardley, A. F., Thompson, H., Fineman, A., Hutchinson, R., Bywood, L., & Cock, M. (2022). Devisualizing the museum: From access to inclusion. Journal of Museum Education, 47(2), 150–165.</p>
+                    <p>Li, F. M., Zhang, L., Bandukda, M., Stangl, A., Shinohara, K., Findlater, L., & Carrington, P. (2023). Understanding Visual Arts Experiences of Blind People. In Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems (CHI ’23).</p>
+                    <p>Stangl, A., Verma, N., Fleischmann, K. R., Morris, M. R., & Gurari, D. (2021). Going Beyond One-Size-Fits-All Image Descriptions. In Proceedings of the 23rd International ACM SIGACCESS Conference on Computers and Accessibility (ASSETS ’21).</p>
+                 </div>
+               </div>
              </div>
           </div>
         </CaseStudyReadMore>
