@@ -44,6 +44,7 @@ const filterTitleMap: Record<string, string> = {
   'Digital Analytics': 'Digital Analytics',
   Ethnography: 'Ethnography',
   'Information Architecture': 'Information Architecture',
+  'Digital Accessibility': 'Digital Accessibility',
 }
 
 /**
@@ -154,6 +155,7 @@ export function WorkFilter({
       { tag: 'Digital Analytics', count: tagCounts.get('Digital Analytics') || 0 },
       { tag: 'Ethnography', count: tagCounts.get('Ethnography') || 0 },
       { tag: 'Information Architecture', count: tagCounts.get('Information Architecture') || 0 },
+      { tag: 'Digital Accessibility', count: tagCounts.get('Digital Accessibility') || 0 },
     ]
   }, [projects])
 
