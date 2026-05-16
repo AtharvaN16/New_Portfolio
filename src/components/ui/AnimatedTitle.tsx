@@ -10,6 +10,8 @@ interface AnimatedTitleProps {
   text: string
   /** The type of animation to apply. */
   animationType?: 'fadeInUp' | 'fadeIn'
+  /** The maximum width variant to apply. */
+  variant?: 'default' | 'narrow' | 'wide' | 'full'
   /** Whether to always animate on mount (true) or wait for scroll into view (false). Default: false. */
   alwaysAnimate?: boolean
   /** Additional className for the h1 element. */
@@ -36,6 +38,7 @@ interface AnimatedTitleProps {
 export function AnimatedTitle({
   text,
   animationType = 'fadeInUp',
+  variant = 'default',
   alwaysAnimate = false,
   className,
   delay = 0,
@@ -46,6 +49,13 @@ export function AnimatedTitle({
 }: AnimatedTitleProps) {
   const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
   const shouldPause = prefersReducedMotion || pauseWebGL
+
+  const variantStyles = {
+    default: 'max-w-[700px]',
+    narrow: 'max-w-[500px]',
+    wide: 'max-w-[1000px]',
+    full: 'max-w-none'
+  }
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -123,6 +133,7 @@ export function AnimatedTitle({
           })}
       className={cn(
         'font-bold leading-tight tracking-tight text-foreground',
+        variantStyles[variant],
         className
       )}
     >
@@ -170,7 +181,9 @@ export function AnimatedTitle({
                   >
                     {word}
                   </m.span>
-                  {wordIndex < words.length - 1 && ' ' /* Add a regular space */}
+                  {wordIndex < words.length - 1 && (
+                    wordIndex === words.length - 2 ? '\u00A0' : ' '
+                  )}
                 </Fragment>
               )
             })}

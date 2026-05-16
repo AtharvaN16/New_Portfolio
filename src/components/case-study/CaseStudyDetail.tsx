@@ -42,6 +42,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
 
   return (
     <div
+      id="case-study-scroll-container"
       ref={containerRef}
       className="min-h-dvh bg-background text-text-primary overflow-y-auto h-dvh"
       style={{

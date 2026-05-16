@@ -1,0 +1,9 @@
+# Local reference and design artifacts — keep out of production bundles
+Digital_Accessibility_Casestudy_Reference
+user provided assets
+.superdesign
+docs/superpowers
+
+# Large media patterns (site uses optimized copies under public/)
+*.pptx
+**/Accessibility Final Presentation copy.pdf
