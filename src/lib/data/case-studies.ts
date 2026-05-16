@@ -225,6 +225,7 @@ export const caseStudies: CaseStudy[] = [
       'A research-based case study on returning interpretive authority to blind and low-vision patrons through conversational UI.',
     tags: ['Digital Accessibility', 'UX Research', 'Conversational UI'],
     imageBg: '#FF8C00', // Orange accent
+    imageUrl: '/images/case-studies/blv-museum-accessibility/hero.png',
     featured: true,
     category: 'digital-accessibility',
     team: ['Atharva Nayak', 'Arnav Sharma', 'Nisheta Gupta'],
