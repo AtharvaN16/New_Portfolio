@@ -105,8 +105,8 @@ export function AloRecommendationsSection() {
             className="flex items-start gap-6 py-5"
           >
             <span
-              className="text-lg md:text-[20px] font-mono shrink-0"
-              style={{ color: 'rgb(var(--color-text-color30))' }}
+              className="text-lg md:text-[20px] font-bold shrink-0"
+              style={{ color: 'rgb(var(--color-alo-progress))' }}
             >
               {number}
             </span>
@@ -119,8 +119,6 @@ export function AloRecommendationsSection() {
           </div>
         ))}
       </div>
-
-
     </div>
   )
 }

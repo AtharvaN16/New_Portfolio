@@ -20,6 +20,10 @@ interface AnimatedTitleProps {
   stagger?: number
   /** Duration of the animation per word (in seconds). */
   duration?: number
+  /** Words to highlight with a specific color. */
+  highlightWords?: string[]
+  /** Color for highlighted words. */
+  highlightColor?: string
 }
 
 /**
@@ -37,6 +41,8 @@ export function AnimatedTitle({
   delay = 0,
   stagger = 0.08,
   duration,
+  highlightWords,
+  highlightColor,
 }: AnimatedTitleProps) {
   const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
   const shouldPause = prefersReducedMotion || pauseWebGL
@@ -120,24 +126,63 @@ export function AnimatedTitle({
         className
       )}
     >
-      {lines.map((line, lineIndex) => (
-        <Fragment key={lineIndex}>
-          {line.split(' ').map((word, wordIndex, array) => (
-            <Fragment key={wordIndex}>
-              <m.span variants={wordVariants} className="inline-block">
-                {word}
-              </m.span>
-              {wordIndex < array.length - 1 && ' ' /* Add a regular space */}
-            </Fragment>
-          ))}
-          {lineIndex < lines.length - 1 && (
-            <>
-              <br className="md:hidden" />
-              <span className="hidden md:inline"> </span>
-            </>
-          )}
-        </Fragment>
-      ))}
+      {lines.map((line, lineIndex) => {
+        const words = line.split(' ')
+        
+        // Find ranges of highlighted words in this line
+        const highlightedRanges: { start: number; end: number }[] = []
+        
+        highlightWords?.forEach(phrase => {
+          const phraseWords = phrase.split(' ')
+          const phraseLen = phraseWords.length
+          
+          for (let i = 0; i <= words.length - phraseLen; i++) {
+            let match = true
+            for (let j = 0; j < phraseLen; j++) {
+              const wordClean = words[i + j].toLowerCase().replace(/[.,!?;:"]/g, '')
+              const phraseWordClean = phraseWords[j].toLowerCase().replace(/[.,!?;:"]/g, '')
+              
+              if (wordClean !== phraseWordClean) {
+                match = false
+                break
+              }
+            }
+            
+            if (match) {
+              highlightedRanges.push({ start: i, end: i + phraseLen - 1 })
+            }
+          }
+        })
+
+        return (
+          <Fragment key={lineIndex}>
+            {words.map((word, wordIndex) => {
+              const isHighlighted = highlightedRanges.some(
+                range => wordIndex >= range.start && wordIndex <= range.end
+              )
+              
+              return (
+                <Fragment key={wordIndex}>
+                  <m.span 
+                    variants={wordVariants} 
+                    className="inline-block"
+                    style={isHighlighted && highlightColor ? { color: highlightColor } : {}}
+                  >
+                    {word}
+                  </m.span>
+                  {wordIndex < words.length - 1 && ' ' /* Add a regular space */}
+                </Fragment>
+              )
+            })}
+            {lineIndex < lines.length - 1 && (
+              <>
+                <br className="md:hidden" />
+                <span className="hidden md:inline"> </span>
+              </>
+            )}
+          </Fragment>
+        )
+      })}
     </m.h1>
   )
 }
