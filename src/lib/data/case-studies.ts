@@ -16,6 +16,7 @@ export interface CaseStudy {
     | 'usability-testing'
     | 'ui-design'
     | 'digital-analytics'
+    | 'digital-accessibility'
   team?: string[]
   timeline?: string
   fullDescription?: string
@@ -213,6 +214,24 @@ export const caseStudies: CaseStudy[] = [
     timeline: 'Weekend Project',
     progressBarColor: 'rgb(var(--color-case-study-snakes-progress))',
     heroImageFill: true,
+  },
+  {
+    slug: 'blv-museum-accessibility',
+    title:
+      'Who Decides What Art Means? Giving interpretive agency to blind and low-vision museum visitors.',
+    organization: 'Pratt Institute',
+    year: '2026',
+    description:
+      'A research-based case study on returning interpretive authority to blind and low-vision patrons through conversational UI.',
+    tags: ['Digital Accessibility', 'UX Research', 'Conversational UI'],
+    imageBg: '#FF8C00', // Orange accent
+    featured: true,
+    category: 'digital-accessibility',
+    team: ['Atharva Nayak', 'Arnav Sharma', 'Nisheta Gupta'],
+    timeline: 'Spring 2026',
+    progressBarColor: '#FF8C00',
+    fullDescription:
+      'This project focuses on the "interpretive authority" in art galleries. While museums provide audio descriptions, these are often fixed, curator-authored accounts that collapse the variability of an artwork into a single narrative. We introduce "negotiable interpretation" as a design paradigm to redistribute that authority back to the visitor.',
   },
 ]
 
