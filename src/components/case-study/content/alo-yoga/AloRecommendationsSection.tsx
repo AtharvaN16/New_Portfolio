@@ -102,17 +102,16 @@ export function AloRecommendationsSection() {
         {keyInsights.map(({ number, text }) => (
           <div
             key={number}
-            className="flex items-start gap-6 py-5 border-b"
-            style={{ borderColor: 'rgb(var(--color-text-color10))' }}
+            className="flex items-start gap-6 py-5"
           >
             <span
-              className="text-sm font-mono shrink-0 mt-0.5"
+              className="text-lg md:text-[20px] font-mono shrink-0"
               style={{ color: 'rgb(var(--color-text-color30))' }}
             >
               {number}
             </span>
             <p
-              className="text-base md:text-[18px] font-medium leading-snug"
+              className="text-lg md:text-[20px] font-medium leading-snug"
               style={{ color: 'rgb(var(--color-text-color90))' }}
             >
               {text}
@@ -121,110 +120,7 @@ export function AloRecommendationsSection() {
         ))}
       </div>
 
-      <div
-        className="border-t my-24 md:my-32"
-        style={{ borderColor: 'rgb(var(--color-text-color10))' }}
-      />
 
-      {/* Recommendations */}
-      <h3
-        className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
-        style={{ color: 'rgb(var(--color-text-tertiary))' }}
-      >
-        Recommendations
-      </h3>
-
-      <AnimatedTitle
-        text="Three things Alo should change"
-        animationType="fadeIn"
-        alwaysAnimate={false}
-        delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-10 leading-tight tracking-[-0.05em] max-w-[680px]"
-      />
-
-      <div className="space-y-10 md:space-y-12">
-        {recommendations.map(({ number, title, description }) => (
-          <div
-            key={number}
-            className="grid grid-cols-1 md:grid-cols-[clamp(3rem,8vw,5rem)_1fr] gap-4 md:gap-8"
-          >
-            <p
-              className="text-4xl font-bold tracking-[-0.05em] leading-none"
-              style={{ color: 'rgb(var(--color-text-color30))' }}
-            >
-              {number}
-            </p>
-            <div>
-              <h4 className="text-xl md:text-[24px] font-bold text-text-primary mb-3">
-                {title}
-              </h4>
-              <p
-                className="text-base md:text-[18px] font-normal leading-relaxed"
-                style={{ color: 'rgb(var(--color-text-color90))' }}
-              >
-                {description}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div
-        className="border-t my-24 md:my-32"
-        style={{ borderColor: 'rgb(var(--color-text-color10))' }}
-      />
-
-      {/* Roadmap */}
-      <h3
-        className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
-        style={{ color: 'rgb(var(--color-text-tertiary))' }}
-      >
-        Roadmap
-      </h3>
-
-      <AnimatedTitle
-        text="A three-phase path to closing the gap"
-        animationType="fadeIn"
-        alwaysAnimate={false}
-        delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-10 leading-tight tracking-[-0.05em] max-w-[680px]"
-      />
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6">
-        {roadmapPhases.map(({ range, label, items }) => (
-          <div key={label}>
-            <div className="mb-6">
-              <p
-                className="text-xs font-mono uppercase tracking-widest mb-1"
-                style={{ color: 'rgb(var(--color-text-tertiary))' }}
-              >
-                {range}
-              </p>
-              <h4 className="text-base md:text-[18px] font-bold text-text-primary">
-                {label}
-              </h4>
-            </div>
-            <div className="space-y-5">
-              {items.map(({ title, desc }) => (
-                <div key={title}>
-                  <p
-                    className="text-sm font-semibold mb-1"
-                    style={{ color: 'rgb(var(--color-text-secondary))' }}
-                  >
-                    {title}
-                  </p>
-                  <p
-                    className="text-sm leading-relaxed"
-                    style={{ color: 'rgb(var(--color-text-color60))' }}
-                  >
-                    {desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
   )
 }

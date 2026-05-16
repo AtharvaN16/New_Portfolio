@@ -74,11 +74,11 @@ export function AloSearchForbidden() {
     >
       <div
         className="inline-block p-8 md:p-16"
-        style={{ backgroundColor: 'rgb(var(--color-surface-elevated))' }}
+        style={{ background: 'linear-gradient(180deg, #A8D3FF 0%, #FFF4DF 100%)' }}
       >
         <div
           ref={ref}
-          className="relative w-[300px] md:w-[520px] aspect-video bg-white overflow-hidden shadow-sm"
+          className="relative w-[300px] md:w-[520px] aspect-video bg-white overflow-hidden shadow-2xl rounded-xl"
           style={{ isolation: 'isolate', cursor: 'none' }}
         >
         <AnimatePresence mode="wait">
