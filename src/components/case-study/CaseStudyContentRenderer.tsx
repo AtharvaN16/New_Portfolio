@@ -13,6 +13,7 @@ import {
   PrattVisitorExperienceContent,
   SnakesShowcaseContent,
   UAlbertaLibraryContent,
+  EmpoweringBlvContent,
 } from '@/components/case-study/content'
 
 interface CaseStudyContentRendererProps {
@@ -97,6 +98,15 @@ export function CaseStudyContentRenderer({
         <UAlbertaLibraryContent
           isContentRevealed={isContentRevealed}
           onToggleContent={onToggleContent}
+        />
+      )
+
+    case 'blv-museum-accessibility':
+      return (
+        <EmpoweringBlvContent
+          isContentRevealed={isContentRevealed}
+          onToggleContent={onToggleContent}
+          progressBarColor={caseStudy.progressBarColor || '#FF8C00'}
         />
       )
 
