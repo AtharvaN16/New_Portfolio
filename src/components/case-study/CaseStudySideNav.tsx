@@ -20,7 +20,6 @@ export function CaseStudySideNav({
   navItems, 
   themeColor = '#4285F4' 
 }: CaseStudySideNavProps) {
-  console.log('[DEBUG-sidenav] CaseStudySideNav rendering, isVisible:', isVisible)
   const [activeId, setActiveId] = useState<string>('')
   const [isHovered, setIsHovered] = useState(false)
   const lenis = useLenis()
@@ -30,12 +29,8 @@ export function CaseStudySideNav({
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
-          console.log(`[DEBUG-sidenav] Observer fired for ${entry.target.id}, isIntersecting: ${entry.isIntersecting}`)
-        })
         const visibleEntries = entries.filter((entry) => entry.isIntersecting)
         if (visibleEntries.length > 0) {
-          console.log(`[DEBUG-sidenav] Setting activeId to: ${visibleEntries[0].target.id}`)
           setActiveId(visibleEntries[0].target.id)
         }
       },
@@ -47,10 +42,7 @@ export function CaseStudySideNav({
     navItems.forEach((item) => {
       const element = document.getElementById(item.id)
       if (element) {
-        console.log(`[DEBUG-sidenav] Observing element: ${item.id}`)
         observer.observe(element)
-      } else {
-        console.log(`[DEBUG-sidenav] Element NOT FOUND: ${item.id}`)
       }
     })
 
@@ -62,14 +54,16 @@ export function CaseStudySideNav({
     if (element) {
       const currentLenis = (window as any).lenis
       if (currentLenis) {
-        console.log('[DEBUG-sidenav] Scrolling via Lenis to:', id)
-        currentLenis.scrollTo(element, { offset: -100, duration: 1.5 })
+        currentLenis.scrollTo(`#${id}`, { 
+          offset: -120,
+          duration: 1.5,
+          // Custom easing for a smooth "gentle ease off" - quintic out
+          easing: (t: number) => 1 - Math.pow(1 - t, 5),
+          immediate: false
+        })
       } else {
-        console.log('[DEBUG-sidenav] Scrolling via native scrollIntoView to:', id)
         element.scrollIntoView({ behavior: 'smooth' })
       }
-    } else {
-      console.log('[DEBUG-sidenav] Element not found for scrolling:', id)
     }
   }
 

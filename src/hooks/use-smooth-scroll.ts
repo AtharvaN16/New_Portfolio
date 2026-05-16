@@ -71,6 +71,11 @@ export function useSmoothScroll(
         })
 
         lenisRef.current = lenis
+        
+        // Expose to window so other components can find the active scroll instance
+        // This is necessary because CaseStudySideNav needs to call .scrollTo()
+        // and it might be in a different part of the tree.
+        window.lenis = lenis
 
         // Animation frame loop for Lenis
         let rafId: number | null = null
@@ -89,6 +94,9 @@ export function useSmoothScroll(
           }
           lenis.destroy()
           lenisRef.current = null
+          if (window.lenis === lenis) {
+            delete window.lenis
+          }
         }
       } catch (error) {
         console.error('Lenis initialization failed:', error)
