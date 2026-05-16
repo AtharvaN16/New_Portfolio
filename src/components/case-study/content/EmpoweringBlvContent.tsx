@@ -45,18 +45,35 @@ export function EmpoweringBlvContent({
           onToggleContent={onToggleContent}
         >
           <div className="space-y-24 md:space-y-32">
-             {/* Content sections will be added here in Task 4 */}
+             {/* The Critique */}
              <div className="pt-12">
                <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
-                 Project Overview
+                 The Critique
                </h3>
                <AnimatedTitle
-                 text="A brands with cultural reach and a digital presence that doesn't match it"
+                 text="Beyond Technical Compliance"
                  animationType="fadeIn"
                  className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
                />
-               <p className="text-base md:text-[18px] text-text-color90 leading-relaxed">
-                 [Full content implementation in progress...]
+               <p className="text-base md:text-[18px] text-text-color90 leading-relaxed mb-8">
+                 An accessibility audit asks: "Does this meet standards?" An accessibility critique asks: "Who is excluded, and why?"
+                 Our research found that BLV visitors are often positioned as passive recipients of expert knowledge rather than active meaning-makers.
+               </p>
+             </div>
+
+             {/* The Analysis */}
+             <div>
+               <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+                 The Analysis
+               </h3>
+               <AnimatedTitle
+                 text="Findings from 14 Major Museums"
+                 animationType="fadeIn"
+                 className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
+               />
+               <p className="text-base md:text-[18px] text-text-color90 leading-relaxed mb-8">
+                 We analyzed audio descriptions from institutions like Tate Modern, MoMA, and the Guggenheim. 
+                 The results revealed structural mechanisms—Ordering, Certainty, and Omission—that resolve interpretation before the visitor even arrives.
                </p>
              </div>
           </div>
