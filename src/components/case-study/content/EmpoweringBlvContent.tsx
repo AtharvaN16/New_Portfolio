@@ -29,13 +29,12 @@ export function EmpoweringBlvContent({
         </h3>
         <div className="space-y-6 md:space-y-8">
           <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
-            When we spoke with our client, **Amanda McFee** (Director of Arts, District 75) and **Positive Exposure**, 
-            it was clear that great strides had been made in technical accessibility: QR codes on every label, clockwise gallery 
-            navigation, and sensory kits for patrons. However, a deeper tension remained regarding the *nature* of the 
-            artistic experience itself.
+            Museums are sites of cultural participation where engagement depends on interpretive agency. 
+            However, for blind and low-vision (BLV) visitors, this agency is often preempted by fixed audio descriptions 
+            that prioritize "objective" transfer over personal meaning-making.
           </p>
           <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
-            This study critiques the "interpretive authority" of major institutions and proposes 
+            This exploratory study critiques the "interpretive authority" of major institutions and proposes 
             "negotiable interpretation"—a paradigm where meaning is constructed through a 
             conversational dialogue between the visitor and the system, rather than delivered as a fixed, authoritative account.
           </p>
@@ -63,12 +62,13 @@ export function EmpoweringBlvContent({
 
           <div>
             <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
-              Client
+              Focus
             </h3>
             <div className="flex flex-wrap gap-2">
               {[
-                'Amanda McFee (District 75)',
-                'Positive Exposure',
+                'UX Research',
+                'Digital Accessibility',
+                'Speculative Design',
               ].map((tool) => (
                 <span 
                   key={tool}
@@ -99,19 +99,20 @@ export function EmpoweringBlvContent({
                />
                <div className="space-y-6">
                  <p className="text-base md:text-[18px] text-text-color90 leading-relaxed">
-                   During our client visit, we encountered a fundamental design tension. Amanda explained that professional 
-                   audio descriptions are trained to be "objective, factual, and concise," specifically avoiding subjective bias. 
-                   Our team pushed back: **Is "objectivity" actually neutral, or is it an authoritative voice that forecloses 
+                   Standard practice in audio description emphasizes "objectivity, accuracy, and neutrality." The goal is 
+                   typically to transfer visual information without interpretive bias. However, this raises a fundamental 
+                   critique: **Is "objectivity" actually neutral, or is it an authoritative voice that forecloses 
                    a visitor's ability to interpret art on their own terms?**
                  </p>
-                 <blockquote className="border-l-4 border-primary pl-6 py-2 italic text-text-color70 bg-primary/5 rounded-r-lg">
-                   "We thought that, as sighted visitors, we can interpret art in our own way... when you listen to someone else 
-                   describe the art, they are already forming an opinion... it leaves out your ability to interpret it in your own way."
-                   <cite className="block mt-2 not-italic font-bold text-text-primary">— Team Dialogue with Client</cite>
-                 </blockquote>
                  <p className="text-base md:text-[18px] text-text-color90 leading-relaxed">
-                   This conversation shifted our project from a technical deliverable for Art 75 into an **exploratory research probe**. 
-                   We moved beyond solving for *access* to information and started solving for *agency* over meaning.
+                   For sighted visitors, the encounter with a work of art is inherently open; attention moves from color 
+                   to form to context and back again. For BLV visitors, that variability is often collapsed into a single, 
+                   fixed account. By resolving ambiguity in advance, institutions position disabled visitors as recipients 
+                   of pre-authored meaning rather than as agents of their own cultural encounter.
+                 </p>
+                 <p className="text-base md:text-[18px] text-text-color90 leading-relaxed">
+                   This project reframes accessibility not just as a technical problem of information transfer, but 
+                   as an equity problem of who holds authority over meaning.
                  </p>
                </div>
              </div>
