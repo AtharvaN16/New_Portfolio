@@ -75,6 +75,9 @@ export function CaseStudyContentRenderer({
         <AloYogaContent
           isContentRevealed={isContentRevealed}
           onToggleContent={onToggleContent}
+          progressBarColor={
+            caseStudy.progressBarColor || 'rgb(var(--color-alo-progress))'
+          }
         />
       )
 

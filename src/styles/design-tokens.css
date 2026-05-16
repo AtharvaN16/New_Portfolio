@@ -62,6 +62,10 @@
     --color-case-study-pale-green: 152 251 152; /* #98FB98 - Pale Green */
     --color-case-study-gold: 255 206 46; /* #FFCE2E - Progress Bar Gold */
     --color-case-study-teal: 94 234 212; /* #5EEAD4 - Teal for digital analytics */
+    /* Alo Yoga case study — charts / keyword emphasis (replaces orange on light bg) */
+    --color-alo-hero-bg: 232 225 212; /* #E8E1D4 */
+    --color-alo-progress: 92 142 211; /* #5C8ED3 */
+    --color-alo-data-accent: 92 142 211; /* #5C8ED3 */
     --color-case-study-met: 227 3 42; /* #e3032a - Metropolitan Museum brand red */
     --color-uofa-green: 37 121 72; /* #257948 - University of Alberta green */
     --color-case-study-snakes-progress: 155 125 85; /* #9B7D55 - Darker beige for light mode */
@@ -212,6 +216,9 @@
     --color-case-study-pale-green: 187 247 208; /* #BBF7D0 - Lighter pale green */
     --color-case-study-gold: 253 224 71; /* #FDE047 - Brighter gold for dark mode */
     --color-case-study-teal: 45 212 191; /* #2DD4BF - Brighter teal for dark mode */
+    --color-alo-hero-bg: 42 44 45; /* #2A2C2D */
+    --color-alo-progress: 183 216 255; /* #B7D8FF */
+    --color-alo-data-accent: 183 216 255; /* #B7D8FF */
     --color-case-study-met: 227 3 42; /* #e3032a - MET brand red (same in dark for fidelity) */
     --color-uofa-green: 37 121 72; /* #257948 - University of Alberta green */
     --color-case-study-snakes-progress: 230 205 165; /* #E6CDA5 - Light beige for dark mode */
@@ -281,6 +288,9 @@
       --color-accent: 139 92 246;
       --color-border: 38 38 38;
       --color-border-hover: 64 64 64;
+      --color-alo-hero-bg: 38 38 38;
+      --color-alo-progress: 183 216 255;
+      --color-alo-data-accent: 183 216 255; /* #B7D8FF — match [data-theme='dark'] */
     }
   }
 }

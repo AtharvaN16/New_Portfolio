@@ -31,11 +31,11 @@ export function AloSocialSection() {
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em]"
+        className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
       />
 
       <p
-        className="text-base md:text-[18px] font-normal leading-relaxed mb-10 max-w-[760px]"
+        className="text-base md:text-[18px] font-normal leading-relaxed mb-10 max-w-[680px]"
         style={{ color: 'rgb(var(--color-text-color90))' }}
       >
         We analyzed Alo&apos;s content strategy across Instagram, TikTok, and YouTube using
@@ -45,7 +45,7 @@ export function AloSocialSection() {
       </p>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10 md:mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-10 md:mb-12">
         {socialStats.map(({ value, label, sub }) => (
           <div key={label}>
             <div

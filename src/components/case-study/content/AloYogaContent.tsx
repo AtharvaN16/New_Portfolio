@@ -25,7 +25,7 @@ const divider = (
 export function AloYogaContent({
   isContentRevealed,
   onToggleContent,
-  progressBarColor = '#EEEEE7',
+  progressBarColor = 'rgb(var(--color-alo-progress))',
 }: AloYogaContentProps) {
   return (
     <m.section
@@ -42,42 +42,17 @@ export function AloYogaContent({
         <div className="space-y-6 md:space-y-8">
           <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
             When you think of premium activewear, Alo sits alongside Lululemon — same price point,
-            same cultural presence, same customer. But unlike Lululemon or Gymshark, Alo barely
-            shows up when you search for athletic wear, workout clothes, or anything men&apos;s.
-            The brand and the search strategy weren&apos;t in the same conversation.
+            same cultural relevance, same customers. But unlike Lululemon, Alo barely shows up when
+            you search for &ldquo;gym clothes&rdquo; or &ldquo;workout clothes&rdquo;, Alo also
+            doesn&apos;t rank well for men&apos;s wear. That&apos;s not a product problem.
+            That&apos;s a digital visibility problem.
           </p>
           <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
-            We ran a full digital audit across SEO, keyword coverage, and social performance using
-            SimilarWeb, Screaming Frog, and SEMrush, benchmarked against Lululemon and Gymshark.
-            The goal was to find where the gap was coming from and put together a strategy to
-            close it.
+            We ran a full digital audit across SEO, keyword coverage, and social media analysis
+            using SimilarWeb, Screaming Frog, and SEMrush, benchmarked against Lululemon, Gymshark,
+            UnderArmour, and Vuori. The goal was to find where the gap was coming from and put
+            together a strategy to close it.
           </p>
-        </div>
-
-        {/* My Role */}
-        <div className="mt-12 md:mt-16">
-          <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
-            My Role
-          </h3>
-          <div className="space-y-6 md:space-y-8">
-            <p className="text-base md:text-[18px] font-medium text-text-color70 leading-relaxed">
-              As part of a five-person team, I contributed to:
-            </p>
-            <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-2">
-              <li className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
-                SEO audit and keyword gap analysis using SEMrush
-              </li>
-              <li className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
-                Technical site crawl and on-page analysis with Screaming Frog
-              </li>
-              <li className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
-                Social media competitive benchmarking across Instagram, TikTok, and YouTube
-              </li>
-              <li className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
-                Dashboard design and strategy recommendations
-              </li>
-            </ul>
-          </div>
         </div>
 
         <CaseStudyReadMore
@@ -99,14 +74,14 @@ export function AloYogaContent({
               animationType="fadeIn"
               alwaysAnimate={false}
               delay={0}
-              className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em]"
+              className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
             />
 
             <div
               className="space-y-6 md:space-y-8 mb-0"
             >
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed max-w-[760px]"
+                className="text-base md:text-[18px] font-normal leading-relaxed max-w-[680px]"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 Alo Yoga is a premium activewear brand that sits alongside Lululemon in
@@ -115,7 +90,7 @@ export function AloYogaContent({
                 for activewear on Google, Alo doesn&apos;t show up.
               </p>
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed max-w-[760px]"
+                className="text-base md:text-[18px] font-normal leading-relaxed max-w-[680px]"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 Our team set out to understand why — and what it would take to close the
@@ -133,7 +108,7 @@ export function AloYogaContent({
             {divider}
 
             {/* SEO Findings */}
-            <AloSEOSection progressBarColor={progressBarColor} />
+            <AloSEOSection />
 
             {divider}
 

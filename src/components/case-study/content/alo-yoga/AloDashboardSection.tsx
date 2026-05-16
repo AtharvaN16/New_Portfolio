@@ -51,11 +51,11 @@ export function AloDashboardSection() {
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em]"
+        className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
       />
 
       <p
-        className="text-base md:text-[18px] font-normal leading-relaxed mb-10 max-w-[760px]"
+        className="text-base md:text-[18px] font-normal leading-relaxed mb-10 max-w-[680px]"
         style={{ color: 'rgb(var(--color-text-color90))' }}
       >
         Alongside the audit, we designed and built an analytics dashboard to give Alo a way
@@ -93,7 +93,7 @@ export function AloDashboardSection() {
             <div>
               <p
                 className="text-3xl font-bold tracking-[-0.05em] mb-1 leading-none"
-                style={{ color: 'rgb(var(--color-text-color10))' }}
+                style={{ color: 'rgb(var(--color-text-color30))' }}
               >
                 {number}
               </p>

@@ -2,6 +2,10 @@
 import { useRef, useLayoutEffect } from 'react'
 import gsap from 'gsap'
 
+const botColor = 'rgb(var(--color-alo-data-accent))'
+const errorColor = 'rgb(var(--color-error))'
+const labelColor = 'rgb(var(--color-background))'
+
 export function IndexabilityWall() {
   const containerRef = useRef<HTMLDivElement>(null)
   const botRef = useRef<SVGGElement>(null)
@@ -12,9 +16,9 @@ export function IndexabilityWall() {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ repeat: -1 })
       
-      tl.set(botRef.current, { x: 0, opacity: 1, scale: 1, fill: '#1F3A66' })
+      tl.set(botRef.current, { x: 0, opacity: 1, scale: 1, fill: botColor })
       tl.set(errorRef.current, { opacity: 0, scale: 0.5 })
-      tl.set(wallRef.current, { stroke: '#1F3A66', strokeWidth: 2, x: 0 })
+      tl.set(wallRef.current, { stroke: botColor, strokeWidth: 2, x: 0 })
 
       tl.to(botRef.current, {
         x: 160,
@@ -26,12 +30,12 @@ export function IndexabilityWall() {
         duration: 0.1,
       })
       .to(botRef.current, {
-        fill: '#ef4444',
+        fill: errorColor,
         duration: 0.1,
       }, "<")
       .to(wallRef.current, {
         x: 2,
-        stroke: '#ef4444',
+        stroke: errorColor,
         strokeWidth: 4,
         duration: 0.05,
         yoyo: true,
@@ -58,19 +62,19 @@ export function IndexabilityWall() {
   }, [])
 
   return (
-    <div ref={containerRef} className="w-full aspect-square max-w-[300px] flex items-center justify-center bg-neutral-50 dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800">
+    <div ref={containerRef} className="w-full aspect-square max-w-[300px] flex items-center justify-center bg-surface-elevated rounded-xl border border-border">
       <svg width="240" height="120" viewBox="0 0 240 120" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* The Wall */}
-        <line ref={wallRef} x1="200" y1="20" x2="200" y2="100" stroke="#1F3A66" strokeWidth="2" strokeLinecap="round" />
+        <line ref={wallRef} x1="200" y1="20" x2="200" y2="100" stroke={botColor} strokeWidth="2" strokeLinecap="round" />
         
         {/* Googlebot */}
         <g ref={botRef}>
-          <circle cx="30" cy="60" r="20" fill="#1F3A66" />
-          <text x="30" y="66" textAnchor="middle" fill="white" className="font-bold text-[14px] select-none">G</text>
+          <circle cx="30" cy="60" r="20" fill={botColor} />
+          <text x="30" y="66" textAnchor="middle" fill={labelColor} className="font-bold text-[14px] select-none">G</text>
         </g>
 
         {/* Error Label */}
-        <text ref={errorRef} x="170" y="50" fill="#ef4444" className="font-mono text-[12px] font-bold select-none">403</text>
+        <text ref={errorRef} x="170" y="50" fill={errorColor} className="font-mono text-[12px] font-bold select-none">403</text>
       </svg>
     </div>
   )
