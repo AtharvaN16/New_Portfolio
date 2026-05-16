@@ -3,16 +3,21 @@
 import { m, AnimatePresence } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import { AccessibilityModal } from '@/components/layout/AccessibilityModal'
+import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 import { cn } from '@/lib/utils/cn'
 import { MatisseSimulation } from './blv-museum/MatisseSimulation'
 import { MuseumAnalysis } from './blv-museum/MuseumAnalysis'
 import { SolutionParadigm } from './blv-museum/SolutionParadigm'
 
 interface EmpoweringBlvContentProps {
+  isContentRevealed: boolean
+  onToggleContent: () => void
   progressBarColor?: string
 }
 
 export function EmpoweringBlvContent({
+  isContentRevealed,
+  onToggleContent,
   progressBarColor = '#FF8C00',
 }: EmpoweringBlvContentProps) {
   const scrollContainerRef = useRef<HTMLElement | null>(null)
@@ -56,11 +61,17 @@ export function EmpoweringBlvContent({
             </p>
           </div>
 
-          <div className="space-y-32 md:space-y-48 mt-24 md:mt-32">
-            <MatisseSimulation scrollContainerRef={scrollContainerRef} isReady={isReady} />
-            <MuseumAnalysis />
-            <SolutionParadigm />
-          </div>
+          <CaseStudyReadMore
+            readTime="12 min read"
+            isContentRevealed={isContentRevealed}
+            onToggleContent={onToggleContent}
+          >
+            <div className="space-y-32 md:space-y-48">
+              <MatisseSimulation scrollContainerRef={scrollContainerRef} isReady={isReady} />
+              <MuseumAnalysis />
+              <SolutionParadigm />
+            </div>
+          </CaseStudyReadMore>
         </div>
       </m.section>
 
