@@ -97,6 +97,38 @@ export function AloYogaContent({
           </p>
         </div>
 
+        {/* My Role Section */}
+        <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div>
+            <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
+              My Role
+            </h3>
+            <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-1">
+              {['Conducting SEO audit', 'Social media recommendations', 'Coding the mock dashboard'].map((item) => (
+                <li key={item} className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
+              Tools Used
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {['SEMrush', 'SimilarWeb', 'Screaming Frog'].map((tool) => (
+                <span 
+                  key={tool}
+                  className="px-3 py-1.5 rounded-full text-sm font-medium border border-text-color10 text-text-color70"
+                >
+                  {tool}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
         <CaseStudyReadMore
           readTime="15 min read"
           isContentRevealed={isContentRevealed}
@@ -229,17 +261,43 @@ export function AloYogaContent({
               style={{ borderColor: 'rgb(var(--color-text-color10))' }}
             />
 
-            {/* The End */}
-            <div className="py-8 md:py-12">
+            {/* Conclusion & Reflection */}
+            <div className="py-16 md:py-24">
               <h3
-                className="text-3xl md:text-[48px] font-bold uppercase tracking-[-0.02em] mb-6 md:mb-8"
-                style={{ color: progressBarColor }}
+                className="text-sm md:text-[16px] font-bold uppercase mb-8"
+                style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
-                The End
+                Conclusion & Reflection
               </h3>
-              <p className="text-xl md:text-[24px] font-bold text-text-primary">
-                Thank you for reading this case study
-              </p>
+
+              <div className="max-w-[760px]">
+                <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+                  This project was a deep dive into how digital analytics serves as the backbone 
+                  of brand strategy. By analyzing Alo Yoga through the lens of competition and 
+                  search data, we moved beyond surface-level observations to identify the specific 
+                  technical and content-driven barriers preventing the brand from matching its 
+                  cultural relevance with digital reach. Learning to use SEMrush and SimilarWeb 
+                  at a professional level allowed us to quantify &ldquo;vibe&rdquo; and &ldquo;influence&rdquo; into 
+                  actionable metrics like non-branded traffic share and keyword gaps. What 
+                  surprised me most was how much a brand&apos;s digital legacy can limit its 
+                  future growth; Alo is so successful in yoga that its own SEO profile has 
+                  effectively boxed it in. Ultimately, this project improved my ability to 
+                  bridge the gap between high-level brand goals and the technical execution 
+                  needed to achieve them.
+                </p>
+              </div>
+
+              <div className="mt-32 md:mt-48 pt-16 md:pt-24 border-t border-text-color10">
+                <h3
+                  className="text-3xl md:text-[48px] font-bold uppercase tracking-[-0.02em] mb-6 md:mb-8"
+                  style={{ color: progressBarColor }}
+                >
+                  The End
+                </h3>
+                <p className="text-xl md:text-[24px] font-bold text-text-primary">
+                  Thank you for reading this case study
+                </p>
+              </div>
             </div>
           </div>
         </CaseStudyReadMore>

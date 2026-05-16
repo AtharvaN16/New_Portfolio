@@ -97,6 +97,44 @@ export function AloSEOSection() {
         )}
       </AnimatePresence>
 
+      <div className="mt-32 mb-24 md:mt-40 md:mb-32 space-y-20 md:space-y-24">
+        <div className="max-w-[800px]">
+          <span 
+            className="text-sm md:text-base font-bold uppercase tracking-[0.2em] mb-8 block"
+            style={{ color: 'rgb(var(--color-text-tertiary))' }}
+          >
+            Problem Statement
+          </span>
+          <AnimatedTitle
+            text="Alo Yoga's digital infrastructure and SEO strategy are stuck in its 'Yoga-only' and 'Women-only' legacy, creating a gap between its lifestyle vision and search visibility."
+            highlightWords={["'Yoga-only'", "'Women-only'"]}
+            highlightColor="rgb(var(--color-alo-progress))"
+            animationType="fadeIn"
+            alwaysAnimate={false}
+            delay={0}
+            className="text-2xl md:text-[42px] font-bold text-text-primary leading-[1.15] tracking-[-0.04em]"
+          />
+        </div>
+
+        <div className="max-w-[800px] ml-auto text-right">
+          <span 
+            className="text-sm md:text-base font-bold uppercase tracking-[0.2em] mb-8 block"
+            style={{ color: 'rgb(var(--color-text-tertiary))' }}
+          >
+            The Goal
+          </span>
+          <AnimatedTitle
+            text="Strategically expand Alo Yoga from a women-centric yoga brand into a comprehensive activewear lifestyle brand that serves a broader range of workout occasions and male consumers."
+            highlightWords={["expand Alo Yoga from a women-centric yoga brand into a comprehensive activewear lifestyle brand"]}
+            highlightColor="rgb(var(--color-alo-progress))"
+            animationType="fadeIn"
+            alwaysAnimate={false}
+            delay={0}
+            className="text-2xl md:text-[42px] font-bold text-text-primary leading-[1.15] tracking-[-0.04em]"
+          />
+        </div>
+      </div>
+
       <div
         className="border-t my-24 md:my-32"
         style={{ borderColor: 'rgb(var(--color-text-color10))' }}
