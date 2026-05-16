@@ -1,12 +1,12 @@
 'use client'
 
+import { useState } from 'react'
+import { m, AnimatePresence } from 'framer-motion'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 import { IndexabilityWall } from '../IndexabilityWall'
-import { MarketVoidVenn } from '../MarketVoidVenn'
-
-interface AloSEOSectionProps {
-  progressBarColor?: string
-}
+import { AloKeywordInsights } from './AloKeywordInsights'
+import { AloSearchPositionMap } from './AloSearchPositionMap'
+import { AloKeywordRecommendations } from './AloKeywordRecommendations'
 
 const seoStats = [
   { value: '36.5%', label: 'Non-indexable URLs', sub: '143 of 392 crawled' },
@@ -15,137 +15,80 @@ const seoStats = [
   { value: '36%', label: 'Shallow content pages', sub: 'Under 200 words' },
 ]
 
-const sampleKeywords = [
-  { kw: 'alo yoga mens', cat: "Men's", vol: '33,100', rank: '#1' },
-  { kw: 'mens workout joggers', cat: "Men's", vol: '22,400', rank: '#4' },
-  { kw: 'mens yoga shorts', cat: "Men's", vol: '18,900', rank: '#6' },
-  { kw: 'alo airbrush leggings', cat: 'Workout', vol: '74,200', rank: '#1' },
-  { kw: 'high waisted leggings', cat: 'Workout', vol: '110,500', rank: '#8' },
-  { kw: 'workout sets women', cat: 'Workout', vol: '41,300', rank: '#5' },
-]
+export function AloSEOSection() {
+  const [isKeywordStrategyOpen, setIsKeywordStrategyOpen] = useState(false)
 
-export function AloSEOSection({ progressBarColor = '#EEEEE7' }: AloSEOSectionProps) {
   return (
     <div>
-      {/* ── Finding 1: Keyword Coverage ── */}
+      {/* ── Keyword Strategy ── */}
       <h3
-        className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+        className="text-sm md:text-[16px] font-bold uppercase mb-6"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
-        Finding 1 — Keyword Coverage
+        Keyword Strategy
       </h3>
 
       <AnimatedTitle
-        text="Alo's search visibility is almost entirely yoga and women's"
+        text="Alo shows up for yoga. It doesn't show up for much else."
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em]"
+        className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
       />
 
-      <p
-        className="text-base md:text-[18px] font-normal leading-relaxed mb-10 max-w-[760px]"
-        style={{ color: 'rgb(var(--color-text-color90))' }}
-      >
-        We mapped Alo&apos;s keyword rankings in SEMrush and compared them against Lululemon
-        and Gymshark across yoga, fitness, and men&apos;s categories. About 80% of Alo&apos;s
-        search visibility is tied to women&apos;s yoga content. Broader terms — &ldquo;workout
-        clothes,&rdquo; &ldquo;gym clothes,&rdquo; &ldquo;men&apos;s activewear&rdquo; — are
-        dominated by competitors.
-      </p>
-
-      {/* Visual first */}
-      <div className="mb-4 flex justify-center md:justify-start">
-        <MarketVoidVenn />
+      <div className="mb-4">
+        <AloSearchPositionMap />
       </div>
+
       <p
-        className="text-sm mb-10 md:mb-12"
+        className="text-sm mb-12"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
-        Alo&apos;s keyword territory compared to Lululemon and Gymshark. The men&apos;s and
-        general activewear space is largely uncontested for Alo.
+        Alo&apos;s search visibility is concentrated in a yoga-only, female-dominant position while
+        competitors occupy broader multi-sport and more gender-balanced territory.
       </p>
 
-      {/* Stat callouts */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 md:mb-12">
-        <div
-          className="p-6 rounded-2xl"
-          style={{ backgroundColor: 'rgb(var(--color-surface-elevated))' }}
+      {/* Primary CTA to expand details */}
+      <div className="mt-12 mb-16 flex justify-center md:justify-start">
+        <button
+          onClick={() => setIsKeywordStrategyOpen(!isKeywordStrategyOpen)}
+          className="group flex items-center justify-center gap-3 px-8 py-4 border border-neutral-200 dark:border-neutral-800 text-text-primary font-bold uppercase tracking-widest text-sm transition-all duration-300 hover:bg-neutral-50 dark:hover:bg-neutral-900 min-w-[280px]"
         >
-          <div
-            className="text-4xl md:text-5xl font-bold tracking-[-0.05em] mb-2"
-            style={{ color: 'rgb(var(--color-text-primary))' }}
+          <span>{isKeywordStrategyOpen ? 'Close Strategy Details' : 'Expand to Read in Detail'}</span>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            className="transition-transform duration-300"
+            style={{ transform: isKeywordStrategyOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
           >
-            572K
-          </div>
-          <p
-            className="text-sm font-mono uppercase tracking-widest mb-1"
-            style={{ color: 'rgb(var(--color-text-tertiary))' }}
-          >
-            Monthly search opportunity
-          </p>
-          <p className="text-sm" style={{ color: 'rgb(var(--color-text-color60))' }}>
-            Men&apos;s activewear categories Alo doesn&apos;t rank for
-          </p>
-        </div>
-        <div
-          className="p-6 rounded-2xl"
-          style={{ backgroundColor: 'rgb(var(--color-surface-elevated))' }}
-        >
-          <div
-            className="text-4xl md:text-5xl font-bold tracking-[-0.05em] mb-2"
-            style={{ color: 'rgb(var(--color-text-primary))' }}
-          >
-            #55
-          </div>
-          <p
-            className="text-sm font-mono uppercase tracking-widest mb-1"
-            style={{ color: 'rgb(var(--color-text-tertiary))' }}
-          >
-            Alo&apos;s rank for &ldquo;workout clothes&rdquo;
-          </p>
-          <p className="text-sm" style={{ color: 'rgb(var(--color-text-color60))' }}>
-            Does not appear at all for &ldquo;gym clothes&rdquo;
-          </p>
-        </div>
+            <path
+              d="M4 6L8 10L12 6"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
       </div>
 
-      {/* Keyword table */}
-      <h4
-        className="text-sm font-mono uppercase tracking-widest mb-4"
-        style={{ color: 'rgb(var(--color-text-tertiary))' }}
-      >
-        Sample keywords where Alo does rank
-      </h4>
-      <div className="overflow-x-auto mb-3">
-        <table className="w-full text-sm md:text-base">
-          <thead>
-            <tr className="border-b" style={{ borderColor: 'rgb(var(--color-text-color10))' }}>
-              <th className="text-left py-3 font-semibold text-text-primary">Keyword</th>
-              <th className="text-left py-3 font-semibold text-text-primary">Category</th>
-              <th className="text-right py-3 font-semibold text-text-primary">Volume</th>
-              <th className="text-right py-3 font-semibold text-text-primary">Alo Rank</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sampleKeywords.map(({ kw, cat, vol, rank }) => (
-              <tr
-                key={kw}
-                className="border-b"
-                style={{ borderColor: 'rgb(var(--color-text-color10))' }}
-              >
-                <td className="py-3" style={{ color: 'rgb(var(--color-text-color90))' }}>{kw}</td>
-                <td className="py-3" style={{ color: 'rgb(var(--color-text-tertiary))' }}>{cat}</td>
-                <td className="py-3 text-right" style={{ color: 'rgb(var(--color-text-color90))' }}>{vol}</td>
-                <td className="py-3 text-right font-mono font-bold" style={{ color: progressBarColor }}>{rank}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p className="text-xs mb-0" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
-        Source: SEMrush, Spring 2026
-      </p>
+      <AnimatePresence>
+        {isKeywordStrategyOpen && (
+          <m.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
+            <AloKeywordInsights />
+
+            <AloKeywordRecommendations />
+          </m.div>
+        )}
+      </AnimatePresence>
 
       <div
         className="border-t my-24 md:my-32"
@@ -165,11 +108,11 @@ export function AloSEOSection({ progressBarColor = '#EEEEE7' }: AloSEOSectionPro
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em]"
+        className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
       />
 
       <p
-        className="text-base md:text-[18px] font-normal leading-relaxed mb-10 max-w-[760px]"
+        className="text-base md:text-[18px] font-normal leading-relaxed mb-10 max-w-[680px]"
         style={{ color: 'rgb(var(--color-text-color90))' }}
       >
         We crawled aloyoga.com using Screaming Frog and ran a full technical and on-page audit.
@@ -189,7 +132,7 @@ export function AloSEOSection({ progressBarColor = '#EEEEE7' }: AloSEOSectionPro
       </p>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10 md:mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-10 md:mb-12">
         {seoStats.map(({ value, label, sub }) => (
           <div key={label}>
             <div

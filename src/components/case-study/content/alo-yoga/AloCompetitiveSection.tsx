@@ -1,11 +1,45 @@
 'use client'
 
+import Image from 'next/image'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 
-const trafficData = [
-  { brand: 'Lululemon', visits: '37.92M', share: 100, color: '#E8C5C5' },
-  { brand: 'Gymshark', visits: '13.98M', share: 37, color: '#C5D5E8' },
-  { brand: 'Alo Yoga', visits: '9.35M', share: 25, color: '#1a1a1a' },
+const competitors = [
+  {
+    name: 'Lululemon',
+    src: '/images/case-studies/alo-yoga-digital-analytics/Lulu.png',
+    share: '49%',
+    traffic: '18.5M',
+    trend: 'up',
+    description:
+      'Industry leader and ultimate benchmark for Alo Yoga’s growth in organic keywords (1.8M).',
+  },
+  {
+    name: 'Gymshark',
+    src: '/images/case-studies/alo-yoga-digital-analytics/gymshark.png',
+    share: '21%',
+    traffic: '8M',
+    trend: 'down',
+    description:
+      "A digital-first powerhouse and primary rival for the Z-generation and fitness-focused audience.",
+  },
+  {
+    name: 'Under Armour',
+    src: '/images/case-studies/alo-yoga-digital-analytics/UA.png',
+    share: '11%',
+    traffic: '4.2M',
+    trend: 'up',
+    description:
+      'A traditional athletic giant representing the legacy performance market.',
+  },
+  {
+    name: 'Vuori',
+    src: '/images/case-studies/alo-yoga-digital-analytics/vuori.png',
+    share: '4%',
+    traffic: '1.5M',
+    trend: 'up',
+    description:
+      'Rapidly growing D2C "challenger" that directly threatens Alo’s premium positioning.',
+  },
 ]
 
 export function AloCompetitiveSection() {
@@ -19,87 +53,139 @@ export function AloCompetitiveSection() {
       </h3>
 
       <AnimatedTitle
-        text="Alo sits third in traffic, but first in cultural recognition"
+        text="Understanding Alo's current market position"
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em]"
+        className="text-2xl md:text-[40px] font-bold text-text-primary mb-12 md:mb-16 leading-tight tracking-[-0.05em]"
       />
 
-      <p
-        className="text-base md:text-[18px] font-normal leading-relaxed mb-12 md:mb-16 max-w-[760px]"
-        style={{ color: 'rgb(var(--color-text-color90))' }}
-      >
-        We pulled three months of traffic data from SimilarWeb (January–March 2026) to establish
-        where Alo stood relative to its main competitors before conducting any deeper analysis.
-      </p>
-
-      {/* Traffic comparison bars */}
-      <div className="space-y-5 mb-4">
-        {trafficData.map(({ brand, visits, share, color }) => (
-          <div key={brand} className="flex items-center gap-4">
-            <span
-              className="text-sm md:text-base font-medium w-24 shrink-0"
-              style={{ color: 'rgb(var(--color-text-secondary))' }}
-            >
-              {brand}
-            </span>
-            <div className="flex-1 h-8 rounded-full overflow-hidden bg-neutral-100 dark:bg-neutral-800">
-              <div
-                className="h-full rounded-full"
-                style={{ width: `${share}%`, backgroundColor: color }}
-              />
+      {/* Alo Yoga Baseline Stats - Polished Visualization */}
+      <div className="flex flex-wrap gap-x-12 md:gap-x-16 gap-y-8 mb-16 md:mb-24">
+        <div className="flex flex-col">
+          <div className="flex min-h-[2.75rem] md:min-h-[3rem] items-center leading-none">
+            <div className="text-3xl md:text-[40px] font-bold tracking-tighter text-text-primary">
+              #3
             </div>
-            <span
-              className="text-sm md:text-[16px] font-bold w-20 text-right shrink-0"
-              style={{ color: 'rgb(var(--color-text-primary))' }}
-            >
-              {visits}
-            </span>
           </div>
-        ))}
-      </div>
-      <p
-        className="text-xs mb-12 md:mb-16"
-        style={{ color: 'rgb(var(--color-text-tertiary))' }}
-      >
-        Monthly visits, March 2026. Source: SimilarWeb
-      </p>
+          <span 
+            className="text-base mt-4 uppercase font-bold tracking-wider text-text-color60"
+          >
+            market share
+          </span>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start mb-12 md:mb-16">
-        <p
-          className="text-base md:text-[18px] font-normal leading-relaxed"
-          style={{ color: 'rgb(var(--color-text-color90))' }}
-        >
-          Traffic volume isn&apos;t the whole story, but it frames the gap. Lululemon gets roughly
-          4× more monthly visits. What&apos;s more telling is the <strong>nature</strong> of the
-          traffic: only about 5% of Alo&apos;s organic traffic is non-branded — meaning most
-          people who find Alo are already looking for Alo. Gymshark&apos;s non-branded share is 47%.
-        </p>
-        <div
-          className="p-6 md:p-8 rounded-2xl"
-          style={{ backgroundColor: 'rgb(var(--color-surface-elevated))' }}
-        >
-          <div
-            className="text-4xl md:text-5xl font-bold tracking-[-0.05em] mb-2"
-            style={{ color: 'rgb(var(--color-text-primary))' }}
-          >
-            5%
+        <div className="flex flex-col">
+          <div className="flex min-h-[2.75rem] md:min-h-[3rem] items-center gap-2 leading-none">
+            <div className="text-3xl md:text-[40px] font-bold tracking-tighter text-text-primary">
+              5.3M
+            </div>
+            <span className="text-xl md:text-2xl text-green-500 font-bold leading-none">↑</span>
           </div>
-          <p
-            className="text-sm font-mono uppercase tracking-widest mb-1"
-            style={{ color: 'rgb(var(--color-text-tertiary))' }}
+          <span 
+            className="text-base mt-4 uppercase font-bold tracking-wider text-text-color60"
           >
-            Alo non-branded organic traffic
-          </p>
-          <p
-            className="text-sm"
-            style={{ color: 'rgb(var(--color-text-color60))' }}
+            organic traffic
+          </span>
+        </div>
+
+        <div className="flex flex-col">
+          <div className="flex min-h-[2.75rem] md:min-h-[3rem] items-center leading-none">
+            <div className="text-3xl md:text-[40px] font-bold tracking-tighter text-text-primary">
+              14%
+            </div>
+          </div>
+          <span 
+            className="text-base mt-4 uppercase font-bold tracking-wider text-text-color60"
           >
-            vs. Gymshark at 47%
-          </p>
+            traffic share
+          </span>
         </div>
       </div>
+
+      {/* Unified Comparison Frame */}
+      <div className="border border-neutral-200 dark:border-neutral-800 mb-12 md:mb-16 overflow-hidden">
+        {/* Competitor Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+          {competitors.map((comp) => (
+            <div
+              key={comp.name}
+              className="flex flex-col border-b md:border-b-0 md:border-r border-neutral-200 dark:border-neutral-800 last:border-0"
+            >
+              <div className="relative w-full overflow-hidden bg-white dark:bg-black/20">
+                <Image
+                  src={comp.src}
+                  alt={comp.name}
+                  width={500}
+                  height={300}
+                  className="w-full h-auto"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                />
+              </div>
+              <div 
+                className="p-6 md:p-8 flex flex-col grow"
+                style={{ backgroundColor: 'rgb(var(--color-surface-elevated))' }}
+              >
+                <p
+                  className="text-xs font-bold uppercase tracking-widest mb-4"
+                  style={{ color: 'rgb(var(--color-text-tertiary))' }}
+                >
+                  {comp.name}
+                </p>
+                <p 
+                  className="text-sm leading-relaxed mb-10"
+                  style={{ color: 'rgb(var(--color-text-color70))' }}
+                >
+                  {comp.description}
+                </p>
+                
+                <div className="mt-auto space-y-8">
+                  <div>
+                    <div 
+                      className="text-3xl font-bold tracking-tighter"
+                      style={{ color: 'rgb(var(--color-text-primary))' }}
+                    >
+                      {comp.share}
+                    </div>
+                    <div 
+                      className="text-[10px] font-bold uppercase tracking-widest mt-3"
+                      style={{ color: 'rgb(var(--color-text-tertiary))' }}
+                    >
+                      Traffic Share
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <div 
+                        className="text-3xl font-bold tracking-tighter"
+                        style={{ color: 'rgb(var(--color-text-primary))' }}
+                      >
+                        {comp.traffic}
+                      </div>
+                      <span className={`text-xl font-bold ${comp.trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
+                        {comp.trend === 'up' ? '↑' : '↓'}
+                      </span>
+                    </div>
+                    <div 
+                      className="text-[10px] font-bold uppercase tracking-widest mt-3"
+                      style={{ color: 'rgb(var(--color-text-tertiary))' }}
+                    >
+                      Organic Traffic
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p
+        className="text-[10px] uppercase font-bold tracking-widest mb-12 md:mb-16"
+        style={{ color: 'rgb(var(--color-text-tertiary))' }}
+      >
+        Source: Semrush May 2026
+      </p>
 
       <p
         className="text-base md:text-[18px] font-normal leading-relaxed max-w-[760px]"

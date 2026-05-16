@@ -95,7 +95,7 @@ export function AloRecommendationsSection() {
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-10 leading-tight tracking-[-0.05em]"
+        className="text-2xl md:text-[40px] font-bold text-text-primary mb-10 leading-tight tracking-[-0.05em] max-w-[680px]"
       />
 
       <div className="space-y-4 mb-0">
@@ -139,18 +139,18 @@ export function AloRecommendationsSection() {
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-10 leading-tight tracking-[-0.05em]"
+        className="text-2xl md:text-[40px] font-bold text-text-primary mb-10 leading-tight tracking-[-0.05em] max-w-[680px]"
       />
 
       <div className="space-y-10 md:space-y-12">
         {recommendations.map(({ number, title, description }) => (
           <div
             key={number}
-            className="grid grid-cols-1 md:grid-cols-[80px_1fr] gap-4 md:gap-8"
+            className="grid grid-cols-1 md:grid-cols-[clamp(3rem,8vw,5rem)_1fr] gap-4 md:gap-8"
           >
             <p
               className="text-4xl font-bold tracking-[-0.05em] leading-none"
-              style={{ color: 'rgb(var(--color-text-color10))' }}
+              style={{ color: 'rgb(var(--color-text-color30))' }}
             >
               {number}
             </p>
@@ -187,10 +187,10 @@ export function AloRecommendationsSection() {
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-10 leading-tight tracking-[-0.05em]"
+        className="text-2xl md:text-[40px] font-bold text-text-primary mb-10 leading-tight tracking-[-0.05em] max-w-[680px]"
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-6">
         {roadmapPhases.map(({ range, label, items }) => (
           <div key={label}>
             <div className="mb-6">
