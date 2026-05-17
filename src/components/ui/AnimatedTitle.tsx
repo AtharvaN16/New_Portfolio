@@ -26,6 +26,14 @@ interface AnimatedTitleProps {
   highlightWords?: string[]
   /** Color for highlighted words. */
   highlightColor?: string
+  /** Whether to delay the highlight animation until after the title has entered. Default: false. */
+  delayHighlight?: boolean
+  /** Extra delay before the highlight animation starts (in seconds). Default: 0.5s after text staggers in. */
+  highlightDelay?: number
+  /** Whether to show a marker background sweep behind the highlighted words. Default: false. */
+  showMarkerSweep?: boolean
+  /** Background highlight color (optional). Enables marker sweep if provided or if delayHighlight is true. */
+  highlightBgColor?: string
 }
 
 /**
@@ -46,9 +54,33 @@ export function AnimatedTitle({
   duration,
   highlightWords,
   highlightColor,
+  delayHighlight = false,
+  highlightDelay,
+  showMarkerSweep = false,
+  highlightBgColor,
 }: AnimatedTitleProps) {
   const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
   const shouldPause = prefersReducedMotion || pauseWebGL
+
+  // Count total words across all lines to calculate the stagger end time
+  const totalWordsCount = text.split(/\s+/).filter(Boolean).length
+  // Stagger animation for the entire title takes (totalWordsCount - 1) * stagger
+  // Plus the initial delayChildren offset of 0.2 + delay
+  const finalWordStartDelay = 0.2 + delay + Math.max(0, totalWordsCount - 1) * stagger
+  const calculatedHighlightDelay = highlightDelay !== undefined 
+    ? highlightDelay 
+    : (finalWordStartDelay + 0.4)
+
+  let markerBg = 'rgba(255, 140, 0, 0.12)'
+  if (highlightBgColor) {
+    markerBg = highlightBgColor
+  } else if (highlightColor) {
+    if (highlightColor.startsWith('#')) {
+      markerBg = highlightColor.length === 7 ? `${highlightColor}1a` : `${highlightColor}2`
+    } else {
+      markerBg = highlightColor
+    }
+  }
 
   const variantStyles = {
     default: 'max-w-[700px]',
@@ -174,13 +206,68 @@ export function AnimatedTitle({
               
               return (
                 <Fragment key={wordIndex}>
-                  <m.span 
-                    variants={wordVariants} 
-                    className="inline-block"
-                    style={isHighlighted && highlightColor ? { color: highlightColor } : {}}
-                  >
-                    {word}
-                  </m.span>
+                  {isHighlighted && delayHighlight ? (
+                    <m.span 
+                      variants={wordVariants} 
+                      className="inline-block relative"
+                    >
+                      {/* Base Text in standard theme color */}
+                      <span className="text-text-primary">
+                        {word}
+                      </span>
+
+                      {/* Highlighted text overlay (gently fades in after delay) */}
+                      {highlightColor && (
+                        <m.span
+                          variants={{
+                            hidden: { opacity: 0 },
+                            visible: {
+                              opacity: 1,
+                              transition: {
+                                delay: calculatedHighlightDelay + (showMarkerSweep ? 0.08 : 0),
+                                duration: 0.6,
+                                ease: 'easeOut'
+                              }
+                            }
+                          }}
+                          style={{ color: highlightColor }}
+                          className="absolute inset-0 select-none pointer-events-none"
+                        >
+                          {word}
+                        </m.span>
+                      )}
+
+                      {/* Background marker sweep */}
+                      {showMarkerSweep && (
+                        <m.span
+                          variants={{
+                            hidden: { scaleX: 0 },
+                            visible: {
+                              scaleX: 1,
+                              transition: {
+                                delay: calculatedHighlightDelay,
+                                duration: 0.75,
+                                ease: [0.16, 1, 0.3, 1] // easeOutExpo
+                              }
+                            }
+                          }}
+                          style={{ 
+                            originX: 0, 
+                            backgroundColor: markerBg 
+                          }}
+                          className="absolute -inset-x-1 -inset-y-[1px] rounded-[3px] -z-10 pointer-events-none"
+                        />
+                      )}
+                    </m.span>
+                  ) : (
+                    <m.span 
+                      variants={wordVariants} 
+                      className="inline-block"
+                      style={isHighlighted && highlightColor ? { color: highlightColor } : {}}
+                    >
+                      {word}
+                    </m.span>
+                  )}
                   {wordIndex < words.length - 1 && (
                     wordIndex === words.length - 2 ? '\u00A0' : ' '
                   )}

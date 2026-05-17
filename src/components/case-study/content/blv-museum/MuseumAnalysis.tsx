@@ -52,13 +52,18 @@ function AutoScrollTranscript() {
     <div 
       ref={containerRef}
       className={cn(
-        "relative h-[400px]",
+        "relative h-[400px] focus:outline-none focus:ring-2 focus:ring-primary/40",
         shouldPause ? "overflow-y-auto" : "overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]"
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onTouchStart={() => setIsHovered(true)}
       onTouchEnd={() => setIsHovered(false)}
+      onFocus={() => setIsHovered(true)}
+      onBlur={() => setIsHovered(false)}
+      tabIndex={0}
+      role="region"
+      aria-label="Auto-scrolling transcript. Focus or hover to pause."
     >
       <m.div style={shouldPause ? {} : { y }} ref={contentRef}>
         {content}
@@ -69,6 +74,7 @@ function AutoScrollTranscript() {
 }
 
 export function MuseumAnalysis() {
+  const { hideImages } = useAccessibility()
   return (
     <div className="space-y-24 md:space-y-32">
       {/* Finding Our Focus */}
@@ -101,19 +107,34 @@ export function MuseumAnalysis() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.6 }}
-            className="relative p-0 bg-transparent border-0 rounded-none flex items-center justify-center order-1 lg:order-2 lg:col-span-6"
+            className="relative p-0 bg-transparent border-0 rounded-none flex flex-col items-start justify-center order-1 lg:order-2 lg:col-span-6 w-full"
           >
             <div className="relative w-full aspect-[3/2] max-w-[500px] lg:max-w-none">
               <Image
                 src="/images/case-studies/blv-museum-accessibility/matisse-dance-original.jpg"
-                alt="Henri Matisse, Dance (I), 1909"
+                alt="Henri Matisse, Dance (I), 1909, with handwritten annotations questioning whether the background components are Sky, Water, or Hill."
                 fill
                 className="object-cover rounded-none"
               />
-              <m.div initial={{ opacity: 0, scale: 0.5, rotate: -20 }} whileInView={{ opacity: 1, scale: 1, rotate: -15 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.5, type: "spring" }} className="absolute top-0 left-[15%] -translate-x-1/2 -translate-y-[60%] text-[#FF8C00] text-3xl md:text-5xl font-handwritten z-10">Sky?</m.div>
-              <m.div initial={{ opacity: 0, scale: 0.5, rotate: 20 }} whileInView={{ opacity: 1, scale: 1, rotate: 15 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.7, type: "spring" }} className="absolute top-[5%] right-0 translate-x-[20%] -translate-y-1/2 text-[#FF8C00] text-3xl md:text-5xl font-handwritten z-10">Water?</m.div>
-              <m.div initial={{ opacity: 0, scale: 0.5, rotate: -10 }} whileInView={{ opacity: 1, scale: 1, rotate: -5 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.9, type: "spring" }} className="absolute bottom-0 left-[40%] -translate-x-1/2 translate-y-[60%] text-[#FF8C00] text-3xl md:text-5xl font-handwritten z-10">Hill?</m.div>
+              {!hideImages && (
+                <>
+                  <m.div aria-hidden="true" initial={{ opacity: 0, scale: 0.5, rotate: -20 }} whileInView={{ opacity: 1, scale: 1, rotate: -15 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.5, type: "spring" }} className="absolute top-0 left-[15%] -translate-x-1/2 -translate-y-[60%] text-[#FF8C00] text-3xl md:text-5xl font-handwritten z-10">Sky?</m.div>
+                  <m.div aria-hidden="true" initial={{ opacity: 0, scale: 0.5, rotate: 20 }} whileInView={{ opacity: 1, scale: 1, rotate: 15 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.7, type: "spring" }} className="absolute top-[5%] right-0 translate-x-[20%] -translate-y-1/2 text-[#FF8C00] text-3xl md:text-5xl font-handwritten z-10">Water?</m.div>
+                  <m.div aria-hidden="true" initial={{ opacity: 0, scale: 0.5, rotate: -10 }} whileInView={{ opacity: 1, scale: 1, rotate: -5 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.9, type: "spring" }} className="absolute bottom-0 left-[40%] -translate-x-1/2 translate-y-[60%] text-[#FF8C00] text-3xl md:text-5xl font-handwritten z-10">Hill?</m.div>
+                </>
+              )}
+              {hideImages && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-neutral-100 dark:bg-neutral-800 border border-dashed border-text-color30 z-20">
+                  <span className="text-[10px] uppercase tracking-widest text-text-color60 mb-2">Image Hidden</span>
+                  <p className="text-xs md:text-sm font-sans text-text-primary leading-relaxed max-w-[85%] font-medium">
+                    Henri Matisse, Dance (I), 1909, with handwritten annotations questioning whether the background components are Sky, Water, or Hill.
+                  </p>
+                </div>
+              )}
             </div>
+            <p className="text-xs md:text-sm font-sans text-text-color60 mt-6 md:mt-8 leading-relaxed max-w-[500px] text-left">
+              <strong className="text-text-primary font-semibold">Figure 2:</strong> Henri Matisse&apos;s &apos;Dance (I)&apos; annotated with floating questions (&quot;Sky?&quot;, &quot;Water?&quot;, &quot;Hill?&quot;) highlighting how different, valid interpretations of visual background elements justify the need for interpretive agency.
+            </p>
           </m.div>
         </div>
       </div>
@@ -136,17 +157,27 @@ export function MuseumAnalysis() {
           className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
         />
 
-        <div className="relative w-full flex items-center min-h-[400px] py-12 md:py-20 mt-12">
-          <div className="absolute top-1/2 -translate-y-1/2 -left-6 md:-left-12 w-[100%] md:w-[90%] h-[600px] md:h-[700px] z-0 opacity-40 md:opacity-60 [mask-image:linear-gradient(to_right,black_45%,transparent_70%)] pointer-events-none">
-            <Image src="/images/case-studies/blv-museum-accessibility/acc_matrix.png" alt="Accessibility Matrix" fill className="object-contain object-left" />
-          </div>
-          <div className="w-[100%] md:w-[50%] ml-auto relative z-10 flex flex-col h-[400px] md:h-[450px] justify-center">
-            <div className="absolute inset-y-0 -left-12 md:-left-32 right-0 bg-gradient-to-r from-transparent via-background to-background -z-10 pointer-events-none" />
-            <div className="relative z-10 pl-0 md:pl-12">
-              <p className="mb-6 font-sans text-sm md:text-[14px] uppercase tracking-widest text-text-color70">Excerpts: Audio Description for Matisse&apos;s Dance (I), 1909</p>
-              <AutoScrollTranscript />
+        <div className="relative w-full flex flex-col mt-12">
+          <div className="relative w-full flex items-center min-h-[400px] py-12 md:py-20">
+            <div className="absolute top-1/2 -translate-y-1/2 -left-6 md:-left-12 w-[100%] md:w-[90%] h-[600px] md:h-[700px] z-0 opacity-40 md:opacity-60 [mask-image:linear-gradient(to_right,black_45%,transparent_70%)] pointer-events-none">
+              <Image 
+                src="/images/case-studies/blv-museum-accessibility/acc_matrix.png" 
+                alt="The Accessibility Analysis Matrix, categorizing parts of visual description into objective observations versus subjective conclusions." 
+                fill 
+                className="object-contain object-left" 
+              />
+            </div>
+            <div className="w-[100%] md:w-[50%] ml-auto relative z-10 flex flex-col h-[400px] md:h-[450px] justify-center">
+              <div className="absolute inset-y-0 -left-12 md:-left-32 right-0 bg-gradient-to-r from-transparent via-background to-background -z-10 pointer-events-none" />
+              <div className="relative z-10 pl-0 md:pl-12">
+                <p className="mb-6 font-sans text-sm md:text-[14px] uppercase tracking-widest text-text-color70">Excerpts: Audio Description for Matisse&apos;s Dance (I), 1909</p>
+                <AutoScrollTranscript />
+              </div>
             </div>
           </div>
+          <p className="text-xs md:text-sm font-sans text-text-color60 mt-12 md:mt-16 leading-relaxed text-left max-w-[650px] relative -left-6 md:-left-12">
+            <strong className="text-text-primary font-semibold">Figure 3:</strong> The Accessibility Analysis Matrix (rendered as backdrop), showcasing a multi-dimensional framework mapped with objective data points versus subjective interpretations to assess standard audio description biases.
+          </p>
         </div>
       </div>
 
@@ -154,7 +185,28 @@ export function MuseumAnalysis() {
         <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           The Analysis
         </h3>
-        <AnimatedTitle text="Findings from 14 Major Museums" animationType="fadeIn" className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-16 md:mb-24" />
+        <AnimatedTitle text="Findings from 14 Major Museums" animationType="fadeIn" className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-12" />
+        
+        <div className="mb-20 space-y-8">
+          <p className="text-lg md:text-xl text-text-color70 leading-relaxed max-w-[880px]">
+            We evaluated the audio descriptions across four art types: Abstract, Figurative, Contemporary, and Sculpture. Each description was scored across three dimensions:
+          </p>
+          <ul className="space-y-6 md:space-y-8">
+            {[
+              { title: 'Objectivity score (0–5):', desc: 'to what extent does the description report observable facts versus interpretive claims?' },
+              { title: 'Emotional language:', desc: 'does the description use words that tell the listener how to feel?' },
+              { title: 'Ambiguity preserved:', desc: 'does the description leave genuine space for the listener to form their own interpretation?' }
+            ].map((item, i) => (
+              <li key={i} className="flex items-start gap-4">
+                <span className="mt-[0.65em] h-1.5 w-1.5 rounded-full shrink-0 bg-[#FF8C00]" aria-hidden="true" />
+                <div className="text-lg md:text-xl text-text-color70 leading-relaxed">
+                  <strong className="text-text-primary font-bold">{item.title}</strong> {item.desc}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <div className="w-full mb-20">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 items-start text-left">
             {[
@@ -178,7 +230,7 @@ export function MuseumAnalysis() {
             { text: 'Leaving out the specific perceptual grounding (scale, texture, spatial arrangement) needed for visitors to form their own readings.', color: 'bg-[#FFB8D2] dark:bg-[#D490AB]', rot: 'rotate-[-1.5deg]' }
           ].map((note, i) => (
             <div key={i} className={cn("p-8 aspect-square flex flex-col justify-center text-left shadow-lg transition-transform hover:scale-[1.02] cursor-default", note.color, note.rot)}>
-              <p className="text-black dark:text-black/80 font-medium leading-relaxed text-sm md:text-base">{note.text}</p>
+              <p className="text-neutral-950 font-bold leading-relaxed text-base md:text-lg lg:text-[18px]">{note.text}</p>
             </div>
           ))}
         </div>
@@ -190,8 +242,10 @@ export function MuseumAnalysis() {
               text="How might we increase interpretive agency for BLV participants in art spaces?"
               highlightWords={["interpretive agency"]}
               highlightColor="#FF8C00"
+              delayHighlight
+              showMarkerSweep
               animationType="fadeIn"
-              className="text-2xl md:text-[42px] font-bold text-text-primary leading-[1.15] tracking-[-0.04em]"
+              className="text-3xl md:text-[54px] font-bold text-text-primary leading-[1.12] tracking-[-0.04em]"
               variant="full"
             />
           </div>

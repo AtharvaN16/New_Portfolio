@@ -9,6 +9,7 @@ import { CaseStudyHeader } from '@/components/case-study/CaseStudyHeader'
 import { CaseStudyContentRenderer } from '@/components/case-study/CaseStudyContentRenderer'
 import { useSmoothScroll } from '@/hooks/use-smooth-scroll'
 import { useHeroOverlay, HERO_OVERLAY_MAX_OPACITY } from '@/hooks/use-hero-overlay'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 interface CaseStudyDetailProps {
   caseStudy: CaseStudy
@@ -20,6 +21,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
   const heroSectionRef = useRef<HTMLElement>(null)
+  const { hideImages } = useAccessibility()
 
   // Smooth scroll hook
   useSmoothScroll(containerRef, contentRef)
@@ -181,8 +183,8 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
           transition={{ duration: 0.6, delay: 0.6 }}
         >
           {caseStudy.imageUrl ? (
-            <div className="relative w-full">
-              <div className="relative w-full h-screen">
+            <div className="relative w-full flex flex-col items-start">
+              <div className="relative w-full h-[60vh] md:h-screen">
                 <Image
                   src={caseStudy.imageUrl}
                   alt={`${caseStudy.title} - Hero Image`}
@@ -195,7 +197,23 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
                    className="absolute inset-0 bg-black pointer-events-none"
                    style={{ opacity: heroOverlayOpacity * HERO_OVERLAY_MAX_OPACITY }}
                    aria-hidden
-                 />              </div>
+                 />
+                {hideImages && (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-neutral-100 dark:bg-neutral-800 border border-dashed border-text-color30 z-20">
+                    <span className="text-[10px] uppercase tracking-widest text-text-color60 mb-2">Image Hidden</span>
+                    <p className="text-xs md:text-sm font-sans text-text-primary leading-relaxed max-w-[85%] font-medium">
+                      Hero banner representing the digital accessibility case study title: &quot;Who Decides What Art Means?&quot;
+                    </p>
+                  </div>
+                )}
+              </div>
+              {caseStudy.slug === 'blv-museum-accessibility' && (
+                <div className="px-6 2xl:px-[140px] pt-4 pb-2 w-full max-w-[1920px] mx-auto text-left">
+                  <p className="text-xs md:text-sm font-sans text-text-color60 leading-relaxed max-w-[800px]">
+                    <strong className="text-text-primary font-semibold">Hero Image:</strong> Visual concept for Atharva Nayak&apos;s digital accessibility case study, showcasing hands interacting with art under a high-contrast orange and black theme.
+                  </p>
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-center py-20 md:py-0">

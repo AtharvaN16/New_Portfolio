@@ -5,6 +5,7 @@ import { useRef } from 'react'
 import Image from 'next/image'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 import { cn } from '@/lib/utils/cn'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 interface MatisseSimulationProps {
   scrollContainerRef: React.RefObject<HTMLElement | null>
@@ -13,6 +14,7 @@ interface MatisseSimulationProps {
 
 export function MatisseSimulation({ scrollContainerRef, isReady }: MatisseSimulationProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const { reducedMotion, hideImages } = useAccessibility()
 
   // useScroll only initializes when the component mounts (which is when isContentRevealed is true)
   const { scrollYProgress } = useScroll({
@@ -22,10 +24,15 @@ export function MatisseSimulation({ scrollContainerRef, isReady }: MatisseSimula
   })
 
   // Transformation ranges for the visual loss simulation
-  const blur = useTransform(scrollYProgress, [0.2, 0.7], [0, 20])
-  const opacity = useTransform(scrollYProgress, [0.2, 0.7], [1, 0.2])
-  const vignetteOpacity = useTransform(scrollYProgress, [0.2, 0.7], [0, 1])
-  const textOpacity = useTransform(scrollYProgress, [0.6, 0.8], [0, 1])
+  const blurValue = useTransform(scrollYProgress, [0.2, 0.7], [0, 20])
+  const opacityValue = useTransform(scrollYProgress, [0.2, 0.7], [1, 0.2])
+  const vignetteOpacityValue = useTransform(scrollYProgress, [0.2, 0.7], [0, 1])
+  const textOpacityValue = useTransform(scrollYProgress, [0.6, 0.8], [0, 1])
+
+  const blur = reducedMotion ? 0 : blurValue
+  const opacity = reducedMotion ? 1 : opacityValue
+  const vignetteOpacity = reducedMotion ? 0.3 : vignetteOpacityValue
+  const textOpacity = reducedMotion ? 1 : textOpacityValue
 
   return (
     <>
@@ -48,7 +55,7 @@ export function MatisseSimulation({ scrollContainerRef, isReady }: MatisseSimula
             simulating the experience of losing visual detail. This leads to the question: &quot;What about now?&quot;
           </div>
 
-          <div className="sticky top-[10vh] sm:top-[15vh] w-full flex flex-col items-center">
+          <div className="sticky top-[10vh] sm:top-[15vh] w-full flex flex-col items-start">
             <m.div
               initial={{ scale: 0.98, opacity: 0 }}
               whileInView={{ scale: [0.98, 1.01, 1], opacity: 1 }}
@@ -80,7 +87,19 @@ export function MatisseSimulation({ scrollContainerRef, isReady }: MatisseSimula
                   What about now?
                 </h2>
               </m.div>
+
+              {hideImages && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-neutral-100 dark:bg-neutral-800 border border-dashed border-text-color30 z-20">
+                  <span className="text-[10px] uppercase tracking-widest text-text-color60 mb-2">Image Hidden</span>
+                  <p className="text-xs md:text-sm font-sans text-text-primary leading-relaxed max-w-[85%] font-medium">
+                    Henri Matisse, Dance (I), 1909. Five figures in a circle against a blue and green background.
+                  </p>
+                </div>
+              )}
             </m.div>
+            <p className="text-xs md:text-sm font-sans text-text-color60 mt-6 md:mt-8 leading-relaxed max-w-[800px] text-left">
+              <strong className="text-text-primary font-semibold">Figure 1:</strong> Interactive visual simulation of Henri Matisse’s &apos;Dance (I)&apos; (1909) progressively blurring and fading as the user scrolls, representing the loss of visual clarity and interpretive context in traditional museum settings.
+            </p>
           </div>
         </div>
       </div>

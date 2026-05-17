@@ -97,7 +97,6 @@ export function EmpoweringBlvContent({
                   : "bg-[#2A2A2A] text-white p-4 rounded-full gap-0"
               )}
               aria-label="Accessibility Options"
-              role="alert"
               aria-live="polite"
             >
               <m.div layout="position" className="flex-shrink-0 flex items-center justify-center w-6 h-6">
@@ -119,17 +118,17 @@ export function EmpoweringBlvContent({
                       Accessibility Options
                     </span>
                     <div className="w-[1px] h-4 bg-white/20 ml-1" />
-                    <div
+                    <button
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         setToastState('dismissed');
                       }}
-                      className="p-1.5 hover:bg-white/10 rounded-full transition-colors cursor-pointer"
-                      role="button"
-                      aria-label="Dismiss"
+                      className="p-1.5 hover:bg-white/10 rounded-full transition-colors cursor-pointer outline-none focus:ring-2 focus:ring-white/40"
+                      aria-label="Dismiss accessibility options toast"
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                    </div>
+                    </button>
                   </m.div>
                 )}
               </AnimatePresence>
