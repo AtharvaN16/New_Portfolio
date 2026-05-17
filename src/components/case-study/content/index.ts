@@ -1,4 +1,5 @@
 export { AloYogaContent } from './AloYogaContent'
+export { AquitaniaContent } from './AquitaniaContent'
 export { GutenbergContent } from './GutenbergContent'
 export { ImdbIaRedesignContent } from './ImdbIaRedesignContent'
 export { MetFreeToursContent } from './MetFreeToursContent'
