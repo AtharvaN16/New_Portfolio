@@ -216,6 +216,23 @@ export const caseStudies: CaseStudy[] = [
     heroImageFill: true,
   },
   {
+    slug: 'aquitania-design-system',
+    title: 'Aquitania — A Design System for Cunard',
+    organization: 'Cunard / Pratt Institute',
+    year: '2026',
+    description:
+      'A design system that bridges the gap between Cunard\'s premium physical brand and its inconsistent digital experience — built for a luxury cruise line with 185 years of heritage.',
+    tags: ['Design Systems', 'UI Design', 'Accessibility', 'Selected Work'],
+    imageBg: '#1a1a2e',
+    featured: true,
+    category: 'ui-design',
+    team: ['Atharva Nayak', 'Jasmin Rose Guerrera', 'Jane Hsieh', 'Zach Hojeibane'],
+    timeline: 'Spring 2026',
+    fullDescription:
+      'Cunard\'s digital product failed to reflect its 185-year legacy of timeless luxury. We designed the Aquitania Design System V1 — a complete token-based foundation covering color, typography, and components — to finally make the digital experience worthy of the brand.',
+    progressBarColor: '#9B2335',
+  },
+  {
     slug: 'blv-museum-accessibility',
     title:
       'Who Decides What Art Means? Giving interpretive agency to blind and low-vision museum visitors.',

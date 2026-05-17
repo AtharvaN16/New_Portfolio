@@ -5,6 +5,7 @@ import type { CaseStudy } from '@/lib/data/case-studies'
 import { CaseStudyContent } from '@/components/case-study/CaseStudyContent'
 import {
   AloYogaContent,
+  AquitaniaContent,
   GutenbergContent,
   ImdbIaRedesignContent,
   MetFreeToursContent,
@@ -107,6 +108,15 @@ export function CaseStudyContentRenderer({
           isContentRevealed={isContentRevealed}
           onToggleContent={onToggleContent}
           progressBarColor={caseStudy.progressBarColor || '#FF8C00'}
+        />
+      )
+
+    case 'aquitania-design-system':
+      return (
+        <AquitaniaContent
+          isContentRevealed={isContentRevealed}
+          onToggleContent={onToggleContent}
+          progressBarColor={caseStudy.progressBarColor || '#9B2335'}
         />
       )
 
