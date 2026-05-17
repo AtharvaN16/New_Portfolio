@@ -299,10 +299,10 @@ export function AquitaniaContent({
             {/* Four Principles */}
             <section data-section="aquitania-principles">
               <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
-                Framework
+                Principles
               </p>
               <h3 className="text-xl md:text-[28px] font-bold text-text-primary mb-8 md:mb-10 leading-snug">
-                The Aquitania follows four design principles
+                Aquitania follows four design principles
               </h3>
               <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-10 md:mb-12 max-w-2xl">
                 We established four core principles to guide the Aquitania design system and ensure every
