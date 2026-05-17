@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useReducedMotion } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
 
 const RING_SIZE = 52
@@ -18,6 +19,7 @@ interface CaseStudyVideoProps {
 export function CaseStudyVideo({ src, alt, className }: CaseStudyVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
+  const shouldReduceMotion = useReducedMotion()
   const [isPlaying, setIsPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
@@ -30,7 +32,7 @@ export function CaseStudyVideo({ src, alt, className }: CaseStudyVideoProps) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !shouldReduceMotion) {
           video.play().then(() => setIsPlaying(true)).catch(() => {})
         } else {
           video.pause()
@@ -41,6 +43,21 @@ export function CaseStudyVideo({ src, alt, className }: CaseStudyVideoProps) {
     )
     observer.observe(wrapper)
     return () => observer.disconnect()
+  }, [shouldReduceMotion])
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const pauseWhenHidden = () => {
+      if (document.visibilityState === 'hidden') {
+        video.pause()
+        setIsPlaying(false)
+      }
+    }
+
+    document.addEventListener('visibilitychange', pauseWhenHidden)
+    return () => document.removeEventListener('visibilitychange', pauseWhenHidden)
   }, [])
 
   useEffect(() => {

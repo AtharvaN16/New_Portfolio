@@ -1,21 +1,65 @@
 'use client'
 
 import { m } from 'framer-motion'
+import dynamic from 'next/dynamic'
 import type { CaseStudy } from '@/lib/data/case-studies'
 import { CaseStudyContent } from '@/components/case-study/CaseStudyContent'
-import {
-  AloYogaContent,
-  AquitaniaContent,
-  GutenbergContent,
-  ImdbIaRedesignContent,
-  MetFreeToursContent,
-  NycDcwpBusinessLicensesContent,
-  NycThirdSpacesContent,
-  PrattVisitorExperienceContent,
-  SnakesShowcaseContent,
-  UAlbertaLibraryContent,
-  EmpoweringBlvContent,
-} from '@/components/case-study/content'
+
+const AloYogaContent = dynamic(() =>
+  import('@/components/case-study/content/AloYogaContent').then(
+    (module) => module.AloYogaContent
+  )
+)
+const AquitaniaContent = dynamic(() =>
+  import('@/components/case-study/content/AquitaniaContent').then(
+    (module) => module.AquitaniaContent
+  )
+)
+const GutenbergContent = dynamic(() =>
+  import('@/components/case-study/content/GutenbergContent').then(
+    (module) => module.GutenbergContent
+  )
+)
+const ImdbIaRedesignContent = dynamic(() =>
+  import('@/components/case-study/content/ImdbIaRedesignContent').then(
+    (module) => module.ImdbIaRedesignContent
+  )
+)
+const MetFreeToursContent = dynamic(() =>
+  import('@/components/case-study/content/MetFreeToursContent').then(
+    (module) => module.MetFreeToursContent
+  )
+)
+const NycDcwpBusinessLicensesContent = dynamic(() =>
+  import('@/components/case-study/content/NycDcwpBusinessLicensesContent').then(
+    (module) => module.NycDcwpBusinessLicensesContent
+  )
+)
+const NycThirdSpacesContent = dynamic(() =>
+  import('@/components/case-study/content/NycThirdSpacesContent').then(
+    (module) => module.NycThirdSpacesContent
+  )
+)
+const PrattVisitorExperienceContent = dynamic(() =>
+  import('@/components/case-study/content/PrattVisitorExperienceContent').then(
+    (module) => module.PrattVisitorExperienceContent
+  )
+)
+const SnakesShowcaseContent = dynamic(() =>
+  import('@/components/case-study/content/SnakesShowcaseContent').then(
+    (module) => module.SnakesShowcaseContent
+  )
+)
+const UAlbertaLibraryContent = dynamic(() =>
+  import('@/components/case-study/content/UAlbertaLibraryContent').then(
+    (module) => module.UAlbertaLibraryContent
+  )
+)
+const EmpoweringBlvContent = dynamic(() =>
+  import('@/components/case-study/content/EmpoweringBlvContent').then(
+    (module) => module.EmpoweringBlvContent
+  )
+)
 
 interface CaseStudyContentRendererProps {
   caseStudy: CaseStudy
@@ -116,7 +160,6 @@ export function CaseStudyContentRenderer({
         <AquitaniaContent
           isContentRevealed={isContentRevealed}
           onToggleContent={onToggleContent}
-          progressBarColor={caseStudy.progressBarColor || '#9B2335'}
         />
       )
 
