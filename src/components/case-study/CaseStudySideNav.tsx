@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
-import { useLenis } from '@/components/providers/LenisProvider'
 
 export interface NavItem {
   id: string
@@ -22,7 +21,6 @@ export function CaseStudySideNav({
 }: CaseStudySideNavProps) {
   const [activeId, setActiveId] = useState<string>('')
   const [isHovered, setIsHovered] = useState(false)
-  const lenis = useLenis()
 
   useEffect(() => {
     if (!isVisible) return
@@ -52,7 +50,7 @@ export function CaseStudySideNav({
   const scrollTo = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
-      const currentLenis = (window as any).lenis
+      const currentLenis = window.lenis
       if (currentLenis) {
         currentLenis.scrollTo(`#${id}`, { 
           offset: -120,
@@ -90,7 +88,6 @@ export function CaseStudySideNav({
                   onClick={(e) => {
                     e.preventDefault()
                     e.stopPropagation()
-                    console.log('[DEBUG-sidenav] Clicking:', item.id)
                     scrollTo(item.id)
                   }}
                   className="flex items-center text-right justify-end group/item w-full py-2 relative h-6"

@@ -223,13 +223,14 @@ export const caseStudies: CaseStudy[] = [
     description:
       'A design system that bridges the gap between Cunard\'s premium physical brand and its inconsistent digital experience — built for a luxury cruise line with 185 years of heritage.',
     tags: ['Design Systems', 'UI Design', 'Accessibility', 'Selected Work'],
-    imageBg: '#1a1a2e',
+    imageBg: '#B5A484',
+    imageUrl: '/images/case-studies/aquitania-design-system/hero.webp',
     featured: true,
     category: 'ui-design',
     team: ['Atharva Nayak', 'Jasmin Rose Guerrera', 'Jane Hsieh', 'Zach Hojeibane'],
     timeline: 'Spring 2026',
     fullDescription:
-      'Cunard\'s digital product failed to reflect its 185-year legacy of timeless luxury. We designed the Aquitania Design System V1 — a complete token-based foundation covering color, typography, and components — to finally make the digital experience worthy of the brand.',
+      'This case study explores the creation of a design system for Cunard to modernize its digital experience and better reflect its premium brand identity.',
     progressBarColor: '#9B2335',
   },
   {

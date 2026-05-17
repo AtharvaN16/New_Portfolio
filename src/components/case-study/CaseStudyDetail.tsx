@@ -1,7 +1,7 @@
 'use client'
 
 import { m, useScroll } from 'framer-motion'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useRef } from 'react'
 import Image from 'next/image'
 import type { CaseStudy } from '@/lib/data/case-studies'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
@@ -189,8 +189,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
                   fill
                   className="object-cover"
                   sizes="100vw"
-                  priority
-                  quality={100}
+                  quality={90}
                 />
                 <div
                    className="absolute inset-0 bg-black pointer-events-none"

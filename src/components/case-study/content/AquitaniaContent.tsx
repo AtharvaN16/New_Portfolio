@@ -1,59 +1,70 @@
 'use client'
 
+import Image from 'next/image'
 import { m } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 import { AnimatedQuote } from '@/components/ui/AnimatedQuote'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { CaseStudySideNav } from '@/components/case-study/CaseStudySideNav'
+import { CunardHandwrittenProblems } from '@/components/case-study/content/CunardHandwrittenProblems'
+import { CaseStudyVideo } from '@/components/case-study/CaseStudyVideo'
+import { CunardShipGallery } from '@/components/case-study/content/CunardShipGallery'
+import { AquitaniaPrimitivesShowcase } from '@/components/case-study/content/AquitaniaPrimitivesShowcase'
+import { AquitaniaComponentsSection } from '@/components/case-study/content/AquitaniaComponentsSection'
+import { AquitaniaInActionSection } from '@/components/case-study/content/AquitaniaInActionSection'
+import { AquitaniaBenefitsSection } from '@/components/case-study/content/AquitaniaBenefitsSection'
+import { AquitaniaConclusionSection } from '@/components/case-study/content/AquitaniaConclusionSection'
 
 const CUNARD_RED = '#9B2335'
-const CUNARD_GOLD = '#A39458'
+const AQUITANIA_DOCS_URL = 'https://zeroheight.com/7069a3a57'
+const AQUITANIA_UI_KIT_URL =
+  'https://www.figma.com/design/siCTskRKCiK0a2PFdsGLJ7/Aquitania-UI-Kit--Final-?node-id=2140-390&t=pSgXqRlkN6Pnj5HC-1'
+
+const aquitaniaNavItems = [
+  { id: 'aquitania-intro', label: 'Intro' },
+  { id: 'aquitania-aquitania', label: 'Aquitania' },
+  { id: 'aquitania-process', label: 'Our Process' },
+  { id: 'aquitania-showcase', label: 'Showcase' },
+  { id: 'aquitania-conclusion', label: 'Conclusion' },
+]
 
 interface AquitaniaContentProps {
   isContentRevealed: boolean
   onToggleContent: () => void
-  progressBarColor?: string
-}
-
-function PlaceholderImage({
-  label,
-  aspect = 'aspect-[16/9]',
-  bg = 'bg-[#1a1a2e]',
-}: {
-  label: string
-  aspect?: string
-  bg?: string
-}) {
-  return (
-    <div
-      className={`relative w-full ${aspect} ${bg} flex items-center justify-center overflow-hidden`}
-    >
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(163,148,88,0.3) 20px, rgba(163,148,88,0.3) 21px)',
-        }} />
-      </div>
-      <p className="relative z-10 text-xs font-mono uppercase tracking-widest text-white/40 text-center px-4">
-        {label}
-      </p>
-    </div>
-  )
-}
-
-function PrincipleCard({ number, title, description }: { number: string; title: string; description: string }) {
-  return (
-    <div className="flex flex-col gap-3 p-6 border" style={{ borderColor: 'rgb(var(--color-text-color10))' }}>
-      <p className="text-sm font-mono uppercase tracking-widest" style={{ color: CUNARD_GOLD }}>{number}</p>
-      <h4 className="text-lg md:text-xl font-bold text-text-primary">{title}</h4>
-      <p className="text-sm md:text-base text-text-color70 leading-relaxed">{description}</p>
-    </div>
-  )
 }
 
 export function AquitaniaContent({
   isContentRevealed,
   onToggleContent,
-  progressBarColor = CUNARD_RED,
 }: AquitaniaContentProps) {
+  const [isPastIntro, setIsPastIntro] = useState(false)
+
+  useEffect(() => {
+    if (!isContentRevealed) {
+      return
+    }
+
+    let observer: IntersectionObserver | null = null
+    const timeout = window.setTimeout(() => {
+      const aquitaniaSection = document.getElementById('aquitania-aquitania')
+      if (!aquitaniaSection) return
+
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          setIsPastIntro(entry.boundingClientRect.top < window.innerHeight)
+        },
+        { threshold: [0] }
+      )
+      observer.observe(aquitaniaSection)
+    }, 100)
+
+    return () => {
+      window.clearTimeout(timeout)
+      observer?.disconnect()
+    }
+  }, [isContentRevealed])
+
   return (
     <m.section
       data-section="aquitania-case-study-root"
@@ -62,235 +73,408 @@ export function AquitaniaContent({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.8 }}
     >
-      <div className="max-w-[1044px] mx-auto text-left">
+      <CaseStudySideNav
+        isVisible={isContentRevealed && isPastIntro}
+        navItems={aquitaniaNavItems}
+        themeColor={CUNARD_RED}
+      />
+      <div
+        data-section="aquitania-content-column"
+        className="max-w-[1044px] mx-auto text-left"
+      >
+
         {/* Abstract */}
-        <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">Abstract</h3>
-        <div className="space-y-6 md:space-y-8">
+        <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
+          Abstract
+        </h3>
+        <div
+          data-section="aquitania-abstract-body"
+          className="space-y-6 md:space-y-8 mb-8 md:mb-10"
+        >
           <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
-            Cunard has sailed the world since 1839 — a name synonymous with rich heritage, timeless luxury,
-            and meticulous attention to detail. Yet its digital experience told a different story: inconsistent
-            typography, overcrowded layouts, and accessibility gaps that undercut everything the brand stood for.
+            This case study explores the creation of a design system for Cunard to modernize its
+            digital experience and better reflect its premium brand identity. As digital products and
+            teams evolved, inconsistencies across interfaces, workflows, and communication created
+            challenges in maintaining a cohesive brand experience.
           </p>
           <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
-            For INFO 672 — UX Design Systems at Pratt Institute, our team of four designed the Aquitania Design
-            System V1: a cohesive, accessible, and luxurious foundation to finally close the gap between
-            Cunard&apos;s physical and digital brand experience.
+            The project aimed to establish a scalable and unified design foundation that could improve
+            collaboration, streamline decision-making, and ensure consistency across products and teams.
+            Through the creation of standardized components, design guidelines, and shared patterns,
+            the system helps reduce ambiguity in design and development workflows.
           </p>
         </div>
 
+        {/* Note */}
+        <p
+          className="text-sm font-medium text-text-color70 mb-16 md:mb-24"
+          style={{ borderLeft: `3px solid ${CUNARD_RED}`, paddingLeft: '12px' }}
+        >
+          NOTE: This is a concept project.
+        </p>
+
+        {/* Read more toggle */}
         <CaseStudyReadMore
           readTime="10 min read"
           isContentRevealed={isContentRevealed}
           onToggleContent={onToggleContent}
         >
-          <div className="space-y-16 md:space-y-24">
+          <div
+            data-section="aquitania-read-more-inner"
+            className="space-y-24 md:space-y-32"
+          >
 
-            {/* Hero headline */}
-            <div>
+            {/* Big animated headline */}
+            <div
+              id="aquitania-intro"
+              data-section="aquitania-hero-headline"
+              className="scroll-mt-32"
+            >
               <AnimatedTitle
-                text="When the brand feels premium but the website doesn't"
+                text="Redefining Cunard's Digital Presence for a consistent and premium experience with a new Design System"
                 animationType="fadeInUp"
                 variant="wide"
-                className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em]"
+                alwaysAnimate
+                delay={0.1}
+                stagger={0.04}
+                duration={0.3}
+                className="text-[2rem] sm:text-4xl md:text-5xl font-bold text-text-primary leading-tight tracking-[-0.05em] max-w-[800px]"
               />
             </div>
 
-            {/* The Brand Gap */}
-            <section className="space-y-8">
-              <h3 className="text-lg md:text-[28px] font-bold text-text-primary">The Brand Gap</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
-                <div className="space-y-6">
-                  <p className="text-base md:text-[18px] text-text-color70 leading-relaxed">
-                    Cunard&apos;s physical experience — the white-glove service, the Queen Mary 2, the
-                    Cormorant Garamond signage — is unmistakably premium. We boarded the digital product
-                    and found something else entirely.
-                  </p>
-                  <ul className="space-y-3">
-                    {[
-                      'Inconsistent typography across every page',
-                      'Overcrowded layouts with no visual hierarchy',
-                      'Interactive states that varied component to component',
-                      'Icon buttons with no accessible labels',
-                    ].map((item) => (
-                      <li key={item} className="flex items-start gap-3 text-base text-text-color70 leading-relaxed">
-                        <svg className="mt-[0.42em] h-2 w-2 shrink-0" viewBox="0 0 8 8" aria-hidden>
-                          <circle cx="4" cy="4" r="4" fill={progressBarColor} />
-                        </svg>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <PlaceholderImage label="Cunard.com — before Aquitania" aspect="aspect-[4/3]" bg="bg-neutral-800" />
-              </div>
+            {/* What is Cunard? */}
+            <section data-section="aquitania-what-is-cunard">
+              <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-8">
+                What is Cunard?
+              </h3>
+              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed max-w-2xl">
+                With a legacy spanning over 185 years, Cunard is a luxury British cruise line known for its
+                iconic ocean liners, heritage, and premium travel experiences. The company defined luxury
+                transatlantic ocean travel in the early 1900s through legendary vessels like the Mauretania,
+                Aquitania, Lusitania, and Carpathia (famed for rescuing Titanic survivors), followed later by
+                the immortal RMS Queen Mary. Today, Cunard competes with high-end brands such as Silversea
+                Cruises, Regent Seven Seas Cruises, and Seabourn Cruise Line.
+              </p>
+              <CunardShipGallery />
+            </section>
 
-              <div className="mt-6">
-                <AnimatedQuote
-                  className="text-xl md:text-[28px] font-bold tracking-[-0.02em] text-text-primary"
-                  segments={[
-                    { text: '“All of this goes AGAINST' },
-                    { text: 'what our passengers expect from Cunard.”', color: CUNARD_RED },
-                  ]}
+            {/* Why does Cunard need a design system? — two-column */}
+            <section
+              data-section="aquitania-why-design-system"
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start"
+            >
+              <h3 className="text-lg md:text-[28px] font-bold text-text-primary leading-snug">
+                Why does Cunard need a design system?
+              </h3>
+              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed max-w-2xl">
+                As a premium cruise brand competing in the luxury travel market, Cunard&apos;s digital
+                experience needed to better reflect the elegance and sophistication of its brand. Outdated
+                visuals, inconsistent UI patterns, and accessibility gaps created a disconnect between the
+                premium onboard experience and the digital journey. In an industry where first impressions
+                determine whether you keep or lose customers, it was necessary for Cunard to redefine its
+                digital presence.
+              </p>
+            </section>
+
+            <CunardHandwrittenProblems>
+              <figure
+                data-section="aquitania-current-digital-experience"
+                className="w-full"
+              >
+                <Image
+                  src="/images/case-studies/aquitania-design-system/current-digital-experience.webp"
+                  alt="Cunard's current digital experience across desktop and mobile touchpoints"
+                  width={1220}
+                  height={1617}
+                  className="h-auto w-full"
+                  quality={90}
+                  sizes="(max-width: 768px) 100vw, 1044px"
                 />
-              </div>
-            </section>
+              </figure>
+            </CunardHandwrittenProblems>
 
-            <div className="border-t" style={{ borderColor: 'rgb(var(--color-text-color10))' }} />
-
-            {/* Four Design Principles */}
-            <section className="space-y-8">
-              <div>
-                <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">Framework</p>
-                <h3 className="text-lg md:text-[28px] font-bold text-text-primary">Four Design Principles</h3>
-                <p className="mt-4 text-base md:text-[18px] text-text-color70 leading-relaxed max-w-2xl">
-                  Every decision in Aquitania traces back to one of four guiding principles — each chosen
-                  because Cunard&apos;s existing product failed at it.
-                </p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                <PrincipleCard number="01" title="Accessible" description="Proper color contrast, touch target sizing, focus states, and labeled interactive elements — baseline standards the existing site routinely missed." />
-                <PrincipleCard number="02" title="Consistent" description="A single token-based system for color, type, and spacing so that no two pages ever use the same component differently again." />
-                <PrincipleCard number="03" title="Luxurious" description="Visual decisions — type choices, whitespace, gold accents — that reflect the Cunard passenger's expectation of timeless elegance." />
-                <PrincipleCard number="04" title="Discoverable" description="Clear hierarchy and concise labeling so that booking a voyage — Cunard's core conversion — is never more than a few confident clicks away." />
-              </div>
-            </section>
-
-            <div className="border-t" style={{ borderColor: 'rgb(var(--color-text-color10))' }} />
-
-            {/* What We Built */}
-            <section className="space-y-12">
-              <h3 className="text-lg md:text-[28px] font-bold text-text-primary">What We Built</h3>
-
-              {/* Color */}
-              <div className="space-y-4">
-                <p className="text-sm font-mono uppercase tracking-widest text-text-color70">Color System</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-                  <div className="space-y-4">
-                    <p className="text-base md:text-[18px] text-text-color70 leading-relaxed">
-                      Cunard&apos;s brand centers on two colors — Cunard Red and Gold — but the existing site
-                      used 15+ unrelated hex values. We consolidated this into a systematic token scale:
-                      11-step Red and Gold brand ramps, plus warm and cool neutral families to support
-                      every UI context.
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    {[
-                      { name: 'Cunard Red 500', hex: '#DA291C', label: 'Primary CTA, brand anchors' },
-                      { name: 'Cunard Gold 500', hex: '#A39458', label: 'Dividers, decorative accents' },
-                      { name: 'Neutral 900', hex: '#2B2B2B', label: 'Primary text' },
-                    ].map(({ name, hex, label }) => (
-                      <div key={name} className="flex items-center gap-3">
-                        <div className="h-8 w-8 rounded shrink-0 border border-black/10" style={{ backgroundColor: hex }} />
-                        <div>
-                          <p className="text-sm font-medium text-text-primary">{name}</p>
-                          <p className="text-xs text-text-color70">{label}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Typography */}
-              <div className="space-y-4">
-                <p className="text-sm font-mono uppercase tracking-widest text-text-color70">Typography</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-                  <PlaceholderImage label="Typography specimen — Aquitania" aspect="aspect-[4/3]" bg="bg-[#F5EFE6]" />
-                  <div className="space-y-6">
-                    {[
-                      { name: 'Cormorant Garamond', use: 'Hero headlines, editorial storytelling, voyage names' },
-                      { name: 'Manrope', use: 'Body text, navigation, buttons, forms — everything functional' },
-                      { name: 'Jet Brains Mono', use: 'Metadata, labels, dates, prices — subtle technical accents' },
-                      { name: 'Bebas Neue', use: 'Promotional headings, highlights' },
-                    ].map(({ name, use }) => (
-                      <div key={name} className="space-y-1">
-                        <p className="text-base font-bold text-text-primary">{name}</p>
-                        <p className="text-sm text-text-color70 leading-relaxed">{use}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Components */}
-              <div className="space-y-6">
-                <p className="text-sm font-mono uppercase tracking-widest text-text-color70">Components</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <PlaceholderImage label="Accessible button system — 4 sizes × 2 variants × 5 states" aspect="aspect-[3/2]" />
-                    <h4 className="text-base font-bold text-text-primary">Accessible Buttons</h4>
-                    <p className="text-sm text-text-color70 leading-relaxed">
-                      Primary and secondary variants in four sizes, with proper color contrast ratios,
-                      minimum touch targets, and explicit focus indicators baked in at the component level.
-                    </p>
-                  </div>
-                  <div className="space-y-3">
-                    <PlaceholderImage label="Voyage card system — consistent across all contexts" aspect="aspect-[3/2]" />
-                    <h4 className="text-base font-bold text-text-primary">Voyage & Booking Cards</h4>
-                    <p className="text-sm text-text-color70 leading-relaxed">
-                      Standardized card anatomy with consistent label hierarchy, dividers, and
-                      scannable metadata — replacing the nine different card layouts found in the original.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <div className="border-t" style={{ borderColor: 'rgb(var(--color-text-color10))' }} />
-
-            {/* Before / After */}
-            <section className="space-y-8">
-              <div>
-                <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
-                  Before &amp; After
-                </p>
-                <h3 className="text-lg md:text-[28px] font-bold text-text-primary">Aquitania in Action</h3>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <p className="text-xs font-mono uppercase tracking-widest text-text-color70">Original</p>
-                  <PlaceholderImage label="Original Cunard homepage — overcrowded, inconsistent" aspect="aspect-[3/4]" bg="bg-neutral-700" />
-                </div>
-                <div className="space-y-2">
-                  <p className="text-xs font-mono uppercase tracking-widest" style={{ color: CUNARD_GOLD }}>With Aquitania</p>
-                  <PlaceholderImage label="Redesigned homepage — cleaner, more premium" aspect="aspect-[3/4]" bg="bg-[#1a1a2e]" />
-                </div>
-              </div>
+            <section
+              data-section="aquitania-premium-callout"
+              className="pt-24 md:pt-32 pb-12 md:pb-16"
+            >
               <AnimatedQuote
-                className="text-xl md:text-[28px] font-bold tracking-[-0.02em] text-text-primary max-w-2xl"
+                className="max-w-[900px] text-[1.75rem] sm:text-4xl md:text-5xl font-bold leading-tight tracking-[-0.04em] text-text-primary"
                 segments={[
-                  { text: 'A design system is a promise — it says' },
-                  { text: 'every page will feel like the same brand.', color: CUNARD_RED },
+                  { text: 'The Current Cunard Digital Experience' },
+                  { text: 'does not feel premium.', color: CUNARD_RED },
                 ]}
               />
             </section>
 
-            <div className="border-t" style={{ borderColor: 'rgb(var(--color-text-color10))' }} />
+            <div
+              className="border-t my-24 md:my-32"
+              style={{ borderColor: 'rgb(var(--color-text-color10))' }}
+            />
 
-            {/* Impact */}
-            <section className="space-y-8">
-              <h3 className="text-lg md:text-[28px] font-bold text-text-primary">Why It Matters</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Solution */}
+            <section
+              id="aquitania-aquitania"
+              data-section="aquitania-solution"
+              className="scroll-mt-32"
+            >
+              <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
+                Solution
+              </p>
+              <h3 className="text-xl md:text-[28px] font-bold text-text-primary mb-6 md:mb-8 leading-snug">
+                Introducing Aquitania
+              </h3>
+              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-10 md:mb-12 max-w-2xl">
+                Inspired by Cunard&apos;s heritage of sophistication and intentionality, Aquitania was designed
+                to elevate the brand&apos;s digital experience through thoughtful, consistent design. It includes
+                the foundations, components, patterns, and documentation needed to create premium product
+                experiences across teams.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+                <figure className="group w-full">
+                  <a
+                    href={AQUITANIA_DOCS_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                  >
+                    <Image
+                      src="/images/case-studies/aquitania-design-system/documentation-visible-equal.webp"
+                      alt="Aquitania design system documentation overview"
+                      width={2880}
+                      height={1558}
+                      className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
+                      quality={90}
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  </a>
+                  <figcaption className="mt-4">
+                    <a
+                      href={AQUITANIA_DOCS_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[20px] font-semibold text-text-primary underline underline-offset-4 transition-opacity hover:opacity-80"
+                    >
+                      Aquitania Documentation
+                    </a>
+                  </figcaption>
+                </figure>
+
+                <figure className="group w-full">
+                  <a
+                    href={AQUITANIA_UI_KIT_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                  >
+                    <Image
+                      src="/images/case-studies/aquitania-design-system/ui-kit-cover-visible-equal.webp"
+                      alt="Aquitania UI kit cover preview"
+                      width={2880}
+                      height={1558}
+                      className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
+                      quality={90}
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  </a>
+                  <figcaption className="mt-4">
+                    <a
+                      href={AQUITANIA_UI_KIT_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[20px] font-semibold text-text-primary underline underline-offset-4 transition-opacity hover:opacity-80"
+                    >
+                      Aquitania UI Kit
+                    </a>
+                  </figcaption>
+                </figure>
+              </div>
+            </section>
+
+            <div
+              className="border-t my-24 md:my-32"
+              style={{ borderColor: 'rgb(var(--color-text-color10))' }}
+            />
+
+            {/* Four Principles */}
+            <section data-section="aquitania-principles">
+              <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
+                Framework
+              </p>
+              <h3 className="text-xl md:text-[28px] font-bold text-text-primary mb-8 md:mb-10 leading-snug">
+                The Aquitania follows four design principles
+              </h3>
+              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-10 md:mb-12 max-w-2xl">
+                We established four core principles to guide the Aquitania design system and ensure every
+                experience reflects Cunard’s premium brand identity.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
                 {[
-                  { label: 'For the business', items: ['Faster designer → developer handoffs', 'Easier onboarding for new team members', 'Accessibility standards enforced at source'] },
-                  { label: 'For the passenger', items: ['Trust built through visual cohesion', 'Faster path to booking a voyage', 'Inclusive experience for all users'] },
-                ].map(({ label, items }) => (
-                  <div key={label} className="space-y-4">
-                    <p className="text-sm font-mono uppercase tracking-widest text-text-color70">{label}</p>
-                    <ul className="space-y-3">
-                      {items.map((item) => (
-                        <li key={item} className="flex items-start gap-3 text-base text-text-color70 leading-relaxed">
-                          <svg className="mt-[0.42em] h-2 w-2 shrink-0" viewBox="0 0 8 8" aria-hidden>
-                            <circle cx="4" cy="4" r="4" fill={CUNARD_GOLD} />
-                          </svg>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                  {
+                    num: '01',
+                    title: 'Accessible',
+                    desc: 'Design experiences that are inclusive, intuitive, and usable for all users.',
+                  },
+                  {
+                    num: '02',
+                    title: 'Consistent',
+                    desc: 'Create a cohesive experience through unified patterns, components, and interactions.',
+                  },
+                  {
+                    num: '03',
+                    title: 'Luxurious',
+                    desc: 'Reflect Cunard’s premium heritage through refined visuals and thoughtful details.',
+                  },
+                  {
+                    num: '04',
+                    title: 'Discoverable',
+                    desc: 'Ensure information and resources are easy to find and understand.',
+                  },
+                ].map((item) => (
+                  <div key={item.num} className="space-y-2">
+                    <p
+                      className="text-2xl md:text-insight-num font-bold text-text-primary opacity-50"
+                    >
+                      {item.num}
+                    </p>
+                    <h4 className="text-xl md:text-2xl font-bold text-text-primary">{item.title}</h4>
+                    <p className="text-sm md:text-base font-normal text-text-color70 leading-relaxed max-w-[320px]">
+                      {item.desc}
+                    </p>
                   </div>
                 ))}
               </div>
             </section>
+
+            <div
+              className="border-t my-24 md:my-32"
+              style={{ borderColor: 'rgb(var(--color-text-color10))' }}
+            />
+
+            {/* Deconstruction */}
+            <section
+              id="aquitania-process"
+              data-section="aquitania-deconstruction"
+              className="scroll-mt-32"
+            >
+              <h3 className="text-2xl md:text-[40px] font-bold text-text-primary mb-10 md:mb-14 leading-tight tracking-[-0.04em]">
+                How we built Aquitania
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
+                <div>
+                  <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
+                    01 - DECONSTRUCTION
+                  </p>
+                  <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">
+                    We first created a UI inventory of the existing Cunard website.
+                  </h4>
+                </div>
+                <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed md:pt-7">
+                  We started by taking screenshots of every unique design element on the Cunard&apos;s
+                  website. These elements were pasted into a Figma board and categorized into atoms,
+                  molecules, organisms, based on the Atomic Design Framework.
+                </p>
+              </div>
+
+              <div
+                className="mt-10 md:mt-14 w-full px-10 py-10 md:px-16 md:py-14"
+                style={{
+                  background:
+                    'var(--gradient-gold, linear-gradient(109deg, #D3CDC0 14.47%, #ACA084 45.1%, #998965 70.02%, #857246 88.54%))',
+                }}
+              >
+                <div
+                  className="rounded-none"
+                  style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.2)' }}
+                >
+                  <CaseStudyVideo
+                    src="/videos/case-studies/aquitania-design-system/deconstruction.mp4"
+                    alt="UI inventory deconstruction of the existing Cunard website"
+                    className="rounded-none"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
+                <div>
+                  <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
+                    02 - FINDINGS
+                  </p>
+                  <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">
+                    We grouped recurring patterns from the inventory into actionable insights.
+                  </h4>
+                </div>
+                <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed md:pt-7">
+                  The deconstruction process revealed significant inconsistencies across the existing
+                  digital experience. Multiple typography styles, buttons, icon treatments, and
+                  variations in components used across products. Components such as tabs, cards, and
+                  email sign-up existed in several different forms, creating fragmentation and
+                  inconsistency.
+                </p>
+              </div>
+
+              <div
+                className="mt-10 md:mt-14 w-full px-10 py-10 md:px-16 md:py-14"
+                style={{
+                  background:
+                    'var(--gradient-gold, linear-gradient(109deg, #D3CDC0 14.47%, #ACA084 45.1%, #998965 70.02%, #857246 88.54%))',
+                }}
+              >
+                <div
+                  className="rounded-none"
+                  style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.2)' }}
+                >
+                  <CaseStudyVideo
+                    src="/videos/case-studies/aquitania-design-system/deconstruction-insights.mp4"
+                    alt="Findings from the Cunard UI inventory deconstruction"
+                    className="rounded-none"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
+                <div>
+                  <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
+                    03 - DEFINING THE PRIMITIVES
+                  </p>
+                  <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">
+                    We defined the core design primitives that power the system.
+                  </h4>
+                </div>
+                <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed md:pt-7">
+                  To create a scalable and consistent foundation, the next step was defining the core
+                  design primitives that power the system. This included establishing typography, color,
+                  spacing, grids, elevation, and iconography standards that could be reused across every
+                  component and experience.
+                </p>
+              </div>
+
+              <AquitaniaPrimitivesShowcase />
+
+              <AquitaniaComponentsSection />
+            </section>
+
+            <div
+              className="border-t my-24 md:my-32"
+              style={{ borderColor: 'rgb(var(--color-text-color10))' }}
+            />
+
+            <AquitaniaInActionSection />
+
+            <div
+              className="border-t my-24 md:my-32"
+              style={{ borderColor: 'rgb(var(--color-text-color10))' }}
+            />
+
+            <AquitaniaBenefitsSection />
+
+            <div
+              className="border-t my-24 md:my-32"
+              style={{ borderColor: 'rgb(var(--color-text-color10))' }}
+            />
+
+            <AquitaniaConclusionSection />
 
           </div>
         </CaseStudyReadMore>
