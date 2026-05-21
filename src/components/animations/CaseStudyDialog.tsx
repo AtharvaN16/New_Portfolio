@@ -118,8 +118,18 @@ export function CaseStudyDialog() {
   useEffect(() => {
     if (!isOpen || !isShowcase) return
     wasShowcaseRef.current = true
-    setFlashBgColor(flashColor || 'rgb(var(--color-background))')
-    setFlash({ visible: true, opacity: 1, duration: 0 })
+    
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFlashBgColor(prev => {
+      const next = flashColor || 'rgb(var(--color-background))'
+      return prev === next ? prev : next
+    })
+    
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFlash(prev => {
+      if (prev.visible && prev.opacity === 1 && prev.duration === 0) return prev
+      return { visible: true, opacity: 1, duration: 0 }
+    })
 
     const timer = setTimeout(() => {
       setFlash({ visible: true, opacity: 0, duration: 0.3 })  // faster reveal (was 0.45)
