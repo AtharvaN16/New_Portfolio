@@ -21,12 +21,34 @@ interface FooterProps {
 }
 
 export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
+  const footerContainerRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
   const fallbackProgress = useMotionValue(1)
   const progress = revealProgress ?? fallbackProgress
   const { isDesktop } = useBreakpoints()
 
   const [isAccessibilityModalOpen, setIsAccessibilityModalOpen] =
     useState(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
+      setIsVisible(true)
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting)
+      },
+      { threshold: 0, rootMargin: '200px' }
+    )
+
+    if (footerContainerRef.current) {
+      observer.observe(footerContainerRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
 
   const desktopOpacity = useTransform(progress, [0.8, 1.0], [0, 1])
   const desktopY = useTransform(progress, [0.8, 1.0], [25, 0])
@@ -80,13 +102,14 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
 
   return (
     <footer
+      ref={footerContainerRef}
       className="w-full text-foreground footer-bg relative z-20"
       style={{
         backgroundColor: 'rgb(var(--color-footer-bg))',
         boxShadow: 'var(--shadow-2xl)',
       }}
     >
-      <FooterSmog visible={showGlow} />
+      {isVisible && <FooterSmog visible={showGlow} />}
 
       <div
         className="mx-auto max-w-[1920px] px-6 2xl:px-[140px] pt-32 md:pt-28 lg:pt-32 [--footer-content-height:480px] lg:[--footer-content-height:300px]"
