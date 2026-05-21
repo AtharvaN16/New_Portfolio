@@ -1,14 +1,20 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, Suspense } from 'react'
 import { m } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { Navbar } from '@/components/layout/Navbar'
-import { Footer } from '@/components/layout/Footer'
 import { Hero } from '@/components/hero/Hero'
-import { SelectedWork } from '@/components/work/SelectedWork'
 import { FullpageCard } from '@/components/ui/FullpageCard'
 import { useHomeScroll } from '@/hooks/use-home-scroll'
+
+// Dynamically import heavy components to reduce initial JS payload
+const SelectedWork = dynamic(() => import('@/components/work/SelectedWork').then(mod => mod.SelectedWork), {
+  ssr: true,
+})
+const Footer = dynamic(() => import('@/components/layout/Footer').then(mod => mod.Footer), {
+  ssr: true,
+})
 
 // Dynamically import dialogs to reduce initial JS payload
 const WorkDialog = dynamic(() => import('@/components/dialogs/WorkDialog').then(mod => mod.WorkDialog))
@@ -134,11 +140,13 @@ export default function Home() {
         >
           <div ref={selectedWorkRef}>
             <div className="px-6 2xl:px-[140px] pt-12 pb-20">
-              <SelectedWork
-                enableHomeCardRecede
-                homeScrollProgress={scrollYProgress}
-                desktopSpacingScale={1.12}
-              />
+              <Suspense fallback={<div className="min-h-screen bg-background" />}>
+                <SelectedWork
+                  enableHomeCardRecede
+                  homeScrollProgress={scrollYProgress}
+                  desktopSpacingScale={1.12}
+                />
+              </Suspense>
             </div>
           </div>
         </m.div>
@@ -211,10 +219,12 @@ export default function Home() {
         className="fixed bottom-0 left-0 right-0"
         style={{ zIndex: 5 }}
       >
-        <Footer
-          revealProgress={footerRevealProgress}
-          triggerShimmer={shouldTriggerFooterShimmer}
-        />
+        <Suspense fallback={<div className="h-[400px] bg-background" />}>
+          <Footer
+            revealProgress={footerRevealProgress}
+            triggerShimmer={shouldTriggerFooterShimmer}
+          />
+        </Suspense>
       </div>
 
       {shouldLoadDialogs && (
