@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import { CaseStudyDetail } from '@/components/case-study/CaseStudyDetail'
 import { ShowcaseDetail } from '@/components/case-study/ShowcaseDetail'
 import { FigmaPresentationDetail } from '@/components/case-study/FigmaPresentationDetail'
-import { getCaseStudyBySlug, caseStudies } from '@/lib/data/case-studies'
+import { CaseStudyStore } from '@/lib/data/case-studies'
 import type { Metadata } from 'next'
 
 interface CaseStudyPageProps {
@@ -13,7 +13,7 @@ interface CaseStudyPageProps {
 
 // Generate static params for all case studies (including snakes)
 export async function generateStaticParams() {
-  return caseStudies.map((study) => ({
+  return CaseStudyStore.getAll().map((study) => ({
     slug: study.slug,
   }))
 }
@@ -23,7 +23,7 @@ export async function generateMetadata({
   params,
 }: CaseStudyPageProps): Promise<Metadata> {
   const { slug } = await params
-  const caseStudy = getCaseStudyBySlug(slug)
+  const caseStudy = CaseStudyStore.getBySlug(slug)
 
   if (!caseStudy) {
     return {
@@ -44,7 +44,7 @@ export async function generateMetadata({
 
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params
-  const caseStudy = getCaseStudyBySlug(slug)
+  const caseStudy = CaseStudyStore.getBySlug(slug)
 
   if (!caseStudy) {
     notFound()
@@ -60,3 +60,4 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
   return <CaseStudyDetail caseStudy={caseStudy} />
 }
+

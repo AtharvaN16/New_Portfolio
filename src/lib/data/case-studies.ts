@@ -1,3 +1,5 @@
+import { CONTENT_REGISTRY } from '@/components/case-study/content'
+
 export interface CaseStudy {
   slug: string
   title: string
@@ -7,6 +9,8 @@ export interface CaseStudy {
   tags: string[]
   imageBg: string
   imageUrl?: string
+  /** Accessible description for the hero image (alt + visible caption) */
+  heroImageDescription?: string
   thumbnailUrl?: string // Optional separate card thumbnail (e.g. landscape crop when hero is portrait)
   featured?: boolean
   category:
@@ -25,13 +29,18 @@ export interface CaseStudy {
   heroImageFill?: boolean // When true, card thumbnail fills full height (for portrait/non-16:9 heroes)
   heroTextLight?: boolean
   figmaEmbedUrl?: string
+  hidden?: boolean // When true, excluded from all listings and static builds
   overviewBullets?: {
     heading: string
     items: string[]
   }
 }
 
-export const caseStudies: CaseStudy[] = [
+/**
+ * RAW DATA
+ * Private to this module to enforce access through the CaseStudyStore.
+ */
+const RAW_CASE_STUDIES: CaseStudy[] = [
   {
     slug: 'pratt-institute-visitor-experience',
     title: 'Elevating the Visitor Experience at Pratt Institute',
@@ -121,10 +130,10 @@ export const caseStudies: CaseStudy[] = [
     year: '2025',
     description:
       'This case study documents a semester-long ethnographic research project conducted as a collaboration between Pratt Institute and Woven by Toyota. Our team studied how communities in New York City\'s third spaces naturally engage, collaborate, and innovate through everyday interactions.',
-    tags: ['Ethnography', 'Client Project', 'Selected Work'],
+    tags: ['Ethnography', 'Client Project'],
     imageBg: 'rgb(var(--color-case-study-pink))',
     imageUrl: '/images/case-studies/nyc-third-spaces-ethnography/hero.jpg',
-    featured: true,
+    featured: false,
     category: 'ux-research',
     team: ['Ananya Yadav', 'Atharva Nayak', 'Nisheta Gupta'],
     timeline: '3 Months',
@@ -140,6 +149,7 @@ export const caseStudies: CaseStudy[] = [
     description:
       'An SEO audit evaluates how well a website is positioned to be found, crawled, and ranked by search engines. This POV focuses on the SEO Audit of jif.com — the #1 P&B brand in America.',
     tags: ['Digital Analytics', 'Selected Work'],
+    hidden: true,
     imageBg: '#CE102C',
     featured: false,
     category: 'digital-analytics',
@@ -170,6 +180,7 @@ export const caseStudies: CaseStudy[] = [
     description:
       "A UX redesign of IMDb's interface focused on improving content discovery through better filtering, cleaner navigation, and personalized recommendations — grounded in 8 in-depth user interviews.",
     tags: ['Information Architecture', 'Redesign'],
+    hidden: true,
     imageBg: '#F5C518',
     imageUrl: '/images/case-studies/imdb-ia-redesign/hero.png',
     featured: false,
@@ -242,8 +253,10 @@ export const caseStudies: CaseStudy[] = [
     description:
       'A research-based case study on returning interpretive authority to blind and low-vision patrons through conversational UI.',
     tags: ['Digital Accessibility', 'UX Research', 'Conversational UI'],
-    imageBg: '#FF8C00', // Orange accent
+    imageBg: 'rgb(var(--color-background))',
     imageUrl: '/images/case-studies/blv-museum-accessibility/hero.png',
+    heroImageDescription:
+      'Black-and-white illustration of a young visitor wearing headphones, viewed from behind in a minimal art gallery, facing a large empty canvas on the wall. The scene represents blind and low-vision patrons approaching artwork without a fixed, curator-authored interpretation.',
     featured: true,
     category: 'digital-accessibility',
     team: ['Atharva Nayak', 'Arnav Sharma', 'Nisheta Gupta'],
@@ -254,24 +267,77 @@ export const caseStudies: CaseStudy[] = [
   },
 ]
 
-// Helper functions
-export function getCaseStudyBySlug(slug: string): CaseStudy | undefined {
-  return caseStudies.find((study) => study.slug === slug)
+/**
+ * CaseStudyStore
+ * 
+ * A deep module providing high-leverage access to case study data.
+ * It encapsulates filtering, validation, and metadata generation logic.
+ */
+export const CaseStudyStore = {
+  /**
+   * Retrieves all case studies, including hidden ones.
+   */
+  getAll(): CaseStudy[] {
+    return [...RAW_CASE_STUDIES]
+  },
+
+  /**
+   * Retrieves all visible case studies.
+   */
+  getVisible(): CaseStudy[] {
+    return RAW_CASE_STUDIES.filter((s) => !s.hidden)
+  },
+
+  /**
+   * Retrieves featured and visible case studies.
+   */
+  getFeatured(): CaseStudy[] {
+    return RAW_CASE_STUDIES.filter((s) => s.featured && !s.hidden)
+  },
+
+  /**
+   * Retrieves a specific case study by slug.
+   * Performs validation to ensure a corresponding content component exists.
+   */
+  getBySlug(slug: string): CaseStudy | undefined {
+    const study = RAW_CASE_STUDIES.find((s) => s.slug === slug)
+    
+    if (study && !CONTENT_REGISTRY[slug]) {
+      console.warn(`[CaseStudyStore] Case study found for slug "${slug}", but no content component is registered in CONTENT_REGISTRY.`)
+    }
+    
+    return study
+  },
+
+  /**
+   * Retrieves case studies by tag.
+   */
+  getByTag(tag: string): CaseStudy[] {
+    const visible = this.getVisible()
+    if (tag === 'All') return visible
+    return visible.filter((s) => s.tags.includes(tag))
+  },
+
+
+  /**
+   * Generates a unique list of all tags used by visible case studies.
+   */
+  getAllTags(): string[] {
+    const tags = new Set<string>()
+    this.getVisible().forEach((s) => {
+      s.tags.forEach((t) => tags.add(t))
+    })
+    return ['All', ...Array.from(tags)]
+  }
 }
 
-export function getFeaturedCaseStudies(): CaseStudy[] {
-  return caseStudies.filter((study) => study.featured)
-}
-
-export function getCaseStudiesByTag(tag: string): CaseStudy[] {
-  if (tag === 'All') return caseStudies
-  return caseStudies.filter((study) => study.tags.includes(tag))
-}
-
-export function getAllTags(): string[] {
-  const tags = new Set<string>()
-  caseStudies.forEach((study) => {
-    study.tags.forEach((tag) => tags.add(tag))
-  })
-  return ['All', ...Array.from(tags)]
-}
+/**
+ * LEGACY EXPORTS (FOR BACKWARD COMPATIBILITY)
+ * These are marked for deprecation in favor of CaseStudyStore.
+ */
+export const caseStudies = CaseStudyStore.getAll()
+export const getCaseStudyBySlug = (slug: string) => CaseStudyStore.getBySlug(slug)
+export const getVisibleCaseStudies = () => CaseStudyStore.getVisible()
+export const getFeaturedCaseStudies = () => CaseStudyStore.getFeatured()
+export const getCaseStudiesByTag = (tag: string) => CaseStudyStore.getByTag(tag)
+export const getAllTags = () => CaseStudyStore.getAllTags()

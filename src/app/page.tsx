@@ -2,17 +2,20 @@
 
 import { useState, useCallback, useEffect } from 'react'
 import { m } from 'framer-motion'
+import dynamic from 'next/dynamic'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { Hero } from '@/components/hero/Hero'
 import { SelectedWork } from '@/components/work/SelectedWork'
 import { FullpageCard } from '@/components/ui/FullpageCard'
 import { useHomeScroll } from '@/hooks/use-home-scroll'
-import { WorkDialog } from '@/components/dialogs/WorkDialog'
-import { CaseStudyDialog } from '@/components/dialogs/CaseStudyDialog'
-import { ExplorationsDialog } from '@/components/dialogs/ExplorationsDialog'
-import { AboutDialog } from '@/components/dialogs/AboutDialog'
-import { WritingsDialog } from '@/components/dialogs/WritingsDialog'
+
+// Dynamically import dialogs to reduce initial JS payload
+const WorkDialog = dynamic(() => import('@/components/dialogs/WorkDialog').then(mod => mod.WorkDialog))
+const CaseStudyDialog = dynamic(() => import('@/components/dialogs/CaseStudyDialog').then(mod => mod.CaseStudyDialog))
+const ExplorationsDialog = dynamic(() => import('@/components/dialogs/ExplorationsDialog').then(mod => mod.ExplorationsDialog))
+const AboutDialog = dynamic(() => import('@/components/dialogs/AboutDialog').then(mod => mod.AboutDialog))
+const WritingsDialog = dynamic(() => import('@/components/dialogs/WritingsDialog').then(mod => mod.WritingsDialog))
 
 /**
  * Home Page - Scroll Reveal Effect
@@ -190,6 +193,7 @@ export default function Home() {
               mediaAlt="NYC DCWP Home Improvement Contractor License Application"
               variant="surface"
               slug="nyc-dcwp-business-licenses"
+              priority={true}
             />
           </div>
         </m.div>

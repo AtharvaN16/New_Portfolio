@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useBreakpoint } from '@/hooks/use-breakpoint'
+import { useBreakpoint } from '@/hooks/use-responsive'
 import { ChecklistProcessFlow } from '@/components/case-study/content/dcwp/ChecklistProcessFlow'
 
 /** Application process overview diagram (full-bleed). Used between “Understanding” and Case Studies hub. */

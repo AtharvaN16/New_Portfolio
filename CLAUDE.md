@@ -62,7 +62,11 @@ bun run validate         # Lint + Format + Type-check + Test
 - **Single responsibility**: Each module/function does one thing well.
 - **No hardcoded values**: Use design tokens from `src/app/globals.css`.
 - **Type safety**: Strict TypeScript, avoid `any`.
-- **Specialized Skills**: Use integrated skills in `skills/` (e.g., `/tdd`, `/diagnose`).
+- **Specialized Skills**: Use integrated skills in `skills/` (e.g., `/tdd`, `/diagnose`, `/improve-codebase-architecture`).
+- **Skill Discovery**: Use `find-skills` BEFORE starting any complex task to check for better automation. 
+  **CRITICAL**: When installing, only add the **specific targeted skill** needed (e.g., `npx skills add repo@skill`). **NEVER** download an entire skill library or repository as it bloats the codebase.
+
+**Mandate**: Whenever a task is critically underspecified or could benefit from specialized knowledge, use `find-skills` to discover relevant automation.
 
 ### Component Development
 - **Location**: Reusable UI in `src/components/ui/`, page-specific in `src/components/[page-name]/`.

@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   // Image optimization
   images: {
     formats: ['image/avif', 'image/webp'],
+    qualities: [60, 75, 92, 95],
   },
 }
 

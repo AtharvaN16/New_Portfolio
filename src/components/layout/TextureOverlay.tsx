@@ -9,7 +9,7 @@ import { useTheme } from '@/components/providers/ThemeProvider'
 export function TextureOverlay() {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
-  
+
   // Explicitly defined opacities to ensure zero leakage between themes
   const opacity = isDark ? 0.025 : 0.2
 
@@ -33,14 +33,14 @@ export function TextureOverlay() {
         </filter>
       </svg>
 
-      {/* The Overlay Layer */}
+      {/* Background texture layer */}
       <div
-        className="fixed inset-0 pointer-events-none z-[9999] contrast-[120%]"
+        className="fixed inset-0 pointer-events-none z-0 contrast-[120%]"
         style={{
           filter: 'url(#sensory-grit)',
           opacity: opacity,
           // Add a subtle brightness boost only in dark mode to keep it "emissive"
-          brightness: isDark ? '1.2' : '1.0'
+          brightness: isDark ? '1.2' : '1.0',
         } as React.CSSProperties}
         aria-hidden="true"
       />

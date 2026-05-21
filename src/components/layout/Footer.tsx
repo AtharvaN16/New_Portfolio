@@ -8,7 +8,7 @@ import {
   useTransform,
   type MotionValue,
 } from 'framer-motion'
-import { useBreakpoints } from '@/hooks/use-breakpoint'
+import { useBreakpoints } from '@/hooks/use-responsive'
 import { FooterClock } from './FooterClock'
 import { FooterSmog } from './FooterSmog'
 import { FooterLinksSection } from './FooterLinksSection'

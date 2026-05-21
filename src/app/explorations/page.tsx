@@ -4,13 +4,13 @@ import { useRef } from 'react'
 import { m } from 'framer-motion'
 import { type ProjectCardProps } from '@/components/work/ProjectCard'
 import { ExplorationsGrid } from '@/components/work/ExplorationsGrid'
-import { caseStudies } from '@/lib/data/case-studies'
+import { getVisibleCaseStudies } from '@/lib/data/case-studies'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 import { CaseStudyHeader } from '@/components/case-study/CaseStudyHeader'
 import { useSmoothScroll } from '@/hooks/use-smooth-scroll'
 
 // Map case studies to ProjectCardProps and filter for Explorations
-const explorationProjects: ProjectCardProps[] = caseStudies
+const explorationProjects: ProjectCardProps[] = getVisibleCaseStudies()
   .filter((study) =>
     study.tags.includes('Explorations') ||
     study.tags.includes('Exploration')

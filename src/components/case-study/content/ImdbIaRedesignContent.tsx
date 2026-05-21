@@ -1,6 +1,7 @@
 'use client'
 
 import { m } from 'framer-motion'
+import { OptimizedImage } from '@/components/case-study/OptimizedImage'
 
 const BASE = '/images/case-studies/imdb-ia-redesign'
 
@@ -51,17 +52,17 @@ export function ImdbIaRedesignContent() {
         {IMAGE_NUMBERS.map((num) => (
           <m.div
             key={num}
-            className="w-full overflow-hidden"
+            className="w-full"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            <img
+            <OptimizedImage
               src={`${BASE}/${num}.png`}
               alt={`IMDb redesign slide ${num}`}
-              loading="lazy"
-              decoding="async"
+              width={1400}
+              height={788}
               className="w-full h-auto block"
             />
           </m.div>

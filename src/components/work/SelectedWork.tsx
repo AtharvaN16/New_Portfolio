@@ -74,14 +74,6 @@ const cardConfig = [
     rowStart: 22,
     height: 'h-[350px] sm:h-[420px] lg:h-auto',
   },
-  {
-    // Card 5: Left side, medium width
-    colSpan: 7,
-    colStart: 1,
-    rowSpan: 7,
-    rowStart: 32,
-    height: 'h-[280px] sm:h-[320px] lg:h-auto',
-  },
 ]
 
 // Get featured case studies and map to ProjectCardProps with custom layout config
@@ -108,11 +100,6 @@ const defaultProjects: ProjectCardProps[] = [
   {
     ...featuredStudies.find((s) => s.slug === 'gutenberg-cms-usability-evaluation')!,
     cardHeight: cardConfig[3].height,
-  },
-  // Card 5 (NYC Third Spaces Ethnography)
-  {
-    ...featuredStudies.find((s) => s.slug === 'nyc-third-spaces-ethnography')!,
-    cardHeight: cardConfig[4].height,
   },
 ]
 

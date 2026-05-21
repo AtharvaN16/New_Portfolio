@@ -1,9 +1,10 @@
 'use client'
 
 import { m } from 'framer-motion'
-import { Fragment } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { cn } from '@/lib/utils/cn'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
+import { ANIMATION_CONFIG } from '@/lib/constants/animations'
 
 interface AnimatedTitleProps {
   /** The text to be animated. */
@@ -37,11 +38,10 @@ interface AnimatedTitleProps {
 }
 
 /**
- * A component that animates a title by staggering an effect for each word.
- * The animation triggers when the component scrolls into view.
- * Supports \n for manual line breaks (mobile-only by default in this implementation).
- *
- * @param animationType - 'fadeInUp' (default) or 'fadeIn'.
+ * AnimatedTitle
+ * 
+ * A deep module that animates text with high leverage.
+ * Uses ANIMATION_CONFIG for centralized control over brand motion.
  */
 export function AnimatedTitle({
   text,
@@ -50,7 +50,7 @@ export function AnimatedTitle({
   alwaysAnimate = false,
   className,
   delay = 0,
-  stagger = 0.08,
+  stagger = ANIMATION_CONFIG.DURATION.STAGGER,
   duration,
   highlightWords,
   highlightColor,
@@ -59,28 +59,21 @@ export function AnimatedTitle({
   showMarkerSweep = false,
   highlightBgColor,
 }: AnimatedTitleProps) {
+  const [mounted, setMounted] = useState(false)
   const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
+  
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   const shouldPause = prefersReducedMotion || pauseWebGL
 
   // Count total words across all lines to calculate the stagger end time
   const totalWordsCount = text.split(/\s+/).filter(Boolean).length
-  // Stagger animation for the entire title takes (totalWordsCount - 1) * stagger
-  // Plus the initial delayChildren offset of 0.2 + delay
   const finalWordStartDelay = 0.2 + delay + Math.max(0, totalWordsCount - 1) * stagger
   const calculatedHighlightDelay = highlightDelay !== undefined 
     ? highlightDelay 
     : (finalWordStartDelay + 0.4)
-
-  let markerBg = 'rgba(255, 140, 0, 0.12)'
-  if (highlightBgColor) {
-    markerBg = highlightBgColor
-  } else if (highlightColor) {
-    if (highlightColor.startsWith('#')) {
-      markerBg = highlightColor.length === 7 ? `${highlightColor}1a` : `${highlightColor}2`
-    } else {
-      markerBg = highlightColor
-    }
-  }
 
   const variantStyles = {
     default: 'max-w-[700px]',
@@ -103,7 +96,7 @@ export function AnimatedTitle({
       transition: {
         staggerChildren: 0.02,
         staggerDirection: -1,
-        duration: shouldPause ? 0 : 0.15,
+        duration: shouldPause ? 0 : ANIMATION_CONFIG.DURATION.FAST,
       },
     },
   }
@@ -116,8 +109,8 @@ export function AnimatedTitle({
         y: 0,
         transition: {
           type: 'spring' as const,
-          damping: 12,
-          stiffness: shouldPause ? 1000 : 100,
+          ...ANIMATION_CONFIG.EASE.SPRING,
+          stiffness: shouldPause ? 1000 : ANIMATION_CONFIG.EASE.SPRING.stiffness,
           duration: shouldPause ? 0 : duration,
         },
       },
@@ -125,7 +118,7 @@ export function AnimatedTitle({
         opacity: 0,
         y: shouldPause ? 0 : -10,
         transition: {
-          duration: shouldPause ? 0 : 0.15,
+          duration: shouldPause ? 0 : ANIMATION_CONFIG.DURATION.FAST,
         },
       },
     },
@@ -134,22 +127,32 @@ export function AnimatedTitle({
       visible: {
         opacity: 1,
         transition: {
-          duration: shouldPause ? 0 : (duration ?? 0.5),
+          duration: shouldPause ? 0 : (duration ?? ANIMATION_CONFIG.DURATION.SLOW),
+          ease: ANIMATION_CONFIG.EASE.PREMIUM,
         },
       },
       exit: {
         opacity: 0,
         transition: {
-          duration: shouldPause ? 0 : 0.15,
+          duration: shouldPause ? 0 : ANIMATION_CONFIG.DURATION.FAST,
         },
       },
     },
   }
 
   const wordVariants = animationVariants[animationType]
-
-  // Split by manual newline first
   const lines = text.split('\n')
+
+  let markerBg = 'rgba(255, 140, 0, 0.12)'
+  if (highlightBgColor) {
+    markerBg = highlightBgColor
+  } else if (highlightColor) {
+    if (highlightColor.startsWith('#')) {
+      markerBg = highlightColor.length === 7 ? `${highlightColor}1a` : `${highlightColor}2`
+    } else {
+      markerBg = highlightColor
+    }
+  }
 
   return (
     <m.h1
@@ -160,8 +163,7 @@ export function AnimatedTitle({
         ? { animate: 'visible' }
         : {
             whileInView: 'visible',
-            // Use negative margin to trigger animation as page slides into view
-            viewport: { once: true, margin: '-100px' },
+            viewport: ANIMATION_CONFIG.VIEWPORT,
           })}
       className={cn(
         'font-bold leading-tight tracking-tight text-foreground',
@@ -172,114 +174,82 @@ export function AnimatedTitle({
       {lines.map((line, lineIndex) => {
         const words = line.split(' ')
         
-        // Find ranges of highlighted words in this line
-        const highlightedRanges: { start: number; end: number }[] = []
-        
-        highlightWords?.forEach(phrase => {
-          const phraseWords = phrase.split(' ')
-          const phraseLen = phraseWords.length
-          
-          for (let i = 0; i <= words.length - phraseLen; i++) {
-            let match = true
-            for (let j = 0; j < phraseLen; j++) {
-              const wordClean = words[i + j].toLowerCase().replace(/[.,!?;:"]/g, '')
-              const phraseWordClean = phraseWords[j].toLowerCase().replace(/[.,!?;:"]/g, '')
-              
-              if (wordClean !== phraseWordClean) {
-                match = false
-                break
-              }
-            }
-            
-            if (match) {
-              highlightedRanges.push({ start: i, end: i + phraseLen - 1 })
-            }
-          }
-        })
-
         return (
           <Fragment key={lineIndex}>
             {words.map((word, wordIndex) => {
-              const isHighlighted = highlightedRanges.some(
-                range => wordIndex >= range.start && wordIndex <= range.end
-              )
+              const isHighlighted = highlightWords?.some(phrase => {
+                const phraseWords = phrase.split(' ')
+                const wordClean = word.toLowerCase().replace(/[.,!?;:"]/g, '')
+                return phraseWords.some(pw => pw.toLowerCase().replace(/[.,!?;:"]/g, '') === wordClean)
+              })
               
               return (
                 <Fragment key={wordIndex}>
-                  {isHighlighted && delayHighlight ? (
-                    <m.span 
-                      variants={wordVariants} 
-                      className="inline-block relative"
-                    >
-                      {/* Base Text in standard theme color */}
-                      <span className="text-text-primary">
-                        {word}
-                      </span>
-
-                      {/* Highlighted text overlay (gently fades in after delay) */}
-                      {highlightColor && (
-                        <m.span
-                          variants={{
-                            hidden: { opacity: 0 },
-                            visible: {
-                              opacity: 1,
-                              transition: {
-                                delay: calculatedHighlightDelay + (showMarkerSweep ? 0.08 : 0),
-                                duration: 0.6,
-                                ease: 'easeOut'
-                              }
-                            }
-                          }}
-                          style={{ color: highlightColor }}
-                          className="absolute inset-0 select-none pointer-events-none"
-                        >
+                  <m.span 
+                    variants={wordVariants} 
+                    className="inline-block relative"
+                    style={isHighlighted && !delayHighlight && highlightColor ? { color: highlightColor } : {}}
+                  >
+                    {!mounted ? (
+                      word
+                    ) : (
+                      <>
+                        <span className={cn(isHighlighted && !delayHighlight ? "" : "text-text-primary")}>
                           {word}
-                        </m.span>
-                      )}
+                        </span>
 
-                      {/* Background marker sweep */}
-                      {showMarkerSweep && (
-                        <m.span
-                          variants={{
-                            hidden: { scaleX: 0 },
-                            visible: {
-                              scaleX: 1,
-                              transition: {
-                                delay: calculatedHighlightDelay,
-                                duration: 0.75,
-                                ease: [0.16, 1, 0.3, 1] // easeOutExpo
-                              }
-                            }
-                          }}
-                          style={{ 
-                            originX: 0, 
-                            backgroundColor: markerBg 
-                          }}
-                          className="absolute -inset-x-1 -inset-y-[1px] rounded-[3px] -z-10 pointer-events-none"
-                        />
-                      )}
-                    </m.span>
-                  ) : (
-                    <m.span 
-                      variants={wordVariants} 
-                      className="inline-block"
-                      style={isHighlighted && highlightColor ? { color: highlightColor } : {}}
-                    >
-                      {word}
-                    </m.span>
-                  )}
-                  {wordIndex < words.length - 1 && (
-                    wordIndex === words.length - 2 ? '\u00A0' : ' '
-                  )}
+                        {isHighlighted && delayHighlight && (
+                          <>
+                            {highlightColor && (
+                              <m.span
+                                variants={{
+                                  hidden: { opacity: 0 },
+                                  visible: {
+                                    opacity: 1,
+                                    transition: {
+                                      delay: calculatedHighlightDelay + (showMarkerSweep ? 0.08 : 0),
+                                      duration: ANIMATION_CONFIG.DURATION.SLOW,
+                                      ease: ANIMATION_CONFIG.EASE.PREMIUM
+                                    }
+                                  }
+                                }}
+                                style={{ color: highlightColor }}
+                                className="absolute inset-0 select-none pointer-events-none"
+                              >
+                                {word}
+                              </m.span>
+                            )}
+
+                            {showMarkerSweep && (
+                              <m.span
+                                variants={{
+                                  hidden: { scaleX: 0 },
+                                  visible: {
+                                    scaleX: 1,
+                                    transition: {
+                                      delay: calculatedHighlightDelay,
+                                      duration: 0.75,
+                                      ease: ANIMATION_CONFIG.EASE.EXPO
+                                    }
+                                  }
+                                }}
+                                style={{ 
+                                  originX: 0, 
+                                  backgroundColor: markerBg 
+                                }}
+                                className="absolute -inset-x-1 -inset-y-[1px] rounded-[3px] -z-10 pointer-events-none"
+                              />
+                            )}
+                          </>
+                        )}
+                      </>
+                    )}
+                  </m.span>
+                  {wordIndex < words.length - 1 && ' '}
                 </Fragment>
               )
             })}
-            {lineIndex < lines.length - 1 && (
-              <>
-                <br className="md:hidden" />
-                <span className="hidden md:inline"> </span>
-              </>
-            )}
+            {lineIndex < lines.length - 1 && <br />}
           </Fragment>
         )
       })}

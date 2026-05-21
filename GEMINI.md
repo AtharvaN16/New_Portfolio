@@ -48,13 +48,19 @@ All styling should derive from design tokens defined in `src/app/globals.css`. A
 | **Testing** | `bun run test` |
 | **Full Validation** | `bun run validate` |
 
-## 🛠 Specialized Skills (Matt Pocock Skills)
+## 🛠 Specialized Skills (Matt Pocock & Community Skills)
 
 This project integrates specialized skills located in `skills/`. Gemini CLI should reference these when performing relevant tasks:
 
+- **Skill Discovery**: Use `find-skills` (Use BEFORE starting any complex task to check for better automation).
+  **CRITICAL**: When installing, only add the **specific targeted skill** needed (e.g., `npx skills add repo@skill`). **NEVER** download an entire skill library or repository as it bloats the codebase.
+- **Performance**: `performance-investigation` (Use for investigating regressions and optimization).
+- **Architecture**: `improve-codebase-architecture` (Use for deepening modules).
 - **TDD**: `skills/engineering/tdd/SKILL.md` (Use for all feature/bugfix implementation).
 - **Diagnose**: `skills/engineering/diagnose/SKILL.md` (Use for debugging).
 - **Caveman**: `skills/productivity/caveman/SKILL.md` (Use for token efficiency).
+
+**Mandate**: Whenever a task is critically underspecified or could benefit from specialized knowledge, use `find-skills` to discover relevant automation.
 
 ## 📂 Key Directory Map
 
