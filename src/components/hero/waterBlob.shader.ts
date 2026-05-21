@@ -31,6 +31,7 @@ export const fragmentShader = `
   varying vec2 vUv;
   uniform float uTime;
   uniform float uIsDarkMode; // 1.0 for dark mode, 0.0 for light mode
+  uniform float uIsMobile;   // 1.0 for mobile, 0.0 for desktop
   uniform vec3 uColor1; // Blue (from design tokens)
   uniform vec3 uColor2; // Purple (from design tokens)
   uniform vec3 uColor3; // Pink (from design tokens)
@@ -77,7 +78,11 @@ export const fragmentShader = `
     float amplitude = 0.5;
     float frequency = 1.0;
 
+    // Optimization: reduce octaves on mobile
+    int iterations = uIsMobile > 0.5 ? 2 : 4;
+
     for(int i = 0; i < 4; i++) {
+      if (i >= iterations) break;
       value += amplitude * smoothNoise(p * frequency);
       amplitude *= 0.5;
       frequency *= 2.0;
@@ -91,7 +96,11 @@ export const fragmentShader = `
     float amplitude = 0.5;
     float frequency = 1.0;
 
+    // Optimization: reduce octaves on mobile
+    int iterations = uIsMobile > 0.5 ? 2 : 4;
+
     for(int i = 0; i < 4; i++) {
+      if (i >= iterations) break;
       value += amplitude * abs(smoothNoise(p * frequency));
       amplitude *= 0.5;
       frequency *= 2.0;
