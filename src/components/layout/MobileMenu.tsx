@@ -95,7 +95,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             >
               <ul className="flex flex-col items-end gap-6">
                 {menuLinks.map((link, index) => {
-                  const isComingSoon = link.href === '/writings' || link.href === '/about';
+                  const isComingSoon = link.href === '/writings';
                   return (
                     <m.li
                       key={link.href}
