@@ -18,7 +18,6 @@ interface EmpoweringBlvContentProps {
 export function EmpoweringBlvContent({
   isContentRevealed,
   onToggleContent,
-  progressBarColor = '#FF8C00',
 }: EmpoweringBlvContentProps) {
   const scrollContainerRef = useRef<HTMLElement | null>(null)
   const [isReady, setIsReady] = useState(false)
@@ -136,7 +135,7 @@ export function EmpoweringBlvContent({
                       className="p-1.5 hover:bg-white/10 rounded-full transition-colors cursor-pointer outline-none focus:ring-2 focus:ring-white/40"
                       aria-label="Dismiss accessibility options toast"
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
                     </button>
                   </m.div>
                 )}

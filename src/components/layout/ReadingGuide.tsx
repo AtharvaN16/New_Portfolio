@@ -86,9 +86,10 @@ export function ReadingGuide() {
 
   useEffect(() => {
     if (!mounted || !readingGuide) {
-      setSentenceRects([])
-      setWordRects([])
-      setHasSentence(false)
+      // Functional updates to avoid redundant renders if already empty
+      setSentenceRects(prev => prev.length === 0 ? prev : [])
+      setWordRects(prev => prev.length === 0 ? prev : [])
+      setHasSentence(prev => !prev ? prev : false)
       currentSentenceRef.current = ''
       return
     }
