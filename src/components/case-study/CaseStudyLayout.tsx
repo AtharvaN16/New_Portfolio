@@ -13,6 +13,7 @@ interface CaseStudyLayoutProps {
   containerRef?: React.RefObject<HTMLDivElement | null>
   heroSlot?: React.ReactNode
   metadataSlot?: React.ReactNode
+  heroImageSlot?: React.ReactNode
   abstractSlot?: React.ReactNode
   children?: React.ReactNode // Content passed from specific detail components
 }
@@ -29,6 +30,7 @@ export function CaseStudyLayout({
   containerRef: externalContainerRef,
   heroSlot,
   metadataSlot,
+  heroImageSlot,
   abstractSlot,
   children,
 }: CaseStudyLayoutProps) {
@@ -109,6 +111,9 @@ export function CaseStudyLayout({
             </m.div>
           )
         )}
+
+        {/* Hero Image — after metadata on mobile, after hero text on desktop */}
+        {heroImageSlot}
 
         {/* Abstract Section Slot */}
         {abstractSlot}
