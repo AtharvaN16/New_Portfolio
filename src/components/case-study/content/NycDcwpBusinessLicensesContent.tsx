@@ -177,7 +177,7 @@ export function NycDcwpBusinessLicensesContent({
                       className="relative w-full overflow-hidden aspect-[4/3]"
                     >
                       <Image
-                        src="/images/case-studies/nyc-dcwp-business-licenses/process-1.png"
+                        src="/images/case-studies/nyc-dcwp-business-licenses/process-1.webp"
                         alt="DCWP office waiting area at 42 Broadway"
                         fill
                         className="object-cover"
@@ -189,7 +189,7 @@ export function NycDcwpBusinessLicensesContent({
                       className="relative w-full overflow-hidden aspect-[4/3]"
                     >
                       <Image
-                        src="/images/case-studies/nyc-dcwp-business-licenses/process-2.png"
+                        src="/images/case-studies/nyc-dcwp-business-licenses/process-2.webp"
                         alt="DCWP service counter with queue number display"
                         fill
                         className="object-cover"
@@ -209,7 +209,7 @@ export function NycDcwpBusinessLicensesContent({
                     className="relative w-full overflow-hidden aspect-[4/3]"
                   >
                     <Image
-                      src="/images/case-studies/nyc-dcwp-business-licenses/process-3.png"
+                      src="/images/case-studies/nyc-dcwp-business-licenses/process-3.webp"
                       alt="Staff member assisting a user in the DCWP testing room"
                       fill
                       className="object-cover"
@@ -221,7 +221,7 @@ export function NycDcwpBusinessLicensesContent({
                     className="relative w-full overflow-hidden aspect-[4/3]"
                   >
                     <Image
-                      src="/images/case-studies/nyc-dcwp-business-licenses/process-4.png"
+                      src="/images/case-studies/nyc-dcwp-business-licenses/process-4.webp"
                       alt="iPad kiosk station at DCWP office"
                       fill
                       className="object-cover"

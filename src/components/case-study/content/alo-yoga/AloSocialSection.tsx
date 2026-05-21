@@ -1,18 +1,11 @@
 'use client'
 
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
-import { PlatformRoleGrid } from '../PlatformRoleGrid'
 import Image from 'next/image'
 
-const ALO_INSTA = '/images/case-studies/alo-yoga-digital-analytics/alo_insta.png'
-const ALO_TIKTOK = '/images/case-studies/alo-yoga-digital-analytics/alo_tiktok.png'
-const ALO_YT = '/images/case-studies/alo-yoga-digital-analytics/alo_yt.png'
-
-const engagementComparison = [
-  { metric: 'Bounce rate', alo: '36%', lulu: '34.99%' },
-  { metric: 'Pages / visit', alo: '5.08', lulu: '5.12' },
-  { metric: 'Visit duration', alo: '2:22', lulu: '3:12' },
-]
+const ALO_INSTA = '/images/case-studies/alo-yoga-digital-analytics/alo_insta.webp'
+const ALO_TIKTOK = '/images/case-studies/alo-yoga-digital-analytics/alo_tiktok.webp'
+const ALO_YT = '/images/case-studies/alo-yoga-digital-analytics/alo_yt.webp'
 
 export function AloSocialSection() {
   return (

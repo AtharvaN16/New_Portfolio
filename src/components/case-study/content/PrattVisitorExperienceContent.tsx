@@ -11,35 +11,6 @@ interface PrattVisitorExperienceContentProps {
   onToggleContent: () => void
 }
 
-function PlaceholderFigure({
-  label,
-  aspectRatio = '16 / 9',
-}: {
-  label: string
-  aspectRatio?: string
-}) {
-  return (
-    <div
-      className="w-full rounded-lg border"
-      style={{
-        aspectRatio,
-        borderColor: 'rgb(var(--color-text-color10))',
-        background:
-          'linear-gradient(135deg, rgb(var(--color-surface-muted)) 0%, rgb(var(--color-surface-elevated)) 100%)',
-      }}
-    >
-      <div className="flex h-full items-center justify-center p-6 text-center">
-        <p
-          className="text-sm md:text-[16px] font-medium uppercase tracking-[0.12em]"
-          style={{ color: 'rgb(var(--color-text-color60))' }}
-        >
-          {label}
-        </p>
-      </div>
-    </div>
-  )
-}
-
 function Accordion({
   title,
   subtitle,
@@ -346,7 +317,7 @@ export function PrattVisitorExperienceContent({
                 {/* ── Cover image: Service Safari ── */}
                 <figure className="w-full mb-16 md:mb-20">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/safari-cover.png"
+                    src="/images/case-studies/pratt-institute-visitor-experience/safari-cover.webp"
                     alt="Prospective students and families walking through Pratt Institute campus on a tour"
                     width={1600}
                     height={600}
@@ -486,7 +457,7 @@ export function PrattVisitorExperienceContent({
                   </h4>
                   <figure className="w-full mb-8">
                     <Image
-                      src="/images/case-studies/pratt-institute-visitor-experience/safari-p3.png"
+                      src="/images/case-studies/pratt-institute-visitor-experience/safari-p3.webp"
                       alt="Photos from the Arrival and Check-In phase: Myrtle Hall exterior, admissions office lobby, directional signage, and welcome packet"
                       width={1600}
                       height={1000}
@@ -540,7 +511,7 @@ export function PrattVisitorExperienceContent({
                   </h4>
                   <figure className="w-full mb-8">
                     <Image
-                      src="/images/case-studies/pratt-institute-visitor-experience/safari-p4.png"
+                      src="/images/case-studies/pratt-institute-visitor-experience/safari-p4.webp"
                       alt="Photos from the campus tour: info session, campus model, student gathering spaces, and outdoor walking tour"
                       width={1600}
                       height={1100}
@@ -1008,7 +979,7 @@ export function PrattVisitorExperienceContent({
                 {/* ── Cover image: Co-Design Workshops ── */}
                 <figure className="w-full mb-16 md:mb-20">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/codesign-cover.png"
+                    src="/images/case-studies/pratt-institute-visitor-experience/codesign-cover.webp"
                     alt="Students walking through Pratt Institute campus gardens"
                     width={1600}
                     height={560}
@@ -1057,7 +1028,7 @@ export function PrattVisitorExperienceContent({
                 {/* Workshop photos */}
                 <figure className="w-full mb-12 md:mb-16">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/codesign-workshop.png"
+                    src="/images/case-studies/pratt-institute-visitor-experience/codesign-workshop.webp"
                     alt="Co-design workshop sessions: ambassadors placing sticky notes on the journey map and collaborating at tables"
                     width={800}
                     height={1000}
@@ -1652,7 +1623,7 @@ export function PrattVisitorExperienceContent({
                 </h4>
                 <figure className="w-full mb-20 md:mb-24">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/current-welcome-packet.png"
+                    src="/images/case-studies/pratt-institute-visitor-experience/current-welcome-packet.webp"
                     alt="Current Pratt visitor welcome packet spread out showing FAQ sheet, welcome letter, campus map, and campus directory"
                     width={1600}
                     height={1000}

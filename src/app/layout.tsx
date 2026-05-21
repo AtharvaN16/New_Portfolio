@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, JetBrains_Mono, Mynerve } from 'next/font/google'
+import { JetBrains_Mono, Mynerve } from 'next/font/google'
 import './globals.css'
 
 import { AppProviders } from './AppProviders'
@@ -9,20 +9,6 @@ import { satoshi, vulfMono } from '@/lib/fonts'
 export { metadata, viewport }
 
 // Font Configuration
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-  display: 'swap',
-  preload: true,
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-  display: 'swap',
-  preload: false,
-})
-
 const jetbrainsMono = JetBrains_Mono({
   variable: '--font-jetbrains-mono',
   subsets: ['latin'],
@@ -61,7 +47,7 @@ export default function RootLayout({
         crossOrigin="anonymous"
       />
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${jetbrainsMono.variable} ${mynerve.variable} font-sans antialiased`}
+        className={`${jetbrainsMono.variable} ${mynerve.variable} font-sans antialiased`}
       >
         <AppProviders>
           <TextureOverlay />
