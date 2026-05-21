@@ -57,7 +57,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
         gestureOrientation: 'vertical',
         smoothWheel: true,
         wheelMultiplier: 1,
-        touchMultiplier: 2,
+        touchMultiplier: 1.5, // Reduced from 2 to save CPU cycles on touch scroll signals
         infinite: false,
       })
 
