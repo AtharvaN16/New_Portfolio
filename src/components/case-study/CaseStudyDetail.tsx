@@ -1,238 +1,132 @@
 'use client'
 
-import { m, useScroll } from 'framer-motion'
-import { useState, useRef } from 'react'
+import { m } from 'framer-motion'
+import { useRef } from 'react'
 import Image from 'next/image'
 import type { CaseStudy } from '@/lib/data/case-studies'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
-import { CaseStudyHeader } from '@/components/case-study/CaseStudyHeader'
-import { CaseStudyContentRenderer } from '@/components/case-study/CaseStudyContentRenderer'
-import { useSmoothScroll } from '@/hooks/use-smooth-scroll'
-import { useHeroOverlay, HERO_OVERLAY_MAX_OPACITY } from '@/hooks/use-hero-overlay'
-import { useAccessibility } from '@/components/providers/AccessibilityProvider'
+import { CaseStudyLayout } from '@/components/case-study/CaseStudyLayout'
 
 interface CaseStudyDetailProps {
   caseStudy: CaseStudy
   children?: React.ReactNode
 }
 
+/**
+ * CaseStudyDetail
+ * 
+ * Standard case study variant.
+ * Provides the classic hero and metadata layout to CaseStudyLayout.
+ */
 export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
-  const [isContentRevealed, setIsContentRevealed] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
   const heroSectionRef = useRef<HTMLElement>(null)
-  const { hideImages } = useAccessibility()
 
-  // Smooth scroll hook
-  useSmoothScroll(containerRef, contentRef)
+  const heroSlot = (
+    <>
+      <main 
+        ref={heroSectionRef}
+        className="px-6 2xl:px-[140px] pt-4 pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100dvh-4.625rem)] md:min-h-[calc(100dvh-4.875rem)] flex flex-col relative"
+      >
+        <AnimatedTitle
+          text={caseStudy.title}
+          animationType="fadeIn"
+          alwaysAnimate
+          delay={0.8}
+          className="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
+        />
 
-  // Scroll progress tracking for progress bar
-  const { scrollYProgress } = useScroll({
-    container: containerRef,
-  })
-
-  // Hero overlay opacity
-  const heroOverlayOpacity = useHeroOverlay(containerRef, heroSectionRef)
-
-  const handleClose = () => {
-    if (window.history.length > 1) {
-      window.history.back()
-    } else {
-      window.location.href = '/'
-    }
-  }
-
-  return (
-    <div
-      id="case-study-scroll-container"
-      ref={containerRef}
-      className="min-h-dvh bg-background text-text-primary overflow-y-auto h-dvh"
-      style={{
-        overscrollBehavior: 'contain',
-        WebkitOverflowScrolling: 'touch',
-      }}
-    >
-      {/* Scroll Progress Bar */}
-      <m.div
-        className="fixed top-0 left-0 right-0 h-[5px] z-[60] origin-left"
-        style={{
-          scaleX: scrollYProgress,
-          backgroundColor:
-            caseStudy.progressBarColor || 'rgb(var(--color-primary))',
-          willChange: 'transform',
-        }}
-      />
-
-      {/* Content wrapper for Lenis */}
-      <div ref={contentRef}>
-        <CaseStudyHeader onClose={handleClose} />
-
-        {/* Main Content - Hero Section */}
-        <main className="px-6 2xl:px-[140px] pt-4 pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100dvh-4.625rem)] md:min-h-[calc(100dvh-4.875rem)] flex flex-col relative">
-          <AnimatedTitle
-            text={caseStudy.title}
-            animationType="fadeIn"
-            alwaysAnimate
-            delay={0.8}
-            className="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
-          />
-
-          <m.div
-            className="flex flex-col md:flex-row md:items-start md:gap-0 mt-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <div className="max-w-full sm:max-w-[25rem] md:max-w-[28.75rem] text-left">
-              <p className="text-base md:text-lg text-text-secondary leading-relaxed">
-                {caseStudy.fullDescription || caseStudy.description}
-              </p>
-            </div>
-
-            <div className="hidden md:block md:flex-1 md:min-w-0" />
-
-            {/* Desktop Metadata (Hidden on Mobile inside Main) */}
-            {(caseStudy.team || caseStudy.timeline) && (
-              <div className="hidden md:flex flex-col md:flex-row md:justify-between md:items-start md:gap-[3.5rem] mt-10 md:mt-0">
-                {caseStudy.team && caseStudy.team.length > 0 && (
-                  <div className="md:min-w-[12.5rem] md:w-[12.5rem] text-left">
-                    <h2 className="text-base md:text-lg font-medium text-text-primary mb-2 md:mb-4">
-                      Team
-                    </h2>
-                    <ul className="space-y-1 md:space-y-2 [&:has(a:hover)_a]:opacity-40 [&:has(a:hover)_a:hover]:opacity-100">
-                      {caseStudy.team.map((member, index) => (
-                        <li key={index}>
-                          <a
-                            href="#"
-                            className="group/link relative inline-block text-sm md:text-base font-normal text-text-secondary transition-opacity duration-200"
-                          >
-                            {member}
-                            <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover/link:w-full" />
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {caseStudy.timeline && (
-                  <div className="text-left md:text-left md:ml-auto">
-                    <h2 className="text-base md:text-lg font-medium text-text-primary mb-2 md:mb-4">
-                      Timeline
-                    </h2>
-                    <p className="text-sm md:text-base font-normal text-text-secondary whitespace-nowrap">
-                      {caseStudy.timeline}
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-          </m.div>
-        </main>
-
-        {/* Mobile Metadata (Below the fold) */}
-        {(caseStudy.team || caseStudy.timeline) && (
-          <m.div
-            className="md:hidden flex flex-col gap-10 px-6 2xl:px-[140px] pt-12 pb-16"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            {caseStudy.team && caseStudy.team.length > 0 && (
-              <div className="text-left">
-                <h2 className="text-base font-medium text-text-primary mb-2">
-                  Team
-                </h2>
-                <ul className="space-y-1">
-                  {caseStudy.team.map((member, index) => (
-                    <li key={index}>
-                      <a
-                        href="#"
-                        className="text-sm font-normal text-text-secondary"
-                      >
-                        {member}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {caseStudy.timeline && (
-              <div className="text-left">
-                <h2 className="text-base font-medium text-text-primary mb-2">
-                  Timeline
-                </h2>
-                <p className="text-sm font-normal text-text-secondary">
-                  {caseStudy.timeline}
-                </p>
-              </div>
-            )}
-          </m.div>
-        )}
-
-        {/* Hero Image Section */}
-        <m.section
-          ref={heroSectionRef}
-          className="w-full md:min-h-screen flex items-center justify-center relative z-10"
-          style={{
-            backgroundColor: 'rgb(var(--color-footer-bg))',
-          }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+        <m.div
+          className="flex flex-col md:flex-row md:items-start md:gap-0 mt-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
         >
-          {caseStudy.imageUrl ? (
-            <div className="relative w-full flex flex-col items-start">
-              <div className="relative w-full h-[60vh] md:h-screen">
-                <Image
-                  src={caseStudy.imageUrl}
-                  alt={`${caseStudy.title} - Hero Image`}
-                  fill
-                  className="object-cover"
-                  sizes="100vw"
-                  quality={90}
-                />
-                <div
-                   className="absolute inset-0 bg-black pointer-events-none"
-                   style={{ opacity: heroOverlayOpacity * HERO_OVERLAY_MAX_OPACITY }}
-                   aria-hidden
-                 />
-                {hideImages && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-neutral-100 dark:bg-neutral-800 border border-dashed border-text-color30 z-20">
-                    <span className="text-[10px] uppercase tracking-widest text-text-color60 mb-2">Image Hidden</span>
-                    <p className="text-xs md:text-sm font-sans text-text-primary leading-relaxed max-w-[85%] font-medium">
-                      Hero banner representing the digital accessibility case study title: &quot;Who Decides What Art Means?&quot;
-                    </p>
-                  </div>
-                )}
-              </div>
-              {caseStudy.slug === 'blv-museum-accessibility' && (
-                <div className="px-6 2xl:px-[140px] pt-4 pb-2 w-full max-w-[1920px] mx-auto text-left">
-                  <p className="text-xs md:text-sm font-sans text-text-color60 leading-relaxed max-w-[800px]">
-                    <strong className="text-text-primary font-semibold">Hero Image:</strong> Visual concept for Atharva Nayak&apos;s digital accessibility case study, showcasing hands interacting with art under a high-contrast orange and black theme.
+          <div className="max-w-full sm:max-w-[25rem] md:max-w-[28.75rem] text-left">
+            <p className="text-base md:text-lg text-text-secondary leading-relaxed">
+              {caseStudy.fullDescription || caseStudy.description}
+            </p>
+          </div>
+
+          <div className="hidden md:block md:flex-1 md:min-w-0" />
+
+          {/* Desktop Metadata */}
+          {(caseStudy.team || caseStudy.timeline) && (
+            <div className="hidden md:flex flex-col md:flex-row md:justify-between md:items-start md:gap-[3.5rem] mt-10 md:mt-0">
+              {caseStudy.team && caseStudy.team.length > 0 && (
+                <div className="md:min-w-[12.5rem] md:w-[12.5rem] text-left">
+                  <h2 className="text-base md:text-lg font-medium text-text-primary mb-2 md:mb-4">
+                    Team
+                  </h2>
+                  <ul className="space-y-1 md:space-y-2 [&:has(a:hover)_a]:opacity-40 [&:has(a:hover)_a:hover]:opacity-100">
+                    {caseStudy.team.map((member, index) => (
+                      <li key={index}>
+                        <a
+                          href="#"
+                          className="group/link relative inline-block text-sm md:text-base font-normal text-text-secondary transition-opacity duration-200"
+                        >
+                          {member}
+                          <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover/link:w-full" />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {caseStudy.timeline && (
+                <div className="text-left md:text-left md:ml-auto">
+                  <h2 className="text-base md:text-lg font-medium text-text-primary mb-2 md:mb-4">
+                    Timeline
+                  </h2>
+                  <p className="text-sm md:text-base font-normal text-text-secondary whitespace-nowrap">
+                    {caseStudy.timeline}
                   </p>
                 </div>
               )}
             </div>
-          ) : (
-            <div className="text-center py-20 md:py-0">
-              <p className="text-4xl md:text-6xl font-bold text-text-secondary/30 uppercase tracking-widest">
-                IMAGE
-              </p>
-            </div>
           )}
-        </m.section>
+        </m.div>
+      </main>
 
-        {/* Case Study Specific Content */}
-        <CaseStudyContentRenderer
-          caseStudy={caseStudy}
-          isContentRevealed={isContentRevealed}
-          onToggleContent={() => setIsContentRevealed(!isContentRevealed)}
+      {/* Hero Image Section */}
+      {caseStudy.imageUrl && (
+        <m.section
+          className="w-full relative z-10"
+          style={{ backgroundColor: caseStudy.imageBg || 'rgb(var(--color-footer-bg))' }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          aria-label={`${caseStudy.title} hero image`}
         >
-          {children}
-        </CaseStudyContentRenderer>
-      </div>
-    </div>
+          <figure className="w-full overflow-hidden">
+            <div className="relative w-full aspect-[16/9] md:aspect-auto md:min-h-screen">
+              <Image
+                src={caseStudy.imageUrl}
+                alt={
+                  caseStudy.heroImageDescription ??
+                  `${caseStudy.title} — hero image`
+                }
+                fill
+                className="object-cover [filter:contrast(1.05)]"
+                sizes="100vw"
+                priority
+                quality={95}
+              />
+            </div>
+            {caseStudy.heroImageDescription && (
+              <figcaption className="px-6 2xl:px-[140px] py-4 md:py-6 mx-auto max-w-[52rem] text-xs md:text-sm font-sans text-text-secondary leading-relaxed">
+                {caseStudy.heroImageDescription}
+              </figcaption>
+            )}
+          </figure>
+        </m.section>
+      )}
+    </>
+  )
+
+  return (
+    <CaseStudyLayout caseStudy={caseStudy} heroSlot={heroSlot}>
+      {children}
+    </CaseStudyLayout>
   )
 }

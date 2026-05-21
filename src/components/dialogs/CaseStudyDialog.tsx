@@ -61,6 +61,12 @@ export function CaseStudyDialog() {
   const isClosingRef = useRef(false)
   const [shouldLockScroll, setShouldLockScroll] = useState(false)
 
+  // Refs always hold the latest state for use in stable callbacks
+  const isOpenRef = useRef(false)
+  const currentSlugRef = useRef<string | null>(null)
+  useEffect(() => { isOpenRef.current = isOpen }, [isOpen])
+  useEffect(() => { currentSlugRef.current = currentSlug }, [currentSlug])
+
   // Preload on mount and on event
   useEffect(() => {
     const handlePreload = () => {
@@ -88,7 +94,8 @@ export function CaseStudyDialog() {
   const wasShowcaseRef = useRef(false)
   const flashTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // URL listener
+  // URL listener — stable (runs once). Uses refs for fresh isOpen/currentSlug values
+  // so there's never a gap between cleanup and re-attach across state changes.
   useEffect(() => {
     const checkURL = () => {
       const path = window.location.pathname
@@ -96,7 +103,7 @@ export function CaseStudyDialog() {
 
       if (caseStudyMatch) {
         const slug = caseStudyMatch[1]
-        if (!isOpen || currentSlug !== slug) {
+        if (!isOpenRef.current || currentSlugRef.current !== slug) {
           isClosingRef.current = false
           setCurrentSlug(slug)
           scrollYRef.current = window.scrollY
@@ -104,7 +111,7 @@ export function CaseStudyDialog() {
           setShouldLockScroll(true)
           setIsOpen(true)
         }
-      } else if (isOpen) {
+      } else if (isOpenRef.current) {
         isClosingRef.current = true
         setIsOpen(false)
       }
@@ -117,7 +124,8 @@ export function CaseStudyDialog() {
       window.removeEventListener('popstate', checkURL)
       window.removeEventListener('casestudydialog:check', checkURL)
     }
-  }, [isOpen, currentSlug])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const caseStudy = currentSlug ? getCaseStudyBySlug(currentSlug) : null
   const isShowcase = caseStudy?.pageVariant === 'showcase'
@@ -167,6 +175,9 @@ export function CaseStudyDialog() {
   }
 
   const handleExitComplete = () => {
+    // A new case study was opened before this exit finished — skip state reset.
+    if (isOpenRef.current) return
+
     setShouldLockScroll(false)
     document.body.style.overflow = ''
     setCurrentSlug(null)
@@ -203,9 +214,9 @@ export function CaseStudyDialog() {
       <AnimatePresence onExitComplete={handleExitComplete}>
         {isOpen && caseStudy && (
           <m.div
-            key="case-study-dialog"
+            key={currentSlug}
             id="case-study-dialog"
-            className="dialog fixed inset-0 z-[100]"
+            className="dialog fixed inset-0 z-[110]"
             data-lenis-prevent="true"
             initial={isShowcase ? { opacity: 1 } : { y: '100%' }}
             animate={

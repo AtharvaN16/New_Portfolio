@@ -37,7 +37,7 @@ This project uses specialized skills in `skills/` to ensure high-quality enginee
 
 ## Coding Style & Naming Conventions
 - TypeScript + React functional components are standard.
-- Use `PascalCase` for components (`ProjectCard.tsx`), `camelCase` for hooks/utilities (`use-media-query.ts`).
+- Use `PascalCase` for components (`ProjectCard.tsx`), `camelCase` for hooks/utilities (`use-responsive.ts`).
 - **File size limit**: No file should be larger than 300 lines.
 
 ## Security & Configuration Tips

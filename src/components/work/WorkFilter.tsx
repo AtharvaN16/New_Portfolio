@@ -16,6 +16,13 @@ interface WorkFilterProps {
   hasChangedFilter?: boolean
 }
 
+// Stagger constants — shared between containerVariants and the More button delay calculation
+// so both stay in sync when values change.
+const FILTER_STAGGER = 0.04
+const FILTER_DELAY_CHILDREN = 0.9
+// How many filters are always visible without expanding
+const PRIMARY_FILTER_COUNT = 8
+
 // Static — always-visible variant for items in the expanded overlay (no parent orchestrator)
 const ALWAYS_VISIBLE: Variants = { hidden: { opacity: 1 }, visible: { opacity: 1 } }
 
@@ -170,11 +177,25 @@ export function WorkFilter({
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: shouldPause ? 0 : 0.04,
-        delayChildren: shouldPause ? 0 : (hasChangedFilter ? 0 : 0.9),
+        staggerChildren: shouldPause ? 0 : FILTER_STAGGER,
+        delayChildren: shouldPause ? 0 : (hasChangedFilter ? 0 : FILTER_DELAY_CHILDREN),
       },
     },
   }), [shouldPause, hasChangedFilter])
+
+  // Dynamically compute when the last primary filter word finishes so the More button
+  // appears exactly then, regardless of how many filters or words are added later.
+  // Each FilterTitleItem contributes: wordCount + 1 (count badge) motion elements,
+  // plus 1 Slash per filter = wordCount + 2 total.
+  const moreButtonDelay = useMemo(() => {
+    if (shouldPause) return 0
+    const effectiveDelay = hasChangedFilter ? 0 : FILTER_DELAY_CHILDREN
+    const totalMotionItems = filterOptions.slice(0, PRIMARY_FILTER_COUNT).reduce((acc, opt) => {
+      const words = (filterTitleMap[opt.tag] || opt.tag).split(' ').length
+      return acc + words + 2 // words + count badge + slash
+    }, 0)
+    return effectiveDelay + (totalMotionItems - 1) * FILTER_STAGGER
+  }, [filterOptions, shouldPause, hasChangedFilter])
 
   const itemVariants = useMemo(() => ({
     hidden: { opacity: 0 },
@@ -258,14 +279,16 @@ export function WorkFilter({
                 ))}
               </AnimatePresence>
 
-              {/* More — fades out on expand, back in on collapse */}
+              {/* More — independent fixed-delay animation so it isn't pushed to the end of the
+                  word-level stagger chain (which would delay it ~2s on initial load). */}
               {!showAllFilters && (
                 <m.button
-                  variants={itemVariants}
-                  {...(hasInteracted
-                    ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.2 } }
-                    : {}
-                  )}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    duration: shouldPause ? 0 : (hasInteracted ? 0.2 : 0.4),
+                    delay: hasInteracted ? 0 : moreButtonDelay,
+                  }}
                   onClick={toggleExpanded}
                   onMouseEnter={handleHoverEnter('__toggle__')}
                   onMouseLeave={handleHoverLeave}

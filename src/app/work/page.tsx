@@ -1,15 +1,21 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 import { m } from 'framer-motion'
 import { WorkFilter } from '@/components/work/WorkFilter'
 import type { ProjectCardProps } from '@/components/work/ProjectCard'
 import { GradientBar } from '@/components/ui/GradientBar'
 import { NavButton } from '@/components/ui/NavButton'
-import { caseStudies } from '@/lib/data/case-studies'
+import { getVisibleCaseStudies } from '@/lib/data/case-studies'
+
+const CaseStudyDialog = dynamic(
+  () => import('@/components/dialogs/CaseStudyDialog').then((m) => ({ default: m.CaseStudyDialog })),
+  { ssr: false }
+)
 
 // Map case studies to ProjectCardProps
-const allProjects: ProjectCardProps[] = caseStudies.map((study) => ({
+const allProjects: ProjectCardProps[] = getVisibleCaseStudies().map((study) => ({
   title: study.title,
   organization: study.organization,
   year: study.year,
@@ -22,6 +28,7 @@ const allProjects: ProjectCardProps[] = caseStudies.map((study) => ({
 
 export default function WorkPage() {
   const [selectedFilter, setSelectedFilter] = useState<string>('All')
+  const [isStandalone, setIsStandalone] = useState(false)
   // Derive if filter has been changed from initial 'All' state
   const hasChangedFilter = selectedFilter !== 'All'
 
@@ -31,6 +38,7 @@ export default function WorkPage() {
     const isInsideDialog = !!document.getElementById('dialog')
 
     if (!isInsideDialog) {
+      setIsStandalone(true)
       window.scrollTo(0, 0)
       // Also scroll Lenis if available
       if (window.lenis) {
@@ -46,6 +54,7 @@ export default function WorkPage() {
 
   return (
     <div className="min-h-screen w-full bg-background">
+      {isStandalone && <CaseStudyDialog />}
       <GradientBar
         className="fixed left-0 top-0 z-[60] w-full"
         height="h-2"

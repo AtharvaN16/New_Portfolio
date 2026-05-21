@@ -79,7 +79,9 @@ export function EmpoweringBlvContent({
       <AnimatePresence>
         {toastState !== 'hidden' && (
           <div className={cn("fixed bottom-8 md:bottom-12 left-0 right-0 z-[100] pointer-events-none flex", toastState === 'visible' ? "justify-center" : "justify-start pl-6 md:pl-8")}>
-            <m.button
+            <m.div
+              role="button"
+              tabIndex={0}
               layout
               initial={{ y: 50, opacity: 0, scale: 0.9 }}
               animate={{ y: 0, opacity: 1, scale: 1 }}
@@ -90,10 +92,17 @@ export function EmpoweringBlvContent({
                 setIsModalOpen(true);
                 setToastState('dismissed');
               }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setIsModalOpen(true);
+                  setToastState('dismissed');
+                }
+              }}
               className={cn(
-                "pointer-events-auto flex items-center overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/10 dark:border-white/5",
-                toastState === 'visible' 
-                  ? "bg-[#2A2A2A] text-white pl-5 pr-3 py-3 rounded-full gap-3" 
+                "cursor-pointer pointer-events-auto flex items-center overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/10 dark:border-white/5",
+                toastState === 'visible'
+                  ? "bg-[#2A2A2A] text-white pl-5 pr-3 py-3 rounded-full gap-3"
                   : "bg-[#2A2A2A] text-white p-4 rounded-full gap-0"
               )}
               aria-label="Accessibility Options"
@@ -132,7 +141,7 @@ export function EmpoweringBlvContent({
                   </m.div>
                 )}
               </AnimatePresence>
-            </m.button>
+            </m.div>
           </div>
         )}
       </AnimatePresence>

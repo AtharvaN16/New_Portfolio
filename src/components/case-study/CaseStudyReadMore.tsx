@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
 
 interface CaseStudyReadMoreProps {
@@ -15,9 +16,11 @@ export function CaseStudyReadMore({
   onToggleContent,
   children,
 }: CaseStudyReadMoreProps) {
+  const [isUnderlineHidden, setIsUnderlineHidden] = useState(false)
+
   return (
     <>
-      <div className="mt-[100px] flex flex-col items-center gap-2">
+      <div className="mt-[140px] md:mt-[160px] flex flex-col items-center gap-2">
         <span
           className="text-sm font-normal"
           style={{ color: 'rgb(var(--color-text-tertiary))' }}
@@ -26,11 +29,24 @@ export function CaseStudyReadMore({
         </span>
         <button
           onClick={onToggleContent}
-          className="group inline-flex items-center gap-2 text-base md:text-[18px] font-normal text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
+          onMouseEnter={() => setIsUnderlineHidden(true)}
+          onMouseLeave={() => setIsUnderlineHidden(false)}
+          onFocus={() => setIsUnderlineHidden(true)}
+          onBlur={() => setIsUnderlineHidden(false)}
+          className="inline-flex items-center gap-2 text-base md:text-[18px] font-semibold text-text-primary hover:text-primary transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
         >
           <span className="relative inline-block">
             {isContentRevealed ? 'Hide case study' : 'Read full case study'}
-            <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full" />
+            <span
+              className="absolute inset-x-0 bottom-0 block h-[1px] bg-current transition-transform duration-300 ease-out motion-reduce:transition-none"
+              style={{
+                transform: isUnderlineHidden ? 'scaleX(0)' : 'scaleX(1)',
+                transformOrigin: isUnderlineHidden
+                  ? 'right center'
+                  : 'left center',
+              }}
+              aria-hidden="true"
+            />
           </span>
           <svg
             width="16"

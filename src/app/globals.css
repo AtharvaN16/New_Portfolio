@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+/* Limit class detection to app source — avoids scanning .agents/, dotfiles, etc. */
+@source '../**/*.{ts,tsx,mdx}';
 @plugin '@tailwindcss/typography';
 @import '../styles/design-tokens.css';
 @import '../styles/tailwind-theme.css';
@@ -7,6 +9,11 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 @import '../styles/fonts.css';
 @import '../styles/prose-theme.css';
+
+:root {
+  --font-sans: 'Satoshi', var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Vulf Mono', var(--font-vulf-mono), var(--font-jetbrains-mono), ui-monospace, monospace;
+}
 
 /**
  * Global Styles
@@ -276,21 +283,6 @@
     .water-blob-container {
       max-height: 60rem; /* 960px on extra large screens */
     }
-  }
-
-  /* ========================================
-     PROJECT CARD OVERLAY
-     ======================================== */
-
-  /* Light mode: white overlay for lightening effect */
-  .project-card-overlay {
-    background-color: rgba(255, 255, 255, 0.15);
-    will-change: opacity;
-  }
-
-  /* Dark mode: dark overlay for darkening effect (40% opacity) */
-  [data-theme='dark'] .project-card-overlay {
-    background-color: rgba(0, 0, 0, 0.4);
   }
 
   /* ========================================

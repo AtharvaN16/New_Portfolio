@@ -2,7 +2,7 @@
 
 import { m } from 'framer-motion'
 import { FooterDustParticles } from './FooterDustParticles'
-import { useBreakpoints } from '@/hooks/use-breakpoint'
+import { useBreakpoints } from '@/hooks/use-responsive'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 

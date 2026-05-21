@@ -1,102 +1,93 @@
 'use client'
 
 import { useState } from 'react'
-import { useIntersectionObserver } from '@/hooks/use-intersection-observer'
+import Image, { type ImageProps } from 'next/image'
+import { cn } from '@/lib/utils/cn'
 
-interface OptimizedImageProps {
-  webpSrc: string
-  fallbackSrc: string // Can be PNG or JPG
-  alt: string
-  width: number
-  height: number
-  className?: string
-  imgClassName?: string
+interface OptimizedImageProps extends Omit<ImageProps, 'onLoad' | 'src'> {
+  /** The primary source (e.g. WebP) */
+  src?: ImageProps['src']
+  /** Backward compatibility: WebP source */
+  webpSrc?: string
+  /** Backward compatibility: Fallback source */
+  fallbackSrc?: string
+  /** Optional container class name */
+  containerClassName?: string
 }
 
 /**
- * Optimized image component with WebP support and Intersection Observer lazy loading
- * Uses WebP format with PNG/JPG fallback for better performance
- * Features elegant loading placeholder with subtle shimmer effect and smooth fade-in
+ * OptimizedImage
+ * 
+ * A deep module that wraps next/image with a premium loading experience.
+ * Features:
+ * - Next.js image optimization (webp, resizing)
+ * - Shimmer placeholder during load
+ * - Smooth fade-in transition
+ * - Aspect-ratio aware container
  */
 export function OptimizedImage({
+  alt,
+  src,
   webpSrc,
   fallbackSrc,
-  alt,
   width,
   height,
-  className = '',
-  imgClassName = '',
+  className,
+  containerClassName,
+  priority,
+  ...props
 }: OptimizedImageProps) {
-  const [containerRef, isVisible] = useIntersectionObserver<HTMLDivElement>({
-    threshold: 0.1,
-    rootMargin: '100px',
-    triggerOnce: true,
-  })
   const [isLoaded, setIsLoaded] = useState(false)
-
-  const handleImageLoad = () => {
-    setIsLoaded(true)
-  }
+  const imageSrc = src || webpSrc || fallbackSrc || ''
 
   return (
-    <div ref={containerRef} className={`relative ${className}`} style={{ aspectRatio: `${width} / ${height}` }}>
+    <div 
+      className={cn(
+        "relative overflow-hidden bg-surface-muted",
+        containerClassName
+      )}
+      style={(!props.fill && width && height) ? { 
+        aspectRatio: `${width} / ${height}` 
+      } : undefined}
+    >
       {/* Loading placeholder - fades out when image loads */}
-      <div
-        className="absolute inset-0 w-full transition-opacity duration-700 ease-out"
-        style={{
-          opacity: isLoaded ? 0 : 1,
-          pointerEvents: isLoaded ? 'none' : 'auto',
-        }}
-      >
-        {/* Elegant gradient background */}
+      {!isLoaded && !priority && (
         <div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(
-              135deg,
-              rgb(var(--color-surface-muted)) 0%,
-              rgb(var(--color-surface-elevated)) 50%,
-              rgb(var(--color-surface-muted)) 100%
-            )`,
-          }}
-        />
-        {/* Subtle shimmer animation */}
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            background: `linear-gradient(
-              90deg,
-              transparent 0%,
-              rgba(255, 255, 255, 0.15) 50%,
-              transparent 100%
-            )`,
-            backgroundSize: '200% 100%',
-            animation: 'shimmer 2.5s ease-in-out infinite',
-          }}
-        />
-      </div>
-
-      {/* Image with fade-in effect */}
-      {isVisible && (
-        <picture className="block w-full relative z-10">
-          <source srcSet={webpSrc} type="image/webp" />
-          <img
-            src={fallbackSrc}
-            alt={alt}
-            width={width}
-            height={height}
-            className={`w-full h-auto ${imgClassName}`}
-            loading="lazy"
-            decoding="async"
-            onLoad={handleImageLoad}
+          className="absolute inset-0 z-0 transition-opacity duration-700 ease-out"
+          aria-hidden="true"
+        >
+          {/* Shimmer animation - powered by design tokens */}
+          <div
+            className="absolute inset-0 opacity-20"
             style={{
-              opacity: isLoaded ? 1 : 0,
-              transition: 'opacity 700ms ease-out',
+              background: `linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.15) 50%,
+                transparent 100%
+              )`,
+              backgroundSize: '200% 100%',
+              animation: 'shimmer 2.5s ease-in-out infinite',
             }}
           />
-        </picture>
+        </div>
       )}
+
+      {/* The optimized Next.js Image */}
+      <Image
+        alt={alt}
+        src={imageSrc}
+        width={width}
+        height={height}
+        priority={priority}
+        onLoad={() => setIsLoaded(true)}
+        className={cn(
+          "transition-opacity duration-700 ease-out",
+          isLoaded ? "opacity-100" : "opacity-0",
+          className
+        )}
+        {...props}
+      />
     </div>
   )
 }
-

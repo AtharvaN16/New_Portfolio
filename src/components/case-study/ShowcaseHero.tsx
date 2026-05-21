@@ -1,6 +1,6 @@
 'use client'
 
-import { m, type MotionValue, useTransform, useScroll } from 'framer-motion'
+import { m, useTransform, useScroll } from 'framer-motion'
 import { useRef } from 'react'
 import Image from 'next/image'
 import type { CaseStudy } from '@/lib/data/case-studies'

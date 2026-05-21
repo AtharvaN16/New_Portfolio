@@ -4,6 +4,7 @@ import './globals.css'
 import { AppProviders } from './AppProviders'
 import { metadata, viewport } from './metadata'
 import { TextureOverlay } from '@/components/layout/TextureOverlay'
+import { satoshi, vulfMono } from '@/lib/fonts'
 
 export { metadata, viewport }
 
@@ -43,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" data-theme="dark">
+    <html lang="en" data-theme="dark" className={`${satoshi.variable} ${vulfMono.variable}`}>
       {/* Preload critical custom fonts to eliminate render-blocking font chain */}
       <link
         rel="preload"
@@ -64,15 +65,17 @@ export default function RootLayout({
       >
         <AppProviders>
           <TextureOverlay />
-          {/* Skip to main content link (accessibility) */}
-          <a
-            href="#main-content"
-            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
-          >
-            Skip to main content
-          </a>
+          <div className="relative z-10">
+            {/* Skip to main content link (accessibility) */}
+            <a
+              href="#main-content"
+              className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-primary focus:px-4 focus:py-2 focus:text-white"
+            >
+              Skip to main content
+            </a>
 
-          {children}
+            {children}
+          </div>
         </AppProviders>
       </body>
     </html>

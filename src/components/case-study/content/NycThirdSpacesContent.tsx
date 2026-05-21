@@ -2,6 +2,7 @@
 
 import { m } from 'framer-motion'
 import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
+import { OptimizedImage } from '@/components/case-study/OptimizedImage'
 
 interface NycThirdSpacesContentProps {
   isContentRevealed: boolean
@@ -55,7 +56,13 @@ function CityCard({ flag, name, description }: { flag: string; name: string; des
 function SitePhoto({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="rounded-xl overflow-hidden">
-      <img src={`${BASE}/${src}`} alt={alt} loading="lazy" decoding="async" className="w-full h-auto block" />
+      <OptimizedImage
+        src={`${BASE}/${src}`}
+        alt={alt}
+        width={400}
+        height={300}
+        className="w-full h-auto block"
+      />
     </div>
   )
 }
@@ -64,7 +71,13 @@ function FieldPhoto({ src, alt, caption }: { src: string; alt: string; caption: 
   return (
     <div>
       <div className="rounded-xl overflow-hidden mb-3">
-        <img src={`${BASE}/${src}`} alt={alt} loading="lazy" decoding="async" className="w-full h-auto block" />
+        <OptimizedImage
+          src={`${BASE}/${src}`}
+          alt={alt}
+          width={600}
+          height={400}
+          className="w-full h-auto block"
+        />
       </div>
       <p className="text-sm font-normal" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
         {caption}
@@ -170,8 +183,13 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
               {/* About the Client */}
               <SectionTitle>About the Client</SectionTitle>
               <div className="w-full rounded-xl overflow-hidden mb-8 md:mb-10">
-                <img src={`${BASE}/woven-city-entrance.jpg`} alt="Toyota Woven City entrance at night"
-                  loading="lazy" decoding="async" className="w-full h-auto block" />
+                <OptimizedImage
+                  src={`${BASE}/woven-city-entrance.jpg`}
+                  alt="Toyota Woven City entrance at night"
+                  width={1200}
+                  height={675}
+                  className="w-full h-auto block"
+                />
               </div>
               <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
                 Woven City is an initiative by Woven by Toyota to create a living laboratory at the base
@@ -252,8 +270,13 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
               <div className="flex flex-col md:flex-row md:items-start md:gap-12">
                 {/* Book cover on left */}
                 <div className="w-full md:w-[200px] flex-shrink-0 mb-8 md:mb-0">
-                  <img src={`${BASE}/palace.png`} alt="Palaces for the People book cover by Eric Klinenberg"
-                    loading="lazy" decoding="async" className="w-full h-auto block rounded-xl" />
+                  <OptimizedImage
+                    src={`${BASE}/palace.png`}
+                    alt="Palaces for the People book cover by Eric Klinenberg"
+                    width={200}
+                    height={300}
+                    className="w-full h-auto block rounded-xl"
+                  />
                 </div>
                 {/* Text on right */}
                 <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed flex-1">
@@ -358,7 +381,13 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 </p>
                 <div className="flex flex-col md:flex-row md:items-start md:gap-10 mb-10 md:mb-14">
                   <div className="w-full md:w-[280px] flex-shrink-0 mb-8 md:mb-0">
-                    <img src={`${BASE}/int-blank-slate.png`} alt="Blank Slate Zones isometric" loading="lazy" decoding="async" className="w-full h-auto block" />
+                    <OptimizedImage
+                      src={`${BASE}/int-blank-slate.png`}
+                      alt="Blank Slate Zones isometric"
+                      width={280}
+                      height={210}
+                      className="w-full h-auto block"
+                    />
                   </div>
                   <div className="flex-1">
                     <p className="font-semibold text-base md:text-[17px] text-text-primary mb-4">Some ways this can be adopted by Woven City:</p>
@@ -384,7 +413,13 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 </p>
                 <div className="mb-6 max-w-[500px]">
                   <div className="rounded-xl overflow-hidden mb-2">
-                    <img src={`${BASE}/int-brick-lane.png`} alt="Brick Lane graffiti district, London" loading="lazy" decoding="async" className="w-full h-auto block" />
+                    <OptimizedImage
+                      src={`${BASE}/int-brick-lane.png`}
+                      alt="Brick Lane graffiti district, London"
+                      width={500}
+                      height={375}
+                      className="w-full h-auto block"
+                    />
                   </div>
                   <p className="text-sm font-normal" style={{ color: 'rgb(var(--color-text-tertiary))' }}>Brick Lane, London</p>
                 </div>
@@ -414,7 +449,13 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 </p>
                 <div className="flex flex-col md:flex-row md:items-start md:gap-10 mb-10 md:mb-14">
                   <div className="w-full md:w-[280px] flex-shrink-0 mb-8 md:mb-0">
-                    <img src={`${BASE}/int-steward.png`} alt="Participatory Stewardship isometric" loading="lazy" decoding="async" className="w-full h-auto block" />
+                    <OptimizedImage
+                      src={`${BASE}/int-steward.png`}
+                      alt="Participatory Stewardship isometric"
+                      width={280}
+                      height={210}
+                      className="w-full h-auto block"
+                    />
                   </div>
                   <div className="flex-1">
                     <p className="font-semibold text-base md:text-[17px] text-text-primary mb-4">Some ways this can be adopted by Woven City:</p>
@@ -441,7 +482,13 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                     </p>
                     <div className="mb-5">
                       <div className="rounded-xl overflow-hidden mb-2">
-                        <img src={`${BASE}/int-lectures-on-tap.png`} alt="Lectures on Tap event at a bar in NYC" loading="lazy" decoding="async" className="w-full h-auto block" />
+                        <OptimizedImage
+                          src={`${BASE}/int-lectures-on-tap.png`}
+                          alt="Lectures on Tap event at a bar in NYC"
+                          width={600}
+                          height={400}
+                          className="w-full h-auto block"
+                        />
                       </div>
                       <p className="text-sm font-normal" style={{ color: 'rgb(var(--color-text-tertiary))' }}>Lectures on Tap, NYC</p>
                     </div>
@@ -459,7 +506,13 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                     </p>
                     <div className="mb-5">
                       <div className="rounded-xl overflow-hidden mb-2">
-                        <img src={`${BASE}/int-community-garden.png`} alt="NYC community garden with raised beds" loading="lazy" decoding="async" className="w-full h-auto block" />
+                        <OptimizedImage
+                          src={`${BASE}/int-community-garden.png`}
+                          alt="NYC community garden with raised beds"
+                          width={600}
+                          height={400}
+                          className="w-full h-auto block"
+                        />
                       </div>
                       <p className="text-sm font-normal" style={{ color: 'rgb(var(--color-text-tertiary))' }}>NYC Community Garden</p>
                     </div>
@@ -488,7 +541,13 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 </p>
                 <div className="flex flex-col md:flex-row md:items-start md:gap-10 mb-10 md:mb-14">
                   <div className="w-full md:w-[280px] flex-shrink-0 mb-8 md:mb-0">
-                    <img src={`${BASE}/int-micro-rituals.png`} alt="Micro-Rituals isometric" loading="lazy" decoding="async" className="w-full h-auto block" />
+                    <OptimizedImage
+                      src={`${BASE}/int-micro-rituals.png`}
+                      alt="Micro-Rituals isometric"
+                      width={280}
+                      height={210}
+                      className="w-full h-auto block"
+                    />
                   </div>
                   <div className="flex-1">
                     <p className="font-semibold text-base md:text-[17px] text-text-primary mb-4">Some ways this can be adopted by Woven City:</p>
@@ -514,19 +573,37 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 <div className="grid grid-cols-3 gap-3 md:gap-4 mb-8">
                   <div>
                     <div className="rounded-xl overflow-hidden mb-2">
-                      <img src={`${BASE}/int-winter-tea.png`} alt="Winter Tea Party flyer" loading="lazy" decoding="async" className="w-full h-auto block" />
+                      <OptimizedImage
+                        src={`${BASE}/int-winter-tea.png`}
+                        alt="Winter Tea Party flyer"
+                        width={300}
+                        height={400}
+                        className="w-full h-auto block"
+                      />
                     </div>
                     <p className="text-sm font-normal" style={{ color: 'rgb(var(--color-text-tertiary))' }}>Winter Tea Party</p>
                   </div>
                   <div>
                     <div className="rounded-xl overflow-hidden mb-2">
-                      <img src={`${BASE}/int-pepperpalooza.png`} alt="Pepperpalooza flyer" loading="lazy" decoding="async" className="w-full h-auto block" />
+                      <OptimizedImage
+                        src={`${BASE}/int-pepperpalooza.png`}
+                        alt="Pepperpalooza flyer"
+                        width={300}
+                        height={400}
+                        className="w-full h-auto block"
+                      />
                     </div>
                     <p className="text-sm font-normal" style={{ color: 'rgb(var(--color-text-tertiary))' }}>Pepperpalooza</p>
                   </div>
                   <div>
                     <div className="rounded-xl overflow-hidden mb-2">
-                      <img src={`${BASE}/int-plant-swap.png`} alt="Plant Swap flyer" loading="lazy" decoding="async" className="w-full h-auto block" />
+                      <OptimizedImage
+                        src={`${BASE}/int-plant-swap.png`}
+                        alt="Plant Swap flyer"
+                        width={300}
+                        height={400}
+                        className="w-full h-auto block"
+                      />
                     </div>
                     <p className="text-sm font-normal" style={{ color: 'rgb(var(--color-text-tertiary))' }}>Plant Swap</p>
                   </div>
@@ -556,7 +633,13 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 </p>
                 <div className="flex flex-col md:flex-row md:items-start md:gap-10 mb-10 md:mb-14">
                   <div className="w-full md:w-[280px] flex-shrink-0 mb-8 md:mb-0">
-                    <img src={`${BASE}/int-common-bank.png`} alt="Common Banks isometric" loading="lazy" decoding="async" className="w-full h-auto block" />
+                    <OptimizedImage
+                      src={`${BASE}/int-common-bank.png`}
+                      alt="Common Banks isometric"
+                      width={280}
+                      height={210}
+                      className="w-full h-auto block"
+                    />
                   </div>
                   <div className="flex-1">
                     <p className="font-semibold text-base md:text-[17px] text-text-primary mb-4">Some ways this can be adopted by Woven City:</p>
@@ -582,13 +665,25 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8">
                   <div>
                     <div className="rounded-xl overflow-hidden mb-2">
-                      <img src={`${BASE}/int-japan-trust.png`} alt="Mujin Hanbaisho roadside stand in Japan" loading="lazy" decoding="async" className="w-full h-auto block" />
+                      <OptimizedImage
+                        src={`${BASE}/int-japan-trust.png`}
+                        alt="Mujin Hanbaisho roadside stand in Japan"
+                        width={600}
+                        height={400}
+                        className="w-full h-auto block"
+                      />
                     </div>
                     <p className="text-sm font-normal" style={{ color: 'rgb(var(--color-text-tertiary))' }}>Mujin Hanbaisho (unmanned shop), Japan</p>
                   </div>
                   <div>
                     <div className="rounded-xl overflow-hidden mb-2">
-                      <img src={`${BASE}/int-little-library.png`} alt="Little Free Library red box" loading="lazy" decoding="async" className="w-full h-auto block" />
+                      <OptimizedImage
+                        src={`${BASE}/int-little-library.png`}
+                        alt="Little Free Library red box"
+                        width={600}
+                        height={400}
+                        className="w-full h-auto block"
+                      />
                     </div>
                     <p className="text-sm font-normal" style={{ color: 'rgb(var(--color-text-tertiary))' }}>Little Free Library</p>
                   </div>

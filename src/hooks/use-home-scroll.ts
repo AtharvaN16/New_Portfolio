@@ -5,7 +5,7 @@ import {
   useMotionValueEvent,
   type MotionValue,
 } from 'framer-motion'
-import { useBreakpoints } from '@/hooks/use-breakpoint'
+import { useBreakpoints } from '@/hooks/use-responsive'
 import { useLenis } from '@/components/providers/LenisProvider'
 
 interface HomeScrollResult {

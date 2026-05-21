@@ -11,7 +11,7 @@ import {
 } from 'framer-motion'
 import { CASE_STUDY_RETURN_PATH_KEY } from '@/lib/case-study-overlay'
 import { cn } from '@/lib/utils/cn'
-import { useBreakpoint } from '@/hooks/use-breakpoint'
+import { useBreakpoint } from '@/hooks/use-responsive'
 
 export interface ProjectCardProps {
   title: string
@@ -135,7 +135,6 @@ export function ProjectCard({
       return
     }
     if (slug) {
-      // Change URL and trigger dialog - RemoveScroll handles scroll locking
       try {
         sessionStorage.setItem(
           CASE_STUDY_RETURN_PATH_KEY,
@@ -196,7 +195,7 @@ export function ProjectCard({
       <div
         className={cn(
           // no translateZ here — gpu-accelerate on image ancestors can soften raster content
-          'relative w-full overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]',
+          'relative w-full overflow-hidden transition-[box-shadow] duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]',
           variant === 'sub-case'
             ? 'aspect-[4/3]'
             : cn(
@@ -261,7 +260,7 @@ export function ProjectCard({
                 loading={imagePriority ? 'eager' : 'lazy'}
                 fetchPriority={imageFetchPriority}
                 quality={92}
-                className="w-full h-auto shadow-2xl"
+                className="w-full h-auto shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-[1.04]"
               />
             </m.div>
           ) : isMasonry ? (
@@ -276,7 +275,7 @@ export function ProjectCard({
                 loading={imagePriority ? 'eager' : 'lazy'}
                 fetchPriority={imageFetchPriority}
                 quality={92}
-                className="object-cover"
+                className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-[1.04]"
               />
             </div>
           ) : (
@@ -289,7 +288,7 @@ export function ProjectCard({
               loading={imagePriority ? 'eager' : 'lazy'}
               fetchPriority={imageFetchPriority}
               quality={92}
-              className="object-cover"
+              className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-[1.04]"
             />
           )
         )}
@@ -304,14 +303,6 @@ export function ProjectCard({
             }}
           />
         )}
-
-        {/* Overlay - Appears on Hover - CSS transition for performance */}
-        <div
-          className={cn(
-            'project-card-overlay absolute inset-0 z-10 transition-opacity duration-250',
-            isHovered ? 'opacity-100' : 'opacity-0'
-          )}
-        />
       </div>
 
       {/* Title and Info - Outside the card, below it */}
