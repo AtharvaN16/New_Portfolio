@@ -122,7 +122,7 @@ export function AloLighthouseScores() {
               className="absolute inset-0 p-2 md:p-4 flex items-center justify-center"
             >
               <Image
-                src={platform === 'Desktop' ? '/images/case-studies/alo-yoga-digital-analytics/desktopsite.png' : '/images/case-studies/alo-yoga-digital-analytics/iphone14.png'}
+                src={platform === 'Desktop' ? '/images/case-studies/alo-yoga-digital-analytics/desktopsite.webp' : '/images/case-studies/alo-yoga-digital-analytics/iphone14.webp'}
                 alt={`${platform} preview`}
                 fill
                 className="object-contain"

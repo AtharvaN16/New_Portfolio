@@ -68,11 +68,6 @@ export default function Home() {
   }, [handleGetInTouchClick])
 
   useEffect(() => {
-    // Load dialogs after a short delay to keep initial paint light
-    const timer = setTimeout(() => {
-      setShouldLoadDialogs(true)
-    }, 1000)
-
     const checkDialogRoute = () => {
       const path = window.location.pathname
       if (
@@ -86,22 +81,33 @@ export default function Home() {
       }
     }
 
+    const loadDialogs = () => setShouldLoadDialogs(true)
+
     checkDialogRoute()
 
     window.addEventListener('popstate', checkDialogRoute)
+    window.addEventListener('workdialog:preload', loadDialogs)
     window.addEventListener('workdialog:check', checkDialogRoute)
+    window.addEventListener('explorationsdialog:preload', loadDialogs)
     window.addEventListener('explorationsdialog:check', checkDialogRoute)
+    window.addEventListener('casestudydialog:preload', loadDialogs)
     window.addEventListener('casestudydialog:check', checkDialogRoute)
+    window.addEventListener('aboutdialog:preload', loadDialogs)
     window.addEventListener('aboutdialog:check', checkDialogRoute)
+    window.addEventListener('writingsdialog:preload', loadDialogs)
     window.addEventListener('writingsdialog:check', checkDialogRoute)
 
     return () => {
-      clearTimeout(timer)
       window.removeEventListener('popstate', checkDialogRoute)
+      window.removeEventListener('workdialog:preload', loadDialogs)
       window.removeEventListener('workdialog:check', checkDialogRoute)
+      window.removeEventListener('explorationsdialog:preload', loadDialogs)
       window.removeEventListener('explorationsdialog:check', checkDialogRoute)
+      window.removeEventListener('casestudydialog:preload', loadDialogs)
       window.removeEventListener('casestudydialog:check', checkDialogRoute)
+      window.removeEventListener('aboutdialog:preload', loadDialogs)
       window.removeEventListener('aboutdialog:check', checkDialogRoute)
+      window.removeEventListener('writingsdialog:preload', loadDialogs)
       window.removeEventListener('writingsdialog:check', checkDialogRoute)
     }
   }, [])
@@ -193,7 +199,7 @@ export default function Home() {
               mediaAlt="NYC DCWP Home Improvement Contractor License Application"
               variant="surface"
               slug="nyc-dcwp-business-licenses"
-              priority={true}
+              priority
             />
           </div>
         </m.div>

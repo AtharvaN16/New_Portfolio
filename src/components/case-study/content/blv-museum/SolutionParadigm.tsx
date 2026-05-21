@@ -52,7 +52,7 @@ export function SolutionParadigm() {
         {/* How it works - Full Bleed */}
         <div className="w-screen relative left-1/2 right-1/2 -translate-x-1/2 bg-neutral-900 dark:bg-neutral-950 mt-24 md:mt-32 aspect-[2639/5739] overflow-hidden">
           <Image
-            src="/images/case-studies/blv-museum-accessibility/Descripto-img3-v5.png"
+            src="/images/case-studies/blv-museum-accessibility/Descripto-img3-v5.webp"
             alt="A detailed, full-page workflow infographic showing how visually impaired users interact with the Descripto app across different stages of a museum visit."
             fill
             className="object-cover"
@@ -153,7 +153,7 @@ export function SolutionParadigm() {
         <div className="space-y-4 mb-8">
           <div className="relative w-full aspect-[16/9] overflow-hidden bg-neutral-900 dark:bg-neutral-950">
             <Image
-              src="/images/case-studies/blv-museum-accessibility/bts-process.png"
+              src="/images/case-studies/blv-museum-accessibility/bts-process.webp"
               alt="A compilation of behind-the-scenes photographs showcasing the research, collaborative whiteboarding sessions, and prototyping process."
               fill
               className="object-cover"

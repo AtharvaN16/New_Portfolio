@@ -24,9 +24,19 @@ To ensure a stable production environment, we follow this branch-based strategy:
 - `bun run build`: create production build.
 - `bun run lint` / `bun run lint:fix`: run/fix ESLint issues.
 - `bun run format` / `bun run format:check`: apply/check Prettier formatting.
+- `bun run images:check`: verify changed image references and image assets are optimized.
+- `bun run images:audit`: audit all referenced local images and public image assets.
 - `bun run type-check`: run TypeScript checks without emit.
 - `bun run test`: run Vitest.
 - `bun run validate`: full gate (lint, format check, type check, tests).
+
+## Image Optimization Requirements
+- Before adding or referencing a raster image, create a WebP or AVIF version and prefer that modern asset in code.
+- Preserve the original visual look unless the user explicitly approves a lossy quality or crop change.
+- Lossless WebP is the default safe conversion for screenshots, UI images, diagrams, and art-directed case-study visuals.
+- Keep original source assets only when useful for archival/editing, but do not reference large PNG/JPG files directly from `src/`.
+- Run `bun run images:check` before committing image changes. Use `bun run images:audit` for full-site image reviews.
+- If a modern image remains larger than 2.5MB, confirm it needs full resolution before using it.
 
 ## 🛠 Specialized Skills (Agent Capabilities)
 
