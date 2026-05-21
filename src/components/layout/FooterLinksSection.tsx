@@ -39,7 +39,7 @@ export function FooterLinksSection({
         <ul className="space-y-1.5 md:space-y-3">
           {FOOTER_LINKS.quickLinks.map((link) => {
             const isResume = link.label === 'Résumé'
-            const isComingSoon = link.label === 'Writings' || link.label === 'About'
+            const isComingSoon = link.label === 'Writings'
 
             return (
               <li key={link.href}>

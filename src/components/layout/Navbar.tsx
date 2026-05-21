@@ -75,7 +75,7 @@ export function Navbar() {
                   <HoverLink
                 href={link.href}
                 prefetch={link.prefetch}
-                comingSoon={link.href === '/writings' || link.href === '/about'}
+                comingSoon={link.href === '/writings'}
                 onMouseEnter={link.href === '/explorations' ? () => {
                   window.dispatchEvent(new CustomEvent('explorationsdialog:preload'))
                 } : undefined}

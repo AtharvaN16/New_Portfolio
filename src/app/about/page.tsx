@@ -40,13 +40,16 @@ export default function AboutPage() {
           </div>
 
           <m.div
-            className="py-20 text-center"
+            className="flex flex-col gap-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 1.6 }}
           >
-            <p className="text-lg" style={{ color: 'rgb(var(--color-text-color70))' }}>
-              Coming soon.
+            <p className="text-lg leading-relaxed max-w-2xl" style={{ color: 'rgb(var(--color-text-color70))' }}>
+              Hi, I&apos;m Atharva — a product designer based in NYC. I love solving problems through thoughtful design and crafting delightful, user-centered experiences.
+            </p>
+            <p className="text-lg leading-relaxed max-w-2xl" style={{ color: 'rgb(var(--color-text-color70))' }}>
+              More details about my background and experience will be added here shortly.
             </p>
           </m.div>
         </main>
