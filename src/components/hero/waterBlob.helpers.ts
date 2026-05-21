@@ -82,6 +82,7 @@ export function getUniformLocations(
   return {
     uTimeLocation: gl.getUniformLocation(program, 'uTime'),
     uIsDarkModeLocation: gl.getUniformLocation(program, 'uIsDarkMode'),
+    uIsMobileLocation: gl.getUniformLocation(program, 'uIsMobile'),
     uColor1Location: gl.getUniformLocation(program, 'uColor1'),
     uColor2Location: gl.getUniformLocation(program, 'uColor2'),
     uColor3Location: gl.getUniformLocation(program, 'uColor3'),
@@ -99,7 +100,8 @@ export function getUniformLocations(
 export function setupWebGL(
   gl: WebGLRenderingContext,
   colors: Colors,
-  isDarkMode: boolean
+  isDarkMode: boolean,
+  isMobile: boolean = false
 ): WebGLProgramInfo | null {
   // Compile shaders
   const vertShader = compileShader(gl, gl.VERTEX_SHADER, vertexShader)
@@ -120,6 +122,7 @@ export function setupWebGL(
 
   // Set initial uniforms
   gl.uniform1f(uniforms.uIsDarkModeLocation, isDarkMode ? 1.0 : 0.0)
+  gl.uniform1f(uniforms.uIsMobileLocation, isMobile ? 1.0 : 0.0)
   gl.uniform3fv(uniforms.uColor1Location, colors.blue)
   gl.uniform3fv(uniforms.uColor2Location, colors.purple)
   gl.uniform3fv(uniforms.uColor3Location, colors.pink)
@@ -144,10 +147,12 @@ export function createAnimationLoop(
   programInfo: WebGLProgramInfo,
   colors: Colors,
   getYOffset: () => number = () => 0,
+  isMobile: boolean = false,
 ): (time: number) => void {
   const animate = (time: number) => {
     gl.uniform1f(programInfo.uTimeLocation, time)
     gl.uniform1f(programInfo.uYOffsetLocation, getYOffset())
+    gl.uniform1f(programInfo.uIsMobileLocation, isMobile ? 1.0 : 0.0)
 
     // Update colors dynamically (for interactive mode)
     gl.uniform3fv(programInfo.uColor1Location, colors.blue)
@@ -172,7 +177,9 @@ export function setupCanvasResize(canvas: HTMLCanvasElement): () => void {
   let lastHeight = 0
 
   const resizeCanvasToDisplaySize = () => {
-    const dpr = window.devicePixelRatio || 1
+    const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
+    // Cap DPR at 1.0 for mobile to save GPU cycles; allow normal DPR for desktop
+    const dpr = isMobile ? 1.0 : (window.devicePixelRatio || 1)
     const rect = canvas.getBoundingClientRect()
 
     const displayWidth = Math.round(rect.width * dpr)
@@ -180,7 +187,6 @@ export function setupCanvasResize(canvas: HTMLCanvasElement): () => void {
 
     // Check if the change is significant enough to warrant a resize.
     // On mobile, height changes < 60px (dpr adjusted) are likely just the address bar.
-    const isMobile = window.matchMedia('(pointer: coarse)').matches
     const heightDiff = Math.abs(displayHeight - lastHeight)
     const widthDiff = Math.abs(displayWidth - lastWidth)
 

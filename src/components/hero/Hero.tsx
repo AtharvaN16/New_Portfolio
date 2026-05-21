@@ -4,6 +4,7 @@ import { m } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import { AnimatedLink } from '@/components/ui/AnimatedLink'
+import { useBreakpoints } from '@/hooks/use-responsive'
 
 const WaterBlobWithBoundary = dynamic(
   () =>
@@ -60,6 +61,7 @@ export function Hero({
   onGetInTouchClick,
 }: HeroProps) {
   const [blobVisible, setBlobVisible] = useState(false)
+  const { isMobile } = useBreakpoints()
 
   useEffect(() => {
     const timer = setTimeout(() => setBlobVisible(true), 1100)
@@ -103,7 +105,7 @@ export function Hero({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
                     duration: 1.2,
-                    delay: 0.7,
+                    delay: isMobile ? 0.1 : 0.7,
                     ease: [0.4, 0, 0.2, 1],
                   }}
                   className="max-w-[50%] md:max-w-xs text-[12px] md:text-[16px] font-normal text-left"

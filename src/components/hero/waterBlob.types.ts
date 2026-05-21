@@ -23,6 +23,7 @@ export interface WebGLProgramInfo {
   program: WebGLProgram
   uTimeLocation: WebGLUniformLocation | null
   uIsDarkModeLocation: WebGLUniformLocation | null
+  uIsMobileLocation: WebGLUniformLocation | null
   uColor1Location: WebGLUniformLocation | null
   uColor2Location: WebGLUniformLocation | null
   uColor3Location: WebGLUniformLocation | null

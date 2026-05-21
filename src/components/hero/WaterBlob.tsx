@@ -178,11 +178,12 @@ export function WaterBlob({
       return
     }
 
+    const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
     const display = displayColorsRef.current!
     const target = targetColorsRef.current!
     // Always render with dark-mode blob constants (glow, scatter, saturation).
     // Light mode achieves its look via the background color (#fafaf8) + vivid colors.
-    const programInfo = setupWebGL(gl, display, true)
+    const programInfo = setupWebGL(gl, display, true, isMobile)
     if (!programInfo) {
       setHasWebGL(false)
       return
@@ -196,7 +197,7 @@ export function WaterBlob({
     if (!hasEverStartedRef.current) {
       yOffsetRef.current = -0.7
     }
-    const animate = createAnimationLoop(gl, programInfo, display, () => yOffsetRef.current)
+    const animate = createAnimationLoop(gl, programInfo, display, () => yOffsetRef.current, isMobile)
 
     let animationId: number
     let startTimeoutId: ReturnType<typeof setTimeout>

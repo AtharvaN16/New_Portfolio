@@ -15,7 +15,7 @@ export function TextureOverlay() {
 
   return (
     <>
-      {/* SVG Filter Definition */}
+      {/* SVG Filter Definition - Optimized for Desktop (numOctaves reduced 3 -> 2) */}
       <svg
         className="sr-only pointer-events-none absolute"
         aria-hidden="true"
@@ -26,21 +26,23 @@ export function TextureOverlay() {
           <feTurbulence
             type="fractalNoise"
             baseFrequency="0.65"
-            numOctaves="3"
+            numOctaves="2"
             stitchTiles="stitch"
           />
           <feColorMatrix type="saturate" values="0" />
         </filter>
       </svg>
 
-      {/* Background texture layer */}
+      {/* 
+        Background texture layer 
+        - On Desktop: Uses GPU-intensive feTurbulence for infinite, non-repeating grain.
+        - On Mobile: Switches to a lightweight, static base64 noise SVG for 0 GPU overhead.
+      */}
       <div
-        className="fixed inset-0 pointer-events-none z-0 contrast-[120%]"
+        className="fixed inset-0 pointer-events-none z-0 contrast-[120%] texture-layer"
         style={{
-          filter: 'url(#sensory-grit)',
           opacity: opacity,
-          // Add a subtle brightness boost only in dark mode to keep it "emissive"
-          brightness: isDark ? '1.2' : '1.0',
+          filter: `url(#sensory-grit) brightness(${isDark ? '1.2' : '1.0'})`,
         } as React.CSSProperties}
         aria-hidden="true"
       />
