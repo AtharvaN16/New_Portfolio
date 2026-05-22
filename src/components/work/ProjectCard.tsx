@@ -314,7 +314,7 @@ export function ProjectCard({
       {/* Title and Info - Outside the card, below it */}
       <div className="mt-4 space-y-1 sm:mt-6">
         {variant === 'sub-case' ? (
-          <h3 className="font-bold leading-tight text-foreground text-[16px] sm:text-[18px] lg:text-[20px]">
+          <h3 className="font-bold leading-tight text-foreground text-[18px] lg:text-[20px]">
             {title}
           </h3>
         ) : (
@@ -334,8 +334,8 @@ export function ProjectCard({
               className={cn(
                 'font-bold leading-tight text-foreground max-w-none sm:max-w-[85%]',
                 variant === 'compact'
-                  ? 'text-[16px] sm:text-xl lg:text-[1.75rem]'
-                  : 'text-[16px] sm:text-2xl lg:text-[1.75rem]'
+                  ? 'text-[18px] sm:text-xl lg:text-[1.75rem]'
+                  : 'text-[18px] sm:text-2xl lg:text-[1.75rem]'
               )}
             >
               {title}
