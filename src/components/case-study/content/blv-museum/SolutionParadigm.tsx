@@ -90,7 +90,7 @@ export function SolutionParadigm() {
           ].map((feature) => (
             <div key={feature.title} className="p-6 md:p-8 bg-neutral-100 dark:bg-[#1C1C1E] space-y-3">
               <h5 className="text-base md:text-[18px] font-bold text-text-primary">{feature.title}</h5>
-              <p className="text-sm md:text-base text-text-color70 leading-relaxed">{feature.desc}</p>
+              <p className="text-sm md:text-base text-text-body leading-relaxed">{feature.desc}</p>
             </div>
           ))}
         </div>
@@ -132,7 +132,7 @@ export function SolutionParadigm() {
               <h4 className="text-xl md:text-2xl font-bold text-text-primary tracking-tight leading-tight">
                 {lesson.title}
               </h4>
-              <p className="text-text-color70 leading-relaxed text-base">
+              <p className="text-text-body leading-relaxed text-base">
                 {lesson.desc}
               </p>
             </div>
@@ -177,7 +177,7 @@ export function SolutionParadigm() {
         <h3 className="text-2xl md:text-[32px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-6 md:mb-8">
           References
         </h3>
-          <ol className="list-decimal pl-5 space-y-6 text-base md:text-[18px] text-text-color70 leading-relaxed mb-16">
+          <ol className="list-decimal pl-5 space-y-6 text-base md:text-[18px] text-text-body leading-relaxed mb-16">
             <li>
               <strong>Candlin, F. (2003).</strong> Blindness, art and exclusion in museums and galleries. International Journal of Art and Design, 22(1), 100–110.<br />
               <a href="http://eprints.bbk.ac.uk/745" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">http://eprints.bbk.ac.uk/745</a>
@@ -203,7 +203,7 @@ export function SolutionParadigm() {
           <h4 className="text-sm md:text-[16px] font-bold uppercase mb-2" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
             ai credit
           </h4>
-          <p className="text-base text-text-color70 leading-relaxed">
+          <p className="text-base text-text-body leading-relaxed">
             Hero image created using Gemini
           </p>
         </div>

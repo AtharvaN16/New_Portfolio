@@ -29,7 +29,7 @@ function AutoScrollTranscript() {
   })
 
   const content = (
-    <div className="font-serif leading-relaxed text-base md:text-lg text-text-color70 space-y-6 pb-8 pt-8 px-2">
+    <div className="font-serif leading-relaxed text-base md:text-lg text-text-body space-y-6 pb-8 pt-8 px-2">
       <p>
         This enormous painting shows five nude female figures with pale peach-pink skin and dark hair. Features, such as faces, buttocks, and breasts, are suggested only by minimal watery black outlines. Visibly loose brushstrokes, dripping lines of paint, and glimpses of raw canvas <span className="bg-[#FF8C00]/20 text-[#FF8C00] font-medium px-1 rounded">convey an element of quickness and improvisation</span>.
       </p>
@@ -94,10 +94,10 @@ export function MuseumAnalysis() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           <div className="space-y-8 order-2 lg:order-1 lg:col-span-6">
-            <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+            <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
               Initially, we were thinking about how apps like Be My Eyes or Seeing AI could use AI to generate descriptive audio for BLV users in a museum setting. To analyze the issues with current museum audio descriptions, we listened to the official audio description of the painting we introduced at the start. 
             </p>
-            <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+            <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
               Listening to it, we realized that all three of us had a different interpretation of the artwork. I thought the figures were dancing with the sky as the background, while a teammate thought it was water. While I thought the green part was just the ground, the audio description explicitly said they were hills. That is when we realized that interpretive agency is such an important aspect of experiencing art, and a major gap in current audio descriptions. That is how we found our research focus.
             </p>
           </div>
@@ -188,7 +188,7 @@ export function MuseumAnalysis() {
         <AnimatedTitle text="Findings from 14 Major Museums" animationType="fadeIn" className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-12" />
         
         <div className="mb-20 space-y-8">
-          <p className="text-lg md:text-xl text-text-color70 leading-relaxed max-w-[880px]">
+          <p className="text-lg md:text-xl text-text-body leading-relaxed max-w-[880px]">
             We evaluated the audio descriptions across four art types: Abstract, Figurative, Contemporary, and Sculpture. Each description was scored across three dimensions:
           </p>
           <ul className="space-y-6 md:space-y-8">
@@ -199,7 +199,7 @@ export function MuseumAnalysis() {
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-4">
                 <span className="mt-[0.65em] h-1.5 w-1.5 rounded-full shrink-0 bg-[#FF8C00]" aria-hidden="true" />
-                <div className="text-lg md:text-xl text-text-color70 leading-relaxed">
+                <div className="text-lg md:text-xl text-text-body leading-relaxed">
                   <strong className="text-text-primary font-bold">{item.title}</strong> {item.desc}
                 </div>
               </li>

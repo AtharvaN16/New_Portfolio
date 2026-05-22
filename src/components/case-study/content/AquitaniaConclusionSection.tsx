@@ -28,7 +28,7 @@ export function AquitaniaConclusionSection() {
         <h3 className="text-xl md:text-[28px] font-bold text-text-primary leading-snug">
           Conclusion
         </h3>
-        <div className="space-y-6 text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+        <div className="space-y-6 text-base md:text-[18px] font-normal text-text-body leading-relaxed">
           <p>
             Aquitania transformed Cunard&apos;s fragmented digital experience into a more
             cohesive, scalable, and premium design ecosystem. Through shared foundations,
@@ -74,7 +74,7 @@ export function AquitaniaConclusionSection() {
         <h3 className="text-xl md:text-[28px] font-bold text-text-primary leading-snug">
           Key Learnings
         </h3>
-        <div className="space-y-6 text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+        <div className="space-y-6 text-base md:text-[18px] font-normal text-text-body leading-relaxed">
           <p>
             This project reinforced how important documentation is in making a design system
             usable, scalable, and easy to adopt across teams. I also learned the importance of

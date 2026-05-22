@@ -26,7 +26,7 @@ export function ImdbIaRedesignContent() {
         <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
           Abstract
         </h3>
-        <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-6">
+        <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed mb-6">
           We conducted 8 in-depth user interviews to understand how users discover and search
           for content within IMDb. Through this research, we identified key pain points in
           IMDb&apos;s current content discovery system, including an outdated and cluttered
@@ -34,7 +34,7 @@ export function ImdbIaRedesignContent() {
           align with natural user behavior, and poor content discovery features that lead users
           to rely on external platforms.
         </p>
-        <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+        <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
           Additionally, there is a lack of personalized recommendations despite the availability
           of rich data, and information overload makes it challenging to find relevant details
           quickly. We mapped user needs to improve filtering, recommendation, and browsing

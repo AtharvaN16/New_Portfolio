@@ -91,13 +91,13 @@ export function AquitaniaContent({
           data-section="aquitania-abstract-body"
           className="space-y-6 md:space-y-8 mb-8 md:mb-10"
         >
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             This case study explores the creation of a design system for Cunard to modernize its
             digital experience and better reflect its premium brand identity. As digital products and
             teams evolved, inconsistencies across interfaces, workflows, and communication created
             challenges in maintaining a cohesive brand experience.
           </p>
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             The project aimed to establish a scalable and unified design foundation that could improve
             collaboration, streamline decision-making, and ensure consistency across products and teams.
             Through the creation of standardized components, design guidelines, and shared patterns,
@@ -147,7 +147,7 @@ export function AquitaniaContent({
               <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-8">
                 What is Cunard?
               </h3>
-              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed max-w-2xl">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed max-w-2xl">
                 With a legacy spanning over 185 years, Cunard is a luxury British cruise line known for its
                 iconic ocean liners, heritage, and premium travel experiences. The company defined luxury
                 transatlantic ocean travel in the early 1900s through legendary vessels like the Mauretania,
@@ -166,7 +166,7 @@ export function AquitaniaContent({
               <h3 className="text-lg md:text-[28px] font-bold text-text-primary leading-snug">
                 Why does Cunard need a design system?
               </h3>
-              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed max-w-2xl">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed max-w-2xl">
                 As a premium cruise brand competing in the luxury travel market, Cunard&apos;s digital
                 experience needed to better reflect the elegance and sophistication of its brand. Outdated
                 visuals, inconsistent UI patterns, and accessibility gaps created a disconnect between the
@@ -223,7 +223,7 @@ export function AquitaniaContent({
               <h3 className="text-xl md:text-[28px] font-bold text-text-primary mb-6 md:mb-8 leading-snug">
                 Introducing Aquitania
               </h3>
-              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-10 md:mb-12 max-w-2xl">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed mb-10 md:mb-12 max-w-2xl">
                 Inspired by Cunard&apos;s heritage of sophistication and intentionality, Aquitania was designed
                 to elevate the brand&apos;s digital experience through thoughtful, consistent design. It includes
                 the foundations, components, patterns, and documentation needed to create premium product
@@ -304,7 +304,7 @@ export function AquitaniaContent({
               <h3 className="text-xl md:text-[28px] font-bold text-text-primary mb-8 md:mb-10 leading-snug">
                 Aquitania follows four design principles
               </h3>
-              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-10 md:mb-12 max-w-2xl">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed mb-10 md:mb-12 max-w-2xl">
                 We established four core principles to guide the Aquitania design system and ensure every
                 experience reflects Cunard’s premium brand identity.
               </p>
@@ -338,7 +338,7 @@ export function AquitaniaContent({
                       {item.num}
                     </p>
                     <h4 className="text-xl md:text-2xl font-bold text-text-primary">{item.title}</h4>
-                    <p className="text-sm md:text-base font-normal text-text-color70 leading-relaxed max-w-[320px]">
+                    <p className="text-sm md:text-base font-normal text-text-body leading-relaxed max-w-[320px]">
                       {item.desc}
                     </p>
                   </div>
@@ -370,7 +370,7 @@ export function AquitaniaContent({
                     We first created a UI inventory of the existing Cunard website.
                   </h4>
                 </div>
-                <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed md:pt-7">
+                <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed md:pt-7">
                   We started by taking screenshots of every unique design element on the Cunard&apos;s
                   website. These elements were pasted into a Figma board and categorized into atoms,
                   molecules, organisms, based on the Atomic Design Framework.
@@ -405,7 +405,7 @@ export function AquitaniaContent({
                     We grouped recurring patterns from the inventory into actionable insights.
                   </h4>
                 </div>
-                <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed md:pt-7">
+                <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed md:pt-7">
                   The deconstruction process revealed significant inconsistencies across the existing
                   digital experience. Multiple typography styles, buttons, icon treatments, and
                   variations in components used across products. Components such as tabs, cards, and
@@ -442,7 +442,7 @@ export function AquitaniaContent({
                     We defined the core design primitives that power the system.
                   </h4>
                 </div>
-                <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed md:pt-7">
+                <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed md:pt-7">
                   To create a scalable and consistent foundation, the next step was defining the core
                   design primitives that power the system. This included establishing typography, color,
                   spacing, grids, elevation, and iconography standards that could be reused across every

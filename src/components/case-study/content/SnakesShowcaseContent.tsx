@@ -38,14 +38,14 @@ export function SnakesShowcaseContent() {
         </h3>
 
         <div className="space-y-6 md:space-y-8">
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             This showcase is a personal exploration into interactive data visualization,
             centered on the taxonomy and behavior of snakes. The goal was to design an
             experience that makes biological information — species rankings, venom
             classification, and geographic distribution — feel navigable and visually
             engaging for a general audience.
           </p>
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             The project was vibe-coded over a weekend, prioritizing feel and motion over
             completeness. It served as a test bed for ideas around scroll-driven
             storytelling, ambient UI, and data-first design — exploring how visual

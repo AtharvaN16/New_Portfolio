@@ -26,7 +26,8 @@
     --color-text-tertiary-50: 93 93 93; /* #5D5D5D - Accessible tertiary for tags/metadata */
     --color-text-color60: 126 126 126; /* ~#111111 at 60% opacity on white */
     --color-text-color70: 119 119 119; /* #777777 - Premium labels (requires medium weight) */
-    --color-text-secondary-80: 85 85 85; /* #555555 - Softer premium body/secondary text */
+    --color-text-secondary-80: 85 85 85; /* #555555 - Softer premium secondary text */
+    --color-text-body: 68 68 68; /* #444444 - Body copy; darker than secondary, below #111 titles */
     --color-text-color90: 43 43 43; /* ~#111111 at 90% opacity on white */
     --color-text-primary-100: 17 17 17; /* #111111 - 100% opacity */
 
@@ -189,6 +190,7 @@
     --color-text-color60: 149 149 149; /* ~#E8E6E3 at 60% opacity on dark bg */
     --color-text-color70: 170 170 170; /* ~#E8E6E3 at 70% opacity on dark bg */
     --color-text-secondary-80: 192 191 189; /* ~#E8E6E3 at 80% opacity on dark bg */
+    --color-text-body: 192 191 189; /* Body copy aligns with secondary in dark mode */
     --color-text-color90: 209 207 204; /* ~#E8E6E3 at 90% opacity on dark bg */
     --color-text-primary-100: 232 230 227; /* #E8E6E3 - 100% opacity */
 
@@ -275,6 +277,7 @@
       --color-text-color60: 154 154 154; /* ~#FAFAFA at 60% opacity on dark bg */
       --color-text-color70: 178 178 178; /* ~#FAFAFA at 70% opacity on dark bg */
       --color-text-secondary-80: 202 202 202; /* ~#FAFAFA at 80% opacity on dark bg */
+      --color-text-body: 202 202 202; /* Body copy aligns with secondary in auto dark mode */
       --color-text-color90: 225 225 225; /* ~#FAFAFA at 90% opacity on dark bg */
       --color-text-primary-100: 250 250 250; /* #FAFAFA - 100% opacity */
       

@@ -55,7 +55,7 @@ export function FigmaPresentationDetail({
         transition={{ duration: 0.6, delay: 0.4 }}
       >
         <div className="max-w-full sm:max-w-[25rem] md:max-w-[28.75rem] text-left">
-          <p className="text-base md:text-lg text-text-secondary leading-relaxed">
+          <p className="text-base md:text-lg text-text-body leading-relaxed">
             {caseStudy.description}
           </p>
         </div>

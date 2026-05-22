@@ -105,11 +105,11 @@ export function MatisseSimulation({ scrollContainerRef, isReady }: MatisseSimula
       </div>
 
       <div className="mb-24 md:mb-32 space-y-12">
-        <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed max-w-[760px]">
+        <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed max-w-[760px]">
           When we look at art, our eyes don&apos;t just register shapes and colors. They form an initial interpretation and opinion.
           Before we read the description or listen to the audio guide, we have already begun to form our own meaning.
         </p>
-        <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed max-w-[760px]">
+        <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed max-w-[760px]">
           As part of an exploratory project for Positive Exposure, who have an art exhibition - Art 75 for children with disabilities, we were asked to research museum accessibility for BLV (Blind and low vision) visitors.
         </p>
       </div>

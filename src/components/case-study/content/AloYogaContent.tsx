@@ -82,14 +82,14 @@ export function AloYogaContent({
           Abstract
         </h3>
         <div className="space-y-6 md:space-y-8">
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             When you think of premium activewear, Alo sits alongside Lululemon — same price point,
             same cultural relevance, same customers. But unlike Lululemon, Alo barely shows up when
             you search for &ldquo;gym clothes&rdquo; or &ldquo;workout clothes&rdquo;, Alo also
             doesn&apos;t rank well for men&apos;s wear. That&apos;s not a product problem.
             That&apos;s a digital visibility problem.
           </p>
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             We ran a full digital audit across SEO, keyword coverage, and social media analysis
             using SimilarWeb, Screaming Frog, and SEMrush, benchmarked against Lululemon, Gymshark,
             UnderArmour, and Vuori. The goal was to find where the gap was coming from and put
@@ -105,7 +105,7 @@ export function AloYogaContent({
             </h3>
             <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-1">
               {['Conducting SEO audit', 'Social media recommendations', 'Coding the mock dashboard'].map((item) => (
-                <li key={item} className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+                <li key={item} className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
                   {item}
                 </li>
               ))}
@@ -271,7 +271,7 @@ export function AloYogaContent({
               </h3>
 
               <div className="max-w-[760px]">
-                <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+                <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
                   This project was a deep dive into how digital analytics serves as the backbone 
                   of brand strategy. By analyzing Alo Yoga through the lens of competition and 
                   search data, we moved beyond surface-level observations to identify the specific 

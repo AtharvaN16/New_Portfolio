@@ -22,7 +22,7 @@ export function AquitaniaInActionSection() {
         <h3 className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.04em]">
           Aquitania in action
         </h3>
-        <p className="max-w-[750px] text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+        <p className="max-w-[750px] text-base md:text-[18px] font-normal text-text-body leading-relaxed">
           Applying Aquitania transformed the experience from fragmented and inconsistent to cohesive,
           accessible, and premium. By standardizing components, typography, spacing, and interactions,
           the system created a more polished digital experience that better reflects Cunard&apos;s luxury

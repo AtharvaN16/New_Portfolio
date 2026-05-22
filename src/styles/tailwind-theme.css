@@ -22,6 +22,7 @@
   --color-text-color60: rgb(var(--color-text-color60) / <alpha-value>);
   --color-text-color70: rgb(var(--color-text-color70) / <alpha-value>);
   --color-text-secondary-80: rgb(var(--color-text-secondary-80) / <alpha-value>);
+  --color-text-body: rgb(var(--color-text-body) / <alpha-value>);
   --color-text-color90: rgb(var(--color-text-color90) / <alpha-value>);
   --color-text-primary-100: rgb(var(--color-text-primary-100) / <alpha-value>);
   

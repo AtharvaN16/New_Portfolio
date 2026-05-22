@@ -105,14 +105,14 @@ export function UAlbertaLibraryContent({
         </h3>
 
         <div className="space-y-6 md:space-y-8">
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             This case study documents a usability study of the University of
             Alberta Library website, conducted to understand how students
             navigate, discover resources, and access library services. The
             research focused on four core areas: the homepage, hours and
             locations, subject guides, and library services.
           </p>
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             Through moderated user interviews with 8 UAlberta students, the
             study surfaced a consistent pattern: the website works well for
             users who already know what they are looking for, but creates
@@ -128,7 +128,7 @@ export function UAlbertaLibraryContent({
           <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
             My Role
           </h3>
-          <p className="text-base md:text-[18px] font-medium text-text-color70 leading-relaxed mb-4">
+          <p className="text-base md:text-[18px] font-medium text-text-body leading-relaxed mb-4">
             As part of a four-person research team, I contributed to:
           </p>
           <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-2">
@@ -140,7 +140,7 @@ export function UAlbertaLibraryContent({
             ].map((item) => (
               <li
                 key={item}
-                className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed"
+                className="text-base md:text-[18px] font-normal text-text-body leading-relaxed"
               >
                 {item}
               </li>
@@ -243,7 +243,7 @@ export function UAlbertaLibraryContent({
                       }}
                     />
                     <div>
-                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-color70">
+                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-body">
                         {obj.title}
                       </div>
                       <p

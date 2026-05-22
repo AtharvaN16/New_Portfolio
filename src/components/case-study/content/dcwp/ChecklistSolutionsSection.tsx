@@ -63,7 +63,7 @@ export function ChecklistSolutionsSection() {
           className="w-full h-auto"
           sizes="(max-width: 768px) 100vw, 80vw"
         />
-        <p className="text-sm md:text-base text-text-color70 leading-relaxed">
+        <p className="text-sm md:text-base text-text-body leading-relaxed">
           Important information made more visually distinct
         </p>
       </div>
@@ -115,7 +115,7 @@ export function ChecklistSolutionsSection() {
               >
                 {num}
               </span>
-              <p className="text-sm text-text-color70 leading-relaxed">{text}</p>
+              <p className="text-sm text-text-body leading-relaxed">{text}</p>
             </div>
           ))}
         </div>
@@ -141,7 +141,7 @@ export function ChecklistSolutionsSection() {
               className="space-y-4"
             >
               {body.map((para) => (
-                <p key={para} className="text-sm md:text-base text-text-color70 leading-relaxed">
+                <p key={para} className="text-sm md:text-base text-text-body leading-relaxed">
                   {para}
                 </p>
               ))}

@@ -52,10 +52,10 @@ export function EmpoweringBlvContent({
             Abstract
           </h3>
           <div className="space-y-6 md:space-y-8">
-            <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+            <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
               This project focuses on the &quot;interpretive authority&quot; in art galleries. While museums provide audio descriptions, these are often fixed, curator-authored accounts that collapse the variability of an artwork into a single narrative. We introduce &quot;negotiable interpretation&quot; as a design paradigm to redistribute that authority back to the visitor.
             </p>
-            <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+            <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
               Through a multi-phase research process including a literature survey, a corpus analysis of museum audio descriptions, and an interactive simulation, we identified the structural mechanisms that &quot;fix&quot; meaning for visitors before they even arrive.
             </p>
           </div>

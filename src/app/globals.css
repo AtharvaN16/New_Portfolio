@@ -469,6 +469,7 @@
   .text-text-color60 { color: rgb(var(--color-text-color60)); }
   .text-text-color70 { color: rgb(var(--color-text-color70)); }
   .text-text-color90 { color: rgb(var(--color-text-color90)); }
+  .text-text-body { color: rgb(var(--color-text-body)); }
   .text-text-primary  { color: rgb(var(--color-text-primary-100)); }
   .text-text-secondary { color: rgb(var(--color-text-secondary-80)); }
   .text-text-tertiary  { color: rgb(var(--color-text-tertiary-50)); }
