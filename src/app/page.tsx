@@ -66,21 +66,6 @@ export default function Home() {
     handleGetInTouchClick,
   } = useHomeScroll()
 
-  // Optimization: Toggle visibility of the SelectedWork layer to save GPU memory on mobile
-  const [isWorkVisible, setIsWorkVisible] = useState(false)
-  
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.on('change', (latest) => {
-      // SelectedWork only starts appearing after progress 0.2
-      // We give it some breathing room and turn it on at 0.1
-      const visible = latest > 0.1
-      if (visible !== isWorkVisible) {
-        setIsWorkVisible(latest > 0.1)
-      }
-    })
-    return () => unsubscribe()
-  }, [scrollYProgress, isWorkVisible])
-
   const handleGetInTouchWithShimmer = useCallback(() => {
     handleGetInTouchClick()
     setShouldTriggerFooterShimmer(true)
@@ -150,8 +135,7 @@ export default function Home() {
             y: selectedWorkY,
             zIndex: 10,
             backgroundColor: 'rgb(var(--color-background))',
-            display: isWorkVisible ? 'block' : 'none', // Hardware acceleration gating
-            willChange: isWorkVisible ? 'transform' : 'auto', // only prepare GPU when visible
+            willChange: 'transform',
           }}
         >
           <div ref={selectedWorkRef}>
