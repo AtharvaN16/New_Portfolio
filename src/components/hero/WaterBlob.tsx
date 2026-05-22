@@ -40,7 +40,7 @@ export function WaterBlob({
 }: WaterBlobProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { theme } = useTheme()
-  const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
+  const { reducedMotion: prefersReducedMotion, pauseWebGL, saveData } = useAccessibility()
   const [hasWebGL, setHasWebGL] = useState(true)
   const [retryKey, setRetryKey] = useState(0)
 
@@ -145,7 +145,8 @@ export function WaterBlob({
       !displayColorsRef.current ||
       !targetColorsRef.current ||
       prefersReducedMotion ||
-      pauseWebGL
+      pauseWebGL ||
+      saveData
     )
       return
 
@@ -265,7 +266,7 @@ export function WaterBlob({
       }
       webglInitializedRef.current = false
     }
-  }, [prefersReducedMotion, theme, retryKey, pauseWebGL]) // colors removed — lerped via refs
+  }, [prefersReducedMotion, theme, retryKey, pauseWebGL, saveData]) // colors removed — lerped via refs
 
   // Handle canvas resize
   useEffect(() => {
@@ -282,8 +283,8 @@ export function WaterBlob({
     setPaletteIndex(nextIndex)
   }
 
-  // Show CSS fallback if WebGL not supported or reduced motion or paused
-  if (!hasWebGL || prefersReducedMotion || pauseWebGL) {
+  // Show CSS fallback if WebGL not supported or reduced motion or paused or saveData
+  if (!hasWebGL || prefersReducedMotion || pauseWebGL || saveData) {
     return (
       <div
         className={`w-full h-full ${theme === 'dark' ? 'hero-gradient-dark' : 'hero-gradient-light'} ${className}`}

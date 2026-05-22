@@ -144,7 +144,13 @@ export function SelectedWork({
   }, [hasScrolledPast])
 
   return (
-    <section className={cn('w-full bg-background pb-0', className)}>
+    <section 
+      className={cn('w-full bg-background pb-0', className)}
+      style={{ 
+        contentVisibility: 'auto',
+        containIntrinsicSize: '0 2000px', // Provides an estimated height for the browser to reduce layout shifts
+      } as React.CSSProperties}
+    >
       {/* Section Title - Seamless reveal with scroll-driven animation */}
       <m.h2
         className="mt-8 mb-28 text-[30px] font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 sm:text-2xl md:mt-12 md:mb-20 md:text-3xl lg:mt-[60px] lg:mb-28 lg:text-4xl xl:mt-[72px] xl:mb-[140px] xl:text-[56px]"
