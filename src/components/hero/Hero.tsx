@@ -54,13 +54,11 @@ const DESKTOP_CURRENTLY_DURATION = 1.1
 const META_FADE_DURATION = 1.2
 
 interface HeroProps {
-  shouldPauseBlobs?: boolean
   onBrowseWorkClick?: () => void
   onGetInTouchClick?: () => void
 }
 
 export function Hero({
-  shouldPauseBlobs = false,
   onBrowseWorkClick,
   onGetInTouchClick,
 }: HeroProps) {
@@ -169,7 +167,7 @@ export function Hero({
                 transition: 'opacity 1.2s ease-out',
               }}
             >
-              <WaterBlobWithBoundary paused={shouldPauseBlobs} interactive />
+              <WaterBlobWithBoundary interactive />
             </div>
           </div>
 

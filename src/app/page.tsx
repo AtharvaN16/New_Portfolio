@@ -53,7 +53,6 @@ export default function Home() {
     selectedWorkRef,
     footerRef,
     scrollYProgress,
-    shouldPauseBlobs,
     containerHeightVh,
     heroContentY,
     navbarScrollOpacity,
@@ -181,7 +180,6 @@ export default function Home() {
             }}
           >
             <Hero
-              shouldPauseBlobs={shouldPauseBlobs}
               onBrowseWorkClick={handleBrowseWorkClick}
               onGetInTouchClick={handleGetInTouchWithShimmer}
             />
