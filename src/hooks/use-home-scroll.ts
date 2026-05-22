@@ -75,8 +75,10 @@ export function useHomeScroll(): HomeScrollResult {
         const fHeightVh = (fHeight / vh) * 100
         const footerScrollVh = Math.min(fHeightVh, 35)
         
-        // 200 (Hero + Card) + content scroll + footer reveal
-        const newTrackHeight = 200 + Math.max(0, swHeightVh - 100) + footerScrollVh
+        // Optimization: Increase track length on mobile to slow down scroll speed
+        // 200 (Hero + Card) on desktop, 250 on mobile to give more "room" for the thumb
+        const baseTrackLength = isDesktop ? 200 : 250
+        const newTrackHeight = baseTrackLength + Math.max(0, swHeightVh - 100) + footerScrollVh
         setContainerHeightVh(newTrackHeight)
       }
     }
