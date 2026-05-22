@@ -209,25 +209,29 @@ export function WaterBlob({
     let lastTimestamp: number | null = null
 
     const loop = (timestamp: number) => {
-      if (!isPausedByDialog && !pausedRef.current) {
-        if (lastTimestamp !== null) {
-          accumulatedTime +=
-            ((timestamp - lastTimestamp) / 1000) * animationSpeedRef.current
-        }
-        lastTimestamp = timestamp
-        // Lerp blobs up from entry position to normal (ease-out, ~1.5s to settle)
-        if (yOffsetRef.current < -0.001) {
-          yOffsetRef.current += (0 - yOffsetRef.current) * 0.035
-        } else {
-          yOffsetRef.current = 0
-        }
-        // Smoothly interpolate display colors toward target each frame
-        lerpColors(display, target, COLOR_LERP_SPEED)
-        animate(accumulatedTime)
-      } else {
-        // Reset so we don't count paused duration when we resume
+      // If paused or hidden, we stop the loop completely (no requestAnimationFrame)
+      if (isPausedByDialog || pausedRef.current) {
         lastTimestamp = null
+        animationId = 0
+        return
       }
+
+      if (lastTimestamp !== null) {
+        accumulatedTime +=
+          ((timestamp - lastTimestamp) / 1000) * animationSpeedRef.current
+      }
+      lastTimestamp = timestamp
+
+      // Lerp blobs up from entry position to normal (ease-out, ~1.5s to settle)
+      if (yOffsetRef.current < -0.001) {
+        yOffsetRef.current += (0 - yOffsetRef.current) * 0.035
+      } else {
+        yOffsetRef.current = 0
+      }
+      // Smoothly interpolate display colors toward target each frame
+      lerpColors(display, target, COLOR_LERP_SPEED)
+      animate(accumulatedTime)
+
       animationId = requestAnimationFrame(loop)
     }
 
@@ -236,28 +240,49 @@ export function WaterBlob({
     // so theme switches are seamless with no pause or color glitch.
     const loopDelay = hasEverStartedRef.current ? 0 : 900 // 200ms before blobVisible fires at 1100ms
     hasEverStartedRef.current = true
+    
+    // Function to start or resume the loop
+    const startLoop = () => {
+      if (!animationId) {
+        animationId = requestAnimationFrame(loop)
+      }
+    }
+
     // eslint-disable-next-line prefer-const
-    startTimeoutId = setTimeout(() => {
-      animationId = requestAnimationFrame(loop)
-    }, loopDelay)
+    startTimeoutId = setTimeout(startLoop, loopDelay)
 
     // Pause/resume handlers for dialog transitions
     const handlePause = () => {
       isPausedByDialog = true
+      // loop will stop itself on next frame
     }
     const handleResume = () => {
       isPausedByDialog = false
+      startLoop()
+    }
+
+    // Handler for home page scroll-based pause (silent event)
+    const handleHomePause = (e: Event) => {
+      const isPaused = (e as CustomEvent).detail.paused
+      pausedRef.current = isPaused
+      if (isPaused) {
+        // loop will stop itself
+      } else {
+        startLoop()
+      }
     }
 
     const dialogOpenEvents = ['workdialog:check', 'casestudydialog:check', 'explorationsdialog:check']
     dialogOpenEvents.forEach(ev => window.addEventListener(ev, handlePause))
     window.addEventListener('dialog:closed', handleResume)
+    window.addEventListener('home:pause-blobs', handleHomePause)
 
     return () => {
       clearTimeout(startTimeoutId)
-      cancelAnimationFrame(animationId)
+      if (animationId) cancelAnimationFrame(animationId)
       dialogOpenEvents.forEach(ev => window.removeEventListener(ev, handlePause))
       window.removeEventListener('dialog:closed', handleResume)
+      window.removeEventListener('home:pause-blobs', handleHomePause)
       gl.deleteProgram(programInfo.program)
       gl.deleteShader(programInfo.vertShader)
       gl.deleteShader(programInfo.fragShader)

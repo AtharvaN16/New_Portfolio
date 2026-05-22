@@ -13,7 +13,6 @@ interface HomeScrollResult {
   selectedWorkRef: React.RefObject<HTMLDivElement | null>
   footerRef: React.RefObject<HTMLDivElement | null>
   scrollYProgress: MotionValue<number>
-  shouldPauseBlobs: boolean
   containerHeightVh: number
   heroContentY: MotionValue<string>
   navbarScrollOpacity: MotionValue<number>
@@ -101,14 +100,17 @@ export function useHomeScroll(): HomeScrollResult {
     offset: ['start start', 'end end'],
   })
 
-  const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
+  // Use a stable ref for tracking pause state without triggering re-renders
   const lastPauseState = useRef(false)
   
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     const nextPauseState = latest > 0.03
     if (nextPauseState !== lastPauseState.current) {
       lastPauseState.current = nextPauseState
-      setShouldPauseBlobs(nextPauseState)
+      // Dispatch event to pause blobs without a React re-render
+      window.dispatchEvent(new CustomEvent('home:pause-blobs', { 
+        detail: { paused: nextPauseState } 
+      }))
     }
   })
 
@@ -311,7 +313,6 @@ export function useHomeScroll(): HomeScrollResult {
     selectedWorkRef,
     footerRef,
     scrollYProgress,
-    shouldPauseBlobs,
     containerHeightVh,
     heroContentY,
     navbarScrollOpacity,
