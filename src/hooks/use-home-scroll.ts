@@ -24,6 +24,11 @@ interface HomeScrollResult {
   footerRevealProgress: MotionValue<number>
   handleBrowseWorkClick: () => void
   handleGetInTouchClick: () => void
+  // Section visibility flags for aggressive unmounting on mobile
+  isHeroMounted: boolean
+  isCardMounted: boolean
+  isWorkMounted: boolean
+  isFooterMounted: boolean
 }
 
 export function useHomeScroll(): HomeScrollResult {
@@ -32,6 +37,12 @@ export function useHomeScroll(): HomeScrollResult {
   const footerRef = useRef<HTMLDivElement>(null)
   const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
   
+  // Section visibility flags
+  const [isHeroMounted, setIsHeroMounted] = useState(true)
+  const [isCardMounted, setIsCardMounted] = useState(true)
+  const [isWorkMounted, setIsWorkMounted] = useState(true)
+  const [isFooterMounted, setIsFooterMounted] = useState(true)
+
   // Use refs for measurements to avoid triggering re-renders for every small change
   // and to avoid reading from the DOM during the scroll loop.
   const measurementsRef = useRef({
@@ -119,27 +130,60 @@ export function useHomeScroll(): HomeScrollResult {
     } else if (latest <= 0.03 && shouldPauseBlobs) {
       setShouldPauseBlobs(false)
     }
+
+    // Soft Visibility Gating for Mobile Performance
+    if (!isDesktop) {
+      // Hero Active: Hide display when fully covered by Card (latest > 0.45)
+      const heroActive = latest < 0.45
+      if (heroActive !== isHeroMounted) setIsHeroMounted(heroActive)
+
+      // Card Active: Hide display when off-screen (latest > 0.75)
+      const cardActive = latest > 0.05 && latest < 0.75
+      if (cardActive !== isCardMounted) setIsCardMounted(cardActive)
+
+      // Work: Mount when visible
+      const workActive = latest > 0.35
+      if (workActive !== isWorkMounted) setIsWorkMounted(workActive)
+
+      // Footer: Only mount at the very end to prevent peek-through
+      const footerActive = latest > 0.85
+      if (footerActive !== isFooterMounted) setIsFooterMounted(footerActive)
+    } else {
+      // Desktop: Always mount for smooth parallax
+      if (!isHeroMounted) setIsHeroMounted(true)
+      if (!isCardMounted) setIsCardMounted(true)
+      if (!isWorkMounted) setIsWorkMounted(true)
+      if (!isFooterMounted) setIsFooterMounted(true)
+    }
   })
 
   const heroContentRange = useMemo(() => [0, 0.2], [])
   const heroContentOutput = useMemo(() => ['0vh', '-30vh'], [])
   const navbarRange = useMemo(() => [0, 0.02], [])
   const navbarOutput = useMemo(() => [1, 0], [])
-  const heroOpacityRange = useMemo(() => [0, 0.195, 0.2], [])
+  const heroOpacityRange = useMemo(() => {
+    if (!isDesktop) return [0, 0.325, 0.4] // Mobile: Fade starts at 70% coverage (0.325)
+    return [0, 0.195, 0.2] // Desktop: Original
+  }, [isDesktop])
   const heroOpacityOutput = useMemo(() => [1, 1, 0], [])
   
-  const cardRange = useMemo(() => [0, 0.2, 0.5], [])
+  // CONTINUOUS REVEAL: Remove dead zones and align ranges for mobile
+  const cardRange = useMemo(() => {
+    if (!isDesktop) return [0.15, 0.4, 0.55] 
+    return [0, 0.2, 0.5] 
+  }, [isDesktop])
+  
   const cardOutput = useMemo(() => ['100vh', '0vh', '-105vh'], [])
 
   const heroContentY = useTransform(
     scrollYProgress,
     heroContentRange,
-    heroContentOutput
+    isDesktop ? heroContentOutput : ['0vh', '0vh']
   )
   const navbarScrollOpacity = useTransform(
     scrollYProgress,
     navbarRange,
-    navbarOutput
+    isDesktop ? navbarOutput : [1, 1]
   )
   const heroOpacity = useTransform(
     scrollYProgress,
@@ -159,14 +203,15 @@ export function useHomeScroll(): HomeScrollResult {
     const moveVh = Math.max(0, swHeightVh - 100) + fHeightVh
 
     // SelectedWork parallax
-    const swRange = isDesktop ? [0, 0.5, 1] : [0, 0.4, 1.0]
+    // On Mobile: Start exactly when Card finishes its exit (0.55)
+    const swRange = isDesktop ? [0, 0.5, 1] : [0, 0.55, 1.0]
     const swOutput = ['0vh', '0vh', `-${moveVh}vh`]
     
     // Footer reveal
     const contentScrollVh = Math.max(0, swHeightVh - 100)
     const revealStart = moveVh > 0 ? 0.5 + (0.5 * contentScrollVh) / moveVh : 1
     const revealRange = !isDesktop 
-      ? [Math.min(Math.max(revealStart - 0.08, 0.4), 0.9), 1.0]
+      ? [Math.min(Math.max(revealStart, 0.4), 0.95), 1.0]
       : [revealStart, 1]
 
     return {
@@ -302,5 +347,9 @@ export function useHomeScroll(): HomeScrollResult {
     footerRevealProgress,
     handleBrowseWorkClick,
     handleGetInTouchClick,
+    isHeroMounted,
+    isCardMounted,
+    isWorkMounted,
+    isFooterMounted,
   }
 }

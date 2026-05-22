@@ -5,6 +5,7 @@ import { SplitText } from '@/lib/utils/splitText'
 import { cn } from '@/lib/utils/cn'
 import { createPortal } from 'react-dom'
 import { AnimatedScribble } from './AnimatedScribble'
+import { useBreakpoints } from '@/hooks/use-responsive'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 interface AnimatedHeroTextGSAPProps {
@@ -42,9 +43,9 @@ export function AnimatedHeroTextGSAP({
   as: Component = 'p',
 }: AnimatedHeroTextGSAPProps) {
   const textRef = useRef<HTMLParagraphElement>(null)
-  const [scribbleContainers, setScribbleContainers] = useState<HTMLElement[]>(
-    []
-  )
+  const [scribbleContainers, setScribbleContainers] = useState<HTMLElement[]>([])
+  const { isDesktop } = useBreakpoints()
+
   const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
   const shouldPause = prefersReducedMotion || pauseWebGL
 
@@ -58,6 +59,17 @@ export function AnimatedHeroTextGSAP({
     // Wait for fonts to load before splitting to avoid incorrect line breaks
     document.fonts.ready.then(async () => {
       if (cancelled || !textRef.current) return
+      
+      // Mobile Performance Bypass: Skip splitting and complex animation
+      if (!isDesktop) {
+        setTimeout(() => {
+          if (textRef.current) {
+            textRef.current.style.opacity = '1'
+            textRef.current.style.transition = 'opacity 1.2s ease-out'
+          }
+        }, delay * 1000)
+        return
+      }
 
       const { gsap } = await import('gsap')
       if (cancelled || !textRef.current) return
