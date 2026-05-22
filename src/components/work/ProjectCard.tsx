@@ -162,7 +162,7 @@ export function ProjectCard({
       ref={cardRef}
       className={cn('group flex flex-col', (slug || anchorId) && 'cursor-pointer', className)}
       onMouseEnter={() => {
-        setIsHovered(true)
+        if (isDesktop) setIsHovered(true)
         if (slug) {
           window.dispatchEvent(new CustomEvent('casestudydialog:preload'))
         }
@@ -172,7 +172,7 @@ export function ProjectCard({
           window.dispatchEvent(new CustomEvent('casestudydialog:preload'))
         }
       }}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => { if (isDesktop) setIsHovered(false) }}
       onClick={handleClick}
       aria-label={slug ? `View ${title} case study` : undefined}
       tabIndex={slug ? 0 : undefined}
@@ -199,12 +199,18 @@ export function ProjectCard({
           variant === 'sub-case'
             ? 'aspect-[4/3]'
             : cn(
-                'shadow-md hover:shadow-xl [data-theme="dark"]:shadow-none [data-theme="dark"]:hover:shadow-none',
+                'shadow-md lg:hover:shadow-xl [data-theme="dark"]:shadow-none',
                 isMasonry
                   ? cn('flex items-center justify-center', getMasonryHeight())
                   : className?.includes('h-full')
                     ? 'flex-1 min-h-[200px]'
-                    : getMasonryHeight()
+                    : cn(
+                        'aspect-[16/9] lg:aspect-auto',
+                        (cardHeight ?? 'h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px]')
+                          .split(' ')
+                          .filter((c) => /^(lg:|xl:|2xl:)/.test(c))
+                          .join(' ')
+                      )
               )
         )}
       >
@@ -260,7 +266,7 @@ export function ProjectCard({
                 loading={imagePriority ? 'eager' : 'lazy'}
                 fetchPriority={imageFetchPriority}
                 quality={92}
-                className="w-full h-auto shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-[1.04]"
+                className="w-full h-auto shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] lg:group-hover:scale-[1.04]"
               />
             </m.div>
           ) : isMasonry ? (
@@ -275,7 +281,7 @@ export function ProjectCard({
                 loading={imagePriority ? 'eager' : 'lazy'}
                 fetchPriority={imageFetchPriority}
                 quality={92}
-                className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-[1.04]"
+                className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] lg:group-hover:scale-[1.04]"
               />
             </div>
           ) : (
@@ -287,8 +293,8 @@ export function ProjectCard({
               priority={imagePriority}
               loading={imagePriority ? 'eager' : 'lazy'}
               fetchPriority={imageFetchPriority}
-              quality={92}
-              className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] group-hover:scale-[1.04]"
+              quality={isDesktop ? 92 : 75}
+              className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] lg:group-hover:scale-[1.04]"
             />
           )
         )}
@@ -316,7 +322,7 @@ export function ProjectCard({
             {/* Organization (Company Name) */}
             {(organization || year) && (
               <p
-                className="text-[16px] font-semibold md:text-[18px]"
+                className="text-[14px] font-semibold md:text-[18px]"
                 style={{ color: 'rgb(var(--color-text-secondary))' }}
               >
                 {organization ? `${organization} — ${year}` : year}
@@ -328,8 +334,8 @@ export function ProjectCard({
               className={cn(
                 'font-bold leading-tight text-foreground max-w-none sm:max-w-[85%]',
                 variant === 'compact'
-                  ? 'text-[20px] sm:text-xl lg:text-[1.75rem]'
-                  : 'text-[20px] sm:text-2xl lg:text-[1.75rem]'
+                  ? 'text-[16px] sm:text-xl lg:text-[1.75rem]'
+                  : 'text-[16px] sm:text-2xl lg:text-[1.75rem]'
               )}
             >
               {title}
@@ -338,7 +344,7 @@ export function ProjectCard({
             {/* Tags */}
             <div className="flex flex-wrap items-center gap-x-2 pt-3">
               <span
-                className="font-sans font-medium tracking-normal text-[14px] md:text-[18px]"
+                className="font-sans font-medium tracking-normal text-[12px] md:text-[18px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 {(_tags || [])

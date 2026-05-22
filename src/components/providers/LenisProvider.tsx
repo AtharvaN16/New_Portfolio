@@ -37,10 +37,12 @@ export function LenisProvider({ children }: LenisProviderProps) {
     ).matches
     if (prefersReducedMotion) return
 
-    // Enable Lenis on all devices. Modern Lenis is highly optimized for touch,
-    // and enabling it allows us to sync scroll-linked animations with the 
-    // scroll thread, eliminating jitter on mobile.
-    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+    // Disable on touch — Lenis runs a continuous rAF that pushes framer-motion
+    // MotionValues every frame. On the home page's fixed-layer architecture this
+    // adds an extra JS execution layer per frame during the transform-heavy scroll
+    // phase. Native scroll + framer's useScroll listener is lighter on mobile.
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
+    if (isTouchDevice) return
 
     let rafId = 0
     let cancelled = false
