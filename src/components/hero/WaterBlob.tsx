@@ -277,6 +277,10 @@ export function WaterBlob({
   // Handle click for interactive mode — cycles sequentially through palettes
   const handleClick = (_e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!interactive) return
+    
+    // Performance Optimization: Disable color switching on mobile to save on React state updates
+    const isMobile = typeof window !== 'undefined' && (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768)
+    if (isMobile) return
 
     const palettes = theme === 'dark' ? DARK_PALETTES : LIGHT_PALETTES
     const nextIndex = (paletteIndex + 1) % palettes.length

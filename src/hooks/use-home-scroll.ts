@@ -24,11 +24,6 @@ interface HomeScrollResult {
   footerRevealProgress: MotionValue<number>
   handleBrowseWorkClick: () => void
   handleGetInTouchClick: () => void
-  // Section visibility flags for aggressive unmounting on mobile
-  isHeroMounted: boolean
-  isCardMounted: boolean
-  isWorkMounted: boolean
-  isFooterMounted: boolean
 }
 
 export function useHomeScroll(): HomeScrollResult {
@@ -36,24 +31,8 @@ export function useHomeScroll(): HomeScrollResult {
   const selectedWorkRef = useRef<HTMLDivElement>(null)
   const footerRef = useRef<HTMLDivElement>(null)
   const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
-  
-  // Section visibility flags
-  const [isHeroMounted, setIsHeroMounted] = useState(true)
-  const [isCardMounted, setIsCardMounted] = useState(true)
-  const [isWorkMounted, setIsWorkMounted] = useState(true)
-  const [isFooterMounted, setIsFooterMounted] = useState(true)
-
-  // Use refs for measurements to avoid triggering re-renders for every small change
-  // and to avoid reading from the DOM during the scroll loop.
-  const measurementsRef = useRef({
-    selectedWorkHeight: 0,
-    footerHeight: 0,
-    viewportHeight: 1000
-  })
-
-  // We still need state for the container height to drive the scroll track length
-  const [containerHeightVh, setContainerHeightVh] = useState(300)
-  
+  const [selectedWorkHeight, setSelectedWorkHeight] = useState(0)
+  const [footerHeight, setFooterHeight] = useState(0)
   const { isDesktop } = useBreakpoints()
   const lenis = useLenis()
 
@@ -62,62 +41,52 @@ export function useHomeScroll(): HomeScrollResult {
     let resizeObserver: ResizeObserver | null = null
 
     const measureHeight = () => {
-      if (!selectedWorkRef.current || !footerRef.current) return
-
-      const swHeight = selectedWorkRef.current.scrollHeight
-      const fHeight = footerRef.current.offsetHeight
-      const vh = window.innerHeight
-
-      // Only update state if measurements changed significantly (> 5px)
-      const hasChanged = 
-        Math.abs(swHeight - measurementsRef.current.selectedWorkHeight) > 5 ||
-        Math.abs(fHeight - measurementsRef.current.footerHeight) > 5 ||
-        Math.abs(vh - measurementsRef.current.viewportHeight) > 10
-
-      if (hasChanged) {
-        measurementsRef.current = {
-          selectedWorkHeight: swHeight,
-          footerHeight: fHeight,
-          viewportHeight: vh
-        }
-
-        // Calculate Track Length
-        const swHeightVh = (swHeight / vh) * 100
-        const fHeightVh = (fHeight / vh) * 100
-        const footerScrollVh = Math.min(fHeightVh, 35)
-        
-        // Optimization: Standardize track length for faster response
-        // Using 200 for all devices to ensure the first swipe triggers the transition
-        const baseTrackLength = 200
-        const newTrackHeight = baseTrackLength + Math.max(0, swHeightVh - 100) + footerScrollVh
-        setContainerHeightVh(newTrackHeight)
+      if (selectedWorkRef.current) {
+        const height = selectedWorkRef.current.scrollHeight
+        setSelectedWorkHeight(height)
+      }
+      if (footerRef.current) {
+        setFooterHeight(footerRef.current.offsetHeight)
       }
     }
 
     const handleResize = () => {
-      if (rafId !== null) cancelAnimationFrame(rafId)
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId)
+      }
       rafId = requestAnimationFrame(measureHeight)
     }
 
     measureHeight()
-    window.addEventListener('resize', handleResize, { passive: true })
+    window.addEventListener('resize', handleResize)
 
     if (typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver(() => {
-        if (rafId !== null) cancelAnimationFrame(rafId)
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId)
+        }
         rafId = requestAnimationFrame(measureHeight)
       })
 
-      if (selectedWorkRef.current) resizeObserver.observe(selectedWorkRef.current)
-      if (footerRef.current) resizeObserver.observe(footerRef.current)
+      if (selectedWorkRef.current) {
+        resizeObserver.observe(selectedWorkRef.current)
+      }
+      if (footerRef.current) {
+        resizeObserver.observe(footerRef.current)
+      }
     }
+
+    const timeout = setTimeout(measureHeight, 100)
 
     return () => {
       window.removeEventListener('resize', handleResize)
+      clearTimeout(timeout)
       resizeObserver?.disconnect()
-      if (rafId !== null) cancelAnimationFrame(rafId)
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId)
+      }
     }
-  }, [isDesktop])
+  }, [])
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -130,60 +99,39 @@ export function useHomeScroll(): HomeScrollResult {
     } else if (latest <= 0.03 && shouldPauseBlobs) {
       setShouldPauseBlobs(false)
     }
-
-    // Soft Visibility Gating for Mobile Performance
-    if (!isDesktop) {
-      // Hero Active: Hide display when fully covered by Card (latest > 0.4)
-      const heroActive = latest < 0.4
-      if (heroActive !== isHeroMounted) setIsHeroMounted(heroActive)
-
-      // Card Active: Hide display when off-screen (latest > 0.6)
-      const cardActive = latest > 0.05 && latest < 0.6
-      if (cardActive !== isCardMounted) setIsCardMounted(cardActive)
-
-      // Work: Mount when visible
-      const workActive = latest > 0.4
-      if (workActive !== isWorkMounted) setIsWorkMounted(workActive)
-
-      // Footer: Only mount at the very end to prevent peek-through
-      const footerActive = latest > 0.85
-      if (footerActive !== isFooterMounted) setIsFooterMounted(footerActive)
-    } else {
-      // Desktop: Always mount for smooth parallax
-      if (!isHeroMounted) setIsHeroMounted(true)
-      if (!isCardMounted) setIsCardMounted(true)
-      if (!isWorkMounted) setIsWorkMounted(true)
-      if (!isFooterMounted) setIsFooterMounted(true)
-    }
   })
+
+  const viewportHeight =
+    typeof window !== 'undefined' ? window.innerHeight : 1000
+  const selectedWorkHeightVh =
+    selectedWorkHeight > 0 ? (selectedWorkHeight / viewportHeight) * 100 : 300
+  const footerHeightVh =
+    footerHeight > 0 ? (footerHeight / viewportHeight) * 100 : 0
+  const selectedWorkMoveVh =
+    Math.max(0, selectedWorkHeightVh - 100) + footerHeightVh
+
+  const footerScrollVh = Math.min(footerHeightVh, 35)
+  const containerHeightVh =
+    200 + Math.max(0, selectedWorkHeightVh - 100) + footerScrollVh
 
   const heroContentRange = useMemo(() => [0, 0.2], [])
   const heroContentOutput = useMemo(() => ['0vh', '-30vh'], [])
   const navbarRange = useMemo(() => [0, 0.02], [])
   const navbarOutput = useMemo(() => [1, 0], [])
-  const heroOpacityRange = useMemo(() => {
-    if (!isDesktop) return [0, 0.225, 0.35] // Mobile: Fade starts at 50% coverage of new range
-    return [0, 0.195, 0.2] // Desktop: Original
-  }, [isDesktop])
+  const heroOpacityRange = useMemo(() => [0, 0.195, 0.2], [])
   const heroOpacityOutput = useMemo(() => [1, 1, 0], [])
-  
-  // CONTINUOUS REVEAL: Remove dead zones and align ranges for mobile
-  const cardRange = useMemo(() => {
-    if (!isDesktop) return [0.1, 0.35, 0.5] // Mobile: Start earlier, exit faster
-    return [0, 0.2, 0.5] 
-  }, [isDesktop])
-  
+  const cardRange = useMemo(() => [0, 0.2, 0.5], [])
   const cardOutput = useMemo(() => ['100vh', '0vh', '-105vh'], [])
 
   const heroContentY = useTransform(
     scrollYProgress,
     heroContentRange,
-    isDesktop ? heroContentOutput : ['0vh', '0vh']
+    heroContentOutput
   )
   const navbarScrollOpacity = useTransform(
     scrollYProgress,
     navbarRange,
-    isDesktop ? navbarOutput : [1, 1]
+    navbarOutput
   )
   const heroOpacity = useTransform(
     scrollYProgress,
@@ -195,34 +143,41 @@ export function useHomeScroll(): HomeScrollResult {
   )
   const cardY = useTransform(scrollYProgress, cardRange, cardOutput)
 
-  const transformData = useMemo(() => {
-    const { selectedWorkHeight, footerHeight, viewportHeight } = measurementsRef.current
-    
-    const swHeightVh = (selectedWorkHeight / viewportHeight) * 100
-    const fHeightVh = (footerHeight / viewportHeight) * 100
-    const moveVh = Math.max(0, swHeightVh - 100) + fHeightVh
+  const selectedWorkRange = useMemo(
+    () => (isDesktop ? [0, 0.5, 1] : [0, 0.5, 0.90]),
+    [isDesktop]
+  )
+  const selectedWorkOutput = useMemo(
+    () => ['0vh', '0vh', `-${selectedWorkMoveVh}vh`],
+    [selectedWorkMoveVh]
+  )
+  const selectedWorkY = useTransform(
+    scrollYProgress,
+    selectedWorkRange,
+    selectedWorkOutput
+  )
 
-    // SelectedWork parallax
-    // On Mobile: Start exactly when Card finishes its exit (0.5)
-    const swRange = isDesktop ? [0, 0.5, 1] : [0, 0.5, 1.0]
-    const swOutput = ['0vh', '0vh', `-${moveVh}vh`]
-    
-    // Footer reveal
-    const contentScrollVh = Math.max(0, swHeightVh - 100)
-    const revealStart = moveVh > 0 ? 0.5 + (0.5 * contentScrollVh) / moveVh : 1
-    const revealRange = !isDesktop 
-      ? [Math.min(Math.max(revealStart, 0.5), 0.95), 1.0]
-      : [revealStart, 1]
-
-    return {
-      swRange,
-      swOutput,
-      revealRange
-    }
-  }, [containerHeightVh, isDesktop])
-
-  const selectedWorkY = useTransform(scrollYProgress, transformData.swRange, transformData.swOutput)
-  const footerRevealProgress = useTransform(scrollYProgress, transformData.revealRange, [0, 1])
+  const contentScrollVh = Math.max(0, selectedWorkHeightVh - 100)
+  const footerRevealStart =
+    selectedWorkMoveVh > 0
+      ? 0.5 + (0.5 * contentScrollVh) / selectedWorkMoveVh
+      : 1
+  const footerRevealRange = useMemo(
+    () => {
+      if (!isDesktop) {
+        const mobileStart = Math.min(Math.max(footerRevealStart - 0.08, 0.5), 0.85)
+        return [mobileStart, 0.90]
+      }
+      return [footerRevealStart, 1]
+    },
+    [footerRevealStart, isDesktop]
+  )
+  const footerRevealOutput = useMemo(() => [0, 1], [])
+  const footerRevealProgress = useTransform(
+    scrollYProgress,
+    footerRevealRange,
+    footerRevealOutput
+  )
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
@@ -347,9 +302,5 @@ export function useHomeScroll(): HomeScrollResult {
     footerRevealProgress,
     handleBrowseWorkClick,
     handleGetInTouchClick,
-    isHeroMounted,
-    isCardMounted,
-    isWorkMounted,
-    isFooterMounted,
   }
 }
