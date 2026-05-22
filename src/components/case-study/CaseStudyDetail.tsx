@@ -42,7 +42,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <div className="max-w-full sm:max-w-[25rem] md:max-w-[28.75rem] text-left">
-            <p className="text-base md:text-lg text-text-secondary leading-relaxed">
+            <p className="text-base md:text-lg text-text-body leading-relaxed">
               {caseStudy.fullDescription || caseStudy.description}
             </p>
           </div>
@@ -116,7 +116,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
             />
           </div>
           {caseStudy.heroImageDescription && (
-            <figcaption className="px-6 2xl:px-[140px] py-4 md:py-6 mx-auto max-w-[52rem] text-xs md:text-sm font-sans text-text-secondary leading-relaxed">
+            <figcaption className="px-6 2xl:px-[140px] py-4 md:py-6 mx-auto max-w-[52rem] text-xs md:text-sm font-sans text-text-body leading-relaxed">
               {caseStudy.heroImageDescription}
             </figcaption>
           )}

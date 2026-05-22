@@ -105,14 +105,14 @@ export function MetFreeToursContent({
         </h3>
 
         <div className="space-y-6 md:space-y-8">
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             The Metropolitan Museum of Art offers free guided tours daily, but
             half the participants in this study didn&apos;t know they existed.
             This case study evaluates the usability of The Met&apos;s Free Tours
             page, identifying why visitors miss this offering and what it takes
             to make it discoverable, comprehensible, and actionable.
           </p>
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             Through unmoderated remote user testing with 12 participants, the
             study exposed six usability problems, from broken filters and a
             misleading breadcrumb to the absence of any booking closure. Two
@@ -221,7 +221,7 @@ export function MetFreeToursContent({
                       }}
                     />
                     <div>
-                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-color70">
+                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-body">
                         {obj.title}
                       </div>
                       <p
@@ -566,7 +566,7 @@ export function MetFreeToursContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <div>
-                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-color70">
+                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-body">
                         {obj.title}
                       </div>
                       <p

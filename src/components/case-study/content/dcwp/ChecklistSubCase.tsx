@@ -42,7 +42,7 @@ export function ChecklistSubCase() {
         <h3 className="text-xl md:text-[28px] font-bold text-text-primary leading-snug max-w-[680px]">
           Preparing the users before they start an application
         </h3>
-        <p className="text-base md:text-[18px] text-text-color70 leading-relaxed max-w-[680px]">
+        <p className="text-base md:text-[18px] text-text-body leading-relaxed max-w-[680px]">
           Before starting a new online application, users land on the HIC Application Checklist
           Page, which provides key requirements and resources to ensure a smooth license
           application process. Users are expected to read the information on this page to avoid

@@ -20,7 +20,7 @@ function BenefitList({ items }: { items: string[] }) {
   return (
     <ul className="space-y-4 mt-6">
       {items.map((item) => (
-        <li key={item} className="flex items-start gap-3 text-base md:text-lg text-text-color70 leading-relaxed">
+        <li key={item} className="flex items-start gap-3 text-base md:text-lg text-text-body leading-relaxed">
           <svg className="mt-[0.45em] h-2 w-2 shrink-0" viewBox="0 0 8 8" aria-hidden="true">
             <circle cx="4" cy="4" r="4" fill={CUNARD_GOLD} />
           </svg>

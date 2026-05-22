@@ -33,7 +33,7 @@ export function GutenbergContent({
         </h3>
 
         <div className="space-y-6 md:space-y-8">
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             This case study is based on a usability evaluation of Gutenberg
             Technologies&apos; course management system (CMS), a legacy
             e-learning content authoring platform used primarily by
@@ -46,7 +46,7 @@ export function GutenbergContent({
             participants to identify critical breakdowns in onboarding and
             authoring workflows.
           </p>
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             Findings revealed a strong learnability baseline driven by
             familiar editor patterns, but significant usability issues caused
             by expectation mismatches, poor feature discoverability, and
@@ -65,20 +65,20 @@ export function GutenbergContent({
           </h3>
 
           <div className="space-y-6 md:space-y-8">
-            <p className="text-base md:text-[18px] font-medium text-text-color70 leading-relaxed">
+            <p className="text-base md:text-[18px] font-medium text-text-body leading-relaxed">
               As part of a four-person research team, I contributed to:
             </p>
             <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-2">
-              <li className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+              <li className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
                 Research planning and hypothesis development
               </li>
-              <li className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+              <li className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
                 Eye-tracking study design and moderation
               </li>
-              <li className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+              <li className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
                 Analyzing the insights
               </li>
-              <li className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+              <li className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
                 Design recommendations
               </li>
             </ul>
@@ -161,7 +161,7 @@ export function GutenbergContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <div>
-                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-color70">
+                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-body">
                         Table of contents (TOC)
                       </div>
                       <p
@@ -180,7 +180,7 @@ export function GutenbergContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <div>
-                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-color70">
+                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-body">
                         Authoring content from scratch
                       </div>
                       <p
@@ -198,7 +198,7 @@ export function GutenbergContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <div>
-                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-color70">
+                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-body">
                         Drag-and-drop
                       </div>
                       <p
@@ -216,7 +216,7 @@ export function GutenbergContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <div>
-                      <div className="text-base md:text-[18px] font-semibold text-text-color70 leading-relaxed">
+                      <div className="text-base md:text-[18px] font-semibold text-text-body leading-relaxed">
                         AI-assisted content generation
                       </div>
                       <p

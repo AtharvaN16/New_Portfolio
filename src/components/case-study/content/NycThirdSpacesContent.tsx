@@ -46,7 +46,7 @@ function CityCard({ flag, name, description }: { flag: string; name: string; des
         <span className="text-xl">{flag}</span>
         <h4 className="text-base md:text-[18px] font-semibold text-text-primary">{name}</h4>
       </div>
-      <p className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+      <p className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-body))' }}>
         {description}
       </p>
     </div>
@@ -111,7 +111,7 @@ function FrameworkCard({ num, title, description }: { num: number; title: string
           {title}
         </h4>
       </div>
-      <p className="text-base md:text-[17px] font-medium leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+      <p className="text-base md:text-[17px] font-medium leading-relaxed" style={{ color: 'rgb(var(--color-text-body))' }}>
         {description}
       </p>
     </div>
@@ -127,7 +127,7 @@ function ResearchCard({ text }: { text: string }) {
           What our research says?
         </span>
       </div>
-      <p className="text-base font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+      <p className="text-base font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-body))' }}>
         {text}
       </p>
     </div>
@@ -143,7 +143,7 @@ function ImpactCard({ text }: { text: string }) {
           Citywide Impact
         </span>
       </div>
-      <p className="text-base font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+      <p className="text-base font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-body))' }}>
         {text}
       </p>
     </div>
@@ -162,13 +162,13 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
         {/* Abstract */}
         <SectionTitle>Abstract</SectionTitle>
         <div className="space-y-6 md:space-y-8">
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             This case study documents a semester-long ethnographic research project conducted as a
             collaboration between Pratt Institute and Woven by Toyota. Our team studied how communities
             in New York City&apos;s third spaces naturally engage, collaborate, and innovate through
             everyday interactions.
           </p>
-          <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
             The goal was to uncover the social infrastructures, behaviors, and cultural practices that
             help these spaces thrive, and translate those insights into actionable recommendations that
             our client can use in Woven City.
@@ -191,7 +191,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                   className="w-full h-auto block"
                 />
               </div>
-              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
                 Woven City is an initiative by Woven by Toyota to create a living laboratory at the base
                 of Mount Fuji in Japan—a testbed for mobility, sustainability, and human-centered
                 innovation. The vision is for Inventors (startups, researchers, companies) to collaborate
@@ -202,7 +202,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
 
               {/* The Challenge */}
               <SectionTitle>The challenge</SectionTitle>
-              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-10 md:mb-14">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed mb-10 md:mb-14">
                 The core challenge we set out to investigate is one shared by innovation districts around the world:
               </p>
               <m.p
@@ -222,7 +222,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
 
               {/* Why Smart Cities Fail */}
               <SectionTitle>Why Smart cities always seem to fail?</SectionTitle>
-              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-10 md:mb-14">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed mb-10 md:mb-14">
                 Smart cities and living labs aren&apos;t new. While a few have succeeded, many have fallen short
                 of their potential, often propelled by hype and buzzwords more than by real community needs.
                 Projects led by technological ambition frequently overlook the social infrastructure that
@@ -250,7 +250,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
 
               {/* Research Question */}
               <div className="mt-12 md:mt-16">
-                <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-6">
+                <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed mb-6">
                   This led to our research question:
                 </p>
                 <div className="rounded-xl p-6 md:p-8 flex items-start gap-4" style={{ backgroundColor: 'rgb(var(--color-surface-elevated))' }}>
@@ -279,7 +279,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                   />
                 </div>
                 {/* Text on right */}
-                <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed flex-1">
+                <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed flex-1">
                   We grounded our research in sociologist Eric Klinenberg&apos;s work on social infrastructure
                   (<em>Palaces for the People</em>) and Ray Oldenburg&apos;s concept of{' '}
                   <strong className="font-bold" style={{ color: 'rgb(var(--color-foreground))' }}>
@@ -294,12 +294,12 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
 
               {/* Field Research */}
               <SectionTitle>Field Research</SectionTitle>
-              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-10">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed mb-10">
                 We conducted contextual inquiry and guerrilla interviews across six NYC sites, selected to
                 represent different modes of social infrastructure:
               </p>
               <div className="mb-10">
-                <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-6">
+                <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed mb-6">
                   <strong className="font-semibold" style={{ color: 'rgb(var(--color-foreground))' }}>Organized Spaces:</strong>{' '}
                   Brooklyn Library, The Met Date Night, Community Gardens—structured environments with defined rules and roles
                 </p>
@@ -310,7 +310,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 </div>
               </div>
               <div className="mb-14">
-                <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-6">
+                <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed mb-6">
                   <strong className="font-semibold" style={{ color: 'rgb(var(--color-foreground))' }}>Unorganized Spaces:</strong>{' '}
                   Union Square Winter Market, Union Square Farmers Market — spontaneous settings where informal
                   interactions emerge naturally
@@ -323,7 +323,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
               </div>
 
               {/* Field observations */}
-              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-10">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed mb-10">
                 Through{' '}
                 <strong className="font-semibold" style={{ color: 'rgb(var(--color-case-study-purple))' }}>12 guerrilla interviews</strong>{' '}
                 with participants and extensive field observations, we documented how people actually use these
@@ -340,7 +340,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
 
               {/* Framework */}
               <ChapterLabel>Framework for Thriving Third Spaces</ChapterLabel>
-              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed mb-10 md:mb-14">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed mb-10 md:mb-14">
                 Synthesizing insights from our fieldwork, we developed a nine-element framework that identifies
                 the core conditions enabling third spaces to support innovation, collaboration, and community-building:
               </p>
@@ -398,7 +398,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                         'Clear visual cues on how to participate in a blank state zone ("Observe," "Join," "Co-create") reduce invisible barriers',
                         'Neighborhood gratitude walls, shared playlists, "open tools hour"',
                       ].map((b, i) => (
-                        <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>{b}</li>
+                        <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-body))' }}>{b}</li>
                       ))}
                     </ul>
                   </div>
@@ -408,7 +408,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                   <ImpactCard text="Collaboration becomes effortless, embedded in familiar places where people already spend time." />
                 </div>
                 <h4 className="text-lg md:text-xl font-bold text-text-primary mb-4">Example:</h4>
-                <p className="text-base md:text-[17px] font-normal text-text-color70 leading-relaxed mb-6">
+                <p className="text-base md:text-[17px] font-normal text-text-body leading-relaxed mb-6">
                   Brick Lane&apos;s graffiti district in London grew organically as artists painted freely, with work constantly updated without formal oversight. Over time, this attracted galleries, markets, studios, and street performances, transforming the area into a creative district.
                 </p>
                 <div className="mb-6 max-w-[500px]">
@@ -423,7 +423,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                   </div>
                   <p className="text-sm font-normal" style={{ color: 'rgb(var(--color-text-tertiary))' }}>Brick Lane, London</p>
                 </div>
-                <p className="text-base md:text-[17px] font-normal text-text-color70 leading-relaxed mb-8">
+                <p className="text-base md:text-[17px] font-normal text-text-body leading-relaxed mb-8">
                   Woven City could apply this model by designating zones for murals, experimental gardens, performances, temporary structures, or community installations—spaces where ongoing modification and change are expected rather than discouraged.
                 </p>
                 <h4 className="text-lg md:text-xl font-bold text-text-primary mb-4">Why this works?</h4>
@@ -432,7 +432,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                     { label: 'Lowers creative barriers:', text: 'No approval process, no committee reviews, no waiting for permission to experiment' },
                     { label: 'Creativity is contagious:', text: 'Watching makers build in public sparks curiosity and pulls more people into the process' },
                   ].map((b, i) => (
-                    <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                    <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-body))' }}>
                       <span className="font-semibold" style={{ color: 'rgb(var(--color-case-study-purple))' }}>{b.label}</span>{' '}{b.text}
                     </li>
                   ))}
@@ -465,7 +465,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                         'Residents can book designated spaces around the city to host events',
                         'Quick-claim tools: a designated digital space to find resources for stewardships, such as tools, volunteer sign-ups, etc.',
                       ].map((b, i) => (
-                        <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>{b}</li>
+                        <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-body))' }}>{b}</li>
                       ))}
                     </ul>
                   </div>
@@ -477,7 +477,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 <h4 className="text-lg md:text-xl font-bold text-text-primary mb-6">Examples:</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
                   <div>
-                    <p className="text-base md:text-[17px] font-normal text-text-color70 leading-relaxed mb-5">
+                    <p className="text-base md:text-[17px] font-normal text-text-body leading-relaxed mb-5">
                       Lectures on Tap in NYC brings professors and experts into bars for 40-minute talks on topics like philosophy, hip-hop culture, or quantum physics—selling out within hours. Learning becomes social, accessible, and woven into nightlife rather than confined to lecture halls.
                     </p>
                     <div className="mb-5">
@@ -494,14 +494,14 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                     </div>
                     <h4 className="text-base md:text-[17px] font-bold text-text-primary mb-3">Why this works?</h4>
                     <ul className="space-y-2 list-disc list-outside pl-5">
-                      <li className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                      <li className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-body))' }}>
                         <span className="font-semibold" style={{ color: 'rgb(var(--color-case-study-purple))' }}>Removes intimidation barriers:</span>{' '}
                         Learning happens where you&apos;re already comfortable, no need to enter formal academic or corporate spaces
                       </li>
                     </ul>
                   </div>
                   <div>
-                    <p className="text-base md:text-[17px] font-normal text-text-color70 leading-relaxed mb-5">
+                    <p className="text-base md:text-[17px] font-normal text-text-body leading-relaxed mb-5">
                       NYC community gardens run through collective stewardship—members rotate tasks, take turns serving as &ldquo;garden coordinator,&rdquo; and make decisions together to manage the space.
                     </p>
                     <div className="mb-5">
@@ -522,7 +522,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                         { label: 'Builds ownership:', text: 'Rotating roles mean more residents gain leadership experience rather than power concentrating in a few hands' },
                         { label: 'Maintains Accountability:', text: 'Collective decision-making create transparency; residents see their input matter' },
                       ].map((b, i) => (
-                        <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                        <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-body))' }}>
                           <span className="font-semibold" style={{ color: 'rgb(var(--color-case-study-purple))' }}>{b.label}</span>{' '}{b.text}
                         </li>
                       ))}
@@ -557,7 +557,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                         'Weekly rotating skill-swaps (like "city-wide makers hour")',
                         'Create "playful" collaborative experiences around the city, encouraging ritual based experiences',
                       ].map((b, i) => (
-                        <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>{b}</li>
+                        <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-body))' }}>{b}</li>
                       ))}
                     </ul>
                   </div>
@@ -567,7 +567,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                   <ImpactCard text="Rituals create cultural glue between districts — shared identity → shared behaviors → collaborative momentum." />
                 </div>
                 <h4 className="text-lg md:text-xl font-bold text-text-primary mb-4">Example:</h4>
-                <p className="text-base md:text-[17px] font-normal text-text-color70 leading-relaxed mb-6">
+                <p className="text-base md:text-[17px] font-normal text-text-body leading-relaxed mb-6">
                   Ogden&apos;s End, a community garden we visited holds regular micro-rituals throughout the year like Winter Tea Party, Plant Swaps, Pepperpalooza, Garden Crawls. These create a predictable rhythm where participation becomes habitual.
                 </p>
                 <div className="grid grid-cols-3 gap-3 md:gap-4 mb-8">
@@ -616,7 +616,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                     { label: 'Makes tradition through doing:', text: 'After doing the same ritual 2-3 times, it becomes "what we do here"—It organically gives rise to community traditions.' },
                     { label: 'Builds identity through repetition:', text: 'Attending smaller events frequently, makes you a "regular", your presence becomes valued in the community.' },
                   ].map((b, i) => (
-                    <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                    <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-body))' }}>
                       <span className="font-semibold" style={{ color: 'rgb(var(--color-case-study-purple))' }}>{b.label}</span>{' '}{b.text}
                     </li>
                   ))}
@@ -649,7 +649,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                         'Skill swap boards where residents post availability without formal scheduling',
                         'Meal-sharing shelves for extra produce or prepared food',
                       ].map((b, i) => (
-                        <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>{b}</li>
+                        <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-body))' }}>{b}</li>
                       ))}
                     </ul>
                   </div>
@@ -659,7 +659,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                   <ImpactCard text="Trust becomes part of the infrastructure, embedded in physical space that makes reciprocity visible and routine." />
                 </div>
                 <h4 className="text-lg md:text-xl font-bold text-text-primary mb-4">Examples:</h4>
-                <p className="text-base md:text-[17px] font-normal text-text-color70 leading-relaxed mb-6">
+                <p className="text-base md:text-[17px] font-normal text-text-body leading-relaxed mb-6">
                   Mujin Hanbaisho (shops without clerks) and Little Free Libraries both operate on trust: take what you need, leave what you can, no gatekeepers. Woven City could extend this to tools, seeds, skills, meals, and materials, building reciprocity through small exchanges
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8">
@@ -694,7 +694,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                     { label: 'Removes friction:', text: 'No commitment, no reservations, no tracking who owes what' },
                     { label: 'Builds ambient trust:', text: 'Small acts of reciprocity create social fabric before people even meet' },
                   ].map((b, i) => (
-                    <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-secondary))' }}>
+                    <li key={i} className="text-base md:text-[17px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-body))' }}>
                       <span className="font-semibold" style={{ color: 'rgb(var(--color-case-study-purple))' }}>{b.label}</span>{' '}{b.text}
                     </li>
                   ))}
@@ -705,7 +705,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
 
               {/* ─── CONCLUSION ─────────────────────────────────────── */}
               <SectionTitle>Conclusion</SectionTitle>
-              <p className="text-base md:text-[18px] font-normal text-text-color70 leading-relaxed">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
                 The central challenge facing Woven City—and innovation communities worldwide, is how to design spaces where authentic collaboration emerges organically. Our ethnographic research across NYC&apos;s third spaces reveals that the answer lies in mundane infrastructure that supports everyday human connection. Our nine-element framework and four design recommendations are easy to implement and can work not just for Woven City, but for communities anywhere.
               </p>
 
