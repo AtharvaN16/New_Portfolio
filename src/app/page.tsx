@@ -53,7 +53,8 @@ export default function Home() {
     selectedWorkRef,
     footerRef,
     scrollYProgress,
-    containerHeightVh,
+    containerHeightPx,
+    isMounted,
     heroContentY,
     navbarScrollOpacity,
     heroOpacity,
@@ -123,7 +124,7 @@ export default function Home() {
         ref={containerRef}
         className="relative"
         style={{
-          height: `${containerHeightVh}svh`,
+          height: isMounted ? `${containerHeightPx}px` : '200svh',
           backgroundColor: 'rgb(var(--color-background))',
         }}
       >

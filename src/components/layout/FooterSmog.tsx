@@ -1,6 +1,7 @@
 'use client'
 
 import { m } from 'framer-motion'
+import { useEffect, useState } from 'react'
 import { FooterDustParticles } from './FooterDustParticles'
 import { useBreakpoints } from '@/hooks/use-responsive'
 import { useTheme } from '@/components/providers/ThemeProvider'
@@ -14,6 +15,11 @@ export function FooterSmog({ visible }: FooterSmogProps) {
   const { reducedMotion, pauseWebGL } = useAccessibility()
   const { isDesktop } = useBreakpoints()
   const { theme } = useTheme()
+  const [isSafari, setIsSafari] = useState(false)
+
+  useEffect(() => {
+    setIsSafari(/Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent))
+  }, [])
 
   const showEffects = !reducedMotion && !pauseWebGL
 
@@ -33,7 +39,7 @@ export function FooterSmog({ visible }: FooterSmogProps) {
       aria-hidden="true"
     >
       {/* Layer 1: Original CSS color glow */}
-      <CSSGlow visible={visible} isDesktop={isDesktop} theme={theme} animate={showEffects} />
+      <CSSGlow visible={visible} isDesktop={isDesktop} theme={theme} animate={showEffects} isSafari={isSafari} />
 
       {/* Layer 2: Tiny bright dust motes */}
       {showEffects && <FooterDustParticles visible={visible} />}
@@ -45,13 +51,19 @@ function CSSGlow({
   visible,
   isDesktop,
   theme,
-  animate: animateSwells,
+  animate,
+  isSafari,
 }: {
   visible: boolean
   isDesktop: boolean
   theme: string
   animate: boolean
+  isSafari: boolean
 }) {
+  // Safari re-rasterizes the entire blur region on every animation frame for
+  // children animating inside a filter:blur() parent. Freeze swells on Safari —
+  // the base gradient glow still shows; only the gentle breathing motion is lost.
+  const animateSwells = animate && !isSafari
   const isLight = theme === 'light'
 
   const baseAlpha   = isLight ? '0.35' : (isDesktop ? '0.2' : '0.4')
@@ -148,7 +160,9 @@ function CSSGlow({
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          filter: 'url(#sensory-grit)',
+          // Skip the SVG filter on Safari — same CPU path as TextureOverlay,
+          // causes a second feTurbulence draw call on every footer repaint
+          filter: isSafari ? 'none' : 'url(#sensory-grit)',
           mixBlendMode: 'overlay',
           opacity: ditherOpacity,
         }}
