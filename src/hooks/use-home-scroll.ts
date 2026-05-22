@@ -13,13 +13,14 @@ interface HomeScrollResult {
   selectedWorkRef: React.RefObject<HTMLDivElement | null>
   footerRef: React.RefObject<HTMLDivElement | null>
   scrollYProgress: MotionValue<number>
-  containerHeightVh: number
-  heroContentY: MotionValue<string>
+  containerHeightPx: number
+  isMounted: boolean
+  heroContentY: MotionValue<number>
   navbarScrollOpacity: MotionValue<number>
   heroOpacity: MotionValue<number>
   heroPointerEvents: MotionValue<'auto' | 'none'>
-  cardY: MotionValue<string>
-  selectedWorkY: MotionValue<string>
+  cardY: MotionValue<number>
+  selectedWorkY: MotionValue<number>
   footerRevealProgress: MotionValue<number>
   handleBrowseWorkClick: () => void
   handleGetInTouchClick: () => void
@@ -31,21 +32,27 @@ export function useHomeScroll(): HomeScrollResult {
   const footerRef = useRef<HTMLDivElement>(null)
   const [selectedWorkHeight, setSelectedWorkHeight] = useState(0)
   const [footerHeight, setFooterHeight] = useState(0)
+  const [windowHeight, setWindowHeight] = useState(1000)
+  const [isMounted, setIsMounted] = useState(false)
   const { isDesktop } = useBreakpoints()
   const lenis = useLenis()
 
   useEffect(() => {
+    setIsMounted(true)
     let rafId: number | null = null
     let resizeObserver: ResizeObserver | null = null
     let lastWidth = typeof window !== 'undefined' ? window.innerWidth : 0
+    let lastHeight = typeof window !== 'undefined' ? window.innerHeight : 0
 
     const measureHeight = () => {
       if (selectedWorkRef.current) {
-        const height = selectedWorkRef.current.scrollHeight
-        setSelectedWorkHeight(height)
+        setSelectedWorkHeight(selectedWorkRef.current.scrollHeight)
       }
       if (footerRef.current) {
         setFooterHeight(footerRef.current.offsetHeight)
+      }
+      if (typeof window !== 'undefined') {
+        setWindowHeight(window.innerHeight)
       }
     }
 
@@ -53,15 +60,40 @@ export function useHomeScroll(): HomeScrollResult {
       if (typeof window === 'undefined') return
       
       const currentWidth = window.innerWidth
-      // Only re-measure if width changed (prevents mobile address bar jitter)
-      if (currentWidth === lastWidth) return
+      const currentHeight = window.innerHeight
+      
+      // If nothing changed, bail
+      if (currentWidth === lastWidth && currentHeight === lastHeight) return
+      
+      // Calculate scroll progress BEFORE changing container height to prevent jitter
+      const scrollHeight = document.documentElement.scrollHeight
+      const currentScrollY = window.scrollY
+      const progress = scrollHeight > currentHeight ? currentScrollY / (scrollHeight - currentHeight) : 0
       
       lastWidth = currentWidth
+      lastHeight = currentHeight
       
       if (rafId !== null) {
         cancelAnimationFrame(rafId)
       }
-      rafId = requestAnimationFrame(measureHeight)
+      
+      rafId = requestAnimationFrame(() => {
+        measureHeight()
+        
+        // After heights are updated and React re-renders, the scrollHeight will change.
+        // We sync the scroll position in the next frame to maintain progress.
+        requestAnimationFrame(() => {
+          const newScrollHeight = document.documentElement.scrollHeight
+          const newWindowHeight = window.innerHeight
+          const newScrollY = progress * (newScrollHeight - newWindowHeight)
+          
+          if (lenis) {
+            lenis.scrollTo(newScrollY, { immediate: true })
+          } else {
+            window.scrollTo(0, newScrollY)
+          }
+        })
+      })
     }
 
     measureHeight()
@@ -69,18 +101,12 @@ export function useHomeScroll(): HomeScrollResult {
 
     if (typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver(() => {
-        if (rafId !== null) {
-          cancelAnimationFrame(rafId)
-        }
+        if (rafId !== null) cancelAnimationFrame(rafId)
         rafId = requestAnimationFrame(measureHeight)
       })
 
-      if (selectedWorkRef.current) {
-        resizeObserver.observe(selectedWorkRef.current)
-      }
-      if (footerRef.current) {
-        resizeObserver.observe(footerRef.current)
-      }
+      if (selectedWorkRef.current) resizeObserver.observe(selectedWorkRef.current)
+      if (footerRef.current) resizeObserver.observe(footerRef.current)
     }
 
     const timeout = setTimeout(measureHeight, 100)
@@ -89,11 +115,9 @@ export function useHomeScroll(): HomeScrollResult {
       window.removeEventListener('resize', handleResize)
       clearTimeout(timeout)
       resizeObserver?.disconnect()
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId)
-      }
+      if (rafId !== null) cancelAnimationFrame(rafId)
     }
-  }, [])
+  }, [lenis])
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -107,50 +131,31 @@ export function useHomeScroll(): HomeScrollResult {
     const nextPauseState = latest > 0.03
     if (nextPauseState !== lastPauseState.current) {
       lastPauseState.current = nextPauseState
-      // Dispatch event to pause blobs without a React re-render
       window.dispatchEvent(new CustomEvent('home:pause-blobs', { 
         detail: { paused: nextPauseState } 
       }))
     }
   })
 
-  // Use a stable reference for svh calculations to prevent address bar jitter
-  const [svh, setSvh] = useState(1000)
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    // Measure CSS 1svh in pixels so scroll math matches the svh units used in
-    // style props. window.innerHeight changes with the address bar; CSS svh is
-    // fixed to the small viewport height (address bar visible). Using the wrong
-    // baseline causes selectedWorkMoveVh to be too small → footer under-reveals.
-    const el = document.createElement('div')
-    el.style.cssText = 'position:fixed;height:1svh;visibility:hidden;pointer-events:none'
-    document.body.appendChild(el)
-    setSvh(el.offsetHeight * 100)
-    document.body.removeChild(el)
-  }, [])
-
-  const selectedWorkHeightVh =
-    selectedWorkHeight > 0 ? (selectedWorkHeight / svh) * 100 : 300
-  const footerHeightVh =
-    footerHeight > 0 ? (footerHeight / svh) * 100 : 0
-  
-  // Extend mobile reveal range to ensure footer is fully shown
-  const selectedWorkMoveVh =
-    Math.max(0, selectedWorkHeightVh - 100) + footerHeightVh
-
-  const footerScrollVh = Math.min(footerHeightVh, 35)
-  const containerHeightVh =
-    200 + Math.max(0, selectedWorkHeightVh - 100) + footerScrollVh
+  // Replaces the old SVH and VH calculations with pure pixels
+  const selectedWorkMovePx = Math.max(0, selectedWorkHeight - windowHeight) + footerHeight
+  const footerScrollPx = Math.min(footerHeight, windowHeight * 0.35)
+  const containerHeightPx = (windowHeight * 2) + Math.max(0, selectedWorkHeight - windowHeight) + footerScrollPx
 
   const heroContentRange = useMemo(() => [0, 0.2], [])
-  const heroContentOutput = useMemo(() => ['0svh', '-30svh'], [])
+  const heroContentOutput = useMemo(
+    () => [0, -windowHeight * 0.3],
+    [windowHeight]
+  )
   const navbarRange = useMemo(() => [0, 0.02], [])
   const navbarOutput = useMemo(() => [1, 0], [])
   const heroOpacityRange = useMemo(() => [0, 0.195, 0.2], [])
   const heroOpacityOutput = useMemo(() => [1, 1, 0], [])
   const cardRange = useMemo(() => [0, 0.2, 0.5], [])
-  const cardOutput = useMemo(() => ['100svh', '0svh', '-105svh'], [])
+  const cardOutput = useMemo(
+    () => [windowHeight, 0, -windowHeight * 1.05],
+    [windowHeight]
+  )
 
   const heroContentY = useTransform(
     scrollYProgress,
@@ -172,13 +177,10 @@ export function useHomeScroll(): HomeScrollResult {
   )
   const cardY = useTransform(scrollYProgress, cardRange, cardOutput)
 
-  const selectedWorkRange = useMemo(
-    () => (isDesktop ? [0, 0.5, 1] : [0, 0.5, 1]),
-    [isDesktop]
-  )
+  const selectedWorkRange = useMemo(() => [0, 0.5, 1], [])
   const selectedWorkOutput = useMemo(
-    () => ['0svh', '0svh', `-${selectedWorkMoveVh}svh`],
-    [selectedWorkMoveVh]
+    () => [0, 0, -selectedWorkMovePx],
+    [selectedWorkMovePx]
   )
   const selectedWorkY = useTransform(
     scrollYProgress,
@@ -186,10 +188,10 @@ export function useHomeScroll(): HomeScrollResult {
     selectedWorkOutput
   )
 
-  const contentScrollVh = Math.max(0, selectedWorkHeightVh - 100)
+  const contentScrollPx = Math.max(0, selectedWorkHeight - windowHeight)
   const footerRevealStart =
-    selectedWorkMoveVh > 0
-      ? 0.5 + (0.5 * contentScrollVh) / selectedWorkMoveVh
+    selectedWorkMovePx > 0
+      ? 0.5 + (0.5 * contentScrollPx) / selectedWorkMovePx
       : 1
   const footerRevealRange = useMemo(
     () => {
@@ -208,57 +210,6 @@ export function useHomeScroll(): HomeScrollResult {
     footerRevealOutput
   )
 
-  const getContainerEndScrollY = useCallback(() => {
-    if (!containerRef.current || typeof window === 'undefined') return null
-
-    return (
-      containerRef.current.offsetTop +
-      containerRef.current.offsetHeight -
-      window.innerHeight
-    )
-  }, [])
-
-  useEffect(() => {
-    let timeoutId: NodeJS.Timeout
-
-    const unsubscribe = scrollYProgress.on('change', () => {
-      clearTimeout(timeoutId)
-
-      const progress = footerRevealProgress.get()
-      const autoFinishThreshold = isDesktop ? 0.85 : 0.7
-
-      if (progress > autoFinishThreshold && progress < 0.99) {
-        timeoutId = setTimeout(() => {
-          const currentProgress = footerRevealProgress.get()
-          if (currentProgress > autoFinishThreshold && currentProgress < 0.99) {
-            const targetScrollY = getContainerEndScrollY()
-            if (targetScrollY === null) return
-
-            if (lenis) {
-              lenis.scrollTo(targetScrollY, {
-                duration: 1.2,
-                easing: (t) => 1 - Math.pow(1 - t, 4),
-              })
-            } else {
-              window.scrollTo({ top: targetScrollY, behavior: 'smooth' })
-            }
-          }
-        }, 150)
-      }
-    })
-
-    return () => {
-      unsubscribe()
-      clearTimeout(timeoutId)
-    }
-  }, [
-    isDesktop,
-    lenis,
-    footerRevealProgress,
-    scrollYProgress,
-    getContainerEndScrollY,
-  ])
-
   const handleBrowseWorkClick = useCallback(() => {
     if (!containerRef.current || typeof window === 'undefined') return
 
@@ -266,8 +217,8 @@ export function useHomeScroll(): HomeScrollResult {
 
     const vh = window.innerHeight
     const containerTop = containerRef.current.offsetTop
-    const containerHeightPx = (containerHeightVh / 100) * vh
-    const maxScrollWithinContainer = Math.max(containerHeightPx - vh, 0)
+    const currentContainerHeightPx = (windowHeight * 2) + Math.max(0, selectedWorkHeight - windowHeight) + Math.min(footerHeight, windowHeight * 0.35)
+    const maxScrollWithinContainer = Math.max(currentContainerHeightPx - vh, 0)
 
     const targetProgress = 0.5
     const targetScrollWithin = maxScrollWithinContainer * targetProgress
@@ -304,15 +255,15 @@ export function useHomeScroll(): HomeScrollResult {
     }
 
     requestAnimationFrame(scroll)
-  }, [containerHeightVh, lenis])
+  }, [selectedWorkHeight, windowHeight, footerHeight, lenis])
 
   const handleGetInTouchClick = useCallback(() => {
     if (!containerRef.current || typeof window === 'undefined') return
 
     const vh = window.innerHeight
     const containerTop = containerRef.current.offsetTop
-    const containerHeightPx = (containerHeightVh / 100) * vh
-    const targetScrollY = containerTop + containerHeightPx - vh
+    const currentContainerHeightPx = (windowHeight * 2) + Math.max(0, selectedWorkHeight - windowHeight) + Math.min(footerHeight, windowHeight * 0.35)
+    const targetScrollY = containerTop + currentContainerHeightPx - vh
 
     if (lenis) {
       lenis.scrollTo(targetScrollY, {
@@ -322,14 +273,15 @@ export function useHomeScroll(): HomeScrollResult {
     } else {
       window.scrollTo({ top: targetScrollY, behavior: 'smooth' })
     }
-  }, [containerHeightVh, lenis])
+  }, [selectedWorkHeight, windowHeight, footerHeight, lenis])
 
   return {
     containerRef,
     selectedWorkRef,
     footerRef,
     scrollYProgress,
-    containerHeightVh,
+    containerHeightPx,
+    isMounted,
     heroContentY,
     navbarScrollOpacity,
     heroOpacity,
