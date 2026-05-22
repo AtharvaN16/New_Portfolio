@@ -7,12 +7,11 @@
 
 /* Wire Tailwind's dark: variant to data-theme="dark" (portfolio uses attribute-based theming, not OS media query) */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-@import '../styles/fonts.css';
 @import '../styles/prose-theme.css';
 
 :root {
-  --font-sans: 'Satoshi', var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: 'Vulf Mono', var(--font-vulf-mono), var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-sans: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-vulf-mono), var(--font-jetbrains-mono), ui-monospace, monospace;
 }
 
 /**
