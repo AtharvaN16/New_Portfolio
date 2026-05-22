@@ -107,7 +107,13 @@ export function useHomeScroll(): HomeScrollResult {
   const navbarOutput = useMemo(() => [1, 0], [])
   const heroOpacityRange = useMemo(() => [0, 0.195, 0.2], [])
   const heroOpacityOutput = useMemo(() => [1, 1, 0], [])
-  const cardRange = useMemo(() => [0, 0.2, 0.5], [])
+  
+  // Optimization: Reduce parallax speed differential on mobile
+  const cardRange = useMemo(() => {
+    if (!isDesktop) return [0, 0.1, 0.45] // Mobile: start moving earlier, slower exit
+    return [0, 0.2, 0.5] // Desktop: original values
+  }, [isDesktop])
+  
   const cardOutput = useMemo(() => ['100vh', '0vh', '-105vh'], [])
 
   const heroContentY = useTransform(
