@@ -114,7 +114,7 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
       <div
         className="mx-auto max-w-[1920px] px-6 2xl:px-[140px] pt-32 md:pt-28 lg:pt-32 [--footer-content-height:480px] lg:[--footer-content-height:300px]"
         style={{
-          paddingBottom: 'calc(85vh - var(--footer-content-height) - 56px)',
+          paddingBottom: 'calc(85svh - var(--footer-content-height) - 56px)',
         }}
       >
         <div className="footer-all-links-wrapper grid grid-cols-1 gap-12 lg:flex lg:items-start lg:justify-between">
