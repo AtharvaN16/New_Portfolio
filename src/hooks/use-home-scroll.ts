@@ -110,13 +110,21 @@ export function useHomeScroll(): HomeScrollResult {
     }
   })
 
-  const viewportHeight =
-    typeof window !== 'undefined' ? window.innerHeight : 1000
-  // Use dvh for more stable mobile height calculations
+  // Use a stable reference for svh calculations to prevent address bar jitter
+  const [svh, setSvh] = useState(1000)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setSvh(window.innerHeight)
+    }
+  }, [])
+
   const selectedWorkHeightVh =
-    selectedWorkHeight > 0 ? (selectedWorkHeight / viewportHeight) * 100 : 300
+    selectedWorkHeight > 0 ? (selectedWorkHeight / svh) * 100 : 300
   const footerHeightVh =
-    footerHeight > 0 ? (footerHeight / viewportHeight) * 100 : 0
+    footerHeight > 0 ? (footerHeight / svh) * 100 : 0
+  
+  // Extend mobile reveal range to ensure footer is fully shown
   const selectedWorkMoveVh =
     Math.max(0, selectedWorkHeightVh - 100) + footerHeightVh
 
@@ -154,7 +162,7 @@ export function useHomeScroll(): HomeScrollResult {
   const cardY = useTransform(scrollYProgress, cardRange, cardOutput)
 
   const selectedWorkRange = useMemo(
-    () => (isDesktop ? [0, 0.5, 1] : [0, 0.5, 0.90]),
+    () => (isDesktop ? [0, 0.5, 1] : [0, 0.5, 1]),
     [isDesktop]
   )
   const selectedWorkOutput = useMemo(
@@ -175,8 +183,8 @@ export function useHomeScroll(): HomeScrollResult {
   const footerRevealRange = useMemo(
     () => {
       if (!isDesktop) {
-        const mobileStart = Math.min(Math.max(footerRevealStart - 0.08, 0.5), 0.85)
-        return [mobileStart, 0.90]
+        // Start reveal after SelectedWork starts moving up, end at 1.0
+        return [0.55, 1]
       }
       return [footerRevealStart, 1]
     },
