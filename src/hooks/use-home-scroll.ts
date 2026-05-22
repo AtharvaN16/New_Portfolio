@@ -15,6 +15,7 @@ interface HomeScrollResult {
   scrollYProgress: MotionValue<number>
   shouldPauseBlobs: boolean
   containerHeightVh: number
+  isStickyMode: boolean
   heroContentY: MotionValue<string>
   navbarScrollOpacity: MotionValue<number>
   heroOpacity: MotionValue<number>
@@ -42,11 +43,16 @@ export function useHomeScroll(): HomeScrollResult {
 
   // We still need state for the container height to drive the scroll track length
   const [containerHeightVh, setContainerHeightVh] = useState(300)
+  const [isStickyMode, setIsStickyMode] = useState(false)
   
   const { isDesktop } = useBreakpoints()
   const lenis = useLenis()
 
   useEffect(() => {
+    // Detect mobile/touch for Sticky Mode
+    const isTouch = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
+    setIsStickyMode(isTouch)
+
     let rafId: number | null = null
     let resizeObserver: ResizeObserver | null = null
 
@@ -134,7 +140,7 @@ export function useHomeScroll(): HomeScrollResult {
   const heroContentY = useTransform(
     scrollYProgress,
     heroContentRange,
-    heroContentOutput
+    isStickyMode ? ['0vh', '0vh'] : heroContentOutput
   )
   const navbarScrollOpacity = useTransform(
     scrollYProgress,
@@ -149,7 +155,7 @@ export function useHomeScroll(): HomeScrollResult {
   const heroPointerEvents = useTransform(heroOpacity, (opacity: number) =>
     opacity > 0 ? 'auto' : 'none'
   )
-  const cardY = useTransform(scrollYProgress, cardRange, cardOutput)
+  const cardY = useTransform(scrollYProgress, cardRange, isStickyMode ? ['0vh', '0vh', '0vh'] : cardOutput)
 
   const transformData = useMemo(() => {
     const { selectedWorkHeight, footerHeight, viewportHeight } = measurementsRef.current
@@ -160,7 +166,7 @@ export function useHomeScroll(): HomeScrollResult {
 
     // SelectedWork parallax
     const swRange = isDesktop ? [0, 0.5, 1] : [0, 0.5, 0.90]
-    const swOutput = ['0vh', '0vh', `-${moveVh}vh`]
+    const swOutput = isStickyMode ? ['0vh', '0vh', '0vh'] : ['0vh', '0vh', `-${moveVh}vh`]
     
     // Footer reveal
     const contentScrollVh = Math.max(0, swHeightVh - 100)
@@ -293,6 +299,7 @@ export function useHomeScroll(): HomeScrollResult {
     scrollYProgress,
     shouldPauseBlobs,
     containerHeightVh,
+    isStickyMode,
     heroContentY,
     navbarScrollOpacity,
     heroOpacity,

@@ -55,6 +55,7 @@ export default function Home() {
     scrollYProgress,
     shouldPauseBlobs,
     containerHeightVh,
+    isStickyMode,
     heroContentY,
     navbarScrollOpacity,
     heroOpacity,
@@ -128,32 +129,15 @@ export default function Home() {
           backgroundColor: 'rgb(var(--color-background))',
         }}
       >
-        {/* ===== LAYER 1: SelectedWork ===== */}
-        <m.div
-          className="fixed top-0 left-0 right-0"
-          style={{
-            y: selectedWorkY,
-            zIndex: 10,
-            backgroundColor: 'rgb(var(--color-background))',
-            willChange: 'transform',
-          }}
-        >
-          <div ref={selectedWorkRef}>
-            <div className="px-6 2xl:px-[140px] pt-12 pb-20">
-              <Suspense fallback={<div className="min-h-screen bg-background" />}>
-                <SelectedWork
-                  enableHomeCardRecede
-                  homeScrollProgress={scrollYProgress}
-                  desktopSpacingScale={1.12}
-                />
-              </Suspense>
-            </div>
-          </div>
-        </m.div>
+        {/* 
+          LAYER STACKING LOGIC:
+          - Desktop: All layers are fixed, math-driven.
+          - Mobile: Layers use CSS sticky/relative for native compositor smoothness.
+        */}
 
-        {/* ===== LAYER 2: Hero ===== */}
+        {/* ===== LAYER 1: Hero (Bottom of stack on mobile reveal) ===== */}
         <m.div
-          className="fixed inset-0 flex flex-col"
+          className={isStickyMode ? "sticky top-0 h-[100dvh] flex flex-col" : "fixed inset-0 flex flex-col"}
           style={{
             zIndex: 30,
             backgroundColor: 'rgb(var(--color-background))',
@@ -188,13 +172,13 @@ export default function Home() {
           </m.main>
         </m.div>
 
-        {/* ===== LAYER 3: Card ===== */}
+        {/* ===== LAYER 2: NYC Card (Slides over Hero) ===== */}
         <m.div
-          className="fixed inset-0 pointer-events-none"
+          className={isStickyMode ? "sticky top-0 h-[100dvh] pointer-events-none" : "fixed inset-0 pointer-events-none"}
           style={{
             y: cardY,
             zIndex: 40,
-            willChange: 'transform',
+            willChange: isStickyMode ? 'auto' : 'transform',
           }}
         >
           <div className="h-screen pointer-events-auto">
@@ -209,6 +193,29 @@ export default function Home() {
               slug="nyc-dcwp-business-licenses"
               priority
             />
+          </div>
+        </m.div>
+
+        {/* ===== LAYER 3: SelectedWork (Revealed after Card) ===== */}
+        <m.div
+          className={isStickyMode ? "relative" : "fixed top-0 left-0 right-0"}
+          style={{
+            y: selectedWorkY,
+            zIndex: 10,
+            backgroundColor: 'rgb(var(--color-background))',
+            willChange: isStickyMode ? 'auto' : 'transform',
+          }}
+        >
+          <div ref={selectedWorkRef}>
+            <div className="px-6 2xl:px-[140px] pt-12 pb-20">
+              <Suspense fallback={<div className="min-h-screen bg-background" />}>
+                <SelectedWork
+                  enableHomeCardRecede
+                  homeScrollProgress={scrollYProgress}
+                  desktopSpacingScale={1.12}
+                />
+              </Suspense>
+            </div>
           </div>
         </m.div>
       </div>
