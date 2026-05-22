@@ -48,6 +48,10 @@ const staggerContainer = {
 // Stable references for AnimatedHeroTextGSAP to prevent re-animation on re-renders
 const HERO_BOLD_WORDS = ['Atharva']
 const HERO_PRONUNCIATION = { Atharva: 'uh · thar · vuh' }
+const DESKTOP_CURRENTLY_DELAY = 0.9
+const DESKTOP_BROWSE_WORK_DELAY = 0.96
+const DESKTOP_CURRENTLY_DURATION = 1.1
+const META_FADE_DURATION = 1.2
 
 interface HeroProps {
   shouldPauseBlobs?: boolean
@@ -62,6 +66,18 @@ export function Hero({
 }: HeroProps) {
   const [blobVisible, setBlobVisible] = useState(false)
   const { isMobile } = useBreakpoints()
+  const isDesktopAnimation =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(min-width: 768px)').matches
+  const currentlyDelay = isDesktopAnimation
+    ? DESKTOP_CURRENTLY_DELAY
+    : isMobile
+      ? 0.1
+      : 0.7
+  const browseWorkDelay = isDesktopAnimation ? DESKTOP_BROWSE_WORK_DELAY : 1.0
+  const currentlyDuration = isDesktopAnimation
+    ? DESKTOP_CURRENTLY_DURATION
+    : META_FADE_DURATION
 
   useEffect(() => {
     const timer = setTimeout(() => setBlobVisible(true), 1100)
@@ -104,8 +120,8 @@ export function Hero({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
-                    duration: 1.2,
-                    delay: isMobile ? 0.1 : 0.7,
+                    duration: currentlyDuration,
+                    delay: currentlyDelay,
                     ease: [0.4, 0, 0.2, 1],
                   }}
                   className="max-w-[50%] md:max-w-xs text-[12px] md:text-[16px] font-normal text-left"
@@ -123,8 +139,8 @@ export function Hero({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
-                    duration: 1.2,
-                    delay: 1.0,
+                    duration: META_FADE_DURATION,
+                    delay: browseWorkDelay,
                     ease: [0.4, 0, 0.2, 1],
                   }}
                   className="hidden md:block"
