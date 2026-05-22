@@ -31,21 +31,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="dark" className={`${satoshi.variable} ${vulfMono.variable}`}>
-      {/* Preload critical custom fonts to eliminate render-blocking font chain */}
-      <link
-        rel="preload"
-        href="/fonts/Satoshi-Variable.woff2"
-        as="font"
-        type="font/woff2"
-        crossOrigin="anonymous"
-      />
-      <link
-        rel="preload"
-        href="/fonts/VulfMonoDemo-LightItalic.woff2"
-        as="font"
-        type="font/woff2"
-        crossOrigin="anonymous"
-      />
       <body
         className={`${jetbrainsMono.variable} ${mynerve.variable} font-sans antialiased`}
       >

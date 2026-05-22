@@ -191,7 +191,7 @@ export default function Home() {
         <m.div
           className="fixed inset-0 pointer-events-none"
           style={{
-            y: cardY,
+            y: isMounted ? cardY : '100vh',
             zIndex: 40,
             willChange: 'transform',
           }}

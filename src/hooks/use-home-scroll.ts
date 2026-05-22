@@ -46,13 +46,16 @@ export function useHomeScroll(): HomeScrollResult {
 
     const measureHeight = () => {
       if (selectedWorkRef.current) {
-        setSelectedWorkHeight(selectedWorkRef.current.scrollHeight)
+        const height = selectedWorkRef.current.scrollHeight
+        setSelectedWorkHeight((prev) => (prev !== height ? height : prev))
       }
       if (footerRef.current) {
-        setFooterHeight(footerRef.current.offsetHeight)
+        const height = footerRef.current.offsetHeight
+        setFooterHeight((prev) => (prev !== height ? height : prev))
       }
       if (typeof window !== 'undefined') {
-        setWindowHeight(window.innerHeight)
+        const height = window.innerHeight
+        setWindowHeight((prev) => (prev !== height ? height : prev))
       }
     }
 
