@@ -162,7 +162,7 @@ export function useHomeScroll(): HomeScrollResult {
   const navbarRange = useMemo(() => [0, 0.02], [])
   const navbarOutput = useMemo(() => [1, 0], [])
   const heroOpacityRange = useMemo(() => {
-    if (!isDesktop) return [0, 0.325, 0.4] // Mobile: Fade starts at 70% coverage (0.325)
+    if (!isDesktop) return [0, 0.25, 0.35] // Mobile: Fade starts at 50% coverage (0.25)
     return [0, 0.195, 0.2] // Desktop: Original
   }, [isDesktop])
   const heroOpacityOutput = useMemo(() => [1, 1, 0], [])
