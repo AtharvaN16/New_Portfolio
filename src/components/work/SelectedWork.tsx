@@ -176,16 +176,16 @@ export function SelectedWork({
             willChange: 'opacity, transform',
           }}
         >
-          Selected work
+          Selected Work
         </m.h2>
       ) : (
-        <h2 className="mt-8 mb-14 text-3xl font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 md:text-2xl text-foreground">
-          Selected work
+        <h2 className="mt-8 mb-14 text-[32px] font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 md:text-2xl text-foreground">
+          Selected Work
         </h2>
       )}
 
       {/* Mobile/Tablet: Single column stack - Optimized for 0 jitter */}
-      <div className="flex flex-col gap-12 lg:hidden">
+      <div className="flex flex-col gap-20 lg:hidden">
         {projects.map((project, index) => (
           <div
             key={`${project.title}-${project.organization}`}

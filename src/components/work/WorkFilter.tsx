@@ -7,6 +7,7 @@ import { MasonryGrid } from './MasonryGrid'
 import { cn } from '@/lib/utils/cn'
 import { LineSeparator } from '@/components/ui/LineSeparator'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
+import { useBreakpoints } from '@/hooks/use-responsive'
 
 interface WorkFilterProps {
   projects: ProjectCardProps[]
@@ -124,6 +125,7 @@ export function WorkFilter({
 }: WorkFilterProps) {
   const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
   const shouldPause = prefersReducedMotion || pauseWebGL
+  const { isMobile } = useBreakpoints()
   
   const [internalFilter, setInternalFilter] = useState<string>('All')
   const [hoveredFilter, setHoveredFilter] = useState<string | null>(null)
@@ -352,6 +354,7 @@ export function WorkFilter({
       <MasonryGrid
         items={filteredProjects}
         gap={24}
+        mobileGap={72}
         renderItem={(project, index) => {
           // Cards at top of list should animate based on dialog state or filter changes
           // Cards further down can use whileInView for scroll-based entrance
@@ -392,7 +395,7 @@ export function WorkFilter({
               <ProjectCard
                 {...project}
                 variant="compact"
-                isMasonry
+                isMasonry={!isMobile}
                 masonryIndex={index}
                 imagePriority={index < 3}
                 imageSizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
