@@ -149,12 +149,21 @@ export function SelectedWork({
   }, [hasScrolledPast, isDesktop])
 
   return (
-    <section 
+    <section
       className={cn('w-full bg-background pb-0', className)}
-      style={{ 
-        contentVisibility: 'auto',
-        containIntrinsicSize: '0 2000px', // Provides an estimated height for the browser to reduce layout shifts
-      } as React.CSSProperties}
+      style={
+        // content-visibility:auto is a load-time win on static pages, but on the
+        // home page this section is dragged hundreds of vh by a transform every
+        // frame. That makes the browser repeatedly render/unrender card subtrees
+        // and swap the intrinsic-size placeholder mid-scroll → jitter. Desktop
+        // GPUs absorb it; mobile does not, so only apply it on desktop.
+        isDesktop
+          ? ({
+              contentVisibility: 'auto',
+              containIntrinsicSize: '0 2000px',
+            } as React.CSSProperties)
+          : undefined
+      }
     >
       {/* Section Title */}
       {isDesktop ? (
