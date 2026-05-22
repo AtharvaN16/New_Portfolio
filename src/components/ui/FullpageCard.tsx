@@ -6,6 +6,7 @@ import { CASE_STUDY_RETURN_PATH_KEY } from '@/lib/case-study-overlay'
 import { cn } from '@/lib/utils/cn'
 import { AnimatedHeroTextGSAP } from '@/components/hero/AnimatedHeroTextGSAP'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { useBreakpoints } from '@/hooks/use-responsive'
 
 interface FullpageCardProps {
   title: string
@@ -48,6 +49,7 @@ export function FullpageCard({
   }
 
   const [mediaError, setMediaError] = useState(false)
+  const { isDesktop } = useBreakpoints()
 
   const variantStyles = {
     surface: 'bg-[rgb(var(--color-gray-dark))]',
@@ -133,14 +135,25 @@ export function FullpageCard({
 
       {/* Text Content - overlaid on top */}
       <div className="relative z-10 flex min-h-screen w-full flex-col justify-start px-6 2xl:px-[140px] py-16 text-white sm:px-8 sm:py-20 md:py-[72px]">
-        <AnimatedTitle
-          text={title}
-          animationType="fadeIn"
-          className={cn(
-            'max-w-[90%] text-[32px] font-black leading-[1.1] tracking-[-0.05em] sm:max-w-[85%] sm:text-[40px] md:max-w-[76%] 2xl:max-w-[1400px] md:text-[48px] lg:text-[54px]',
-            titleClassName
-          )}
-        />
+        {isDesktop ? (
+          <AnimatedTitle
+            text={title}
+            animationType="fadeIn"
+            className={cn(
+              'max-w-[90%] text-[32px] font-black leading-[1.1] tracking-[-0.05em] sm:max-w-[85%] sm:text-[40px] md:max-w-[76%] 2xl:max-w-[1400px] md:text-[48px] lg:text-[54px]',
+              titleClassName
+            )}
+          />
+        ) : (
+          <h2
+            className={cn(
+              'max-w-[90%] text-[32px] font-black leading-[1.1] tracking-[-0.05em] sm:max-w-[85%] sm:text-[40px] md:max-w-[76%] 2xl:max-w-[1400px] md:text-[48px] lg:text-[54px]',
+              titleClassName
+            )}
+          >
+            {title}
+          </h2>
+        )}
 
         {description && (
           <AnimatedHeroTextGSAP

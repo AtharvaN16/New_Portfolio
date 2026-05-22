@@ -156,17 +156,24 @@ export function SelectedWork({
         containIntrinsicSize: '0 2000px', // Provides an estimated height for the browser to reduce layout shifts
       } as React.CSSProperties}
     >
-      {/* Section Title - Seamless reveal with scroll-driven animation */}
-      <m.h2
-        className="mt-8 mb-28 text-[30px] font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 sm:text-2xl md:mt-12 md:mb-20 md:text-3xl lg:mt-[60px] lg:mb-28 lg:text-4xl xl:mt-[72px] xl:mb-[140px] xl:text-[56px]"
-        style={{
-          color: 'rgb(var(--color-foreground))',
-          opacity: titleOpacity,
-          y: titleY,
-        }}
-      >
-        Selected work
-      </m.h2>
+      {/* Section Title */}
+      {isDesktop ? (
+        <m.h2
+          className="mt-8 mb-14 text-xl font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 sm:text-2xl md:mt-12 md:mb-20 md:text-3xl lg:mt-[60px] lg:mb-28 lg:text-4xl xl:mt-[72px] xl:mb-[140px] xl:text-[56px]"
+          style={{
+            color: 'rgb(var(--color-foreground))',
+            opacity: titleOpacity,
+            y: titleY,
+            willChange: 'opacity, transform',
+          }}
+        >
+          Selected work
+        </m.h2>
+      ) : (
+        <h2 className="mt-8 mb-14 text-xl font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 sm:text-2xl text-foreground">
+          Selected work
+        </h2>
+      )}
 
       {/* Mobile/Tablet: Single column stack - Optimized for 0 jitter */}
       <div className="flex flex-col gap-12 lg:hidden">
