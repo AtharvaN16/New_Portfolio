@@ -19,6 +19,7 @@ type ReadableFontType = 'none' | 'opendyslexic' | 'atkinson'
 
 interface AccessibilitySettings {
   reducedMotion: boolean
+  saveData: boolean
   highContrast: boolean
   readableFont: ReadableFontType
   pauseWebGL: boolean
@@ -37,6 +38,7 @@ interface AccessibilitySettings {
 
 interface AccessibilityContextType extends AccessibilitySettings {
   setReducedMotion: (value: boolean) => void
+  setSaveData: (value: boolean) => void
   setHighContrast: (value: boolean) => void
   setReadableFont: (value: ReadableFontType) => void
   setPauseWebGL: (value: boolean) => void
@@ -61,6 +63,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   const osReducedMotion = useReducedMotion()
 
   const [reducedMotion, setReducedMotion] = useState(false)
+  const [saveData, setSaveDataState] = useState(false)
   const [highContrast, setHighContrast] = useState(false)
   const [readableFont, setReadableFont] = useState<ReadableFontType>('none')
   const [pauseWebGL, setPauseWebGL] = useState(false)
@@ -79,12 +82,19 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
 
   // Initialize from localStorage or OS preference
   useEffect(() => {
+    // Detect Data Saver mode
+    const nav = navigator as any
+    if (nav.connection && nav.connection.saveData !== undefined) {
+      setSaveDataState(nav.connection.saveData)
+    }
+
     const saved = localStorage.getItem('accessibility-settings')
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
         // eslint-disable-next-line react-hooks/set-state-in-effect -- Hydrates persisted a11y preferences on mount.
         setReducedMotion(parsed.reducedMotion ?? osReducedMotion)
+        setSaveDataState(parsed.saveData ?? false)
         setHighContrast(parsed.highContrast ?? false)
         setReadableFont(parsed.readableFont ?? (parsed.dyslexiaFont ? 'opendyslexic' : 'none'))
         setPauseWebGL(parsed.pauseWebGL ?? false)
@@ -111,6 +121,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const settings = {
       reducedMotion,
+      saveData,
       highContrast,
       readableFont,
       pauseWebGL,
@@ -131,6 +142,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     // Apply classes to document element
     const root = document.documentElement
     root.classList.toggle('a11y-reduced-motion', reducedMotion)
+    root.classList.toggle('a11y-save-data', saveData)
     root.classList.toggle('high-contrast', highContrast)
     root.classList.toggle('a11y-invert', invertColors)
     root.classList.toggle('a11y-grayscale', grayscale)
@@ -179,6 +191,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       root.classList.add('a11y-cvd-achromatopsia')
   }, [
     reducedMotion,
+    saveData,
     highContrast,
     readableFont,
     pauseWebGL,
@@ -234,6 +247,11 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const setSaveData = (value: boolean) => {
+    // Manually setting saveData doesn't change network state, but can be a user preference
+    setSaveDataState(value)
+  }
+
   const resetSettings = () => {
     setReducedMotion(osReducedMotion)
     setHighContrast(false)
@@ -256,6 +274,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     <AccessibilityContext.Provider
       value={{
         reducedMotion,
+        saveData,
         highContrast,
         readableFont,
         pauseWebGL,
@@ -271,6 +290,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
         bigCursor,
         colorBlindnessType,
         setReducedMotion,
+        setSaveData,
         setHighContrast: setHighContrastExclusive,
         setReadableFont,
         setPauseWebGL,

@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils/cn'
 import type { ComponentPropsWithoutRef } from 'react'
+import { useBreakpoints } from '@/hooks/use-responsive'
 
 type BlurSide = 'top' | 'bottom' | 'left' | 'right'
 
@@ -61,12 +62,16 @@ export function ProgressiveBlur({
   style,
   ...props
 }: ProgressiveBlurProps) {
+  const { isMobile } = useBreakpoints()
   const isVertical = side === 'top' || side === 'bottom'
   const gradientDirection = `to ${oppositeSide[side]}`
 
+  // Optimization: reduce layers on mobile to save GPU (3 steps vs 8)
+  const effectiveSteps = isMobile ? Math.min(steps, 3) : steps
+
   // Calculate exponential base for smooth blur falloff
   const factor = 1 / 10
-  const base = Math.pow(strength / factor, 1 / (steps - 1))
+  const base = Math.pow(strength / factor, 1 / (effectiveSteps - 1))
 
   return (
     <div
@@ -85,13 +90,13 @@ export function ProgressiveBlur({
       aria-hidden="true"
       {...props}
     >
-      {Array.from({ length: steps }).map((_, index) => {
+      {Array.from({ length: effectiveSteps }).map((_, index) => {
         // Exponential blur calculation for smooth transition
         const blurAmount = factor * Math.pow(base, index)
 
         // Calculate mask gradient stops
-        const startOffset = (index / steps) * falloffPercentage
-        const endOffset = ((index + 1) / steps) * falloffPercentage
+        const startOffset = (index / effectiveSteps) * falloffPercentage
+        const endOffset = ((index + 1) / effectiveSteps) * falloffPercentage
 
         return (
           <div
