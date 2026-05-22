@@ -118,13 +118,19 @@ export const fragmentShader = `
 
     // Create irregular shape using turbulence (with character-specific amount)
     float angle = atan(toCenter.y, toCenter.x);
-    float turbulentRadius = baseSize * (0.8 + turbulenceAmount * turbulence(
-      vec2(cos(angle), sin(angle)) * 3.0 + time * 0.02 + seed, 0.8
-    ));
+    
+    // Optimization: Use simpler turbulence math on mobile
+    float noiseVal = uIsMobile > 0.5 
+      ? turbulence(vec2(cos(angle), sin(angle)) * 2.0 + time * 0.02 + seed, 1.0)
+      : turbulence(vec2(cos(angle), sin(angle)) * 3.0 + time * 0.02 + seed, 0.8);
+      
+    float turbulentRadius = baseSize * (0.8 + turbulenceAmount * noiseVal);
 
-    // Add noise distortion for organic edges
-    float edgeNoise = fractalNoise(uv * 6.0 + time * 0.05 + seed);
-    turbulentRadius += edgeNoise * 0.08;
+    // Mobile Optimization: Skip secondary edgeNoise distortion
+    if (uIsMobile < 0.5) {
+      float edgeNoise = fractalNoise(uv * 6.0 + time * 0.05 + seed);
+      turbulentRadius += edgeNoise * 0.08;
+    }
 
     // Sharp edges by default, soften based on proximity to other blob
     float edgeSoftness = mix(edgeSharpness, 0.6, proximityToOther); // Soften near other blob
@@ -132,12 +138,21 @@ export const fragmentShader = `
 
     // Volumetric density - theme-specific (more opaque in light mode)
     float volumetricStrength = mix(VOLUMETRIC_DENSITY_LIGHT, VOLUMETRIC_DENSITY_DARK, isDark);
-    float densityFalloff = exp(-dist / (turbulentRadius * 0.5));
+    
+    // Mobile Optimization: Use linear falloff instead of exp()
+    float densityFalloff = uIsMobile > 0.5 
+      ? 1.0 - clamp(dist / (turbulentRadius * 1.2), 0.0, 1.0)
+      : exp(-dist / (turbulentRadius * 0.5));
+      
     influence *= densityFalloff * volumetricStrength + (1.0 - volumetricStrength);
 
     // Atmospheric texture - theme-specific (less noise in light mode)
+    // Mobile Optimization: Use simpler noise call
     float atmosphericStrength = mix(ATMOSPHERIC_NOISE_LIGHT, ATMOSPHERIC_NOISE_DARK, isDark);
-    float atmosphericNoise = fractalNoise(uv * 12.0 + time * 0.08 + seed);
+    float atmosphericNoise = uIsMobile > 0.5 
+      ? smoothNoise(uv * 8.0 + time * 0.05 + seed)
+      : fractalNoise(uv * 12.0 + time * 0.08 + seed);
+      
     influence *= (1.0 - atmosphericStrength) + (atmosphericStrength * atmosphericNoise);
 
     return clamp(influence, 0.0, 1.0);
@@ -195,7 +210,11 @@ export const fragmentShader = `
     // Light mode: Subtle glow (pigment/ink metaphor)
     float glowPower = mix(0.9, 0.6, uIsDarkMode);        // Sharper falloff in light mode
     float glowStrength = mix(0.08, 0.4, uIsDarkMode);    // Much less glow in light mode
-    float glowIntensity = pow(totalWater, glowPower) * glowStrength;
+    
+    // Mobile Optimization: Avoid expensive pow() for glow if possible
+    float glowIntensity = uIsMobile > 0.5 
+      ? totalWater * glowStrength 
+      : pow(totalWater, glowPower) * glowStrength;
     // Dark mode: additive glow (emissive effect on dark background)
     // Light mode: subtle depth cue shadow under blobs (glow on white just clips to 1.0)
     float depthCue = glowIntensity * 0.04 * (1.0 - uIsDarkMode);
@@ -246,7 +265,10 @@ export const fragmentShader = `
     color += color * edgeGlow;
 
     // === FINAL ATMOSPHERIC FADE ===
-    float atmosphericAlpha = pow(totalWater, 0.78);
+    // Mobile Optimization: Simple linear fade instead of pow()
+    float atmosphericAlpha = uIsMobile > 0.5 
+      ? totalWater * 0.9 
+      : pow(totalWater, 0.78);
     color = mix(backgroundColor, color, atmosphericAlpha);
 
     gl_FragColor = vec4(color, 1.0);

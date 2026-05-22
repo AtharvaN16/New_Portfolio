@@ -187,8 +187,10 @@ export function setupCanvasResize(canvas: HTMLCanvasElement): () => void {
 
   const resizeCanvasToDisplaySize = () => {
     const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
-    // Performance: Render at 0.5x resolution on mobile to save 75% GPU power
-    const dpr = isMobile ? 0.5 : (window.devicePixelRatio || 1)
+    // Performance:
+    // - Mobile: Render at 0.25x resolution (Ultra efficiency, soft organic look)
+    // - Desktop: Cap at 1.5x (Avoids over-rendering on 3x Retina/4K screens)
+    const dpr = isMobile ? 0.25 : Math.min(window.devicePixelRatio || 1, 1.5)
     const rect = canvas.getBoundingClientRect()
 
     const displayWidth = Math.round(rect.width * dpr)
