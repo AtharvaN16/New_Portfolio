@@ -170,7 +170,7 @@ export function SelectedWork({
           Selected work
         </m.h2>
       ) : (
-        <h2 className="mt-8 mb-14 text-xl font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 sm:text-2xl text-foreground">
+        <h2 className="mt-8 mb-14 text-3xl font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 md:text-2xl text-foreground">
           Selected work
         </h2>
       )}
