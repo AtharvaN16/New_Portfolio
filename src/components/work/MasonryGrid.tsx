@@ -7,6 +7,7 @@ interface MasonryGridProps<T> {
   items: T[]
   renderItem: (item: T, index: number) => React.ReactNode
   gap?: number
+  mobileGap?: number
   className?: string
 }
 
@@ -18,9 +19,10 @@ export function MasonryGrid<T>({
   items,
   renderItem,
   gap = 24,
+  mobileGap,
   className,
 }: MasonryGridProps<T>) {
-  const { isDesktop, isTablet } = useBreakpoints()
+  const { isDesktop, isTablet, isMobile } = useBreakpoints()
   const [mounted, setMounted] = useState(false)
 
   // Ensure hydration matches client render
@@ -43,10 +45,12 @@ export function MasonryGrid<T>({
     return cols
   }, [items, isDesktop, isTablet, mounted])
 
+  const effectiveGap = mounted && isMobile && mobileGap !== undefined ? mobileGap : gap
+
   if (!mounted) {
     // Return a simple stack for SSR to avoid layout shift later
     return (
-      <div className={className} style={{ display: 'flex', flexDirection: 'column', gap: `${gap}px` }}>
+      <div className={className} style={{ display: 'flex', flexDirection: 'column', gap: `${mobileGap ?? gap}px` }}>
         {items.map((item, index) => renderItem(item, index))}
       </div>
     )
@@ -58,7 +62,7 @@ export function MasonryGrid<T>({
       style={{
         display: 'flex',
         flexDirection: 'row',
-        gap: `${gap}px`,
+        gap: `${effectiveGap}px`,
         alignItems: 'flex-start',
       }}
     >
@@ -68,7 +72,7 @@ export function MasonryGrid<T>({
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: `${gap}px`,
+            gap: `${effectiveGap}px`,
             flex: 1,
           }}
         >

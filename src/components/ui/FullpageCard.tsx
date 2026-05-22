@@ -159,7 +159,7 @@ export function FullpageCard({
           <AnimatedHeroTextGSAP
             delay={0.5}
             className={cn(
-              'mt-auto max-w-sm text-base font-medium leading-normal tracking-[-0.4px] sm:max-w-md sm:text-lg md:text-[20px]',
+              'mt-auto max-w-sm text-[14px] font-medium leading-normal tracking-[-0.4px] sm:max-w-md sm:text-lg md:text-[20px]',
               descriptionClassName
             )}
           >
