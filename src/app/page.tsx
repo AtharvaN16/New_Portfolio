@@ -124,7 +124,7 @@ export default function Home() {
         ref={containerRef}
         className="relative"
         style={{
-          height: `${containerHeightVh}vh`,
+          height: `${containerHeightVh}svh`,
           backgroundColor: 'rgb(var(--color-background))',
         }}
       >
@@ -197,7 +197,7 @@ export default function Home() {
             willChange: 'transform',
           }}
         >
-          <div className="h-screen pointer-events-auto">
+          <div className="h-[100svh] pointer-events-auto">
             <FullpageCard
               title="Helping New Yorkers apply for business licenses with ease"
               description="A case study on improving the application process for business licenses for the NYC Department of Consumer and Worker Protection."

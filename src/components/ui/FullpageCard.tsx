@@ -80,7 +80,7 @@ export function FullpageCard({
   return (
     <section
       className={cn(
-        'min-h-screen w-full overflow-hidden relative transition-all duration-500',
+        'min-h-[100svh] w-full overflow-hidden relative transition-all duration-500',
         'shadow-md [data-theme="dark"]:shadow-none',
         variantStyles[variant],
         slug && 'cursor-pointer',
@@ -134,7 +134,7 @@ export function FullpageCard({
       )}
 
       {/* Text Content - overlaid on top */}
-      <div className="relative z-10 flex min-h-screen w-full flex-col justify-start px-6 2xl:px-[140px] py-16 text-white sm:px-8 sm:py-20 md:py-[72px]">
+      <div className="relative z-10 flex min-h-[100svh] w-full flex-col justify-start px-6 2xl:px-[140px] py-16 text-white sm:px-8 sm:py-20 md:py-[72px]">
         {isDesktop ? (
           <AnimatedTitle
             text={title}

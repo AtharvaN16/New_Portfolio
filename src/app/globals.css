@@ -31,7 +31,6 @@
   }
 
   html {
-    @apply scroll-smooth;
     margin: 0;
     padding: 0;
   }

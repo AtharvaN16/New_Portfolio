@@ -37,11 +37,10 @@ export function LenisProvider({ children }: LenisProviderProps) {
     ).matches
     if (prefersReducedMotion) return
 
-    // Skip Lenis on touch devices — native touch scroll is already smooth,
-    // and Lenis's wheel easing adds latency that makes scroll-linked
-    // animations feel inconsistent on mobile.
-    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
-    if (isTouchDevice) return
+    // Enable Lenis on all devices. Modern Lenis is highly optimized for touch,
+    // and enabling it allows us to sync scroll-linked animations with the 
+    // scroll thread, eliminating jitter on mobile.
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
 
     let rafId = 0
     let cancelled = false
