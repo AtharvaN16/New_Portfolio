@@ -31,8 +31,18 @@ export function useHomeScroll(): HomeScrollResult {
   const selectedWorkRef = useRef<HTMLDivElement>(null)
   const footerRef = useRef<HTMLDivElement>(null)
   const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
-  const [selectedWorkHeight, setSelectedWorkHeight] = useState(0)
-  const [footerHeight, setFooterHeight] = useState(0)
+  
+  // Use refs for measurements to avoid triggering re-renders for every small change
+  // and to avoid reading from the DOM during the scroll loop.
+  const measurementsRef = useRef({
+    selectedWorkHeight: 0,
+    footerHeight: 0,
+    viewportHeight: 1000
+  })
+
+  // We still need state for the container height to drive the scroll track length
+  const [containerHeightVh, setContainerHeightVh] = useState(300)
+  
   const { isDesktop } = useBreakpoints()
   const lenis = useLenis()
 
@@ -41,50 +51,58 @@ export function useHomeScroll(): HomeScrollResult {
     let resizeObserver: ResizeObserver | null = null
 
     const measureHeight = () => {
-      if (selectedWorkRef.current) {
-        const height = selectedWorkRef.current.scrollHeight
-        setSelectedWorkHeight(height)
-      }
-      if (footerRef.current) {
-        setFooterHeight(footerRef.current.offsetHeight)
+      if (!selectedWorkRef.current || !footerRef.current) return
+
+      const swHeight = selectedWorkRef.current.scrollHeight
+      const fHeight = footerRef.current.offsetHeight
+      const vh = window.innerHeight
+
+      // Only update state if measurements changed significantly (> 5px)
+      const hasChanged = 
+        Math.abs(swHeight - measurementsRef.current.selectedWorkHeight) > 5 ||
+        Math.abs(fHeight - measurementsRef.current.footerHeight) > 5 ||
+        Math.abs(vh - measurementsRef.current.viewportHeight) > 10
+
+      if (hasChanged) {
+        measurementsRef.current = {
+          selectedWorkHeight: swHeight,
+          footerHeight: fHeight,
+          viewportHeight: vh
+        }
+
+        // Calculate Track Length
+        const swHeightVh = (swHeight / vh) * 100
+        const fHeightVh = (fHeight / vh) * 100
+        const footerScrollVh = Math.min(fHeightVh, 35)
+        
+        // 200 (Hero + Card) + content scroll + footer reveal
+        const newTrackHeight = 200 + Math.max(0, swHeightVh - 100) + footerScrollVh
+        setContainerHeightVh(newTrackHeight)
       }
     }
 
     const handleResize = () => {
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId)
-      }
+      if (rafId !== null) cancelAnimationFrame(rafId)
       rafId = requestAnimationFrame(measureHeight)
     }
 
     measureHeight()
-    window.addEventListener('resize', handleResize)
+    window.addEventListener('resize', handleResize, { passive: true })
 
     if (typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver(() => {
-        if (rafId !== null) {
-          cancelAnimationFrame(rafId)
-        }
+        if (rafId !== null) cancelAnimationFrame(rafId)
         rafId = requestAnimationFrame(measureHeight)
       })
 
-      if (selectedWorkRef.current) {
-        resizeObserver.observe(selectedWorkRef.current)
-      }
-      if (footerRef.current) {
-        resizeObserver.observe(footerRef.current)
-      }
+      if (selectedWorkRef.current) resizeObserver.observe(selectedWorkRef.current)
+      if (footerRef.current) resizeObserver.observe(footerRef.current)
     }
-
-    const timeout = setTimeout(measureHeight, 100)
 
     return () => {
       window.removeEventListener('resize', handleResize)
-      clearTimeout(timeout)
       resizeObserver?.disconnect()
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId)
-      }
+      if (rafId !== null) cancelAnimationFrame(rafId)
     }
   }, [])
 
@@ -131,54 +149,33 @@ export function useHomeScroll(): HomeScrollResult {
   )
   const cardY = useTransform(scrollYProgress, cardRange, cardOutput)
 
-  const viewportHeight =
-    typeof window !== 'undefined' ? window.innerHeight : 1000
-  const selectedWorkHeightVh =
-    selectedWorkHeight > 0 ? (selectedWorkHeight / viewportHeight) * 100 : 300
-  const footerHeightVh =
-    footerHeight > 0 ? (footerHeight / viewportHeight) * 100 : 0
-  const selectedWorkMoveVh =
-    Math.max(0, selectedWorkHeightVh - 100) + footerHeightVh
+  const transformData = useMemo(() => {
+    const { selectedWorkHeight, footerHeight, viewportHeight } = measurementsRef.current
+    
+    const swHeightVh = (selectedWorkHeight / viewportHeight) * 100
+    const fHeightVh = (footerHeight / viewportHeight) * 100
+    const moveVh = Math.max(0, swHeightVh - 100) + fHeightVh
 
-  const footerScrollVh = Math.min(footerHeightVh, 35)
-  const containerHeightVh =
-    200 + Math.max(0, selectedWorkHeightVh - 100) + footerScrollVh
+    // SelectedWork parallax
+    const swRange = isDesktop ? [0, 0.5, 1] : [0, 0.5, 0.90]
+    const swOutput = ['0vh', '0vh', `-${moveVh}vh`]
+    
+    // Footer reveal
+    const contentScrollVh = Math.max(0, swHeightVh - 100)
+    const revealStart = moveVh > 0 ? 0.5 + (0.5 * contentScrollVh) / moveVh : 1
+    const revealRange = !isDesktop 
+      ? [Math.min(Math.max(revealStart - 0.08, 0.5), 0.85), 0.90]
+      : [revealStart, 1]
 
-  const selectedWorkRange = useMemo(
-    () => (isDesktop ? [0, 0.5, 1] : [0, 0.5, 0.90]),
-    [isDesktop]
-  )
-  const selectedWorkOutput = useMemo(
-    () => ['0vh', '0vh', `-${selectedWorkMoveVh}vh`],
-    [selectedWorkMoveVh]
-  )
-  const selectedWorkY = useTransform(
-    scrollYProgress,
-    selectedWorkRange,
-    selectedWorkOutput
-  )
+    return {
+      swRange,
+      swOutput,
+      revealRange
+    }
+  }, [containerHeightVh, isDesktop])
 
-  const contentScrollVh = Math.max(0, selectedWorkHeightVh - 100)
-  const footerRevealStart =
-    selectedWorkMoveVh > 0
-      ? 0.5 + (0.5 * contentScrollVh) / selectedWorkMoveVh
-      : 1
-  const footerRevealRange = useMemo(
-    () => {
-      if (!isDesktop) {
-        const mobileStart = Math.min(Math.max(footerRevealStart - 0.08, 0.5), 0.85)
-        return [mobileStart, 0.90]
-      }
-      return [footerRevealStart, 1]
-    },
-    [footerRevealStart, isDesktop]
-  )
-  const footerRevealOutput = useMemo(() => [0, 1], [])
-  const footerRevealProgress = useTransform(
-    scrollYProgress,
-    footerRevealRange,
-    footerRevealOutput
-  )
+  const selectedWorkY = useTransform(scrollYProgress, transformData.swRange, transformData.swOutput)
+  const footerRevealProgress = useTransform(scrollYProgress, transformData.revealRange, [0, 1])
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
