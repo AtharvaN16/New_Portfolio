@@ -39,6 +39,7 @@ export function useHomeScroll(): HomeScrollResult {
   useEffect(() => {
     let rafId: number | null = null
     let resizeObserver: ResizeObserver | null = null
+    let lastWidth = typeof window !== 'undefined' ? window.innerWidth : 0
 
     const measureHeight = () => {
       if (selectedWorkRef.current) {
@@ -51,6 +52,14 @@ export function useHomeScroll(): HomeScrollResult {
     }
 
     const handleResize = () => {
+      if (typeof window === 'undefined') return
+      
+      const currentWidth = window.innerWidth
+      // Only re-measure if width changed (prevents mobile address bar jitter)
+      if (currentWidth === lastWidth) return
+      
+      lastWidth = currentWidth
+      
       if (rafId !== null) {
         cancelAnimationFrame(rafId)
       }
@@ -103,6 +112,7 @@ export function useHomeScroll(): HomeScrollResult {
 
   const viewportHeight =
     typeof window !== 'undefined' ? window.innerHeight : 1000
+  // Use dvh for more stable mobile height calculations
   const selectedWorkHeightVh =
     selectedWorkHeight > 0 ? (selectedWorkHeight / viewportHeight) * 100 : 300
   const footerHeightVh =
@@ -115,13 +125,13 @@ export function useHomeScroll(): HomeScrollResult {
     200 + Math.max(0, selectedWorkHeightVh - 100) + footerScrollVh
 
   const heroContentRange = useMemo(() => [0, 0.2], [])
-  const heroContentOutput = useMemo(() => ['0vh', '-30vh'], [])
+  const heroContentOutput = useMemo(() => ['0svh', '-30svh'], [])
   const navbarRange = useMemo(() => [0, 0.02], [])
   const navbarOutput = useMemo(() => [1, 0], [])
   const heroOpacityRange = useMemo(() => [0, 0.195, 0.2], [])
   const heroOpacityOutput = useMemo(() => [1, 1, 0], [])
   const cardRange = useMemo(() => [0, 0.2, 0.5], [])
-  const cardOutput = useMemo(() => ['100vh', '0vh', '-105vh'], [])
+  const cardOutput = useMemo(() => ['100svh', '0svh', '-105svh'], [])
 
   const heroContentY = useTransform(
     scrollYProgress,
@@ -148,7 +158,7 @@ export function useHomeScroll(): HomeScrollResult {
     [isDesktop]
   )
   const selectedWorkOutput = useMemo(
-    () => ['0vh', '0vh', `-${selectedWorkMoveVh}vh`],
+    () => ['0svh', '0svh', `-${selectedWorkMoveVh}svh`],
     [selectedWorkMoveVh]
   )
   const selectedWorkY = useTransform(
