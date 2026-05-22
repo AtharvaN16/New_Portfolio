@@ -118,9 +118,16 @@ export function useHomeScroll(): HomeScrollResult {
   const [svh, setSvh] = useState(1000)
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setSvh(window.innerHeight)
-    }
+    if (typeof window === 'undefined') return
+    // Measure CSS 1svh in pixels so scroll math matches the svh units used in
+    // style props. window.innerHeight changes with the address bar; CSS svh is
+    // fixed to the small viewport height (address bar visible). Using the wrong
+    // baseline causes selectedWorkMoveVh to be too small → footer under-reveals.
+    const el = document.createElement('div')
+    el.style.cssText = 'position:fixed;height:1svh;visibility:hidden;pointer-events:none'
+    document.body.appendChild(el)
+    setSvh(el.offsetHeight * 100)
+    document.body.removeChild(el)
   }, [])
 
   const selectedWorkHeightVh =
