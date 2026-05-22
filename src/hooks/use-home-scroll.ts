@@ -86,9 +86,9 @@ export function useHomeScroll(): HomeScrollResult {
         const fHeightVh = (fHeight / vh) * 100
         const footerScrollVh = Math.min(fHeightVh, 35)
         
-        // Optimization: Increase track length on mobile to slow down scroll speed
-        // 200 (Hero + Card) on desktop, 300 on mobile to give more "room" for the thumb
-        const baseTrackLength = isDesktop ? 200 : 300
+        // Optimization: Standardize track length for faster response
+        // Using 200 for all devices to ensure the first swipe triggers the transition
+        const baseTrackLength = 200
         const newTrackHeight = baseTrackLength + Math.max(0, swHeightVh - 100) + footerScrollVh
         setContainerHeightVh(newTrackHeight)
       }
@@ -133,16 +133,16 @@ export function useHomeScroll(): HomeScrollResult {
 
     // Soft Visibility Gating for Mobile Performance
     if (!isDesktop) {
-      // Hero Active: Hide display when fully covered by Card (latest > 0.45)
-      const heroActive = latest < 0.45
+      // Hero Active: Hide display when fully covered by Card (latest > 0.4)
+      const heroActive = latest < 0.4
       if (heroActive !== isHeroMounted) setIsHeroMounted(heroActive)
 
-      // Card Active: Hide display when off-screen (latest > 0.75)
-      const cardActive = latest > 0.05 && latest < 0.75
+      // Card Active: Hide display when off-screen (latest > 0.6)
+      const cardActive = latest > 0.05 && latest < 0.6
       if (cardActive !== isCardMounted) setIsCardMounted(cardActive)
 
       // Work: Mount when visible
-      const workActive = latest > 0.35
+      const workActive = latest > 0.4
       if (workActive !== isWorkMounted) setIsWorkMounted(workActive)
 
       // Footer: Only mount at the very end to prevent peek-through
@@ -162,14 +162,14 @@ export function useHomeScroll(): HomeScrollResult {
   const navbarRange = useMemo(() => [0, 0.02], [])
   const navbarOutput = useMemo(() => [1, 0], [])
   const heroOpacityRange = useMemo(() => {
-    if (!isDesktop) return [0, 0.25, 0.35] // Mobile: Fade starts at 50% coverage (0.25)
+    if (!isDesktop) return [0, 0.225, 0.35] // Mobile: Fade starts at 50% coverage of new range
     return [0, 0.195, 0.2] // Desktop: Original
   }, [isDesktop])
   const heroOpacityOutput = useMemo(() => [1, 1, 0], [])
   
   // CONTINUOUS REVEAL: Remove dead zones and align ranges for mobile
   const cardRange = useMemo(() => {
-    if (!isDesktop) return [0.15, 0.4, 0.55] 
+    if (!isDesktop) return [0.1, 0.35, 0.5] // Mobile: Start earlier, exit faster
     return [0, 0.2, 0.5] 
   }, [isDesktop])
   
@@ -203,15 +203,15 @@ export function useHomeScroll(): HomeScrollResult {
     const moveVh = Math.max(0, swHeightVh - 100) + fHeightVh
 
     // SelectedWork parallax
-    // On Mobile: Start exactly when Card finishes its exit (0.55)
-    const swRange = isDesktop ? [0, 0.5, 1] : [0, 0.55, 1.0]
+    // On Mobile: Start exactly when Card finishes its exit (0.5)
+    const swRange = isDesktop ? [0, 0.5, 1] : [0, 0.5, 1.0]
     const swOutput = ['0vh', '0vh', `-${moveVh}vh`]
     
     // Footer reveal
     const contentScrollVh = Math.max(0, swHeightVh - 100)
     const revealStart = moveVh > 0 ? 0.5 + (0.5 * contentScrollVh) / moveVh : 1
     const revealRange = !isDesktop 
-      ? [Math.min(Math.max(revealStart, 0.4), 0.95), 1.0]
+      ? [Math.min(Math.max(revealStart, 0.5), 0.95), 1.0]
       : [revealStart, 1]
 
     return {
