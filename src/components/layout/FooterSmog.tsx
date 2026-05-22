@@ -17,6 +17,11 @@ export function FooterSmog({ visible }: FooterSmogProps) {
 
   const showEffects = !reducedMotion && !pauseWebGL
 
+  // Mobile/touch: skip the smog entirely. The animated swells run behind a
+  // blur(40px) + SVG-dither pass that the GPU cannot cache while animating,
+  // so it re-rasterizes every frame — a major source of scroll jitter + heat.
+  if (!isDesktop) return null
+
   return (
     <div
       className="absolute top-0 left-0 right-0 pointer-events-none z-0 overflow-hidden"
