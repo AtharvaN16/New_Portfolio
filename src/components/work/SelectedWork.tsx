@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils/cn'
 import { getFeaturedCaseStudies } from '@/lib/data/case-studies'
 import { AnimatedArrow } from '@/components/ui/AnimatedArrow'
 import { useArrowAnimation } from '@/hooks/use-arrow-animation'
+import { useBreakpoints } from '@/hooks/use-responsive'
 
 interface SelectedWorkProps {
   projects?: ProjectCardProps[]
@@ -118,6 +119,8 @@ export function SelectedWork({
     handleMouseLeave,
   } = useArrowAnimation()
 
+  const { isDesktop } = useBreakpoints()
+
   // Track if user has scrolled past the initial cards
   const [hasScrolledPast, setHasScrolledPast] = useState(false)
 
@@ -130,6 +133,8 @@ export function SelectedWork({
   const titleY = useTransform(progress, [0.44, 0.5], [20, 0])
 
   useEffect(() => {
+    if (!isDesktop) return // Disable scroll listener on mobile for performance
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY
 
@@ -141,7 +146,7 @@ export function SelectedWork({
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [hasScrolledPast])
+  }, [hasScrolledPast, isDesktop])
 
   return (
     <section 
@@ -163,29 +168,19 @@ export function SelectedWork({
         Selected work
       </m.h2>
 
-      {/* Mobile/Tablet: Single column stack */}
+      {/* Mobile/Tablet: Single column stack - Optimized for 0 jitter */}
       <div className="flex flex-col gap-12 lg:hidden">
         {projects.map((project, index) => (
-          <m.div
+          <div
             key={`${project.title}-${project.organization}`}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{
-              opacity: 1,
-              y: 0,
-              transition: {
-                duration: 0.5,
-                delay: index * 0.1,
-                ease: [0.22, 1, 0.36, 1],
-              },
-            }}
-            viewport={{ once: true, margin: '-50px' }}
+            className="opacity-100 transform-none" // Direct reveal on mobile
           >
             <ProjectCard
               {...project}
               imageSizes="(max-width: 1024px) 100vw, 75vw"
               imageFetchPriority="low"
             />
-          </m.div>
+          </div>
         ))}
       </div>
 
