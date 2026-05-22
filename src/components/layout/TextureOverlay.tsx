@@ -8,7 +8,12 @@ import { useTheme } from '@/components/providers/ThemeProvider'
  */
 export function TextureOverlay() {
   const { theme } = useTheme()
+  const [isMobile, setIsMobile] = React.useState(false)
   const isDark = theme === 'dark'
+
+  React.useEffect(() => {
+    setIsMobile(window.matchMedia('(pointer: coarse)').matches)
+  }, [])
 
   // Explicitly defined opacities to ensure zero leakage between themes
   const opacity = isDark ? 0.025 : 0.2
@@ -42,7 +47,9 @@ export function TextureOverlay() {
         className="fixed inset-0 pointer-events-none z-0 contrast-[120%] texture-layer"
         style={{
           opacity: opacity,
-          filter: `url(#sensory-grit) brightness(${isDark ? '1.2' : '1.0'})`,
+          filter: isMobile 
+            ? 'none' 
+            : `url(#sensory-grit) brightness(${isDark ? '1.2' : '1.0'})`,
         } as React.CSSProperties}
         aria-hidden="true"
       />
