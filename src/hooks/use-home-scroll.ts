@@ -208,6 +208,16 @@ export function useHomeScroll(): HomeScrollResult {
     footerRevealOutput
   )
 
+  const getContainerEndScrollY = useCallback(() => {
+    if (!containerRef.current || typeof window === 'undefined') return null
+
+    return (
+      containerRef.current.offsetTop +
+      containerRef.current.offsetHeight -
+      window.innerHeight
+    )
+  }, [])
+
   useEffect(() => {
     let timeoutId: NodeJS.Timeout
 
@@ -215,15 +225,14 @@ export function useHomeScroll(): HomeScrollResult {
       clearTimeout(timeoutId)
 
       const progress = footerRevealProgress.get()
+      const autoFinishThreshold = isDesktop ? 0.85 : 0.7
 
-      if (progress > 0.85 && progress < 0.99) {
+      if (progress > autoFinishThreshold && progress < 0.99) {
         timeoutId = setTimeout(() => {
           const currentProgress = footerRevealProgress.get()
-          if (currentProgress > 0.85 && currentProgress < 0.99) {
-            const vh = window.innerHeight
-            const containerTop = containerRef.current?.offsetTop || 0
-            const maxScrollWithinContainer = (containerHeightVh / 100) * vh - vh
-            const targetScrollY = containerTop + maxScrollWithinContainer
+          if (currentProgress > autoFinishThreshold && currentProgress < 0.99) {
+            const targetScrollY = getContainerEndScrollY()
+            if (targetScrollY === null) return
 
             if (lenis) {
               lenis.scrollTo(targetScrollY, {
@@ -247,7 +256,7 @@ export function useHomeScroll(): HomeScrollResult {
     lenis,
     footerRevealProgress,
     scrollYProgress,
-    containerHeightVh,
+    getContainerEndScrollY,
   ])
 
   const handleBrowseWorkClick = useCallback(() => {
