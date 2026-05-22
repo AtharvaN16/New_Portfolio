@@ -149,7 +149,16 @@ export function createAnimationLoop(
   getYOffset: () => number = () => 0,
   isMobile: boolean = false,
 ): (time: number) => void {
+  let lastFrameTime = 0
+  const mobileFrameInterval = 1 / 30 // 30 FPS target for mobile
+
   const animate = (time: number) => {
+    // 30 FPS throttling for mobile efficiency
+    if (isMobile) {
+      if (time - lastFrameTime < mobileFrameInterval) return
+      lastFrameTime = time
+    }
+
     gl.uniform1f(programInfo.uTimeLocation, time)
     gl.uniform1f(programInfo.uYOffsetLocation, getYOffset())
     gl.uniform1f(programInfo.uIsMobileLocation, isMobile ? 1.0 : 0.0)
@@ -178,8 +187,8 @@ export function setupCanvasResize(canvas: HTMLCanvasElement): () => void {
 
   const resizeCanvasToDisplaySize = () => {
     const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
-    // Cap DPR at 1.0 for mobile to save GPU cycles; allow normal DPR for desktop
-    const dpr = isMobile ? 1.0 : (window.devicePixelRatio || 1)
+    // Performance: Render at 0.5x resolution on mobile to save 75% GPU power
+    const dpr = isMobile ? 0.5 : (window.devicePixelRatio || 1)
     const rect = canvas.getBoundingClientRect()
 
     const displayWidth = Math.round(rect.width * dpr)

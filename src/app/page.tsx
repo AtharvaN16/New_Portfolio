@@ -64,6 +64,10 @@ export default function Home() {
     footerRevealProgress,
     handleBrowseWorkClick,
     handleGetInTouchClick,
+    isHeroMounted,
+    isCardMounted,
+    isWorkMounted,
+    isFooterMounted,
   } = useHomeScroll()
 
   const handleGetInTouchWithShimmer = useCallback(() => {
@@ -128,30 +132,7 @@ export default function Home() {
           backgroundColor: 'rgb(var(--color-background))',
         }}
       >
-        {/* ===== LAYER 1: SelectedWork ===== */}
-        <m.div
-          className="fixed top-0 left-0 right-0"
-          style={{
-            y: selectedWorkY,
-            zIndex: 10,
-            backgroundColor: 'rgb(var(--color-background))',
-            willChange: 'transform',
-          }}
-        >
-          <div ref={selectedWorkRef}>
-            <div className="px-6 2xl:px-[140px] pt-12 pb-20">
-              <Suspense fallback={<div className="min-h-screen bg-background" />}>
-                <SelectedWork
-                  enableHomeCardRecede
-                  homeScrollProgress={scrollYProgress}
-                  desktopSpacingScale={1.12}
-                />
-              </Suspense>
-            </div>
-          </div>
-        </m.div>
-
-        {/* ===== LAYER 2: Hero ===== */}
+        {/* ===== LAYER 1: Hero (Bottom) ===== */}
         <m.div
           className="fixed inset-0 flex flex-col"
           style={{
@@ -160,72 +141,104 @@ export default function Home() {
             opacity: heroOpacity,
             pointerEvents: heroPointerEvents,
             willChange: 'opacity',
+            // Soft Gating: Hide from GPU when far off-screen, but keep mounted for WebGL
+            display: isHeroMounted ? 'flex' : 'none'
           }}
         >
-          <m.div
-            className="px-6 2xl:px-[140px] pt-6"
-            style={{
-              opacity: navbarScrollOpacity,
-              willChange: 'opacity',
-            }}
-          >
-            <Navbar />
-          </m.div>
 
-          <m.main
-            id="main-content"
-            className="px-0 md:px-6 2xl:px-[140px] flex-1"
+            <m.div
+              className="px-6 2xl:px-[140px] pt-6"
+              style={{
+                opacity: navbarScrollOpacity,
+                willChange: 'opacity',
+              }}
+            >
+              <Navbar />
+            </m.div>
+
+            <m.main
+              id="main-content"
+              className="px-0 md:px-6 2xl:px-[140px] flex-1"
+              style={{
+                y: heroContentY,
+                willChange: 'transform',
+              }}
+            >
+              <Hero
+                shouldPauseBlobs={shouldPauseBlobs}
+                onBrowseWorkClick={handleBrowseWorkClick}
+                onGetInTouchClick={handleGetInTouchWithShimmer}
+              />
+            </m.main>
+            </m.div>
+
+            {/* ===== LAYER 2: NYC Card (Slides over Hero) ===== */}
+            <m.div
+            className="fixed inset-0 pointer-events-none"
             style={{
-              y: heroContentY,
+              y: cardY,
+              zIndex: 40,
               willChange: 'transform',
+              display: isCardMounted ? 'block' : 'none'
             }}
-          >
-            <Hero
-              shouldPauseBlobs={shouldPauseBlobs}
-              onBrowseWorkClick={handleBrowseWorkClick}
-              onGetInTouchClick={handleGetInTouchWithShimmer}
-            />
-          </m.main>
-        </m.div>
+            >
+            <div className="h-screen pointer-events-auto">
+              <FullpageCard
+                title="Helping New Yorkers apply for business licenses with ease"
+                description="A case study on improving the application process for business licenses for the NYC Department of Consumer and Worker Protection."
+                tags={['Selected Work', 'Client Project', 'UX Research']}
+                mediaSrc="/images/case-studies/nyc-dcwp-business-licenses/fullpage-card-v2.webp"
+                mediaType="image"
+                mediaAlt="NYC DCWP Home Improvement Contractor License Application"
+                variant="surface"
+                slug="nyc-dcwp-business-licenses"
+                priority
+              />
+            </div>
+            </m.div>
 
-        {/* ===== LAYER 3: Card ===== */}
-        <m.div
-          className="fixed inset-0 pointer-events-none"
-          style={{
-            y: cardY,
-            zIndex: 40,
-            willChange: 'transform',
-          }}
+            {/* ===== LAYER 3: SelectedWork (Top) ===== */}
+            {isWorkMounted && (
+            <m.div
+              className="fixed top-0 left-0 right-0"
+              style={{
+                y: selectedWorkY,
+                zIndex: 10,
+                backgroundColor: 'rgb(var(--color-background))',
+                willChange: 'transform',
+              }}
+            >
+              <div ref={selectedWorkRef}>
+                <div className="px-6 2xl:px-[140px] pt-12 pb-20">
+                  <Suspense fallback={<div className="min-h-screen bg-background" />}>
+                    <SelectedWork
+                      enableHomeCardRecede
+                      homeScrollProgress={scrollYProgress}
+                      desktopSpacingScale={1.12}
+                    />
+                  </Suspense>
+                </div>
+              </div>
+            </m.div>
+            )}
+
+      </div>
+
+      {/* ===== FOOTER (Only mounted at the end to prevent peek-through) ===== */}
+      {isFooterMounted && (
+        <div
+          ref={footerRef}
+          className="fixed bottom-0 left-0 right-0"
+          style={{ zIndex: 5 }}
         >
-          <div className="h-screen pointer-events-auto">
-            <FullpageCard
-              title="Helping New Yorkers apply for business licenses with ease"
-              description="A case study on improving the application process for business licenses for the NYC Department of Consumer and Worker Protection."
-              tags={['Selected Work', 'Client Project', 'UX Research']}
-              mediaSrc="/images/case-studies/nyc-dcwp-business-licenses/fullpage-card-v2.webp"
-              mediaType="image"
-              mediaAlt="NYC DCWP Home Improvement Contractor License Application"
-              variant="surface"
-              slug="nyc-dcwp-business-licenses"
-              priority
+          <Suspense fallback={<div className="h-[400px] bg-background" />}>
+            <Footer
+              revealProgress={footerRevealProgress}
+              triggerShimmer={shouldTriggerFooterShimmer}
             />
-          </div>
-        </m.div>
-      </div>
-
-      {/* ===== FOOTER ===== */}
-      <div
-        ref={footerRef}
-        className="fixed bottom-0 left-0 right-0"
-        style={{ zIndex: 5 }}
-      >
-        <Suspense fallback={<div className="h-[400px] bg-background" />}>
-          <Footer
-            revealProgress={footerRevealProgress}
-            triggerShimmer={shouldTriggerFooterShimmer}
-          />
-        </Suspense>
-      </div>
+          </Suspense>
+        </div>
+      )}
 
       {shouldLoadDialogs && (
         <>

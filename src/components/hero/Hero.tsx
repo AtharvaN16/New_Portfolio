@@ -91,7 +91,7 @@ export function Hero({
                   boldWords={HERO_BOLD_WORDS}
                   pronunciationWords={HERO_PRONUNCIATION}
                   className="text-hero-body"
-                  delay={0.6}
+                  delay={isMobile ? 0.1 : 0.6}
                 >
                   Hi, I&apos;m Atharva — a product designer based in NYC. I love
                   solving problems through thoughtful design and crafting

@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from 'react'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
+import { useBreakpoints } from '@/hooks/use-responsive'
 
 /**
  * FooterDustParticles - Sparse, high-luminance dust motes
@@ -39,6 +40,7 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
   const opacityRef = useRef(0)
   const visibleRef = useRef(visible)
   const { reducedMotion, pauseWebGL } = useAccessibility()
+  const { isDesktop } = useBreakpoints()
   const pausedRef = useRef(reducedMotion || pauseWebGL)
 
   useEffect(() => {
@@ -51,7 +53,7 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (!canvas || !isDesktop) return
 
     const particles: Particle[] = []
     for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -163,7 +165,9 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
         rafRef.current = 0
       }
     }
-  }, [])
+  }, [isDesktop])
+
+  if (!isDesktop) return null
 
   return (
     <canvas
