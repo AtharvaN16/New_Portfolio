@@ -30,7 +30,6 @@ export function useHomeScroll(): HomeScrollResult {
   const containerRef = useRef<HTMLDivElement>(null)
   const selectedWorkRef = useRef<HTMLDivElement>(null)
   const footerRef = useRef<HTMLDivElement>(null)
-  const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
   const [selectedWorkHeight, setSelectedWorkHeight] = useState(0)
   const [footerHeight, setFooterHeight] = useState(0)
   const { isDesktop } = useBreakpoints()
@@ -102,11 +101,14 @@ export function useHomeScroll(): HomeScrollResult {
     offset: ['start start', 'end end'],
   })
 
+  const [shouldPauseBlobs, setShouldPauseBlobs] = useState(false)
+  const lastPauseState = useRef(false)
+  
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    if (latest > 0.03 && !shouldPauseBlobs) {
-      setShouldPauseBlobs(true)
-    } else if (latest <= 0.03 && shouldPauseBlobs) {
-      setShouldPauseBlobs(false)
+    const nextPauseState = latest > 0.03
+    if (nextPauseState !== lastPauseState.current) {
+      lastPauseState.current = nextPauseState
+      setShouldPauseBlobs(nextPauseState)
     }
   })
 

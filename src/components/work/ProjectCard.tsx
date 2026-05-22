@@ -100,7 +100,7 @@ export function ProjectCard({
   }, [edgeProgress, shouldApplyRecede])
 
   useAnimationFrame(() => {
-    if (!shouldApplyRecede) return
+    if (!shouldApplyRecede || !isDesktop) return
     updateEdgeProgress()
   })
 
