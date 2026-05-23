@@ -47,12 +47,17 @@ export function LenisProvider({ children }: LenisProviderProps) {
     let rafId = 0
     let cancelled = false
 
+    // Safari's compositor syncs position:fixed layers less tightly than Chrome when
+    // Lenis moves the scroll container via transforms. A shorter duration reduces
+    // the window where fixed elements appear offset from the scroll position.
+    const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)
+
     // Dynamically import Lenis so it doesn't inflate the initial bundle
     import('lenis').then(({ default: LenisClass }) => {
       if (cancelled) return
 
       const lenis = new LenisClass({
-        duration: 1.2,
+        duration: isSafari ? 0.8 : 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         orientation: 'vertical',
         gestureOrientation: 'vertical',
