@@ -3,6 +3,7 @@
 import { m } from 'framer-motion'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
+import { LibraryBasicsPrototype } from './LibraryBasicsPrototype'
 
 interface UAlbertaLibraryContentProps {
   isContentRevealed: boolean
@@ -707,11 +708,9 @@ export function UAlbertaLibraryContent({
                 className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
-              <ImagePlaceholder
-                label="Library Services — redesigned with popular services and filtering"
-                aspectRatio="16/9"
-                className="mb-8 md:mb-12"
-              />
+              <div className="mb-8 md:mb-12">
+                <LibraryBasicsPrototype />
+              </div>
 
               <ul className="space-y-3 mb-12 md:mb-16">
                 {[
