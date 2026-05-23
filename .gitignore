@@ -61,3 +61,4 @@ user provided assets/
 .superdesign/
 **/Accessibility Final Presentation copy.pdf
 *.pptx
+.worktrees/
