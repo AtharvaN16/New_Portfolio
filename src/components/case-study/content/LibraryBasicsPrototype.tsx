@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { LibraryServiceItem } from './LibraryServiceItem';
 import { Inter } from 'next/font/google';
 
@@ -36,7 +35,6 @@ const SERVICES_DATA = [
 ];
 
 export const LibraryBasicsPrototype: React.FC = () => {
-  const [isRevealed, setIsRevealed] = useState(false);
   const [bookmarks, setBookmarks] = useState<Record<string, boolean>>({});
 
   const toggleBookmark = (id: string) => {
@@ -47,43 +45,35 @@ export const LibraryBasicsPrototype: React.FC = () => {
   };
 
   return (
-    <div className={`w-full max-w-[1044px] mx-auto ${inter.className}`}>
-      <motion.div
-        className="relative w-full aspect-[16/9] overflow-hidden cursor-pointer rounded-none"
+    <div className={`w-full ${inter.className}`}>
+      <div
+        className="relative w-full overflow-hidden rounded-none"
         style={{
           background: 'linear-gradient(295deg, #225432 11.56%, #36A459 88.84%)',
+          padding: '64px 64px 0 64px',
+          height: '520px', // Reduced from 620px to clip more from bottom
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end'
         }}
-        onHoverStart={() => setIsRevealed(true)}
-        onHoverEnd={() => setIsRevealed(false)}
-        onClick={() => setIsRevealed(!isRevealed)}
       >
-        <motion.div
-          className="absolute left-[64px] right-[64px] top-[64px] bottom-0 bg-white p-16 shadow-[0_-20px_50px_rgba(0,0,0,0.1)] flex flex-col"
-          initial={{ y: 'calc(100% - 140px)' }}
-          animate={{ y: isRevealed ? '0%' : 'calc(100% - 140px)' }}
-          transition={{
-            type: 'spring',
-            stiffness: 120,
-            damping: 24,
-            mass: 1,
-          }}
-          style={{
-            borderTopLeftRadius: '32px',
-            borderTopRightRadius: '32px',
-            borderBottomLeftRadius: '0px',
-            borderBottomRightRadius: '0px',
+        <div
+          className="w-full bg-white p-10 shadow-[0_-15px_40px_rgba(0,0,0,0.1)] flex flex-col rounded-none mx-auto"
+          style={{ 
+            height: '460px', // Reduced height to fit clipped frame
+            maxWidth: '100%' 
           }}
         >
-          {/* Header - Always visible when peeking */}
-          <div className="flex-shrink-0 mb-8">
-            <h2 className="text-[#265D38] text-[32px] font-bold leading-tight">
+          {/* Header */}
+          <div className="flex-shrink-0 mb-4">
+            <h2 className="text-[#265D38] text-[20px] font-bold leading-tight">
               Library Basics
             </h2>
           </div>
 
           {/* Services List */}
-          <div className="flex-1 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#265D38]/20 scrollbar-track-transparent">
-            <div className="space-y-2">
+          <div className="flex-1">
+            <div className="flex flex-col">
               {SERVICES_DATA.map((service) => (
                 <LibraryServiceItem
                   key={service.id}
@@ -95,8 +85,8 @@ export const LibraryBasicsPrototype: React.FC = () => {
               ))}
             </div>
           </div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
 };

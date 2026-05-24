@@ -708,31 +708,34 @@ export function UAlbertaLibraryContent({
                 className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
-              <div className="mb-8 md:mb-12">
-                <LibraryBasicsPrototype />
+              <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-12 items-start mb-12 md:mb-16">
+                <div className="lg:sticky lg:top-32">
+                  <LibraryBasicsPrototype />
+                </div>
+                <div>
+                  <ul className="space-y-6">
+                    {[
+                      'Surface the most commonly used services (study rooms, citation guides, printing) at the top of the page',
+                      'Add short descriptions to every service so purpose is immediately clear without clicking',
+                      'Add a sticky sidebar for quick category navigation without full-page scrolling',
+                      'Introduce audience-type filtering (Students, Faculty, Alumni, Researchers) so users see only what is relevant to them',
+                    ].map((point) => (
+                      <li key={point} className="flex items-start gap-4">
+                        <span
+                          className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
+                        />
+                        <p
+                          className="text-base md:text-[18px] font-normal leading-relaxed"
+                          style={{ color: 'rgb(var(--color-text-color90))' }}
+                        >
+                          {point}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-
-              <ul className="space-y-3 mb-12 md:mb-16">
-                {[
-                  'Surface the most commonly used services (study rooms, citation guides, printing) at the top of the page',
-                  'Add short descriptions to every service so purpose is immediately clear without clicking',
-                  'Add a sticky sidebar for quick category navigation without full-page scrolling',
-                  'Introduce audience-type filtering (Students, Faculty, Alumni, Researchers) so users see only what is relevant to them',
-                ].map((point) => (
-                  <li key={point} className="flex items-start gap-4">
-                    <span
-                      className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
-                      style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
-                    />
-                    <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
-                      style={{ color: 'rgb(var(--color-text-color90))' }}
-                    >
-                      {point}
-                    </p>
-                  </li>
-                ))}
-              </ul>
 
               <Divider />
 
