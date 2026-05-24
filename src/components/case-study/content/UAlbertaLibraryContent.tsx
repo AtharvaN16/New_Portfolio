@@ -4,6 +4,7 @@ import { m } from 'framer-motion'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 import { LibraryBasicsPrototype } from './LibraryBasicsPrototype'
+import LibraryServicesDirectory from './LibraryServicesDirectory'
 
 interface UAlbertaLibraryContentProps {
   isContentRevealed: boolean
@@ -735,6 +736,28 @@ export function UAlbertaLibraryContent({
                     ))}
                   </ul>
                 </div>
+              </div>
+
+              <Divider />
+
+              {/* Full Directory Prototype */}
+              <h3
+                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                style={{ color: 'rgb(var(--color-text-tertiary))' }}
+              >
+                Deep Dive — Full Directory
+              </h3>
+
+              <AnimatedTitle
+                text="An interactive exploration of the recommended directory structure"
+                animationType="fadeIn"
+                alwaysAnimate={false}
+                delay={0}
+                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+              />
+
+              <div className="mb-12 md:mb-16">
+                <LibraryServicesDirectory />
               </div>
 
               <Divider />
