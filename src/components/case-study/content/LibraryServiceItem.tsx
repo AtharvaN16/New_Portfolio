@@ -33,6 +33,7 @@ export const LibraryServiceItem: React.FC<LibraryServiceItemProps> = ({
 }) => {
   const [internalIsBookmarked, setInternalIsBookmarked] = useState(false);
 
+  // Use prop if provided, otherwise fallback to internal state
   const isBookmarked = isBookmarkedProp !== undefined ? isBookmarkedProp : internalIsBookmarked;
 
   const handleToggle = () => {

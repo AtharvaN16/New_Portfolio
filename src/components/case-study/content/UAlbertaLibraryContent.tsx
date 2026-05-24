@@ -1,10 +1,14 @@
 'use client'
 
+import { useState, useRef } from 'react'
 import { m } from 'framer-motion'
 import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
 import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 import { LibraryBasicsPrototype } from './LibraryBasicsPrototype'
 import LibraryServicesDirectory from './LibraryServicesDirectory'
+import LibraryServicesNavbar from './LibraryServicesNavbar'
+import LibraryServicesHero from './LibraryServicesHero'
+import LibraryServicesPagePrototype from './LibraryServicesPagePrototype'
 
 interface UAlbertaLibraryContentProps {
   isContentRevealed: boolean
@@ -93,6 +97,20 @@ export function UAlbertaLibraryContent({
   isContentRevealed,
   onToggleContent,
 }: UAlbertaLibraryContentProps) {
+  const [bookmarks, setBookmarks] = useState<Record<string, boolean>>({});
+  const directoryRef = useRef<HTMLDivElement>(null);
+
+  const toggleBookmark = (title: string) => {
+    setBookmarks(prev => ({
+      ...prev,
+      [title]: !prev[title]
+    }));
+  };
+
+  const scrollToDirectory = () => {
+    directoryRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <m.section
       className="w-full px-6 2xl:px-[140px] py-16 md:py-24 max-w-[1920px] mx-auto"
@@ -756,8 +774,19 @@ export function UAlbertaLibraryContent({
                 className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
-              <div className="mb-12 md:mb-16">
-                <LibraryServicesDirectory />
+              <div className="mb-12 md:mb-16 border border-gray-200 shadow-2xl overflow-hidden rounded-xl">
+                <LibraryServicesNavbar />
+                <LibraryServicesHero 
+                  bookmarks={bookmarks}
+                  onToggleBookmark={toggleBookmark}
+                  onScrollToDirectory={scrollToDirectory}
+                />
+                <div ref={directoryRef}>
+                  <LibraryServicesDirectory 
+                    bookmarks={bookmarks}
+                    onToggleBookmark={toggleBookmark}
+                  />
+                </div>
               </div>
 
               <Divider />
@@ -801,6 +830,28 @@ export function UAlbertaLibraryContent({
                 know what they are looking for. Each change reduces that
                 requirement.
               </p>
+
+              <Divider />
+
+              {/* Full Experience Prototype */}
+              <h3
+                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                style={{ color: 'rgb(var(--color-text-tertiary))' }}
+              >
+                Full Experience Prototype
+              </h3>
+
+              <AnimatedTitle
+                text="The complete vision: Hero discovery integrated with the full directory"
+                animationType="fadeIn"
+                alwaysAnimate={false}
+                delay={0}
+                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+              />
+
+              <div className="mb-12 md:mb-16">
+                <LibraryServicesPagePrototype />
+              </div>
         </CaseStudyReadMore>
       </div>
     </m.section>

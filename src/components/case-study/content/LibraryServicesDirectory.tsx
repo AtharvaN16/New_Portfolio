@@ -10,12 +10,34 @@ import { LIBRARY_DIRECTORY_DATA, FREQUENTLY_VISITED_DATA } from '@/lib/data/libr
 
 const inter = Inter({ subsets: ['latin'] });
 
-const LibraryServicesDirectory: React.FC = () => {
+interface LibraryServicesDirectoryProps {
+  bookmarks?: Record<string, boolean>;
+  onToggleBookmark?: (title: string) => void;
+}
+
+const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
+  bookmarks: externalBookmarks,
+  onToggleBookmark,
+}) => {
+  const [internalBookmarks, setInternalBookmarks] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<string | null>("Library Basics");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedAudience, setSelectedAudience] = useState("-Any-");
   const [activeTab, setActiveTab] = useState<"all" | "frequently">("all");
   
+  const bookmarks = externalBookmarks || internalBookmarks;
+
+  const handleToggleBookmark = (title: string) => {
+    if (onToggleBookmark) {
+      onToggleBookmark(title);
+    } else {
+      setInternalBookmarks(prev => ({
+        ...prev,
+        [title]: !prev[title]
+      }));
+    }
+  };
+
   // Track auto-scrolling with a ref to avoid state-triggering re-renders
   const isAutoScrollingRef = useRef(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -270,6 +292,8 @@ const LibraryServicesDirectory: React.FC = () => {
                                   key={service.title}
                                   title={service.title}
                                   description={service.description}
+                                  isBookmarked={bookmarks[service.title] || false}
+                                  onToggleBookmark={() => handleToggleBookmark(service.title)}
                                 />
                               ))}
                             </div>
@@ -307,6 +331,8 @@ const LibraryServicesDirectory: React.FC = () => {
                                     key={`last-${service.title}`}
                                     title={service.title}
                                     description={service.description}
+                                    isBookmarked={bookmarks[service.title] || false}
+                                    onToggleBookmark={() => handleToggleBookmark(service.title)}
                                   />
                                 ))}
                               </div>
@@ -325,6 +351,8 @@ const LibraryServicesDirectory: React.FC = () => {
                                     key={`freq-${service.title}`}
                                     title={service.title}
                                     description={service.description}
+                                    isBookmarked={bookmarks[service.title] || false}
+                                    onToggleBookmark={() => handleToggleBookmark(service.title)}
                                   />
                                 ))}
                               </div>
