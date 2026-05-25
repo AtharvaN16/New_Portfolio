@@ -1069,6 +1069,12 @@
       "skillPath": "plugins/ruflo-goals/skills/horizon-track/SKILL.md",
       "computedHash": "d997912db5bfe3d90a6ec8ed81eff5239428682cdc8286f5af6602d6f0f53be4"
     },
+    "impeccable": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "skillPath": "skill/SKILL.md",
+      "computedHash": "34e59a34b9705187e87039faa5d9585aebe0056ef657f761b905afef276a3362"
+    },
     "init-project": {
       "source": "ruvnet/ruflo",
       "sourceType": "github",

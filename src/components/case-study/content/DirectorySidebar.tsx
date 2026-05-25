@@ -16,7 +16,7 @@ const DirectorySidebar: React.FC<DirectorySidebarProps> = ({
 }) => {
   return (
     <aside className="w-full h-full bg-white">
-      <nav className="flex flex-col py-4">
+      <nav className="flex flex-col py-0">
         {categories.map((category) => {
           const isActive = activeCategory === category;
 
@@ -44,7 +44,7 @@ const DirectorySidebar: React.FC<DirectorySidebarProps> = ({
 
               <span
                 className={`
-                  text-[16px] transition-colors duration-200
+                  text-[14px] transition-colors duration-200
                   ${isActive ? 'text-[#265D38] font-bold' : 'text-[#383838] font-normal'}
                 `}
               >

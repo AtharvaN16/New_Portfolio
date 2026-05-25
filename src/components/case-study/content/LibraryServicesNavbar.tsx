@@ -5,53 +5,82 @@ import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
+const UAlbertaLogo = () => (
+  <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="30 350 900 230" className="h-[24px] w-auto">
+    <defs>
+      <style>{`.cls-1 { fill: #ffffff; stroke-width: 0px; }`}</style>
+    </defs>
+    <g id="Layer_2" data-name="Layer 2">
+      <g id="Layer_1-2" data-name="Layer 1-2">
+        <path className="cls-1" d="M347.57,387.27v49.31c.11,5.04-1.12,10.01-3.56,14.42-2.37,4.1-5.94,7.37-10.24,9.36-4.96,2.22-10.36,3.29-15.79,3.12-7.93.48-15.74-2.07-21.85-7.15-5.3-5.02-8.18-12.09-7.9-19.38v-49.69h18.26v49.94c.19,8.32,4.02,12.48,11.49,12.48,3.16.22,6.26-.91,8.52-3.12,2.2-2.88,3.23-6.48,2.9-10.08v-49.22h18.17Z"/>
+        <path className="cls-1" d="M429.03,462.61h-18.13l-26.69-46.82v46.82h-18.17v-75.35h18.17l26.65,46.82v-46.82h18.1l.06,75.35Z"/>
+        <path className="cls-1" d="M466.39,462.61h-18.04v-75.35h18.13l-.09,75.35Z"/>
+        <path className="cls-1" d="M512.4,442.11l15.01-54.84h20.29l-25.38,75.35h-19.85l-25.16-75.35h20.13l14.95,54.84Z"/>
+        <path className="cls-1" d="M605.34,430.62h-28.56v18.01h33.86v13.98h-52.03v-75.35h52.03v14.01h-33.86v15.89h28.56v13.45Z"/>
+        <path className="cls-1" d="M654.75,435.96h-9.77v26.65h-18.17v-75.35h29.65c7.46-.44,14.85,1.65,20.97,5.93,5.08,4.07,7.89,10.33,7.55,16.82.19,4.54-.89,9.05-3.12,13.02-2.42,3.71-5.89,6.62-9.96,8.36l15.61,30.43v.78h-19.48l-13.3-26.65ZM644.98,421.97h11.49c2.86.22,5.69-.77,7.8-2.72,1.83-2.09,2.75-4.82,2.56-7.58.15-2.81-.8-5.56-2.65-7.68-2.09-1.97-4.91-2.96-7.77-2.75h-11.42v20.72Z"/>
+        <path className="cls-1" d="M738.24,442.57c.12-2.41-.92-4.74-2.81-6.24-3.05-2.03-6.4-3.58-9.93-4.59-3.96-1.28-7.83-2.82-11.58-4.62-9.64-4.74-14.64-11.36-14.64-19.82-.06-3.99,1.22-7.88,3.65-11.05,2.69-3.38,6.25-5.96,10.3-7.46,4.79-1.83,9.89-2.73,15.01-2.65,5.01-.08,9.98.91,14.58,2.9,4.06,1.73,7.54,4.59,10.02,8.24,2.39,3.63,3.63,7.89,3.56,12.24h-18.1c.15-2.68-.89-5.3-2.84-7.15-2.13-1.78-4.85-2.68-7.62-2.53-2.73-.14-5.42.62-7.68,2.15-1.8,1.24-2.86,3.28-2.84,5.46.13,2.15,1.29,4.1,3.12,5.24,3.37,2.17,7.06,3.81,10.92,4.87,4.45,1.35,8.75,3.16,12.83,5.4,8.16,4.7,12.22,11.17,12.2,19.41.29,6.12-2.52,11.98-7.46,15.61-6.01,4.08-13.19,6.07-20.44,5.65-5.68.13-11.33-.93-16.57-3.12-4.53-1.85-8.41-4.98-11.17-9.02-2.53-3.92-3.84-8.51-3.75-13.17h18.2c-.29,3.29.85,6.54,3.12,8.93,2.91,2.18,6.52,3.21,10.14,2.87,2.52.15,5.02-.53,7.12-1.94,1.82-1.27,2.83-3.41,2.65-5.62Z"/>
+        <path className="cls-1" d="M789.21,462.61h-18.1v-75.35h18.1v75.35Z"/>
+        <polygon className="cls-1" points="909.38 387.27 892.71 419.98 875.98 387.27 800.14 387.27 800.14 401.28 822.33 401.28 822.33 462.61 840.49 462.61 840.49 401.28 864.31 401.28 883.5 435.55 883.5 462.61 901.92 462.61 901.92 435.55 929.01 387.27 909.38 387.27"/>
+        <path className="cls-1" d="M351.59,531.65c.13,6.74-1.27,13.42-4.09,19.54-2.52,5.4-6.57,9.93-11.64,13.05-5.17,3.1-11.11,4.69-17.14,4.59-5.99.12-11.9-1.41-17.07-4.43-5-2.96-9.04-7.29-11.64-12.48-2.84-5.89-4.34-12.34-4.37-18.88v-4.4c-.14-6.74,1.26-13.42,4.09-19.54,2.49-5.42,6.54-9.98,11.64-13.08,10.64-6.08,23.7-6.08,34.33,0,5.06,3.11,9.11,7.62,11.67,12.98,2.86,5.99,4.3,12.56,4.21,19.2v3.46ZM333.11,528.53c.37-5.92-.92-11.82-3.75-17.04-2.26-3.74-6.37-5.97-10.74-5.84-9.11,0-13.93,6.84-14.45,20.51v5.52c-.34,5.91.94,11.8,3.68,17.04,3.79,5.95,11.68,7.7,17.62,3.91,1.57-1,2.91-2.34,3.91-3.91,2.66-5.17,3.86-10.96,3.46-16.76l.25-3.43Z"/>
+        <path className="cls-1" d="M414.67,537.77h-29.28v30.03h-18.2v-75.35h50.41v14.01h-32.21v17.32h29.28v13.98Z"/>
+        <path className="cls-1" d="M713.03,535.8h-28.59v18.01h33.74v13.98h-51.87v-75.35h52v14.01h-33.86v15.89h28.59v13.45Z"/>
+        <path className="cls-1" d="M762.59,541.14h-9.83v26.65h-18.17v-75.35h29.65c7.45-.45,14.83,1.64,20.94,5.93,5.07,4.06,7.88,10.31,7.55,16.79.19,4.55-.89,9.07-3.12,13.05-2.42,3.71-5.89,6.62-9.96,8.36l15.61,30.43v.78h-19.44l-13.23-26.65ZM752.76,527.16h11.49c2.85.21,5.67-.77,7.77-2.72,1.85-2.09,2.8-4.83,2.62-7.62.16-2.8-.79-5.55-2.65-7.65-2.08-1.97-4.88-2.98-7.74-2.78h-11.49v20.76Z"/>
+        <path className="cls-1" d="M500.32,553.72h-24.97l-4.34,14.08h-20.82l29.03-75.35h17.07l27.84,75.35h-19.51l-4.31-14.08ZM479.78,539.67h16.2l-8.12-26.25-8.08,26.25Z"/>
+        <path className="cls-1" d="M552,553.81h31.62v13.98h-49.94v-75.35h18.17l.16,61.36Z"/>
+        <path className="cls-1" d="M595.33,567.8v-75.35h27.06c9.68,0,17.07,1.78,22.1,5.31,7.78,6.06,9.88,16.95,4.9,25.47-1.88,2.9-4.67,5.1-7.93,6.24,3.61.81,6.83,2.87,9.08,5.81,2.14,3.01,3.24,6.64,3.12,10.33.45,6.35-2.16,12.53-7.02,16.64-4.68,3.72-11.61,5.62-20.79,5.68l-30.53-.12ZM613.46,523.85h9.36c3,.25,5.99-.52,8.49-2.18,1.76-1.58,2.69-3.88,2.53-6.24.25-2.6-.78-5.16-2.75-6.87-2.64-1.63-5.74-2.37-8.83-2.12h-8.8v17.42ZM613.46,535.74v18.07h11.92c2.71.18,5.39-.62,7.55-2.25,1.77-1.58,2.73-3.87,2.62-6.24.59-4.58-2.65-8.77-7.23-9.36-.71-.09-1.43-.09-2.13,0l-12.73-.22Z"/>
+        <path className="cls-1" d="M863.12,506.46h-22.63v61.33h-18.17v-61.33h-22.19v-14.01h62.99v14.01Z"/>
+        <path className="cls-1" d="M905.1,553.72h-24.97l-4.18,14.08h-19.41l27.65-75.35h17.07l27.75,75.35h-19.51l-4.4-14.08ZM884.57,539.67h16.35l-8.3-26.25-8.05,26.25Z"/>
+        <path className="cls-1" d="M158.73,386.42l-2.03-.81c-4.98-1.89-10.28-2.84-15.61-2.78-4.92-.04-9.8.76-14.45,2.37-4.66-1.61-9.56-2.41-14.48-2.37-5.33-.06-10.62.88-15.61,2.78l-2.03.81v4.49h-5.12v34.83h74.35v-34.83h-5.03v-4.49ZM123.4,417.64c-7.39-1.79-15.11-1.79-22.5,0v-26.78c7.36-2.06,15.14-2.06,22.5,0v26.78ZM152.3,417.64c-7.39-1.79-15.11-1.79-22.5,0v-26.78c7.36-2.06,15.14-2.06,22.5,0v26.78Z"/>
+        <path className="cls-1" d="M214.26,376.09l-2.65-1.28c-24.38-11.89-51.41-17.45-84.99-17.45s-60.61,5.56-85.08,17.45l-2.65,1.28-8.77,4.28v100.72c0,16.73,3.59,59.08,36.71,87.74,15.73,13.63,33.76,24.35,53.25,31.68,0,0,6.09,2.22,6.55,2.22s6.49-2.22,6.49-2.22c19.42-7.33,37.39-18.06,53.06-31.68,33.33-28.65,36.92-71.01,36.92-87.74v-100.69l-8.83-4.31ZM99.62,567.39l-3.68,3.68c-3.12-1.94-6.24-4.09-9.36-6.46l9.68-9.68,3.43,3.43-.06,9.02ZM99.62,542.42l-5.71,5.71-7.93,7.83-7.93-7.93-5.71-5.71v-8.99l3.43-3.43,10.21,10.21,10.21-10.21,3.43,3.43v9.08ZM99.62,517.45l-13.64,13.48-13.64-13.64v-8.99l3.43-3.43,10.21,10.21,10.21-10.21,3.43,3.43v9.15ZM140.19,567.55l-5.71,5.71-7.93,7.93-7.96-7.93-5.71-5.71v-9.18l3.46-3.43,10.21,10.21,10.18-10.21,3.46,3.43v9.18ZM140.19,542.58l-5.71,5.71-7.93,7.93-7.96-7.93-5.71-5.71v-9.24l3.46-3.43,10.21,10.21,10.18-10.21,3.46,3.43v9.24ZM140.19,517.61l-13.64,13.64-13.67-13.64v-9.3l3.46-3.43,10.21,10.21,10.18-10.21,3.46,3.43v9.3ZM153.52,567.7v-9.33l3.43-3.43,9.68,9.68c-3.12,2.37-6.24,4.53-9.36,6.46l-3.75-3.37ZM180.8,542.73l-5.71,5.71-7.93,7.93-7.93-7.93-5.71-5.71v-9.39l3.43-3.43,10.21,10.21,10.21-10.21,3.43,3.43v9.39ZM180.8,517.76l-13.64,13.64-13.64-13.64v-9.46l3.43-3.43,10.21,10.21,10.21-10.21,3.43,3.43v9.46ZM206.52,496.32c-4.62-.7-9.05-2.32-13.05-4.74-6.71-3.83-14.95-3.83-21.66,0-10.67,5.97-23.67,5.97-34.33,0-6.7-3.82-14.93-3.82-21.63,0-10.67,5.97-23.67,5.97-34.33,0-6.71-3.83-14.95-3.83-21.66,0-4.05,2.26-8.5,3.7-13.11,4.24-.58-4.32-.93-8.66-1.03-13.02,2.68-.42,5.27-1.31,7.65-2.62,10.66-6,23.68-6,34.33,0,6.71,3.83,14.95,3.83,21.66,0,10.65-6.01,23.68-6.01,34.33,0,6.71,3.83,14.95,3.83,21.66,0,10.66-6,23.68-6,34.33,0,2.38,1.31,4.97,2.2,7.65,2.62,0,4.36-.26,8.71-.75,13.05l-.06.47ZM207.46,470.32l-24.38-24.97-22.97,23.16-33.55-34.33-33.52,33.96-22.94-23.16-24.38,24.75v-79.59l2.65-1.31c22.32-10.83,47.29-15.86,78.25-15.86s55.99,5.03,78.28,15.86l2.65,1.31-.09,80.18Z"/>
+      </g>
+    </g>
+  </svg>
+);
+
 const LibraryServicesNavbar: React.FC = () => {
   return (
-    <nav className={`w-full h-[64px] bg-[#245D3A] flex items-center justify-between px-6 text-white ${inter.className}`}>
-      {/* Left section: Logo and Links */}
-      <div className="flex items-center gap-8 h-full">
-        {/* Logo Placeholder - stylized UAlberta style */}
-        <div className="flex items-center gap-2">
-           <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="40" height="40" rx="4" fill="white"/>
-            <path d="M10 10H30V30H10V10Z" fill="#245D3A"/>
-            <path d="M15 15H25V25H15V15Z" fill="white"/>
-          </svg>
+    <div className={`w-full flex flex-col ${inter.className}`}>
+      {/* Primary Green Bar */}
+      <nav className="w-full bg-[#004C2E] flex items-center justify-between px-10 py-4 text-white">
+        {/* Left section: Logo and University Name */}
+        <div className="flex items-center gap-6">
+          <UAlbertaLogo />
+          <span className="text-[13px] font-medium text-[#FFDB05]">Library</span>
         </div>
 
-        {/* Navigation Links */}
-        <div className="hidden md:flex items-center gap-6 text-[14px] font-medium h-full">
-          <a href="#" className="hover:underline underline-offset-4 decoration-2">Library Services</a>
-          <a href="#" className="hover:underline underline-offset-4 decoration-2">Subject Guides</a>
-          <a href="#" className="hover:underline underline-offset-4 decoration-2">Hours + Locations</a>
-          <a href="#" className="hover:underline underline-offset-4 decoration-2">My Account</a>
-          <a href="#" className="hover:underline underline-offset-4 decoration-2">Ask Us</a>
+        {/* Right section: Icons and My Account */}
+        <div className="flex items-center gap-8">
+          {/* Moon Icon */}
+          <button className="p-1 hover:text-[#FFDB05] transition-colors" aria-label="Dark mode">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+            </svg>
+          </button>
+          
+          <button className="text-[13px] font-medium hover:text-[#FFDB05] transition-colors">
+            Français
+          </button>
+          
+          <button className="p-1 hover:text-[#FFDB05] transition-colors" aria-label="Search">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      {/* Secondary White Bar */}
+      <div className="w-full h-[48px] bg-white border-b border-[#E5E5E5] flex items-center px-10">
+        <div className="flex items-center gap-8 text-[13px] font-semibold text-[#383838]">
+          <a href="#" className="hover:text-[#004C2E] transition-colors">Find</a>
+          <a href="#" className="hover:text-[#004C2E] transition-colors">Services</a>
+          <a href="#" className="hover:text-[#004C2E] transition-colors">Subject Guides</a>
+          <a href="#" className="hover:text-[#004C2E] transition-colors">Hours + Locations</a>
+          <a href="#" className="hover:text-[#004C2E] transition-colors">About</a>
         </div>
       </div>
-
-      {/* Right section: Icons and Language */}
-      <div className="flex items-center gap-4 md:gap-6">
-        {/* Dark Mode Toggle Placeholder */}
-        <button className="p-2 hover:bg-white/10 rounded-full transition-colors" aria-label="Toggle dark mode">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-          </svg>
-        </button>
-
-        {/* Language */}
-        <button className="text-[14px] font-medium hover:underline underline-offset-4 decoration-2">
-          Français
-        </button>
-
-        {/* Search */}
-        <button className="p-2 hover:bg-white/10 rounded-full transition-colors" aria-label="Search site">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8" />
-            <path d="m21 21-4.3-4.3" />
-          </svg>
-        </button>
-      </div>
-    </nav>
+    </div>
   );
 };
 

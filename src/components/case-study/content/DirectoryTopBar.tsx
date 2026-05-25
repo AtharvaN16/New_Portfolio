@@ -8,6 +8,7 @@ interface DirectoryTopBarProps {
   onSearchChange: (query: string) => void;
   activeAudience: string;
   onSelectAudience: (audience: string) => void;
+  paddingX?: string;
 }
 
 const AUDIENCES = [
@@ -30,6 +31,7 @@ const DirectoryTopBar: React.FC<DirectoryTopBarProps> = ({
   onSearchChange,
   activeAudience,
   onSelectAudience,
+  paddingX = '0px',
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -46,31 +48,33 @@ const DirectoryTopBar: React.FC<DirectoryTopBarProps> = ({
   }, []);
 
   return (
-    <div className="flex items-center gap-4 w-full py-4 px-6 border-b border-[#E5E5E5] bg-white">
-      {/* Search Input */}
-      <div className="flex-1 relative">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Search"
-          className="w-full h-[40px] px-4 bg-[#F5F5F5] border border-transparent focus:border-[#265D38] focus:bg-white outline-none text-[14px] transition-all duration-200 rounded-none"
-        />
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A0A0A0]">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
+    <div className="flex items-center w-full py-4 bg-white" style={{ paddingLeft: paddingX, paddingRight: paddingX }}>
+      {/* Search Bar Content Container - now full width of screen */}
+      <div className="flex-1 flex items-center gap-4">
+        {/* Search Input */}
+        <div className="flex-1 relative">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Search"
+            className="w-full h-[40px] px-4 bg-[#FFFFFF] border border-[#E5E5E5] focus:border-[#265D38] outline-none text-[14px] text-[#383838] placeholder:text-[#383838]/40 transition-all duration-200 rounded-none"
+          />
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[#383838]/40">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+          </div>
         </div>
-      </div>
 
-      {/* Audience Dropdown */}
-      <div className="relative" ref={dropdownRef}>
+        {/* Audience Dropdown */}
+        <div className="relative pr-4" ref={dropdownRef}>
         <button
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           className={`
             flex items-center justify-between w-[200px] h-[40px] px-4 border text-[14px] transition-all duration-200 rounded-none
-            ${isDropdownOpen ? 'border-[#265D38] bg-white' : 'border-[#E5E5E5] bg-white hover:bg-[#F9F9F9]'}
+            ${isDropdownOpen ? 'border-[#265D38] bg-white text-[#383838]' : 'border-[#E5E5E5] bg-white text-[#383838] hover:bg-[#F9F9F9]'}
           `}
         >
           <span className="truncate">
@@ -143,7 +147,8 @@ const DirectoryTopBar: React.FC<DirectoryTopBarProps> = ({
         </AnimatePresence>
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default DirectoryTopBar;

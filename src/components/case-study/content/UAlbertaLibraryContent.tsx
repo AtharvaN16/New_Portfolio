@@ -9,6 +9,7 @@ import LibraryServicesDirectory from './LibraryServicesDirectory'
 import LibraryServicesNavbar from './LibraryServicesNavbar'
 import LibraryServicesHero from './LibraryServicesHero'
 import LibraryServicesPagePrototype from './LibraryServicesPagePrototype'
+import LibraryHoursPagePrototype from './LibraryHoursPagePrototype'
 
 interface UAlbertaLibraryContentProps {
   isContentRevealed: boolean
@@ -579,6 +580,10 @@ export function UAlbertaLibraryContent({
                 ))}
               </ul>
 
+              <div className="mb-12 md:mb-16">
+                <LibraryHoursPagePrototype />
+              </div>
+
               <Divider />
 
               {/* Finding 3 */}
@@ -774,18 +779,22 @@ export function UAlbertaLibraryContent({
                 className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
-              <div className="mb-12 md:mb-16 border border-gray-200 shadow-2xl overflow-hidden rounded-xl">
-                <LibraryServicesNavbar />
-                <LibraryServicesHero 
-                  bookmarks={bookmarks}
-                  onToggleBookmark={toggleBookmark}
-                  onScrollToDirectory={scrollToDirectory}
-                />
-                <div ref={directoryRef}>
-                  <LibraryServicesDirectory 
-                    bookmarks={bookmarks}
-                    onToggleBookmark={toggleBookmark}
-                  />
+              <div className="mb-12 md:mb-16">
+                {/* Standalone Directory Wrapper */}
+                <div 
+                  className="relative w-full overflow-hidden rounded-none border-none shadow-2xl"
+                  data-lenis-prevent="true"
+                  style={{
+                    background: 'linear-gradient(295deg, #225432 11.56%, #36A459 88.84%)',
+                    height: '1000px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end'
+                  }}
+                >
+                  <div className="w-full px-12">
+                    <LibraryServicesDirectory height="900px" paddingX="40px" />
+                  </div>
                 </div>
               </div>
 

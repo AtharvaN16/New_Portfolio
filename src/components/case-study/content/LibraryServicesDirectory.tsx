@@ -13,45 +13,38 @@ const inter = Inter({ subsets: ['latin'] });
 interface LibraryServicesDirectoryProps {
   bookmarks?: Record<string, boolean>;
   onToggleBookmark?: (title: string) => void;
+  height?: string;
+  paddingX?: string;
 }
 
 const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
   bookmarks: externalBookmarks,
   onToggleBookmark,
+  height = '800px',
+  paddingX = '0px'
 }) => {
   const [internalBookmarks, setInternalBookmarks] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<string | null>("Library Basics");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedAudience, setSelectedAudience] = useState("-Any-");
-  const [activeTab, setActiveTab] = useState<"all" | "frequently">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "frequently" | "bookmarked">("all");
   
   const bookmarks = externalBookmarks || internalBookmarks;
 
-  const handleToggleBookmark = (title: string) => {
-    if (onToggleBookmark) {
-      onToggleBookmark(title);
-    } else {
-      setInternalBookmarks(prev => ({
-        ...prev,
-        [title]: !prev[title]
-      }));
-    }
-  };
-
-  // Track auto-scrolling with a ref to avoid state-triggering re-renders
   const isAutoScrollingRef = useRef(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const categoryRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const categories = LIBRARY_DIRECTORY_DATA.map(cat => cat.name);
+  const allServices = useMemo(() => LIBRARY_DIRECTORY_DATA.flatMap(cat => cat.services), []);
 
-  // Helper function to apply search and audience filters
+  const bookmarkedServicesList = useMemo(() => {
+    return allServices.filter(s => bookmarks[s.title]);
+  }, [allServices, bookmarks]);
+
   const applyFilters = (services: any[]) => {
     let filtered = [...services];
-
-    // Filter by Audience
     if (selectedAudience !== "-Any-") {
       filtered = filtered.filter(service => {
         if (!service.audiences) return false;
@@ -65,8 +58,6 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
         return false;
       });
     }
-
-    // Filter by Search Query
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(service => 
@@ -74,13 +65,9 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
         service.description.toLowerCase().includes(query)
       );
     }
-
     return filtered;
   };
 
-  // Frequently Visited Logic
-  const allServices = useMemo(() => LIBRARY_DIRECTORY_DATA.flatMap(cat => cat.services), []);
-  
   const frequentlyVisitedServices = useMemo(() => {
     const lastVisited = FREQUENTLY_VISITED_DATA.lastVisited
       .map(title => allServices.find(s => s.title === title))
@@ -100,25 +87,28 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
     frequentlyVisitedServices.lastVisited.length > 0 || 
     frequentlyVisitedServices.frequentlyVisited.length > 0;
 
-  // Handle Sidebar Category Click
+  const handleToggleBookmark = (title: string) => {
+    if (onToggleBookmark) {
+      onToggleBookmark(title);
+    } else {
+      setInternalBookmarks(prev => ({
+        ...prev,
+        [title]: !prev[title]
+      }));
+    }
+  };
+
   const handleCategorySelect = (category: string) => {
-    // Ensure we are in "All Services" tab
     setActiveTab("all");
     setActiveCategory(category);
-    
-    // Clear any existing scroll timeout
     if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-
-    // Scroll to the category heading
     const target = categoryRefs.current[category];
     if (target && scrollContainerRef.current) {
       isAutoScrollingRef.current = true;
-      
       scrollContainerRef.current.scrollTo({
         top: target.offsetTop - 40,
         behavior: 'smooth'
       });
-      
       scrollTimeoutRef.current = setTimeout(() => {
         isAutoScrollingRef.current = false;
         scrollTimeoutRef.current = null;
@@ -126,13 +116,11 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
     }
   };
 
-  // Switch Tabs Logic
-  const handleTabSwitch = (tab: "all" | "frequently") => {
+  const handleTabSwitch = (tab: "all" | "frequently" | "bookmarked") => {
     setActiveTab(tab);
-    if (tab === "frequently") {
-      setActiveCategory(null); // Deselect sidebar
+    if (tab === "frequently" || tab === "bookmarked") {
+      setActiveCategory(null);
     } else {
-      // Returning to "All Services"
       setActiveCategory("Library Basics");
       if (scrollContainerRef.current) {
         scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
@@ -140,235 +128,242 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
     }
   };
 
-  // Intersection Observer to update active category on scroll
   useEffect(() => {
-    // Only observe if in "All Services" tab and not auto-scrolling
     if (activeTab !== "all") return;
-
     const currentScrollContainer = scrollContainerRef.current;
     if (!currentScrollContainer) return;
-
     const observerOptions = {
       root: currentScrollContainer,
       rootMargin: '0px 0px -70% 0px',
       threshold: 0
     };
-
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       if (isAutoScrollingRef.current) return;
-
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const categoryName = entry.target.getAttribute('data-category');
-          if (categoryName) {
-            setActiveCategory(categoryName);
-          }
+          if (categoryName) setActiveCategory(categoryName);
         }
       });
     };
-
     const observer = new IntersectionObserver(observerCallback, observerOptions);
-    
     Object.values(categoryRefs.current).forEach(ref => {
       if (ref) observer.observe(ref);
     });
-
-    return () => {
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, [activeTab]);
 
   return (
-    <div className={`w-full ${inter.className}`}>
-      {/* Outer Gradient Frame */}
-      <div 
-        className="relative w-full overflow-hidden rounded-none"
-        style={{
-          background: 'linear-gradient(295deg, #225432 11.56%, #36A459 88.84%)',
-          padding: '80px 64px 0 64px',
-          height: '1000px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-end'
-        }}
-      >
-        {/* Inner Directory Card */}
-        <div 
-          className="w-full bg-white shadow-[0_-20px_50px_rgba(0,0,0,0.15)] flex flex-col overflow-hidden rounded-none"
-          style={{ height: '900px' }}
-        >
-          {/* Top Bar */}
-          <DirectoryTopBar 
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            activeAudience={selectedAudience}
-            onSelectAudience={(aud) => {
-              setSelectedAudience(aud);
-              if (activeTab === "all") {
-                // When filtering in "All Services", reset scroll to top to stay synced
-                if (scrollContainerRef.current) scrollContainerRef.current.scrollTo({ top: 0 });
-                setActiveCategory("Library Basics");
-              }
-            }}
+    <div 
+      className={`flex flex-col bg-white overflow-hidden w-full border-none rounded-none ${inter.className}`}
+      style={{ height }}
+    >
+      {/* Unified Top Frame: Search + Tabs */}
+      <div className="flex flex-col border-b border-[#E5E5E5] pt-6">
+        <DirectoryTopBar 
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          activeAudience={selectedAudience}
+          onSelectAudience={(aud) => {
+            setSelectedAudience(aud);
+            if (activeTab === "all") {
+              if (scrollContainerRef.current) scrollContainerRef.current.scrollTo({ top: 0 });
+              setActiveCategory("Library Basics");
+            }
+          }}
+          paddingX={paddingX}
+        />
+
+        <div className="flex w-full" style={{ paddingLeft: paddingX, paddingRight: paddingX }}>
+          <div className="w-[200px] flex-shrink-0" />
+          <div className="flex-1 flex pl-10">
+            <button 
+              onClick={() => handleTabSwitch("all")}
+              className={`relative py-3 px-1 text-[13px] font-medium transition-colors duration-200 mr-8
+                ${activeTab === "all" ? "text-[#265D38]" : "text-[#707070] hover:text-[#383838]"}`}
+            >
+              All Services
+              {activeTab === "all" && (
+                <motion.div 
+                  layoutId="directoryTabUnderline"
+                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#265D38]"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+            </button>
+            <button 
+              onClick={() => handleTabSwitch("frequently")}
+              className={`relative py-3 px-1 text-[13px] font-medium transition-colors duration-200 mr-8
+                ${activeTab === "frequently" ? "text-[#265D38]" : "text-[#707070] hover:text-[#383838]"}`}
+            >
+              Frequently visited
+              {activeTab === "frequently" && (
+                <motion.div 
+                  layoutId="directoryTabUnderline"
+                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#265D38]"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+            </button>
+            <button 
+              onClick={() => handleTabSwitch("bookmarked")}
+              className={`relative py-3 px-1 text-[13px] font-medium transition-colors duration-200
+                ${activeTab === "bookmarked" ? "text-[#265D38]" : "text-[#707070] hover:text-[#383838]"}`}
+            >
+              Bookmarked
+              {activeTab === "bookmarked" && (
+                <motion.div 
+                  layoutId="directoryTabUnderline"
+                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#265D38]"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-1 overflow-hidden" style={{ paddingLeft: paddingX, paddingRight: paddingX }}>
+        <div className="w-[200px] flex-shrink-0 overflow-y-auto pt-12">
+          <DirectorySidebar 
+            categories={categories}
+            activeCategory={activeCategory || ""}
+            onSelectCategory={handleCategorySelect}
           />
+        </div>
 
-          <div className="flex flex-1 overflow-hidden">
-            {/* Sidebar */}
-            <div className="w-[200px] flex-shrink-0 border-r border-[#E5E5E5] overflow-y-auto pt-[45px]">
-              <DirectorySidebar 
-                categories={categories}
-                activeCategory={activeCategory || ""}
-                onSelectCategory={handleCategorySelect}
-              />
-            </div>
-
-            {/* Main Content */}
-            <div className="flex-1 flex flex-col bg-white overflow-hidden">
-              {/* Tabs */}
-              <div className="flex border-b border-[#E5E5E5] px-10">
-                <button 
-                  onClick={() => handleTabSwitch("all")}
-                  className={`relative py-3 px-1 text-[13px] font-medium transition-colors duration-200 mr-8
-                    ${activeTab === "all" ? "text-[#265D38]" : "text-[#707070] hover:text-[#383838]"}`}
+        <div className="flex-1 flex flex-col bg-white overflow-hidden">
+          <div 
+            ref={scrollContainerRef}
+            className="flex-1 pt-16 pl-10 pr-0 pb-10 overflow-y-auto relative scroll-smooth"
+            data-lenis-prevent="true"
+          >
+            <AnimatePresence mode="wait">
+              {activeTab === "all" ? (
+                <motion.div
+                  key="all-tab"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex flex-col gap-10"
                 >
-                  All Services
-                  {activeTab === "all" && (
-                    <motion.div 
-                      layoutId="tabUnderline"
-                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#265D38]"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                </button>
-                <button 
-                  onClick={() => handleTabSwitch("frequently")}
-                  className={`relative py-3 px-1 text-[13px] font-medium transition-colors duration-200
-                    ${activeTab === "frequently" ? "text-[#265D38]" : "text-[#707070] hover:text-[#383838]"}`}
+                  {LIBRARY_DIRECTORY_DATA.map((category) => {
+                    const filtered = applyFilters(category.services);
+                    if (filtered.length === 0 && (searchQuery || selectedAudience !== "-Any-")) return null;
+                    return (
+                      <div 
+                        key={category.name} 
+                        ref={(el) => { categoryRefs.current[category.name] = el; }}
+                        data-category={category.name}
+                        className="scroll-mt-10"
+                      >
+                        <h2 className="text-[#265D38] text-[18px] font-bold mb-4 uppercase tracking-tight">
+                          {category.name}
+                        </h2>
+                        <div className="flex flex-col">
+                          {filtered.map((service) => (
+                            <LibraryServiceItem 
+                              key={service.title}
+                              title={service.title}
+                              description={service.description}
+                              isBookmarked={bookmarks[service.title] || false}
+                              onToggleBookmark={() => handleToggleBookmark(service.title)}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </motion.div>
+              ) : activeTab === "frequently" ? (
+                <motion.div
+                  key="frequently-tab"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex flex-col gap-8"
                 >
-                  Frequently visited
-                  {activeTab === "frequently" && (
-                    <motion.div 
-                      layoutId="tabUnderline"
-                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#265D38]"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
-                </button>
-              </div>
-
-              {/* Content Area */}
-              <div 
-                ref={scrollContainerRef}
-                className="flex-1 pt-16 px-10 pb-10 overflow-y-auto relative scroll-smooth"
-              >
-                <AnimatePresence mode="wait">
-                  {activeTab === "all" ? (
-                    <motion.div
-                      key="all-tab"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="flex flex-col gap-10"
-                    >
-                      {LIBRARY_DIRECTORY_DATA.map((category) => {
-                        const filtered = applyFilters(category.services);
-                        if (filtered.length === 0 && (searchQuery || selectedAudience !== "-Any-")) return null;
-
-                        return (
-                          <div 
-                            key={category.name} 
-                            ref={(el) => { categoryRefs.current[category.name] = el; }}
-                            data-category={category.name}
-                            className="scroll-mt-10"
-                          >
-                            <h2 className="text-[#265D38] text-[18px] font-bold mb-4 uppercase tracking-tight">
-                              {category.name}
-                            </h2>
-                            
-                            <div className="flex flex-col">
-                              {filtered.map((service) => (
-                                <LibraryServiceItem 
-                                  key={service.title}
-                                  title={service.title}
-                                  description={service.description}
-                                  isBookmarked={bookmarks[service.title] || false}
-                                  onToggleBookmark={() => handleToggleBookmark(service.title)}
-                                />
-                              ))}
-                            </div>
+                  {hasFrequentlyVisitedResults ? (
+                    <>
+                      {frequentlyVisitedServices.lastVisited.length > 0 && (
+                        <div>
+                          <h2 className="text-[#265D38] text-[18px] font-bold mb-3 uppercase tracking-tight">
+                            Last visited
+                          </h2>
+                          <div className="flex flex-col">
+                            {frequentlyVisitedServices.lastVisited.map((service) => (
+                              <LibraryServiceItem 
+                                key={`last-${service.title}`}
+                                title={service.title}
+                                description={service.description}
+                                isBookmarked={bookmarks[service.title] || false}
+                                onToggleBookmark={() => handleToggleBookmark(service.title)}
+                              />
+                            ))}
                           </div>
-                        );
-                      })}
-                      
-                      {/* Empty State */}
-                      {LIBRARY_DIRECTORY_DATA.every(cat => applyFilters(cat.services).length === 0) && (
-                        <div className="py-20 text-center text-[#707070]">
-                          No services found matching your criteria.
                         </div>
                       )}
-                    </motion.div>
+                      {frequentlyVisitedServices.frequentlyVisited.length > 0 && (
+                        <div>
+                          <h2 className="text-[#265D38] text-[18px] font-bold mb-3 uppercase tracking-tight">
+                            Frequently visited
+                          </h2>
+                          <div className="flex flex-col">
+                            {frequentlyVisitedServices.frequentlyVisited.map((service) => (
+                              <LibraryServiceItem 
+                                key={`freq-${service.title}`}
+                                title={service.title}
+                                description={service.description}
+                                isBookmarked={bookmarks[service.title] || false}
+                                onToggleBookmark={() => handleToggleBookmark(service.title)}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </>
                   ) : (
-                    <motion.div
-                      key="frequently-tab"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="flex flex-col gap-8"
-                    >
-                      {hasFrequentlyVisitedResults ? (
-                        <>
-                          {/* Last Visited */}
-                          {frequentlyVisitedServices.lastVisited.length > 0 && (
-                            <div>
-                              <h2 className="text-[#265D38] text-[18px] font-bold mb-3 uppercase tracking-tight">
-                                Last visited
-                              </h2>
-                              <div className="flex flex-col">
-                                {frequentlyVisitedServices.lastVisited.map((service) => (
-                                  <LibraryServiceItem 
-                                    key={`last-${service.title}`}
-                                    title={service.title}
-                                    description={service.description}
-                                    isBookmarked={bookmarks[service.title] || false}
-                                    onToggleBookmark={() => handleToggleBookmark(service.title)}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                          )}
-
-                          {/* Frequently Visited */}
-                          {frequentlyVisitedServices.frequentlyVisited.length > 0 && (
-                            <div>
-                              <h2 className="text-[#265D38] text-[18px] font-bold mb-3 uppercase tracking-tight">
-                                Frequently visited
-                              </h2>
-                              <div className="flex flex-col">
-                                {frequentlyVisitedServices.frequentlyVisited.map((service) => (
-                                  <LibraryServiceItem 
-                                    key={`freq-${service.title}`}
-                                    title={service.title}
-                                    description={service.description}
-                                    isBookmarked={bookmarks[service.title] || false}
-                                    onToggleBookmark={() => handleToggleBookmark(service.title)}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                          )}
-                        </>
+                    <div className="py-20 text-center text-[#707070]">
+                      No frequently visited services found matching your criteria.
+                    </div>
+                  )}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="bookmarked-tab"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex flex-col gap-8"
+                >
+                  <div>
+                    <h2 className="text-[#265D38] text-[18px] font-bold mb-3 uppercase tracking-tight">
+                      Your Bookmarks
+                    </h2>
+                    <div className="flex flex-col">
+                      {bookmarkedServicesList.length > 0 ? (
+                        bookmarkedServicesList.map((service) => (
+                          <LibraryServiceItem 
+                            key={`bookmark-${service.title}`}
+                            title={service.title}
+                            description={service.description}
+                            isBookmarked={true}
+                            onToggleBookmark={() => handleToggleBookmark(service.title)}
+                          />
+                        ))
                       ) : (
                         <div className="py-20 text-center text-[#707070]">
-                          No frequently visited services found matching your criteria.
+                          You haven't bookmarked any services yet.
                         </div>
                       )}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
