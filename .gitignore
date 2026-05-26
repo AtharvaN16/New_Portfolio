@@ -41,6 +41,8 @@ yarn-error.log*
 .env
 .env*.local
 .env.local
+.env.local.broken
+.env*.broken
 .env.development.local
 .env.test.local
 .env.production.local
@@ -56,8 +58,7 @@ next-env.d.ts
 Inspiration/
 
 # Local reference assets (not for git or deploy)
-Digital_Accessibility_Casestudy_Reference/
-user provided assets/
+Digital_Accessibility_Casestudy_Reference/1. 
 .superdesign/
 **/Accessibility Final Presentation copy.pdf
 *.pptx

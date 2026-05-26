@@ -30,7 +30,7 @@ const AmenityChip: React.FC<{ label: string; value: string | number | boolean | 
         {typeof value === 'number' ? (
           <span className="text-[11px] font-semibold">{value} rooms</span>
         ) : value === true ? (
-          <span className="material-symbols-outlined" style={{ fontSize: '15px', color: '#265D38' }}>
+          <span className="material-symbols-rounded" style={{ fontSize: '15px', color: '#265D38', fontVariationSettings: "'FILL' 1" }}>
             check_circle
           </span>
         ) : (
