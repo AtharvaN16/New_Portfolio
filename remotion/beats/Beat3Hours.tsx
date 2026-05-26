@@ -9,7 +9,6 @@ import {
 } from '../constants'
 
 const B3_CARD_SLIDE_START = 18
-const B3_CARD_SLIDE_END = 55
 const B3_OPACITY_END = 38
 
 const cameronLibrary = LIBRARY_HOURS_DATA.find((l) => l.id === 'cameron') ?? LIBRARY_HOURS_DATA[0]
