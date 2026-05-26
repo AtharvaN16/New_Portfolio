@@ -30,6 +30,10 @@ export const Beat3Hours: React.FC = () => {
     { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
   )
 
+  // Exit animation: card slides down and fades out in final ~12 frames (137–149)
+  const exitY = interpolate(frame, [137, 149], [0, 80], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+  const exitOpacity = interpolate(frame, [137, 149], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+
   return (
     <AbsoluteFill
       style={{
@@ -41,8 +45,8 @@ export const Beat3Hours: React.FC = () => {
       <div
         style={{
           width: 420,
-          opacity,
-          transform: `translateY(${translateY}px)`,
+          opacity: exitOpacity * opacity,
+          transform: `translateY(${translateY + exitY}px)`,
           background: '#ffffff',
           borderRadius: 12,
           boxShadow: '0 8px 40px rgba(0,0,0,0.18)',

@@ -52,6 +52,9 @@ export function Beat2Services() {
     { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' }
   )
 
+  // Exit dissolve: fade out in final ~18 frames (252–269)
+  const exitOpacity = interpolate(frame, [252, 269], [1, 0], { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' })
+
   const isSidebarClicking = frame >= 210 && frame <= 220
   const isBookmarkClicking = frame >= 240 && frame <= 250
   const showCursor = frame >= 180
@@ -64,6 +67,7 @@ export function Beat2Services() {
         justifyContent: 'center',
         transform: `translateY(${slideY}px) scale(${zoomScale})`,
         transformOrigin: 'center center',
+        opacity: exitOpacity,
       }}
     >
       {/* Green gradient outer frame — wrapping the prototype */}
