@@ -29,6 +29,7 @@ export interface CaseStudy {
   heroImageFill?: boolean // When true, card thumbnail fills full height (for portrait/non-16:9 heroes)
   heroTextLight?: boolean
   figmaEmbedUrl?: string
+  videoUrl?: string
   hidden?: boolean // When true, excluded from all listings and static builds
   overviewBullets?: {
     heading: string

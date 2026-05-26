@@ -2,6 +2,7 @@ import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } fr
 import LibraryServicesPagePrototype from '../../src/components/case-study/content/LibraryServicesPagePrototype'
 import { AnimatedCursor } from '../components/AnimatedCursor'
 import {
+  GRAD_CSS,
   SPRING_GENTLE,
 } from '../constants'
 
@@ -68,7 +69,7 @@ export function Beat2Services() {
       {/* Green gradient outer frame — wrapping the prototype */}
       <div
         style={{
-          background: 'linear-gradient(295deg, #225432 11.56%, #36A459 88.84%)',
+          background: GRAD_CSS,
           width: PROTO_DISPLAY_WIDTH,
           height: FRAME_HEIGHT * 0.9,
           padding: `${80 * PROTO_SCALE}px ${48 * PROTO_SCALE}px 0`,

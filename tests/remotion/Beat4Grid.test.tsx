@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render } from '@testing-library/react'
 import { Beat4Grid } from '../../remotion/beats/Beat4Grid'
 

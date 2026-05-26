@@ -3,9 +3,7 @@ import { useCurrentFrame, useVideoConfig, spring, interpolate, AbsoluteFill } fr
 import { LibraryLocationCard } from '../../src/components/case-study/content/LibraryLocationCard'
 import { LIBRARY_HOURS_DATA } from '../../src/lib/data/library-hours-data'
 import {
-  BEAT3_START,
   SPRING_CARD,
-  B3_ROWS_START,
 } from '../constants'
 
 const B3_CARD_SLIDE_START = 18
@@ -17,11 +15,8 @@ export const Beat3Hours: React.FC = () => {
   const frame = useCurrentFrame()
   const { fps } = useVideoConfig()
 
-  // Local frame (0-indexed within Beat3)
-  const localFrame = frame + BEAT3_START - BEAT3_START
-
   const slideProgress = spring({
-    frame: localFrame - B3_CARD_SLIDE_START,
+    frame: frame - B3_CARD_SLIDE_START,
     fps,
     config: SPRING_CARD,
   })
@@ -29,14 +24,11 @@ export const Beat3Hours: React.FC = () => {
   const translateY = interpolate(slideProgress, [0, 1], [80, 0])
 
   const opacity = interpolate(
-    localFrame,
-    [B3_CARD_SLIDE_START, B3_CARD_SLIDE_START + B3_OPACITY_END - B3_CARD_SLIDE_START],
+    frame,
+    [B3_CARD_SLIDE_START, B3_OPACITY_END],
     [0, 1],
     { extrapolateLeft: 'clamp', extrapolateRight: 'clamp' }
   )
-
-  // Silence unused import warning — B3_ROWS_START is referenced per spec
-  void B3_ROWS_START
 
   return (
     <AbsoluteFill
