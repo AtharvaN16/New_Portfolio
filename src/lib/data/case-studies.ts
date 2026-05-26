@@ -90,6 +90,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     team: ['Atharva Nayak', 'Arnav Sharma', 'Azka Qasim', 'Natalie Cheng'],
     timeline: 'Mar - Jun 2024',
     progressBarColor: 'rgb(var(--color-uofa-green))',
+    videoUrl: '/videos/case-studies/ualberta-reel.mp4',
   },
   {
     slug: 'gutenberg-cms-usability-evaluation',
