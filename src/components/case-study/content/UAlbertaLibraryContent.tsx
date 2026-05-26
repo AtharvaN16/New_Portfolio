@@ -10,6 +10,7 @@ import LibraryServicesNavbar from './LibraryServicesNavbar'
 import LibraryServicesHero from './LibraryServicesHero'
 import LibraryServicesPagePrototype from './LibraryServicesPagePrototype'
 import LibraryHoursPagePrototype from './LibraryHoursPagePrototype'
+import SubjectGuidesPrototype from './SubjectGuidesPrototype'
 
 interface UAlbertaLibraryContentProps {
   isContentRevealed: boolean
@@ -672,6 +673,10 @@ export function UAlbertaLibraryContent({
                   </li>
                 ))}
               </ul>
+
+              <div className="mb-12 md:mb-16">
+                <SubjectGuidesPrototype />
+              </div>
 
               <Divider />
 

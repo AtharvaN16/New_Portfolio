@@ -64,7 +64,7 @@ export const LibraryLocationCard: React.FC<LibraryLocationCardProps> = ({ librar
       <div className="flex-1 flex flex-col px-5 pt-4 pb-3">
         {/* Notification Banner — above title */}
         {library.notification && (
-          <div className="bg-[#FFF8E1] border border-[#F5D76E] rounded-sm px-3 py-2 mb-3 text-[10px] text-[#383838] leading-relaxed">
+          <div className="bg-[#FFF8E1] px-3 py-2 mb-3 text-[10px] text-[#383838] leading-relaxed">
             {renderNotification(library.notification)}
           </div>
         )}
