@@ -277,6 +277,12 @@
       "skillPath": ".agents/skills/agent-coordinator-swarm-init/SKILL.md",
       "computedHash": "29dc0d3ad8217deec8e3fdde65da8453c55c884d659b5dae772e62d05a13c116"
     },
+    "agent-council": {
+      "source": "team-attention/agent-council",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/agent-council/SKILL.md",
+      "computedHash": "332a25c05d56e82ff016231d4dbe23b65c2e77fa52112e54133acd314a719afc"
+    },
     "agent-crdt-synchronizer": {
       "source": "ruvnet/ruflo",
       "sourceType": "github",

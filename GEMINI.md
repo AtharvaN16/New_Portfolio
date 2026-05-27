@@ -48,19 +48,21 @@ All styling should derive from design tokens defined in `src/app/globals.css`. A
 | **Testing** | `bun run test` |
 | **Full Validation** | `bun run validate` |
 
-## 🛠 Specialized Skills (Matt Pocock & Community Skills)
+## 🛠 Available Skill Families
 
-This project integrates specialized skills located in `skills/`. Gemini CLI should reference these when performing relevant tasks:
+**7 families installed.** Agents: update this list whenever a new skill family is added.
 
-- **Skill Discovery**: Use `find-skills` (Use BEFORE starting any complex task to check for better automation).
-  **CRITICAL**: When installing, only add the **specific targeted skill** needed (e.g., `npx skills add repo@skill`). **NEVER** download an entire skill library or repository as it bloats the codebase.
-- **Performance**: `performance-investigation` (Use for investigating regressions and optimization).
-- **Architecture**: `improve-codebase-architecture` (Use for deepening modules).
-- **TDD**: `skills/engineering/tdd/SKILL.md` (Use for all feature/bugfix implementation).
-- **Diagnose**: `skills/engineering/diagnose/SKILL.md` (Use for debugging).
-- **Caveman**: `skills/productivity/caveman/SKILL.md` (Use for token efficiency).
+| Family | Location | Purpose |
+| :--- | :--- | :--- |
+| **agent-council** | `.agents/skills/agent-council/` | Gather multi-agent opinions and synthesize a recommendation for big decisions with trade-offs. |
+| **engineering** | `skills/engineering/` | TDD, debugging, architecture, planning, and code-quality workflows. |
+| **productivity** | `skills/productivity/` | Token-efficient communication, handoffs, and focused review. |
+| **impeccable** | `.agents/skills/impeccable/` | Design, polish, and improve frontend UI/UX. |
+| **find-skills** | `.agents/skills/find-skills/` | Discover and install new skills from the skills ecosystem. |
+| **nextjs-performance** | `.agents/skills/nextjs-performance/` | Optimize Next.js for Core Web Vitals, caching, bundles, and Server Components. |
+| **performance-investigation** | `.agents/skills/performance-investigation/` | Investigate performance regressions and optimization opportunities. |
 
-**Mandate**: Whenever a task is critically underspecified or could benefit from specialized knowledge, use `find-skills` to discover relevant automation.
+Use **agent-council** before big decisions with meaningful trade-offs. Use **find-skills** before complex tasks to check for better automation. When installing, only add the **specific targeted skill** needed — **NEVER** download an entire skill library.
 
 ## 📂 Key Directory Map
 

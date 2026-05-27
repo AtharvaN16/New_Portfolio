@@ -62,11 +62,21 @@ bun run validate         # Lint + Format + Type-check + Test
 - **Single responsibility**: Each module/function does one thing well.
 - **No hardcoded values**: Use design tokens from `src/app/globals.css`.
 - **Type safety**: Strict TypeScript, avoid `any`.
-- **Specialized Skills**: Use integrated skills in `skills/` (e.g., `/tdd`, `/diagnose`, `/improve-codebase-architecture`).
-- **Skill Discovery**: Use `find-skills` BEFORE starting any complex task to check for better automation. 
-  **CRITICAL**: When installing, only add the **specific targeted skill** needed (e.g., `npx skills add repo@skill`). **NEVER** download an entire skill library or repository as it bloats the codebase.
+### Available Skill Families
 
-**Mandate**: Whenever a task is critically underspecified or could benefit from specialized knowledge, use `find-skills` to discover relevant automation.
+**7 families installed.** Agents: update this list whenever a new skill family is added.
+
+| Family | Location | Purpose |
+| :--- | :--- | :--- |
+| **agent-council** | `.agents/skills/agent-council/` | Gather multi-agent opinions and synthesize a recommendation for big decisions with trade-offs. |
+| **engineering** | `skills/engineering/` | TDD, debugging, architecture, planning, and code-quality workflows. |
+| **productivity** | `skills/productivity/` | Token-efficient communication, handoffs, and focused review. |
+| **impeccable** | `.agents/skills/impeccable/` | Design, polish, and improve frontend UI/UX. |
+| **find-skills** | `.agents/skills/find-skills/` | Discover and install new skills from the skills ecosystem. |
+| **nextjs-performance** | `.agents/skills/nextjs-performance/` | Optimize Next.js for Core Web Vitals, caching, bundles, and Server Components. |
+| **performance-investigation** | `.agents/skills/performance-investigation/` | Investigate performance regressions and optimization opportunities. |
+
+Use **agent-council** before big decisions with meaningful trade-offs. Use **find-skills** before complex tasks to check for better automation. When installing, only add the **specific targeted skill** needed (e.g., `npx skills add repo@skill`) — **NEVER** download an entire skill library.
 
 ### Component Development
 - **Location**: Reusable UI in `src/components/ui/`, page-specific in `src/components/[page-name]/`.

@@ -38,12 +38,21 @@ To ensure a stable production environment, we follow this branch-based strategy:
 - Run `bun run images:check` before committing image changes. Use `bun run images:audit` for full-site image reviews.
 - If a modern image remains larger than 2.5MB, confirm it needs full resolution before using it.
 
-## 🛠 Specialized Skills (Agent Capabilities)
+## 🛠 Available Skill Families
 
-This project uses specialized skills in `skills/` to ensure high-quality engineering.
-- **TDD**: ALWAYS use TDD for new features or bug fixes.
-- **Diagnose**: Use this structured approach for debugging.
-- **Caveman**: Use for compressed status updates to save context.
+**7 families installed.** Agents: update this list whenever a new skill family is added.
+
+| Family | Location | Purpose |
+| :--- | :--- | :--- |
+| **agent-council** | `.agents/skills/agent-council/` | Gather multi-agent opinions and synthesize a recommendation for big decisions with trade-offs. |
+| **engineering** | `skills/engineering/` | TDD, debugging, architecture, planning, and code-quality workflows. |
+| **productivity** | `skills/productivity/` | Token-efficient communication, handoffs, and focused review. |
+| **impeccable** | `.agents/skills/impeccable/` | Design, polish, and improve frontend UI/UX. |
+| **find-skills** | `.agents/skills/find-skills/` | Discover and install new skills from the skills ecosystem. |
+| **nextjs-performance** | `.agents/skills/nextjs-performance/` | Optimize Next.js for Core Web Vitals, caching, bundles, and Server Components. |
+| **performance-investigation** | `.agents/skills/performance-investigation/` | Investigate performance regressions and optimization opportunities. |
+
+Use **agent-council** before big decisions with meaningful trade-offs (architecture, major UX direction, deployment strategy, data modeling, security-sensitive changes, or competing implementation approaches). Use **find-skills** before complex tasks to check for better automation. When installing, only add the **specific targeted skill** needed — never download an entire skill library.
 
 ## Coding Style & Naming Conventions
 - TypeScript + React functional components are standard.
