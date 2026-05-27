@@ -91,29 +91,39 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
   )
 
   const heroImageSlot =
-    caseStudy.imageUrl ? (
+    (caseStudy.imageUrl || caseStudy.videoUrl) ? (
       <m.section
         className="w-full relative z-10"
         style={{ backgroundColor: caseStudy.imageBg || 'rgb(var(--color-footer-bg))' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.6 }}
-        aria-label={`${caseStudy.title} hero image`}
+        aria-label={`${caseStudy.title} hero`}
       >
         <figure className="w-full overflow-hidden">
           <div className="relative w-full aspect-[16/9] md:aspect-auto md:min-h-screen">
-            <Image
-              src={caseStudy.imageUrl}
-              alt={
-                caseStudy.heroImageDescription ??
-                `${caseStudy.title} — hero image`
-              }
-              fill
-              className="object-cover [filter:contrast(1.05)]"
-              sizes="100vw"
-              priority
-              quality={95}
-            />
+            {caseStudy.videoUrl ? (
+              <video
+                src={caseStudy.videoUrl}
+                poster={caseStudy.thumbnailUrl ?? caseStudy.imageUrl}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="none"
+                className="absolute inset-0 w-full h-full object-cover [filter:contrast(1.05)]"
+              />
+            ) : (
+              <Image
+                src={caseStudy.imageUrl!}
+                alt={caseStudy.heroImageDescription ?? `${caseStudy.title} — hero image`}
+                fill
+                className="object-cover [filter:contrast(1.05)]"
+                sizes="100vw"
+                priority
+                quality={95}
+              />
+            )}
           </div>
           {caseStudy.heroImageDescription && (
             <figcaption className="px-6 2xl:px-[140px] py-4 md:py-6 mx-auto max-w-[52rem] text-xs md:text-sm font-sans text-text-body leading-relaxed">

@@ -15,13 +15,15 @@ interface LibraryServicesDirectoryProps {
   onToggleBookmark?: (title: string) => void;
   height?: string;
   paddingX?: string;
+  externalCategory?: string | null;
 }
 
 const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
   bookmarks: externalBookmarks,
   onToggleBookmark,
   height = '800px',
-  paddingX = '0px'
+  paddingX = '0px',
+  externalCategory,
 }) => {
   const [internalBookmarks, setInternalBookmarks] = useState<Record<string, boolean>>({});
   const [activeCategory, setActiveCategory] = useState<string | null>("Library Basics");
@@ -127,6 +129,13 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
       }
     }
   };
+
+  // Showcase: external trigger scrolls to a named category
+  useEffect(() => {
+    if (!externalCategory) return;
+    handleCategorySelect(externalCategory);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [externalCategory]);
 
   useEffect(() => {
     if (activeTab !== "all") return;

@@ -51,11 +51,17 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local agent settings
+.claude/settings.local.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 *.zip
 Inspiration/
+
+# Source/working assets — not for git or deploy
+user provided assets/
 
 # Local reference assets (not for git or deploy)
 Digital_Accessibility_Casestudy_Reference/1. 

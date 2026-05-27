@@ -92,6 +92,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     timeline: 'Mar - Jun 2024',
     progressBarColor: 'rgb(var(--color-uofa-green))',
     videoUrl: '/videos/case-studies/ualberta-reel.mp4',
+    thumbnailUrl: '/images/case-studies/ualberta-library-website/thumbnail.jpg',
   },
   {
     slug: 'gutenberg-cms-usability-evaluation',

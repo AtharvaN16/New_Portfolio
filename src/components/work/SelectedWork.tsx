@@ -47,9 +47,9 @@ const cardConfig = [
     // Card 1: Top-left, narrower
     colSpan: 5,
     colStart: 1,
-    rowSpan: 7,
+    rowSpan: 6,
     rowStart: 1,
-    height: 'h-[280px] sm:h-[320px] lg:h-auto',
+    height: 'lg:h-auto',
   },
   {
     // Card 2: Right side, wider, starts lower (row 5)

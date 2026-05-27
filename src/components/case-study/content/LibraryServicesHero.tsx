@@ -72,8 +72,9 @@ const LibraryServicesHero: React.FC<LibraryServicesHeroProps> = ({
             <h2 className="text-white text-[20px] font-bold tracking-tight">
               Popular Services
             </h2>
-            <button 
+            <button
               onClick={onScrollToDirectory}
+              data-showcase="goto-services"
               className="text-[14px] font-bold text-[#004C2E] hover:text-white transition-colors flex items-center gap-2 group tracking-wide"
             >
               Go to all services 

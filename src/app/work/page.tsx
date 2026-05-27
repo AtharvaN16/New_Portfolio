@@ -23,6 +23,8 @@ const allProjects: ProjectCardProps[] = getVisibleCaseStudies().map((study) => (
   tags: study.tags,
   imageBg: study.imageBg,
   imageUrl: study.imageUrl,
+  thumbnailUrl: study.thumbnailUrl,
+  videoUrl: study.videoUrl,
   slug: study.slug,
 }))
 

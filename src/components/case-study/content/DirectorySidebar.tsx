@@ -23,6 +23,7 @@ const DirectorySidebar: React.FC<DirectorySidebarProps> = ({
           return (
             <button
               key={category}
+              data-category={category}
               onClick={() => onSelectCategory(category)}
               className={`
                 relative flex items-center px-6 py-4 text-left transition-colors duration-200

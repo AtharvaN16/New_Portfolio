@@ -22,6 +22,7 @@ export interface ProjectCardProps {
   imageBg: string
   imageUrl?: string // Optional project image
   thumbnailUrl?: string // Optional landscape card thumbnail; falls back to imageUrl
+  videoUrl?: string // Optional looping background video; takes priority over image
   imageSizes?: string
   imagePriority?: boolean
   imageFetchPriority?: 'high' | 'low' | 'auto'
@@ -62,6 +63,7 @@ export function ProjectCard({
   glowColor = 'rgb(var(--color-primary))',
   heroImageFill = false,
   thumbnailUrl,
+  videoUrl,
   anchorId,
 }: ProjectCardProps) {
   // For card rendering, always prefer the dedicated landscape thumbnail when provided
@@ -284,6 +286,17 @@ export function ProjectCard({
                 className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] lg:group-hover:scale-[1.04]"
               />
             </div>
+          ) : videoUrl ? (
+            <video
+              src={videoUrl}
+              poster={cardImageUrl}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="none"
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] lg:group-hover:scale-[1.04]"
+            />
           ) : (
             <Image
               src={cardImageUrl}

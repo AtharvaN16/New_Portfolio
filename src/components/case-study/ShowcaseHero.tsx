@@ -37,20 +37,33 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
           Parallax image — 200% height ensures it always covers the 100vh viewport 
           even when translated up by 100vh.
         */}
-        {caseStudy.imageUrl && (
+        {(caseStudy.videoUrl || caseStudy.imageUrl) && (
           <m.div
             className="absolute inset-x-0 top-0 h-[200%]"
             style={{ y: imageParallaxY }}
           >
-            <Image
-              src={caseStudy.imageUrl}
-              alt={`${caseStudy.title} hero`}
-              fill
-              className="object-cover [filter:contrast(1.05)]"
-              sizes="100vw"
-              priority
-              quality={95}
-            />
+            {caseStudy.videoUrl ? (
+              <video
+                src={caseStudy.videoUrl}
+                poster={caseStudy.imageUrl}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="none"
+                className="w-full h-full object-cover [filter:contrast(1.05)]"
+              />
+            ) : (
+              <Image
+                src={caseStudy.imageUrl!}
+                alt={`${caseStudy.title} hero`}
+                fill
+                className="object-cover [filter:contrast(1.05)]"
+                sizes="100vw"
+                priority
+                quality={95}
+              />
+            )}
           </m.div>
         )}
 
