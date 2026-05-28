@@ -676,3 +676,31 @@
   font-style: normal;
   font-display: swap;
 }
+
+.case-study-theme {
+  --cs-primary: rgb(var(--cs-primary-rgb));
+  
+  /* Light Mode Derivatives */
+  --cs-pop-light: oklch(from var(--cs-primary) 0.65 0.25 h);
+  --cs-soft-light: oklch(from var(--cs-primary) 0.96 0.05 h);
+  --cs-contrast-light: oklch(from var(--cs-primary) 0.30 0.20 h);
+  
+  /* Dark Mode Derivatives */
+  --cs-pop-dark: oklch(from var(--cs-primary) 0.75 0.20 h);
+  --cs-soft-dark: oklch(from var(--cs-primary) 0.20 0.08 h / 0.9);
+  --cs-contrast-dark: oklch(from var(--cs-primary) 0.96 0.05 h);
+  
+  /* Selection Tokens - Dynamic based on theme */
+  --cs-selection-bg: var(--cs-soft-light);
+  --cs-selection-text: var(--cs-contrast-light);
+}
+
+[data-theme='dark'] .case-study-theme {
+  --cs-selection-bg: var(--cs-soft-dark);
+  --cs-selection-text: var(--cs-contrast-dark);
+}
+
+.case-study-theme ::selection {
+  background-color: var(--cs-selection-bg);
+  color: var(--cs-selection-text);
+}
