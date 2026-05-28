@@ -93,8 +93,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
   const heroImageSlot =
     (caseStudy.imageUrl || caseStudy.videoUrl) ? (
       <m.section
-        className="w-full relative z-10"
-        style={{ backgroundColor: 'var(--cs-pop-light)' }}
+        className="w-full relative z-10 bg-[var(--cs-pop-light)] dark:bg-[var(--cs-pop-dark)]"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.6 }}
