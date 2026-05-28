@@ -86,8 +86,6 @@ describe('Alo case study responsive and theme tokens', () => {
       </AccessibilityProvider>
     )
 
-    expect(screen.getByText('The End')).toHaveStyle({
-      color: 'rgb(var(--color-alo-data-accent))',
-    })
+    expect(screen.getByText('The End')).toHaveClass('text-[var(--cs-pop-light)]')
   })
 })
