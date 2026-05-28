@@ -678,17 +678,27 @@
 }
 
 .case-study-theme {
-  --cs-primary: rgb(var(--cs-primary-rgb));
+  --cs-primary: var(--cs-theme-color);
   
-  /* Light Mode Derivatives */
-  --cs-pop-light: oklch(from var(--cs-primary) 0.65 0.25 h);
-  --cs-soft-light: oklch(from var(--cs-primary) 0.96 0.05 h);
-  --cs-contrast-light: oklch(from var(--cs-primary) 0.30 0.20 h);
+  /* Robust fallbacks using color-mix (widely supported) */
+  --cs-pop-light: var(--cs-primary);
+  --cs-soft-light: color-mix(in srgb, var(--cs-primary), white 85%);
+  --cs-contrast-light: color-mix(in srgb, var(--cs-primary), black 70%);
   
-  /* Dark Mode Derivatives */
-  --cs-pop-dark: oklch(from var(--cs-primary) 0.75 0.20 h);
-  --cs-soft-dark: oklch(from var(--cs-primary) 0.20 0.08 h / 0.9);
-  --cs-contrast-dark: oklch(from var(--cs-primary) 0.96 0.05 h);
+  --cs-pop-dark: var(--cs-primary);
+  --cs-soft-dark: color-mix(in srgb, var(--cs-primary), black 80%);
+  --cs-contrast-dark: color-mix(in srgb, var(--cs-primary), white 85%);
+
+  /* Modern OKLCH Derivations (overrides fallbacks if supported) */
+  @supports (color: oklch(from white l c h)) {
+    --cs-pop-light: oklch(from var(--cs-primary) 0.65 0.25 h);
+    --cs-soft-light: oklch(from var(--cs-primary) 0.96 0.05 h);
+    --cs-contrast-light: oklch(from var(--cs-primary) 0.30 0.20 h);
+    
+    --cs-pop-dark: oklch(from var(--cs-primary) 0.75 0.20 h);
+    --cs-soft-dark: oklch(from var(--cs-primary) 0.20 0.08 h / 0.9);
+    --cs-contrast-dark: oklch(from var(--cs-primary) 0.96 0.05 h);
+  }
   
   /* Selection Tokens - Dynamic based on theme */
   --cs-selection-bg: var(--cs-soft-light);
@@ -700,7 +710,15 @@
   --cs-selection-text: var(--cs-contrast-dark);
 }
 
-.case-study-theme ::selection {
-  background-color: var(--cs-selection-bg);
-  color: var(--cs-selection-text);
+/* Force selection styles across all descendants with cross-browser support */
+.case-study-theme ::selection,
+.case-study-theme *::selection {
+  background: var(--cs-selection-bg) !important;
+  color: var(--cs-selection-text) !important;
+}
+
+.case-study-theme ::-moz-selection,
+.case-study-theme *::-moz-selection {
+  background: var(--cs-selection-bg) !important;
+  color: var(--cs-selection-text) !important;
 }
