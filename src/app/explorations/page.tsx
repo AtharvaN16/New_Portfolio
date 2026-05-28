@@ -21,7 +21,7 @@ const explorationProjects: ProjectCardProps[] = getVisibleCaseStudies()
     year: '',
     description: study.description,
     tags: study.tags.filter(tag => tag !== 'Exploration' && tag !== 'Explorations'),
-    imageBg: study.imageBg,
+    themeColor: study.themeColor,
     imageUrl: study.imageUrl,
     slug: study.slug,
   }))

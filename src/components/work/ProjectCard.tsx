@@ -19,7 +19,7 @@ export interface ProjectCardProps {
   year: string
   description: string
   tags: string[]
-  imageBg: string
+  themeColor: string
   imageUrl?: string // Optional project image
   thumbnailUrl?: string // Optional landscape card thumbnail; falls back to imageUrl
   videoUrl?: string // Optional looping background video; takes priority over image
@@ -46,7 +46,7 @@ export function ProjectCard({
   year,
   description,
   tags: _tags,
-  imageBg,
+  themeColor,
   imageUrl,
   imageSizes,
   imagePriority = false,
@@ -216,10 +216,10 @@ export function ProjectCard({
               )
         )}
       >
-        {/* Base: imageBg for non-image cards; neutral dark for masonry+image (blurred layer provides color) */}
+        {/* Base: themeColor for non-image cards; neutral dark for masonry+image (blurred layer provides color) */}
         <div
           className="absolute inset-0 z-0"
-          style={{ backgroundColor: variant === 'sub-case' ? imageBg : (isMasonry && cardImageUrl ? '#111' : imageBg) }}
+          style={{ backgroundColor: variant === 'sub-case' ? themeColor : (isMasonry && cardImageUrl ? '#111' : themeColor) }}
         />
 
         {/* Frosted bars — blurred image provides image-matched color in the bar regions */}

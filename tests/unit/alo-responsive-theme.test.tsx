@@ -71,15 +71,15 @@ describe('Alo case study responsive and theme tokens', () => {
       (caseStudy) => caseStudy.slug === 'alo-yoga-digital-analytics'
     )
 
-    expect(aloCaseStudy?.imageBg).toBe('rgb(var(--color-alo-hero-bg))')
-    expect(aloCaseStudy?.progressBarColor).toBe('rgb(var(--color-alo-progress))')
+    // themeColor is used instead of imageBg/progressBarColor
+    expect(aloCaseStudy?.themeColor).toBe('#5C8ED3')
 
     render(
       <AccessibilityProvider>
         <CaseStudyContentRenderer
           caseStudy={{
             ...aloCaseStudy!,
-            progressBarColor: 'rgb(var(--color-alo-data-accent))',
+            themeColor: 'rgb(var(--color-alo-data-accent))',
           }}
           isContentRevealed
         />

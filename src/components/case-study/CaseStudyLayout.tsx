@@ -69,7 +69,7 @@ export function CaseStudyLayout({
         style={{
           scaleX: scrollYProgress,
           backgroundColor:
-            caseStudy.progressBarColor || 'rgb(var(--color-primary))',
+            caseStudy.themeColor || 'rgb(var(--color-primary))',
           willChange: 'transform',
         }}
       />

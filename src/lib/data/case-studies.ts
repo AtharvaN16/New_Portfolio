@@ -7,7 +7,7 @@ export interface CaseStudy {
   year: string
   description: string
   tags: string[]
-  imageBg: string
+  themeColor: string
   imageUrl?: string
   /** Accessible description for the hero image (alt + visible caption) */
   heroImageDescription?: string
@@ -24,7 +24,6 @@ export interface CaseStudy {
   team?: string[]
   timeline?: string
   fullDescription?: string
-  progressBarColor?: string
   pageVariant?: 'case-study' | 'showcase' | 'figma-presentation'
   heroImageFill?: boolean // When true, card thumbnail fills full height (for portrait/non-16:9 heroes)
   heroTextLight?: boolean
@@ -50,7 +49,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     description:
       "Redesigning Pratt's campus visit experience through ambassador support tools and a clearer physical-digital information system for prospective students and families.",
     tags: ['Service design', 'Design thinking', 'Selected Work'],
-    imageBg: 'rgb(var(--color-case-study-purple))',
+    themeColor: '#9370DB',
     imageUrl:
       '/images/case-studies/pratt-institute-visitor-experience/pratt-service-design-hero.webp',
     featured: true,
@@ -59,7 +58,6 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     timeline: 'Sep - Dec 2025',
     fullDescription:
       "A service design project with Pratt Institute's Office of Admissions that improved the visitor journey by making tours more consistent for ambassadors and key information easier for visitors to access before, during, and after their campus visit.",
-    progressBarColor: 'rgb(var(--color-case-study-gold))',
   },
   {
     slug: 'nyc-dcwp-business-licenses',
@@ -69,13 +67,12 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     description:
       'A case study on improving how small business owners in New York City navigate and apply for business licenses through the Department of Consumer and Worker Protection portal.',
     tags: ['Selected Work', 'Client Project', 'UX Research'],
-    imageBg: 'rgb(var(--color-footer-bg))',
+    themeColor: '#3183CB',
     imageUrl: '/images/case-studies/nyc-dcwp-business-licenses/hero.webp',
     featured: true,
     category: 'ux-research',
     team: ['Atharva Nayak', 'Meng Shi', 'Rutuja Nagulpelli', 'Sandra Ye'],
     timeline: 'Jan - May 2024',
-    progressBarColor: '#3183CB',
   },
   {
     slug: 'ualberta-library-website',
@@ -85,12 +82,11 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     description:
       'A comprehensive study on improving the usability and information architecture of the University of Alberta Library website to enhance student research workflows.',
     tags: ['UX Research', 'UI Design', 'Prototyping', 'Selected Work'],
-    imageBg: 'rgb(var(--color-case-study-green))',
+    themeColor: '#257948',
     featured: true,
     category: 'ux-research',
     team: ['Atharva Nayak', 'Arnav Sharma', 'Azka Qasim', 'Natalie Cheng'],
     timeline: 'Mar - Jun 2024',
-    progressBarColor: 'rgb(var(--color-uofa-green))',
     videoUrl: '/videos/case-studies/ualberta-reel.mp4',
     thumbnailUrl: '/images/case-studies/ualberta-library-website/thumbnail.jpg',
   },
@@ -102,14 +98,13 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     description:
       'A usability study of Gutenberg Technologies\' course management system (CMS), identifying workflow challenges and proposing design improvements to make the CMS more intuitive and easier for new users to adopt.',
     tags: ['Eye Tracking', 'Usability Study', 'Selected Work'],
-    imageBg: 'rgb(var(--color-case-study-red))',
+    themeColor: '#2A55DF',
     imageUrl:
       '/images/case-studies/gutenberg-cms-usability-evaluation/hero.webp',
     featured: true,
     category: 'usability-testing',
     team: ['Atharva Nayak', 'Gloria Yang', 'Grace Ho', 'Karla Santamaria'],
     timeline: 'September - December 2025',
-    progressBarColor: '#2A55DF',
   },
   {
     slug: 'met-free-tours-usability',
@@ -119,12 +114,11 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     description:
       'A usability study examining the Metropolitan Museum of Art free tours page, identifying pain points and proposing design improvements for better visitor engagement.',
     tags: ['Usability Testing', 'Design', 'Selected Work'],
-    imageBg: 'rgb(var(--color-case-study-met))',
+    themeColor: '#E3032A',
     featured: false,
     category: 'usability-testing',
     team: ['Atharva Nayak'],
     timeline: 'Feb - Apr 2024',
-    progressBarColor: 'rgb(var(--color-case-study-met))',
   },
   {
     slug: 'nyc-third-spaces-ethnography',
@@ -134,7 +128,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     description:
       'This case study documents a semester-long ethnographic research project conducted as a collaboration between Pratt Institute and Woven by Toyota. Our team studied how communities in New York City\'s third spaces naturally engage, collaborate, and innovate through everyday interactions.',
     tags: ['Ethnography', 'Client Project'],
-    imageBg: 'rgb(var(--color-case-study-pink))',
+    themeColor: '#FFB6C1',
     imageUrl: '/images/case-studies/nyc-third-spaces-ethnography/hero.jpg',
     featured: false,
     category: 'ux-research',
@@ -142,7 +136,6 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     timeline: '3 Months',
     fullDescription:
       'This case study documents a semester-long ethnographic research project conducted as a collaboration between Pratt Institute and Woven by Toyota. Our team studied how communities in New York City\'s third spaces naturally engage, collaborate, and innovate through everyday interactions.',
-    progressBarColor: 'rgb(var(--color-case-study-purple))',
   },
   {
     slug: 'seo-audit',
@@ -153,13 +146,12 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
       'An SEO audit evaluates how well a website is positioned to be found, crawled, and ranked by search engines. This POV focuses on the SEO Audit of jif.com — the #1 P&B brand in America.',
     tags: ['Digital Analytics', 'Selected Work'],
     hidden: true,
-    imageBg: '#CE102C',
+    themeColor: '#CE102C',
     featured: false,
     category: 'digital-analytics',
     team: ['Atharva Nayak'],
     timeline: '1 Week',
     pageVariant: 'figma-presentation',
-    progressBarColor: '#CE102C',
     imageUrl: '/images/case-studies/seo-audit/hero-2.png',
     figmaEmbedUrl:
       'https://embed.figma.com/deck/TGsYVaQSar3IDgKfNiiTrU/SEO-audit-jif.com---AN?node-id=27-3673&embed-host=share',
@@ -184,7 +176,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
       "A UX redesign of IMDb's interface focused on improving content discovery through better filtering, cleaner navigation, and personalized recommendations — grounded in 8 in-depth user interviews.",
     tags: ['Information Architecture', 'Redesign'],
     hidden: true,
-    imageBg: '#F5C518',
+    themeColor: '#F5C518',
     imageUrl: '/images/case-studies/imdb-ia-redesign/hero.webp',
     featured: false,
     category: 'ui-design',
@@ -192,7 +184,6 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     timeline: '1 month',
     fullDescription:
       'We conducted 8 in-depth user interviews to understand how users discover and search for content within IMDb. Through this research, we identified key pain points in IMDb\'s current content discovery system and mapped user needs to improve filtering, recommendation, and browsing features.',
-    progressBarColor: '#F5C518',
   },
   {
     slug: 'alo-yoga-digital-analytics',
@@ -201,13 +192,12 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     year: '2026',
     description: 'A digital analytics study of Alo Yoga\'s SEO health, keyword coverage, and social strategy, benchmarked against the competition.',
     tags: ['Digital Analytics', 'SEO Strategy', 'Selected Work'],
-    imageBg: 'rgb(var(--color-alo-hero-bg))',
+    themeColor: '#5C8ED3',
     imageUrl: '/images/case-studies/alo-yoga-digital-analytics/hero-v3.webp',
     featured: true,
     category: 'digital-analytics',
     team: ['Atharva Nayak', 'Anvita Shah', 'Carol Bai', 'Lanting Ko', 'Myra Chen'],
     timeline: 'Spring 2026',
-    progressBarColor: 'rgb(var(--color-alo-progress))',
     heroTextLight: false,
   },
   {
@@ -218,7 +208,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     description:
       'A study on the movement and behavior of snakes in digital environments.',
     tags: ['Explorations', 'Vibe Coded', 'Data Visualization'],
-    imageBg: 'rgb(var(--color-case-study-purple))',
+    themeColor: '#9370DB',
     imageUrl: '/images/case-studies/snakes/hero.webp',
     thumbnailUrl: '/images/case-studies/snakes/hero-card.webp',
     featured: true,
@@ -226,7 +216,6 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     pageVariant: 'showcase',
     heroTextLight: false,
     timeline: 'Weekend Project',
-    progressBarColor: 'rgb(var(--color-case-study-snakes-progress))',
     heroImageFill: true,
   },
   {
@@ -237,7 +226,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     description:
       'A design system that bridges the gap between Cunard\'s premium physical brand and its inconsistent digital experience — built for a luxury cruise line with 185 years of heritage.',
     tags: ['Design Systems', 'UI Design', 'Accessibility', 'Selected Work'],
-    imageBg: '#B5A484',
+    themeColor: '#9B2335',
     imageUrl: '/images/case-studies/aquitania-design-system/hero.webp',
     featured: true,
     category: 'ui-design',
@@ -245,7 +234,6 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     timeline: 'Spring 2026',
     fullDescription:
       'This case study explores the creation of a design system for Cunard to modernize its digital experience and better reflect its premium brand identity.',
-    progressBarColor: '#9B2335',
   },
   {
     slug: 'blv-museum-accessibility',
@@ -256,7 +244,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     description:
       'A research-based case study on returning interpretive authority to blind and low-vision patrons through conversational UI.',
     tags: ['Digital Accessibility', 'UX Research', 'Conversational UI'],
-    imageBg: 'rgb(var(--color-background))',
+    themeColor: '#FF8C00',
     imageUrl: '/images/case-studies/blv-museum-accessibility/hero.webp',
     heroImageDescription:
       'Black-and-white illustration of a young visitor wearing headphones, viewed from behind in a minimal art gallery, facing a large empty canvas on the wall. The scene represents blind and low-vision patrons approaching artwork without a fixed, curator-authored interpretation.',
@@ -264,7 +252,6 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     category: 'digital-accessibility',
     team: ['Atharva Nayak', 'Arnav Sharma', 'Nisheta Gupta'],
     timeline: 'Spring 2026',
-    progressBarColor: '#FF8C00',
     fullDescription:
       'This project focuses on the "interpretive authority" in art galleries. While museums provide audio descriptions, these are often fixed, curator-authored accounts that collapse the variability of an artwork into a single narrative. We introduce "negotiable interpretation" as a design paradigm to redistribute that authority back to the visitor.',
   },
