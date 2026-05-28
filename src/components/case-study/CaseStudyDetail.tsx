@@ -94,7 +94,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
     (caseStudy.imageUrl || caseStudy.videoUrl) ? (
       <m.section
         className="w-full relative z-10"
-        style={{ backgroundColor: caseStudy.themeColor || 'rgb(var(--color-footer-bg))' }}
+        style={{ backgroundColor: 'var(--cs-pop-light)' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.6 }}

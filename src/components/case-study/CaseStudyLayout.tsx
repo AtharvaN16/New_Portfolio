@@ -6,6 +6,7 @@ import type { CaseStudy } from '@/lib/data/case-studies'
 import { CaseStudyHeader } from '@/components/case-study/CaseStudyHeader'
 import { useSmoothScroll } from '@/hooks/use-smooth-scroll'
 import { CaseStudyContentRenderer } from '@/components/case-study/CaseStudyContentRenderer'
+import { ThemeScoper } from '@/components/case-study/ThemeScoper'
 
 interface CaseStudyLayoutProps {
   caseStudy: CaseStudy
@@ -63,70 +64,70 @@ export function CaseStudyLayout({
         WebkitOverflowScrolling: 'touch',
       }}
     >
-      {/* Scroll Progress Bar */}
-      <m.div
-        className="fixed top-0 left-0 right-0 h-[5px] z-[60] origin-left"
-        style={{
-          scaleX: scrollYProgress,
-          backgroundColor:
-            caseStudy.themeColor || 'rgb(var(--color-primary))',
-          willChange: 'transform',
-        }}
-      />
+      <ThemeScoper themeColor={caseStudy.themeColor}>
+        {/* Scroll Progress Bar */}
+        <m.div
+          className="fixed top-0 left-0 right-0 h-[5px] z-[60] origin-left bg-[var(--cs-pop-light)] dark:bg-[var(--cs-pop-dark)]"
+          style={{
+            scaleX: scrollYProgress,
+            willChange: 'transform',
+          }}
+        />
 
-      <div ref={contentRef}>
-        <CaseStudyHeader onClose={handleClose} />
+        <div ref={contentRef}>
+          <CaseStudyHeader onClose={handleClose} />
 
-        {/* Hero Section Slot */}
-        {heroSlot}
+          {/* Hero Section Slot */}
+          {heroSlot}
 
-        {/* Desktop & Mobile Metadata Slots */}
-        {metadataSlot || (
-          /* Default metadata layout if none provided */
-          (caseStudy.team || caseStudy.timeline) && (
-            <m.div
-              className="md:hidden flex flex-col gap-10 px-6 2xl:px-[140px] pt-12 pb-16"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-            >
-              {caseStudy.team && caseStudy.team.length > 0 && (
-                <div className="text-left">
-                  <h2 className="text-base font-medium text-text-primary mb-2">Team</h2>
-                  <ul className="space-y-1">
-                    {caseStudy.team.map((member, index) => (
-                      <li key={index}>
-                        <span className="text-sm font-normal text-text-secondary">{member}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {caseStudy.timeline && (
-                <div className="text-left">
-                  <h2 className="text-base font-medium text-text-primary mb-2">Timeline</h2>
-                  <p className="text-sm font-normal text-text-secondary">{caseStudy.timeline}</p>
-                </div>
-              )}
-            </m.div>
-          )
-        )}
+          {/* Desktop & Mobile Metadata Slots */}
+          {metadataSlot || (
+            /* Default metadata layout if none provided */
+            (caseStudy.team || caseStudy.timeline) && (
+              <m.div
+                className="md:hidden flex flex-col gap-10 px-6 2xl:px-[140px] pt-12 pb-16"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                {caseStudy.team && caseStudy.team.length > 0 && (
+                  <div className="text-left">
+                    <h2 className="text-base font-medium text-text-primary mb-2">Team</h2>
+                    <ul className="space-y-1">
+                      {caseStudy.team.map((member, index) => (
+                        <li key={index}>
+                          <span className="text-sm font-normal text-text-secondary">{member}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {caseStudy.timeline && (
+                  <div className="text-left">
+                    <h2 className="text-base font-medium text-text-primary mb-2">Timeline</h2>
+                    <p className="text-sm font-normal text-text-secondary">{caseStudy.timeline}</p>
+                  </div>
+                )}
+              </m.div>
+            )
+          )}
 
-        {/* Hero Image — after metadata on mobile, after hero text on desktop */}
-        {heroImageSlot}
+          {/* Hero Image — after metadata on mobile, after hero text on desktop */}
+          {heroImageSlot}
 
-        {/* Abstract Section Slot */}
-        {abstractSlot}
+          {/* Abstract Section Slot */}
+          {abstractSlot}
 
-        {/* Main Content Area */}
-        <CaseStudyContentRenderer 
-          caseStudy={caseStudy}
-          isContentRevealed={isContentRevealed}
-          onToggleContent={() => setIsContentRevealed(!isContentRevealed)}
-        >
-          {children}
-        </CaseStudyContentRenderer>
-      </div>
+          {/* Main Content Area */}
+          <CaseStudyContentRenderer 
+            caseStudy={caseStudy}
+            isContentRevealed={isContentRevealed}
+            onToggleContent={() => setIsContentRevealed(!isContentRevealed)}
+          >
+            {children}
+          </CaseStudyContentRenderer>
+        </div>
+      </ThemeScoper>
     </div>
   )
 }
