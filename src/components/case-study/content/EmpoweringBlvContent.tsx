@@ -12,7 +12,6 @@ import { SolutionParadigm } from './blv-museum/SolutionParadigm'
 interface EmpoweringBlvContentProps {
   isContentRevealed: boolean
   onToggleContent: () => void
-  progressBarColor?: string
 }
 
 export function EmpoweringBlvContent({

@@ -31,9 +31,6 @@ export function CaseStudyContentRenderer({
       <ContentComponent
         isContentRevealed={isContentRevealed}
         onToggleContent={onToggleContent}
-        progressBarColor={
-          caseStudy.themeColor || 'rgb(var(--color-primary))'
-        }
       />
     )
   }

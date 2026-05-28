@@ -14,13 +14,11 @@ import { ChecklistSolutionsSection } from '@/components/case-study/content/dcwp/
 interface NycDcwpBusinessLicensesContentProps {
   isContentRevealed: boolean
   onToggleContent: () => void
-  progressBarColor?: string
 }
 
 export function NycDcwpBusinessLicensesContent({
   isContentRevealed,
   onToggleContent,
-  progressBarColor = '#3183CB',
 }: NycDcwpBusinessLicensesContentProps) {
   const [showAnnotations, setShowAnnotations] = useState(true)
   const [showAnnotations2, setShowAnnotations2] = useState(true)
@@ -128,7 +126,7 @@ export function NycDcwpBusinessLicensesContent({
                         cx="4"
                         cy="4"
                         r="4"
-                        fill={progressBarColor}
+                        className="fill-[var(--cs-pop-light)] dark:fill-[var(--cs-pop-dark)]"
                       />
                     </svg>
                     <span>{item}</span>

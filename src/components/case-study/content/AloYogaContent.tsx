@@ -23,7 +23,6 @@ const aloNavItems = [
 interface AloYogaContentProps {
   isContentRevealed: boolean
   onToggleContent: () => void
-  progressBarColor?: string
 }
 
 const divider = (
@@ -36,7 +35,6 @@ const divider = (
 export function AloYogaContent({
   isContentRevealed,
   onToggleContent,
-  progressBarColor = 'rgb(var(--color-alo-progress))',
 }: AloYogaContentProps) {
   const overviewRef = useRef<HTMLDivElement>(null)
   const [isPastOverview, setIsPastOverview] = useState(false)
@@ -74,7 +72,7 @@ export function AloYogaContent({
       <CaseStudySideNav 
         isVisible={isContentRevealed && isPastOverview} 
         navItems={aloNavItems}
-        themeColor="rgb(var(--color-alo-progress))"
+        themeColor="var(--cs-pop-light)"
       />
       <div className="max-w-[1044px] mx-auto text-left">
         {/* Abstract */}
@@ -289,8 +287,7 @@ export function AloYogaContent({
 
               <div className="mt-32 md:mt-48 pt-16 md:pt-24 border-t border-text-color10">
                 <h3
-                  className="text-3xl md:text-[48px] font-bold uppercase tracking-[-0.02em] mb-6 md:mb-8"
-                  style={{ color: progressBarColor }}
+                  className="text-3xl md:text-[48px] font-bold uppercase tracking-[-0.02em] mb-6 md:mb-8 text-[var(--cs-pop-light)] dark:text-[var(--cs-pop-dark)]"
                 >
                   The End
                 </h3>

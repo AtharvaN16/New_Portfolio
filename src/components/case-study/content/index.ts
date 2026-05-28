@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic'
 export interface CaseStudyContentProps {
   isContentRevealed: boolean
   onToggleContent: () => void
-  progressBarColor?: string
 }
 
 /**

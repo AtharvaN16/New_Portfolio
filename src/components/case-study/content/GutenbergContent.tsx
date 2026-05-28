@@ -10,13 +10,11 @@ import { AnimatedBars } from '@/components/case-study/AnimatedBars'
 interface GutenbergContentProps {
   isContentRevealed: boolean
   onToggleContent: () => void
-  progressBarColor?: string
 }
 
 export function GutenbergContent({
   isContentRevealed,
   onToggleContent,
-  progressBarColor = 'rgb(var(--color-primary))',
 }: GutenbergContentProps) {
   const [isSUSCalloutOpen, setIsSUSCalloutOpen] = useState(false)
   return (
@@ -606,7 +604,7 @@ export function GutenbergContent({
                         <AnimatedBars
                           total={9}
                           filled={7}
-                          filledColor={progressBarColor}
+                          filledColor="var(--cs-pop-light)"
                         />
 
                         {/* 7/9 Users Text */}
@@ -811,7 +809,7 @@ export function GutenbergContent({
                           <AnimatedBars
                             total={9}
                             filled={5}
-                            filledColor={progressBarColor}
+                            filledColor="var(--cs-pop-light)"
                           />
 
                           {/* 5/9 Users Text */}
@@ -1159,7 +1157,7 @@ export function GutenbergContent({
                           <AnimatedBars
                             total={9}
                             filled={9}
-                            filledColor={progressBarColor}
+                            filledColor="var(--cs-pop-light)"
                           />
                           <div>
                             <div
@@ -1452,8 +1450,7 @@ export function GutenbergContent({
                 {/* The End */}
                 <div className="py-8 md:py-12">
                   <h3
-                    className="text-3xl md:text-[48px] font-bold uppercase tracking-[-0.02em] mb-6 md:mb-8"
-                    style={{ color: progressBarColor }}
+                    className="text-3xl md:text-[48px] font-bold uppercase tracking-[-0.02em] mb-6 md:mb-8 text-[var(--cs-pop-light)] dark:text-[var(--cs-pop-dark)]"
                   >
                     The End
                   </h3>
