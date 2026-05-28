@@ -1,9 +1,8 @@
 import type { NextConfig } from 'next'
-import createMDX from '@next/mdx'
 
 const nextConfig: NextConfig = {
-  // Configure MDX file extensions
-  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  // Configure page extensions
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
 
   // Image optimization
   images: {
@@ -14,13 +13,4 @@ const nextConfig: NextConfig = {
   },
 }
 
-const withMDX = createMDX({
-  // MDX plugins can be added here
-  options: {
-    remarkPlugins: [],
-    rehypePlugins: [],
-  },
-})
-
-// Merge MDX config with Next.js config
-export default withMDX(nextConfig)
+export default nextConfig
