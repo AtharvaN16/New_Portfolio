@@ -52,16 +52,22 @@ export const LibraryLocationCard: React.FC<LibraryLocationCardProps> = ({ librar
   const multiLocation = library.addresses.length > 1;
 
   return (
-    <div className="bg-white border border-[#E0E0E0] flex gap-0 rounded-sm overflow-hidden w-full">
+    <div className="bg-white border border-[#E0E0E0] flex gap-0 rounded-sm overflow-hidden w-full p-4">
       {/* Left: Library Image */}
-      <div className="w-[130px] flex-shrink-0 bg-[#B8C8B8] relative self-stretch min-h-[160px]">
+      <div className="w-[110px] flex-shrink-0 mr-5">
         {library.imageUrl ? (
-          <img src={library.imageUrl} alt={library.name} className="w-full h-full object-cover" />
-        ) : null}
+          <div className="w-[110px] h-[110px] rounded-xl overflow-hidden bg-[#F5F5F5]">
+            <img src={library.imageUrl} alt={library.name} className="w-full h-full object-cover" />
+          </div>
+        ) : (
+          <div className="w-[110px] h-[110px] rounded-xl bg-[#EFEFEF] flex items-center justify-center text-[10px] text-[#888]">
+            No Image
+          </div>
+        )}
       </div>
 
       {/* Right: Content */}
-      <div className="flex-1 flex flex-col px-5 pt-4 pb-3">
+      <div className="flex-1 flex flex-col pt-0 pb-0">
         {/* Notification Banner — above title */}
         {library.notification && (
           <div className="bg-[#FFF8E1] px-3 py-2 mb-3 text-[10px] text-[#383838] leading-relaxed">
