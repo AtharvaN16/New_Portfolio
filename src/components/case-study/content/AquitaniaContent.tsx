@@ -4,8 +4,7 @@ import Image from 'next/image'
 import { m } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
-import { AnimatedQuote } from '@/components/ui/AnimatedQuote'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { CaseStudySideNav } from '@/components/case-study/CaseStudySideNav'
 import { CunardHandwrittenProblems } from '@/components/case-study/content/CunardHandwrittenProblems'
 import { CaseStudyVideo } from '@/components/case-study/CaseStudyVideo'
@@ -130,10 +129,12 @@ export function AquitaniaContent({
               data-section="aquitania-hero-headline"
               className="scroll-mt-32"
             >
-              <AnimatedTitle
+              <AnimatedText
+                variant="heading"
+                as="h2"
                 text="Redefining Cunard's Digital Presence for a consistent and premium experience with a new Design System"
-                animationType="fadeInUp"
-                variant="wide"
+                animationType="fadeIn"
+                maxWidth="wide"
                 alwaysAnimate
                 delay={0.1}
                 stagger={0.04}
@@ -197,8 +198,10 @@ export function AquitaniaContent({
               data-section="aquitania-premium-callout"
               className="pt-24 md:pt-32 pb-12 md:pb-16"
             >
-              <AnimatedQuote
-                className="max-w-[900px] text-[1.75rem] sm:text-4xl md:text-5xl font-bold leading-tight tracking-[-0.04em] text-text-primary"
+              <AnimatedText
+                variant="quote"
+                maxWidth="wide"
+                className="text-[1.75rem] sm:text-4xl md:text-5xl font-bold leading-tight tracking-[-0.04em] text-text-primary"
                 segments={[
                   { text: 'The Current Cunard Digital Experience' },
                   { text: 'does not feel premium.', color: CUNARD_RED },
@@ -217,7 +220,7 @@ export function AquitaniaContent({
               data-section="aquitania-solution"
               className="scroll-mt-32"
             >
-              <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
+              <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
                 Solution
               </p>
               <h3 className="text-xl md:text-[28px] font-bold text-text-primary mb-6 md:mb-8 leading-snug">
@@ -298,7 +301,7 @@ export function AquitaniaContent({
 
             {/* Four Principles */}
             <section data-section="aquitania-principles">
-              <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
+              <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
                 Principles
               </p>
               <h3 className="text-xl md:text-[28px] font-bold text-text-primary mb-8 md:mb-10 leading-snug">
@@ -363,7 +366,7 @@ export function AquitaniaContent({
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
                 <div>
-                  <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
+                  <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
                     01 - DECONSTRUCTION
                   </p>
                   <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">
@@ -398,7 +401,7 @@ export function AquitaniaContent({
 
               <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
                 <div>
-                  <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
+                  <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
                     02 - FINDINGS
                   </p>
                   <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">
@@ -435,7 +438,7 @@ export function AquitaniaContent({
 
               <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
                 <div>
-                  <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
+                  <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
                     03 - DEFINING THE PRIMITIVES
                   </p>
                   <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">

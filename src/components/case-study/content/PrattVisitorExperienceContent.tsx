@@ -4,7 +4,7 @@ import { AnimatePresence, m } from 'framer-motion'
 import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 import { useState } from 'react'
 import Image from 'next/image'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 
 interface PrattVisitorExperienceContentProps {
   isContentRevealed: boolean
@@ -206,13 +206,13 @@ export function PrattVisitorExperienceContent({
               <div>
                 {/* ── Section: Key Characters ── */}
                 <h3
-                  className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                  className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   Ecosystem Loops
                 </h3>
 
-                <AnimatedTitle
+                <AnimatedText variant="heading"
                   text="Key Characters in the Visitor Experience"
                   animationType="fadeIn"
                   alwaysAnimate={false}
@@ -329,13 +329,13 @@ export function PrattVisitorExperienceContent({
 
                 {/* ── Section: Service Safari ── */}
                 <h3
-                  className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                  className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   Service Safari
                 </h3>
 
-                <AnimatedTitle
+                <AnimatedText variant="heading"
                   text="Understanding the Current Experience"
                   animationType="fadeIn"
                   alwaysAnimate={false}
@@ -638,13 +638,13 @@ export function PrattVisitorExperienceContent({
 
                 {/* ── Section: Survey Analysis ── */}
                 <h3
-                  className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                  className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   Survey Analysis
                 </h3>
 
-                <AnimatedTitle
+                <AnimatedText variant="heading"
                   text="Tours Feedback Survey Analysis"
                   animationType="fadeIn"
                   alwaysAnimate={false}
@@ -991,13 +991,13 @@ export function PrattVisitorExperienceContent({
 
                 {/* ── Section: Co-Design Workshops ── */}
                 <h3
-                  className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                  className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   Co-Design Workshops
                 </h3>
 
-                <AnimatedTitle
+                <AnimatedText variant="heading"
                   text="Why We Use the Co-Design Method?"
                   animationType="fadeIn"
                   alwaysAnimate={false}
@@ -1172,13 +1172,13 @@ export function PrattVisitorExperienceContent({
 
                 {/* ── Section: Interventions ── */}
                 <h3
-                  className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                  className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   Interventions
                 </h3>
 
-                <AnimatedTitle
+                <AnimatedText variant="heading"
                   text="Intervention 1: Ambassador Training Materials"
                   animationType="fadeIn"
                   alwaysAnimate={false}
@@ -1588,7 +1588,7 @@ export function PrattVisitorExperienceContent({
                 <SectionDivider />
 
                 {/* ── Section: Intervention 2 ── */}
-                <AnimatedTitle
+                <AnimatedText variant="heading"
                   text="Intervention 2: Updated Visitor Welcome Packet"
                   animationType="fadeIn"
                   alwaysAnimate={false}

@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 
 const recommendations = [
   {
@@ -44,13 +44,13 @@ export function AloKeywordRecommendations() {
   return (
     <div className="mt-24 md:mt-32">
       <h3
-        className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+        className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
         Recommendations
       </h3>
 
-      <AnimatedTitle
+      <AnimatedText variant="heading"
         text="Closing the Activewear and Men's Keyword Gap"
         animationType="fadeIn"
         alwaysAnimate={false}

@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { CaseStudyVideo } from '@/components/case-study/CaseStudyVideo'
 
 const categories = [
@@ -40,14 +40,14 @@ export function AloDashboardSection() {
   return (
     <div>
       <h3
-        className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+        className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
         Web Performance Dashboard
       </h3>
 
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
-        <AnimatedTitle
+        <AnimatedText variant="heading"
           text="We built a dashboard to track what would matter going forward"
           animationType="fadeIn"
           alwaysAnimate={false}

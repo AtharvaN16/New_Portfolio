@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import Image from 'next/image'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
@@ -11,10 +11,10 @@ export function SolutionParadigm() {
     <div className="space-y-24 md:space-y-32">
       {/* The Solution */}
       <div>
-        <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           The Solution
         </h3>
-        <AnimatedTitle
+        <AnimatedText variant="heading"
           text="Introducing Descripto"
           animationType="fadeIn"
           className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
@@ -73,10 +73,10 @@ export function SolutionParadigm() {
 
       {/* Designing with BLV users in mind */}
       <div className="mt-16 md:mt-24">
-        <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           Design Details
         </h3>
-        <AnimatedTitle
+        <AnimatedText variant="heading"
           text="Designing with BLV users in mind"
           animationType="fadeIn"
           className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
@@ -98,7 +98,7 @@ export function SolutionParadigm() {
 
       {/* Learnings */}
       <div className="py-16 md:py-24">
-        <AnimatedTitle
+        <AnimatedText variant="heading"
           text="Conclusion & Learnings"
           animationType="fadeIn"
           className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-16 md:mb-20"
@@ -142,10 +142,10 @@ export function SolutionParadigm() {
 
       {/* Behind the Scenes */}
       <div className="py-16 md:py-24">
-        <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           Process
         </h3>
-        <AnimatedTitle
+        <AnimatedText variant="heading"
           text="Behind the Scenes"
           animationType="fadeIn"
           className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
@@ -200,7 +200,7 @@ export function SolutionParadigm() {
             </li>
           </ol>
 
-          <h4 className="text-sm md:text-[16px] font-bold uppercase mb-2" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+          <h4 className="text-[12px] md:text-[14px] font-bold uppercase mb-2" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
             ai credit
           </h4>
           <p className="text-base text-text-body leading-relaxed">

@@ -38,7 +38,7 @@ export function AquitaniaComponentsSection() {
     <div data-section="aquitania-creating-components">
       <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
         <div>
-          <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
+          <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
             04 - CREATING COMPONENTS
           </p>
           <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">
@@ -125,7 +125,7 @@ export function AquitaniaComponentsSection() {
         className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start"
       >
         <div className="space-y-4 md:space-y-5">
-          <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70">
+          <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70">
             05 - USER TESTING & ITERATION
           </p>
           <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">

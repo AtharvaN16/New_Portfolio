@@ -4,7 +4,7 @@ import { m, useTransform, useScroll } from 'framer-motion'
 import { useRef } from 'react'
 import Image from 'next/image'
 import type { CaseStudy } from '@/lib/data/case-studies'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 
 interface ShowcaseHeroProps {
   caseStudy: CaseStudy
@@ -71,7 +71,8 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
 
         {/* Text layout — identical structure to CaseStudyDetail's main section */}
         <div className="relative z-10 h-full flex flex-col px-6 2xl:px-[140px] pt-[4.625rem] md:pt-[4.875rem] pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto">
-          <AnimatedTitle
+          <AnimatedText
+            variant="hero"
             text={caseStudy.title}
             animationType="fadeIn"
             alwaysAnimate

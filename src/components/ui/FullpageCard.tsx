@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { CASE_STUDY_RETURN_PATH_KEY } from '@/lib/case-study-overlay'
 import { cn } from '@/lib/utils/cn'
 import { AnimatedHeroTextGSAP } from '@/components/hero/AnimatedHeroTextGSAP'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { useBreakpoints } from '@/hooks/use-responsive'
 
 interface FullpageCardProps {
@@ -136,7 +136,7 @@ export function FullpageCard({
       {/* Text Content - overlaid on top */}
       <div className="relative z-10 flex min-h-[100svh] w-full flex-col justify-start px-6 2xl:px-[140px] py-16 text-white sm:px-8 sm:py-20 md:py-[72px]">
         {isDesktop ? (
-          <AnimatedTitle
+          <AnimatedText variant="heading"
             text={title}
             animationType="fadeIn"
             className={cn(

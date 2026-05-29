@@ -1,0 +1,68 @@
+<h2>Library Hours Card Redesign</h2>
+<p class="subtitle">Removing the left sidebar and moving the image to the top with rounded corners.</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">Current Design (Side Image)</div>
+    <div class="mockup-body" style="background: #F8F9FA; padding: 20px;">
+      <div style="background: white; border: 1px solid #E0E0E0; display: flex; border-radius: 4px; overflow: hidden; max-width: 450px;">
+        <div style="width: 130px; background: #B8C8B8; display: flex; align-items: center; justify-content: center; min-height: 160px;">
+          <div style="color: #666; font-size: 10px;">LIBRARY IMAGE</div>
+        </div>
+        <div style="flex: 1; padding: 15px;">
+          <div style="color: #1F5C35; font-weight: bold; margin-bottom: 8px;">Cameron, Science + Engineering Library</div>
+          <div style="font-size: 11px; color: #666;">7am to 5pm</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">Proposed Design (Top Image)</div>
+    <div class="mockup-body" style="background: #F8F9FA; padding: 20px;">
+      <div style="background: white; border: 1px solid #E0E0E0; border-radius: 8px; overflow: hidden; max-width: 350px; display: flex; flex-direction: column;">
+        <div style="width: 100%; height: 140px; background: #B8C8B8; border-radius: 8px 8px 0 0; display: flex; align-items: center; justify-content: center; position: relative;">
+          <div style="color: #666; font-size: 12px;">LIBRARY IMAGE</div>
+          <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 100%; border-radius: 8px 8px 0 0; background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.05));"></div>
+        </div>
+        <div style="padding: 15px;">
+          <div style="color: #1F5C35; font-weight: bold; font-size: 16px; margin-bottom: 8px;">Cameron, Science + Engineering Library</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-bottom: 1px solid #EEE; padding-bottom: 10px; margin-bottom: 10px;">
+            <div style="font-size: 9px; color: #888; text-transform: uppercase;">Study Rooms<br><span style="color: #333; font-weight: bold;">8 rooms</span></div>
+            <div style="font-size: 9px; color: #888; text-transform: uppercase;">Workstations<br><span style="color: #333; font-weight: bold;">Available</span></div>
+          </div>
+          <div style="display: flex; gap: 10px; font-size: 11px;">
+            <div style="font-weight: bold; width: 80px;">Today's Hours</div>
+            <div style="color: #333;">7am to 5pm</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Design Notes</h3>
+  <ul>
+    <li><strong>Vertical Stack:</strong> Better for mobile and grid layouts.</li>
+    <li><strong>Rounded Image:</strong> The top image has rounded top corners (8px) to match the card container.</li>
+    <li><strong>Full Width:</strong> The image now spans the full width of the card, making it the focal point.</li>
+  </ul>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="approve" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Approve Proposed Design</h3>
+      <p>Proceed with the top-image, rounded-corner layout.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="modify" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Request Changes</h3>
+      <p>I want to adjust the proportions or details.</p>
+    </div>
+  </div>
+</div>

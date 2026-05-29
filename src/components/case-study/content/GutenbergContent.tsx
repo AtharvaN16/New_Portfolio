@@ -3,7 +3,7 @@
 import { m } from 'framer-motion'
 import { useState } from 'react'
 import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { OptimizedImage } from '@/components/case-study/OptimizedImage'
 import { AnimatedBars } from '@/components/case-study/AnimatedBars'
 
@@ -91,13 +91,15 @@ export function GutenbergContent({
               <div>
                 {/* Project Overview Section */}
                 <h3
-                  className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                  className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   Project Overview
                 </h3>
 
-                <AnimatedTitle
+                <AnimatedText
+                  variant="heading"
+                  as="h3"
                   text="Understanding First-Time User Experience in a Legacy CMS"
                   animationType="fadeIn"
                   alwaysAnimate={false}
@@ -134,7 +136,7 @@ export function GutenbergContent({
 
                 {/* Research Objectives Section */}
                 <h3
-                  className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                  className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   Research Objectives
@@ -237,13 +239,15 @@ export function GutenbergContent({
                 {/* Methodology Section */}
                 <div className="mt-12 md:mt-16">
                   <h3
-                    className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                    className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                     style={{ color: 'rgb(var(--color-text-tertiary))' }}
                   >
                     Methodology
                   </h3>
 
-                  <AnimatedTitle
+                  <AnimatedText
+                    variant="heading"
+                    as="h3"
                     text="Evaluating usability through behavioral and attitudinal data"
                     animationType="fadeIn"
                     alwaysAnimate={false}
@@ -581,13 +585,15 @@ export function GutenbergContent({
 
                   {/* Finding 1 */}
                   <h3
-                    className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                    className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                     style={{ color: 'rgb(var(--color-text-tertiary))' }}
                   >
                     Finding 1
                   </h3>
 
-                  <AnimatedTitle
+                  <AnimatedText
+                    variant="heading"
+                    as="h3"
                     text="Making template selection required during project creation caused expectation mismatch"
                     animationType="fadeIn"
                     alwaysAnimate={false}
@@ -786,13 +792,15 @@ export function GutenbergContent({
                   {/* Finding 2 */}
                   <div className="mt-16 md:mt-24">
                     <h3
-                      className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                      className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       Finding 2
                     </h3>
 
-                    <AnimatedTitle
+                    <AnimatedText
+                      variant="heading"
+                      as="h3"
                       text="The System-Generated Template Page caused confusion"
                       animationType="fadeIn"
                       alwaysAnimate={false}
@@ -993,13 +1001,15 @@ export function GutenbergContent({
                   {/* Finding 3 */}
                   <div className="mt-16 md:mt-24">
                     <h3
-                      className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                      className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       Finding 3
                     </h3>
 
-                    <AnimatedTitle
+                    <AnimatedText
+                      variant="heading"
+                      as="h3"
                       text="Users Had Confusion with the &quot;Generate with AI&quot; Feature at Several Key Points"
                       animationType="fadeIn"
                       alwaysAnimate={false}

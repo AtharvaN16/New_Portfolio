@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { m } from 'framer-motion'
 import Image from 'next/image'
 import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
-import { AnimatedQuote } from '@/components/ui/AnimatedQuote'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { ProjectCard } from '@/components/work/ProjectCard'
 import { ChecklistProcessOverviewSection } from '@/components/case-study/content/dcwp/ChecklistProcessOverviewSection'
 import { ChecklistSubCase } from '@/components/case-study/content/dcwp/ChecklistSubCase'
@@ -100,7 +100,7 @@ export function NycDcwpBusinessLicensesContent({
 
             {/* Opportunity */}
             <section data-section="nyc-dcwp-opportunity">
-              <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70 mb-4">
+              <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
                 Opportunity
               </p>
               <h3 className="text-xl md:text-[28px] font-bold text-text-primary mb-6 md:mb-8 leading-snug">
@@ -449,7 +449,7 @@ export function NycDcwpBusinessLicensesContent({
                     data-section="nyc-dcwp-research-insight-01-quote"
                     className="mt-10 md:mt-16"
                   >
-                    <AnimatedQuote
+                    <AnimatedText variant="quote"
                       className="text-xl md:text-case-heading font-bold tracking-[-0.02em] text-text-primary md:max-w-[420px]"
                       segments={[
                         { text: '\u201cThere are many important sections but' },
@@ -497,7 +497,7 @@ export function NycDcwpBusinessLicensesContent({
                   data-section="nyc-dcwp-research-insight-02-quote"
                   className="md:flex md:items-end md:justify-end"
                 >
-                  <AnimatedQuote
+                  <AnimatedText variant="quote"
                     className="text-xl md:text-case-heading font-bold tracking-[-0.02em] text-text-primary md:max-w-[420px]"
                     segments={[
                       { text: '\u201cI did not realize that you have to give an exam.', color: '#3183CB' },
@@ -567,7 +567,7 @@ export function NycDcwpBusinessLicensesContent({
                       </p>
                     </div>
                     <div data-section="nyc-dcwp-research-insight-03-quote">
-                      <AnimatedQuote
+                      <AnimatedText variant="quote"
                         className="text-xl md:text-case-heading font-bold tracking-[-0.02em] text-text-primary md:max-w-[420px]"
                         segments={[
                           { text: '\u201cI will be able to understand this if I read carefully but I wouldn\u2019t say it\u2019s good.' },
@@ -644,7 +644,7 @@ export function NycDcwpBusinessLicensesContent({
                   data-section="nyc-dcwp-research-insight-04-quote"
                   className="md:flex md:items-end md:justify-end"
                 >
-                  <AnimatedQuote
+                  <AnimatedText variant="quote"
                     className="text-xl md:text-case-heading tracking-[-0.02em] text-text-primary md:max-w-[420px]"
                     segments={[
                       { text: '\u201cWhy is this all the way down on the page?' },
@@ -677,7 +677,7 @@ export function NycDcwpBusinessLicensesContent({
                   data-section="nyc-dcwp-research-insight-05-quote"
                   className="md:flex md:items-end md:justify-end"
                 >
-                  <AnimatedQuote
+                  <AnimatedText variant="quote"
                     className="text-xl md:text-case-heading tracking-[-0.02em] text-text-primary md:max-w-[420px]"
                     segments={[
                       { text: '\u201cI was expecting a step-by-step guide.. this is too long to read.' },

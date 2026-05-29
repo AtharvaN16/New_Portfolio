@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react'
 import { m } from 'framer-motion'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 import { LibraryBasicsPrototype } from './LibraryBasicsPrototype'
 import LibraryServicesDirectory from './LibraryServicesDirectory'
@@ -11,11 +11,26 @@ import LibraryServicesHero from './LibraryServicesHero'
 import LibraryServicesPagePrototype from './LibraryServicesPagePrototype'
 import LibraryHoursPagePrototype from './LibraryHoursPagePrototype'
 import SubjectGuidesPrototype from './SubjectGuidesPrototype'
+import { ResearchObjectiveNotes } from './ResearchObjectiveNotes'
+import { UAlbertaResearchSection } from './UAlbertaResearchSection'
+import { CASE_STUDY_SECTION_LABEL } from '@/components/case-study/caseStudyTypography'
 
 interface UAlbertaLibraryContentProps {
   isContentRevealed: boolean
   onToggleContent: () => void
 }
+
+/** Readable line length — aligned with NYC DCWP case study */
+const PROSE_MAX = 'max-w-[680px]'
+const SECTION_LABEL = `${CASE_STUDY_SECTION_LABEL} mb-6 md:mb-[28px] ${PROSE_MAX}`
+const BLOCK_HEADING = `text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px] ${PROSE_MAX}`
+const ROLE_HEADING = `text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px] ${PROSE_MAX}`
+const BODY_TEXT = `text-base md:text-[18px] font-normal text-text-body leading-relaxed ${PROSE_MAX}`
+const BODY_MEDIUM = `text-base md:text-[18px] font-medium text-text-body leading-relaxed mb-4 ${PROSE_MAX}`
+const BODY_MUTED = `text-base md:text-[18px] font-normal leading-relaxed ${PROSE_MAX}`
+/** Section hero headlines — 24px mobile, 32px laptop+ */
+const HEADLINE_LG = `text-2xl md:text-[32px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] ${PROSE_MAX}`
+const HEADLINE_MD = `text-2xl md:text-[32px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] ${PROSE_MAX}`
 
 function ImagePlaceholder({
   aspectRatio = '16/9',
@@ -57,7 +72,7 @@ function Quote({
   context: string
 }) {
   return (
-    <div className="flex items-start gap-6">
+    <div className={`flex items-start gap-6 ${PROSE_MAX}`}>
       <div
         className="w-[2px] self-stretch flex-shrink-0"
         style={{ backgroundColor: 'rgb(var(--color-text-color20))' }}
@@ -86,13 +101,9 @@ function Quote({
   )
 }
 
-function Divider() {
-  return (
-    <div
-      className="border-t my-24 md:my-32"
-      style={{ borderColor: 'rgb(var(--color-text-color10))' }}
-    />
-  )
+/** Preserves section rhythm previously provided by line dividers */
+function SectionSpacer() {
+  return <div className="my-48 md:my-56" aria-hidden="true" />
 }
 
 export function UAlbertaLibraryContent({
@@ -128,29 +139,30 @@ export function UAlbertaLibraryContent({
 
         <div className="space-y-6 md:space-y-8">
           <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
-            This case study documents a usability study of the University of
-            Alberta Library website, conducted to understand how students
-            navigate, discover resources, and access library services. The
-            research focused on four core areas: the homepage, hours and
-            locations, subject guides, and library services.
+            The University of Alberta Library website works well for students
+            who already know exactly what they need. For everyone else,
+            including new students, first-time researchers, and anyone exploring,
+            the site makes it difficult to find relevant information.
           </p>
           <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
-            Through moderated user interviews with 8 UAlberta students, the
-            study surfaced a consistent pattern: the website works well for
-            users who already know what they are looking for, but creates
-            significant friction for students who are new to the library or
-            exploring what it offers. Four targeted recommendations were
-            developed to address the most critical navigation and
-            discoverability gaps.
+            Our usability study with 8 students revealed four critical
+            bottlenecks: a homepage that hides relevant information below the
+            fold, hours and locations that assume prior campus knowledge,
+            subject guides that are unclear and hard to navigate, and a services
+            page that overwhelms users with dense information.
+          </p>
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+            This case study documents our investigation and four targeted
+            recommendations to transform the library website from a tool for
+            experienced users into an environment that actively supports
+            discovery.
           </p>
         </div>
 
         {/* My Role */}
-        <div className="mt-12 md:mt-16">
-          <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
-            My Role
-          </h3>
-          <p className="text-base md:text-[18px] font-medium text-text-body leading-relaxed mb-4">
+        <div className={`mt-12 md:mt-16 ${PROSE_MAX}`}>
+          <h3 className={ROLE_HEADING}>My Role</h3>
+          <p className={BODY_MEDIUM}>
             As part of a four-person research team, I contributed to:
           </p>
           <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-2">
@@ -162,7 +174,7 @@ export function UAlbertaLibraryContent({
             ].map((item) => (
               <li
                 key={item}
-                className="text-base md:text-[18px] font-normal text-text-body leading-relaxed"
+                className={BODY_TEXT}
               >
                 {item}
               </li>
@@ -177,201 +189,71 @@ export function UAlbertaLibraryContent({
         >
               {/* Project Overview */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Project Overview
               </h3>
 
-              <AnimatedTitle
-                text="The library website works well for people who already know where to look"
+              <AnimatedText variant="heading"
+                text="The UAlberta Library website has every resource a student might need. Discovering it is the hard part."
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className={HEADLINE_LG}
               />
 
-              <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
-                <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
-                  style={{ color: 'rgb(var(--color-text-color90))' }}
-                >
-                  The University of Alberta Library website serves as the
-                  primary digital entry point for students accessing research
-                  databases, booking study rooms, finding hours, and navigating
-                  library services. With a large and diverse student population,
-                  the website needs to support both power users and students who
-                  have never used a library website before.
-                </p>
-                <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
-                  style={{ color: 'rgb(var(--color-text-color90))' }}
-                >
-                  The client wanted to understand how well students could
-                  navigate the site and find what they need, and what specific
-                  improvements would reduce confusion and improve discoverability
-                  across the four most-used sections.
-                </p>
-              </div>
+              <p
+                className={`${BODY_MUTED} mb-12 md:mb-16`}
+                style={{ color: 'rgb(var(--color-text-color90))' }}
+              >
+                The website is the primary digital entry point for students
+                accessing research, booking study rooms, finding hours, and
+                navigating services. With a large and diverse student population,
+                it must support both power users and first-time visitors. The
+                client wanted to understand navigation gaps and what improvements
+                would reduce confusion.
+              </p>
 
               <ImagePlaceholder
                 label="University of Alberta Library homepage — current design"
                 aspectRatio="16/9"
                 className="mb-12 md:mb-16"
               />
-
-              <Divider />
-
+              <SectionSpacer />
               {/* Research Objectives */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Research Objectives
               </h3>
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
+                className={`${BODY_MUTED} mb-12 md:mb-16`}
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The study was structured around four goals:
               </p>
 
-              <ul className="space-y-6 md:space-y-7">
-                {[
-                  {
-                    title: 'Navigation and discoverability',
-                    body: 'Determine whether new users can understand and navigate to the services and features offered by the library website.',
-                  },
-                  {
-                    title: 'Feature usage and experience',
-                    body: 'Learn about the features students use most frequently and their experience using them.',
-                  },
-                  {
-                    title: 'Recommendations for clarity',
-                    body: 'Provide recommendations to improve the organization, clarity, and usability of the website and its features.',
-                  },
-                  {
-                    title: 'Services page usability',
-                    body: 'Assess the usability of the "All Library Services" page for students across different levels of library familiarity.',
-                  },
-                ].map((obj) => (
-                  <li key={obj.title} className="flex items-start gap-4">
-                    <span
-                      className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
-                      style={{
-                        backgroundColor:
-                          'rgb(var(--color-text-secondary))',
-                      }}
-                    />
-                    <div>
-                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-body">
-                        {obj.title}
-                      </div>
-                      <p
-                        className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
-                        style={{ color: 'rgb(var(--color-text-tertiary))' }}
-                      >
-                        {obj.body}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-
-              <Divider />
-
-              {/* Methodology */}
-              <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
-                style={{ color: 'rgb(var(--color-text-tertiary))' }}
-              >
-                Methodology
-              </h3>
-
-              <AnimatedTitle
-                text="Moderated interviews with screen sharing to observe real navigation behavior"
-                animationType="fadeIn"
-                alwaysAnimate={false}
-                delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
-              />
-
-              <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
-                <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
-                  style={{ color: 'rgb(var(--color-text-color90))' }}
-                >
-                  We conducted{' '}
-                  <span className="font-bold">
-                    8 moderated user interviews over Zoom
-                  </span>
-                  , recruiting participants through SLAC and the UAlberta
-                  weekly digest. Each session included{' '}
-                  <span className="font-bold">16 questions and tasks</span>{' '}
-                  where participants shared their screen and talked aloud while
-                  navigating the library website. A{' '}
-                  <span className="font-bold">
-                    4-question screener questionnaire
-                  </span>{' '}
-                  captured demographic information and library usage frequency
-                  before sessions began.
-                </p>
-              </div>
-
-              {/* Participant Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-12 md:mb-16">
-                {[
-                  { stat: '8', label: 'Participants', sub: '100% UAlberta students' },
-                  { stat: '16', label: 'Tasks & Questions', sub: 'Per session' },
-                  { stat: '4', label: 'Screener Questions', sub: 'Pre-session' },
-                  { stat: '62.5%', label: 'Use Library "Sometimes"', sub: '5 of 8 participants' },
-                ].map((item) => (
-                  <div key={item.label} className="space-y-2">
-                    <div
-                      className="text-4xl md:text-5xl font-bold tracking-[-0.05em]"
-                      style={{ color: 'rgb(var(--color-text-primary))' }}
-                    >
-                      {item.stat}
-                    </div>
-                    <p
-                      className="text-[14px] font-bold leading-relaxed"
-                      style={{ color: 'rgb(var(--color-text-secondary))' }}
-                    >
-                      {item.label}
-                    </p>
-                    <p
-                      className="text-[13px] font-normal leading-relaxed"
-                      style={{ color: 'rgb(var(--color-text-tertiary))' }}
-                    >
-                      {item.sub}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-              <ImagePlaceholder
-                label="Participant demographics — year distribution and usage frequency breakdown"
-                aspectRatio="16/7"
-                className="mb-12 md:mb-16"
-              />
-
-              <Divider />
-
+              <ResearchObjectiveNotes />
+              <SectionSpacer />
+              <UAlbertaResearchSection />
+              <SectionSpacer />
               {/* Finding 1 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 1 — Homepage
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="The hero section held users' attention, but the page offered little utility beyond the fold"
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className={HEADLINE_LG}
               />
 
               <ImagePlaceholder
@@ -381,10 +263,10 @@ export function UAlbertaLibraryContent({
               />
 
               <div
-                className="mb-8 md:mb-12 space-y-3"
+                className={`mb-8 md:mb-12 space-y-3 ${PROSE_MAX}`}
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
-                <p className="text-base md:text-[18px] font-normal leading-relaxed">
+                <p className={BODY_MUTED}>
                   The homepage search bar and navigation were appreciated by
                   participants as clear and useful. However, the content below
                   the hero section felt disconnected from everyday student
@@ -392,7 +274,7 @@ export function UAlbertaLibraryContent({
                   found what they needed in the first viewport and stopped
                   there.
                 </p>
-                <p className="text-base md:text-[18px] font-normal leading-relaxed">
+                <p className={BODY_MUTED}>
                   The &ldquo;Did You Know&rdquo; and featured content sections
                   skewed toward research-heavy users rather than addressing the
                   full range of student use cases like booking study rooms or
@@ -410,18 +292,18 @@ export function UAlbertaLibraryContent({
 
               {/* Recommendation 01 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 01 — Homepage
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Make the homepage useful beyond the first viewport"
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className={HEADLINE_MD}
               />
 
               <ImagePlaceholder
@@ -430,7 +312,7 @@ export function UAlbertaLibraryContent({
                 className="mb-8 md:mb-12"
               />
 
-              <ul className="space-y-3 mb-12 md:mb-16">
+              <ul className={`space-y-3 mb-12 md:mb-16 ${PROSE_MAX}`}>
                 {[
                   'Add a prominent site search option since students were Googling services directly',
                   'Elevate "How to use the library" into the navigation to increase discoverability',
@@ -444,7 +326,7 @@ export function UAlbertaLibraryContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className={BODY_MUTED}
                       style={{ color: 'rgb(var(--color-text-color90))' }}
                     >
                       {point}
@@ -452,23 +334,21 @@ export function UAlbertaLibraryContent({
                   </li>
                 ))}
               </ul>
-
-              <Divider />
-
+              <SectionSpacer />
               {/* Finding 2 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 2 — Hours &amp; Locations
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Students wanted quick answers about which library to visit — and got confusion instead"
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className={HEADLINE_LG}
               />
 
               <ImagePlaceholder
@@ -478,7 +358,7 @@ export function UAlbertaLibraryContent({
               />
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
+                className={`${BODY_MUTED} mb-8 md:mb-10`}
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 Students naturally turned to the Hours &amp; Locations page
@@ -521,7 +401,7 @@ export function UAlbertaLibraryContent({
                   </div>
                 </div>
                 <p
-                  className="text-[18px] font-normal leading-relaxed"
+                  className={`text-[18px] font-normal leading-relaxed ${PROSE_MAX}`}
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   4 participants specifically noted confusion about campus
@@ -540,18 +420,18 @@ export function UAlbertaLibraryContent({
 
               {/* Recommendation 02 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 02 — Hours &amp; Locations
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Group libraries by campus and surface today's hours upfront"
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className={HEADLINE_MD}
               />
 
               <ImagePlaceholder
@@ -560,7 +440,7 @@ export function UAlbertaLibraryContent({
                 className="mb-8 md:mb-12"
               />
 
-              <ul className="space-y-3 mb-12 md:mb-16">
+              <ul className={`space-y-3 mb-12 md:mb-16 ${PROSE_MAX}`}>
                 {[
                   "Display today's hours directly on each library card to reduce click-through friction",
                   'Group libraries by campus type (Edmonton vs. Augustana & Saint-Jean) so students can immediately find relevant locations',
@@ -572,7 +452,7 @@ export function UAlbertaLibraryContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className={BODY_MUTED}
                       style={{ color: 'rgb(var(--color-text-color90))' }}
                     >
                       {point}
@@ -584,23 +464,21 @@ export function UAlbertaLibraryContent({
               <div className="mb-12 md:mb-16">
                 <LibraryHoursPagePrototype />
               </div>
-
-              <Divider />
-
+              <SectionSpacer />
               {/* Finding 3 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 3 — Subject Guides
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Unexpected groupings made subject guides feel like a maze rather than a resource"
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className={HEADLINE_LG}
               />
 
               <ImagePlaceholder
@@ -610,7 +488,7 @@ export function UAlbertaLibraryContent({
               />
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
+                className={`${BODY_MUTED} mb-8 md:mb-10`}
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 Navigating to a specific subject guide required multiple steps
@@ -632,18 +510,18 @@ export function UAlbertaLibraryContent({
 
               {/* Recommendation 03 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 03 — Subject Guides
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Add search, collapsible structure, and a clear intro to what guides are"
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className={HEADLINE_MD}
               />
 
               <ImagePlaceholder
@@ -652,7 +530,7 @@ export function UAlbertaLibraryContent({
                 className="mb-8 md:mb-12"
               />
 
-              <ul className="space-y-3 mb-12 md:mb-16">
+              <ul className={`space-y-3 mb-12 md:mb-16 ${PROSE_MAX}`}>
                 {[
                   'Add a page description explaining what subject guides are and how to use them',
                   'Introduce search and sort options so students can find specific guides without scrolling',
@@ -665,7 +543,7 @@ export function UAlbertaLibraryContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className={BODY_MUTED}
                       style={{ color: 'rgb(var(--color-text-color90))' }}
                     >
                       {point}
@@ -677,23 +555,21 @@ export function UAlbertaLibraryContent({
               <div className="mb-12 md:mb-16">
                 <SubjectGuidesPrototype />
               </div>
-
-              <Divider />
-
+              <SectionSpacer />
               {/* Finding 4 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 4 — Library Services
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="The Services page overwhelmed new users with links and no clear starting point"
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className={HEADLINE_LG}
               />
 
               <ImagePlaceholder
@@ -703,7 +579,7 @@ export function UAlbertaLibraryContent({
               />
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
+                className={`${BODY_MUTED} mb-8 md:mb-10`}
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The All Services page worked reasonably well for users who
@@ -723,25 +599,25 @@ export function UAlbertaLibraryContent({
 
               {/* Recommendation 04 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 04 — Library Services
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Prioritize popular services and add audience-based filtering"
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className={HEADLINE_MD}
               />
 
               <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-12 items-start mb-12 md:mb-16">
                 <div className="lg:sticky lg:top-32">
                   <LibraryBasicsPrototype />
                 </div>
-                <div>
+                <div className={PROSE_MAX}>
                   <ul className="space-y-6">
                     {[
                       'Surface the most commonly used services (study rooms, citation guides, printing) at the top of the page',
@@ -755,7 +631,7 @@ export function UAlbertaLibraryContent({
                           style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                         />
                         <p
-                          className="text-base md:text-[18px] font-normal leading-relaxed"
+                          className={BODY_MUTED}
                           style={{ color: 'rgb(var(--color-text-color90))' }}
                         >
                           {point}
@@ -765,23 +641,21 @@ export function UAlbertaLibraryContent({
                   </ul>
                 </div>
               </div>
-
-              <Divider />
-
+              <SectionSpacer />
               {/* Full Directory Prototype */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Deep Dive — Full Directory
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="An interactive exploration of the recommended directory structure"
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className={HEADLINE_MD}
               />
 
               <div className="mb-12 md:mb-16">
@@ -802,27 +676,25 @@ export function UAlbertaLibraryContent({
                   </div>
                 </div>
               </div>
-
-              <Divider />
-
+              <SectionSpacer />
               {/* Summary */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Summary
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="The website works for power users — fixing it for everyone else requires clarity, not complexity"
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className={HEADLINE_LG}
               />
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-6"
+                className={`${BODY_MUTED} mb-6`}
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The University of Alberta Library website effectively surfaces
@@ -833,7 +705,7 @@ export function UAlbertaLibraryContent({
               </p>
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed"
+                className={BODY_MUTED}
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The four recommendations — making the homepage more useful
@@ -844,23 +716,21 @@ export function UAlbertaLibraryContent({
                 know what they are looking for. Each change reduces that
                 requirement.
               </p>
-
-              <Divider />
-
+              <SectionSpacer />
               {/* Full Experience Prototype */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Full Experience Prototype
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="The complete vision: Hero discovery integrated with the full directory"
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className={HEADLINE_MD}
               />
 
               <div className="mb-12 md:mb-16">

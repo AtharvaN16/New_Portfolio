@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { cn } from '@/lib/utils/cn'
 
 const PRIMITIVE_TITLE_CLASS =
@@ -154,10 +154,12 @@ export function AquitaniaPrimitivesShowcase() {
             data-section={`aquitania-primitive-${title.toLowerCase()}`}
             className={cn(alignRight && 'flex w-full flex-col items-end')}
           >
-            <AnimatedTitle
+            <AnimatedText
+              variant="heading"
+              as="h3"
               text={title}
-              animationType="fadeInUp"
-              variant="full"
+              animationType="fadeIn"
+              maxWidth="full"
               className={cn(
                 PRIMITIVE_TITLE_CLASS,
                 alignRight && 'text-right'

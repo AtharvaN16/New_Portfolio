@@ -1,7 +1,7 @@
 'use client'
 
 import { m } from 'framer-motion'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 
 interface MetFreeToursContentProps {
@@ -129,13 +129,13 @@ export function MetFreeToursContent({
         >
               {/* Project Overview */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Project Overview
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="The Met offers free guided tours daily. Finding them shouldn't feel like a treasure hunt."
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -177,7 +177,7 @@ export function MetFreeToursContent({
 
               {/* Research Goals */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Research Goals
@@ -239,13 +239,13 @@ export function MetFreeToursContent({
 
               {/* Methodology */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Methodology
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Unmoderated testing let us observe natural behavior without researcher influence"
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -340,13 +340,13 @@ export function MetFreeToursContent({
 
               {/* Finding 1 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 1 — Navigation
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Six users went to Plan Your Visit first. Half of them never found the tours."
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -390,13 +390,13 @@ export function MetFreeToursContent({
 
               {/* Recommendation 01 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 01 — Navigation
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Surface Free Tours within the planning flow — that's where users expect to find it"
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -429,13 +429,13 @@ export function MetFreeToursContent({
 
               {/* Finding 2 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 2 — Browsing
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="The layout made comparison so costly that one user gave up entirely"
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -466,13 +466,13 @@ export function MetFreeToursContent({
 
               {/* Recommendation 02 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 02 — Browsing
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Replace the vertical list with cards so users can compare without losing their place"
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -511,13 +511,13 @@ export function MetFreeToursContent({
 
               {/* Finding 3 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 3 — Filters
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Filters were the most relied-on feature on the page — and the most broken"
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -590,13 +590,13 @@ export function MetFreeToursContent({
 
               {/* Recommendation 03 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 03 — Filters
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Fix what's broken, add what's missing, and make filter state visible"
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -631,13 +631,13 @@ export function MetFreeToursContent({
 
               {/* Finding 4 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 4 — Wayfinding
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="A broken breadcrumb quietly sent users to the wrong section five times"
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -667,13 +667,13 @@ export function MetFreeToursContent({
 
               {/* Recommendation 04 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 04 — Wayfinding
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Fix the breadcrumb — a one-line change that restores trust in navigation"
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -705,13 +705,13 @@ export function MetFreeToursContent({
 
               {/* Finding 5 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 5 — Information Architecture
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="After browsing the page, users still couldn't explain what a free tour actually involves"
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -741,13 +741,13 @@ export function MetFreeToursContent({
 
               {/* Recommendation 05 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 05 — Information Architecture
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Add an overview section so users understand what free tours are before they choose one"
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -780,13 +780,13 @@ export function MetFreeToursContent({
 
               {/* Finding 6 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 6 — Completion Model
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="Three users left looking for a booking step that doesn't exist"
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -817,13 +817,13 @@ export function MetFreeToursContent({
 
               {/* Recommendation 06 */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 06 — Completion Model
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="State no-registration upfront and give users a way to close the loop"
                 animationType="fadeIn"
                 alwaysAnimate={false}
@@ -863,13 +863,13 @@ export function MetFreeToursContent({
 
               {/* Summary */}
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Summary
               </h3>
 
-              <AnimatedTitle
+              <AnimatedText variant="heading"
                 text="A valuable offering was invisible because the page never told users it existed, what it was, or how to act on it"
                 animationType="fadeIn"
                 alwaysAnimate={false}

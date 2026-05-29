@@ -1,0 +1,66 @@
+<h2>Library Hours Card - Notification Refinement v2</h2>
+<p class="subtitle">Notification at the top (full width), followed by the image and content aligned below it.</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">Interpretation C: Full-Width Top Notification</div>
+    <div class="mockup-body" style="background: #F8F9FA; padding: 20px;">
+      <div style="background: white; border: 1px solid #E0E0E0; border-radius: 4px; overflow: hidden; max-width: 500px; padding: 20px; display: flex; flex-direction: column;">
+        
+        {/* Full-width notification at the very top */}
+        <div style="background: #FFF8E1; padding: 12px 15px; border-radius: 4px; font-size: 11px; color: #383838; line-height: 1.5; margin-bottom: 20px; border-left: 3px solid #FFD54F;">
+          <strong>Notification:</strong> The DSC is temporarily closed for renovations. Remote consultations and digital services remain available. In-person access is expected to resume in Fall 2025.
+        </div>
+
+        <div style="display: flex; gap: 20px; align-items: flex-start;">
+          {/* Left Side: Rounded Image */}
+          <div style="width: 110px; flex-shrink: 0;">
+            <div style="width: 110px; height: 110px; background: #B8C8B8; border-radius: 12px; border: 1px solid #E0E0E0; display: flex; align-items: center; justify-content: center; box-sizing: border-box;">
+              <div style="color: #666; font-size: 9px; text-align: center;">STROKE<br>IMAGE</div>
+            </div>
+          </div>
+
+          {/* Right Side: Title + Content */}
+          <div style="flex: 1;">
+            <h3 style="color: #1F5C35; font-weight: bold; font-size: 15px; margin-bottom: 8px; margin-top: 0;">
+              Digital Scholarship Centre (DSC)
+            </h3>
+            
+            <div style="border-bottom: 1px solid #EEE; padding-bottom: 15px; margin-bottom: 15px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+               <div style="font-size: 8px; color: #888; text-transform: uppercase;">Study Rooms<br><span style="color: #333; font-weight: bold; font-size: 10px;">4</span></div>
+               <div style="font-size: 8px; color: #888; text-transform: uppercase;">Workstations<br><span style="color: #333; font-weight: bold; font-size: 10px;">Yes</span></div>
+               <div style="font-size: 8px; color: #888; text-transform: uppercase;">Night Study<br><span style="color: #333; font-weight: bold; font-size: 10px;">No</span></div>
+               <div style="font-size: 8px; color: #888; text-transform: uppercase;">Printers<br><span style="color: #333; font-weight: bold; font-size: 10px;">Yes</span></div>
+            </div>
+
+            <div style="display: flex; gap: 15px; font-size: 11px;">
+              <div style="font-weight: bold; width: 80px; color: #383838;">Today's Hours</div>
+              <div style="color: #333;">Closed for Renovation</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>Layout Description</h3>
+  <ul>
+    <li><strong>Notification (Top):</strong> The yellow notification spans the full width of the card's internal content area at the very top.</li>
+    <li><strong>Image | Title:</strong> Below the notification, the image and title are aligned horizontally.</li>
+    <li><strong>Content:</strong> The rest of the library info flows below the title on the right side.</li>
+    <li><strong>Stroke:</strong> A 1px light gray stroke is applied to the image.</li>
+  </ul>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="approve" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Approve Top Notification Layout</h3>
+      <p>Proceed with the notification at the top and image|title below.</p>
+    </div>
+  </div>
+</div>

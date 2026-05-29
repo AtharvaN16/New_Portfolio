@@ -14,9 +14,15 @@ interface CaseStudyVideoProps {
   src: string
   alt: string
   className?: string
+  playbackRate?: number
 }
 
-export function CaseStudyVideo({ src, alt, className }: CaseStudyVideoProps) {
+export function CaseStudyVideo({
+  src,
+  alt,
+  className,
+  playbackRate = 1,
+}: CaseStudyVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const shouldReduceMotion = useReducedMotion()
@@ -44,6 +50,12 @@ export function CaseStudyVideo({ src, alt, className }: CaseStudyVideoProps) {
     observer.observe(wrapper)
     return () => observer.disconnect()
   }, [shouldReduceMotion])
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    video.playbackRate = playbackRate
+  }, [playbackRate])
 
   useEffect(() => {
     const video = videoRef.current

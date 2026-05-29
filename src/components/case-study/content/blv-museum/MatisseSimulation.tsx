@@ -3,7 +3,7 @@
 import { m, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 import Image from 'next/image'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { cn } from '@/lib/utils/cn'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
@@ -116,10 +116,10 @@ export function MatisseSimulation({ scrollContainerRef, isReady }: MatisseSimula
 
       {/* Secondary Research */}
       <div className="mb-24 md:mb-32">
-        <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           Secondary Research
         </h3>
-        <AnimatedTitle
+        <AnimatedText variant="heading"
           text="We conducted a literature survey to deepen our understanding"
           animationType="fadeIn"
           className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-12 max-w-[800px]"

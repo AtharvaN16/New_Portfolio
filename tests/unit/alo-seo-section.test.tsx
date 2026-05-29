@@ -11,7 +11,7 @@ describe('AloSEOSection', () => {
       </AccessibilityProvider>
     )
 
-    expect(screen.getByText('Finding 1 — Keyword Coverage')).toBeInTheDocument()
+    expect(screen.getByText('Keyword Strategy')).toBeInTheDocument()
     expect(
       screen.getByRole('heading', {
         name: /Alo shows up for yoga\. It doesn't show up for much else\./i,

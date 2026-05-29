@@ -5,7 +5,7 @@ import { m } from 'framer-motion'
 import { type ProjectCardProps } from '@/components/work/ProjectCard'
 import { ExplorationsGrid } from '@/components/work/ExplorationsGrid'
 import { getVisibleCaseStudies } from '@/lib/data/case-studies'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { CaseStudyHeader } from '@/components/case-study/CaseStudyHeader'
 import { useSmoothScroll } from '@/hooks/use-smooth-scroll'
 
@@ -50,7 +50,8 @@ export default function ExplorationsPage() {
 
         <main className="px-6 2xl:px-[140px] pt-4 pb-20 md:pb-32 max-w-[1920px] mx-auto flex flex-col">
           <div className="mb-14 lg:mb-20 flex flex-col gap-8">
-            <AnimatedTitle
+            <AnimatedText
+              variant="hero"
               text="Losing sleep over random design explorations"
               animationType="fadeIn"
               alwaysAnimate

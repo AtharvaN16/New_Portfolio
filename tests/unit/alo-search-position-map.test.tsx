@@ -14,8 +14,8 @@ describe('AloSearchPositionMap', () => {
 
     expect(screen.getByText('Sport breadth (Yoga-only → Multi-sport)')).toBeInTheDocument()
     expect(screen.getByText('Audience gender balance')).toBeInTheDocument()
-    expect(screen.getByText('Yoga + Female-dominant')).toBeInTheDocument()
-    expect(screen.getByText('Multi-sport + Gender-equal')).toBeInTheDocument()
+    expect(screen.getByText('YOGA + FEMALE-DOMINANT')).toBeInTheDocument()
+    expect(screen.getByText('MULTI-SPORT + GENDER-EQUAL')).toBeInTheDocument()
 
     for (const brand of ['Alo Yoga', 'Vuori', 'Lululemon', 'Gymshark', 'Under Armour']) {
       expect(screen.getByText(brand)).toBeInTheDocument()

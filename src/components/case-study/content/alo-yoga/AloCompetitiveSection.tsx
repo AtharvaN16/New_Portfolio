@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 
 const competitors = [
   {
@@ -46,13 +46,13 @@ export function AloCompetitiveSection() {
   return (
     <div>
       <h3
-        className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+        className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
         Competitive Landscape
       </h3>
 
-      <AnimatedTitle
+      <AnimatedText variant="heading"
         text="Understanding Alo's current market position"
         animationType="fadeIn"
         alwaysAnimate={false}

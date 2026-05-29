@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { m } from 'framer-motion'
 import Image from 'next/image'
 import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { AloCompetitiveSection } from './alo-yoga/AloCompetitiveSection'
 import { AloSEOSection } from './alo-yoga/AloSEOSection'
 import { AloSocialSection } from './alo-yoga/AloSocialSection'
@@ -135,7 +135,7 @@ export function AloYogaContent({
           <div>
             <div ref={overviewRef}>
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Project Overview
@@ -143,7 +143,8 @@ export function AloYogaContent({
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-0 items-center">
               <div className="flex flex-col justify-start space-y-6 md:space-y-8">
-                <AnimatedTitle
+                <AnimatedText
+                  variant="heading"
                   text="A brand with cultural reach and a digital presence that doesn't match it"
                   animationType="fadeIn"
                   alwaysAnimate={false}
@@ -262,7 +263,7 @@ export function AloYogaContent({
             {/* Conclusion & Reflection */}
             <div className="py-16 md:py-24">
               <h3
-                className="text-sm md:text-[16px] font-bold uppercase mb-8"
+                className="text-[12px] md:text-[14px] font-bold uppercase mb-8"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Conclusion & Reflection

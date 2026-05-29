@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import Image from 'next/image'
 
 const ALO_INSTA = '/images/case-studies/alo-yoga-digital-analytics/alo_insta.webp'
@@ -11,13 +11,13 @@ export function AloSocialSection() {
   return (
     <div>
       <h3
-        className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]"
+        className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
         Social Media Analysis
       </h3>
 
-      <AnimatedTitle
+      <AnimatedText variant="heading"
         text="Social strategy lags behind audience expansion goals"
         animationType="fadeIn"
         alwaysAnimate={false}

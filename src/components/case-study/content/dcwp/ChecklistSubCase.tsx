@@ -26,7 +26,7 @@ export function ChecklistSubCase() {
           data-section="nyc-dcwp-subcase-checklist-title-group"
           className="space-y-3"
         >
-          <p className="text-xs md:text-sm font-semibold uppercase tracking-widest text-text-color70">
+          <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70">
             Case Study 1 of 3
           </p>
           <h2 className="text-2xl md:text-[36px] font-bold text-text-primary leading-tight tracking-[-0.03em]">

@@ -4,7 +4,7 @@ import { m } from 'framer-motion'
 import { useRef, useState } from 'react'
 import Image from 'next/image'
 import type { CaseStudy } from '@/lib/data/case-studies'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import {
   useFigmaEmbedLoad,
   useFigmaPresentationClose,
@@ -40,7 +40,8 @@ export function FigmaPresentationDetail({
 
   const heroSlot = (
     <main className="px-6 2xl:px-[140px] pt-4 pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100dvh-4.625rem)] md:min-h-[calc(100dvh-4.875rem)] flex flex-col relative">
-      <AnimatedTitle
+      <AnimatedText
+        variant="hero"
         text={caseStudy.title}
         animationType="fadeIn"
         alwaysAnimate

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { AloSearchForbidden } from './AloSearchForbidden'
 import { AloSEOPieChart } from './AloSEOPieChart'
 import { AloKeywordInsights } from './AloKeywordInsights'
@@ -25,13 +25,13 @@ export function AloSEOSection() {
       <div id="keyword" className="scroll-mt-32">
       {/* ── Keyword Strategy ── */}
       <h3
-        className="text-sm md:text-[16px] font-bold uppercase mb-6"
+        className="text-[12px] md:text-[14px] font-bold uppercase mb-6"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
         Keyword Strategy
       </h3>
 
-      <AnimatedTitle
+      <AnimatedText variant="heading"
         text="Alo shows up for yoga. It doesn't show up for much else."
         animationType="fadeIn"
         alwaysAnimate={false}
@@ -105,7 +105,7 @@ export function AloSEOSection() {
           >
             Problem Statement
           </span>
-          <AnimatedTitle
+          <AnimatedText variant="heading"
             text="Alo Yoga's digital infrastructure and SEO strategy are stuck in its 'Yoga-only' and 'Women-only' legacy, creating a gap between its lifestyle vision and search visibility."
             highlightWords={["'Yoga-only'", "'Women-only'"]}
             highlightColor="rgb(var(--color-alo-progress))"
@@ -123,7 +123,7 @@ export function AloSEOSection() {
           >
             The Goal
           </span>
-          <AnimatedTitle
+          <AnimatedText variant="heading"
             text="Strategically expand Alo Yoga from a women-centric yoga brand into a comprehensive activewear lifestyle brand that serves a broader range of workout occasions and male consumers."
             highlightWords={["expand Alo Yoga from a women-centric yoga brand into a comprehensive activewear lifestyle brand"]}
             highlightColor="rgb(var(--color-alo-progress))"
@@ -144,7 +144,7 @@ export function AloSEOSection() {
       {/* ── Finding 2: SEO Audit ── */}
       <div id="seo" className="scroll-mt-32">
         <h3
-        className="text-sm md:text-[16px] font-bold uppercase mb-8 md:mb-10"
+        className="text-[12px] md:text-[14px] font-bold uppercase mb-8 md:mb-10"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
         SEO Audit
@@ -183,7 +183,7 @@ export function AloSEOSection() {
             transition={{ duration: 0.3 }}
           >
 
-      <AnimatedTitle
+      <AnimatedText variant="heading"
         text="A significant share of the site is invisible to Google"
         animationType="fadeIn"
         alwaysAnimate={false}
@@ -237,7 +237,7 @@ export function AloSEOSection() {
       <section className="pt-24 md:pt-32 border-t border-neutral-100 dark:border-neutral-900">
         {/* Insight 2 Label removed */}
 
-        <AnimatedTitle
+        <AnimatedText variant="heading"
           text="Alo yoga website performance needs to be improved"
           animationType="fadeIn"
           delay={0}
@@ -311,7 +311,7 @@ export function AloSEOSection() {
             transition={{ duration: 0.3 }}
             className="mb-32"
           >
-            <AnimatedTitle
+            <AnimatedText variant="heading"
               text="Weak on-page SEO limits visibility"
               animationType="fadeIn"
               alwaysAnimate={false}
@@ -471,7 +471,7 @@ export function AloSEOSection() {
             transition={{ duration: 0.3 }}
             className="mb-32"
           >
-            <AnimatedTitle
+            <AnimatedText variant="heading"
               text="Weak backlink quality and anchor text relevance"
               animationType="fadeIn"
               alwaysAnimate={false}

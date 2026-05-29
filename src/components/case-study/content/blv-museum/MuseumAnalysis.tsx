@@ -3,7 +3,7 @@
 import { m, useMotionValue, useAnimationFrame } from 'framer-motion'
 import { useRef, useState } from 'react'
 import Image from 'next/image'
-import { AnimatedTitle } from '@/components/ui/AnimatedTitle'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 import { cn } from '@/lib/utils/cn'
 
@@ -83,10 +83,10 @@ export function MuseumAnalysis() {
           @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap');
           .font-handwritten { font-family: 'Caveat', cursive; }
         `}</style>
-        <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           Finding Our Focus
         </h3>
-        <AnimatedTitle
+        <AnimatedText variant="heading"
           text="Three Different Interpretations"
           animationType="fadeIn"
           className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-12 lg:mb-16 max-w-[760px]"
@@ -140,7 +140,7 @@ export function MuseumAnalysis() {
       </div>
 
       <div className="my-24 md:my-32 max-w-[880px]">
-        <AnimatedTitle
+        <AnimatedText variant="heading"
           text="By interpreting art instead of just describing it, standard audio descriptions strip away the visitor's autonomy to find their own meaning."
           animationType="fadeIn"
           className="text-2xl md:text-[40px] font-bold text-text-primary leading-[1.15] tracking-[-0.04em]"
@@ -148,10 +148,10 @@ export function MuseumAnalysis() {
       </div>
 
       <div className="pt-12">
-        <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           Our Analysis
         </h3>
-        <AnimatedTitle
+        <AnimatedText variant="heading"
           text="We analyzed a corpus of real museum audio descriptions to assess their objectivity."
           animationType="fadeIn"
           className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
@@ -182,10 +182,10 @@ export function MuseumAnalysis() {
       </div>
 
       <div>
-        <h3 className="text-sm md:text-[16px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           The Analysis
         </h3>
-        <AnimatedTitle text="Findings from 14 Major Museums" animationType="fadeIn" className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-12" />
+        <AnimatedText variant="heading" text="Findings from 14 Major Museums" animationType="fadeIn" className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-12" />
         
         <div className="mb-20 space-y-8">
           <p className="text-lg md:text-xl text-text-body leading-relaxed max-w-[880px]">
@@ -238,7 +238,7 @@ export function MuseumAnalysis() {
         <div className="mt-48 md:mt-64 mb-64 md:mb-80 space-y-24">
           <div className="max-w-[800px]">
             <span className="text-sm md:text-base font-bold uppercase tracking-[0.2em] mb-8 block" style={{ color: 'rgb(var(--color-text-tertiary))' }}>Research Focus</span>
-            <AnimatedTitle
+            <AnimatedText variant="heading"
               text="How might we increase interpretive agency for BLV participants in art spaces?"
               highlightWords={["interpretive agency"]}
               highlightColor="#FF8C00"
@@ -246,7 +246,7 @@ export function MuseumAnalysis() {
               showMarkerSweep
               animationType="fadeIn"
               className="text-3xl md:text-[54px] font-bold text-text-primary leading-[1.12] tracking-[-0.04em]"
-              variant="full"
+              maxWidth="full"
             />
           </div>
         </div>
