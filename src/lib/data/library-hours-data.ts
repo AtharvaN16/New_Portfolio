@@ -78,7 +78,7 @@ export const LIBRARY_HOURS_DATA: LibraryLocation[] = [
   },
   {
     id: 'rutherford',
-    name: 'Rutherford + Robyn Sperber, Humanities, Social Education + Education Library',
+    name: 'Rutherford Humanities, Social Sciences + Education Library',
     campus: 'Edmonton',
     isOpen: true,
     hours: '8am to 11pm',
@@ -148,7 +148,7 @@ export const LIBRARY_HOURS_DATA: LibraryLocation[] = [
     name: 'Bibliothèque Saint-Jean',
     campus: 'Saint-Jean',
     isOpen: false,
-    hours: 'Tue and Thu only  |  10AM to 1PM',
+    hours: 'Tue and Thu only | 10am to 1pm',
     addresses: [
       { lines: ['8406 Rue Marie-Anne Gaboury', 'Edmonton, Alberta, T6C 3N2'] },
     ],
