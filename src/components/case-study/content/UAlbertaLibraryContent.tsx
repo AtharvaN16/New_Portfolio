@@ -729,7 +729,10 @@ export function UAlbertaLibraryContent({
                 className={HEADLINE_MD}
               />
 
-              <div className="mb-12 md:mb-16">
+              <div
+                id="ualberta-final-solution"
+                className="mb-12 scroll-mt-32 md:mb-16"
+              >
                 <LibraryServicesPagePrototype />
               </div>
         </CaseStudyReadMore>
