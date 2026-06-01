@@ -19,3 +19,6 @@ A "Seed & Derive" system that generates a full adaptive palette from a single br
 
 ### Animation Strategy
 Uses a combination of **Lenis** (smooth scroll), **GSAP** (complex timelines), and **Framer Motion** (declarative transitions). See [Animation Strategy](./docs/03-ANIMATION-STRATEGY.md).
+
+### GrayFrame
+`src/components/ui/GrayFrame.tsx` — a reusable tonal container for framing images and media. No rounded corners or stroke. Light mode: `#CECFCD` (solid), dark mode: `rgba(255,255,255,0.20)`.

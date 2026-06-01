@@ -1,8 +1,8 @@
 /**
  * GrayFrame
  * A tonal container used to frame images or media.
- * - Light mode: black at 10% opacity
- * - Dark mode : white at 10% opacity
+ * - Light mode: #CECFCD (solid)
+ * - Dark mode : white at 20% opacity
  */
 import { cn } from '@/lib/utils/cn'
 
@@ -15,7 +15,7 @@ export function GrayFrame({ children, className }: GrayFrameProps) {
   return (
     <div
       className={cn(
-        'bg-[rgba(0,0,0,0.07)] dark:bg-[rgba(255,255,255,0.10)]',
+        'bg-[#CECFCD] dark:bg-[rgba(255,255,255,0.15)]',
         className
       )}
     >

@@ -12,8 +12,9 @@ import LibraryServicesPagePrototype from './LibraryServicesPagePrototype'
 import LibraryHoursPagePrototype from './LibraryHoursPagePrototype'
 import SubjectGuidesPrototype from './SubjectGuidesPrototype'
 import { ResearchObjectiveNotes } from './ResearchObjectiveNotes'
+import { SectionSpacer } from '@/components/case-study/SectionSpacer'
 import { UAlbertaResearchSection } from './UAlbertaResearchSection'
-import { CASE_STUDY_SECTION_LABEL } from '@/components/case-study/caseStudyTypography'
+import { CASE_STUDY_SECTION_LABEL_PROSE } from '@/components/case-study/caseStudyTypography'
 
 interface UAlbertaLibraryContentProps {
   isContentRevealed: boolean
@@ -22,7 +23,7 @@ interface UAlbertaLibraryContentProps {
 
 /** Readable line length — aligned with NYC DCWP case study */
 const PROSE_MAX = 'max-w-[680px]'
-const SECTION_LABEL = `${CASE_STUDY_SECTION_LABEL} mb-6 md:mb-[28px] ${PROSE_MAX}`
+const SECTION_LABEL = CASE_STUDY_SECTION_LABEL_PROSE
 const BLOCK_HEADING = `text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px] ${PROSE_MAX}`
 const ROLE_HEADING = `text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px] ${PROSE_MAX}`
 const BODY_TEXT = `text-base md:text-[18px] font-normal text-text-body leading-relaxed ${PROSE_MAX}`
@@ -99,11 +100,6 @@ function Quote({
       </div>
     </div>
   )
-}
-
-/** Preserves section rhythm previously provided by line dividers */
-function SectionSpacer() {
-  return <div className="my-48 md:my-56" aria-hidden="true" />
 }
 
 export function UAlbertaLibraryContent({

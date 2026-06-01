@@ -1,6 +1,8 @@
 import Image from 'next/image'
 import { CaseStudyVideo } from '@/components/case-study/CaseStudyVideo'
-import { CASE_STUDY_SECTION_LABEL } from '@/components/case-study/caseStudyTypography'
+import { SectionSpacer } from '@/components/case-study/SectionSpacer'
+import { CASE_STUDY_SECTION_LABEL_PROSE } from '@/components/case-study/caseStudyTypography'
+import { AnimatedText } from '@/components/ui/AnimatedText'
 import { GrayFrame } from '@/components/ui/GrayFrame'
 
 const VIDEO_BASE = '/videos/case-studies/ualberta-library-website'
@@ -61,7 +63,7 @@ export function UAlbertaResearchSection() {
   return (
     <section aria-labelledby="ualberta-research-heading">
       <h3
-        className={`${CASE_STUDY_SECTION_LABEL} mb-6 md:mb-[28px] max-w-[680px]`}
+        className={CASE_STUDY_SECTION_LABEL_PROSE}
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
         Research
@@ -125,15 +127,150 @@ export function UAlbertaResearchSection() {
         />
       </div>
 
+      <SectionSpacer />
+
+      {/* Findings */}
+      <div>
+        <h3
+          className={CASE_STUDY_SECTION_LABEL_PROSE}
+          style={{ color: 'rgb(var(--color-text-tertiary))' }}
+        >
+          Findings and insight
+        </h3>
+
+        <div className="space-y-32 md:space-y-48">
+
+        {/* Finding 01 */}
+        <div className="grid gap-8 md:grid-cols-[1fr_1fr] md:gap-14">
+          <GrayFrame className="flex h-[430px] items-start justify-end overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
+            <Image
+              src="/images/case-studies/ualberta-library-website/servicespage.png"
+              alt="University of Alberta Library Services page"
+              width={1640}
+              height={2260}
+              className="block h-auto w-[85%] shrink-0 translate-x-[6px]"
+            />
+          </GrayFrame>
+          <div className="relative flex items-end">
+            <AnimatedText
+              variant="quote"
+              as="blockquote"
+              segments={[
+                {
+                  text: '"It\'s too much, hard to read, cluttered, and difficult to navigate."',
+                },
+              ]}
+              maxWidth="default"
+              className="absolute right-0 top-0 max-w-[300px] text-left text-xl leading-[1.08] tracking-[-0.05em] text-text-primary md:max-w-[360px] md:text-[28px]"
+            />
+            <div className="space-y-4">
+              <p className="text-3xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-4xl">01</p>
+              <h4 className="text-xl font-bold leading-snug text-text-primary md:text-[22px]">
+                Services are organized into logical categories, but the page has too many options displayed at once.
+              </h4>
+              <ul className="space-y-3">
+                {[
+                  'One student used "Ctrl + F" after failing to find a service.',
+                  'Services in research, alumni or teaching categories were irrelevant to undergraduate users.',
+                  'Some services have ambiguous names like "ERA" with no descriptions.',
+                  'Majority of students only use a handful of services regularly.',
+                ].map((point) => (
+                  <li key={point} className="flex items-start gap-3">
+                    <span className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }} />
+                    <p className="text-base leading-relaxed md:text-[17px]" style={{ color: 'rgb(var(--color-text-secondary))' }}>{point}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Finding 02 */}
+        <div className="grid gap-8 md:grid-cols-[1fr_1fr] md:gap-14">
+          <GrayFrame className="flex h-[430px] items-start justify-end overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
+            <Image
+              src="/images/case-studies/ualberta-library-website/hourspage.png"
+              alt="University of Alberta Library Hours + Locations page"
+              width={1640}
+              height={2260}
+              className="block h-auto w-[85%] shrink-0 translate-x-[6px]"
+            />
+          </GrayFrame>
+          <div className="flex items-end">
+            <div className="space-y-4">
+              <p className="text-3xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-4xl">02</p>
+              <h4 className="text-xl font-bold leading-snug text-text-primary md:text-[22px]">
+                Students are unsure which library is right for them.
+              </h4>
+              <ul className="space-y-3">
+                {[
+                  'Alphabetical ordering pushed satellite campus locations above main campus options.',
+                  'Some listed locations are archives or scholarship centers, not actual libraries, confusing new students.',
+                  'The page did not show which libraries had 24/7 study space or what facilities each offered.',
+                  'You have to click into the card to know the library hours.',
+                ].map((point) => (
+                  <li key={point} className="flex items-start gap-3">
+                    <span className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }} />
+                    <p className="text-base leading-relaxed md:text-[17px]" style={{ color: 'rgb(var(--color-text-secondary))' }}>{point}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Findings 03 + 04 — side by side */}
+        <div className="grid gap-8 md:grid-cols-2 md:gap-14">
+          <div className="space-y-5">
+            <GrayFrame className="flex h-[430px] items-start justify-start overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
+              <Image
+                src="/images/case-studies/ualberta-library-website/subjectguides.png"
+                alt="University of Alberta Subject Guides page"
+                width={1640}
+                height={2260}
+                className="block h-auto w-[85%] shrink-0 -translate-x-[6px]"
+              />
+            </GrayFrame>
+            <div className="space-y-2">
+              <p className="text-3xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-4xl">03</p>
+              <h4 className="text-xl font-bold leading-snug text-text-primary md:text-[22px]">
+                Navigating to specific guides was difficult as it required multiple steps.
+              </h4>
+            </div>
+          </div>
+
+          <div className="space-y-5">
+            <GrayFrame className="flex h-[430px] items-start justify-start overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
+              <Image
+                src="/images/case-studies/ualberta-library-website/homepage.png"
+                alt="University of Alberta Library homepage"
+                width={1640}
+                height={2260}
+                className="block h-auto w-[85%] shrink-0 -translate-x-[6px]"
+              />
+            </GrayFrame>
+            <div className="space-y-2">
+              <p className="text-3xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-4xl">04</p>
+              <h4 className="text-xl font-bold leading-snug text-text-primary md:text-[22px]">
+                The home page above fold works well. Everything below it gets ignored.
+              </h4>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+
+      <SectionSpacer />
+
       {/* Competitor Analysis */}
-      <div className="mt-16 md:mt-24">
+      <div>
         <GrayFrame className="p-6 md:p-10">
-          <p
-            className={`${CASE_STUDY_SECTION_LABEL} mb-6 md:mb-8`}
+          <h3
+            className={CASE_STUDY_SECTION_LABEL_PROSE}
             style={{ color: 'rgb(var(--color-text-tertiary))' }}
           >
             Competitor Research
-          </p>
+          </h3>
           <Image
             src="/images/case-studies/ualberta-library-website/competitor-research.png"
             alt="Competitor research — screenshots of comparable university library websites"
