@@ -81,7 +81,6 @@ export function getUniformLocations(
 ) {
   return {
     uTimeLocation: gl.getUniformLocation(program, 'uTime'),
-    uIsDarkModeLocation: gl.getUniformLocation(program, 'uIsDarkMode'),
     uIsMobileLocation: gl.getUniformLocation(program, 'uIsMobile'),
     uColor1Location: gl.getUniformLocation(program, 'uColor1'),
     uColor2Location: gl.getUniformLocation(program, 'uColor2'),
@@ -103,7 +102,6 @@ export function getUniformLocations(
 export function setupWebGL(
   gl: WebGLRenderingContext,
   colors: Colors,
-  isDarkMode: boolean,
   isMobile: boolean = false
 ): WebGLProgramInfo | null {
   // Compile shaders
@@ -124,7 +122,6 @@ export function setupWebGL(
   const uniforms = getUniformLocations(gl, program)
 
   // Set initial uniforms
-  gl.uniform1f(uniforms.uIsDarkModeLocation, isDarkMode ? 1.0 : 0.0)
   gl.uniform1f(uniforms.uIsMobileLocation, isMobile ? 1.0 : 0.0)
   gl.uniform3fv(uniforms.uColor1Location, colors.blue)
   gl.uniform3fv(uniforms.uColor2Location, colors.purple)

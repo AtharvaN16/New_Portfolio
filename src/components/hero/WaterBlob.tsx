@@ -194,7 +194,7 @@ export function WaterBlob({
     const target = targetColorsRef.current!
     // Always render with dark-mode blob constants (glow, scatter, saturation).
     // Light mode achieves its look via the background color (#fafaf8) + vivid colors.
-    const programInfo = setupWebGL(gl, display, true, isMobile)
+    const programInfo = setupWebGL(gl, display, isMobile)
     if (!programInfo) {
       setHasWebGL(false)
       return
@@ -207,8 +207,10 @@ export function WaterBlob({
     // Only reset Y offset on first mount, not on theme switches
     if (initialMountRef.current) {
       yOffsetRef.current = -1.5
-      revealPhaseRef.current = 0
-      ambientRef.current = 0
+      // Mobile: skip plasma entry entirely — blobs rise as normal water blobs.
+      // Desktop ghost/permanent: start in plasma state (revealPhase = 0).
+      revealPhaseRef.current = (isMobile && !isGhost) ? 1 : 0
+      ambientRef.current = (isMobile && !isGhost) ? 0.15 : 0
       trailRef.current = 0
       if (canvasRef.current) canvasRef.current.style.opacity = '1'
     }

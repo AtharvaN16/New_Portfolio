@@ -99,7 +99,7 @@ export function Hero({
                   boldWords={HERO_BOLD_WORDS}
                   pronunciationWords={HERO_PRONUNCIATION}
                   className="text-hero-body"
-                  delay={isMobile ? 1.0 : 1.8}
+                  delay={isMobile ? 0.3 : 1.8}
                 >
                   Hi, I&apos;m Atharva — a product designer based in NYC. I love
                   solving problems through thoughtful design and crafting
@@ -157,14 +157,12 @@ export function Hero({
                 No opacity gate: the area is already "black" because the shader outputs the
                 background color wherever there's no blob. */}
             <div className="relative w-full overflow-hidden water-blob-container flex-1 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]">
-              {/* Flash 1: A "Ghost" instance of the blobs that rises and fades without morphing. 
-                  This ensures 100% visual identity with the second flash.
-                  Medium: 0.8s duration, 500ms delay. */}
-              <WaterBlobWithBoundary isGhost isQuick entryDelay={500} />
-              
-              {/* Flash 2: The permanent instance that rises and then morphs into the waterblobs.
-                  1.2s gap -> 1700ms delay. */}
-              <WaterBlobWithBoundary interactive entryDelay={2500} />
+              {/* Flash 1: desktop only. Ghost pulse that rises and fades.
+                  Skipped on mobile for performance — F2 follows text directly. */}
+              {!isMobile && <WaterBlobWithBoundary isGhost isQuick entryDelay={500} />}
+
+              {/* Flash 2: desktop waits for F1 gap (2500ms). Mobile follows text directly (1500ms). */}
+              <WaterBlobWithBoundary interactive entryDelay={isMobile ? 1500 : 2500} />
 
               {/* Welcome text — toggle SHOW_WELCOME_TEXT to enable. Black, all-caps,
                   centered. Revealed by F1's light, gone before F2. */}
