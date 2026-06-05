@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plasma Entry v2 — Unified Field</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #111;
+    color: #e8e6e0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+    padding: 40px 32px 80px;
+  }
+  h1 { font-size: 13px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #555; margin-bottom: 6px; }
+  .subtitle { font-size: 22px; font-weight: 400; color: #e8e6e0; margin-bottom: 10px; line-height: 1.4; }
+  .desc { font-size: 14px; color: #555; line-height: 1.7; margin-bottom: 44px; max-width: 640px; }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #444; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #1e1e1e; }
+
+  /* STORYBOARD */
+  .storyboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 56px; }
+  .frame { display: flex; flex-direction: column; gap: 9px; }
+  .frame-time { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #333; }
+  .frame-canvas { width: 100%; aspect-ratio: 16/9; border-radius: 10px; overflow: hidden; position: relative; border: 1px solid #1c1c1c; }
+  .frame-label { font-size: 12px; font-weight: 500; color: #888; }
+  .frame-desc { font-size: 11px; color: #333; line-height: 1.5; }
+
+  /* DEMO */
+  .demo-controls { display: flex; gap: 10px; align-items: center; margin-bottom: 14px; flex-wrap: wrap; }
+  .palette-btn { padding: 6px 15px; border-radius: 20px; border: 1px solid #2a2a2a; background: #1a1a1a; color: #555; font-size: 12px; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+  .palette-btn.active { border-color: #555; color: #ccc; background: #222; }
+  .replay-btn { padding: 6px 16px; border-radius: 20px; border: 1px solid #2a2a2a; background: #1a1a1a; color: #888; font-size: 12px; cursor: pointer; font-family: inherit; margin-left: auto; }
+  .replay-btn:hover { background: #222; color: #ccc; }
+
+  #demo-canvas { width: 100%; max-width: 720px; aspect-ratio: 21/9; border-radius: 14px; display: block; border: 1px solid #1c1c1c; background: #0a0a0a; }
+
+  .phase-track { max-width: 720px; display: flex; margin-top: 10px; border-radius: 4px; overflow: hidden; height: 3px; }
+  .phase-seg { height: 100%; opacity: 0.2; transition: opacity 0.3s; }
+  .phase-seg.active { opacity: 1; }
+  .phase-labels { max-width: 720px; display: flex; justify-content: space-between; margin-top: 7px; }
+  .phase-lbl { font-size: 10px; color: #2a2a2a; text-transform: uppercase; letter-spacing: 0.07em; }
+
+  .note { font-size: 13px; color: #383838; line-height: 1.7; padding: 18px 20px; border: 1px solid #1e1e1e; border-radius: 10px; max-width: 720px; margin-top: 32px; }
+  .note strong { color: #555; }
+  code { font-family: 'SF Mono', monospace; font-size: 11px; color: #444; }
+</style>
+</head>
+<body>
+
+<h1>Updated entry sequence</h1>
+<div class="subtitle">One unified field → differentiation → two waterblobs</div>
+<div class="desc">
+  Energy lives at the boundary. The interior is dark. The two blobs start as a single large terrain-scale field — no two distinct objects yet.
+  As it settles, the field cracks open into two lobes, energy moves inward, and you land on the existing waterblob look.
+</div>
+
+<div class="section-label">Storyboard — 4 key frames</div>
+<div class="storyboard">
+  <div class="frame">
+    <div class="frame-time">0 – 0.3s</div>
+    <div class="frame-canvas"><canvas class="sb-canvas" data-phase="black"></canvas></div>
+    <div class="frame-label">Void</div>
+    <div class="frame-desc">Black. Canvas exists but nothing renders.</div>
+  </div>
+  <div class="frame">
+    <div class="frame-time">0.3 – 1.8s</div>
+    <div class="frame-canvas"><canvas class="sb-canvas" data-phase="plasma"></canvas></div>
+    <div class="frame-label">Unified plasma field</div>
+    <div class="frame-desc">One large form. Dark warm interior. Bright rim at boundary. Terrain scale — bleeds the edges. Tectonic motion.</div>
+  </div>
+  <div class="frame">
+    <div class="frame-time">1.8 – 3.0s</div>
+    <div class="frame-canvas"><canvas class="sb-canvas" data-phase="split"></canvas></div>
+    <div class="frame-label">Differentiation</div>
+    <div class="frame-desc">Field breaks into two lobes. Rim pulls inward. Interior warms toward palette colors.</div>
+  </div>
+  <div class="frame">
+    <div class="frame-time">3.0s+</div>
+    <div class="frame-canvas"><canvas class="sb-canvas" data-phase="settled"></canvas></div>
+    <div class="frame-label">Waterblob settled</div>
+    <div class="frame-desc">Existing shader, unchanged. Rim persists softly. The entry is over.</div>
+  </div>
+</div>
+
+<div class="section-label">Live animation</div>
+<div class="demo-controls">
+  <span style="font-size:11px;color:#333;text-transform:uppercase;letter-spacing:.08em">Palette:</span>
+  <button class="palette-btn active" onclick="setPalette(0,this)">Orange / Cyan</button>
+  <button class="palette-btn" onclick="setPalette(1,this)">Indigo / Pink</button>
+  <button class="palette-btn" onclick="setPalette(2,this)">Teal / Sand</button>
+  <button class="palette-btn" onclick="setPalette(3,this)">Navy / Sky</button>
+  <button class="replay-btn" onclick="replay()">↺ Replay</button>
+</div>
+<canvas id="demo-canvas"></canvas>
+<div class="phase-track">
+  <div class="phase-seg" id="seg0" style="width:7%;background:#333;"></div>
+  <div class="phase-seg" id="seg1" style="width:33%;background:#22d3ee;"></div>
+  <div class="phase-seg" id="seg2" style="width:27%;background:#a78bfa;"></div>
+  <div class="phase-seg" id="seg3" style="width:33%;background:#fb923c;"></div>
+</div>
+<div class="phase-labels">
+  <span class="phase-lbl">Void</span>
+  <span class="phase-lbl">Unified field</span>
+  <span class="phase-lbl">Differentiation</span>
+  <span class="phase-lbl">Settled</span>
+</div>
+
+<div class="note">
+  <strong>What changed from v1:</strong> The blobs no longer enter as two distinct bright objects.
+  The entry is one large dark form — <em>energy at the boundary, void at the center</em>.
+  The "two blob" identity only emerges during differentiation. This is closer to the physics of the reference video
+  and truer to the idea of something being born rather than something arriving.
+</div>
+
+<script>
+const PALETTES = [
+  { c1:[251,146,60],  c2:[168,85,247],  c3:[34,211,238]  },
+  { c1:[99,102,241],  c2:[167,139,250], c3:[236,72,153]  },
+  { c1:[30,180,170],  c2:[150,200,140], c3:[195,165,90]  },
+  { c1:[40,60,140],   c2:[50,150,220],  c3:[150,210,255] },
+]
+
+let currentPalette = 0
+let animStart = null
+let rafId = null
+
+const VOID_END    = 300
+const PLASMA_END  = 1900
+const SPLIT_END   = 3100
+const TOTAL       = 5000
+
+function rgba(c,a){ return `rgba(${Math.round(c[0])},${Math.round(c[1])},${Math.round(c[2])},${a})` }
+function lerp(a,b,t){ return a+(b-a)*t }
+function lerpC(a,b,t){ return [lerp(a[0],b[0],t),lerp(a[1],b[1],t),lerp(a[2],b[2],t)] }
+function smoothstep(a,b,x){ const t=Math.max(0,Math.min(1,(x-a)/(b-a))); return t*t*(3-2*t) }
+function easeOut3(t){ return 1-Math.pow(1-t,3) }
+
+function setPalette(i,btn){
+  currentPalette=i
+  document.querySelectorAll('.palette-btn').forEach(b=>b.classList.remove('active'))
+  btn.classList.add('active')
+  replay()
+}
+
+function replay(){
+  if(rafId) cancelAnimationFrame(rafId)
+  animStart=null
+  rafId=requestAnimationFrame(tick)
+}
+
+/* ── MAIN DEMO CANVAS ─────────────────────────────── */
+const dc = document.getElementById('demo-canvas')
+const dctx = dc.getContext('2d')
+
+function setupCanvas(c){
+  const dpr=window.devicePixelRatio||1
+  const r=c.getBoundingClientRect()
+  c.width=r.width*dpr; c.height=r.height*dpr
+  c.getContext('2d').scale(dpr,dpr)
+}
+
+function getSize(c){ const r=c.getBoundingClientRect(); return {W:r.width,H:r.height} }
+
+setupCanvas(dc)
+window.addEventListener('resize',()=>{ setupCanvas(dc); drawStoryboardFrames(); replay() })
+
+function tick(ts){
+  if(!animStart) animStart=ts
+  const elapsed=ts-animStart
+  const p=PALETTES[currentPalette]
+  const {W,H}=getSize(dc)
+
+  dctx.clearRect(0,0,W,H)
+  dctx.fillStyle='#0a0a0a'
+  dctx.fillRect(0,0,W,H)
+
+  // Phase indicators
+  if(elapsed<VOID_END) setActive(0)
+  else if(elapsed<PLASMA_END) setActive(1)
+  else if(elapsed<SPLIT_END) setActive(2)
+  else setActive(3)
+
+  const fadeIn  = smoothstep(VOID_END-50, VOID_END+400, elapsed)
+  const splitT  = smoothstep(PLASMA_END, SPLIT_END, elapsed)
+  const settleT = smoothstep(SPLIT_END-200, SPLIT_END+600, elapsed)
+
+  if(fadeIn>0.01){
+    drawScene(dctx, W, H, p, fadeIn, splitT, settleT, elapsed)
+  }
+
+  if(elapsed < TOTAL+800) rafId=requestAnimationFrame(tick)
+}
+
+function drawScene(ctx, W, H, p, fadeIn, splitT, settleT, elapsed){
+  ctx.save()
+  ctx.globalAlpha = fadeIn
+
+  // Unified field center — slightly below midpoint, large enough to bleed edges
+  const fieldCx = W * 0.5
+  const fieldCy = H * 0.52
+
+  // Tectonic drift — very slow
+  const drift = elapsed * 0.00018
+  const driftX = Math.sin(drift * 1.1) * W * 0.025
+  const driftY = Math.cos(drift * 0.8) * H * 0.02
+
+  // Blob 1 and 2 final positions (where they'll be when settled)
+  const b1x = W * 0.29, b1y = H * 0.50
+  const b2x = W * 0.67, b2y = H * 0.48
+
+  // During plasma: one unified center
+  // During split: lerp toward individual positions
+  const cx1 = lerp(fieldCx + driftX, b1x, easeOut3(splitT))
+  const cy1 = lerp(fieldCy + driftY, b1y, easeOut3(splitT))
+  const cx2 = lerp(fieldCx + driftX, b2x, easeOut3(splitT))
+  const cy2 = lerp(fieldCy + driftY, b2y, easeOut3(splitT))
+
+  // Radius: large unified field shrinks into two distinct blobs
+  const fieldRx = W * 0.50, fieldRy = H * 0.62
+  const blob1Rx = W * 0.25, blob1Ry = H * 0.48
+  const blob2Rx = W * 0.17, blob2Ry = H * 0.38
+
+  const r1x = lerp(fieldRx, blob1Rx, easeOut3(splitT))
+  const r1y = lerp(fieldRy, blob1Ry, easeOut3(splitT))
+  const r2x = lerp(fieldRx * 0.8, blob2Rx, easeOut3(splitT))
+  const r2y = lerp(fieldRy * 0.75, blob2Ry, easeOut3(splitT))
+
+  // Rim intensity: strong during plasma, softens as split progresses,
+  // settles to a gentle persistent rim
+  const rimIntensity = Math.max(0.12, (1 - splitT * 0.75) * (1 - fadeIn * 0) + settleT * 0.12)
+  const rimSoftness  = lerp(0, 0.5, splitT)
+
+  // Interior: dark during plasma, brightens with palette during split
+  const interiorAlpha = lerp(0.0, 0.75, settleT)
+  const rimBrightness = lerp(0.9, 0.25 + settleT * 0.15, splitT)
+
+  drawUnifiedField(ctx, cx1, cy1, r1x, r1y, cx2, cy2, r2x, r2y,
+                   p, splitT, rimIntensity, rimBrightness, interiorAlpha)
+
+  ctx.restore()
+}
+
+function drawUnifiedField(ctx, x1, y1, rx1, ry1, x2, y2, rx2, ry2,
+                           p, splitT, rimIntensity, rimBrightness, interiorAlpha){
+
+  // Warm dark interior color (low luminance version of c1 — the sandy/volcanic look)
+  const darkInterior = [
+    p.c1[0]*0.12 + 8,
+    p.c1[1]*0.08 + 6,
+    p.c1[2]*0.05 + 5,
+  ]
+
+  // ── BLOB 1 ────────────────────────────────────────────────
+  {
+    const rMax = Math.max(rx1, ry1)
+
+    // Interior fill: dark during plasma, palette color when settled
+    const fillColor = lerpC(darkInterior, p.c1, interiorAlpha)
+    const innerGrad = ctx.createRadialGradient(x1, y1, 0, x1, y1, rMax * 0.9)
+    innerGrad.addColorStop(0,   rgba(fillColor, lerp(0.82, 0.75, interiorAlpha)))
+    innerGrad.addColorStop(0.55,rgba(fillColor, lerp(0.55, 0.5,  interiorAlpha)))
+    innerGrad.addColorStop(0.78,rgba(fillColor, lerp(0.2,  0.25, interiorAlpha)))
+    innerGrad.addColorStop(1,   rgba(fillColor, 0))
+
+    ctx.beginPath()
+    ctx.ellipse(x1, y1, rx1, ry1, -0.1, 0, Math.PI*2)
+    ctx.fillStyle = innerGrad
+    ctx.fill()
+
+    // Rim: bright band near boundary
+    const rimGrad = ctx.createRadialGradient(x1, y1, rMax * 0.55, x1, y1, rMax * 1.2)
+    rimGrad.addColorStop(0,   rgba(p.c3, 0))
+    rimGrad.addColorStop(0.35,rgba(p.c3, rimBrightness * 0.45 * rimIntensity))
+    rimGrad.addColorStop(0.62,rgba(p.c3, rimBrightness * 0.85 * rimIntensity))  // peak
+    rimGrad.addColorStop(0.75,rgba(p.c3, rimBrightness * 0.55 * rimIntensity))
+    rimGrad.addColorStop(1,   rgba(p.c3, 0))
+
+    ctx.beginPath()
+    ctx.ellipse(x1, y1, rx1 * 1.18, ry1 * 1.18, -0.1, 0, Math.PI*2)
+    ctx.fillStyle = rimGrad
+    ctx.fill()
+
+    // Sharp rim stroke
+    ctx.save()
+    ctx.shadowColor = rgba(p.c3, rimBrightness * 0.7 * rimIntensity)
+    ctx.shadowBlur  = lerp(28, 8, splitT)
+    ctx.beginPath()
+    ctx.ellipse(x1, y1, rx1 * 0.97, ry1 * 0.97, -0.1, 0, Math.PI*2)
+    ctx.strokeStyle = rgba(p.c3, rimBrightness * 0.75 * rimIntensity)
+    ctx.lineWidth   = lerp(2.5, 1.2, splitT)
+    ctx.stroke()
+    ctx.restore()
+  }
+
+  // ── BLOB 2 ────────────────────────────────────────────────
+  {
+    const rMax = Math.max(rx2, ry2)
+    const darkInterior2 = [
+      p.c3[0]*0.10 + 6,
+      p.c3[1]*0.07 + 5,
+      p.c3[2]*0.05 + 4,
+    ]
+
+    const fillColor2 = lerpC(darkInterior2, p.c3, interiorAlpha)
+    const innerGrad2 = ctx.createRadialGradient(x2, y2, 0, x2, y2, rMax * 0.9)
+    innerGrad2.addColorStop(0,   rgba(fillColor2, lerp(0.78, 0.65, interiorAlpha)))
+    innerGrad2.addColorStop(0.55,rgba(fillColor2, lerp(0.45, 0.4,  interiorAlpha)))
+    innerGrad2.addColorStop(0.78,rgba(fillColor2, lerp(0.15, 0.2,  interiorAlpha)))
+    innerGrad2.addColorStop(1,   rgba(fillColor2, 0))
+
+    ctx.beginPath()
+    ctx.ellipse(x2, y2, rx2, ry2, 0.15, 0, Math.PI*2)
+    ctx.fillStyle = innerGrad2
+    ctx.fill()
+
+    const rimColor2 = lerpC(p.c3, p.c2, 0.4)
+    const rimGrad2 = ctx.createRadialGradient(x2, y2, rMax * 0.5, x2, y2, rMax * 1.2)
+    rimGrad2.addColorStop(0,   rgba(rimColor2, 0))
+    rimGrad2.addColorStop(0.38,rgba(rimColor2, rimBrightness * 0.4 * rimIntensity))
+    rimGrad2.addColorStop(0.65,rgba(rimColor2, rimBrightness * 0.8 * rimIntensity))
+    rimGrad2.addColorStop(0.78,rgba(rimColor2, rimBrightness * 0.4 * rimIntensity))
+    rimGrad2.addColorStop(1,   rgba(rimColor2, 0))
+
+    ctx.beginPath()
+    ctx.ellipse(x2, y2, rx2 * 1.2, ry2 * 1.2, 0.15, 0, Math.PI*2)
+    ctx.fillStyle = rimGrad2
+    ctx.fill()
+
+    ctx.save()
+    ctx.shadowColor = rgba(rimColor2, rimBrightness * 0.65 * rimIntensity)
+    ctx.shadowBlur  = lerp(22, 7, splitT)
+    ctx.beginPath()
+    ctx.ellipse(x2, y2, rx2 * 0.97, ry2 * 0.97, 0.15, 0, Math.PI*2)
+    ctx.strokeStyle = rgba(rimColor2, rimBrightness * 0.7 * rimIntensity)
+    ctx.lineWidth   = lerp(2, 1, splitT)
+    ctx.stroke()
+    ctx.restore()
+  }
+}
+
+function setActive(i){
+  for(let j=0;j<4;j++) document.getElementById(`seg${j}`).classList.toggle('active',j===i)
+}
+
+/* ── STORYBOARD FRAMES ─────────────────────────────── */
+function drawStoryboardFrames(){
+  document.querySelectorAll('.sb-canvas').forEach(c=>{
+    setupCanvas(c)
+    const {W,H}=getSize(c)
+    const ctx=c.getContext('2d')
+    const phase=c.dataset.phase
+    const p=PALETTES[currentPalette]
+
+    ctx.fillStyle='#0a0a0a'
+    ctx.fillRect(0,0,W,H)
+
+    if(phase==='black') return
+
+    const x1=W*0.5, y1=H*0.52
+    const x2=W*0.5, y2=H*0.52
+
+    const configs = {
+      plasma:  { splitT:0,    settleT:0,    fadeIn:0.95 },
+      split:   { splitT:0.55, settleT:0.15, fadeIn:1    },
+      settled: { splitT:1,    settleT:1,    fadeIn:1    },
+    }
+    const cfg = configs[phase]
+
+    // For split/settled, use actual blob positions
+    const b1x=lerp(W*0.5, W*0.28, easeOut3(cfg.splitT))
+    const b1y=lerp(H*0.52, H*0.50, easeOut3(cfg.splitT))
+    const b2x=lerp(W*0.5, W*0.68, easeOut3(cfg.splitT))
+    const b2y=lerp(H*0.52, H*0.48, easeOut3(cfg.splitT))
+
+    const rx1=lerp(W*0.50, W*0.25, easeOut3(cfg.splitT))
+    const ry1=lerp(H*0.62, H*0.48, easeOut3(cfg.splitT))
+    const rx2=lerp(W*0.40, W*0.17, easeOut3(cfg.splitT))
+    const ry2=lerp(H*0.47, H*0.38, easeOut3(cfg.splitT))
+
+    const rimBrightness = lerp(0.9, 0.25+cfg.settleT*0.15, cfg.splitT)
+    const rimIntensity  = Math.max(0.12, (1-cfg.splitT*0.75))
+
+    ctx.save()
+    ctx.globalAlpha = cfg.fadeIn
+    drawUnifiedField(ctx, b1x,b1y,rx1,ry1, b2x,b2y,rx2,ry2,
+                     p, cfg.splitT, rimIntensity, rimBrightness, cfg.settleT)
+    ctx.restore()
+  })
+}
+
+drawStoryboardFrames()
+rafId = requestAnimationFrame(tick)
+</script>
+</body>
+</html>

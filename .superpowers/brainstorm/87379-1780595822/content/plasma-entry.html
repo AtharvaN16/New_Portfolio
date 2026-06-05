@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plasma Entry Sequence</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #111;
+    color: #e8e6e0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
+    padding: 40px 32px 80px;
+  }
+
+  h1 { font-size: 13px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #555; margin-bottom: 6px; }
+  .subtitle { font-size: 22px; font-weight: 400; color: #e8e6e0; margin-bottom: 12px; line-height: 1.4; }
+  .desc { font-size: 14px; color: #555; line-height: 1.7; margin-bottom: 48px; max-width: 620px; }
+
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #444; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #1e1e1e;
+  }
+
+  /* ── STORYBOARD ──────────────────────────────────────── */
+  .storyboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 60px;
+    align-items: start;
+  }
+
+  .frame {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+
+  .frame-time {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #3a3a3a;
+  }
+
+  .frame-canvas {
+    width: 100%; aspect-ratio: 16/9;
+    border-radius: 10px; overflow: hidden;
+    background: #0a0a0a;
+    position: relative;
+    border: 1px solid #1c1c1c;
+  }
+
+  .frame-label { font-size: 12px; font-weight: 500; color: #888; }
+  .frame-desc { font-size: 11px; color: #3a3a3a; line-height: 1.5; }
+
+  /* arrow between frames */
+  .arrow {
+    display: flex; align-items: center; justify-content: center;
+    color: #2a2a2a; font-size: 20px;
+    padding-top: 36px;
+  }
+
+  /* ── LIVE DEMO ───────────────────────────────────────── */
+  .demo-area {
+    margin-bottom: 48px;
+  }
+
+  .demo-controls {
+    display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap;
+  }
+
+  .palette-btn {
+    padding: 7px 16px; border-radius: 20px; border: 1px solid #2a2a2a;
+    background: #1a1a1a; color: #666; font-size: 12px; cursor: pointer;
+    transition: all 0.2s; font-family: inherit;
+  }
+  .palette-btn.active { border-color: #555; color: #ccc; background: #222; }
+
+  .replay-btn {
+    padding: 7px 18px; border-radius: 20px; border: 1px solid #333;
+    background: #1e1e1e; color: #aaa; font-size: 12px; cursor: pointer;
+    transition: all 0.2s; font-family: inherit; margin-left: auto;
+  }
+  .replay-btn:hover { background: #252525; color: #ccc; }
+
+  #demo-canvas {
+    width: 100%; max-width: 700px;
+    aspect-ratio: 21/9;
+    border-radius: 14px;
+    display: block;
+    border: 1px solid #1c1c1c;
+  }
+
+  .phase-track {
+    max-width: 700px;
+    display: flex; gap: 0; margin-top: 12px; border-radius: 6px; overflow: hidden;
+  }
+
+  .phase-seg {
+    height: 4px; transition: opacity 0.3s;
+    opacity: 0.25;
+  }
+  .phase-seg.active { opacity: 1; }
+
+  .phase-labels {
+    max-width: 700px;
+    display: flex; justify-content: space-between;
+    margin-top: 8px;
+  }
+  .phase-lbl {
+    font-size: 10px; color: #333; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+
+  /* ── NOTE ────────────────────────────────────────────── */
+  .note {
+    font-size: 13px; color: #3a3a3a; line-height: 1.7;
+    padding: 20px; border: 1px solid #1e1e1e; border-radius: 10px;
+    max-width: 700px;
+  }
+  .note strong { color: #555; }
+</style>
+</head>
+<body>
+
+<h1>Entry sequence concept</h1>
+<div class="subtitle">Plasma state → waterblob settle</div>
+<div class="desc">
+  The blobs enter in a high-energy "plasma" state — intense rim, compressed shape, rising from below.
+  Over ~2.5 seconds they shed energy and settle into the existing soft watercolor look.
+  Color identity stays yours throughout: rim and plasma are derived from your palette, not borrowed from the video.
+</div>
+
+<!-- STORYBOARD -->
+<div class="section-label">Storyboard — 4 key frames (default palette: Orange / Purple / Cyan)</div>
+<div class="storyboard" id="storyboard"></div>
+
+<!-- LIVE DEMO -->
+<div class="demo-area">
+  <div class="section-label">Live animation demo — watch the full sequence</div>
+  <div class="demo-controls">
+    <span style="font-size:11px;color:#333;text-transform:uppercase;letter-spacing:.08em;">Palette:</span>
+    <button class="palette-btn active" onclick="setPalette(0,this)">Orange / Cyan</button>
+    <button class="palette-btn" onclick="setPalette(1,this)">Indigo / Pink</button>
+    <button class="palette-btn" onclick="setPalette(2,this)">Teal / Sand</button>
+    <button class="palette-btn" onclick="setPalette(3,this)">Navy / Sky</button>
+    <button class="replay-btn" onclick="replay()">↺ Replay</button>
+  </div>
+  <canvas id="demo-canvas"></canvas>
+  <div class="phase-track" id="phase-track">
+    <div class="phase-seg" id="seg0" style="width:8%;background:#222;"></div>
+    <div class="phase-seg" id="seg1" style="width:28%;background:#4a90d9;"></div>
+    <div class="phase-seg" id="seg2" style="width:32%;background:#a855f7;"></div>
+    <div class="phase-seg" id="seg3" style="width:32%;background:#22d3ee;"></div>
+  </div>
+  <div class="phase-labels">
+    <span class="phase-lbl">Black</span>
+    <span class="phase-lbl">Plasma rise</span>
+    <span class="phase-lbl">Dissolve</span>
+    <span class="phase-lbl">Waterblob settled</span>
+  </div>
+</div>
+
+<div class="note">
+  <strong>What changes in the shader:</strong> A <code>uRevealPhase</code> uniform (0→1 over ~2.5s) drives the transition.
+  At phase=0: blobs render with sharp SDF rim from color3, dark compressed interior, intense glow — the "plasma" state.
+  At phase=1: the existing shader runs as-is. Between: a smooth lerp in the color and softness calculations.
+  The <code>uYOffset</code> rise already exists — we're just giving it a dramatic visual costume for the first ~1.5s.
+</div>
+
+<script>
+const PALETTES = [
+  { name: "Orange/Cyan",  c1:[251,146,60],  c2:[168,85,247],  c3:[34,211,238]  },
+  { name: "Indigo/Pink",  c1:[99,102,241],  c2:[167,139,250], c3:[236,72,153]  },
+  { name: "Teal/Sand",    c1:[30,180,170],  c2:[150,200,140], c3:[195,165,90]  },
+  { name: "Navy/Sky",     c1:[40,60,140],   c2:[50,150,220],  c3:[150,210,255] },
+]
+
+let currentPalette = 0
+let animStart = null
+let rafId = null
+const DURATION = 4200 // ms total
+
+function rgba(c, a) { return `rgba(${c[0]},${c[1]},${c[2]},${a})` }
+function rgb(c) { return `rgb(${c[0]},${c[1]},${c[2]})` }
+function lerp(a, b, t) { return a + (b-a)*t }
+function lerpC(ca, cb, t) {
+  return [lerp(ca[0],cb[0],t), lerp(ca[1],cb[1],t), lerp(ca[2],cb[2],t)]
+}
+function easeOut(t) { return 1 - Math.pow(1-t, 3) }
+function easeInOut(t) { return t < 0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2 }
+function smoothstep(a, b, t) { const x = Math.max(0, Math.min(1,(t-a)/(b-a))); return x*x*(3-2*x) }
+
+function setPalette(idx, btn) {
+  currentPalette = idx
+  document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'))
+  btn.classList.add('active')
+  replay()
+}
+
+function replay() {
+  if (rafId) cancelAnimationFrame(rafId)
+  animStart = null
+  requestAnimationFrame(drawFrame)
+}
+
+const canvas = document.getElementById('demo-canvas')
+const ctx = canvas.getContext('2d')
+
+function resize() {
+  const dpr = window.devicePixelRatio || 1
+  const rect = canvas.getBoundingClientRect()
+  canvas.width = rect.width * dpr
+  canvas.height = rect.height * dpr
+  ctx.scale(dpr, dpr)
+}
+window.addEventListener('resize', () => { resize(); replay() })
+resize()
+
+function drawFrame(ts) {
+  if (!animStart) animStart = ts
+  const elapsed = ts - animStart
+  const p = PALETTES[currentPalette]
+
+  const W = canvas.getBoundingClientRect().width
+  const H = canvas.getBoundingClientRect().height
+
+  ctx.clearRect(0, 0, W, H)
+
+  // Phases:
+  // 0-200ms: black
+  // 200-1600ms: plasma rise (t: 0→1)
+  // 1600-2800ms: dissolve (t: 0→1)
+  // 2800-4200ms: settled waterblob (hold)
+
+  const PHASE1_START = 200, PHASE1_END = 1600
+  const PHASE2_START = 1400, PHASE2_END = 2800
+  const PHASE3_START = 2600
+
+  // Update phase track
+  if (elapsed < PHASE1_START) {
+    setActive(0)
+  } else if (elapsed < PHASE2_START) {
+    setActive(1)
+  } else if (elapsed < PHASE3_START) {
+    setActive(2)
+  } else {
+    setActive(3)
+  }
+
+  // Background
+  ctx.fillStyle = '#0a0a0a'
+  ctx.fillRect(0, 0, W, H)
+
+  // --- Blob geometry constants ---
+  const blob1BaseX = W * 0.30, blob1BaseY = H * 0.50
+  const blob2BaseX = W * 0.68, blob2BaseY = H * 0.48
+  const blob1Rx = W * 0.28, blob1Ry = H * 0.55
+  const blob2Rx = W * 0.20, blob2Ry = H * 0.42
+
+  // Phase progress values
+  const plasmaT = smoothstep(PHASE1_START, PHASE1_END, elapsed) // 0→1 during plasma rise
+  const dissolveT = smoothstep(PHASE2_START, PHASE2_END, elapsed) // 0→1 during dissolve
+  const settledT = smoothstep(PHASE3_START, PHASE3_START + 800, elapsed)
+
+  // Y offset: blobs rise from below
+  const yRiseT = smoothstep(PHASE1_START, PHASE2_END, elapsed)
+  const yOffsetRaw = lerp(H * 0.85, 0, easeOut(yRiseT))
+
+  const b1x = blob1BaseX, b1y = blob1BaseY + yOffsetRaw
+  const b2x = blob2BaseX, b2y = blob2BaseY + yOffsetRaw
+
+  // Overall visibility
+  const visibility = smoothstep(PHASE1_START - 50, PHASE1_START + 400, elapsed)
+  if (visibility <= 0.01) {
+    rafId = requestAnimationFrame(drawFrame)
+    return
+  }
+
+  ctx.globalAlpha = visibility
+
+  // Plasma intensity: high at start of plasma phase, fades as dissolve progresses
+  const plasmaIntensity = Math.max(0, plasmaT * (1 - dissolveT * 1.2))
+  // Waterblob intensity: low during plasma, high when settled
+  const waterblobIntensity = dissolveT
+
+  // ── DRAW BLOB 1 ──────────────────────────────────
+  drawBlob(ctx, b1x, b1y, blob1Rx, blob1Ry, p.c1, p.c3, plasmaIntensity, waterblobIntensity, 0.9)
+
+  // ── DRAW BLOB 2 ──────────────────────────────────
+  drawBlob(ctx, b2x, b2y, blob2Rx, blob2Ry, p.c3, p.c2, plasmaIntensity, waterblobIntensity, 1.1)
+
+  ctx.globalAlpha = 1
+
+  if (elapsed < DURATION + 500) {
+    rafId = requestAnimationFrame(drawFrame)
+  }
+}
+
+function drawBlob(ctx, cx, cy, rx, ry, cCore, cRim, plasmaT, waterT, phase) {
+  ctx.save()
+
+  // Plasma state: dark compressed interior + bright rim glow
+  // Waterblob state: soft translucent fill, gentle edge
+
+  // --- Core fill ---
+  const plasmaCoreDark = [cCore[0]*0.25, cCore[1]*0.25, cCore[2]*0.25]
+  const waterCoreColor = cCore
+
+  const coreColor = lerpC(plasmaCoreDark, waterCoreColor, waterT)
+  const coreAlpha = lerp(0.85, 0.7, waterT)
+
+  const coreGrad = ctx.createRadialGradient(cx, cy - ry*0.1, 0, cx, cy, Math.max(rx, ry) * 0.9)
+  coreGrad.addColorStop(0, rgba(coreColor, coreAlpha * lerp(0.6, 0.95, waterT)))
+  coreGrad.addColorStop(0.6, rgba(coreColor, coreAlpha * lerp(0.3, 0.6, waterT)))
+  coreGrad.addColorStop(1, rgba(coreColor, 0))
+
+  // Draw blob shape using ellipse path
+  ctx.beginPath()
+  ctx.ellipse(cx, cy, rx, ry, phase * 0.15, 0, Math.PI * 2)
+  ctx.fillStyle = coreGrad
+  ctx.fill()
+
+  // --- Rim glow (plasma) ---
+  if (plasmaT > 0.01) {
+    const rimSize = lerp(0, rx * 0.18, plasmaT)
+    const rimAlpha = lerp(0, 0.85, plasmaT)
+
+    // Outer glow
+    const rimGrad = ctx.createRadialGradient(cx, cy, Math.max(rx,ry)*0.7, cx, cy, Math.max(rx,ry)*1.35)
+    rimGrad.addColorStop(0, rgba(cRim, rimAlpha * 0.0))
+    rimGrad.addColorStop(0.4, rgba(cRim, rimAlpha * 0.6))
+    rimGrad.addColorStop(0.7, rgba(cRim, rimAlpha * 0.85))
+    rimGrad.addColorStop(1, rgba(cRim, rimAlpha * 0))
+
+    ctx.globalAlpha *= 1
+    ctx.beginPath()
+    ctx.ellipse(cx, cy, rx * 1.3, ry * 1.3, phase * 0.15, 0, Math.PI * 2)
+    ctx.fillStyle = rimGrad
+    ctx.fill()
+
+    // Crisp inner rim line
+    ctx.beginPath()
+    ctx.ellipse(cx, cy, rx * 0.98, ry * 0.98, phase * 0.15, 0, Math.PI * 2)
+    ctx.strokeStyle = rgba(cRim, rimAlpha * 0.9)
+    ctx.lineWidth = lerp(0, 2.5, plasmaT)
+    ctx.stroke()
+  }
+
+  // --- Waterblob soft rim (persistent, settles in) ---
+  if (waterT > 0.01) {
+    const waterRimAlpha = waterT * 0.35
+    ctx.beginPath()
+    ctx.ellipse(cx, cy, rx * 1.05, ry * 1.05, phase * 0.15, 0, Math.PI * 2)
+    ctx.strokeStyle = rgba(cRim, waterRimAlpha)
+    ctx.lineWidth = lerp(0, 3, waterT)
+    ctx.stroke()
+  }
+
+  ctx.restore()
+}
+
+function setActive(idx) {
+  for (let i=0; i<4; i++) {
+    document.getElementById(`seg${i}`).classList.toggle('active', i === idx)
+  }
+}
+
+// ── STORYBOARD ─────────────────────────────────────────────
+const frames = [
+  { time: "0 – 0.2s", label: "Black", desc: "Page loads. Canvas is dark.", phase: "black" },
+  { time: "0.2 – 1.6s", label: "Plasma rise", desc: "Blobs emerge from below. Compressed, intense — bright rim, dark interior.", phase: "plasma" },
+  { time: "1.4 – 2.8s", label: "Dissolve", desc: "Energy sheds. Rim softens. Interior brightens toward the watercolor state.", phase: "dissolve" },
+  { time: "2.6s+", label: "Settled", desc: "Existing waterblob. Rim persists softly. Identical to today, but earned.", phase: "settled" },
+]
+
+function buildStoryboardBlob(phase, p) {
+  const bg = '#0a0a0a'
+  const c1 = p.c1, c3 = p.c3, c2 = p.c2
+
+  if (phase === 'black') {
+    return `<div style="position:absolute;inset:0;background:#0a0a0a;border-radius:10px;"></div>`
+  }
+
+  const shapes = {
+    plasma: {
+      b1: `background:radial-gradient(ellipse 70% 65% at 45% 55%,rgba(${c1[0]*0.25},${c1[1]*0.25},${c1[2]*0.25},0.9) 0%,rgba(${c1[0]*0.1},${c1[1]*0.1},${c1[2]*0.1},0.4) 70%,transparent 100%);
+           box-shadow:0 0 20px 6px rgba(${c3[0]},${c3[1]},${c3[2]},0.7),0 0 50px 14px rgba(${c3[0]},${c3[1]},${c3[2]},0.2),inset 0 0 10px 2px rgba(${c3[0]},${c3[1]},${c3[2]},0.4);
+           top:8%;left:5%;width:68%;height:80%;transform:translateY(20%);`,
+      b2: `background:radial-gradient(ellipse 70% 65% at 50% 50%,rgba(${c3[0]*0.2},${c3[1]*0.2},${c3[2]*0.2},0.85) 0%,transparent 80%);
+           box-shadow:0 0 15px 4px rgba(${c2[0]},${c2[1]},${c2[2]},0.6),inset 0 0 8px 2px rgba(${c2[0]},${c2[1]},${c2[2]},0.3);
+           top:18%;left:50%;width:45%;height:65%;transform:translateY(15%);`,
+    },
+    dissolve: {
+      b1: `background:radial-gradient(ellipse 70% 65% at 45% 55%,rgba(${c1[0]},${c1[1]},${c1[2]},0.7) 0%,rgba(${c1[0]*0.5},${c1[1]*0.5},${c1[2]*0.5},0.35) 60%,transparent 100%);
+           box-shadow:0 0 12px 3px rgba(${c3[0]},${c3[1]},${c3[2]},0.35);
+           top:8%;left:5%;width:68%;height:80%;`,
+      b2: `background:radial-gradient(ellipse 70% 65% at 50% 50%,rgba(${c3[0]},${c3[1]},${c3[2]},0.6) 0%,transparent 80%);
+           box-shadow:0 0 10px 2px rgba(${c2[0]},${c2[1]},${c2[2]},0.25);
+           top:18%;left:50%;width:45%;height:65%;`,
+    },
+    settled: {
+      b1: `background:radial-gradient(ellipse 70% 65% at 45% 55%,rgba(${c1[0]},${c1[1]},${c1[2]},0.75) 0%,rgba(${c1[0]},${c1[1]},${c1[2]},0.3) 60%,transparent 100%);
+           box-shadow:0 0 8px 2px rgba(${c3[0]},${c3[1]},${c3[2]},0.2);
+           top:8%;left:5%;width:68%;height:80%;`,
+      b2: `background:radial-gradient(ellipse 70% 65% at 50% 50%,rgba(${c3[0]},${c3[1]},${c3[2]},0.65) 0%,rgba(${c2[0]},${c2[1]},${c2[2]},0.25) 60%,transparent 100%);
+           box-shadow:0 0 6px 1px rgba(${c3[0]},${c3[1]},${c3[2]},0.15);
+           top:18%;left:50%;width:45%;height:65%;`,
+    }
+  }
+
+  const s = shapes[phase]
+  return `
+    <div style="position:absolute;border-radius:58% 42% 52% 48%/48% 54% 46% 52%;${s.b1}"></div>
+    <div style="position:absolute;border-radius:45% 55% 40% 60%/60% 40% 55% 45%;${s.b2}"></div>
+  `
+}
+
+const defaultP = PALETTES[0]
+document.getElementById('storyboard').innerHTML = frames.map(f => `
+  <div class="frame">
+    <div class="frame-time">${f.time}</div>
+    <div class="frame-canvas" style="background:#0a0a0a">
+      ${buildStoryboardBlob(f.phase, defaultP)}
+    </div>
+    <div class="frame-label">${f.label}</div>
+    <div class="frame-desc">${f.desc}</div>
+  </div>
+`).join('')
+
+// Start live demo
+requestAnimationFrame(drawFrame)
+</script>
+</body>
+</html>

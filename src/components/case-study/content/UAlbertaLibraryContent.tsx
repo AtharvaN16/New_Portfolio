@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState, useRef } from 'react'
 import { m } from 'framer-motion'
 import { AnimatedText } from '@/components/ui/AnimatedText'
@@ -457,9 +458,23 @@ export function UAlbertaLibraryContent({
                 ))}
               </ul>
 
-              <div className="mb-12 md:mb-16">
+              <div id="ualberta-hours-prototype" className="mb-12 md:mb-16">
                 <LibraryHoursPagePrototype />
               </div>
+
+              <SectionSpacer />
+
+              <div className="flex w-full justify-center">
+                <Image
+                  src="/images/case-studies/ualberta-library-website/full-hours-locations-prototype.webp"
+                  alt="Hours and locations prototype with sidebar navigation, map link, and campus jump categories"
+                  width={1618}
+                  height={1704}
+                  className="h-auto w-full max-h-[min(760px,calc(82dvh-6rem))] object-contain"
+                  sizes="(max-width: 1044px) 100vw, 1044px"
+                />
+              </div>
+
               <SectionSpacer />
               {/* Finding 3 */}
               <h3
@@ -548,9 +563,23 @@ export function UAlbertaLibraryContent({
                 ))}
               </ul>
 
-              <div className="mb-12 md:mb-16">
+              <div id="ualberta-subject-guides-prototype" className="mb-12 md:mb-16">
                 <SubjectGuidesPrototype />
               </div>
+
+              <SectionSpacer />
+
+              <div className="flex w-full justify-center">
+                <Image
+                  src="/images/case-studies/ualberta-library-website/full-subject-guides-prototype.webp"
+                  alt="Full subject guides prototype with search, collapsible subject drawers, and guide links"
+                  width={1582}
+                  height={1704}
+                  className="h-auto w-full max-h-[calc(100dvh-6rem)] object-contain"
+                  sizes="(max-width: 1044px) 100vw, 1044px"
+                />
+              </div>
+
               <SectionSpacer />
               {/* Finding 4 */}
               <h3
@@ -734,6 +763,19 @@ export function UAlbertaLibraryContent({
                 className="mb-12 scroll-mt-32 md:mb-16"
               >
                 <LibraryServicesPagePrototype />
+              </div>
+
+              <SectionSpacer />
+
+              <div className="flex w-full justify-center">
+                <Image
+                  src="/images/case-studies/ualberta-library-website/full-experience-prototype.webp"
+                  alt="Full library services page prototype showing hero discovery and the complete services directory"
+                  width={1006}
+                  height={1704}
+                  className="h-auto w-full max-h-[calc(100dvh-6rem)] object-contain"
+                  sizes="(max-width: 1044px) 100vw, 1044px"
+                />
               </div>
         </CaseStudyReadMore>
       </div>

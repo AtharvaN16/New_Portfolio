@@ -1,0 +1,20 @@
+[
+  {
+    "fileBase": "full-experience-prototype",
+    "width": 1006,
+    "height": 1704,
+    "captureHeight": 1605
+  },
+  {
+    "fileBase": "full-hours-locations-prototype",
+    "width": 1618,
+    "height": 1704,
+    "captureHeight": 998
+  },
+  {
+    "fileBase": "full-subject-guides-prototype",
+    "width": 1046,
+    "height": 1704,
+    "captureHeight": 1543
+  }
+]

@@ -11,11 +11,11 @@ const VIDEO_BASE = '/videos/case-studies/ualberta-library-website'
 const userGroups = [
   {
     title: 'Unfamiliar Users',
-    body: "Students who never used the website (recruited from the university newsletter) who could show us where the site's discoverability breaks on a first visit.",
+    body: 'Recruited via the university newsletter to see where the site’s discoverability fails on a first visit.',
   },
   {
     title: 'Frequent Users',
-    body: 'Frequent users recruited from the Student Library Advisory Committee (SLAC) who knew the library website well and who could show us what services are most important for a typical student.',
+    body: 'Recruited from the Student Library Advisory Committee to identify which services matter most to typical students.',
   },
 ]
 
@@ -67,7 +67,7 @@ export function UAlbertaResearchSection() {
         className={CASE_STUDY_SECTION_LABEL_PROSE}
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
-        Research
+        Talking to the users
       </h3>
 
       <h2
@@ -83,9 +83,10 @@ export function UAlbertaResearchSection() {
           className="text-base font-normal leading-relaxed md:text-[18px]"
           style={{ color: 'rgb(var(--color-text-color90))' }}
         >
-          ...So we decided to observe them completing tasks like finding library
-          locations, booking study rooms, and using research guides over Zoom.
-          We designed a test that contrasted two different types of students:
+          ...So to understand how students experience the library website, we
+          observed them over Zoom while they completed tasks such as finding
+          library locations, booking study rooms, and using research guides. We
+          tested two student types:
         </p>
 
         <div className="grid gap-8 md:grid-cols-2 md:gap-12">
@@ -109,22 +110,22 @@ export function UAlbertaResearchSection() {
         className="mb-12 max-w-[680px] text-base font-normal leading-relaxed md:mb-16 md:text-[18px]"
         style={{ color: 'rgb(var(--color-text-color90))' }}
       >
-        Our cohort spanned a mix of year levels, including 1 PhD candidate, 1
-        second-year, 4 third-years, and 2 fourth-year undergraduates.
+        Our cohort included 1 PhD candidate, 1 second-year, 4 third-years, and 2
+        fourth-year undergraduates.
       </p>
 
       <div className="space-y-10 md:space-y-14">
         <ResearchMediaRow
           src={`${VIDEO_BASE}/user-testing.mp4`}
           alt="Recording of a University of Alberta student completing library website tasks over Zoom"
-          title="We tested 8 students completing 16 common library tasks"
-          description="Every session included two researchers: one facilitated the interview while the other documented user behaviors, points of friction, and navigation bottlenecks. I personally led 2 sessions and observed 2."
+          title="We tested 8 students on 16 common library tasks."
+          description="Each session had two researchers: one facilitated, the other documented friction points and navigation issues. I personally led 2 sessions and observed 2 more."
         />
 
         <ResearchMediaRow
           src={`${VIDEO_BASE}/affinity-map.mp4`}
           alt="Affinity map of University of Alberta library website research observations"
-          description="Over two weeks, we compiled 8 hours of recordings and mapped every frustration, hesitation, and confusion onto an affinity diagram."
+          description="Over two weeks, we gathered 8 hours of recordings and mapped every frustration, hesitation, and confusion onto an affinity diagram."
         />
       </div>
 

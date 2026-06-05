@@ -11,9 +11,9 @@ export interface ExplorationNote {
   tone: NoteTone
 }
 
-const NOTE_TONE_CLASS: Record<NoteTone, string> = {
-  positive: 'text-[#2a7a52] dark:text-[#72d39a]',
-  negative: 'text-[#b84d4d] dark:text-[#e8a598]',
+const NOTE_BADGE_CLASS: Record<NoteTone, string> = {
+  positive: 'bg-[#2a7a52] text-[#0f5f38] dark:bg-[#72d39a] dark:text-[#0f5f38]',
+  negative: 'bg-[#b84d4d] text-[#6b2020] dark:bg-[#c97a6f] dark:text-[#6b2020]',
 }
 
 const FADE_OUT_MS = 280
@@ -47,13 +47,13 @@ function ExplorationNotesList({ notes }: { notes: ExplorationNote[] }) {
   return (
     <ol className="space-y-5">
       {notes.map((note, noteIndex) => (
-        <li key={note.text} className="grid grid-cols-[22px_1fr] gap-3">
-          <span className="mt-[0.15em] flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-[#c60011] text-[11px] font-bold leading-none text-white md:text-[12px]">
+        <li key={note.text} className="grid grid-cols-[18px_1fr] gap-2.5">
+          <span
+            className={`mt-[0.1em] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full text-[10px] font-bold leading-none ${NOTE_BADGE_CLASS[note.tone]}`}
+          >
             {noteIndex + 1}
           </span>
-          <p
-            className={`text-[14px] leading-relaxed md:text-[15px] ${NOTE_TONE_CLASS[note.tone]}`}
-          >
+          <p className="text-[12px] leading-relaxed text-text-secondary">
             {note.text}
           </p>
         </li>
