@@ -37,6 +37,8 @@ export const fragmentShader = `
   uniform vec3 uColor3; // Pink (from design tokens)
   uniform vec3 uBackgroundColor; // Background (from design tokens)
   uniform float uYOffset; // Vertical offset for entry animation (UV space, lerps to 0)
+  uniform float uRevealPhase; // 0.0 = plasma entry state, 1.0 = settled waterblob
+  uniform float uAmbient; // 0 to 1 intensity of the ambient light wake
   // === TUNING CONSTANTS ===
   // Light mode uses reduced atmospheric effects (pigment metaphor)
   // Dark mode uses stronger glow effects (emissive metaphor)
@@ -175,23 +177,27 @@ export const fragmentShader = `
 
     vec3 backgroundColor = uBackgroundColor;
 
-    // === BLOB 1 (Blue) - DOMINANT, CALM ===
-    // Larger size (70% bigger), slower movement, low turbulence, smooth edges
+    // === BLOB CENTERS ===
     vec2 blob1Center = blobMotion(uTime, 0.18, vec2(0.25, 0.45), 0.0, 1.0);
     blob1Center.y += uYOffset;
-
-    // Calculate proximity to blob2 for edge softening
     vec2 blob2Center = blobMotion(uTime, 0.32, vec2(0.75, 0.5), 3.14159, 1.3);
     blob2Center.y += uYOffset;
-    float distanceBetween = length(blob1Center - blob2Center);
-    float proximity1 = smoothstep(0.6, 0.3, distanceBetween); // Soften when close
-    
-    float blob1 = irregularWaterShape(uv, blob1Center, 0.55, uTime, 0.0, 0.25, 0.80, proximity1, uIsDarkMode);
 
-    // === BLOB 2 (Pink) - SECONDARY, ENERGETIC ===
-    // Smaller size, faster movement, high turbulence, dynamic
-    float proximity2 = smoothstep(0.6, 0.3, distanceBetween);
-    float blob2 = irregularWaterShape(uv, blob2Center, 0.38, uTime, 5.0, 0.55, 0.80, proximity2, uIsDarkMode);
+    // During plasma reveal: merge centers into one unified field, expand sizes.
+    // fieldBlend eases out quadratically so separation feels organic.
+    float fieldBlend = (1.0 - uRevealPhase) * (1.0 - uRevealPhase);
+    vec2 plasmaCenter = vec2(0.5, 0.47 + uYOffset);
+    blob1Center = mix(blob1Center, plasmaCenter + vec2(-0.05, 0.02), fieldBlend * 0.65);
+    blob2Center = mix(blob2Center, plasmaCenter + vec2(0.06, -0.01), fieldBlend * 0.60);
+
+    float distanceBetween = length(blob1Center - blob2Center);
+    float proximity1 = smoothstep(0.6, 0.3, distanceBetween);
+    float proximity2 = proximity1;
+
+    float size1 = mix(1.35, 1.0, uRevealPhase);
+    float size2 = mix(1.28, 1.0, uRevealPhase);
+    float blob1 = irregularWaterShape(uv, blob1Center, 0.55 * size1, uTime, 0.0, 0.25, 0.80, proximity1, uIsDarkMode);
+    float blob2 = irregularWaterShape(uv, blob2Center, 0.38 * size2, uTime, 5.0, 0.55, 0.80, proximity2, uIsDarkMode);
 
     // Normalize to prevent over-saturation
     blob1 = clamp(blob1, 0.0, 1.0);
@@ -266,10 +272,39 @@ export const fragmentShader = `
 
     // === FINAL ATMOSPHERIC FADE ===
     // Mobile Optimization: Simple linear fade instead of pow()
-    float atmosphericAlpha = uIsMobile > 0.5 
-      ? totalWater * 0.9 
+    float atmosphericAlpha = uIsMobile > 0.5
+      ? totalWater * 0.9
       : pow(totalWater, 0.78);
     color = mix(backgroundColor, color, atmosphericAlpha);
+
+    // === PLASMA ENTRY STATE ===
+    // Thermal rim: pitch black → red → orange → yellow → white → blue → pitch black interior
+    // Red = outermost (coolest, widest band). Blue = innermost (hottest, narrowest).
+    vec3 tRed    = vec3(0.85, 0.06, 0.02);
+    vec3 tOrange = vec3(1.0,  0.42, 0.02);
+    vec3 tYellow = vec3(1.0,  0.92, 0.12);
+    vec3 tWhite  = vec3(1.0,  1.0,  0.97);
+    vec3 tBlue   = vec3(0.08, 0.72, 1.0);
+    vec3 plasmaRaw = vec3(0.0);
+    plasmaRaw = mix(plasmaRaw, tRed,    smoothstep(0.04, 0.18, totalWater));
+    plasmaRaw = mix(plasmaRaw, tOrange, smoothstep(0.18, 0.32, totalWater));
+    plasmaRaw = mix(plasmaRaw, tYellow, smoothstep(0.32, 0.46, totalWater));
+    plasmaRaw = mix(plasmaRaw, tWhite,  smoothstep(0.46, 0.55, totalWater));
+    plasmaRaw = mix(plasmaRaw, tBlue,   smoothstep(0.55, 0.65, totalWater));
+    plasmaRaw = mix(plasmaRaw, vec3(0.0), smoothstep(0.65, 0.80, totalWater)); // interior → black
+    float plasmaAlpha = smoothstep(0.02, 0.08, totalWater);
+    vec3 plasmaColor = mix(backgroundColor, plasmaRaw, plasmaAlpha);
+
+    // Blend plasma → waterblob as reveal progresses (cubic ease)
+    float revealEased = uRevealPhase * uRevealPhase * (3.0 - 2.0 * uRevealPhase);
+    color = mix(plasmaColor, color, revealEased);
+
+    // === AMBIENT ILLUMINATION (The "Box" Lighting) ===
+    // Create a very soft vertical wash of light that follows the pulse uYOffset.
+    // Exponential falloff ensures it's brightest near the matter pulse.
+    float ambientWash = exp(-abs(vUv.y - uYOffset) * 1.8) * uAmbient;
+    vec3 lightColor = mix(uColor1, vec3(1.0), 0.7); // Bright thermal light
+    color += lightColor * ambientWash * 0.25; // Additive background illumination
 
     gl_FragColor = vec4(color, 1.0);
   }
@@ -280,4 +315,7 @@ export interface WaterBlobUniforms {
   uColor1: { value: [number, number, number] }
   uColor2: { value: [number, number, number] }
   uColor3: { value: [number, number, number] }
+  uYOffset: { value: number }
+  uRevealPhase: { value: number }
+  uAmbient: { value: number }
 }

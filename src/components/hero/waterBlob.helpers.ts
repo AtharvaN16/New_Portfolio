@@ -91,6 +91,8 @@ export function getUniformLocations(
       'uBackgroundColor'
     ),
     uYOffsetLocation: gl.getUniformLocation(program, 'uYOffset'),
+    uRevealPhaseLocation: gl.getUniformLocation(program, 'uRevealPhase'),
+    uAmbientLocation: gl.getUniformLocation(program, 'uAmbient'),
   }
 }
 
@@ -127,6 +129,7 @@ export function setupWebGL(
   gl.uniform3fv(uniforms.uColor2Location, colors.purple)
   gl.uniform3fv(uniforms.uColor3Location, colors.pink)
   gl.uniform3fv(uniforms.uBackgroundColorLocation, colors.background)
+  gl.uniform1f(uniforms.uAmbientLocation, 0.0)
 
   return {
     program,
@@ -148,6 +151,8 @@ export function createAnimationLoop(
   colors: Colors,
   getYOffset: () => number = () => 0,
   isMobile: boolean = false,
+  getRevealPhase: () => number = () => 1,
+  getAmbient: () => number = () => 0
 ): (time: number) => void {
   let lastFrameTime = 0
   const mobileFrameInterval = 1 / 30 // 30 FPS target for mobile
@@ -161,7 +166,10 @@ export function createAnimationLoop(
 
     gl.uniform1f(programInfo.uTimeLocation, time)
     gl.uniform1f(programInfo.uYOffsetLocation, getYOffset())
+    gl.uniform1f(programInfo.uRevealPhaseLocation, getRevealPhase())
+    gl.uniform1f(programInfo.uAmbientLocation, getAmbient())
     gl.uniform1f(programInfo.uIsMobileLocation, isMobile ? 1.0 : 0.0)
+
 
     // Update colors dynamically (for interactive mode)
     gl.uniform3fv(programInfo.uColor1Location, colors.blue)

@@ -455,6 +455,21 @@
     font-size: 14px !important;
     font-weight: 400 !important;
   }
+
+  /* ========================================
+     PLASMA FLASH ANIMATIONS
+     ======================================== */
+  @keyframes plasma-flash-quick {
+    0%   { opacity: 0; transform: translateZ(0) translateY(50%) scale(0.9); }
+    35%  { opacity: 1; transform: translateZ(0) translateY(10%) scale(1.05); }
+    100% { opacity: 0; transform: translateZ(0) translateY(-10%) scale(1.1); }
+  }
+
+  @keyframes plasma-flash-slow {
+    0%   { opacity: 0; transform: translateZ(0) translateY(30%) scale(0.95); }
+    25%  { opacity: 1; transform: translateZ(0) translateY(0%) scale(1.0); }
+    100% { opacity: 0; transform: translateZ(0) translateY(0%) scale(1.0); }
+  }
 }
 
 @layer utilities {
@@ -675,50 +690,4 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-}
-
-.case-study-theme {
-  --cs-primary: var(--cs-theme-color);
-  
-  /* Robust fallbacks using color-mix (widely supported) */
-  --cs-pop-light: var(--cs-primary);
-  --cs-soft-light: color-mix(in srgb, var(--cs-primary), white 85%);
-  --cs-contrast-light: color-mix(in srgb, var(--cs-primary), black 70%);
-  
-  --cs-pop-dark: var(--cs-primary);
-  --cs-soft-dark: color-mix(in srgb, var(--cs-primary), black 80%);
-  --cs-contrast-dark: color-mix(in srgb, var(--cs-primary), white 85%);
-
-  /* Modern OKLCH Derivations (overrides fallbacks if supported) */
-  @supports (color: oklch(from white l c h)) {
-    --cs-pop-light: oklch(from var(--cs-primary) 0.65 0.25 h);
-    --cs-soft-light: oklch(from var(--cs-primary) 0.96 0.05 h);
-    --cs-contrast-light: oklch(from var(--cs-primary) 0.30 0.20 h);
-    
-    --cs-pop-dark: oklch(from var(--cs-primary) 0.75 0.20 h);
-    --cs-soft-dark: oklch(from var(--cs-primary) 0.20 0.08 h / 0.9);
-    --cs-contrast-dark: oklch(from var(--cs-primary) 0.96 0.05 h);
-  }
-  
-  /* Selection Tokens - Dynamic based on theme */
-  --cs-selection-bg: var(--cs-soft-light);
-  --cs-selection-text: var(--cs-contrast-light);
-}
-
-[data-theme='dark'] .case-study-theme {
-  --cs-selection-bg: var(--cs-soft-dark);
-  --cs-selection-text: var(--cs-contrast-dark);
-}
-
-/* Force selection styles across all descendants with cross-browser support */
-.case-study-theme ::selection,
-.case-study-theme *::selection {
-  background: var(--cs-selection-bg) !important;
-  color: var(--cs-selection-text) !important;
-}
-
-.case-study-theme ::-moz-selection,
-.case-study-theme *::-moz-selection {
-  background: var(--cs-selection-bg) !important;
-  color: var(--cs-selection-text) !important;
 }

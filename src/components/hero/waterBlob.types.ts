@@ -10,6 +10,12 @@ export interface WaterBlobProps {
   interactive?: boolean
   /** Pause the animation (for performance when not visible) */
   paused?: boolean
+  /** Delay in milliseconds before the entry animation starts */
+  entryDelay?: number
+  /** If true, the blob stays in plasma state and fades out after rising */
+  isGhost?: boolean
+  /** If true, the entry/fade sequence is accelerated for quick pulses */
+  isQuick?: boolean
 }
 
 export interface Colors {
@@ -29,6 +35,8 @@ export interface WebGLProgramInfo {
   uColor3Location: WebGLUniformLocation | null
   uBackgroundColorLocation: WebGLUniformLocation | null
   uYOffsetLocation: WebGLUniformLocation | null
+  uRevealPhaseLocation: WebGLUniformLocation | null
+  uAmbientLocation: WebGLUniformLocation | null
   posBuffer: WebGLBuffer | null
   vertShader: WebGLShader
   fragShader: WebGLShader

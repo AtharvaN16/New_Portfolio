@@ -2,7 +2,6 @@
 
 import { m } from 'framer-motion'
 import dynamic from 'next/dynamic'
-import { useEffect, useState } from 'react'
 import { AnimatedLink } from '@/components/ui/AnimatedLink'
 import { useBreakpoints } from '@/hooks/use-responsive'
 
@@ -48,8 +47,8 @@ const staggerContainer = {
 // Stable references for AnimatedHeroTextGSAP to prevent re-animation on re-renders
 const HERO_BOLD_WORDS = ['Atharva']
 const HERO_PRONUNCIATION = { Atharva: 'uh · thar · vuh' }
-const DESKTOP_CURRENTLY_DELAY = 0.9
-const DESKTOP_BROWSE_WORK_DELAY = 0.96
+const DESKTOP_CURRENTLY_DELAY = 2.5
+const DESKTOP_BROWSE_WORK_DELAY = 2.7
 const DESKTOP_CURRENTLY_DURATION = 1.1
 const META_FADE_DURATION = 1.2
 
@@ -62,7 +61,6 @@ export function Hero({
   onBrowseWorkClick,
   onGetInTouchClick,
 }: HeroProps) {
-  const [blobVisible, setBlobVisible] = useState(false)
   const { isMobile } = useBreakpoints()
   const isDesktopAnimation =
     typeof window !== 'undefined' &&
@@ -76,11 +74,6 @@ export function Hero({
   const currentlyDuration = isDesktopAnimation
     ? DESKTOP_CURRENTLY_DURATION
     : META_FADE_DURATION
-
-  useEffect(() => {
-    const timer = setTimeout(() => setBlobVisible(true), 1100)
-    return () => clearTimeout(timer)
-  }, [])
 
   return (
     <section className="relative flex flex-col h-full w-full">
@@ -105,7 +98,7 @@ export function Hero({
                   boldWords={HERO_BOLD_WORDS}
                   pronunciationWords={HERO_PRONUNCIATION}
                   className="text-hero-body"
-                  delay={isMobile ? 0.1 : 0.6}
+                  delay={isMobile ? 1.0 : 2.3}
                 >
                   Hi, I&apos;m Atharva — a product designer based in NYC. I love
                   solving problems through thoughtful design and crafting
@@ -159,15 +152,18 @@ export function Hero({
               </div>
             </div>
 
-            {/* Animated Water Blob - Flex grow to fill space with max height constraints */}
-            <div
-              className="relative w-full overflow-hidden water-blob-container flex-1 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]"
-              style={{
-                opacity: blobVisible ? 1 : 0,
-                transition: 'opacity 1.2s ease-out',
-              }}
-            >
-              <WaterBlobWithBoundary interactive />
+            {/* Water blob container — canvas renders as bg color until blobs rise (WebGL yOffset).
+                No opacity gate: the area is already "black" because the shader outputs the
+                background color wherever there's no blob. */}
+            <div className="relative w-full overflow-hidden water-blob-container flex-1 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]">
+              {/* Flash 1: A "Ghost" instance of the blobs that rises and fades without morphing. 
+                  This ensures 100% visual identity with the second flash.
+                  Medium: 0.8s duration, 500ms delay. */}
+              <WaterBlobWithBoundary isGhost isQuick entryDelay={500} />
+              
+              {/* Flash 2: The permanent instance that rises and then morphs into the waterblobs.
+                  1.2s gap -> 1700ms delay. */}
+              <WaterBlobWithBoundary interactive entryDelay={1700} />
             </div>
           </div>
 

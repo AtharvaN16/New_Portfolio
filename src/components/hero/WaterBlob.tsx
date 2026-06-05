@@ -37,6 +37,9 @@ export function WaterBlob({
   enhanced = false,
   interactive = false,
   paused = false,
+  entryDelay = 2400,
+  isGhost = false,
+  isQuick = false,
 }: WaterBlobProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { theme } = useTheme()
@@ -66,11 +69,16 @@ export function WaterBlob({
   const colorsInitializedRef = useRef(false)
   const webglInitializedRef = useRef(false)
   // Tracks whether the rAF loop has ever started; used to gate the initial
-  // 1400ms defer so theme-switch re-runs start immediately (no jank).
-  const hasEverStartedRef = useRef(false)
+  // defer so theme-switch re-runs start immediately (no jank).
+  const initialMountRef = useRef(true)
 
-  // Entry animation: blobs start below canvas (UV space) and rise to normal position
-  const yOffsetRef = useRef(-0.7)
+  // Entry animation: blobs start below canvas (UV space) and rise to normal position.
+  // -1.5 ensures they are fully off-screen even at plasma scale (1.35x size).
+  const yOffsetRef = useRef(-1.5)
+  // Plasma reveal phase: 0 = plasma state (energy at boundary), 1 = settled waterblob
+  const revealPhaseRef = useRef(0)
+  // Ambient illumination intensity: 0 to 1
+  const ambientRef = useRef(0)
 
   // Refs for gradient bar CSS variable interpolation
   const gradientCurrentRef = useRef<{ start: number[]; end: number[] } | null>(
@@ -195,10 +203,13 @@ export function WaterBlob({
     // display object is mutated in-place by lerpColors each frame,
     // and createAnimationLoop's closure reads from the same object.
     // Only reset Y offset on first mount, not on theme switches
-    if (!hasEverStartedRef.current) {
-      yOffsetRef.current = -0.7
+    if (initialMountRef.current) {
+      yOffsetRef.current = -1.5
+      revealPhaseRef.current = 0
+      ambientRef.current = 0
+      if (canvasRef.current) canvasRef.current.style.opacity = '1'
     }
-    const animate = createAnimationLoop(gl, programInfo, display, () => yOffsetRef.current, isMobile)
+    const animate = createAnimationLoop(gl, programInfo, display, () => yOffsetRef.current, isMobile, () => revealPhaseRef.current, () => ambientRef.current)
 
     let animationId: number
     let startTimeoutId: ReturnType<typeof setTimeout>
@@ -207,6 +218,7 @@ export function WaterBlob({
     // so the blobs resume from exactly where they froze.
     let accumulatedTime = 0
     let lastTimestamp: number | null = null
+    let ghostOpacity = 1
 
     const loop = (timestamp: number) => {
       // If paused or hidden, we stop the loop completely (no requestAnimationFrame)
@@ -222,12 +234,53 @@ export function WaterBlob({
       }
       lastTimestamp = timestamp
 
-      // Lerp blobs up from entry position to normal (ease-out, ~1.5s to settle)
+      // Lerp blobs up from entry position
+      // Normal: 0.035 (~1.5s to settle)
+      // Quick: 0.06 (~0.8s to settle)
+      const riseRate = isQuick ? 0.06 : 0.035
       if (yOffsetRef.current < -0.001) {
-        yOffsetRef.current += (0 - yOffsetRef.current) * 0.035
+        yOffsetRef.current += (0 - yOffsetRef.current) * riseRate
       } else {
         yOffsetRef.current = 0
       }
+
+      // Drive Ambient Light
+      if (isQuick) {
+        // Ambient light ramps up as the quick pulse rises
+        ambientRef.current += (1.0 - ambientRef.current) * 0.08
+      } else if (!isGhost) {
+        // Permanent blobs have a soft static ambient light
+        ambientRef.current += (0.15 - ambientRef.current) * 0.02
+      }
+
+      if (isGhost) {
+        // Ghost mode: stay in plasma state, then fade out once settled
+        revealPhaseRef.current = 0
+        if (yOffsetRef.current > -0.5) {
+          // 0.8s matter pulse targets 0.035 opacity decrement
+          ghostOpacity -= isQuick ? 0.035 : 0.02
+
+          // Fade ambient light along with the ghost pulse
+          ambientRef.current *= isQuick ? 0.92 : 0.98
+
+          if (canvasRef.current) {
+            canvasRef.current.style.opacity = Math.max(0, ghostOpacity).toString()
+          }
+        }
+        if (ghostOpacity <= 0) {
+          animationId = 0
+          return
+        }
+      } else {
+        // Normal mode: Start plasma→waterblob transition as soon as blob crests the bottom edge.
+        // 0.02 rate → ~3.5s settle: plasma rim lingers as the blobs rise, then
+        // eases into the normal waterblob palette.
+        if (yOffsetRef.current > -1.1 && revealPhaseRef.current < 1) {
+          revealPhaseRef.current += (1 - revealPhaseRef.current) * 0.02
+          if (revealPhaseRef.current > 0.999) revealPhaseRef.current = 1
+        }
+      }
+
       // Smoothly interpolate display colors toward target each frame
       lerpColors(display, target, COLOR_LERP_SPEED)
       animate(accumulatedTime)
@@ -235,14 +288,13 @@ export function WaterBlob({
       animationId = requestAnimationFrame(loop)
     }
 
-    // On first mount: defer by 1400ms (blob fade-in delay — invisible during this window,
-    // so no visual change). On re-runs caused by theme/retry changes: start immediately
+    // On first mount: use entryDelay. On re-runs caused by theme/retry changes: start immediately
     // so theme switches are seamless with no pause or color glitch.
-    const loopDelay = hasEverStartedRef.current ? 0 : 900 // 200ms before blobVisible fires at 1100ms
-    hasEverStartedRef.current = true
+    const loopDelay = initialMountRef.current ? entryDelay : 0
     
     // Function to start or resume the loop
     const startLoop = () => {
+      initialMountRef.current = false
       if (!animationId) {
         animationId = requestAnimationFrame(loop)
       }
@@ -327,7 +379,7 @@ export function WaterBlob({
     <canvas
       ref={canvasRef}
       onClick={handleClick}
-      className={`w-full h-full block ${interactive ? 'cursor-pointer' : ''} ${theme === 'dark' ? 'hero-gradient-dark' : 'hero-gradient-light'} ${enhanced ? 'shadow-inner' : ''} ${className}`}
+      className={`absolute inset-0 w-full h-full block ${interactive ? 'cursor-pointer' : ''} ${isGhost ? 'pointer-events-none' : ''} ${theme === 'dark' ? 'hero-gradient-dark' : 'hero-gradient-light'} ${enhanced ? 'shadow-inner' : ''} ${className}`}
       suppressHydrationWarning
       style={
         enhanced
