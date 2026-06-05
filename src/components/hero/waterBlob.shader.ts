@@ -39,6 +39,7 @@ export const fragmentShader = `
   uniform float uYOffset; // Vertical offset for entry animation (UV space, lerps to 0)
   uniform float uRevealPhase; // 0.0 = plasma entry state, 1.0 = settled waterblob
   uniform float uAmbient; // 0 to 1 intensity of the ambient light wake
+  uniform float uTrail; // 0 to 1 intensity of the first-flash white trailing light
   // === TUNING CONSTANTS ===
   // Light mode uses reduced atmospheric effects (pigment metaphor)
   // Dark mode uses stronger glow effects (emissive metaphor)
@@ -306,6 +307,31 @@ export const fragmentShader = `
     vec3 lightColor = mix(uColor1, vec3(1.0), 0.7); // Bright thermal light
     color += lightColor * ambientWash * 0.25; // Additive background illumination
 
+    // === FIRST-FLASH WHITE TRAIL (the "light passing through") ===
+    // Pure-white light gated by uTrail (only the first/ghost flash drives it).
+    // Instead of a flat horizontal band, we sample the blob silhouette at a few
+    // points UPWARD (toward the rising front) and smear it downward — so the white
+    // hugs the flash's curved edge and the wake trails below it FOLLOWING that
+    // contour, fading to black. Purely additive, appended last; the branch is
+    // uniform (coherent) so it costs nothing once the flash is gone (uTrail → 0).
+    if (uTrail > 0.001) {
+      float trailLight = 0.0;
+      int trailTaps = uIsMobile > 0.5 ? 4 : 8;
+      float trailStep = uIsMobile > 0.5 ? 0.09 : 0.055; // vertical reach of the tail
+      for (int s = 0; s < 8; s++) {
+        if (s >= trailTaps) break;
+        float off = float(s) * trailStep;             // sample upward toward the front
+        vec2 suv = vec2(uv.x, uv.y + off);
+        float w1 = irregularWaterShape(suv, blob1Center, 0.55 * size1, uTime, 0.0, 0.25, 0.80, proximity1, uIsDarkMode);
+        float w2 = irregularWaterShape(suv, blob2Center, 0.38 * size2, uTime, 5.0, 0.55, 0.80, proximity2, uIsDarkMode);
+        float w = clamp(w1 + w2, 0.0, 1.0);
+        trailLight = max(trailLight, w * exp(-off * 4.5)); // nearer the front = brighter
+      }
+      // Keep the plasma colors readable on the blob body; let the wake glow white.
+      float trailFalloff = 1.0 - 0.6 * totalWater;
+      color += vec3(1.0) * trailLight * trailFalloff * uTrail * 0.7;
+    }
+
     gl_FragColor = vec4(color, 1.0);
   }
 `
@@ -318,4 +344,5 @@ export interface WaterBlobUniforms {
   uYOffset: { value: number }
   uRevealPhase: { value: number }
   uAmbient: { value: number }
+  uTrail: { value: number }
 }

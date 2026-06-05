@@ -37,6 +37,7 @@ export interface WebGLProgramInfo {
   uYOffsetLocation: WebGLUniformLocation | null
   uRevealPhaseLocation: WebGLUniformLocation | null
   uAmbientLocation: WebGLUniformLocation | null
+  uTrailLocation: WebGLUniformLocation | null
   posBuffer: WebGLBuffer | null
   vertShader: WebGLShader
   fragShader: WebGLShader

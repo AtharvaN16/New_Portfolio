@@ -93,6 +93,7 @@ export function getUniformLocations(
     uYOffsetLocation: gl.getUniformLocation(program, 'uYOffset'),
     uRevealPhaseLocation: gl.getUniformLocation(program, 'uRevealPhase'),
     uAmbientLocation: gl.getUniformLocation(program, 'uAmbient'),
+    uTrailLocation: gl.getUniformLocation(program, 'uTrail'),
   }
 }
 
@@ -130,6 +131,7 @@ export function setupWebGL(
   gl.uniform3fv(uniforms.uColor3Location, colors.pink)
   gl.uniform3fv(uniforms.uBackgroundColorLocation, colors.background)
   gl.uniform1f(uniforms.uAmbientLocation, 0.0)
+  gl.uniform1f(uniforms.uTrailLocation, 0.0)
 
   return {
     program,
@@ -152,7 +154,8 @@ export function createAnimationLoop(
   getYOffset: () => number = () => 0,
   isMobile: boolean = false,
   getRevealPhase: () => number = () => 1,
-  getAmbient: () => number = () => 0
+  getAmbient: () => number = () => 0,
+  getTrail: () => number = () => 0
 ): (time: number) => void {
   let lastFrameTime = 0
   const mobileFrameInterval = 1 / 30 // 30 FPS target for mobile
@@ -168,6 +171,7 @@ export function createAnimationLoop(
     gl.uniform1f(programInfo.uYOffsetLocation, getYOffset())
     gl.uniform1f(programInfo.uRevealPhaseLocation, getRevealPhase())
     gl.uniform1f(programInfo.uAmbientLocation, getAmbient())
+    gl.uniform1f(programInfo.uTrailLocation, getTrail())
     gl.uniform1f(programInfo.uIsMobileLocation, isMobile ? 1.0 : 0.0)
 
 

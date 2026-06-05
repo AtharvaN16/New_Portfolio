@@ -47,8 +47,9 @@ const staggerContainer = {
 // Stable references for AnimatedHeroTextGSAP to prevent re-animation on re-renders
 const HERO_BOLD_WORDS = ['Atharva']
 const HERO_PRONUNCIATION = { Atharva: 'uh · thar · vuh' }
-const DESKTOP_CURRENTLY_DELAY = 2.5
-const DESKTOP_BROWSE_WORK_DELAY = 2.7
+const DESKTOP_CURRENTLY_DELAY = 2.0
+const DESKTOP_BROWSE_WORK_DELAY = 2.2
+const SHOW_WELCOME_TEXT = false
 const DESKTOP_CURRENTLY_DURATION = 1.1
 const META_FADE_DURATION = 1.2
 
@@ -98,7 +99,7 @@ export function Hero({
                   boldWords={HERO_BOLD_WORDS}
                   pronunciationWords={HERO_PRONUNCIATION}
                   className="text-hero-body"
-                  delay={isMobile ? 1.0 : 2.3}
+                  delay={isMobile ? 1.0 : 1.8}
                 >
                   Hi, I&apos;m Atharva — a product designer based in NYC. I love
                   solving problems through thoughtful design and crafting
@@ -163,7 +164,26 @@ export function Hero({
               
               {/* Flash 2: The permanent instance that rises and then morphs into the waterblobs.
                   1.2s gap -> 1700ms delay. */}
-              <WaterBlobWithBoundary interactive entryDelay={1700} />
+              <WaterBlobWithBoundary interactive entryDelay={2500} />
+
+              {/* Welcome text — toggle SHOW_WELCOME_TEXT to enable. Black, all-caps,
+                  centered. Revealed by F1's light, gone before F2. */}
+              {SHOW_WELCOME_TEXT && <m.div
+                aria-hidden="true"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 1, 1, 0] }}
+                transition={{
+                  delay: 0.5,
+                  duration: 1.4,
+                  times: [0, 0.12, 0.55, 1],
+                  ease: 'easeInOut',
+                }}
+                className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6"
+              >
+                <span className="text-center font-bold uppercase tracking-tight text-black text-xs sm:text-sm md:text-base">
+                  Welcome to the portfolio of Atharva
+                </span>
+              </m.div>}
             </div>
           </div>
 

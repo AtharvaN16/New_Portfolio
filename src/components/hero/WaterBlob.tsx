@@ -79,6 +79,8 @@ export function WaterBlob({
   const revealPhaseRef = useRef(0)
   // Ambient illumination intensity: 0 to 1
   const ambientRef = useRef(0)
+  // First-flash white trailing light intensity: 0 to 1 (only driven by the ghost pulse)
+  const trailRef = useRef(0)
 
   // Refs for gradient bar CSS variable interpolation
   const gradientCurrentRef = useRef<{ start: number[]; end: number[] } | null>(
@@ -207,9 +209,10 @@ export function WaterBlob({
       yOffsetRef.current = -1.5
       revealPhaseRef.current = 0
       ambientRef.current = 0
+      trailRef.current = 0
       if (canvasRef.current) canvasRef.current.style.opacity = '1'
     }
-    const animate = createAnimationLoop(gl, programInfo, display, () => yOffsetRef.current, isMobile, () => revealPhaseRef.current, () => ambientRef.current)
+    const animate = createAnimationLoop(gl, programInfo, display, () => yOffsetRef.current, isMobile, () => revealPhaseRef.current, () => ambientRef.current, () => trailRef.current)
 
     let animationId: number
     let startTimeoutId: ReturnType<typeof setTimeout>
@@ -253,6 +256,12 @@ export function WaterBlob({
         ambientRef.current += (0.15 - ambientRef.current) * 0.02
       }
 
+      // Drive the first-flash white trailing light (ghost pulse only).
+      // Ramps up as the pulse rises so the wake builds as the light moves through.
+      if (isGhost) {
+        trailRef.current += (1.0 - trailRef.current) * 0.08
+      }
+
       if (isGhost) {
         // Ghost mode: stay in plasma state, then fade out once settled
         revealPhaseRef.current = 0
@@ -262,6 +271,9 @@ export function WaterBlob({
 
           // Fade ambient light along with the ghost pulse
           ambientRef.current *= isQuick ? 0.92 : 0.98
+
+          // Fade the white trailing light with the pulse so it ends in complete darkness
+          trailRef.current *= isQuick ? 0.92 : 0.98
 
           if (canvasRef.current) {
             canvasRef.current.style.opacity = Math.max(0, ghostOpacity).toString()
