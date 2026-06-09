@@ -55,6 +55,8 @@ export interface AnimatedTextProps {
   orphanPrevention?: 'none' | 'orphan' | 'short-line'
   /** Visual class overrides. */
   className?: string
+  /** Per-word color class (default: text-text-primary). Use e.g. text-white on dark media. */
+  wordClassName?: string
 }
 
 /**
@@ -83,6 +85,7 @@ export function AnimatedText({
   alwaysAnimate = false,
   orphanPrevention,
   className,
+  wordClassName = 'text-text-primary',
 }: AnimatedTextProps) {
   const [mounted, setMounted] = useState(false)
   const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
@@ -321,7 +324,7 @@ export function AnimatedText({
                   word
                 ) : (
                   <>
-                    <span className={cn(isHighlighted && !delayHighlight ? "" : "text-text-primary")}>
+                    <span className={cn(isHighlighted && !delayHighlight ? '' : wordClassName)}>
                       {word}
                     </span>
 

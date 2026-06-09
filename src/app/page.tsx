@@ -60,6 +60,7 @@ export default function Home() {
     heroOpacity,
     heroPointerEvents,
     cardY,
+    cardMediaScrimOpacity,
     selectedWorkY,
     footerRevealProgress,
     handleBrowseWorkClick,
@@ -207,6 +208,7 @@ export default function Home() {
               variant="surface"
               slug="nyc-dcwp-business-licenses"
               priority
+              mediaScrimOpacity={cardMediaScrimOpacity}
             />
           </div>
         </m.div>

@@ -8,6 +8,13 @@ import {
 import { useBreakpoints } from '@/hooks/use-responsive'
 import { useLenis } from '@/components/providers/LenisProvider'
 
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max)
+}
+
+/** Viewport coverage at which the media scrim is fully transparent */
+const CARD_SCRIM_REVEAL_COVERAGE = 0.9
+
 interface HomeScrollResult {
   containerRef: React.RefObject<HTMLDivElement | null>
   selectedWorkRef: React.RefObject<HTMLDivElement | null>
@@ -20,6 +27,7 @@ interface HomeScrollResult {
   heroOpacity: MotionValue<number>
   heroPointerEvents: MotionValue<'auto' | 'none'>
   cardY: MotionValue<number>
+  cardMediaScrimOpacity: MotionValue<number>
   selectedWorkY: MotionValue<number>
   footerRevealProgress: MotionValue<number>
   handleBrowseWorkClick: () => void
@@ -180,6 +188,17 @@ export function useHomeScroll(): HomeScrollResult {
   )
   const cardY = useTransform(scrollYProgress, cardRange, cardOutput)
 
+  // Tie scrim to the card parallax entry segment (cardRange[0]→cardRange[1]),
+  // not raw cardY pixels — matches how cardY is driven by scrollYProgress.
+  const cardEntryEnd = cardRange[1]
+  const cardMediaScrimOpacity = useTransform(scrollYProgress, (progress) => {
+    if (progress >= cardEntryEnd) return 0
+
+    const coverage = clamp(progress / cardEntryEnd, 0, 1)
+    if (coverage >= CARD_SCRIM_REVEAL_COVERAGE) return 0
+    return 1 - coverage / CARD_SCRIM_REVEAL_COVERAGE
+  })
+
   const selectedWorkRange = useMemo(() => [0, 0.5, 1], [])
   const selectedWorkOutput = useMemo(
     () => [0, 0, -selectedWorkMovePx],
@@ -290,6 +309,7 @@ export function useHomeScroll(): HomeScrollResult {
     heroOpacity,
     heroPointerEvents,
     cardY,
+    cardMediaScrimOpacity,
     selectedWorkY,
     footerRevealProgress,
     handleBrowseWorkClick,
