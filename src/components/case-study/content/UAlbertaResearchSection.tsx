@@ -4,7 +4,7 @@ import { SectionSpacer } from '@/components/case-study/SectionSpacer'
 import { CASE_STUDY_SECTION_LABEL_PROSE } from '@/components/case-study/caseStudyTypography'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import { GrayFrame } from '@/components/ui/GrayFrame'
-import { UAlbertaDesignExplorationSection } from './UAlbertaDesignExplorationSection'
+import { UAlbertaServiceIterationsSection } from './UAlbertaServiceIterationsSection'
 
 const VIDEO_BASE = '/videos/case-studies/ualberta-library-website'
 
@@ -78,7 +78,7 @@ export function UAlbertaResearchSection() {
         library website
       </h2>
 
-      <div className="mb-8 max-w-[680px] space-y-6 md:mb-10">
+      <div className="mb-12 max-w-[680px] space-y-6 md:mb-20">
         <p
           className="text-base font-normal leading-relaxed md:text-[18px]"
           style={{ color: 'rgb(var(--color-text-color90))' }}
@@ -105,14 +105,6 @@ export function UAlbertaResearchSection() {
           ))}
         </div>
       </div>
-
-      <p
-        className="mb-12 max-w-[680px] text-base font-normal leading-relaxed md:mb-16 md:text-[18px]"
-        style={{ color: 'rgb(var(--color-text-color90))' }}
-      >
-        Our cohort included 1 PhD candidate, 1 second-year, 4 third-years, and 2
-        fourth-year undergraduates.
-      </p>
 
       <div className="space-y-10 md:space-y-14">
         <ResearchMediaRow
@@ -283,7 +275,7 @@ export function UAlbertaResearchSection() {
         </GrayFrame>
       </div>
 
-      <UAlbertaDesignExplorationSection />
+      <UAlbertaServiceIterationsSection />
     </section>
   )
 }
