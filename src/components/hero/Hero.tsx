@@ -12,7 +12,6 @@ const WaterBlobWithBoundary = dynamic(
 )
 import { AnimatedHeroTextGSAP } from './AnimatedHeroTextGSAP'
 import { HoverLink } from '@/components/ui/HoverLink'
-import { FrameGlowCanvas } from './FrameGlowCanvas'
 
 /**
  * Hero Component
@@ -161,8 +160,6 @@ export function Hero({
               {/* Flash 1: desktop only. Ghost pulse that rises and fades.
                   Skipped on mobile for performance — F2 follows text directly. */}
               {!isMobile && <WaterBlobWithBoundary isGhost isQuick entryDelay={500} />}
-              {/* Frame edge glow — desktop only, canvas-driven, synced to F1's yOffset math */}
-              {!isMobile && <FrameGlowCanvas entryDelay={500} />}
 
               {/* Flash 2: desktop waits for F1 gap (2500ms). Mobile follows text directly (1500ms). */}
               <WaterBlobWithBoundary interactive entryDelay={isMobile ? 1500 : 2500} />
