@@ -7,13 +7,15 @@ import {
 } from 'framer-motion'
 import { useBreakpoints } from '@/hooks/use-responsive'
 import { useLenis } from '@/components/providers/LenisProvider'
+import {
+  CARD_ENTRY_END_PROGRESS,
+  CARD_SCRIM_REVEAL_COVERAGE,
+  HERO_FADE_END_PROGRESS,
+} from './home-scroll-timing'
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max)
 }
-
-/** Viewport coverage at which the media scrim is fully transparent */
-const CARD_SCRIM_REVEAL_COVERAGE = 0.9
 
 interface HomeScrollResult {
   containerRef: React.RefObject<HTMLDivElement | null>
@@ -25,6 +27,7 @@ interface HomeScrollResult {
   heroContentY: MotionValue<number>
   navbarScrollOpacity: MotionValue<number>
   heroOpacity: MotionValue<number>
+  heroIsHidden: boolean
   heroPointerEvents: MotionValue<'auto' | 'none'>
   cardY: MotionValue<number>
   cardMediaScrimOpacity: MotionValue<number>
@@ -42,6 +45,7 @@ export function useHomeScroll(): HomeScrollResult {
   const [footerHeight, setFooterHeight] = useState(0)
   const [windowHeight, setWindowHeight] = useState(1000)
   const [isMounted, setIsMounted] = useState(false)
+  const [heroIsHidden, setHeroIsHidden] = useState(false)
   const { isDesktop } = useBreakpoints()
   const lenis = useLenis()
 
@@ -137,6 +141,7 @@ export function useHomeScroll(): HomeScrollResult {
 
   // Use a stable ref for tracking pause state without triggering re-renders
   const lastPauseState = useRef(false)
+  const lastHeroHiddenState = useRef(false)
   
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     const nextPauseState = latest > 0.03
@@ -145,6 +150,12 @@ export function useHomeScroll(): HomeScrollResult {
       window.dispatchEvent(new CustomEvent('home:pause-blobs', { 
         detail: { paused: nextPauseState } 
       }))
+    }
+
+    const nextHeroHiddenState = latest >= HERO_FADE_END_PROGRESS
+    if (nextHeroHiddenState !== lastHeroHiddenState.current) {
+      lastHeroHiddenState.current = nextHeroHiddenState
+      setHeroIsHidden(nextHeroHiddenState)
     }
   })
 
@@ -160,9 +171,12 @@ export function useHomeScroll(): HomeScrollResult {
   )
   const navbarRange = useMemo(() => [0, 0.02], [])
   const navbarOutput = useMemo(() => [1, 0], [])
-  const heroOpacityRange = useMemo(() => [0, 0.195, 0.2], [])
+  const heroOpacityRange = useMemo(
+    () => [0, HERO_FADE_END_PROGRESS - 0.005, HERO_FADE_END_PROGRESS],
+    []
+  )
   const heroOpacityOutput = useMemo(() => [1, 1, 0], [])
-  const cardRange = useMemo(() => [0, 0.2, 0.5], [])
+  const cardRange = useMemo(() => [0, CARD_ENTRY_END_PROGRESS, 0.5], [])
   const cardOutput = useMemo(
     () => [windowHeight, 0, -windowHeight * 1.05],
     [windowHeight]
@@ -307,6 +321,7 @@ export function useHomeScroll(): HomeScrollResult {
     heroContentY,
     navbarScrollOpacity,
     heroOpacity,
+    heroIsHidden,
     heroPointerEvents,
     cardY,
     cardMediaScrimOpacity,

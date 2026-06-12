@@ -58,6 +58,7 @@ export default function Home() {
     heroContentY,
     navbarScrollOpacity,
     heroOpacity,
+    heroIsHidden,
     heroPointerEvents,
     cardY,
     cardMediaScrimOpacity,
@@ -159,6 +160,7 @@ export default function Home() {
             zIndex: 30,
             backgroundColor: 'rgb(var(--color-background))',
             opacity: heroOpacity,
+            visibility: heroIsHidden ? 'hidden' : 'visible',
             pointerEvents: heroPointerEvents,
             willChange: 'opacity',
           }}
