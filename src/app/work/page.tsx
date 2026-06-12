@@ -7,6 +7,7 @@ import { WorkFilter } from '@/components/work/WorkFilter'
 import type { ProjectCardProps } from '@/components/work/ProjectCard'
 import { GradientBar } from '@/components/ui/GradientBar'
 import { NavButton } from '@/components/ui/NavButton'
+import { useLenis } from '@/components/providers/LenisProvider'
 import { getVisibleCaseStudies } from '@/lib/data/case-studies'
 
 const CaseStudyDialog = dynamic(
@@ -29,6 +30,7 @@ const allProjects: ProjectCardProps[] = getVisibleCaseStudies().map((study) => (
 }))
 
 export default function WorkPage() {
+  const lenis = useLenis()
   const [selectedFilter, setSelectedFilter] = useState<string>('All')
   const [isStandalone, setIsStandalone] = useState(false)
   // Derive if filter has been changed from initial 'All' state
@@ -42,12 +44,9 @@ export default function WorkPage() {
     if (!isInsideDialog) {
       setIsStandalone(true)
       window.scrollTo(0, 0)
-      // Also scroll Lenis if available
-      if (window.lenis) {
-        window.lenis.scrollTo(0, { immediate: true })
-      }
+      lenis?.scrollTo(0, { immediate: true })
     }
-  }, [])
+  }, [lenis])
 
   const handleBack = () => {
     // Go back in history (this will trigger the dialog to close)

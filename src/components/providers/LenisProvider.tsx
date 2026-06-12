@@ -20,13 +20,6 @@ interface LenisProviderProps {
   children: ReactNode
 }
 
-// Extend window interface to include lenis
-declare global {
-  interface Window {
-    lenis?: Lenis
-  }
-}
-
 export function LenisProvider({ children }: LenisProviderProps) {
   const lenisRef = useRef<Lenis | null>(null)
 
