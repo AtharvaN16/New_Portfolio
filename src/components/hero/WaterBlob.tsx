@@ -82,6 +82,9 @@ export function WaterBlob({
   // First-flash white trailing light intensity: 0 to 1 (only driven by the ghost pulse)
   const trailRef = useRef(0)
 
+  // Entry animation: blobs start below canvas (UV space) and rise to normal position
+  const yOffsetRef = useRef(-0.7)
+
   // Refs for gradient bar CSS variable interpolation
   const gradientCurrentRef = useRef<{ start: number[]; end: number[] } | null>(
     null
