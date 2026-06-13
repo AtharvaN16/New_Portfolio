@@ -12,6 +12,7 @@ const WaterBlobWithBoundary = dynamic(
 )
 import { AnimatedHeroTextGSAP } from './AnimatedHeroTextGSAP'
 import { HoverLink } from '@/components/ui/HoverLink'
+import { useHeroF1Sound } from './use-hero-f1-sound'
 
 /**
  * Hero Component
@@ -62,6 +63,8 @@ export function Hero({
   onBrowseWorkClick,
   onGetInTouchClick,
 }: HeroProps) {
+  useHeroF1Sound()
+
   const { isMobile } = useBreakpoints()
   const isDesktopAnimation =
     typeof window !== 'undefined' &&
