@@ -21,6 +21,12 @@ interface AnimatedHeroTextGSAPProps {
 const DEFAULT_BOLD_WORDS: string[] = []
 const DEFAULT_PRONUNCIATION_WORDS: Record<string, string> = {}
 
+/** Stable hero copy decoration — avoids re-triggering SplitText on parent re-renders */
+export const HERO_BIO_BOLD_WORDS = ['Atharva']
+export const HERO_BIO_PRONUNCIATION_WORDS: Record<string, string> = {
+  Atharva: 'uh · thar · vuh',
+}
+
 /**
  * AnimatedHeroTextGSAP Component
  *
@@ -43,6 +49,7 @@ export function AnimatedHeroTextGSAP({
   as: Component = 'p',
 }: AnimatedHeroTextGSAPProps) {
   const textRef = useRef<HTMLParagraphElement>(null)
+  const hasRevealedRef = useRef(false)
   const [scribbleContainers, setScribbleContainers] = useState<HTMLElement[]>([])
   const { isDesktop } = useBreakpoints()
 
@@ -50,7 +57,7 @@ export function AnimatedHeroTextGSAP({
   const shouldPause = prefersReducedMotion || pauseWebGL
 
   useEffect(() => {
-    if (!textRef.current) return
+    if (!textRef.current || hasRevealedRef.current) return
 
     const element = textRef.current
     let split: ReturnType<typeof SplitText> | null = null
@@ -66,6 +73,7 @@ export function AnimatedHeroTextGSAP({
           if (textRef.current) {
             textRef.current.style.opacity = '1'
             textRef.current.style.transition = 'opacity 1.2s ease-out'
+            hasRevealedRef.current = true
           }
         }, delay * 1000)
         return
@@ -188,6 +196,7 @@ export function AnimatedHeroTextGSAP({
         ease: 'power3.out',
         delay: shouldPause ? 0 : delay,
         onComplete: () => {
+          hasRevealedRef.current = true
           lineMasks.forEach((m) => {
             m.style.overflow = 'visible'
           })
@@ -223,12 +232,11 @@ export function AnimatedHeroTextGSAP({
     // Cleanup
     return () => {
       cancelled = true
-      // Only reset if we're not cancelled by a dependency change
-      // But actually, we SHOULD reset if dependencies change to avoid dangling portals
+      if (hasRevealedRef.current) return
       setScribbleContainers([])
       split?.revert()
     }
-  }, [delay, boldWords, pronunciationWords, children, prefersReducedMotion, pauseWebGL, shouldPause])
+  }, [delay, children, prefersReducedMotion, pauseWebGL, shouldPause, isDesktop, boldWords, pronunciationWords])
 
   return (
     <>

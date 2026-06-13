@@ -23,7 +23,7 @@ const WaterBlobWithBoundary = dynamic(
     import('./WaterBlobWithBoundary').then((mod) => mod.WaterBlobWithBoundary),
   { ssr: false }
 )
-import { AnimatedHeroTextGSAP } from './AnimatedHeroTextGSAP'
+import { AnimatedHeroTextGSAP, HERO_BIO_BOLD_WORDS, HERO_BIO_PRONUNCIATION_WORDS } from './AnimatedHeroTextGSAP'
 import { HoverLink } from '@/components/ui/HoverLink'
 
 const META_FADE_DURATION = 1.2
@@ -66,8 +66,8 @@ export function Hero({
               <div className="max-w-[70%] md:max-w-none md:w-[410px]">
                 <AnimatedHeroTextGSAP
                   as="h1"
-                  boldWords={['Atharva']}
-                  pronunciationWords={{ Atharva: 'uh · thar · vuh' }}
+                  boldWords={HERO_BIO_BOLD_WORDS}
+                  pronunciationWords={HERO_BIO_PRONUNCIATION_WORDS}
                   className="text-hero-body"
                   delay={bioDelay}
                 >
