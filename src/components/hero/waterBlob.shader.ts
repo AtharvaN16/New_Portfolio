@@ -43,8 +43,8 @@ export const fragmentShader = `
   // Constants baked to dark-mode values — uIsDarkMode was always 1.0 at runtime.
   // Light-mode appearance is achieved via background + palette colors, not shader branches.
   const float ATMOSPHERIC_NOISE  = 0.03;
-  const float EDGE_GLOW          = 0.08;
-  const float SUBSURFACE_SCATTER = 0.05;
+  const float EDGE_GLOW          = 0.12;
+  const float SUBSURFACE_SCATTER = 0.08;
   const float DENSITY_SAT_BOOST  = 0.4;
   const float BASE_SATURATION    = 1.25;
   const float VOLUMETRIC_DENSITY = 0.05;
@@ -99,8 +99,8 @@ export const fragmentShader = `
     float angle = atan(toCenter.y, toCenter.x);
 
     float noiseVal = uIsMobile > 0.5
-      ? turbulence(vec2(cos(angle), sin(angle)) * 2.0 + time * 0.02 + seed, 1.0)
-      : turbulence(vec2(cos(angle), sin(angle)) * 3.0 + time * 0.02 + seed, 0.8);
+      ? turbulence(vec2(cos(angle), sin(angle)) * 2.0 + time * 0.03 + seed, 1.0)
+      : turbulence(vec2(cos(angle), sin(angle)) * 3.0 + time * 0.05 + seed, 0.8);
 
     float turbulentRadius = baseSize * (0.8 + turbulenceAmount * noiseVal);
 
@@ -128,10 +128,12 @@ export const fragmentShader = `
   vec2 blobMotion(float time, float speed, vec2 basePos, float seed, float amplitude) {
     float angle1 = time * speed + seed;
     float angle2 = time * speed * 0.7 + seed * 2.0 + 1.5;
+    float angle3 = time * speed * 1.618 + seed * 3.0 + 2.9;
     vec2 motion1 = vec2(cos(angle1), sin(angle1)) * (0.12 * amplitude);
     vec2 motion2 = vec2(cos(angle2), sin(angle2 * 1.3)) * (0.08 * amplitude);
     vec2 motion3 = vec2(sin(angle1 * 0.5), cos(angle2 * 0.8)) * (0.05 * amplitude);
-    return basePos + motion1 + motion2 + motion3;
+    vec2 motion4 = vec2(cos(angle3 * 0.9), sin(angle3)) * (0.04 * amplitude);
+    return basePos + motion1 + motion2 + motion3 + motion4;
   }
 
   void main() {
@@ -155,8 +157,10 @@ export const fragmentShader = `
 
     float size1 = mix(1.35, 1.0, uRevealPhase);
     float size2 = mix(1.28, 1.0, uRevealPhase);
-    float blob1 = irregularWaterShape(uv, blob1Center, 0.55 * size1, uTime, 0.0, 0.25, 0.80, proximity1);
-    float blob2 = irregularWaterShape(uv, blob2Center, 0.38 * size2, uTime, 5.0, 0.55, 0.80, proximity2);
+    float breath1 = 1.0 + 0.06 * sin(uTime * 0.27);
+    float breath2 = 1.0 + 0.06 * sin(uTime * 0.19 + 2.1);
+    float blob1 = irregularWaterShape(uv, blob1Center, 0.55 * size1 * breath1, uTime, 0.0, 0.25, 0.80, proximity1);
+    float blob2 = irregularWaterShape(uv, blob2Center, 0.38 * size2 * breath2, uTime, 5.0, 0.55, 0.80, proximity2);
 
     blob1 = clamp(blob1, 0.0, 1.0);
     blob2 = clamp(blob2, 0.0, 1.0);
