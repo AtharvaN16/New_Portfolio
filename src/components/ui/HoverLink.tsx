@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { forwardRef } from 'react'
 import { cn } from '@/lib/utils/cn'
 
 interface HoverLinkProps {
@@ -39,18 +40,23 @@ interface HoverLinkProps {
  * Text slides up and out while duplicate slides up from below
  * Underline animates from left to right on hover
  */
-export function HoverLink({
-  href,
-  children,
-  className,
-  onClick,
-  onMouseEnter,
-  prefetch,
-  comingSoon = false,
-}: HoverLinkProps) {
+export const HoverLink = forwardRef<HTMLAnchorElement, HoverLinkProps>(
+  function HoverLink(
+    {
+      href,
+      children,
+      className,
+      onClick,
+      onMouseEnter,
+      prefetch,
+      comingSoon = false,
+    },
+    ref
+  ) {
   return (
     <div className="relative flex flex-col items-center group">
       <Link
+        ref={ref}
         href={comingSoon ? '#' : href}
         onClick={comingSoon ? (e) => e.preventDefault() : onClick}
         onMouseEnter={onMouseEnter}
@@ -96,4 +102,4 @@ export function HoverLink({
       )}
     </div>
   )
-}
+})

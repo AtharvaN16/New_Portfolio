@@ -23,6 +23,7 @@ import {
   COLOR_LERP_SPEED,
 } from './waterBlob.types'
 import { useWaterBlobGradientVars } from './use-water-blob-gradient-vars'
+import { dispatchHeroFlashHead, clearHeroFlashHead } from './hero-flash-head'
 
 /**
  * WaterBlob Component
@@ -264,6 +265,10 @@ export function WaterBlob({
         trailRef.current += (1.0 - trailRef.current) * 0.08
       }
 
+      if (isGhost && isQuick) {
+        dispatchHeroFlashHead(yOffsetRef.current, trailRef.current)
+      }
+
       if (isGhost) {
         // Ghost mode: stay in plasma state, then fade out once settled
         revealPhaseRef.current = 0
@@ -282,6 +287,7 @@ export function WaterBlob({
           }
         }
         if (ghostOpacity <= 0) {
+          if (isQuick) clearHeroFlashHead()
           animationId = 0
           return
         }

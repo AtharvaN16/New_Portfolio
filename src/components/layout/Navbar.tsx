@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { m } from 'framer-motion'
 import { Expand } from '@theme-toggles/react'
@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { HoverLink } from '@/components/ui/HoverLink'
 import { NavButton } from '@/components/ui/NavButton'
 import { MobileMenu } from './MobileMenu'
+import { useHeroNavFlashGlow } from '@/hooks/use-hero-nav-flash-glow'
 
 /**
  * Navbar Component
@@ -27,6 +28,9 @@ const navLinks = [
 export function Navbar() {
   const { theme, toggleTheme } = useTheme()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const logoImageRef = useRef<HTMLImageElement>(null)
+
+  useHeroNavFlashGlow(logoImageRef)
 
   return (
     <>
@@ -43,6 +47,7 @@ export function Navbar() {
             className="relative h-8 w-auto sm:h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded"
           >
             <Image
+              ref={logoImageRef}
               src={
                 theme === 'dark'
                   ? '/icons/Logo dark mode.svg'

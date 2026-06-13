@@ -4,6 +4,20 @@ import { m } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { AnimatedLink } from '@/components/ui/AnimatedLink'
 import { useBreakpoints } from '@/hooks/use-responsive'
+import {
+  HERO_BIO_DELAY_S,
+  HERO_BOTTOM_ROW_DELAY_S,
+  HERO_BROWSE_WORK_DELAY_MS,
+  HERO_BROWSE_WORK_DELAY_S,
+  HERO_CTA_DURATION_S,
+  HERO_CURRENTLY_DELAY_S,
+  HERO_CURRENTLY_DURATION_S,
+  HERO_F1_ENTRY_MS,
+  HERO_F2_ENTRY_MS,
+  HERO_FLASH_BEAT_DELAY_S,
+  HERO_FLASH_BEAT_DURATION_S,
+  HERO_FLASH_BEAT_LABEL,
+} from './hero-entry-timing'
 
 const WaterBlobWithBoundary = dynamic(
   () =>
@@ -13,44 +27,6 @@ const WaterBlobWithBoundary = dynamic(
 import { AnimatedHeroTextGSAP } from './AnimatedHeroTextGSAP'
 import { HoverLink } from '@/components/ui/HoverLink'
 
-/**
- * Hero Component
- *
- * Main hero section for homepage.
- * Clean, maintainable implementation following all guidelines.
- *
- * Layout:
- * - Hero text above blob
- * - Animated water blob (480px height, 90deg corners)
- * - Navigation links at bottom (absolute positioned)
- *
- * Features:
- * - Framer Motion animations (NOT GSAP)
- * - 24px margin on all sides
- * - Dark background
- * - Font: 20px/500 for text, 16px/500 for links
- */
-
-const fadeInUp = {
-  initial: { y: 40, opacity: 0 },
-  animate: { y: 0, opacity: 1 },
-}
-
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
-
-// Stable references for AnimatedHeroTextGSAP to prevent re-animation on re-renders
-const HERO_BOLD_WORDS = ['Atharva']
-const HERO_PRONUNCIATION = { Atharva: 'uh · thar · vuh' }
-const DESKTOP_CURRENTLY_DELAY = 2.0
-const DESKTOP_BROWSE_WORK_DELAY = 2.2
-const SHOW_WELCOME_TEXT = false
-const DESKTOP_CURRENTLY_DURATION = 1.1
 const META_FADE_DURATION = 1.2
 
 interface HeroProps {
@@ -66,40 +42,35 @@ export function Hero({
   const isDesktopAnimation =
     typeof window !== 'undefined' &&
     window.matchMedia('(min-width: 768px)').matches
+
+  const bioDelay = isDesktopAnimation ? HERO_BIO_DELAY_S : isMobile ? 0.3 : 1.8
   const currentlyDelay = isDesktopAnimation
-    ? DESKTOP_CURRENTLY_DELAY
+    ? HERO_CURRENTLY_DELAY_S
     : isMobile
       ? 0.1
       : 0.7
-  const browseWorkDelay = isDesktopAnimation ? DESKTOP_BROWSE_WORK_DELAY : 1.0
+  const browseWorkDelay = isDesktopAnimation ? HERO_BROWSE_WORK_DELAY_S : 1.0
   const currentlyDuration = isDesktopAnimation
-    ? DESKTOP_CURRENTLY_DURATION
+    ? HERO_CURRENTLY_DURATION_S
     : META_FADE_DURATION
+  const bottomRowDelay = isDesktopAnimation ? HERO_BOTTOM_ROW_DELAY_S : 0
 
   return (
     <section className="relative flex flex-col h-full w-full">
       <div className="max-w-[1920px] mx-auto w-full h-full flex flex-col">
-        <m.div
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-          className="flex flex-col h-full"
-        >
-          {/* Wrapper for text + blob to keep them attached */}
+        <m.div className="flex flex-col h-full">
           <div className="flex flex-col mt-0 pt-[20dvh] md:mt-auto md:pt-0 gap-4 md:gap-0 flex-1 md:flex-none">
-            {/* Hero Text + meta - stacked on mobile, horizontal on desktop */}
             <div
               className="flex flex-col gap-12 mb-4 md:mb-5 lg:mb-6 md:flex-row md:items-end md:justify-between md:gap-4 px-6 md:px-0 md:min-h-0"
               style={{ flexShrink: 0 }}
             >
-              {/* Hero Text - Single paragraph with GSAP line-by-line reveal animation */}
               <div className="max-w-[70%] md:max-w-none md:w-[410px]">
                 <AnimatedHeroTextGSAP
                   as="h1"
-                  boldWords={HERO_BOLD_WORDS}
-                  pronunciationWords={HERO_PRONUNCIATION}
+                  boldWords={['Atharva']}
+                  pronunciationWords={{ Atharva: 'uh · thar · vuh' }}
                   className="text-hero-body"
-                  delay={isMobile ? 0.3 : 1.8}
+                  delay={bioDelay}
                 >
                   Hi, I&apos;m Atharva — a product designer based in NYC. I love
                   solving problems through thoughtful design and crafting
@@ -126,20 +97,22 @@ export function Hero({
                   </span>
                 </m.div>
 
-                {/* Browse work link - hidden on mobile, visible from md and up */}
                 <m.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
-                    duration: META_FADE_DURATION,
+                    duration: isDesktopAnimation
+                      ? HERO_CTA_DURATION_S
+                      : META_FADE_DURATION,
                     delay: browseWorkDelay,
-                    ease: [0.4, 0, 0.2, 1],
+                    ease: [0.22, 1, 0.36, 1],
                   }}
                   className="hidden md:block"
                 >
                   <AnimatedLink
                     href="#work"
                     variant="down-arrow"
+                    entryPulseDelayMs={HERO_BROWSE_WORK_DELAY_MS}
                     onClick={(event) => {
                       if (onBrowseWorkClick) {
                         event.preventDefault()
@@ -153,45 +126,52 @@ export function Hero({
               </div>
             </div>
 
-            {/* Water blob container — canvas renders as bg color until blobs rise (WebGL yOffset).
-                No opacity gate: the area is already "black" because the shader outputs the
-                background color wherever there's no blob. */}
             <div className="relative w-full overflow-hidden water-blob-container flex-1 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]">
-              {/* Flash 1: desktop only. Ghost pulse that rises and fades.
-                  Skipped on mobile for performance — F2 follows text directly. */}
-              {!isMobile && <WaterBlobWithBoundary isGhost isQuick entryDelay={500} />}
+              {!isMobile && (
+                <WaterBlobWithBoundary
+                  isGhost
+                  isQuick
+                  entryDelay={HERO_F1_ENTRY_MS}
+                />
+              )}
 
-              {/* Flash 2: desktop waits for F1 gap (2500ms). Mobile follows text directly (1500ms). */}
-              <WaterBlobWithBoundary interactive entryDelay={isMobile ? 1500 : 2500} />
+              <WaterBlobWithBoundary
+                interactive
+                entryDelay={isMobile ? 1500 : HERO_F2_ENTRY_MS}
+              />
 
-              {/* Welcome text — toggle SHOW_WELCOME_TEXT to enable. Black, all-caps,
-                  centered. Revealed by F1's light, gone before F2. */}
-              {SHOW_WELCOME_TEXT && <m.div
-                aria-hidden="true"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 1, 1, 0] }}
-                transition={{
-                  delay: 0.5,
-                  duration: 1.4,
-                  times: [0, 0.12, 0.55, 1],
-                  ease: 'easeInOut',
-                }}
-                className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6"
-              >
-                <span className="text-center font-bold uppercase tracking-tight text-black text-xs sm:text-sm md:text-base">
-                  Welcome to the portfolio of Atharva
-                </span>
-              </m.div>}
+              {!isMobile && (
+                <m.div
+                  aria-hidden="true"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: [0, 1, 1, 0] }}
+                  transition={{
+                    delay: HERO_FLASH_BEAT_DELAY_S,
+                    duration: HERO_FLASH_BEAT_DURATION_S,
+                    times: [0, 0.12, 0.5, 1],
+                    ease: 'easeInOut',
+                  }}
+                  className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6"
+                >
+                  <span className="text-center text-sm font-semibold uppercase tracking-[0.2em] text-black md:text-base">
+                    {HERO_FLASH_BEAT_LABEL}
+                  </span>
+                </m.div>
+              )}
             </div>
           </div>
 
-          {/* Bottom Navigation Links - 16px from viewport bottom */}
           <m.div
-            variants={fadeInUp}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: HERO_CTA_DURATION_S,
+              delay: bottomRowDelay,
+              ease: [0.22, 1, 0.36, 1],
+            }}
             className="hidden md:flex items-center justify-between mt-4 px-6 md:px-0"
             style={{ flexShrink: 0, paddingBottom: '1rem' }}
           >
-            {/* Left Link - Hover animation */}
             <HoverLink
               href="#footer"
               onClick={(e) => {
@@ -211,8 +191,9 @@ export function Hero({
               Looking for full-time roles starting Summer &apos;26.
             </div>
 
-            {/* Right Link - Hover animation */}
-            <HoverLink href="/resume" prefetch={false}>Résumé</HoverLink>
+            <HoverLink href="/resume" prefetch={false}>
+              Résumé
+            </HoverLink>
           </m.div>
         </m.div>
       </div>

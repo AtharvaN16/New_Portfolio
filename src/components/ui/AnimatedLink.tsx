@@ -25,6 +25,8 @@ interface AnimatedLinkProps {
   variant?: 'default' | 'down-arrow'
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void
   style?: React.CSSProperties
+  /** Defer down-arrow bounce until this many ms after mount (hero entry sync) */
+  entryPulseDelayMs?: number
 }
 
 /**
@@ -44,12 +46,15 @@ export function AnimatedLink({
   variant = 'default',
   onClick,
   style,
+  entryPulseDelayMs,
 }: AnimatedLinkProps) {
   const { reducedMotion, pauseWebGL } = useAccessibility()
   const shouldPause = reducedMotion || pauseWebGL
 
   // Gate down-arrow bounce until after page load to avoid TBT during Lighthouse measurement
   const [pageLoaded, setPageLoaded] = useState(false)
+  const [bounceActive, setBounceActive] = useState(false)
+
   useEffect(() => {
     if (document.readyState === 'complete') {
       setPageLoaded(true)
@@ -59,6 +64,22 @@ export function AnimatedLink({
       return () => window.removeEventListener('load', onLoad)
     }
   }, [])
+
+  useEffect(() => {
+    if (variant !== 'down-arrow' || shouldPause) {
+      setBounceActive(false)
+      return
+    }
+
+    if (entryPulseDelayMs != null) {
+      const timeoutId = window.setTimeout(() => {
+        setBounceActive(true)
+      }, entryPulseDelayMs)
+      return () => window.clearTimeout(timeoutId)
+    }
+
+    setBounceActive(pageLoaded)
+  }, [entryPulseDelayMs, pageLoaded, shouldPause, variant])
 
   // Handle smooth scroll for hash links with page transition easing
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
@@ -156,9 +177,9 @@ export function AnimatedLink({
 
       {variant === 'down-arrow' && (
         <m.span
-          animate={pageLoaded && !shouldPause ? { y: [0, -4, 0] } : { y: 0 }}
+          animate={bounceActive ? { y: [0, -4, 0] } : { y: 0 }}
           transition={
-            pageLoaded && !shouldPause
+            bounceActive
               ? { duration: 1.5, repeat: Infinity, ease: 'easeInOut' }
               : { duration: 0 }
           }
