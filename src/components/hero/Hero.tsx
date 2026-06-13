@@ -14,10 +14,9 @@ import {
   HERO_CURRENTLY_DURATION_S,
   HERO_F1_ENTRY_MS,
   HERO_F2_ENTRY_MS,
-  HERO_FLASH_BEAT_DELAY_S,
-  HERO_FLASH_BEAT_DURATION_S,
-  HERO_FLASH_BEAT_LABEL,
+  HERO_FLASH_WELCOME_ENABLED,
 } from './hero-entry-timing'
+import { HeroFlashWelcome } from './HeroFlashWelcome'
 
 const WaterBlobWithBoundary = dynamic(
   () =>
@@ -140,24 +139,7 @@ export function Hero({
                 entryDelay={isMobile ? 1500 : HERO_F2_ENTRY_MS}
               />
 
-              {!isMobile && (
-                <m.div
-                  aria-hidden="true"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: [0, 1, 1, 0] }}
-                  transition={{
-                    delay: HERO_FLASH_BEAT_DELAY_S,
-                    duration: HERO_FLASH_BEAT_DURATION_S,
-                    times: [0, 0.12, 0.5, 1],
-                    ease: 'easeInOut',
-                  }}
-                  className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6"
-                >
-                  <span className="text-center text-sm font-semibold uppercase tracking-[0.2em] text-black md:text-base">
-                    {HERO_FLASH_BEAT_LABEL}
-                  </span>
-                </m.div>
-              )}
+              {!isMobile && HERO_FLASH_WELCOME_ENABLED && <HeroFlashWelcome />}
             </div>
           </div>
 

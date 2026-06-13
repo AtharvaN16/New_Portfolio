@@ -49,8 +49,11 @@ export const HERO_NAV_GLOW_FADE_START_MS =
 export const HERO_NAV_GLOW_FADE_LEAD_MS =
   HERO_CTA_DELAY_MS - HERO_NAV_GLOW_FADE_START_MS
 
-/** Centered typographic beat during F1 — swap copy here */
-export const HERO_FLASH_BEAT_LABEL = 'Product designer'
+/** Set to true to show F1 welcome text in the water blob frame */
+export const HERO_FLASH_WELCOME_ENABLED = false
+
+/** Bottom-left welcome copy during F1 */
+export const HERO_FLASH_WELCOME_TEXT = 'welcom to my portfolio :)'
 
 export const HERO_FLASH_BEAT_DELAY_S = HERO_F1_ENTRY_MS / 1000
 
