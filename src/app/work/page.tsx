@@ -1,12 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import dynamic from 'next/dynamic'
 import { m } from 'framer-motion'
 import { WorkFilter } from '@/components/work/WorkFilter'
+import { MasonryWorkGrid } from '@/components/work/MasonryWorkGrid'
 import type { ProjectCardProps } from '@/components/work/ProjectCard'
 import { GradientBar } from '@/components/ui/GradientBar'
 import { NavButton } from '@/components/ui/NavButton'
+import { LineSeparator } from '@/components/ui/LineSeparator'
 import { useLenis } from '@/components/providers/LenisProvider'
 import { getVisibleCaseStudies } from '@/lib/data/case-studies'
 
@@ -15,7 +17,6 @@ const CaseStudyDialog = dynamic(
   { ssr: false }
 )
 
-// Map case studies to ProjectCardProps
 const allProjects: ProjectCardProps[] = getVisibleCaseStudies().map((study) => ({
   title: study.title,
   organization: study.organization,
@@ -33,6 +34,11 @@ export default function WorkPage() {
   const lenis = useLenis()
   const [selectedFilter, setSelectedFilter] = useState<string>('All')
   const [isStandalone, setIsStandalone] = useState(false)
+  const [isDialogSettled, setIsDialogSettled] = useState(() => {
+    if (typeof document === 'undefined') return false
+    return !document.getElementById('dialog')
+  })
+
   // Derive if filter has been changed from initial 'All' state
   const hasChangedFilter = selectedFilter !== 'All'
 
@@ -46,7 +52,17 @@ export default function WorkPage() {
       window.scrollTo(0, 0)
       lenis?.scrollTo(0, { immediate: true })
     }
-  }, [lenis])
+
+    if (!isDialogSettled) {
+      const timer = setTimeout(() => setIsDialogSettled(true), 1100)
+      return () => clearTimeout(timer)
+    }
+  }, [lenis, isDialogSettled])
+
+  const filteredProjects = useMemo(() => {
+    if (selectedFilter === 'All') return allProjects
+    return allProjects.filter((project) => project.tags?.includes(selectedFilter))
+  }, [selectedFilter])
 
   const handleBack = () => {
     // Go back in history (this will trigger the dialog to close)
@@ -61,34 +77,57 @@ export default function WorkPage() {
         height="h-2"
       />
 
-      {/* Header with Back Button - 30px gap from GradientBar */}
+      {/* Header with Filters and Back Button */}
       <header className="relative z-50">
-        <nav className="px-6 2xl:px-[140px] pt-[38px] md:pt-[46px] pb-6 flex items-center justify-end max-w-[1920px] mx-auto">
-          <m.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{
-              duration: 0.4,
-              delay: 0.5,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            <NavButton onClick={handleBack} className="-mr-3">
-              Back
-            </NavButton>
-          </m.div>
-        </nav>
+        <div className="max-w-[1920px] mx-auto">
+          <nav className="px-6 2xl:px-[140px] pt-[38px] md:pt-[46px] pb-6 flex flex-col md:flex-row md:items-start justify-between gap-6">
+            <div className="flex-1">
+              <WorkFilter
+                projects={allProjects}
+                selectedFilter={selectedFilter}
+                onFilterChange={setSelectedFilter}
+                hasChangedFilter={hasChangedFilter}
+              />
+            </div>
+            <m.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{
+                duration: 0.4,
+                delay: 0.5,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="md:pt-4" // Align with the filter background's padding
+            >
+              <NavButton onClick={handleBack} className="-mr-3">
+                Back
+              </NavButton>
+            </m.div>
+          </nav>
+          <div className="px-6 2xl:px-[140px]">
+            <LineSeparator
+              className="opacity-50"
+              delay={hasChangedFilter ? 0 : 0.2}
+            />
+          </div>
+        </div>
       </header>
 
-      <div className="relative px-6 2xl:px-[140px] pb-20 pt-4 md:pb-32 md:pt-8">
+      <div className="relative px-6 2xl:px-[140px] pb-20 pt-4 md:pb-32">
         <main id="main-content">
-          {/* Combined Filter and Projects */}
-          <WorkFilter
-            projects={allProjects}
-            selectedFilter={selectedFilter}
-            onFilterChange={setSelectedFilter}
+          <MasonryWorkGrid
+            projects={filteredProjects}
+            isDialogSettled={isDialogSettled}
             hasChangedFilter={hasChangedFilter}
           />
+
+          {filteredProjects.length === 0 && (
+            <div className="py-20 text-center">
+              <p className="text-lg text-text-tertiary">
+                No projects found with this filter.
+              </p>
+            </div>
+          )}
         </main>
       </div>
     </div>

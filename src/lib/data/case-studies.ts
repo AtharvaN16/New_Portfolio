@@ -1,4 +1,5 @@
 import { CONTENT_REGISTRY } from '@/components/case-study/content'
+import type { CardAlign, CardSize } from '@/lib/project-card-layout'
 
 export interface CaseStudy {
   slug: string
@@ -26,6 +27,8 @@ export interface CaseStudy {
   fullDescription?: string
   pageVariant?: 'case-study' | 'showcase' | 'figma-presentation'
   heroImageFill?: boolean // When true, card thumbnail fills full height (for portrait/non-16:9 heroes)
+  cardSize?: CardSize // Editorial card width preset (sm | md | lg | fw)
+  cardAlign?: CardAlign // Horizontal alignment in scattered layouts
   heroTextLight?: boolean
   figmaEmbedUrl?: string
   videoUrl?: string
@@ -48,11 +51,11 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     year: '2025',
     description:
       "Redesigning Pratt's campus visit experience through ambassador support tools and a clearer physical-digital information system for prospective students and families.",
-    tags: ['Service design', 'Design thinking', 'Selected Work'],
+    tags: ['Service design', 'Design thinking'],
     themeColor: '#9370DB',
     imageUrl:
       '/images/case-studies/pratt-institute-visitor-experience/pratt-service-design-hero.webp',
-    featured: true,
+    featured: false,
     category: 'service-design',
     team: ['Atharva Nayak', 'Gloria Yang', 'Sakshi Rane'],
     timeline: 'Sep - Dec 2025',

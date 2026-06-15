@@ -13,6 +13,19 @@ export const satoshi = localFont({
 })
 
 /**
+ * Vulf Mono Light Italic — footer / metadata (single face, no fallback hijacking)
+ * Note: Vulf Mono Demo only includes A–Z, a–z, 0–9, space, comma, and period.
+ */
+export const vulfMonoLightItalic = localFont({
+  src: '../../public/fonts/VulfMonoDemo-LightItalic.otf',
+  weight: '300',
+  style: 'italic',
+  display: 'swap',
+  adjustFontFallback: false,
+  variable: '--font-vulf-mono-light-italic',
+})
+
+/**
  * Vulf Mono Font Family
  */
 export const vulfMono = localFont({
@@ -33,7 +46,7 @@ export const vulfMono = localFont({
       style: 'normal',
     },
     {
-      path: '../../public/fonts/VulfMonoDemo-LightItalic.woff2', // Prefer woff2 for the most common weight/style
+      path: '../../public/fonts/VulfMonoDemo-LightItalic.otf',
       weight: '300',
       style: 'italic',
     },

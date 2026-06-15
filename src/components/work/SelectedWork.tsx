@@ -92,9 +92,9 @@ const defaultProjects: ProjectCardProps[] = [
     ...featuredStudies.find((s) => s.slug === 'nyc-dcwp-business-licenses')!,
     cardHeight: cardConfig[1].height,
   },
-  // Card 3 (Pratt Institute Visitor Experience)
+  // Card 3 (Aquitania Design System)
   {
-    ...featuredStudies.find((s) => s.slug === 'pratt-institute-visitor-experience')!,
+    ...featuredStudies.find((s) => s.slug === 'aquitania-design-system')!,
     cardHeight: cardConfig[2].height,
   },
   // Card 4 (Gutenberg stays here)

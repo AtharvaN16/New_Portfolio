@@ -10,6 +10,11 @@ import {
   type MotionValue,
 } from 'framer-motion'
 import { CASE_STUDY_RETURN_PATH_KEY } from '@/lib/case-study-overlay'
+import {
+  getEditorialTextClasses,
+  type CardAlign,
+  type CardSize,
+} from '@/lib/project-card-layout'
 import { cn } from '@/lib/utils/cn'
 import { useBreakpoint } from '@/hooks/use-responsive'
 
@@ -38,6 +43,8 @@ export interface ProjectCardProps {
   isMasonry?: boolean
   masonryIndex?: number
   heroImageFill?: boolean // Fill the full card height; use for portrait/non-16:9 heroes
+  cardSize?: CardSize // Editorial width preset — triggers unified 16:9 thumbnail
+  cardAlign?: CardAlign // Horizontal alignment in scattered layouts (applied by parent)
 }
 
 export function ProjectCard({
@@ -65,9 +72,13 @@ export function ProjectCard({
   thumbnailUrl,
   videoUrl,
   anchorId,
+  cardSize,
+  cardAlign: _cardAlign,
 }: ProjectCardProps) {
   // For card rendering, always prefer the dedicated landscape thumbnail when provided
   const cardImageUrl = thumbnailUrl ?? imageUrl
+  const isEditorial = cardSize !== undefined
+  const editorialText = isEditorial ? getEditorialTextClasses(cardSize) : null
   const [isHovered, setIsHovered] = useState(false)
   const cardRef = useRef<HTMLElement>(null)
   const isDesktop = useBreakpoint('lg')
@@ -154,9 +165,20 @@ export function ProjectCard({
     if (!isMasonry)
       return cardHeight || 'h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px]'
 
-    const desktopHeights = ['lg:h-[350px]', 'lg:h-[480px]', 'lg:h-[400px]', 'lg:h-[520px]', 'lg:h-[380px]']
-    const tabletHeights = ['md:h-[320px]', 'md:h-[400px]']
-    return cn('h-[280px]', tabletHeights[masonryIndex % tabletHeights.length], desktopHeights[masonryIndex % desktopHeights.length])
+    // Subtle height variance — stays close to 4:3 at typical 2-col widths
+    const desktopHeights = [
+      'lg:h-[380px]',
+      'lg:h-[420px]',
+      'lg:h-[400px]',
+      'lg:h-[440px]',
+      'lg:h-[390px]',
+    ]
+    const tabletHeights = ['md:h-[340px]', 'md:h-[380px]']
+    return cn(
+      'h-[300px]',
+      tabletHeights[masonryIndex % tabletHeights.length],
+      desktopHeights[masonryIndex % desktopHeights.length]
+    )
   }
 
   return (
@@ -202,17 +224,19 @@ export function ProjectCard({
             ? 'aspect-[4/3]'
             : cn(
                 'shadow-md lg:hover:shadow-xl [data-theme="dark"]:shadow-none',
-                isMasonry
-                  ? cn('flex items-center justify-center', getMasonryHeight())
-                  : className?.includes('h-full')
-                    ? 'flex-1 min-h-[200px]'
-                    : cn(
-                        'aspect-[16/9] lg:aspect-auto',
-                        (cardHeight ?? 'h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px]')
-                          .split(' ')
-                          .filter((c) => /^(lg:|xl:|2xl:)/.test(c))
-                          .join(' ')
-                      )
+                isEditorial
+                  ? 'aspect-[16/9]'
+                  : isMasonry
+                    ? cn('flex items-center justify-center', getMasonryHeight())
+                    : className?.includes('h-full')
+                      ? 'flex-1 min-h-[200px]'
+                      : cn(
+                          'aspect-[16/9] lg:aspect-auto',
+                          (cardHeight ?? 'h-[280px] sm:h-[360px] md:h-[420px] lg:h-[500px]')
+                            .split(' ')
+                            .filter((c) => /^(lg:|xl:|2xl:)/.test(c))
+                            .join(' ')
+                        )
               )
         )}
       >
@@ -272,8 +296,8 @@ export function ProjectCard({
               />
             </m.div>
           ) : isMasonry ? (
-            // Standard 16:9 hero: constrain to ratio so blurred background bars show as intended
-            <div className="relative w-full aspect-[16/9] z-10 shrink-0 overflow-hidden">
+            // 4:3 hero: constrain to ratio so blurred background bars show as intended
+            <div className="relative w-full aspect-[4/3] z-10 shrink-0 overflow-hidden">
               <Image
                 src={cardImageUrl}
                 alt={title}
@@ -325,39 +349,57 @@ export function ProjectCard({
       </div>
 
       {/* Title and Info - Outside the card, below it */}
-      <div className="mt-4 space-y-1 sm:mt-6">
+      <div className={cn('mt-3', !isMasonry && 'sm:mt-6 space-y-1')}>
         {variant === 'sub-case' ? (
           <h3 className="font-bold leading-tight text-foreground text-[18px] lg:text-[20px]">
             {title}
           </h3>
+        ) : isMasonry ? (
+          <div className="flex items-baseline justify-between gap-4">
+            <h3 className="min-w-0 font-medium leading-snug text-foreground text-[15px] sm:text-[16px] lg:text-[17px]">
+              {title}
+            </h3>
+            <p
+              className="shrink-0 text-right text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.06em] leading-tight max-w-[45%]"
+              style={{ color: 'rgb(var(--color-text-tertiary))' }}
+            >
+              {[organization, ...(_tags || []).filter((tag) => tag !== 'Selected Work' && tag !== year).slice(0, 1), year]
+                .filter(Boolean)
+                .join(' • ')}
+            </p>
+          </div>
         ) : (
           <>
-            {/* Organization (Company Name) */}
             {(organization || year) && (
               <p
-                className="text-[14px] font-semibold md:text-[18px]"
+                className={cn(
+                  'font-semibold',
+                  editorialText?.org ?? 'text-[14px] md:text-[18px]'
+                )}
                 style={{ color: 'rgb(var(--color-text-secondary))' }}
               >
                 {organization ? `${organization} — ${year}` : year}
               </p>
             )}
 
-            {/* Project Title */}
             <h3
               className={cn(
                 'font-bold leading-tight text-foreground max-w-none sm:max-w-[85%]',
-                variant === 'compact'
-                  ? 'text-[18px] sm:text-xl lg:text-[1.75rem]'
-                  : 'text-[18px] sm:text-2xl lg:text-[1.75rem]'
+                editorialText?.title ??
+                  (variant === 'compact'
+                    ? 'text-[18px] sm:text-xl lg:text-[1.75rem]'
+                    : 'text-[18px] sm:text-2xl lg:text-[1.75rem]')
               )}
             >
               {title}
             </h3>
 
-            {/* Tags */}
             <div className="flex flex-wrap items-center gap-x-2 pt-3">
               <span
-                className="font-sans font-medium tracking-normal text-[12px] md:text-[18px]"
+                className={cn(
+                  'font-sans font-medium tracking-normal',
+                  editorialText?.tags ?? 'text-[12px] md:text-[18px]'
+                )}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 {(_tags || [])

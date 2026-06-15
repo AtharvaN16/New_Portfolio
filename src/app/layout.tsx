@@ -4,7 +4,7 @@ import './globals.css'
 import { AppProviders } from './AppProviders'
 import { metadata, viewport } from './metadata'
 import { TextureOverlay } from '@/components/layout/TextureOverlay'
-import { satoshi, vulfMono } from '@/lib/fonts'
+import { satoshi, vulfMono, vulfMonoLightItalic } from '@/lib/fonts'
 
 export { metadata, viewport }
 
@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" data-theme="dark" className={`${satoshi.variable} ${vulfMono.variable}`}>
+    <html lang="en" data-theme="dark" className={`${satoshi.variable} ${vulfMono.variable} ${vulfMonoLightItalic.variable}`}>
       <head>
         <link
           rel="stylesheet"

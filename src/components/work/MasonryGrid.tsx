@@ -3,12 +3,20 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { useBreakpoints } from '@/hooks/use-responsive'
 
+interface ColumnConfig {
+  desktop?: number
+  tablet?: number
+  mobile?: number
+}
+
 interface MasonryGridProps<T> {
   items: T[]
   renderItem: (item: T, index: number) => React.ReactNode
   gap?: number
   mobileGap?: number
   className?: string
+  /** Override default column counts (desktop: 3, tablet: 2, mobile: 1). */
+  columns?: ColumnConfig
 }
 
 /**
@@ -21,6 +29,7 @@ export function MasonryGrid<T>({
   gap = 24,
   mobileGap,
   className,
+  columns: columnConfig,
 }: MasonryGridProps<T>) {
   const { isDesktop, isTablet, isMobile } = useBreakpoints()
   const [mounted, setMounted] = useState(false)
@@ -34,7 +43,11 @@ export function MasonryGrid<T>({
     // Default to 1 column for SSR/initial mount to prevent hydration mismatch
     if (!mounted) return [items]
 
-    const columnCount = isDesktop ? 3 : isTablet ? 2 : 1
+    const columnCount = isDesktop
+      ? (columnConfig?.desktop ?? 3)
+      : isTablet
+        ? (columnConfig?.tablet ?? 2)
+        : (columnConfig?.mobile ?? 1)
     const cols: T[][] = Array.from({ length: columnCount }, () => [])
 
     // Distribute items into columns (interleaved)
@@ -43,7 +56,7 @@ export function MasonryGrid<T>({
     })
 
     return cols
-  }, [items, isDesktop, isTablet, mounted])
+  }, [items, isDesktop, isTablet, mounted, columnConfig?.desktop, columnConfig?.tablet, columnConfig?.mobile])
 
   const effectiveGap = mounted && isMobile && mobileGap !== undefined ? mobileGap : gap
 

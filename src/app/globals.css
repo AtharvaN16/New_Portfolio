@@ -489,15 +489,28 @@
   .text-text-tertiary  { color: rgb(var(--color-text-tertiary-50)); }
 
   .vulf-mono-italic {
-    font-family: 'Vulf Mono', monospace !important;
+    font-family: var(--font-vulf-mono), ui-monospace, monospace !important;
     font-style: italic !important;
     font-weight: 400 !important;
+    font-feature-settings: normal;
+    font-synthesis: none;
   }
-  
+
   .vulf-mono-italic-light {
-    font-family: 'Vulf Mono', monospace !important;
+    font-family: var(--font-vulf-mono-light-italic), ui-monospace, monospace !important;
     font-style: italic !important;
     font-weight: 300 !important;
+    font-feature-settings: normal;
+    font-synthesis: none;
+  }
+
+  /* Upright mono — cleaner punctuation (+, :) than italic for small metadata lines */
+  .vulf-mono-light {
+    font-family: var(--font-vulf-mono), ui-monospace, monospace !important;
+    font-style: normal !important;
+    font-weight: 300 !important;
+    font-feature-settings: normal;
+    font-synthesis: none;
   }
 }
 
