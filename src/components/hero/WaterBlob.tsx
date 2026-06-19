@@ -262,7 +262,7 @@ export function WaterBlob({
       // Drive the first-flash white trailing light (ghost pulse only).
       // Ramps up as the pulse rises so the wake builds as the light moves through.
       if (isGhost) {
-        trailRef.current += (1.0 - trailRef.current) * 0.08
+        trailRef.current += (1.0 - trailRef.current) * 0.12
       }
 
       if (isGhost && isQuick) {
@@ -280,7 +280,7 @@ export function WaterBlob({
           ambientRef.current *= isQuick ? 0.92 : 0.98
 
           // Fade the white trailing light with the pulse so it ends in complete darkness
-          trailRef.current *= isQuick ? 0.92 : 0.98
+          trailRef.current *= isQuick ? 0.95 : 0.98
 
           if (canvasRef.current) {
             canvasRef.current.style.opacity = Math.max(0, ghostOpacity).toString()

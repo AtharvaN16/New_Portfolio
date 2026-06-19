@@ -224,10 +224,10 @@ export const fragmentShader = `
       vec3 plasmaRaw = vec3(0.0);
       plasmaRaw = mix(plasmaRaw, tRed,    smoothstep(0.04, 0.18, totalWater));
       plasmaRaw = mix(plasmaRaw, tOrange, smoothstep(0.18, 0.32, totalWater));
-      plasmaRaw = mix(plasmaRaw, tYellow, smoothstep(0.32, 0.46, totalWater));
-      plasmaRaw = mix(plasmaRaw, tWhite,  smoothstep(0.46, 0.55, totalWater));
-      plasmaRaw = mix(plasmaRaw, tBlue,   smoothstep(0.55, 0.65, totalWater));
-      plasmaRaw = mix(plasmaRaw, vec3(0.0), smoothstep(0.65, 0.80, totalWater));
+      plasmaRaw = mix(plasmaRaw, tYellow, smoothstep(0.32, 0.40, totalWater));
+      plasmaRaw = mix(plasmaRaw, tWhite,  smoothstep(0.40, 0.62, totalWater));
+      plasmaRaw = mix(plasmaRaw, tBlue,   smoothstep(0.62, 0.72, totalWater));
+      plasmaRaw = mix(plasmaRaw, vec3(0.0), smoothstep(0.72, 0.80, totalWater));
       float plasmaAlpha = smoothstep(0.02, 0.08, totalWater);
       vec3 plasmaColor = mix(backgroundColor, plasmaRaw, plasmaAlpha);
       float revealEased = uRevealPhase * uRevealPhase * (3.0 - 2.0 * uRevealPhase);
@@ -245,9 +245,9 @@ export const fragmentShader = `
     if (uTrail > 0.001) {
       float approxTopEdge = max(blob1Center.y, blob2Center.y) + 0.52;
       float d = approxTopEdge - vUv.y;
-      float wake = d >= 0.0 ? exp(-d * 2.0) : exp(d * 7.0);
+      float wake = d >= 0.0 ? exp(-d * 1.4) : exp(d * 7.0);
       float edgeMod = 1.0 - 0.6 * totalWater;
-      color += vec3(1.0) * wake * edgeMod * uTrail * 0.7;
+      color += vec3(1.0) * wake * edgeMod * uTrail * 0.95;
     }
 
     gl_FragColor = vec4(color, 1.0);
