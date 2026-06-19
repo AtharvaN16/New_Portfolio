@@ -15,17 +15,22 @@ export const HERO_F1_CREST_MS = HERO_F1_ENTRY_MS + HERO_F1_CREST_AFTER_ENTRY_MS
 /** F2 permanent blobs start — tightened gap after F1 fades */
 export const HERO_F2_ENTRY_MS = 1400
 
-/** When F2 blobs have crested into view — before full plasma settle */
-export const HERO_F2_CTA_OFFSET_MS = 1200
+/** Hero copy starts as F2 crests and begins settling */
+export const HERO_F2_TEXT_OFFSET_MS = 1200
 
-export const HERO_CTA_DELAY_MS = HERO_F2_ENTRY_MS + HERO_F2_CTA_OFFSET_MS
+export const HERO_TEXT_DELAY_MS = HERO_F2_ENTRY_MS + HERO_F2_TEXT_OFFSET_MS
 
-export const HERO_BIO_DELAY_S = HERO_F1_CREST_MS / 1000
+export const HERO_BIO_DELAY_S = HERO_TEXT_DELAY_MS / 1000
 
 /** Meta line follows bio reveal */
 export const HERO_CURRENTLY_DELAY_S = HERO_BIO_DELAY_S + 0.35
 
 export const HERO_CURRENTLY_DURATION_S = 1.0
+
+/** CTAs enter after hero copy has started */
+export const HERO_CTA_AFTER_TEXT_MS = 1000
+
+export const HERO_CTA_DELAY_MS = HERO_TEXT_DELAY_MS + HERO_CTA_AFTER_TEXT_MS
 
 export const HERO_CTA_DELAY_S = HERO_CTA_DELAY_MS / 1000
 
@@ -38,16 +43,24 @@ export const HERO_BROWSE_WORK_DELAY_MS = HERO_CTA_DELAY_MS
 export const HERO_BOTTOM_ROW_DELAY_S = HERO_CTA_DELAY_S
 
 /**
- * Logo glow: brief hold after F1 lights the logo, then fade finishes as bottom row enters.
+ * Logo glow: F1 lights the navbar, brief hold, then ease-out fade.
  * F1 reaches navbar ~1.25s; fade must not start before that.
  */
-export const HERO_NAV_GLOW_HOLD_MS = 200
+export const HERO_NAV_GLOW_FIRST_LIGHT_MS = 1250
+
+/** Total visible glow from first light to fully off */
+export const HERO_NAV_GLOW_TOTAL_MS = 2200
+
+export const HERO_NAV_GLOW_HOLD_MS = 100
 
 export const HERO_NAV_GLOW_FADE_START_MS =
   HERO_F2_ENTRY_MS + HERO_NAV_GLOW_HOLD_MS
 
+export const HERO_NAV_GLOW_END_MS =
+  HERO_NAV_GLOW_FIRST_LIGHT_MS + HERO_NAV_GLOW_TOTAL_MS
+
 export const HERO_NAV_GLOW_FADE_LEAD_MS =
-  HERO_CTA_DELAY_MS - HERO_NAV_GLOW_FADE_START_MS
+  HERO_NAV_GLOW_END_MS - HERO_NAV_GLOW_FADE_START_MS
 
 /** Set to true to show F1 welcome text in the water blob frame */
 export const HERO_FLASH_WELCOME_ENABLED = false
