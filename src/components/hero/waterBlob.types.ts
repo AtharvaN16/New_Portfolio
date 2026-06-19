@@ -16,6 +16,8 @@ export interface WaterBlobProps {
   isGhost?: boolean
   /** If true, the entry/fade sequence is accelerated for quick pulses */
   isQuick?: boolean
+  /** Starting palette index (shared by F1 ghost + interactive blob on load) */
+  initialPaletteIndex?: number
 }
 
 export interface Colors {

@@ -19,8 +19,9 @@
  * | 4   | Teal / Green / Amber    | 0, 100, 95        | 95, 135, 85        | 150, 120, 60       |
  * | 5   | Navy / Ocean / Azure    | 12, 28, 80         | 0, 90, 145         | 85, 150, 190       |
  * | 6   | Slate / Seafoam / Iris | 95, 130, 170       | 70, 145, 115       | 135, 90, 180       |
- * | 7   | Indigo / Purple / Rose  | 42, 52, 165       | 110, 75, 195       | 220, 65, 105       |
- * | 8   | Grape / Violet / Lavender| 58, 12, 95        | 105, 28, 175       | 145, 110, 200      |
+ * | 7   | Salmon / Rose / Lavender| 200, 95, 55       | 155, 88, 120       | 100, 80, 185       |
+ * | 8   | Indigo / Purple / Rose  | 42, 52, 165       | 110, 75, 195       | 220, 65, 105       |
+ * | 9   | Grape / Violet / Lavender| 58, 12, 95        | 105, 28, 175       | 145, 110, 200      |
  *
  * DARK MODE (for black/dark backgrounds):
  * | Idx | Name                    | Color 1 (RGB)     | Color 2 (RGB)      | Color 3 (RGB)      |
@@ -32,8 +33,9 @@
  * | 4   | Teal / Sage / Sand      | 30, 180, 170      | 150, 200, 140      | 195, 165, 90       |
  * | 5   | Navy / Cerulean / Sky   | 40, 60, 140       | 50, 150, 220       | 150, 210, 255      |
  * | 6   | Ice Blue / Mint / Lilac | 120, 185, 255     | 80, 210, 165       | 210, 140, 255      |
- * | 7   | Indigo / Purple / Pink  | 99, 102, 241      | 167, 139, 250      | 236, 72, 153       |
- * | 8   | Grape / Violet / Lavender| 110, 40, 160     | 160, 70, 255       | 210, 175, 255      |
+ * | 7   | Salmon / Rose / Lavender| 247, 134, 81      | 198, 136, 166      | 149, 137, 251      |
+ * | 8   | Indigo / Purple / Pink  | 99, 102, 241      | 167, 139, 250      | 236, 72, 153       |
+ * | 9   | Grape / Violet / Lavender| 110, 40, 160     | 160, 70, 255       | 210, 175, 255      |
  */
 
 import type { Colors } from './waterBlob.types'
@@ -90,13 +92,19 @@ export const LIGHT_PALETTES = [
     [70 / 255, 145 / 255, 115 / 255],     // Richer seafoam
     [135 / 255, 90 / 255, 180 / 255],     // Deeper iris
   ],
-  // 7: Indigo / Purple / Rose
+  // 7: Salmon / Rose / Lavender
+  [
+    [200 / 255, 95 / 255, 55 / 255],      // Darker salmon (#f78651)
+    [155 / 255, 88 / 255, 120 / 255],     // Rose bridge
+    [100 / 255, 80 / 255, 185 / 255],     // Deeper lavender (#9589FB)
+  ],
+  // 8: Indigo / Purple / Rose
   [
     [42 / 255, 52 / 255, 165 / 255],      // Deeper indigo
     [110 / 255, 75 / 255, 195 / 255],     // Richer purple
     [220 / 255, 65 / 255, 105 / 255],     // Deeper rose
   ],
-  // 8: Grape / Violet / Lavender
+  // 9: Grape / Violet / Lavender
   [
     [58 / 255, 12 / 255, 95 / 255],       // Darker grape
     [105 / 255, 28 / 255, 175 / 255],     // Richer violet
@@ -151,13 +159,19 @@ export const DARK_PALETTES = [
     [80 / 255, 210 / 255, 165 / 255],
     [210 / 255, 140 / 255, 255 / 255],
   ],
-  // 7: Indigo / Purple / Pink
+  // 7: Salmon / Rose / Lavender
+  [
+    [247 / 255, 134 / 255, 81 / 255],     // Salmon #f78651
+    [198 / 255, 136 / 255, 166 / 255],    // Rose bridge
+    [149 / 255, 137 / 255, 251 / 255],    // Lavender #9589FB
+  ],
+  // 8: Indigo / Purple / Pink
   [
     [99 / 255, 102 / 255, 241 / 255],
     [167 / 255, 139 / 255, 250 / 255],
     [236 / 255, 72 / 255, 153 / 255],
   ],
-  // 8: Grape / Violet / Lavender
+  // 9: Grape / Violet / Lavender
   [
     [110 / 255, 40 / 255, 160 / 255],
     [160 / 255, 70 / 255, 255 / 255],
@@ -165,7 +179,7 @@ export const DARK_PALETTES = [
   ],
 ]
 
-/** Scribble colors for palettes 5 (Navy), 7 (Indigo), 8 (Grape). Dark = accessible light; light = accessible dark. */
+/** Scribble colors for palettes 5 (Navy), 8 (Indigo), 9 (Grape). Dark = accessible light; light = accessible dark. */
 const SCRIBBLE_PALETTE_5_DARK = [128, 207, 255] as const  // #80CFFF azure (Navy palette)
 const SCRIBBLE_PALETTE_5_LIGHT = [0, 65, 130] as const   // Accessible darker blue on white
 const SCRIBBLE_PALETTE_7_DARK = [106, 111, 255] as const // #6A6FFF (Indigo palette)
@@ -174,7 +188,7 @@ const SCRIBBLE_PALETTE_8_DARK = [212, 167, 255] as const // #D4A7FF lavender (Gr
 const SCRIBBLE_PALETTE_8_LIGHT = [72, 28, 120] as const // Accessible darker violet on white
 
 /**
- * Get scribble color for hero underline. Palettes 5, 7 and 8 use custom scribble colors;
+ * Get scribble color for hero underline. Palettes 5, 8 and 9 use custom scribble colors;
  * others use gradient-start. Returns RGB in 0–255.
  */
 export function getScribbleColor(
@@ -184,10 +198,10 @@ export function getScribbleColor(
   if (paletteIndex === 5) {
     return isDark ? [...SCRIBBLE_PALETTE_5_DARK] : [...SCRIBBLE_PALETTE_5_LIGHT]
   }
-  if (paletteIndex === 7) {
+  if (paletteIndex === 8) {
     return isDark ? [...SCRIBBLE_PALETTE_7_DARK] : [...SCRIBBLE_PALETTE_7_LIGHT]
   }
-  if (paletteIndex === 8) {
+  if (paletteIndex === 9) {
     return isDark ? [...SCRIBBLE_PALETTE_8_DARK] : [...SCRIBBLE_PALETTE_8_LIGHT]
   }
   // Other palettes: use gradient-start (caller passes palette[0] * 255)
@@ -200,7 +214,7 @@ export function getScribbleColor(
  */
 export function getColors(
   theme: string,
-  interactive: boolean,
+  _interactive: boolean,
   paletteIndex: number
 ): Colors | null {
   if (typeof window === 'undefined') return null
@@ -241,28 +255,17 @@ export function getColors(
   const background = getColor('--color-background')
   if (!background) return null
 
-  if (interactive) {
-    // Always use DARK_PALETTES — vivid colors look correct on both black and white backgrounds
-    const palette = DARK_PALETTES[paletteIndex]
+  // Always use DARK_PALETTES — vivid colors look correct on both black and white backgrounds.
+  // Ghost (F1) and interactive blobs share the same paletteIndex for entry + settled states.
+  const safeIndex = paletteIndex % DARK_PALETTES.length
+  const palette = DARK_PALETTES[safeIndex]
 
-    return {
-      blue: palette[0] as [number, number, number],
-      purple: palette[1] as [number, number, number],
-      pink: palette[2] as [number, number, number],
-      background,
-    }
+  return {
+    blue: palette[0] as [number, number, number],
+    purple: palette[1] as [number, number, number],
+    pink: palette[2] as [number, number, number],
+    background,
   }
-
-  // Non-interactive mode: get blob colors from CSS variables
-  const blue = getColor('--hero-blob-blue')
-  const purple = getColor('--hero-blob-purple')
-  const pink = getColor('--hero-blob-pink')
-
-  if (!blue || !purple || !pink) {
-    return null
-  }
-
-  return { blue, purple, pink, background }
 }
 
 /**

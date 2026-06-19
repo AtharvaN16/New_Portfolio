@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { m } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { AnimatedLink } from '@/components/ui/AnimatedLink'
@@ -17,6 +18,7 @@ import {
   HERO_FLASH_WELCOME_ENABLED,
 } from './hero-entry-timing'
 import { HeroFlashWelcome } from './HeroFlashWelcome'
+import { pickInitialHeroPaletteIndex } from './hero-palette'
 
 const WaterBlobWithBoundary = dynamic(
   () =>
@@ -38,6 +40,7 @@ export function Hero({
   onGetInTouchClick,
 }: HeroProps) {
   const { isMobile } = useBreakpoints()
+  const [initialPaletteIndex] = useState(() => pickInitialHeroPaletteIndex())
   const isDesktopAnimation =
     typeof window !== 'undefined' &&
     window.matchMedia('(min-width: 768px)').matches
@@ -131,12 +134,14 @@ export function Hero({
                   isGhost
                   isQuick
                   entryDelay={HERO_F1_ENTRY_MS}
+                  initialPaletteIndex={initialPaletteIndex}
                 />
               )}
 
               <WaterBlobWithBoundary
                 interactive
                 entryDelay={isMobile ? 1500 : HERO_F2_ENTRY_MS}
+                initialPaletteIndex={initialPaletteIndex}
               />
 
               {!isMobile && HERO_FLASH_WELCOME_ENABLED && <HeroFlashWelcome />}

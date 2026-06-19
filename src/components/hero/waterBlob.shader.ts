@@ -212,9 +212,9 @@ export const fragmentShader = `
       : pow(totalWater, 0.78);
     color = mix(backgroundColor, color, atmosphericAlpha);
 
-    // === PLASMA ENTRY STATE ===
-    // Skipped once settled (uRevealPhase >= 1). Uniform branch = zero warp divergence.
-    // Also free on mobile where revealPhase is initialized to 1 and never changes.
+    // === PLASMA ENTRY STATE (F1) ===
+    // Classic thermal rim — see hero-f1-plasma.ts for theme customization options.
+    // Skipped once settled (uRevealPhase >= 1). Also skipped on mobile (revealPhase = 1).
     if (uRevealPhase < 0.999) {
       vec3 tRed    = vec3(0.85, 0.06, 0.02);
       vec3 tOrange = vec3(1.0,  0.42, 0.02);

@@ -41,6 +41,7 @@ export function WaterBlob({
   entryDelay = 2400,
   isGhost = false,
   isQuick = false,
+  initialPaletteIndex = 0,
 }: WaterBlobProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { theme } = useTheme()
@@ -49,7 +50,7 @@ export function WaterBlob({
   const [retryKey, setRetryKey] = useState(0)
 
   // Interactive mode state
-  const [paletteIndex, setPaletteIndex] = useState(0) // 0 = Orange / Purple / Cyan (default on load)
+  const [paletteIndex, setPaletteIndex] = useState(initialPaletteIndex)
   const animationSpeedRef = useRef(
     enhanced
       ? ANIMATION_SPEED_MULTIPLIER_ENHANCED
