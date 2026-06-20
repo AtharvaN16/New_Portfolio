@@ -15,10 +15,10 @@ export interface HeroPaletteEntry {
 
 /** Palettes with fixed visit probability (%). */
 const HERO_PALETTE_WEIGHTS: Record<number, number> = {
-  0: 42,
+  0: 36,
   1: 18,
-  5: 5,
-  7: 25,
+  5: 6,
+  7: 30,
 }
 
 /** Auto-split remainder across these indices. */
