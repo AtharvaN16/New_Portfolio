@@ -1,9 +1,10 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { HERO_F1_ENTRY_MS } from '@/components/hero/hero-entry-timing'
 import {
   computeFlashHeadUvY,
   computeNavFlashIntensity,
   developNavFlashDecay,
+  dispatchHeroFlashHead,
   easeOutCubic,
   fadeNavFlashIntensity,
   f1MsUntilHeadReachesScreenY,
@@ -12,6 +13,7 @@ import {
   flashHeadScreenYFromSweep,
   flashHeadScreenYPxPerFrame,
   flashNavbarPassDurationMs,
+  FLASH_HEAD_DISPATCH_FRAME_INTERVAL,
   NAV_FLASH_DECAY_MS,
   NAV_FLASH_GLOW_FALLOFF_PX,
   yOffsetForHeadScreenY,
@@ -85,5 +87,27 @@ describe('hero flash head sync', () => {
     const duration = flashNavbarPassDurationMs(44, 900, -0.08)
     expect(pxPerFrame).toBeGreaterThan(0)
     expect(duration).toBeCloseTo((44 / pxPerFrame) * (1000 / 60), 0)
+  })
+
+  it('throttles active flash-head dispatches but clears immediately', () => {
+    const dispatchEvent = vi.spyOn(window, 'dispatchEvent')
+
+    try {
+      dispatchHeroFlashHead(0, 0, false)
+      dispatchEvent.mockClear()
+
+      for (let i = 0; i < FLASH_HEAD_DISPATCH_FRAME_INTERVAL * 3; i++) {
+        dispatchHeroFlashHead(-1 + i * 0.01, 0.8, true)
+      }
+
+      expect(dispatchEvent).toHaveBeenCalledTimes(3)
+
+      dispatchEvent.mockClear()
+      dispatchHeroFlashHead(0, 0, false)
+      expect(dispatchEvent).toHaveBeenCalledTimes(1)
+    } finally {
+      dispatchEvent.mockRestore()
+      dispatchHeroFlashHead(0, 0, false)
+    }
   })
 })

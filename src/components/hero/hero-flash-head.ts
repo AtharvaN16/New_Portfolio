@@ -6,6 +6,11 @@ export const FLASH_PLASMA_CENTER_Y = 0.47
 export const FLASH_PLASMA_MAX_CENTER_OFFSET = 0.06
 export const HERO_FLASH_HEAD_EVENT = 'hero:flash-head'
 
+/** Active flash-head updates dispatch every N rAF frames (~20/sec at 60fps). */
+export const FLASH_HEAD_DISPATCH_FRAME_INTERVAL = 2
+
+let flashHeadDispatchFrame = 0
+
 /** Matches `isQuick` rise lerp in `WaterBlob.tsx` (per animation frame). */
 export const FLASH_QUICK_RISE_RATE = 0.06
 export const FLASH_ANIMATION_FPS = 60
@@ -212,11 +217,23 @@ export function dispatchHeroFlashHead(
 
   const viewportHeight = window.innerHeight
   const headScreenY = flashHeadScreenYFromSweep(yOffset, viewportHeight)
+  const detail: HeroFlashHeadDetail = { headScreenY, yOffset, trail, active }
+
+  if (!active || trail <= 0.001) {
+    flashHeadDispatchFrame = 0
+    window.dispatchEvent(
+      new CustomEvent<HeroFlashHeadDetail>(HERO_FLASH_HEAD_EVENT, { detail })
+    )
+    return
+  }
+
+  flashHeadDispatchFrame += 1
+  if (flashHeadDispatchFrame % FLASH_HEAD_DISPATCH_FRAME_INTERVAL !== 0) {
+    return
+  }
 
   window.dispatchEvent(
-    new CustomEvent<HeroFlashHeadDetail>(HERO_FLASH_HEAD_EVENT, {
-      detail: { headScreenY, yOffset, trail, active },
-    })
+    new CustomEvent<HeroFlashHeadDetail>(HERO_FLASH_HEAD_EVENT, { detail })
   )
 }
 

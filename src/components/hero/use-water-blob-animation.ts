@@ -31,8 +31,6 @@ interface UseWaterBlobAnimationParams {
   prefersReducedMotion: boolean
   pauseWebGL: boolean
   saveData: boolean
-  theme: string
-  interactive: boolean
   setHasWebGL: Dispatch<SetStateAction<boolean>>
 }
 
@@ -52,8 +50,6 @@ export function useWaterBlobAnimation({
   prefersReducedMotion,
   pauseWebGL,
   saveData,
-  theme,
-  interactive,
   setHasWebGL,
 }: UseWaterBlobAnimationParams) {
   const [retryKey, setRetryKey] = useState(0)
@@ -64,6 +60,9 @@ export function useWaterBlobAnimation({
   const ambientRef = useRef(0)
   const trailRef = useRef(0)
 
+  // WebGL init runs once per mount (plus retry / a11y toggles).
+  // Theme changes are handled by useWaterBlobColorRefs → lerpColors → per-frame
+  // uniform updates in createAnimationLoop — no program rebuild needed.
   useEffect(() => {
     if (
       !canvasRef.current ||
@@ -246,8 +245,6 @@ export function useWaterBlobAnimation({
     prefersReducedMotion,
     pauseWebGL,
     saveData,
-    theme,
-    interactive,
     retryKey,
     setHasWebGL,
   ])

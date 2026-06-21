@@ -17,6 +17,8 @@
 | P0-4 | Remove per-frame layout reads on ProjectCard recede | 2026-06-21 | ✅ Done |
 | P1-3 | Typed overlay event bus + remove dead `force-card-up` | 2026-06-21 | ✅ Done |
 | P1-5 | Split `WaterBlob.tsx` into focused hooks | 2026-06-21 | ✅ Done |
+| P1-6 | Theme toggle without WebGL program rebuild | 2026-06-21 | ✅ Done |
+| P1-7 | Throttle `hero:flash-head` dispatches during F1 | 2026-06-21 | ✅ Done |
 
 **P0-1 details:** Document Lenis now lives in React context (`LenisProvider` + `useLenis()`). Overlay scroll stays local in `useSmoothScroll` via `ContainerScrollProvider`. Files: `LenisProvider.tsx`, `use-smooth-scroll.ts`, `use-container-scroll.tsx`, `CaseStudyLayout.tsx`, `CaseStudySideNav.tsx`, `AnimatedLink.tsx`, `UAlbertaExplorationNotesPanel.tsx`.
 
@@ -31,6 +33,10 @@
 **P1-3 details:** New `src/lib/overlay-events.ts` centralizes overlay custom event names, dispatch helpers (`openOverlayRoute`, `openCaseStudyOverlay`, `dispatchHomePauseBlobs`), and subscribe helpers (`addAllOverlayCheckListeners`, etc.). Migrated Navbar, MobileMenu, dialogs, ProjectCard, FullpageCard, SelectedWork, `use-home-scroll`, and `WaterBlob`. Removed dead `force-card-up` dispatches. WaterBlob now pauses on all overlay opens (including About/Writings).
 
 **P1-5 details:** Split `WaterBlob.tsx` (470 → 168 lines) into `use-water-blob-color-refs.ts`, `use-water-blob-animation.ts`, and `use-water-blob-pause-events.ts`. No behavior change — same WebGL loop, entry physics, and pause/resume wiring.
+
+**P1-6 details:** Removed `theme` from `useWaterBlobAnimation` effect deps. Theme only changes the background color token; `useWaterBlobColorRefs` updates the lerp target and `createAnimationLoop` already uploads `uBackgroundColor` every frame — toggling light/dark no longer tears down shaders.
+
+**P1-7 details:** `dispatchHeroFlashHead` now dispatches active updates every 2 rAF frames (~30/sec). Inactive/clear events still fire immediately so the navbar glow cleans up reliably.
 
 ---
 
@@ -325,7 +331,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 
 ---
 
-#### P1-6: Theme change without GL program rebuild
+#### P1-6: Theme change without GL program rebuild ✅ Done 2026-06-21
 
 **Location:** `WaterBlob.tsx` effect deps include `theme` (~387)
 
@@ -335,7 +341,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 
 ---
 
-#### P1-7: Throttle `hero:flash-head` events
+#### P1-7: Throttle `hero:flash-head` events ✅ Done 2026-06-21
 
 **Location:** `WaterBlob.tsx:280-281`, `hero-flash-head.ts`
 
@@ -459,11 +465,12 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 6. ~~P0-4 ProjectCard recede refactor~~ ✅ Done 2026-06-21
 7. ~~P1-3 typed events~~ ✅ Done 2026-06-21
 8. ~~P1-5 split WaterBlob.tsx~~ ✅ Done 2026-06-21
-9. P1-6 theme without GL rebuild
+9. ~~P1-6 theme without GL rebuild~~ ✅ Done 2026-06-21
+10. ~~P1-7 throttle `hero:flash-head`~~ ✅ Done 2026-06-21
 
 **Sprint 3 — Navigation consistency (1–2 days)**
-9. P1-2 RouteSlideDialog consolidation
-10. P1-4 mobile nav parity
+11. P1-2 RouteSlideDialog consolidation
+12. P1-4 mobile nav parity
 
 **Sprint 4 — Content/images (ongoing)**
 11. P2-1 barrel fix
