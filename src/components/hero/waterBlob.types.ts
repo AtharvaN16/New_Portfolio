@@ -49,3 +49,7 @@ export const ANIMATION_SPEED_MULTIPLIER_NORMAL = 1.0
 export const ENHANCED_CONTRAST = 1.1
 export const ENHANCED_SATURATION = 1.15
 export const COLOR_LERP_SPEED = 0.045 // Per-frame lerp factor: ~75% at 0.5s, ~95% at 1s @ 60fps
+/** Gentle palette crossfade for desktop interactive cycling (~5s at 60fps). */
+export const PALETTE_COLOR_LERP_SPEED = 0.022
+/** Hold time before auto-advancing to the next palette (desktop interactive). */
+export const AUTO_CYCLE_HOLD_MS = 8_500

@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect, useState, useMemo } from 'react'
+import { useRef, useEffect, useState, useMemo, useCallback } from 'react'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 import {
@@ -18,8 +18,10 @@ import {
   ENHANCED_CONTRAST,
   ENHANCED_SATURATION,
   COLOR_LERP_SPEED,
+  PALETTE_COLOR_LERP_SPEED,
 } from './waterBlob.types'
 import { useWaterBlobGradientVars } from './use-water-blob-gradient-vars'
+import { useWaterBlobAutoCycle } from './use-water-blob-auto-cycle'
 import { dispatchHeroFlashHead, clearHeroFlashHead } from './hero-flash-head'
 
 /**
@@ -138,10 +140,29 @@ export function WaterBlob({
     }
   }, [colors])
 
+  const paletteLerpSpeed = interactive
+    ? PALETTE_COLOR_LERP_SPEED
+    : COLOR_LERP_SPEED
+
+  const advancePalette = useCallback(() => {
+    setPaletteIndex((index) => (index + 1) % HERO_PALETTE_COUNT)
+  }, [])
+
+  useWaterBlobAutoCycle({
+    enabled: interactive,
+    paused:
+      paused ||
+      pauseWebGL ||
+      saveData ||
+      prefersReducedMotion,
+    onAdvance: advancePalette,
+  })
+
   useWaterBlobGradientVars({
     interactive,
     paletteIndex,
     theme,
+    colorLerpSpeed: paletteLerpSpeed,
     gradientCurrentRef,
     gradientAnimFrameRef,
   })
@@ -317,7 +338,7 @@ export function WaterBlob({
       }
 
       // Smoothly interpolate display colors toward target each frame
-      lerpColors(display, target, COLOR_LERP_SPEED)
+      lerpColors(display, target, paletteLerpSpeed)
       animate(accumulatedTime)
 
       animationId = requestAnimationFrame(loop)
@@ -384,7 +405,7 @@ export function WaterBlob({
       }
       webglInitializedRef.current = false
     }
-  }, [prefersReducedMotion, theme, retryKey, pauseWebGL, saveData]) // colors removed — lerped via refs
+  }, [prefersReducedMotion, theme, retryKey, pauseWebGL, saveData, interactive, paletteLerpSpeed]) // colors removed — lerped via refs
 
   // Handle canvas resize
   useEffect(() => {
@@ -403,8 +424,7 @@ export function WaterBlob({
         window.innerWidth < 768)
     if (isMobile) return
 
-    const nextIndex = (paletteIndex + 1) % HERO_PALETTE_COUNT
-    setPaletteIndex(nextIndex)
+    advancePalette()
   }
 
   // Show CSS fallback if WebGL not supported or reduced motion or paused or saveData

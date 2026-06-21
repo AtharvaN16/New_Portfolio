@@ -11,6 +11,7 @@ interface UseWaterBlobGradientVarsParams {
   interactive: boolean
   paletteIndex: number
   theme: string
+  colorLerpSpeed?: number
   gradientCurrentRef: MutableRefObject<{
     start: number[]
     end: number[]
@@ -22,6 +23,7 @@ export function useWaterBlobGradientVars({
   interactive,
   paletteIndex,
   theme,
+  colorLerpSpeed = COLOR_LERP_SPEED,
   gradientCurrentRef,
   gradientAnimFrameRef,
 }: UseWaterBlobGradientVarsParams) {
@@ -63,8 +65,8 @@ export function useWaterBlobGradientVars({
 
       for (let i = 0; i < 3; i++) {
         current.start[i] +=
-          (targetStart[i] - current.start[i]) * COLOR_LERP_SPEED
-        current.end[i] += (targetEnd[i] - current.end[i]) * COLOR_LERP_SPEED
+          (targetStart[i] - current.start[i]) * colorLerpSpeed
+        current.end[i] += (targetEnd[i] - current.end[i]) * colorLerpSpeed
         if (Math.abs(current.start[i] - targetStart[i]) > 0.5)
           needsUpdate = true
         if (Math.abs(current.end[i] - targetEnd[i]) > 0.5) needsUpdate = true
@@ -103,6 +105,7 @@ export function useWaterBlobGradientVars({
     interactive,
     paletteIndex,
     theme,
+    colorLerpSpeed,
     gradientCurrentRef,
     gradientAnimFrameRef,
   ])
