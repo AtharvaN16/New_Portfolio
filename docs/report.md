@@ -21,6 +21,7 @@
 | P1-7 | Throttle `hero:flash-head` dispatches during F1 | 2026-06-21 | ✅ Done |
 | P1-4 | Mobile nav overlay parity (About uses slide-up) | 2026-06-21 | ✅ Done |
 | P1-2 | Consolidate route dialogs into `RouteSlideDialog` | 2026-06-21 | ✅ Done |
+| P2-1 | Remove static barrel re-exports from case study content | 2026-06-21 | ✅ Done |
 
 **P0-1 details:** Document Lenis now lives in React context (`LenisProvider` + `useLenis()`). Overlay scroll stays local in `useSmoothScroll` via `ContainerScrollProvider`. Files: `LenisProvider.tsx`, `use-smooth-scroll.ts`, `use-container-scroll.tsx`, `CaseStudyLayout.tsx`, `CaseStudySideNav.tsx`, `AnimatedLink.tsx`, `UAlbertaExplorationNotesPanel.tsx`.
 
@@ -43,6 +44,8 @@
 **P1-4 details:** `MobileMenu.tsx` now opens About (and Writings when enabled) via `openOverlayRoute`, matching desktop Navbar — slide-up overlay instead of full page navigation. Résumé and `#footer` stay as normal links.
 
 **P1-2 details:** Replaced four ~140-line dialog files with `RouteSlideDialog.tsx` (shared slide-up logic) and `route-slide-dialogs.tsx` (thin factory exports for Work/About/Explorations/Writings). `CaseStudyDialog` unchanged. Same animations, scroll lock, and lazy page loading.
+
+**P2-1 details:** Removed unused static re-exports from `content/index.ts` (lines 55–65). Removed `CONTENT_REGISTRY` import from `case-studies.ts` so home/work metadata no longer depends on the content barrel. Slug validation warning moved to `CaseStudyContentRenderer` (dev only). `CONTENT_REGISTRY` still lazy-loads each case study when opened.
 
 ---
 
@@ -359,7 +362,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 
 ### P2 — Content & images
 
-#### P2-1: Fix barrel static re-exports in case study content
+#### P2-1: Fix barrel static re-exports in case study content ✅ Done 2026-06-21
 
 **Location:** `src/components/case-study/content/index.ts:55-65` imported by `case-studies.ts`
 
@@ -479,7 +482,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 12. ~~P1-2 RouteSlideDialog consolidation~~ ✅ Done 2026-06-21
 
 **Sprint 4 — Content/images (ongoing)**
-11. P2-1 barrel fix
+11. ~~P2-1 barrel fix~~ ✅ Done 2026-06-21
 12. P2-3 IMDb gallery
 13. P2-4 sizes on fill images
 14. P2-2 split largest case study files

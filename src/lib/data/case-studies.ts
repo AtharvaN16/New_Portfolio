@@ -1,4 +1,3 @@
-import { CONTENT_REGISTRY } from '@/components/case-study/content'
 import type { CardAlign, CardSize } from '@/lib/project-card-layout'
 
 export interface CaseStudy {
@@ -290,16 +289,9 @@ export const CaseStudyStore = {
 
   /**
    * Retrieves a specific case study by slug.
-   * Performs validation to ensure a corresponding content component exists.
    */
   getBySlug(slug: string): CaseStudy | undefined {
-    const study = RAW_CASE_STUDIES.find((s) => s.slug === slug)
-    
-    if (study && !CONTENT_REGISTRY[slug]) {
-      console.warn(`[CaseStudyStore] Case study found for slug "${slug}", but no content component is registered in CONTENT_REGISTRY.`)
-    }
-    
-    return study
+    return RAW_CASE_STUDIES.find((s) => s.slug === slug)
   },
 
   /**

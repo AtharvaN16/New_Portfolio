@@ -26,6 +26,12 @@ export function CaseStudyContentRenderer({
 }: CaseStudyContentRendererProps) {
   const ContentComponent = CONTENT_REGISTRY[caseStudy.slug]
 
+  if (!ContentComponent && process.env.NODE_ENV === 'development') {
+    console.warn(
+      `[CaseStudyContentRenderer] No content component registered for slug "${caseStudy.slug}".`
+    )
+  }
+
   if (ContentComponent) {
     return (
       <ContentComponent
