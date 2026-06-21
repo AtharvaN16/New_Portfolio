@@ -16,6 +16,7 @@
 | P1-1 | Delete dead `src/components/animations/` | 2026-06-21 | ✅ Done |
 | P0-4 | Remove per-frame layout reads on ProjectCard recede | 2026-06-21 | ✅ Done |
 | P1-3 | Typed overlay event bus + remove dead `force-card-up` | 2026-06-21 | ✅ Done |
+| P1-5 | Split `WaterBlob.tsx` into focused hooks | 2026-06-21 | ✅ Done |
 
 **P0-1 details:** Document Lenis now lives in React context (`LenisProvider` + `useLenis()`). Overlay scroll stays local in `useSmoothScroll` via `ContainerScrollProvider`. Files: `LenisProvider.tsx`, `use-smooth-scroll.ts`, `use-container-scroll.tsx`, `CaseStudyLayout.tsx`, `CaseStudySideNav.tsx`, `AnimatedLink.tsx`, `UAlbertaExplorationNotesPanel.tsx`.
 
@@ -28,6 +29,8 @@
 **P0-4 details:** `ProjectCard.tsx` recede effect now updates via `useMotionValueEvent(homeScrollProgress)` + resize observer — no continuous `useAnimationFrame` loop when idle.
 
 **P1-3 details:** New `src/lib/overlay-events.ts` centralizes overlay custom event names, dispatch helpers (`openOverlayRoute`, `openCaseStudyOverlay`, `dispatchHomePauseBlobs`), and subscribe helpers (`addAllOverlayCheckListeners`, etc.). Migrated Navbar, MobileMenu, dialogs, ProjectCard, FullpageCard, SelectedWork, `use-home-scroll`, and `WaterBlob`. Removed dead `force-card-up` dispatches. WaterBlob now pauses on all overlay opens (including About/Writings).
+
+**P1-5 details:** Split `WaterBlob.tsx` (470 → 168 lines) into `use-water-blob-color-refs.ts`, `use-water-blob-animation.ts`, and `use-water-blob-pause-events.ts`. No behavior change — same WebGL loop, entry physics, and pause/resume wiring.
 
 ---
 
@@ -311,7 +314,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 
 ---
 
-#### P1-5: Split `WaterBlob.tsx` (437 lines)
+#### P1-5: Split `WaterBlob.tsx` (437 lines) ✅ Done 2026-06-21
 
 **Problem:** Exceeds 300-line rule; mixes React lifecycle, physics, events, GL teardown.
 
@@ -455,7 +458,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 5. ~~P0-3 tab visibility pause~~ ✅ Done 2026-06-21
 6. ~~P0-4 ProjectCard recede refactor~~ ✅ Done 2026-06-21
 7. ~~P1-3 typed events~~ ✅ Done 2026-06-21
-8. P1-5 split WaterBlob.tsx
+8. ~~P1-5 split WaterBlob.tsx~~ ✅ Done 2026-06-21
 9. P1-6 theme without GL rebuild
 
 **Sprint 3 — Navigation consistency (1–2 days)**
