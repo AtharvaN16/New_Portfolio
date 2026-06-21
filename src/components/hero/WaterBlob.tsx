@@ -19,6 +19,7 @@ import {
   ENHANCED_SATURATION,
   COLOR_LERP_SPEED,
   PALETTE_COLOR_LERP_SPEED,
+  AUTO_PALETTE_CYCLE_ENABLED,
 } from './waterBlob.types'
 import { useWaterBlobGradientVars } from './use-water-blob-gradient-vars'
 import { useWaterBlobAutoCycle } from './use-water-blob-auto-cycle'
@@ -149,7 +150,7 @@ export function WaterBlob({
   }, [])
 
   useWaterBlobAutoCycle({
-    enabled: interactive,
+    enabled: interactive && AUTO_PALETTE_CYCLE_ENABLED,
     paused:
       paused ||
       pauseWebGL ||

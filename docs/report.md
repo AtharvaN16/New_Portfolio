@@ -14,6 +14,7 @@
 | P0-2 | Lazy-mount only the active dialog | 2026-06-21 | ✅ Done |
 | P0-3 | Tab visibility pause for hero WebGL | 2026-06-21 | ✅ Done |
 | P1-1 | Delete dead `src/components/animations/` | 2026-06-21 | ✅ Done |
+| P0-4 | Remove per-frame layout reads on ProjectCard recede | 2026-06-21 | ✅ Done |
 
 **P0-1 details:** Document Lenis now lives in React context (`LenisProvider` + `useLenis()`). Overlay scroll stays local in `useSmoothScroll` via `ContainerScrollProvider`. Files: `LenisProvider.tsx`, `use-smooth-scroll.ts`, `use-container-scroll.tsx`, `CaseStudyLayout.tsx`, `CaseStudySideNav.tsx`, `AnimatedLink.tsx`, `UAlbertaExplorationNotesPanel.tsx`.
 
@@ -22,6 +23,8 @@
 **P0-3 details:** `WaterBlob.tsx` pauses the WebGL rAF loop on `document.visibilitychange` when the tab is hidden; resumes when visible unless also paused by scroll or dialog.
 
 **P1-1 details:** Deleted 10 unused files in `src/components/animations/` (~1,250 LOC). Verified zero imports; `bun run build` passes.
+
+**P0-4 details:** `ProjectCard.tsx` recede effect now updates via `useMotionValueEvent(homeScrollProgress)` + resize observer — no continuous `useAnimationFrame` loop when idle.
 
 ---
 
@@ -47,7 +50,7 @@ This portfolio uses a **fixed-layer scroll stage** on the home page (not a norma
 | 2 | All 5 dialogs mount on first overlay open | Unnecessary JS + hydration on first click | ✅ Fixed (P0-2) |
 | 3 | Two WebGL contexts on desktop hero during entry | GPU/CPU cost on first paint | Open (P1-5 scope) |
 | 4 | No tab-visibility pause for hero WebGL | Background tab still animates | ✅ Fixed (P0-3) |
-| 5 | Per-frame layout reads on home project cards | Scroll jank risk on desktop | **Next (P0-4)** |
+| 5 | Per-frame layout reads on home project cards | Scroll jank risk on desktop | ✅ Fixed (P0-4) |
 | 6 | ~1,250 lines dead duplicate code in `animations/` | Confusion + maintenance burden | ✅ Fixed (P1-1) |
 | 7 | String-based custom event bus | Easy to break; some events are dead or incomplete | **Next (P1-3)** |
 
@@ -238,15 +241,13 @@ Almost nothing changes on screen. The overlay still slides up the same way. The 
 
 ---
 
-#### P0-4: Remove per-frame layout reads on ProjectCard recede — **NEXT**
+#### P0-4: Remove per-frame layout reads on ProjectCard recede ✅ Fixed 2026-06-21
 
-**Location:** `src/components/work/ProjectCard.tsx:89-118`
+**Location:** `src/components/work/ProjectCard.tsx`
 
-**Problem:** `useAnimationFrame` + `getBoundingClientRect()` every frame on desktop home cards.
+**Fix applied:** Replaced `useAnimationFrame` + per-frame `getBoundingClientRect` with `useMotionValueEvent(homeScrollProgress)` so layout is read only when scroll progress changes (plus resize). Idle page no longer runs a 60fps measurement loop.
 
-**Fix:** Derive transform from `homeScrollProgress` MotionValue (already passed to SelectedWork) or throttle to scroll events / IntersectionObserver.
-
-**Verify:** Scroll home with recede enabled — no "Layout" spikes every frame in Performance panel.
+**Verify:** Scroll home with recede enabled — no continuous Layout work when scroll is stopped.
 
 ---
 
@@ -451,9 +452,10 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 
 **Sprint 2 — Hero perf (2–3 days)**
 5. ~~P0-3 tab visibility pause~~ ✅ Done 2026-06-21
-6. P0-4 ProjectCard recede refactor ← **next P0**
-7. P1-5 split WaterBlob.tsx
-8. P1-6 theme without GL rebuild
+6. ~~P0-4 ProjectCard recede refactor~~ ✅ Done 2026-06-21
+7. P1-3 typed events ← **next**
+8. P1-5 split WaterBlob.tsx
+9. P1-6 theme without GL rebuild
 
 **Sprint 3 — Navigation consistency (1–2 days)**
 9. P1-2 RouteSlideDialog consolidation

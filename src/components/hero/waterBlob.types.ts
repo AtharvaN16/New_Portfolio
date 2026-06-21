@@ -53,3 +53,5 @@ export const COLOR_LERP_SPEED = 0.045 // Per-frame lerp factor: ~75% at 0.5s, ~9
 export const PALETTE_COLOR_LERP_SPEED = 0.022
 /** Hold time before auto-advancing to the next palette (desktop interactive). */
 export const AUTO_CYCLE_HOLD_MS = 8_500
+/** Toggle sequential palette auto-cycling on the interactive hero blob. Click-to-cycle still works. */
+export const AUTO_PALETTE_CYCLE_ENABLED = false

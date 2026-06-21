@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import Image from 'next/image'
 import {
   m,
-  useAnimationFrame,
+  useMotionValueEvent,
   useMotionValue,
   useTransform,
   type MotionValue,
@@ -63,7 +63,7 @@ export function ProjectCard({
   slug,
   cardHeight,
   recedeEffect = 'none',
-  homeScrollProgress: _homeScrollProgress,
+  homeScrollProgress,
   isMasonry = false,
   masonryIndex = 0,
   readTime,
@@ -112,10 +112,35 @@ export function ProjectCard({
     edgeProgress.set(Math.min(1, Math.max(0, progress)))
   }, [edgeProgress, shouldApplyRecede])
 
-  useAnimationFrame(() => {
-    if (!shouldApplyRecede || !isDesktop) return
-    updateEdgeProgress()
+  useMotionValueEvent(homeScrollProgress ?? edgeProgress, 'change', () => {
+    if (shouldApplyRecede && homeScrollProgress) {
+      updateEdgeProgress()
+    }
   })
+
+  useEffect(() => {
+    if (!shouldApplyRecede || !homeScrollProgress) {
+      edgeProgress.set(0)
+      return
+    }
+
+    updateEdgeProgress()
+
+    const handleResize = () => updateEdgeProgress()
+    window.addEventListener('resize', handleResize, { passive: true })
+
+    const card = cardRef.current
+    let resizeObserver: ResizeObserver | undefined
+    if (card && typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(handleResize)
+      resizeObserver.observe(card)
+    }
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      resizeObserver?.disconnect()
+    }
+  }, [shouldApplyRecede, homeScrollProgress, updateEdgeProgress, edgeProgress])
 
   const z = useTransform(
     edgeProgress,
