@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
+import { useContainerScroll } from '@/hooks/use-container-scroll'
 
 export interface NavItem {
   id: string
@@ -21,6 +22,7 @@ export function CaseStudySideNav({
 }: CaseStudySideNavProps) {
   const [activeId, setActiveId] = useState<string>('')
   const [isHovered, setIsHovered] = useState(false)
+  const containerScrollTo = useContainerScroll()
 
   useEffect(() => {
     if (!isVisible) return
@@ -48,21 +50,12 @@ export function CaseStudySideNav({
   }, [navItems, isVisible])
 
   const scrollTo = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      const currentLenis = window.lenis
-      if (currentLenis) {
-        currentLenis.scrollTo(`#${id}`, { 
-          offset: -120,
-          duration: 1.5,
-          // Custom easing for a smooth "gentle ease off" - quintic out
-          easing: (t: number) => 1 - Math.pow(1 - t, 5),
-          immediate: false
-        })
-      } else {
-        element.scrollIntoView({ behavior: 'smooth' })
-      }
+    if (containerScrollTo) {
+      containerScrollTo(id)
+      return
     }
+
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (

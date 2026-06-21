@@ -4,6 +4,7 @@ import { m } from 'framer-motion'
 import Link from 'next/link'
 import { type ReactNode, type MouseEvent, useState, useEffect } from 'react'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
+import { useLenis } from '@/components/providers/LenisProvider'
 
 /**
  * AnimatedLink Component
@@ -50,6 +51,7 @@ export function AnimatedLink({
 }: AnimatedLinkProps) {
   const { reducedMotion, pauseWebGL } = useAccessibility()
   const shouldPause = reducedMotion || pauseWebGL
+  const lenis = useLenis()
 
   // Gate down-arrow bounce until after page load to avoid TBT during Lighthouse measurement
   const [pageLoaded, setPageLoaded] = useState(false)
@@ -102,8 +104,8 @@ export function AnimatedLink({
 
       const targetElement = document.getElementById(targetId)
 
-      if (targetElement && window.lenis) {
-        window.lenis.scrollTo(targetElement, {
+      if (targetElement && lenis) {
+        lenis.scrollTo(targetElement, {
           duration: 0.9, // Match page transition duration
           easing: bezierEasing, // Match page transition easing
         })

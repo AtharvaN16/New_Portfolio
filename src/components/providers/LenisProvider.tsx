@@ -13,58 +13,58 @@
  * - Respects user's motion preferences
  */
 
-import { type ReactNode, useEffect, useRef } from 'react'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from 'react'
 import type Lenis from 'lenis'
+
+const LenisContext = createContext<Lenis | undefined>(undefined)
 
 interface LenisProviderProps {
   children: ReactNode
 }
 
 export function LenisProvider({ children }: LenisProviderProps) {
-  const lenisRef = useRef<Lenis | null>(null)
+  const [lenis, setLenis] = useState<Lenis | undefined>(undefined)
 
   useEffect(() => {
-    // Check OS-level reduced motion preference
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches
     if (prefersReducedMotion) return
 
-    // Disable on touch — Lenis runs a continuous rAF that pushes framer-motion
-    // MotionValues every frame. On the home page's fixed-layer architecture this
-    // adds an extra JS execution layer per frame during the transform-heavy scroll
-    // phase. Native scroll + framer's useScroll listener is lighter on mobile.
     const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
     if (isTouchDevice) return
 
     let rafId = 0
     let cancelled = false
+    let lenisInstance: Lenis | null = null
 
-    // Safari's compositor syncs position:fixed layers less tightly than Chrome when
-    // Lenis moves the scroll container via transforms. A shorter duration reduces
-    // the window where fixed elements appear offset from the scroll position.
-    const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)
+    const isSafari =
+      /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)
 
-    // Dynamically import Lenis so it doesn't inflate the initial bundle
     import('lenis').then(({ default: LenisClass }) => {
       if (cancelled) return
 
-      const lenis = new LenisClass({
+      lenisInstance = new LenisClass({
         duration: isSafari ? 0.8 : 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         orientation: 'vertical',
         gestureOrientation: 'vertical',
         smoothWheel: true,
         wheelMultiplier: 1,
-        touchMultiplier: 1.5, // Reduced from 2 to save CPU cycles on touch scroll signals
+        touchMultiplier: 1.5,
         infinite: false,
       })
 
-      lenisRef.current = lenis
-      window.lenis = lenis
+      setLenis(lenisInstance)
 
       function raf(time: number) {
-        lenis.raf(time)
+        lenisInstance!.raf(time)
         rafId = requestAnimationFrame(raf)
       }
 
@@ -74,22 +74,21 @@ export function LenisProvider({ children }: LenisProviderProps) {
     return () => {
       cancelled = true
       cancelAnimationFrame(rafId)
-      lenisRef.current?.destroy()
-      lenisRef.current = null
-      delete window.lenis
+      lenisInstance?.destroy()
+      lenisInstance = null
+      setLenis(undefined)
     }
   }, [])
 
-  return <>{children}</>
+  return (
+    <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>
+  )
 }
 
 /**
- * Hook to access Lenis instance
- *
- * Usage:
- *   const lenis = useLenis()
- *   lenis?.scrollTo('#section', { offset: 100 })
+ * Document-level Lenis instance (home page wheel scroll + hero CTAs).
+ * Returns undefined on mobile, reduced-motion, or before Lenis has loaded.
  */
 export function useLenis(): Lenis | undefined {
-  return typeof window !== 'undefined' ? window.lenis : undefined
+  return useContext(LenisContext)
 }

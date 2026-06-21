@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useCallback, useEffect, Suspense } from 'react'
+import { useState, useCallback, Suspense } from 'react'
 import { m } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { Navbar } from '@/components/layout/Navbar'
 import { Hero } from '@/components/hero/Hero'
 import { FullpageCard } from '@/components/ui/FullpageCard'
 import { useHomeScroll } from '@/hooks/use-home-scroll'
+import { useOverlayDialogs } from '@/hooks/use-overlay-dialogs'
 
 // Dynamically import heavy components to reduce initial JS payload
 const SelectedWork = dynamic(() => import('@/components/work/SelectedWork').then(mod => mod.SelectedWork), {
@@ -46,7 +47,7 @@ const WritingsDialog = dynamic(() => import('@/components/dialogs/WritingsDialog
 export default function Home() {
   const [shouldTriggerFooterShimmer, setShouldTriggerFooterShimmer] =
     useState(false)
-  const [shouldLoadDialogs, setShouldLoadDialogs] = useState(false)
+  const { isDialogMounted } = useOverlayDialogs()
 
   const {
     containerRef,
@@ -74,51 +75,6 @@ export default function Home() {
     // Reset after some time so it can be re-triggered
     setTimeout(() => setShouldTriggerFooterShimmer(false), 3100)
   }, [handleGetInTouchClick])
-
-  useEffect(() => {
-    const checkDialogRoute = () => {
-      const path = window.location.pathname
-      if (
-        path === '/work' ||
-        path === '/explorations' ||
-        path === '/about' ||
-        path === '/writings' ||
-        path.startsWith('/case-studies/')
-      ) {
-        setShouldLoadDialogs(true)
-      }
-    }
-
-    const loadDialogs = () => setShouldLoadDialogs(true)
-
-    checkDialogRoute()
-
-    window.addEventListener('popstate', checkDialogRoute)
-    window.addEventListener('workdialog:preload', loadDialogs)
-    window.addEventListener('workdialog:check', checkDialogRoute)
-    window.addEventListener('explorationsdialog:preload', loadDialogs)
-    window.addEventListener('explorationsdialog:check', checkDialogRoute)
-    window.addEventListener('casestudydialog:preload', loadDialogs)
-    window.addEventListener('casestudydialog:check', checkDialogRoute)
-    window.addEventListener('aboutdialog:preload', loadDialogs)
-    window.addEventListener('aboutdialog:check', checkDialogRoute)
-    window.addEventListener('writingsdialog:preload', loadDialogs)
-    window.addEventListener('writingsdialog:check', checkDialogRoute)
-
-    return () => {
-      window.removeEventListener('popstate', checkDialogRoute)
-      window.removeEventListener('workdialog:preload', loadDialogs)
-      window.removeEventListener('workdialog:check', checkDialogRoute)
-      window.removeEventListener('explorationsdialog:preload', loadDialogs)
-      window.removeEventListener('explorationsdialog:check', checkDialogRoute)
-      window.removeEventListener('casestudydialog:preload', loadDialogs)
-      window.removeEventListener('casestudydialog:check', checkDialogRoute)
-      window.removeEventListener('aboutdialog:preload', loadDialogs)
-      window.removeEventListener('aboutdialog:check', checkDialogRoute)
-      window.removeEventListener('writingsdialog:preload', loadDialogs)
-      window.removeEventListener('writingsdialog:check', checkDialogRoute)
-    }
-  }, [])
 
   return (
     <>
@@ -230,15 +186,11 @@ export default function Home() {
         </Suspense>
       </div>
 
-      {shouldLoadDialogs && (
-        <>
-          <WorkDialog />
-          <ExplorationsDialog />
-          <CaseStudyDialog />
-          <AboutDialog />
-          <WritingsDialog />
-        </>
-      )}
+      {isDialogMounted('work') && <WorkDialog />}
+      {isDialogMounted('explorations') && <ExplorationsDialog />}
+      {isDialogMounted('case-study') && <CaseStudyDialog />}
+      {isDialogMounted('about') && <AboutDialog />}
+      {isDialogMounted('writings') && <WritingsDialog />}
     </>
   )
 }

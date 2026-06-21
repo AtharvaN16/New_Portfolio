@@ -37,7 +37,7 @@ const SHARED_PALETTE_WEIGHT =
     EXPLICIT_WEIGHTS.indigoCoralRed) /
   3
 
-/** Warm → cool. Weights stay with palette identity, not array position. */
+/** Warm → cool cycle order (auto-advance uses index + 1). Blues run together. */
 export const HERO_PALETTES: readonly HeroPalette[] = [
   {
     id: 'orange-cyan',
@@ -96,19 +96,6 @@ export const HERO_PALETTES: readonly HeroPalette[] = [
     },
   },
   {
-    id: 'ocean-yellow',
-    name: 'Ocean / Yellow',
-    weight: EXPLICIT_WEIGHTS.oceanYellow,
-    light: [
-      [0, 75, 140],
-      [205, 160, 25],
-    ],
-    dark: [
-      [30, 130, 220],
-      [255, 225, 80],
-    ],
-  },
-  {
     id: 'soft-green-soft-pink',
     name: 'Soft Green / Soft Pink',
     weight: SHARED_PALETTE_WEIGHT,
@@ -124,6 +111,19 @@ export const HERO_PALETTES: readonly HeroPalette[] = [
       dark: [188, 255, 167],
       light: [95, 145, 75],
     },
+  },
+  {
+    id: 'ocean-yellow',
+    name: 'Ocean / Yellow',
+    weight: EXPLICIT_WEIGHTS.oceanYellow,
+    light: [
+      [0, 75, 140],
+      [205, 160, 25],
+    ],
+    dark: [
+      [30, 130, 220],
+      [255, 225, 80],
+    ],
   },
   {
     id: 'navy-sky',

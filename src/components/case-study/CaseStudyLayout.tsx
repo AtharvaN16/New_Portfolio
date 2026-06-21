@@ -5,6 +5,7 @@ import { useRef, useState } from 'react'
 import type { CaseStudy } from '@/lib/data/case-studies'
 import { CaseStudyHeader } from '@/components/case-study/CaseStudyHeader'
 import { useSmoothScroll } from '@/hooks/use-smooth-scroll'
+import { ContainerScrollProvider } from '@/hooks/use-container-scroll'
 import { CaseStudyContentRenderer } from '@/components/case-study/CaseStudyContentRenderer'
 import { ThemeScoper } from '@/components/case-study/ThemeScoper'
 
@@ -40,8 +41,7 @@ export function CaseStudyLayout({
   const contentRef = useRef<HTMLDivElement>(null)
   const [isContentRevealed, setIsContentRevealed] = useState(false)
 
-  // Standardize smooth scrolling
-  useSmoothScroll(containerRef, contentRef)
+  const { scrollToElement } = useSmoothScroll(containerRef, contentRef)
 
   // Standardize scroll progress bar
   const { scrollYProgress } = useScroll({ container: containerRef })
@@ -55,16 +55,17 @@ export function CaseStudyLayout({
   })
 
   return (
-    <div
-      id="case-study-scroll-container"
-      ref={containerRef}
-      className="min-h-dvh bg-background text-text-primary overflow-y-auto h-dvh"
-      style={{
-        overscrollBehavior: 'contain',
-        WebkitOverflowScrolling: 'touch',
-      }}
-    >
-      <ThemeScoper themeColor={caseStudy.themeColor}>
+    <ContainerScrollProvider scrollToElement={scrollToElement}>
+      <div
+        id="case-study-scroll-container"
+        ref={containerRef}
+        className="min-h-dvh bg-background text-text-primary overflow-y-auto h-dvh"
+        style={{
+          overscrollBehavior: 'contain',
+          WebkitOverflowScrolling: 'touch',
+        }}
+      >
+        <ThemeScoper themeColor={caseStudy.themeColor}>
         {/* Scroll Progress Bar */}
         <m.div
           className="fixed top-0 left-0 right-0 h-[5px] z-[60] origin-left bg-[var(--cs-pop-light)] dark:bg-[var(--cs-pop-dark)]"
@@ -127,7 +128,8 @@ export function CaseStudyLayout({
             {children}
           </CaseStudyContentRenderer>
         </div>
-      </ThemeScoper>
-    </div>
+        </ThemeScoper>
+      </div>
+    </ContainerScrollProvider>
   )
 }

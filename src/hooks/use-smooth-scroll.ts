@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import Lenis from 'lenis'
+import type { ContainerScrollOptions } from '@/hooks/use-container-scroll'
 
 interface UseSmoothScrollOptions {
   duration?: number
@@ -12,15 +13,20 @@ interface UseSmoothScrollOptions {
 
 interface UseSmoothScrollReturn {
   lenisRef: React.RefObject<Lenis | null>
-  scrollTo: (target: number, options?: { duration?: number; easing?: (t: number) => number }) => void
+  scrollTo: (
+    target: number,
+    options?: { duration?: number; easing?: (t: number) => number }
+  ) => void
+  scrollToElement: (id: string, options?: ContainerScrollOptions) => void
 }
 
+const DEFAULT_ELEMENT_OFFSET = -120
+const DEFAULT_ELEMENT_DURATION = 1.5
+const elementEasing = (t: number) => 1 - Math.pow(1 - t, 5)
+
 /**
- * Custom hook for smooth scrolling within a container using Lenis
- * @param containerRef - Ref to the scrollable container element (wrapper)
- * @param contentRef - Ref to the content element (direct child of wrapper)
- * @param options - Configuration options for Lenis
- * @returns Object containing the Lenis instance ref and scrollTo function
+ * Smooth scrolling within a container using Lenis.
+ * Keeps its instance local — never touches the document-level Lenis context.
  */
 export function useSmoothScroll(
   containerRef: React.RefObject<HTMLElement | null>,
@@ -36,29 +42,24 @@ export function useSmoothScroll(
 
   const lenisRef = useRef<Lenis | null>(null)
 
-  // Initialize Lenis for smooth scrolling
   useEffect(() => {
     const container = containerRef.current
     const content = contentRef.current
     if (!container || !content) return
 
-    // Check if user prefers reduced motion
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
     ).matches
+    if (prefersReducedMotion) return
 
-    // Skip smooth scroll if user prefers reduced motion
-    if (prefersReducedMotion) {
-      return
-    }
+    let rafId: number | null = null
+    let lenisCleanup: (() => void) | undefined
 
-    // Wait for DOM to be fully ready
     const timeoutId = setTimeout(() => {
       try {
-        // Initialize Lenis with the container as wrapper and content element
         const lenis = new Lenis({
           wrapper: container,
-          content: content, // Required for container scrolling
+          content,
           duration,
           easing,
           orientation: 'vertical',
@@ -67,18 +68,10 @@ export function useSmoothScroll(
           wheelMultiplier,
           touchMultiplier,
           infinite: false,
-          autoResize: true, // Enable automatic resize using ResizeObserver
+          autoResize: true,
         })
 
         lenisRef.current = lenis
-        
-        // Expose to window so other components can find the active scroll instance
-        // This is necessary because CaseStudySideNav needs to call .scrollTo()
-        // and it might be in a different part of the tree.
-        window.lenis = lenis
-
-        // Animation frame loop for Lenis
-        let rafId: number | null = null
 
         function raf(time: number) {
           lenis.raf(time)
@@ -87,39 +80,40 @@ export function useSmoothScroll(
 
         rafId = requestAnimationFrame(raf)
 
-        // Cleanup
-        return () => {
+        lenisCleanup = () => {
           if (rafId !== null) {
             cancelAnimationFrame(rafId)
           }
           lenis.destroy()
           lenisRef.current = null
-          if (window.lenis === lenis) {
-            delete window.lenis
-          }
         }
       } catch (error) {
         console.error('Lenis initialization failed:', error)
-        // Container will still work with native scroll
       }
     }, 0)
 
-    return () => clearTimeout(timeoutId)
+    return () => {
+      clearTimeout(timeoutId)
+      lenisCleanup?.()
+    }
   }, [containerRef, contentRef, duration, easing, wheelMultiplier, touchMultiplier])
 
-  // Scroll to target position
-  const scrollTo = (
-    target: number,
-    scrollOptions?: { duration?: number; easing?: (t: number) => number }
-  ) => {
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(target, scrollOptions)
-    } else if (containerRef.current) {
-      // Fallback to manual smooth scroll if Lenis not available
+  const scrollTo = useCallback(
+    (
+      target: number,
+      scrollOptions?: { duration?: number; easing?: (t: number) => number }
+    ) => {
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(target, scrollOptions)
+        return
+      }
+
       const container = containerRef.current
+      if (!container) return
+
       const startScroll = container.scrollTop
       const distance = target - startScroll
-      const scrollDuration = scrollOptions?.duration || 600
+      const scrollDuration = scrollOptions?.duration ?? 600
       const startTime = performance.now()
 
       const animateScroll = (currentTime: number) => {
@@ -136,8 +130,28 @@ export function useSmoothScroll(
       }
 
       requestAnimationFrame(animateScroll)
-    }
-  }
+    },
+    [containerRef]
+  )
 
-  return { lenisRef, scrollTo }
+  const scrollToElement = useCallback(
+    (id: string, scrollOptions?: ContainerScrollOptions) => {
+      const element = document.getElementById(id)
+      if (!element) return
+
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(`#${id}`, {
+          offset: scrollOptions?.offset ?? DEFAULT_ELEMENT_OFFSET,
+          duration: scrollOptions?.duration ?? DEFAULT_ELEMENT_DURATION,
+          easing: elementEasing,
+        })
+        return
+      }
+
+      element.scrollIntoView({ behavior: 'smooth' })
+    },
+    []
+  )
+
+  return { lenisRef, scrollTo, scrollToElement }
 }

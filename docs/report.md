@@ -6,6 +6,19 @@
 
 ---
 
+## Fixes applied
+
+| ID | Fix | Date | Status |
+|----|-----|------|--------|
+| P0-1 | Stop clobbering document Lenis after overlay close | 2026-06-21 | ✅ Done |
+| P0-2 | Lazy-mount only the active dialog | 2026-06-21 | ✅ Done |
+
+**P0-1 details:** Document Lenis now lives in React context (`LenisProvider` + `useLenis()`). Overlay scroll stays local in `useSmoothScroll` via `ContainerScrollProvider`. Files: `LenisProvider.tsx`, `use-smooth-scroll.ts`, `use-container-scroll.tsx`, `CaseStudyLayout.tsx`, `CaseStudySideNav.tsx`, `AnimatedLink.tsx`, `UAlbertaExplorationNotesPanel.tsx`.
+
+**P0-2 details:** New `useOverlayDialogs()` hook mounts only the dialog(s) needed (preload/check/pathname). Replaced all-at-once `shouldLoadDialogs` block in `page.tsx`. Dialogs stay mounted once visited so Work → case study transitions remain smooth.
+
+---
+
 ## How to use this report (for agents)
 
 1. Work **top to bottom** within each priority tier unless a task has an explicit dependency.
@@ -22,15 +35,15 @@ This portfolio uses a **fixed-layer scroll stage** on the home page (not a norma
 
 **Highest-impact issues:**
 
-| # | Issue | Impact |
-|---|--------|--------|
-| 1 | `window.lenis` global clobbered by overlay scroll hook | Home scroll-to-CTA breaks after closing overlays |
-| 2 | All 5 dialogs mount on first overlay open | Unnecessary JS + hydration on first click |
-| 3 | Two WebGL contexts on desktop hero during entry | GPU/CPU cost on first paint |
-| 4 | No tab-visibility pause for hero WebGL | Background tab still animates |
-| 5 | Per-frame layout reads on home project cards | Scroll jank risk on desktop |
-| 6 | ~1,250 lines dead duplicate code in `animations/` | Confusion + maintenance burden |
-| 7 | String-based custom event bus | Easy to break; some events are dead or incomplete |
+| # | Issue | Impact | Status |
+|---|--------|--------|--------|
+| 1 | `window.lenis` global clobbered by overlay scroll hook | Home scroll-to-CTA breaks after closing overlays | ✅ Fixed (P0-1) |
+| 2 | All 5 dialogs mount on first overlay open | Unnecessary JS + hydration on first click | ✅ Fixed (P0-2) |
+| 3 | Two WebGL contexts on desktop hero during entry | GPU/CPU cost on first paint | **Next (P0-3)** |
+| 4 | No tab-visibility pause for hero WebGL | Background tab still animates | Open |
+| 5 | Per-frame layout reads on home project cards | Scroll jank risk on desktop | Open |
+| 6 | ~1,250 lines dead duplicate code in `animations/` | Confusion + maintenance burden | Open |
+| 7 | String-based custom event bus | Easy to break; some events are dead or incomplete | Open |
 
 ---
 
@@ -165,37 +178,45 @@ Close
 
 ### P0 — Fix first (bugs + high perf)
 
-#### P0-1: Stop clobbering `window.lenis`
+#### P0-1: Stop clobbering `window.lenis` ✅ Fixed 2026-06-21
 
-**Location:** `src/hooks/use-smooth-scroll.ts:76-99`, `src/components/providers/LenisProvider.tsx:64`
+**Location:** `src/hooks/use-smooth-scroll.ts`, `src/components/providers/LenisProvider.tsx`
 
 **Problem:** Overlay pages assign `window.lenis` to a container-scoped Lenis instance. On unmount they `delete window.lenis`, destroying the home page's global Lenis. `useHomeScroll` then falls back to native scroll for CTAs.
 
-**Fix:**
-- Remove `window.lenis = lenis` from `useSmoothScroll`
-- Pass Lenis via ref/context to consumers (e.g. `CaseStudySideNav`)
-- Optionally expose home Lenis through React context instead of `window`
+**Fix applied:**
+- Document-level Lenis exposed via React context (`LenisProvider` + `useLenis()`)
+- Container Lenis stays local in `useSmoothScroll` — never touches `window.lenis`
+- Case study in-overlay scroll uses `ContainerScrollProvider` + `useContainerScroll()` / `scrollToContainerElement()`
+- `AnimatedLink` uses `useLenis()` for hash links
 
 **Verify:** Open About overlay → close → click "Browse work" / "Get in touch" on home → smooth Lenis scroll still works.
 
 ---
 
-#### P0-2: Lazy-mount only the active dialog
+#### P0-2: Lazy-mount only the active dialog ✅ Fixed 2026-06-21
 
-**Location:** `src/app/page.tsx:233-240`, `page.tsx:78-120`
+**Location:** `src/app/page.tsx`, `src/hooks/use-overlay-dialogs.ts` (new)
 
-**Problem:** First overlay trigger mounts all 5 dialog components.
+**What's actually broken:**  
+When you click **any** nav item or project for the first time (Work, About, Explorations, a case study), the home page sets `shouldLoadDialogs = true` and mounts **all five** dialog components at once — even though only one overlay will open.
 
-**Fix:**
-```tsx
-// Pseudocode — mount by pathname
-{shouldLoadDialogs && pathname === '/work' && <WorkDialog />}
-{shouldLoadDialogs && pathname.startsWith('/case-studies/') && <CaseStudyDialog />}
-// etc.
-```
-Track pathname from `window.location.pathname` + `popstate` (same as existing checkDialogRoute).
+**What you'd notice visually:**  
+Almost nothing changes on screen. The overlay still slides up the same way. The difference is **under the hood**:
 
-**Verify:** Network tab — opening Work should not fetch About/Writings dialog chunks unless navigated there.
+| Moment | Before | After fix |
+|--------|--------|-----------|
+| First click on "About" | Browser downloads JS for all 5 dialogs | Browser downloads **only** About dialog JS |
+| Time to first overlay | Slightly slower first open | Faster first open |
+| Memory | 5 dialog trees initialized; 4 sit idle | 1 dialog tree active (more added only as visited) |
+
+**Fix applied:**
+- New `useOverlayDialogs()` hook tracks a `Set` of dialog IDs to mount
+- Preload events mount **only** the targeted dialog (e.g. `workdialog:preload` → Work only)
+- Pathname sync (`*:check`, `popstate`) mounts only the matching dialog
+- Once mounted, a dialog stays mounted for the session (Work → case study transition stays smooth)
+
+**Verify:** Network tab — opening About should not fetch Work/Writings dialog chunks on first open.
 
 ---
 
@@ -421,9 +442,9 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 ## Suggested implementation order (for agents)
 
 **Sprint 1 — Quick wins (1–2 days)**
-1. P0-1 window.lenis fix
-2. P1-1 delete dead animations/
-3. P0-2 lazy-mount dialogs
+1. ~~P0-1 window.lenis fix~~ ✅ Done 2026-06-21
+2. ~~P0-2 lazy-mount dialogs~~ ✅ Done 2026-06-21
+3. P1-1 delete dead animations/ ← **next**
 4. P1-3 typed events + remove dead `force-card-up` OR implement listener
 
 **Sprint 2 — Hero perf (2–3 days)**
@@ -450,7 +471,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 - [ ] Home: land → scroll through hero/card/work/footer without jank
 - [ ] Home: blob pauses on scroll, resumes on scroll back to top
 - [ ] Home: blob pauses when tab hidden
-- [ ] Open Work overlay → close → "Browse work" CTA still smooth-scrolls
+- [x] Open Work/About overlay → close → "Browse work" / "Get in touch" CTA still smooth-scrolls (P0-1, 2026-06-21)
 - [ ] Mobile About opens as overlay (same as desktop)
 - [ ] Direct `/work` URL still works (standalone page)
 - [ ] Browser back from overlay closes dialog + restores scroll

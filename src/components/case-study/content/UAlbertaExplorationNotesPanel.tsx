@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 import { cn } from '@/lib/utils/cn'
+import { scrollToContainerElement } from '@/hooks/use-container-scroll'
 
 type NoteTone = 'positive' | 'negative'
 
@@ -26,21 +27,10 @@ export const EXPLORATION_NOTES_MIN_HEIGHT_CLASS =
 
 export const UALBERTA_FINAL_SOLUTION_SECTION_ID = 'ualberta-final-solution'
 
-export function scrollToFinalSolution(sectionId = UALBERTA_FINAL_SOLUTION_SECTION_ID) {
-  const element = document.getElementById(sectionId)
-  if (!element) return
-
-  const lenis = window.lenis
-  if (lenis) {
-    lenis.scrollTo(`#${sectionId}`, {
-      offset: -120,
-      duration: 1.5,
-      easing: (t: number) => 1 - (1 - t) ** 5,
-    })
-    return
-  }
-
-  element.scrollIntoView({ behavior: 'smooth' })
+export function scrollToFinalSolution(
+  sectionId = UALBERTA_FINAL_SOLUTION_SECTION_ID
+) {
+  scrollToContainerElement(sectionId)
 }
 
 function ExplorationNotesList({ notes }: { notes: ExplorationNote[] }) {
