@@ -12,10 +12,13 @@
 |----|-----|------|--------|
 | P0-1 | Stop clobbering document Lenis after overlay close | 2026-06-21 | ✅ Done |
 | P0-2 | Lazy-mount only the active dialog | 2026-06-21 | ✅ Done |
+| P0-3 | Tab visibility pause for hero WebGL | 2026-06-21 | ✅ Done |
 
 **P0-1 details:** Document Lenis now lives in React context (`LenisProvider` + `useLenis()`). Overlay scroll stays local in `useSmoothScroll` via `ContainerScrollProvider`. Files: `LenisProvider.tsx`, `use-smooth-scroll.ts`, `use-container-scroll.tsx`, `CaseStudyLayout.tsx`, `CaseStudySideNav.tsx`, `AnimatedLink.tsx`, `UAlbertaExplorationNotesPanel.tsx`.
 
 **P0-2 details:** New `useOverlayDialogs()` hook mounts only the dialog(s) needed (preload/check/pathname). Replaced all-at-once `shouldLoadDialogs` block in `page.tsx`. Dialogs stay mounted once visited so Work → case study transitions remain smooth.
+
+**P0-3 details:** `WaterBlob.tsx` pauses the WebGL rAF loop on `document.visibilitychange` when the tab is hidden; resumes when visible unless also paused by scroll or dialog.
 
 ---
 
@@ -39,9 +42,9 @@ This portfolio uses a **fixed-layer scroll stage** on the home page (not a norma
 |---|--------|--------|--------|
 | 1 | `window.lenis` global clobbered by overlay scroll hook | Home scroll-to-CTA breaks after closing overlays | ✅ Fixed (P0-1) |
 | 2 | All 5 dialogs mount on first overlay open | Unnecessary JS + hydration on first click | ✅ Fixed (P0-2) |
-| 3 | Two WebGL contexts on desktop hero during entry | GPU/CPU cost on first paint | **Next (P0-3)** |
-| 4 | No tab-visibility pause for hero WebGL | Background tab still animates | Open |
-| 5 | Per-frame layout reads on home project cards | Scroll jank risk on desktop | Open |
+| 3 | Two WebGL contexts on desktop hero during entry | GPU/CPU cost on first paint | Open |
+| 4 | No tab-visibility pause for hero WebGL | Background tab still animates | ✅ Fixed (P0-3) |
+| 5 | Per-frame layout reads on home project cards | Scroll jank risk on desktop | **Next (P0-4)** |
 | 6 | ~1,250 lines dead duplicate code in `animations/` | Confusion + maintenance burden | Open |
 | 7 | String-based custom event bus | Easy to break; some events are dead or incomplete | Open |
 
@@ -220,13 +223,13 @@ Almost nothing changes on screen. The overlay still slides up the same way. The 
 
 ---
 
-#### P0-3: Tab visibility pause for hero WebGL
+#### P0-3: Tab visibility pause for hero WebGL ✅ Fixed 2026-06-21
 
-**Location:** `src/components/hero/WaterBlob.tsx` (pause/resume logic ~351-378)
+**Location:** `src/components/hero/WaterBlob.tsx`
 
 **Problem:** rAF continues when tab is backgrounded if user hasn't scrolled past 3%.
 
-**Fix:** On `document.visibilitychange`, set pause flag; resume when visible AND not paused by scroll/dialog.
+**Fix applied:** On `document.visibilitychange`, set pause flag; resume when visible AND not paused by scroll/dialog. Uses same `shouldPauseLoop()` gate as dialog/scroll pauses.
 
 **Verify:** Land on home → switch tab → DevTools Performance: no continuous rAF from WaterBlob.
 
@@ -246,11 +249,18 @@ Almost nothing changes on screen. The overlay still slides up the same way. The 
 
 ### P1 — High value (perf + maintainability)
 
-#### P1-1: Delete dead `src/components/animations/` duplicates
+#### P1-1: Delete dead `src/components/animations/` duplicates — **verify before deleting**
 
 **Problem:** ~1,250 LOC unused — duplicate dialogs, PageOverlay, PageSlideTransition, FrozenRouter, PaperPlaneFlight.
 
-**Fix:** Confirm zero imports with grep, delete folder (or archive to `docs/archive/` if cautious).
+**Verification (2026-06-21):** Grep across entire repo shows **zero** `import` from `@/components/animations/` or `components/animations` in any `.ts`/`.tsx`/test file. Only `docs/` references the folder. Live code uses `src/components/dialogs/*` exclusively.
+
+**Caveats before delete:**
+- Run `bun run build` after deletion to confirm
+- `docs/03-ANIMATION-STRATEGY.md` mentions the folder historically — update doc, don't rely on those files
+- `ViewTransitionProvider.tsx` in `providers/` is also orphaned (only imported by dead `animations/PageTransition.tsx`) — separate cleanup, not in this folder
+
+**Fix:** Delete `src/components/animations/` after build passes.
 
 **Verify:** `bun run build` succeeds; grep shows no broken imports.
 
@@ -448,8 +458,8 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 4. P1-3 typed events + remove dead `force-card-up` OR implement listener
 
 **Sprint 2 — Hero perf (2–3 days)**
-5. P0-3 tab visibility pause
-6. P0-4 ProjectCard recede refactor
+5. ~~P0-3 tab visibility pause~~ ✅ Done 2026-06-21
+6. P0-4 ProjectCard recede refactor ← **next P0**
 7. P1-5 split WaterBlob.tsx
 8. P1-6 theme without GL rebuild
 
@@ -470,7 +480,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 - [ ] `bun run validate` passes
 - [ ] Home: land → scroll through hero/card/work/footer without jank
 - [ ] Home: blob pauses on scroll, resumes on scroll back to top
-- [ ] Home: blob pauses when tab hidden
+- [ ] Home: blob pauses when tab hidden (P0-3 — verify manually in DevTools)
 - [x] Open Work/About overlay → close → "Browse work" / "Get in touch" CTA still smooth-scrolls (P0-1, 2026-06-21)
 - [ ] Mobile About opens as overlay (same as desktop)
 - [ ] Direct `/work` URL still works (standalone page)
