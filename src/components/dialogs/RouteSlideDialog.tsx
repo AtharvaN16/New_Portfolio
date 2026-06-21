@@ -1,51 +1,50 @@
 'use client'
 
 import { m, AnimatePresence } from 'framer-motion'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, type ComponentType } from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
-import dynamic from 'next/dynamic'
 import {
   dispatchDialogClosed,
   OVERLAY_DIALOGS,
   subscribeOverlayCheck,
   subscribeOverlayPreload,
+  type OverlayDialogId,
 } from '@/lib/overlay-events'
 
-// Lazy load AboutPage - only loads when dialog opens
-const AboutPage = dynamic(() => import('@/app/about/page'), {
-  ssr: false,
-  loading: () => <div className="min-h-screen bg-background" />,
-})
-
-// Preload function
-const preloadAboutPage = () => {
-  const p = import('@/app/about/page')
-  return p
-}
-
-const ABOUT_PATH = OVERLAY_DIALOGS.about.path
+export type RouteOverlayDialogId = Exclude<OverlayDialogId, 'case-study'>
 
 const TRANSITION_EASE: [number, number, number, number] = [0.87, 0, 0.13, 1]
 const OPEN_DURATION = 1.2
 const CLOSE_DURATION = 1.0
 
+interface RouteSlideDialogProps {
+  dialogId: RouteOverlayDialogId
+  Page: ComponentType
+  preloadPage: () => Promise<unknown>
+  /** Work overlay scrolls internally; other routes use page-level scroll. */
+  scrollable?: boolean
+}
+
 /**
- * About-specific dialog that slides up from bottom.
- * Follows the same pattern as ExplorationsDialog.
+ * Shared slide-up overlay for /work, /about, /explorations, /writings.
+ * Opens when window.location matches the route path; closes on back/popstate.
  */
-export function AboutDialog() {
+export function RouteSlideDialog({
+  dialogId,
+  Page,
+  preloadPage,
+  scrollable = false,
+}: RouteSlideDialogProps) {
+  const routePath = OVERLAY_DIALOGS[dialogId].path!
   const scrollYRef = useRef(0)
   const [isOpen, setIsOpen] = useState(false)
-  const isClosingRef = useRef(false)
   const [shouldLockScroll, setShouldLockScroll] = useState(false)
 
-  // Preload on mount and on event
   useEffect(() => {
     const handlePreload = () => {
-      preloadAboutPage()
+      void preloadPage()
     }
 
-    // Preload on idle
     if (typeof window !== 'undefined') {
       if ('requestIdleCallback' in window) {
         window.requestIdleCallback(() => handlePreload())
@@ -54,52 +53,37 @@ export function AboutDialog() {
       }
     }
 
-    return subscribeOverlayPreload('about', handlePreload)
-  }, [])
+    return subscribeOverlayPreload(dialogId, handlePreload)
+  }, [dialogId, preloadPage])
 
-  // Listen for URL changes
   useEffect(() => {
     const checkURL = () => {
-      const shouldOpen = window.location.pathname === ABOUT_PATH
+      const shouldOpen = window.location.pathname === routePath
 
       if (shouldOpen && !isOpen) {
-        // Opening dialog - save scroll position
-        isClosingRef.current = false
         scrollYRef.current = window.scrollY
-
-        // Lock body scroll manually
         document.body.style.overflow = 'hidden'
-
-        // Lock scroll and open dialog
         setShouldLockScroll(true)
         setIsOpen(true)
       } else if (!shouldOpen && isOpen) {
-        // Close dialog - trigger exit animation
-        isClosingRef.current = true
         setIsOpen(false)
       }
     }
 
-    // Check on mount
     checkURL()
-
-    // Listen for popstate and custom events
     window.addEventListener('popstate', checkURL)
-    const removeCheck = subscribeOverlayCheck('about', checkURL)
+    const removeCheck = subscribeOverlayCheck(dialogId, checkURL)
 
     return () => {
       window.removeEventListener('popstate', checkURL)
       removeCheck()
     }
-  }, [isOpen])
+  }, [dialogId, isOpen, routePath])
 
   const handleExitComplete = () => {
-    // Dialog has fully closed - NOW unlock scroll and restore position
     setShouldLockScroll(false)
     document.body.style.overflow = ''
-    const savedScroll = scrollYRef.current
-    window.scrollTo(0, savedScroll)
-
+    window.scrollTo(0, scrollYRef.current)
     dispatchDialogClosed()
   }
 
@@ -108,9 +92,9 @@ export function AboutDialog() {
       <AnimatePresence onExitComplete={handleExitComplete}>
         {isOpen && (
           <m.div
-            key="about-dialog"
+            key={`${dialogId}-dialog`}
             id="dialog"
-            className="dialog fixed inset-0 z-[100]"
+            className={`dialog fixed inset-0 z-[100]${scrollable ? ' overflow-y-auto' : ''}`}
             data-lenis-prevent="true"
             initial={{ y: '100%' }}
             animate={{
@@ -134,7 +118,7 @@ export function AboutDialog() {
               backfaceVisibility: 'hidden',
             }}
           >
-            <AboutPage />
+            <Page />
           </m.div>
         )}
       </AnimatePresence>

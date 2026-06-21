@@ -18,11 +18,23 @@ const Footer = dynamic(() => import('@/components/layout/Footer').then(mod => mo
 })
 
 // Dynamically import dialogs to reduce initial JS payload
-const WorkDialog = dynamic(() => import('@/components/dialogs/WorkDialog').then(mod => mod.WorkDialog))
-const CaseStudyDialog = dynamic(() => import('@/components/dialogs/CaseStudyDialog').then(mod => mod.CaseStudyDialog))
-const ExplorationsDialog = dynamic(() => import('@/components/dialogs/ExplorationsDialog').then(mod => mod.ExplorationsDialog))
-const AboutDialog = dynamic(() => import('@/components/dialogs/AboutDialog').then(mod => mod.AboutDialog))
-const WritingsDialog = dynamic(() => import('@/components/dialogs/WritingsDialog').then(mod => mod.WritingsDialog))
+const WorkDialog = dynamic(() =>
+  import('@/components/dialogs/route-slide-dialogs').then((mod) => mod.WorkDialog)
+)
+const CaseStudyDialog = dynamic(() =>
+  import('@/components/dialogs/CaseStudyDialog').then((mod) => mod.CaseStudyDialog)
+)
+const ExplorationsDialog = dynamic(() =>
+  import('@/components/dialogs/route-slide-dialogs').then(
+    (mod) => mod.ExplorationsDialog
+  )
+)
+const AboutDialog = dynamic(() =>
+  import('@/components/dialogs/route-slide-dialogs').then((mod) => mod.AboutDialog)
+)
+const WritingsDialog = dynamic(() =>
+  import('@/components/dialogs/route-slide-dialogs').then((mod) => mod.WritingsDialog)
+)
 
 /**
  * Home Page - Scroll Reveal Effect

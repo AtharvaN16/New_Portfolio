@@ -9,7 +9,11 @@ import Link from 'next/link'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { NavButton } from '@/components/ui/NavButton'
 import { cn } from '@/lib/utils/cn'
-import { openOverlayRoute } from '@/lib/overlay-events'
+import {
+  openOverlayRoute,
+  overlayDialogFromPath,
+  type OverlayRoutePath,
+} from '@/lib/overlay-events'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -115,13 +119,16 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         prefetch={link.prefetch}
                         onClick={(e) => {
                           if (isComingSoon) {
-                            e.preventDefault();
-                            return;
-                          }
-                          if (link.href === '/explorations') {
                             e.preventDefault()
-                            openOverlayRoute('/explorations')
+                            return
                           }
+
+                          const overlayId = overlayDialogFromPath(link.href)
+                          if (overlayId && overlayId !== 'case-study') {
+                            e.preventDefault()
+                            openOverlayRoute(link.href as OverlayRoutePath)
+                          }
+
                           onClose()
                         }}
                         className={cn(

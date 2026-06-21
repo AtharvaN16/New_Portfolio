@@ -19,6 +19,8 @@
 | P1-5 | Split `WaterBlob.tsx` into focused hooks | 2026-06-21 | ✅ Done |
 | P1-6 | Theme toggle without WebGL program rebuild | 2026-06-21 | ✅ Done |
 | P1-7 | Throttle `hero:flash-head` dispatches during F1 | 2026-06-21 | ✅ Done |
+| P1-4 | Mobile nav overlay parity (About uses slide-up) | 2026-06-21 | ✅ Done |
+| P1-2 | Consolidate route dialogs into `RouteSlideDialog` | 2026-06-21 | ✅ Done |
 
 **P0-1 details:** Document Lenis now lives in React context (`LenisProvider` + `useLenis()`). Overlay scroll stays local in `useSmoothScroll` via `ContainerScrollProvider`. Files: `LenisProvider.tsx`, `use-smooth-scroll.ts`, `use-container-scroll.tsx`, `CaseStudyLayout.tsx`, `CaseStudySideNav.tsx`, `AnimatedLink.tsx`, `UAlbertaExplorationNotesPanel.tsx`.
 
@@ -37,6 +39,10 @@
 **P1-6 details:** Removed `theme` from `useWaterBlobAnimation` effect deps. Theme only changes the background color token; `useWaterBlobColorRefs` updates the lerp target and `createAnimationLoop` already uploads `uBackgroundColor` every frame — toggling light/dark no longer tears down shaders.
 
 **P1-7 details:** `dispatchHeroFlashHead` now dispatches active updates every 2 rAF frames (~30/sec). Inactive/clear events still fire immediately so the navbar glow cleans up reliably.
+
+**P1-4 details:** `MobileMenu.tsx` now opens About (and Writings when enabled) via `openOverlayRoute`, matching desktop Navbar — slide-up overlay instead of full page navigation. Résumé and `#footer` stay as normal links.
+
+**P1-2 details:** Replaced four ~140-line dialog files with `RouteSlideDialog.tsx` (shared slide-up logic) and `route-slide-dialogs.tsx` (thin factory exports for Work/About/Explorations/Writings). `CaseStudyDialog` unchanged. Same animations, scroll lock, and lazy page loading.
 
 ---
 
@@ -171,7 +177,7 @@ Close
 
 **Fragility:**
 - Next.js router stays on `/` while `window.location` is `/work` — logo `Link href="/"` may not close overlay
-- Mobile About uses normal `<Link>` (full page); desktop uses overlay — inconsistent (P1-4)
+- Mobile About uses normal `<Link>` (full page); desktop uses overlay — inconsistent (P1-4) ✅ Fixed
 
 ### 5. Content sections
 
@@ -269,9 +275,9 @@ Almost nothing changes on screen. The overlay still slides up the same way. The 
 
 ---
 
-#### P1-2: Consolidate route dialogs into one component
+#### P1-2: Consolidate route dialogs into one component ✅ Done 2026-06-21
 
-**Location:** `src/components/dialogs/WorkDialog.tsx`, `AboutDialog.tsx`, `ExplorationsDialog.tsx`, `WritingsDialog.tsx`
+**Location:** ~~`WorkDialog.tsx`, `AboutDialog.tsx`, …~~ → `RouteSlideDialog.tsx` + `route-slide-dialogs.tsx`
 
 **Problem:** ~137 lines each, nearly identical (checkURL, scroll lock, AnimatePresence, TRANSITION_EASE).
 
@@ -310,7 +316,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 
 ---
 
-#### P1-4: Mobile nav parity with desktop overlays
+#### P1-4: Mobile nav parity with desktop overlays ✅ Done 2026-06-21
 
 **Location:** `src/components/layout/MobileMenu.tsx` vs `Navbar.tsx`
 
@@ -469,8 +475,8 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 10. ~~P1-7 throttle `hero:flash-head`~~ ✅ Done 2026-06-21
 
 **Sprint 3 — Navigation consistency (1–2 days)**
-11. P1-2 RouteSlideDialog consolidation
-12. P1-4 mobile nav parity
+11. ~~P1-4 mobile nav parity~~ ✅ Done 2026-06-21
+12. ~~P1-2 RouteSlideDialog consolidation~~ ✅ Done 2026-06-21
 
 **Sprint 4 — Content/images (ongoing)**
 11. P2-1 barrel fix
