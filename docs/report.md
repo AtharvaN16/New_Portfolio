@@ -198,7 +198,7 @@ Close
 - Data: `src/lib/data/case-studies.ts`
 - Registry: `src/components/case-study/content/index.ts` (`CONTENT_REGISTRY` with `next/dynamic`)
 - Shell: `CaseStudyDialog` → `CaseStudyDetail` → `CaseStudyContentRenderer`
-- Most bodies gated by `CaseStudyReadMore`; **exception:** `ImdbIaRedesignContent.tsx` mounts 38 PNG slides immediately
+- Most bodies gated by `CaseStudyReadMore`
 
 ---
 
@@ -383,11 +383,9 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 
 ---
 
-#### P2-3: IMDb gallery lazy load
+#### P2-3: IMDb gallery lazy load — **Removed** (case study deleted from codebase 2026-06-21)
 
-**Location:** `ImdbIaRedesignContent.tsx` — 38 PNG slides mount at once
-
-**Fix:** WebP/AVIF conversion, intersection-based lazy load, or pagination.
+~~**Location:** `ImdbIaRedesignContent.tsx`~~ No longer applicable.
 
 ---
 
@@ -456,7 +454,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 - Mobile: single canvas, 30fps draw throttle, no palette click
 - A11y fallbacks: reduced motion, save-data, pause-WebGL → CSS gradient
 - GL resource cleanup on WaterBlob unmount
-- Case study body gated by ReadMore (except IMDb)
+- Case study body gated by ReadMore
 - Home Selected Work cards use `fetchPriority="low"`
 
 ---
@@ -483,7 +481,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 
 **Sprint 4 — Content/images (ongoing)**
 11. ~~P2-1 barrel fix~~ ✅ Done 2026-06-21
-12. P2-3 IMDb gallery
+12. ~~P2-3 IMDb gallery~~ Removed with case study
 13. P2-4 sizes on fill images
 14. P2-2 split largest case study files
 

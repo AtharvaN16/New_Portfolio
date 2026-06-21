@@ -47,7 +47,4 @@ export const CONTENT_REGISTRY: Record<
   'snakes': dynamic(() =>
     import('./SnakesShowcaseContent').then((mod) => mod.SnakesShowcaseContent)
   ),
-  'imdb-ia-redesign': dynamic(() =>
-    import('./ImdbIaRedesignContent').then((mod) => mod.ImdbIaRedesignContent)
-  ),
 }

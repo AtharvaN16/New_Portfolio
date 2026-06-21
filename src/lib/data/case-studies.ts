@@ -170,24 +170,6 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     },
   },
   {
-    slug: 'imdb-ia-redesign',
-    title: "Redesigning IMDB's user interface for improved movie discovery",
-    organization: 'Class Project',
-    year: '2024',
-    description:
-      "A UX redesign of IMDb's interface focused on improving content discovery through better filtering, cleaner navigation, and personalized recommendations — grounded in 8 in-depth user interviews.",
-    tags: ['Information Architecture', 'Redesign'],
-    hidden: true,
-    themeColor: '#F5C518',
-    imageUrl: '/images/case-studies/imdb-ia-redesign/hero.webp',
-    featured: false,
-    category: 'ui-design',
-    team: ['Atharva Nayak', 'Charlene Guo', 'Nisheta Gupta', 'Ritika Ramesh'],
-    timeline: '1 month',
-    fullDescription:
-      'We conducted 8 in-depth user interviews to understand how users discover and search for content within IMDb. Through this research, we identified key pain points in IMDb\'s current content discovery system and mapped user needs to improve filtering, recommendation, and browsing features.',
-  },
-  {
     slug: 'alo-yoga-digital-analytics',
     title: 'Alo Yoga Digital Strategy',
     organization: 'Class Project',
