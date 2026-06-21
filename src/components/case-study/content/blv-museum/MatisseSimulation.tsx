@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import { cn } from '@/lib/utils/cn'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
+import { CASE_STUDY_INLINE_IMAGE_SIZES } from '@/lib/case-study-image-sizes'
 
 interface MatisseSimulationProps {
   scrollContainerRef: React.RefObject<HTMLElement | null>
@@ -68,6 +69,7 @@ export function MatisseSimulation({ scrollContainerRef, isReady }: MatisseSimula
                   src="/images/case-studies/blv-museum-accessibility/matisse-dance-4k.png"
                   alt="Henri Matisse, Dance (I), 1909. Five figures in a circle against a blue and green background."
                   fill
+                  sizes={CASE_STUDY_INLINE_IMAGE_SIZES}
                   className="object-cover"
                   priority
                 />

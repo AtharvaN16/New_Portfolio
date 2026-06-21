@@ -3,6 +3,10 @@
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import Image from 'next/image'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
+import {
+  CASE_STUDY_FULL_BLEED_IMAGE_SIZES,
+  CASE_STUDY_INLINE_IMAGE_SIZES,
+} from '@/lib/case-study-image-sizes'
 
 export function SolutionParadigm() {
   const { hideImages } = useAccessibility()
@@ -27,6 +31,7 @@ export function SolutionParadigm() {
                 src="/images/case-studies/blv-museum-accessibility/Descripto-hero.png"
                 alt="Descripto app interface shown on a mobile device, demonstrating the accessible art exploration features."
                 fill
+                sizes={CASE_STUDY_INLINE_IMAGE_SIZES}
                 className="object-cover"
                 priority
               />
@@ -55,6 +60,7 @@ export function SolutionParadigm() {
             src="/images/case-studies/blv-museum-accessibility/Descripto-img3-v5.webp"
             alt="A detailed, full-page workflow infographic showing how visually impaired users interact with the Descripto app across different stages of a museum visit."
             fill
+            sizes={CASE_STUDY_FULL_BLEED_IMAGE_SIZES}
             className="object-cover"
           />
           {hideImages && (
@@ -156,6 +162,7 @@ export function SolutionParadigm() {
               src="/images/case-studies/blv-museum-accessibility/bts-process.webp"
               alt="A compilation of behind-the-scenes photographs showcasing the research, collaborative whiteboarding sessions, and prototyping process."
               fill
+              sizes={CASE_STUDY_INLINE_IMAGE_SIZES}
               className="object-cover"
             />
             {hideImages && (

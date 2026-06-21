@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { m, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
+import { CASE_STUDY_HALF_COLUMN_IMAGE_SIZES } from '@/lib/case-study-image-sizes'
 
 type LighthouseMetric = {
   label: string
@@ -125,6 +126,7 @@ export function AloLighthouseScores() {
                 src={platform === 'Desktop' ? '/images/case-studies/alo-yoga-digital-analytics/desktopsite.webp' : '/images/case-studies/alo-yoga-digital-analytics/iphone14.webp'}
                 alt={`${platform} preview`}
                 fill
+                sizes={CASE_STUDY_HALF_COLUMN_IMAGE_SIZES}
                 className="object-contain"
               />
             </m.div>

@@ -22,6 +22,7 @@
 | P1-4 | Mobile nav overlay parity (About uses slide-up) | 2026-06-21 | ✅ Done |
 | P1-2 | Consolidate route dialogs into `RouteSlideDialog` | 2026-06-21 | ✅ Done |
 | P2-1 | Remove static barrel re-exports from case study content | 2026-06-21 | ✅ Done |
+| P2-4 | Add `sizes` to case study `fill` images | 2026-06-21 | ✅ Done |
 
 **P0-1 details:** Document Lenis now lives in React context (`LenisProvider` + `useLenis()`). Overlay scroll stays local in `useSmoothScroll` via `ContainerScrollProvider`. Files: `LenisProvider.tsx`, `use-smooth-scroll.ts`, `use-container-scroll.tsx`, `CaseStudyLayout.tsx`, `CaseStudySideNav.tsx`, `AnimatedLink.tsx`, `UAlbertaExplorationNotesPanel.tsx`.
 
@@ -46,6 +47,8 @@
 **P1-2 details:** Replaced four ~140-line dialog files with `RouteSlideDialog.tsx` (shared slide-up logic) and `route-slide-dialogs.tsx` (thin factory exports for Work/About/Explorations/Writings). `CaseStudyDialog` unchanged. Same animations, scroll lock, and lazy page loading.
 
 **P2-1 details:** Removed unused static re-exports from `content/index.ts` (lines 55–65). Removed `CONTENT_REGISTRY` import from `case-studies.ts` so home/work metadata no longer depends on the content barrel. Slug validation warning moved to `CaseStudyContentRenderer` (dev only). `CONTENT_REGISTRY` still lazy-loads each case study when opened.
+
+**P2-4 details:** Added shared `src/lib/case-study-image-sizes.ts` tokens and `sizes` on all BLV + Alo Lighthouse `fill` images (`SolutionParadigm`, `MuseumAnalysis`, `MatisseSimulation`, `AloLighthouseScores`). Next.js now serves appropriately sized variants instead of assuming full viewport width.
 
 ---
 
@@ -389,7 +392,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 
 ---
 
-#### P2-4: Add `sizes` to `fill` images
+#### P2-4: Add `sizes` to `fill` images ✅ Done 2026-06-21
 
 **Locations:** `SolutionParadigm.tsx`, `MuseumAnalysis.tsx`, `MatisseSimulation.tsx`, `AloLighthouseScores.tsx`
 
@@ -482,7 +485,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 **Sprint 4 — Content/images (ongoing)**
 11. ~~P2-1 barrel fix~~ ✅ Done 2026-06-21
 12. ~~P2-3 IMDb gallery~~ Removed with case study
-13. P2-4 sizes on fill images
+13. ~~P2-4 sizes on fill images~~ ✅ Done 2026-06-21
 14. P2-2 split largest case study files
 
 ---

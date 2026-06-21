@@ -6,6 +6,10 @@ import Image from 'next/image'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 import { cn } from '@/lib/utils/cn'
+import {
+  CASE_STUDY_HALF_COLUMN_IMAGE_SIZES,
+  CASE_STUDY_WIDE_BACKDROP_IMAGE_SIZES,
+} from '@/lib/case-study-image-sizes'
 
 function AutoScrollTranscript() {
   const { reducedMotion, pauseWebGL } = useAccessibility()
@@ -114,6 +118,7 @@ export function MuseumAnalysis() {
                 src="/images/case-studies/blv-museum-accessibility/matisse-dance-original.jpg"
                 alt="Henri Matisse, Dance (I), 1909, with handwritten annotations questioning whether the background components are Sky, Water, or Hill."
                 fill
+                sizes={CASE_STUDY_HALF_COLUMN_IMAGE_SIZES}
                 className="object-cover rounded-none"
               />
               {!hideImages && (
@@ -164,6 +169,7 @@ export function MuseumAnalysis() {
                 src="/images/case-studies/blv-museum-accessibility/acc_matrix.png" 
                 alt="The Accessibility Analysis Matrix, categorizing parts of visual description into objective observations versus subjective conclusions." 
                 fill 
+                sizes={CASE_STUDY_WIDE_BACKDROP_IMAGE_SIZES}
                 className="object-contain object-left" 
               />
             </div>
