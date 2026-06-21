@@ -253,15 +253,19 @@ export function WaterBlob({
     let animationId: number
     let startTimeoutId: ReturnType<typeof setTimeout>
     let isPausedByDialog = false
+    let isTabHidden = document.hidden
     // Accumulated animation time — only advances when not paused,
     // so the blobs resume from exactly where they froze.
     let accumulatedTime = 0
     let lastTimestamp: number | null = null
     let ghostOpacity = 1
 
+    const shouldPauseLoop = () =>
+      isPausedByDialog || pausedRef.current || isTabHidden
+
     const loop = (timestamp: number) => {
-      // If paused or hidden, we stop the loop completely (no requestAnimationFrame)
-      if (isPausedByDialog || pausedRef.current) {
+      // If paused or tab hidden, stop the loop completely (no requestAnimationFrame)
+      if (shouldPauseLoop()) {
         lastTimestamp = null
         animationId = 0
         return
@@ -366,16 +370,26 @@ export function WaterBlob({
     }
     const handleResume = () => {
       isPausedByDialog = false
-      startLoop()
+      if (!shouldPauseLoop()) {
+        startLoop()
+      }
     }
 
     // Handler for home page scroll-based pause (silent event)
     const handleHomePause = (e: Event) => {
       const isPaused = (e as CustomEvent).detail.paused
       pausedRef.current = isPaused
-      if (isPaused) {
-        // loop will stop itself
-      } else {
+      if (!isPaused && !shouldPauseLoop()) {
+        startLoop()
+      }
+    }
+
+    const handleVisibilityChange = () => {
+      isTabHidden = document.hidden
+      if (isTabHidden) {
+        return
+      }
+      if (!shouldPauseLoop()) {
         startLoop()
       }
     }
@@ -388,6 +402,7 @@ export function WaterBlob({
     dialogOpenEvents.forEach((ev) => window.addEventListener(ev, handlePause))
     window.addEventListener('dialog:closed', handleResume)
     window.addEventListener('home:pause-blobs', handleHomePause)
+    document.addEventListener('visibilitychange', handleVisibilityChange)
 
     return () => {
       clearTimeout(startTimeoutId)
@@ -397,6 +412,7 @@ export function WaterBlob({
       )
       window.removeEventListener('dialog:closed', handleResume)
       window.removeEventListener('home:pause-blobs', handleHomePause)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
       gl.deleteProgram(programInfo.program)
       gl.deleteShader(programInfo.vertShader)
       gl.deleteShader(programInfo.fragShader)

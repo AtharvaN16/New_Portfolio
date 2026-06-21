@@ -12,10 +12,16 @@
 |----|-----|------|--------|
 | P0-1 | Stop clobbering document Lenis after overlay close | 2026-06-21 | ✅ Done |
 | P0-2 | Lazy-mount only the active dialog | 2026-06-21 | ✅ Done |
+| P0-3 | Tab visibility pause for hero WebGL | 2026-06-21 | ✅ Done |
+| P1-1 | Delete dead `src/components/animations/` | 2026-06-21 | ✅ Done |
 
 **P0-1 details:** Document Lenis now lives in React context (`LenisProvider` + `useLenis()`). Overlay scroll stays local in `useSmoothScroll` via `ContainerScrollProvider`. Files: `LenisProvider.tsx`, `use-smooth-scroll.ts`, `use-container-scroll.tsx`, `CaseStudyLayout.tsx`, `CaseStudySideNav.tsx`, `AnimatedLink.tsx`, `UAlbertaExplorationNotesPanel.tsx`.
 
 **P0-2 details:** New `useOverlayDialogs()` hook mounts only the dialog(s) needed (preload/check/pathname). Replaced all-at-once `shouldLoadDialogs` block in `page.tsx`. Dialogs stay mounted once visited so Work → case study transitions remain smooth.
+
+**P0-3 details:** `WaterBlob.tsx` pauses the WebGL rAF loop on `document.visibilitychange` when the tab is hidden; resumes when visible unless also paused by scroll or dialog.
+
+**P1-1 details:** Deleted 10 unused files in `src/components/animations/` (~1,250 LOC). Verified zero imports; `bun run build` passes.
 
 ---
 
@@ -39,11 +45,11 @@ This portfolio uses a **fixed-layer scroll stage** on the home page (not a norma
 |---|--------|--------|--------|
 | 1 | `window.lenis` global clobbered by overlay scroll hook | Home scroll-to-CTA breaks after closing overlays | ✅ Fixed (P0-1) |
 | 2 | All 5 dialogs mount on first overlay open | Unnecessary JS + hydration on first click | ✅ Fixed (P0-2) |
-| 3 | Two WebGL contexts on desktop hero during entry | GPU/CPU cost on first paint | **Next (P0-3)** |
-| 4 | No tab-visibility pause for hero WebGL | Background tab still animates | Open |
-| 5 | Per-frame layout reads on home project cards | Scroll jank risk on desktop | Open |
-| 6 | ~1,250 lines dead duplicate code in `animations/` | Confusion + maintenance burden | Open |
-| 7 | String-based custom event bus | Easy to break; some events are dead or incomplete | Open |
+| 3 | Two WebGL contexts on desktop hero during entry | GPU/CPU cost on first paint | Open (P1-5 scope) |
+| 4 | No tab-visibility pause for hero WebGL | Background tab still animates | ✅ Fixed (P0-3) |
+| 5 | Per-frame layout reads on home project cards | Scroll jank risk on desktop | **Next (P0-4)** |
+| 6 | ~1,250 lines dead duplicate code in `animations/` | Confusion + maintenance burden | ✅ Fixed (P1-1) |
+| 7 | String-based custom event bus | Easy to break; some events are dead or incomplete | **Next (P1-3)** |
 
 ---
 
@@ -220,19 +226,17 @@ Almost nothing changes on screen. The overlay still slides up the same way. The 
 
 ---
 
-#### P0-3: Tab visibility pause for hero WebGL
+#### P0-3: Tab visibility pause for hero WebGL ✅ Fixed 2026-06-21
 
-**Location:** `src/components/hero/WaterBlob.tsx` (pause/resume logic ~351-378)
+**Location:** `src/components/hero/WaterBlob.tsx`
 
-**Problem:** rAF continues when tab is backgrounded if user hasn't scrolled past 3%.
-
-**Fix:** On `document.visibilitychange`, set pause flag; resume when visible AND not paused by scroll/dialog.
+**Fix applied:** `document.visibilitychange` pauses/resumes WebGL rAF via shared `shouldPauseLoop()` gate.
 
 **Verify:** Land on home → switch tab → DevTools Performance: no continuous rAF from WaterBlob.
 
 ---
 
-#### P0-4: Remove per-frame layout reads on ProjectCard recede
+#### P0-4: Remove per-frame layout reads on ProjectCard recede — **NEXT**
 
 **Location:** `src/components/work/ProjectCard.tsx:89-118`
 
@@ -246,13 +250,9 @@ Almost nothing changes on screen. The overlay still slides up the same way. The 
 
 ### P1 — High value (perf + maintainability)
 
-#### P1-1: Delete dead `src/components/animations/` duplicates
+#### P1-1: Delete dead `src/components/animations/` duplicates ✅ Fixed 2026-06-21
 
-**Problem:** ~1,250 LOC unused — duplicate dialogs, PageOverlay, PageSlideTransition, FrozenRouter, PaperPlaneFlight.
-
-**Fix:** Confirm zero imports with grep, delete folder (or archive to `docs/archive/` if cautious).
-
-**Verify:** `bun run build` succeeds; grep shows no broken imports.
+**Deleted:** 10 files (~1,250 LOC). Zero runtime imports confirmed; `bun run build` passes.
 
 ---
 
@@ -444,12 +444,12 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 **Sprint 1 — Quick wins (1–2 days)**
 1. ~~P0-1 window.lenis fix~~ ✅ Done 2026-06-21
 2. ~~P0-2 lazy-mount dialogs~~ ✅ Done 2026-06-21
-3. P1-1 delete dead animations/ ← **next**
+3. ~~P1-1 delete dead animations/~~ ✅ Done 2026-06-21
 4. P1-3 typed events + remove dead `force-card-up` OR implement listener
 
 **Sprint 2 — Hero perf (2–3 days)**
-5. P0-3 tab visibility pause
-6. P0-4 ProjectCard recede refactor
+5. ~~P0-3 tab visibility pause~~ ✅ Done 2026-06-21
+6. P0-4 ProjectCard recede refactor ← **next P0**
 7. P1-5 split WaterBlob.tsx
 8. P1-6 theme without GL rebuild
 
