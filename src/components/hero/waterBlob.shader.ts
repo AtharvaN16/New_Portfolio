@@ -33,7 +33,6 @@ export const fragmentShader = `
   uniform float uIsMobile;
   uniform vec3 uColor1;
   uniform vec3 uColor2;
-  uniform vec3 uColor3;
   uniform vec3 uBackgroundColor;
   uniform float uYOffset;
   uniform float uRevealPhase;
@@ -183,7 +182,7 @@ export const fragmentShader = `
     float mixRatio = blob1 / max(blob1 + blob2, 0.001);
     mixRatio = mixRatio * mixRatio * (3.0 - 2.0 * mixRatio);
     float mixingIntensity = blob1 * blob2;
-    vec3 blendedColor = mix(uColor3, uColor1, mixRatio);
+    vec3 blendedColor = mix(uColor2, uColor1, mixRatio);
 
     // === DENSITY-BASED SATURATION ===
     float densitySaturation = BASE_SATURATION * (1.0 + totalWater * DENSITY_SAT_BOOST);
@@ -199,7 +198,7 @@ export const fragmentShader = `
     // === SUBSURFACE SCATTERING ===
     float edgeDistance = 1.0 - totalWater;
     float subsurfaceScatter = smoothstep(0.7, 1.0, edgeDistance) * totalWater * SUBSURFACE_SCATTER;
-    vec3 backlight = mix(uColor1, uColor3, 0.5) * 1.3;
+    vec3 backlight = mix(uColor1, uColor2, 0.5) * 1.3;
     color += backlight * subsurfaceScatter;
 
     // === EDGE GLOW ===
@@ -258,7 +257,6 @@ export interface WaterBlobUniforms {
   uTime: { value: number }
   uColor1: { value: [number, number, number] }
   uColor2: { value: [number, number, number] }
-  uColor3: { value: [number, number, number] }
   uYOffset: { value: number }
   uRevealPhase: { value: number }
   uAmbient: { value: number }

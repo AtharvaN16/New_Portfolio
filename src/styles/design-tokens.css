@@ -78,18 +78,24 @@
     /* --- Colors: Gradient Bar --- */
     /* Enhanced: Matches WaterBlob palette 0 (Orange-Cyan) for initial consistency */
     --color-gradient-start: 200 95 25; /* Orange - palette 0 color 1 */
-    --color-gradient-end: 15 145 175; /* Cyan - palette 0 color 3 */
+    --color-gradient-end: 15 145 175; /* Cyan - palette 0 color 2 */
 
     /* --- Filter expanded glow (light mode = subtle gray) --- */
-    --filter-glow: 0 4px 24px rgba(0,0,0,0.09), 0 1px 4px rgba(0,0,0,0.06);
+    --filter-glow:
+      0 4px 24px rgba(0, 0, 0, 0.09), 0 1px 4px rgba(0, 0, 0, 0.06);
 
     /* --- Colors: Scribble --- */
     /* Darkened version of gradient-start for better contrast on light bg */
     --color-scribble: 150 71 18; /* Darker orange - ~75% brightness of gradient-start */
 
     /* --- Colors: Reading Guide Highlights --- */
-    --color-highlight-sentence: rgba(255, 235, 59, 0.45); /* highlighter yellow, light mode */
-    --color-highlight-word: rgba(255, 193, 7, 0.50);      /* amber, stronger */
+    --color-highlight-sentence: rgba(
+      255,
+      235,
+      59,
+      0.45
+    ); /* highlighter yellow, light mode */
+    --color-highlight-word: rgba(255, 193, 7, 0.5); /* amber, stronger */
 
     /* --- Colors: Grays --- */
     --color-gray-dark: 51 51 51; /* #333333 - Dark gray for cards/surfaces */
@@ -112,7 +118,8 @@
 
     /* --- Typography: Font Families --- */
     --font-sans: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
-    --font-mono: var(--font-vulf-mono), var(--font-jetbrains-mono), ui-monospace, monospace;
+    --font-mono:
+      var(--font-vulf-mono), var(--font-jetbrains-mono), ui-monospace, monospace;
 
     /* --- Typography: Font Sizes --- */
     --text-xs: 0.75rem; /* 12px */
@@ -128,7 +135,7 @@
     --text-7xl: 4.5rem; /* 72px */
     /* Case study section titles (use with text-lg or text-xl on small screens, md:text-case-heading) */
     --font-size-case-heading: 1.75rem; /* 28px */
-    --font-size-insight-num: 2rem;     /* 32px — insight finding number */
+    --font-size-insight-num: 2rem; /* 32px — insight finding number */
 
     /* --- Typography: Line Heights --- */
     --leading-none: 1;
@@ -148,7 +155,8 @@
 
     /* --- Shadows --- */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 1px 2px rgba(0,0,0,0.05), 0 8px 24px rgba(0,0,0,0.06); /* Premium 2026 shadow */
+    --shadow-md:
+      0 1px 2px rgba(0, 0, 0, 0.05), 0 8px 24px rgba(0, 0, 0, 0.06); /* Premium 2026 shadow */
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
     --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
@@ -238,18 +246,25 @@
     /* --- Colors: Gradient Bar --- */
     /* Enhanced: Matches WaterBlob palette 0 (Orange-Cyan) for initial consistency */
     --color-gradient-start: 251 146 60; /* Orange - palette 0 color 1 */
-    --color-gradient-end: 34 211 238; /* Cyan - palette 0 color 3 */
+    --color-gradient-end: 34 211 238; /* Cyan - palette 0 color 2 */
 
     /* --- Filter expanded glow (dark mode = orange/cyan from gradient palette) --- */
-    --filter-glow: 0 0 28px rgba(251,146,60,0.22), 0 0 56px rgba(34,211,238,0.12), 0 4px 12px rgba(0,0,0,0.4);
+    --filter-glow:
+      0 0 28px rgba(251, 146, 60, 0.22), 0 0 56px rgba(34, 211, 238, 0.12),
+      0 4px 12px rgba(0, 0, 0, 0.4);
 
     /* --- Colors: Scribble --- */
     /* Matches gradient start for consistency on dark backgrounds */
     --color-scribble: 251 146 60; /* Orange */
 
     /* --- Colors: Reading Guide Highlights --- */
-    --color-highlight-sentence: rgba(255, 235, 59, 0.35); /* highlighter yellow, dark mode */
-    --color-highlight-word: rgba(255, 193, 7, 0.40);      /* amber, dark mode */
+    --color-highlight-sentence: rgba(
+      255,
+      235,
+      59,
+      0.35
+    ); /* highlighter yellow, dark mode */
+    --color-highlight-word: rgba(255, 193, 7, 0.4); /* amber, dark mode */
 
     /* Shadows adjusted for dark mode */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
@@ -280,12 +295,12 @@
       --color-text-body: 202 202 202; /* Body copy aligns with secondary in auto dark mode */
       --color-text-color90: 225 225 225; /* ~#FAFAFA at 90% opacity on dark bg */
       --color-text-primary-100: 250 250 250; /* #FAFAFA - 100% opacity */
-      
+
       /* Backward compatibility aliases */
       --color-text-primary: var(--color-text-primary-100);
       --color-text-secondary: var(--color-text-secondary-80);
       --color-text-tertiary: var(--color-text-tertiary-50);
-      
+
       --color-primary: 99 102 241;
       --color-primary-hover: 129 140 248;
       --color-accent: 139 92 246;

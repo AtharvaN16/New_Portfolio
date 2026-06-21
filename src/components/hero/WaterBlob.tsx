@@ -9,11 +9,8 @@ import {
   setupCanvasResize,
   lerpColors,
 } from './waterBlob.helpers'
-import {
-  getColors,
-  LIGHT_PALETTES,
-  DARK_PALETTES,
-} from './waterBlob.colors'
+import { getColors } from './waterBlob.colors'
+import { HERO_PALETTE_COUNT } from './waterBlob.palettes'
 import type { WaterBlobProps, Colors } from './waterBlob.types'
 import {
   ANIMATION_SPEED_MULTIPLIER_ENHANCED,
@@ -45,7 +42,11 @@ export function WaterBlob({
 }: WaterBlobProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { theme } = useTheme()
-  const { reducedMotion: prefersReducedMotion, pauseWebGL, saveData } = useAccessibility()
+  const {
+    reducedMotion: prefersReducedMotion,
+    pauseWebGL,
+    saveData,
+  } = useAccessibility()
   const [hasWebGL, setHasWebGL] = useState(true)
   const [retryKey, setRetryKey] = useState(0)
 
@@ -107,34 +108,32 @@ export function WaterBlob({
       color.length === 3 && color.every((c) => !isNaN(c) && isFinite(c))
 
     if (
-      !isValidColor(colors.blue) ||
-      !isValidColor(colors.purple) ||
-      !isValidColor(colors.pink) ||
+      !isValidColor(colors.primary) ||
+      !isValidColor(colors.secondary) ||
       !isValidColor(colors.background)
     ) {
-      console.warn('WaterBlob: Invalid color values detected, skipping initialization')
+      console.warn(
+        'WaterBlob: Invalid color values detected, skipping initialization'
+      )
       return
     }
 
     if (!colorsInitializedRef.current) {
       displayColorsRef.current = {
-        blue: [...colors.blue],
-        purple: [...colors.purple],
-        pink: [...colors.pink],
+        primary: [...colors.primary],
+        secondary: [...colors.secondary],
         background: [...colors.background],
       }
       targetColorsRef.current = {
-        blue: [...colors.blue],
-        purple: [...colors.purple],
-        pink: [...colors.pink],
+        primary: [...colors.primary],
+        secondary: [...colors.secondary],
         background: [...colors.background],
       }
       colorsInitializedRef.current = true
     } else {
       const target = targetColorsRef.current!
-      target.blue = [...colors.blue]
-      target.purple = [...colors.purple]
-      target.pink = [...colors.pink]
+      target.primary = [...colors.primary]
+      target.secondary = [...colors.secondary]
       target.background = [...colors.background]
     }
   }, [colors])
@@ -167,7 +166,9 @@ export function WaterBlob({
     // Ensure canvas has valid dimensions before initializing WebGL
     const rect = canvas.getBoundingClientRect()
     if (rect.width === 0 || rect.height === 0) {
-      console.warn('WaterBlob: Canvas has zero dimensions, deferring initialization')
+      console.warn(
+        'WaterBlob: Canvas has zero dimensions, deferring initialization'
+      )
       // Retry after a short delay to allow layout to complete
       const retryTimeout = setTimeout(() => {
         // Trigger re-initialization by toggling a ref flag
@@ -191,7 +192,8 @@ export function WaterBlob({
       return
     }
 
-    const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
+    const isMobile =
+      window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
     const display = displayColorsRef.current!
     const target = targetColorsRef.current!
     // Always render with dark-mode blob constants (glow, scatter, saturation).
@@ -211,12 +213,21 @@ export function WaterBlob({
       yOffsetRef.current = -1.5
       // Mobile: skip plasma entry entirely — blobs rise as normal water blobs.
       // Desktop ghost/permanent: start in plasma state (revealPhase = 0).
-      revealPhaseRef.current = (isMobile && !isGhost) ? 1 : 0
-      ambientRef.current = (isMobile && !isGhost) ? 0.15 : 0
+      revealPhaseRef.current = isMobile && !isGhost ? 1 : 0
+      ambientRef.current = isMobile && !isGhost ? 0.15 : 0
       trailRef.current = 0
       if (canvasRef.current) canvasRef.current.style.opacity = '1'
     }
-    const animate = createAnimationLoop(gl, programInfo, display, () => yOffsetRef.current, isMobile, () => revealPhaseRef.current, () => ambientRef.current, () => trailRef.current)
+    const animate = createAnimationLoop(
+      gl,
+      programInfo,
+      display,
+      () => yOffsetRef.current,
+      isMobile,
+      () => revealPhaseRef.current,
+      () => ambientRef.current,
+      () => trailRef.current
+    )
 
     let animationId: number
     let startTimeoutId: ReturnType<typeof setTimeout>
@@ -284,7 +295,10 @@ export function WaterBlob({
           trailRef.current *= isQuick ? 0.95 : 0.98
 
           if (canvasRef.current) {
-            canvasRef.current.style.opacity = Math.max(0, ghostOpacity).toString()
+            canvasRef.current.style.opacity = Math.max(
+              0,
+              ghostOpacity
+            ).toString()
           }
         }
         if (ghostOpacity <= 0) {
@@ -312,7 +326,7 @@ export function WaterBlob({
     // On first mount: use entryDelay. On re-runs caused by theme/retry changes: start immediately
     // so theme switches are seamless with no pause or color glitch.
     const loopDelay = initialMountRef.current ? entryDelay : 0
-    
+
     // Function to start or resume the loop
     const startLoop = () => {
       initialMountRef.current = false
@@ -345,15 +359,21 @@ export function WaterBlob({
       }
     }
 
-    const dialogOpenEvents = ['workdialog:check', 'casestudydialog:check', 'explorationsdialog:check']
-    dialogOpenEvents.forEach(ev => window.addEventListener(ev, handlePause))
+    const dialogOpenEvents = [
+      'workdialog:check',
+      'casestudydialog:check',
+      'explorationsdialog:check',
+    ]
+    dialogOpenEvents.forEach((ev) => window.addEventListener(ev, handlePause))
     window.addEventListener('dialog:closed', handleResume)
     window.addEventListener('home:pause-blobs', handleHomePause)
 
     return () => {
       clearTimeout(startTimeoutId)
       if (animationId) cancelAnimationFrame(animationId)
-      dialogOpenEvents.forEach(ev => window.removeEventListener(ev, handlePause))
+      dialogOpenEvents.forEach((ev) =>
+        window.removeEventListener(ev, handlePause)
+      )
       window.removeEventListener('dialog:closed', handleResume)
       window.removeEventListener('home:pause-blobs', handleHomePause)
       gl.deleteProgram(programInfo.program)
@@ -375,13 +395,15 @@ export function WaterBlob({
   // Handle click for interactive mode — cycles sequentially through palettes
   const handleClick = (_e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!interactive) return
-    
+
     // Performance Optimization: Disable color switching on mobile to save on React state updates
-    const isMobile = typeof window !== 'undefined' && (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768)
+    const isMobile =
+      typeof window !== 'undefined' &&
+      (window.matchMedia('(pointer: coarse)').matches ||
+        window.innerWidth < 768)
     if (isMobile) return
 
-    const palettes = theme === 'dark' ? DARK_PALETTES : LIGHT_PALETTES
-    const nextIndex = (paletteIndex + 1) % palettes.length
+    const nextIndex = (paletteIndex + 1) % HERO_PALETTE_COUNT
     setPaletteIndex(nextIndex)
   }
 

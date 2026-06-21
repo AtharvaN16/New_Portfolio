@@ -2,18 +2,19 @@ import { useEffect } from 'react'
 import type { MutableRefObject } from 'react'
 import { COLOR_LERP_SPEED } from './waterBlob.types'
 import {
-  DARK_PALETTES,
-  getScribbleColor,
-  LIGHT_PALETTES,
-} from './waterBlob.colors'
+  getHeroPalette,
+  getPalettePair,
+  toRgbArray,
+} from './waterBlob.palettes'
 
 interface UseWaterBlobGradientVarsParams {
   interactive: boolean
   paletteIndex: number
   theme: string
-  gradientCurrentRef: MutableRefObject<
-    { start: number[]; end: number[] } | null
-  >
+  gradientCurrentRef: MutableRefObject<{
+    start: number[]
+    end: number[]
+  } | null>
   gradientAnimFrameRef: MutableRefObject<number>
 }
 
@@ -27,11 +28,12 @@ export function useWaterBlobGradientVars({
   useEffect(() => {
     if (!interactive) return
 
-    const palette = (theme === 'dark' ? DARK_PALETTES : LIGHT_PALETTES)[paletteIndex]
-    const targetStart = palette[0].map((c) => c * 255)
-    const targetEnd = palette[2].map((c) => c * 255)
-    const scribbleRgb = getScribbleColor(paletteIndex, theme === 'dark')
-    const targetScribble = scribbleRgb.length > 0 ? scribbleRgb : targetStart
+    const mode = theme === 'dark' ? 'dark' : 'light'
+    const [start, end] = getPalettePair(paletteIndex, mode)
+    const targetStart = toRgbArray(start)
+    const targetEnd = toRgbArray(end)
+    const scribble = getHeroPalette(paletteIndex).scribble?.[mode]
+    const targetScribble = scribble ? toRgbArray(scribble) : targetStart
     const toStr = (c: number[]) => c.map((v) => Math.round(v)).join(' ')
 
     if (!gradientCurrentRef.current) {
@@ -60,9 +62,11 @@ export function useWaterBlobGradientVars({
       let needsUpdate = false
 
       for (let i = 0; i < 3; i++) {
-        current.start[i] += (targetStart[i] - current.start[i]) * COLOR_LERP_SPEED
+        current.start[i] +=
+          (targetStart[i] - current.start[i]) * COLOR_LERP_SPEED
         current.end[i] += (targetEnd[i] - current.end[i]) * COLOR_LERP_SPEED
-        if (Math.abs(current.start[i] - targetStart[i]) > 0.5) needsUpdate = true
+        if (Math.abs(current.start[i] - targetStart[i]) > 0.5)
+          needsUpdate = true
         if (Math.abs(current.end[i] - targetEnd[i]) > 0.5) needsUpdate = true
       }
 
@@ -95,5 +99,11 @@ export function useWaterBlobGradientVars({
     return () => {
       cancelAnimationFrame(gradientAnimFrameRef.current)
     }
-  }, [interactive, paletteIndex, theme, gradientCurrentRef, gradientAnimFrameRef])
+  }, [
+    interactive,
+    paletteIndex,
+    theme,
+    gradientCurrentRef,
+    gradientAnimFrameRef,
+  ])
 }

@@ -16,7 +16,7 @@ export const HERO_F1_PLASMA_MODE: HeroF1PlasmaMode = 'classic'
  *
  * 1. **Plasma mode** (`HERO_F1_PLASMA_MODE` here)
  *    - `classic` — fixed thermal stops (current OG look).
- *    - `palette-derived` — sweep uColor1 → uColor2 → uColor3 with plasmaBoost.
+ *    - `palette-derived` — sweep uColor1 → uColor2 with plasmaBoost.
  *    - `palette-tinted` — classic thermal stops mixed ~30–50% toward palette anchors.
  *
  * 2. **Thermal stop colors** (shader: tRed, tOrange, tYellow, tWhite, tBlue)

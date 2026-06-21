@@ -84,7 +84,6 @@ export function getUniformLocations(
     uIsMobileLocation: gl.getUniformLocation(program, 'uIsMobile'),
     uColor1Location: gl.getUniformLocation(program, 'uColor1'),
     uColor2Location: gl.getUniformLocation(program, 'uColor2'),
-    uColor3Location: gl.getUniformLocation(program, 'uColor3'),
     uBackgroundColorLocation: gl.getUniformLocation(
       program,
       'uBackgroundColor'
@@ -123,9 +122,8 @@ export function setupWebGL(
 
   // Set initial uniforms
   gl.uniform1f(uniforms.uIsMobileLocation, isMobile ? 1.0 : 0.0)
-  gl.uniform3fv(uniforms.uColor1Location, colors.blue)
-  gl.uniform3fv(uniforms.uColor2Location, colors.purple)
-  gl.uniform3fv(uniforms.uColor3Location, colors.pink)
+  gl.uniform3fv(uniforms.uColor1Location, colors.primary)
+  gl.uniform3fv(uniforms.uColor2Location, colors.secondary)
   gl.uniform3fv(uniforms.uBackgroundColorLocation, colors.background)
   gl.uniform1f(uniforms.uAmbientLocation, 0.0)
   gl.uniform1f(uniforms.uTrailLocation, 0.0)
@@ -173,9 +171,8 @@ export function createAnimationLoop(
 
 
     // Update colors dynamically (for interactive mode)
-    gl.uniform3fv(programInfo.uColor1Location, colors.blue)
-    gl.uniform3fv(programInfo.uColor2Location, colors.purple)
-    gl.uniform3fv(programInfo.uColor3Location, colors.pink)
+    gl.uniform3fv(programInfo.uColor1Location, colors.primary)
+    gl.uniform3fv(programInfo.uColor2Location, colors.secondary)
     gl.uniform3fv(programInfo.uBackgroundColorLocation, colors.background)
 
     gl.clear(gl.COLOR_BUFFER_BIT)
@@ -264,7 +261,7 @@ export function lerpColors(
   target: Colors,
   speed: number
 ): void {
-  const keys: (keyof Colors)[] = ['blue', 'purple', 'pink', 'background']
+  const keys: (keyof Colors)[] = ['primary', 'secondary', 'background']
   for (const key of keys) {
     for (let i = 0; i < 3; i++) {
       current[key][i] += (target[key][i] - current[key][i]) * speed

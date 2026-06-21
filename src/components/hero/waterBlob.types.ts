@@ -21,9 +21,10 @@ export interface WaterBlobProps {
 }
 
 export interface Colors {
-  blue: [number, number, number]
-  purple: [number, number, number]
-  pink: [number, number, number]
+  /** Blob 1 / gradient start (uColor1) */
+  primary: [number, number, number]
+  /** Blob 2 / gradient end (uColor2) */
+  secondary: [number, number, number]
   background: [number, number, number]
 }
 
@@ -33,7 +34,6 @@ export interface WebGLProgramInfo {
   uIsMobileLocation: WebGLUniformLocation | null
   uColor1Location: WebGLUniformLocation | null
   uColor2Location: WebGLUniformLocation | null
-  uColor3Location: WebGLUniformLocation | null
   uBackgroundColorLocation: WebGLUniformLocation | null
   uYOffsetLocation: WebGLUniformLocation | null
   uRevealPhaseLocation: WebGLUniformLocation | null
