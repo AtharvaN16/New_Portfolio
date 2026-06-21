@@ -4,6 +4,12 @@ import { m, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
 import dynamic from 'next/dynamic'
+import {
+  dispatchDialogClosed,
+  OVERLAY_DIALOGS,
+  subscribeOverlayCheck,
+  subscribeOverlayPreload,
+} from '@/lib/overlay-events'
 
 // Lazy load ExplorationsPage - only loads when dialog opens
 const ExplorationsPage = dynamic(() => import('@/app/explorations/page'), {
@@ -16,6 +22,8 @@ const preloadExplorationsPage = () => {
   const p = import('@/app/explorations/page')
   return p
 }
+
+const EXPLORATIONS_PATH = OVERLAY_DIALOGS.explorations.path
 
 const TRANSITION_EASE: [number, number, number, number] = [0.87, 0, 0.13, 1]
 const OPEN_DURATION = 1.2
@@ -46,15 +54,13 @@ export function ExplorationsDialog() {
       }
     }
 
-    window.addEventListener('explorationsdialog:preload', handlePreload)
-    return () =>
-      window.removeEventListener('explorationsdialog:preload', handlePreload)
+    return subscribeOverlayPreload('explorations', handlePreload)
   }, [])
 
   // Listen for URL changes
   useEffect(() => {
     const checkURL = () => {
-      const shouldOpen = window.location.pathname === '/explorations'
+      const shouldOpen = window.location.pathname === EXPLORATIONS_PATH
 
       if (shouldOpen && !isOpen) {
         // Opening dialog - save scroll position
@@ -79,11 +85,11 @@ export function ExplorationsDialog() {
 
     // Listen for popstate and custom events
     window.addEventListener('popstate', checkURL)
-    window.addEventListener('explorationsdialog:check', checkURL)
+    const removeCheck = subscribeOverlayCheck('explorations', checkURL)
 
     return () => {
       window.removeEventListener('popstate', checkURL)
-      window.removeEventListener('explorationsdialog:check', checkURL)
+      removeCheck()
     }
   }, [isOpen])
 
@@ -94,8 +100,7 @@ export function ExplorationsDialog() {
     const savedScroll = scrollYRef.current
     window.scrollTo(0, savedScroll)
 
-    // Notify Water Blob to resume animation
-    window.dispatchEvent(new CustomEvent('dialog:closed'))
+    dispatchDialogClosed()
   }
 
   return (

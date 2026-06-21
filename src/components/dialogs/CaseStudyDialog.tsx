@@ -4,6 +4,12 @@ import { m, AnimatePresence } from 'framer-motion'
 import { useCallback, useEffect, useState, useRef } from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
 import { CASE_STUDY_RETURN_PATH_KEY } from '@/lib/case-study-overlay'
+import {
+  dispatchDialogClosed,
+  dispatchOverlayCheck,
+  subscribeOverlayCheck,
+  subscribeOverlayPreload,
+} from '@/lib/overlay-events'
 import { getCaseStudyBySlug } from '@/lib/data/case-studies'
 import { useImageDominantColor } from '@/hooks/use-image-dominant-color'
 import dynamic from 'next/dynamic'
@@ -82,9 +88,7 @@ export function CaseStudyDialog() {
       }
     }
 
-    window.addEventListener('casestudydialog:preload', handlePreload)
-    return () =>
-      window.removeEventListener('casestudydialog:preload', handlePreload)
+    return subscribeOverlayPreload('case-study', handlePreload)
   }, [])
 
   // Flash overlay — managed here so it outlives the dialog for exit reveals
@@ -119,10 +123,10 @@ export function CaseStudyDialog() {
 
     checkURL()
     window.addEventListener('popstate', checkURL)
-    window.addEventListener('casestudydialog:check', checkURL)
+    const removeCheck = subscribeOverlayCheck('case-study', checkURL)
     return () => {
       window.removeEventListener('popstate', checkURL)
-      window.removeEventListener('casestudydialog:check', checkURL)
+      removeCheck()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -157,7 +161,7 @@ export function CaseStudyDialog() {
       /* ignore */
     }
     window.history.replaceState({}, '', returnPath)
-    window.dispatchEvent(new CustomEvent('casestudydialog:check'))
+    dispatchOverlayCheck('case-study')
   }, [])
 
   const handleShowcaseClose = () => {
@@ -181,7 +185,7 @@ export function CaseStudyDialog() {
     setShouldLockScroll(false)
     document.body.style.overflow = ''
     setCurrentSlug(null)
-    window.dispatchEvent(new CustomEvent('dialog:closed'))
+    dispatchDialogClosed()
 
     if (wasShowcaseRef.current) {
       wasShowcaseRef.current = false

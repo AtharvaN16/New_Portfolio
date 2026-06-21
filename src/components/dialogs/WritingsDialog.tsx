@@ -4,6 +4,12 @@ import { m, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
 import dynamic from 'next/dynamic'
+import {
+  dispatchDialogClosed,
+  OVERLAY_DIALOGS,
+  subscribeOverlayCheck,
+  subscribeOverlayPreload,
+} from '@/lib/overlay-events'
 
 // Lazy load WritingsPage - only loads when dialog opens
 const WritingsPage = dynamic(() => import('@/app/writings/page'), {
@@ -16,6 +22,8 @@ const preloadWritingsPage = () => {
   const p = import('@/app/writings/page')
   return p
 }
+
+const WRITINGS_PATH = OVERLAY_DIALOGS.writings.path
 
 const TRANSITION_EASE: [number, number, number, number] = [0.87, 0, 0.13, 1]
 const OPEN_DURATION = 1.2
@@ -46,15 +54,13 @@ export function WritingsDialog() {
       }
     }
 
-    window.addEventListener('writingsdialog:preload', handlePreload)
-    return () =>
-      window.removeEventListener('writingsdialog:preload', handlePreload)
+    return subscribeOverlayPreload('writings', handlePreload)
   }, [])
 
   // Listen for URL changes
   useEffect(() => {
     const checkURL = () => {
-      const shouldOpen = window.location.pathname === '/writings'
+      const shouldOpen = window.location.pathname === WRITINGS_PATH
 
       if (shouldOpen && !isOpen) {
         // Opening dialog - save scroll position
@@ -79,11 +85,11 @@ export function WritingsDialog() {
 
     // Listen for popstate and custom events
     window.addEventListener('popstate', checkURL)
-    window.addEventListener('writingsdialog:check', checkURL)
+    const removeCheck = subscribeOverlayCheck('writings', checkURL)
 
     return () => {
       window.removeEventListener('popstate', checkURL)
-      window.removeEventListener('writingsdialog:check', checkURL)
+      removeCheck()
     }
   }, [isOpen])
 
@@ -94,8 +100,7 @@ export function WritingsDialog() {
     const savedScroll = scrollYRef.current
     window.scrollTo(0, savedScroll)
 
-    // Notify Water Blob to resume animation
-    window.dispatchEvent(new CustomEvent('dialog:closed'))
+    dispatchDialogClosed()
   }
 
   return (

@@ -13,6 +13,10 @@ import { getFeaturedCaseStudies } from '@/lib/data/case-studies'
 import { AnimatedArrow } from '@/components/ui/AnimatedArrow'
 import { useArrowAnimation } from '@/hooks/use-arrow-animation'
 import { useBreakpoints } from '@/hooks/use-responsive'
+import {
+  dispatchOverlayPreload,
+  openOverlayRoute,
+} from '@/lib/overlay-events'
 
 interface SelectedWorkProps {
   projects?: ProjectCardProps[]
@@ -275,16 +279,14 @@ export function SelectedWork({
       <div className="mt-40 mb-32 md:mt-52 md:mb-40 lg:mt-72 lg:mb-52 flex justify-end">
         <m.button
           onClick={() => {
-            // Change URL and trigger dialog - RemoveScroll handles scroll locking
-            window.history.pushState({}, '', '/work')
-            window.dispatchEvent(new CustomEvent('workdialog:check'))
+            openOverlayRoute('/work')
           }}
           onMouseEnter={() => {
             handleMouseEnter()
-            window.dispatchEvent(new CustomEvent('workdialog:preload'))
+            dispatchOverlayPreload('work')
           }}
           onPointerDown={() => {
-            window.dispatchEvent(new CustomEvent('workdialog:preload'))
+            dispatchOverlayPreload('work')
           }}
           onMouseLeave={handleMouseLeave}
           className="group inline-flex items-center gap-[16px] text-[28px] font-bold tracking-[-0.05em] text-foreground transition-colors hover:text-primary md:gap-[18px] md:text-[34px] lg:gap-[20px] lg:text-[40px]"

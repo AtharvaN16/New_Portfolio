@@ -11,6 +11,11 @@ import { HoverLink } from '@/components/ui/HoverLink'
 import { NavButton } from '@/components/ui/NavButton'
 import { MobileMenu } from './MobileMenu'
 import { useHeroNavFlashGlow } from '@/hooks/use-hero-nav-flash-glow'
+import {
+  dispatchOverlayPreload,
+  openOverlayRoute,
+  type OverlayRoutePath,
+} from '@/lib/overlay-events'
 
 /**
  * Navbar Component
@@ -82,21 +87,18 @@ export function Navbar() {
                 prefetch={link.prefetch}
                 comingSoon={link.href === '/writings'}
                 onMouseEnter={link.href === '/explorations' ? () => {
-                  window.dispatchEvent(new CustomEvent('explorationsdialog:preload'))
+                  dispatchOverlayPreload('explorations')
                 } : undefined}
-                onClick={link.href === '/explorations' ? (e) => {
-                  e.preventDefault()
-                  window.history.pushState({}, '', '/explorations')
-                  window.dispatchEvent(new CustomEvent('explorationsdialog:check'))
-                } : link.href === '/about' ? (e) => {
-                  e.preventDefault()
-                  window.history.pushState({}, '', '/about')
-                  window.dispatchEvent(new CustomEvent('aboutdialog:check'))
-                } : link.href === '/writings' ? (e) => {
-                  e.preventDefault()
-                  window.history.pushState({}, '', '/writings')
-                  window.dispatchEvent(new CustomEvent('writingsdialog:check'))
-                } : undefined}
+                onClick={
+                  link.href === '/explorations' ||
+                  link.href === '/about' ||
+                  link.href === '/writings'
+                    ? (e) => {
+                        e.preventDefault()
+                        openOverlayRoute(link.href as OverlayRoutePath)
+                      }
+                    : undefined
+                }
               >{link.label}</HoverLink>
                 </m.li>
               ))}

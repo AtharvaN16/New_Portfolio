@@ -1,22 +1,15 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import {
+  addAllOverlayCheckListeners,
+  addAllOverlayPreloadListeners,
+  type OverlayDialogId,
+  overlayDialogFromPath,
+} from '@/lib/overlay-events'
 
-export type OverlayDialogId =
-  | 'work'
-  | 'explorations'
-  | 'case-study'
-  | 'about'
-  | 'writings'
-
-export function overlayDialogFromPath(path: string): OverlayDialogId | null {
-  if (path === '/work') return 'work'
-  if (path === '/explorations') return 'explorations'
-  if (path === '/about') return 'about'
-  if (path === '/writings') return 'writings'
-  if (path.startsWith('/case-studies/')) return 'case-study'
-  return null
-}
+export type { OverlayDialogId } from '@/lib/overlay-events'
+export { overlayDialogFromPath } from '@/lib/overlay-events'
 
 /**
  * Lazily mounts overlay dialog components on the home page.
@@ -44,38 +37,24 @@ export function useOverlayDialogs() {
       if (id) mountDialog(id)
     }
 
-    const preloadWork = () => mountDialog('work')
-    const preloadExplorations = () => mountDialog('explorations')
-    const preloadCaseStudy = () => mountDialog('case-study')
-    const preloadAbout = () => mountDialog('about')
-    const preloadWritings = () => mountDialog('writings')
-
     syncFromPath()
 
     window.addEventListener('popstate', syncFromPath)
-    window.addEventListener('workdialog:preload', preloadWork)
-    window.addEventListener('workdialog:check', syncFromPath)
-    window.addEventListener('explorationsdialog:preload', preloadExplorations)
-    window.addEventListener('explorationsdialog:check', syncFromPath)
-    window.addEventListener('casestudydialog:preload', preloadCaseStudy)
-    window.addEventListener('casestudydialog:check', syncFromPath)
-    window.addEventListener('aboutdialog:preload', preloadAbout)
-    window.addEventListener('aboutdialog:check', syncFromPath)
-    window.addEventListener('writingsdialog:preload', preloadWritings)
-    window.addEventListener('writingsdialog:check', syncFromPath)
+
+    const removePreloads = addAllOverlayPreloadListeners({
+      work: () => mountDialog('work'),
+      explorations: () => mountDialog('explorations'),
+      'case-study': () => mountDialog('case-study'),
+      about: () => mountDialog('about'),
+      writings: () => mountDialog('writings'),
+    })
+
+    const removeChecks = addAllOverlayCheckListeners(syncFromPath)
 
     return () => {
       window.removeEventListener('popstate', syncFromPath)
-      window.removeEventListener('workdialog:preload', preloadWork)
-      window.removeEventListener('workdialog:check', syncFromPath)
-      window.removeEventListener('explorationsdialog:preload', preloadExplorations)
-      window.removeEventListener('explorationsdialog:check', syncFromPath)
-      window.removeEventListener('casestudydialog:preload', preloadCaseStudy)
-      window.removeEventListener('casestudydialog:check', syncFromPath)
-      window.removeEventListener('aboutdialog:preload', preloadAbout)
-      window.removeEventListener('aboutdialog:check', syncFromPath)
-      window.removeEventListener('writingsdialog:preload', preloadWritings)
-      window.removeEventListener('writingsdialog:check', syncFromPath)
+      removePreloads()
+      removeChecks()
     }
   }, [mountDialog])
 

@@ -9,6 +9,7 @@ import Link from 'next/link'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { NavButton } from '@/components/ui/NavButton'
 import { cn } from '@/lib/utils/cn'
+import { openOverlayRoute } from '@/lib/overlay-events'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -119,8 +120,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                           }
                           if (link.href === '/explorations') {
                             e.preventDefault()
-                            window.history.pushState({}, '', '/explorations')
-                            window.dispatchEvent(new CustomEvent('explorationsdialog:check'))
+                            openOverlayRoute('/explorations')
                           }
                           onClose()
                         }}

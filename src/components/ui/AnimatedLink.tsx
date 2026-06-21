@@ -97,11 +97,6 @@ export function AnimatedLink({
       e.preventDefault()
       const targetId = href.slice(1)
 
-      // Trigger card animation immediately for #work (simultaneous with scroll)
-      if (targetId === 'work') {
-        window.dispatchEvent(new CustomEvent('force-card-up'))
-      }
-
       const targetElement = document.getElementById(targetId)
 
       if (targetElement && lenis) {

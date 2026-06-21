@@ -24,6 +24,11 @@ import {
 import { useWaterBlobGradientVars } from './use-water-blob-gradient-vars'
 import { useWaterBlobAutoCycle } from './use-water-blob-auto-cycle'
 import { dispatchHeroFlashHead, clearHeroFlashHead } from './hero-flash-head'
+import {
+  addAllOverlayCheckListeners,
+  subscribeDialogClosed,
+  subscribeHomePauseBlobs,
+} from '@/lib/overlay-events'
 
 /**
  * WaterBlob Component
@@ -376,9 +381,7 @@ export function WaterBlob({
       }
     }
 
-    // Handler for home page scroll-based pause (silent event)
-    const handleHomePause = (e: Event) => {
-      const isPaused = (e as CustomEvent).detail.paused
+    const handleHomePause = (isPaused: boolean) => {
       pausedRef.current = isPaused
       if (!isPaused && !shouldPauseLoop()) {
         startLoop()
@@ -395,24 +398,17 @@ export function WaterBlob({
       }
     }
 
-    const dialogOpenEvents = [
-      'workdialog:check',
-      'casestudydialog:check',
-      'explorationsdialog:check',
-    ]
-    dialogOpenEvents.forEach((ev) => window.addEventListener(ev, handlePause))
-    window.addEventListener('dialog:closed', handleResume)
-    window.addEventListener('home:pause-blobs', handleHomePause)
+    const removeOverlayCheckListeners = addAllOverlayCheckListeners(handlePause)
+    const removeDialogClosedListener = subscribeDialogClosed(handleResume)
+    const removeHomePauseListener = subscribeHomePauseBlobs(handleHomePause)
     document.addEventListener('visibilitychange', handleVisibilityChange)
 
     return () => {
       clearTimeout(startTimeoutId)
       if (animationId) cancelAnimationFrame(animationId)
-      dialogOpenEvents.forEach((ev) =>
-        window.removeEventListener(ev, handlePause)
-      )
-      window.removeEventListener('dialog:closed', handleResume)
-      window.removeEventListener('home:pause-blobs', handleHomePause)
+      removeOverlayCheckListeners()
+      removeDialogClosedListener()
+      removeHomePauseListener()
       document.removeEventListener('visibilitychange', handleVisibilityChange)
       gl.deleteProgram(programInfo.program)
       gl.deleteShader(programInfo.vertShader)

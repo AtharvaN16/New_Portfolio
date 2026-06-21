@@ -7,6 +7,7 @@ import {
 } from 'framer-motion'
 import { useBreakpoints } from '@/hooks/use-responsive'
 import { useLenis } from '@/components/providers/LenisProvider'
+import { dispatchHomePauseBlobs } from '@/lib/overlay-events'
 import {
   CARD_ENTRY_END_PROGRESS,
   CARD_SCRIM_REVEAL_COVERAGE,
@@ -147,9 +148,7 @@ export function useHomeScroll(): HomeScrollResult {
     const nextPauseState = latest > 0.03
     if (nextPauseState !== lastPauseState.current) {
       lastPauseState.current = nextPauseState
-      window.dispatchEvent(new CustomEvent('home:pause-blobs', { 
-        detail: { paused: nextPauseState } 
-      }))
+      dispatchHomePauseBlobs(nextPauseState)
     }
 
     const nextHeroHiddenState = latest >= HERO_FADE_END_PROGRESS
@@ -248,8 +247,6 @@ export function useHomeScroll(): HomeScrollResult {
 
   const handleBrowseWorkClick = useCallback(() => {
     if (!containerRef.current || typeof window === 'undefined') return
-
-    window.dispatchEvent(new CustomEvent('force-card-up'))
 
     const vh = window.innerHeight
     const containerTop = containerRef.current.offsetTop

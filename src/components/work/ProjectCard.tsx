@@ -9,7 +9,10 @@ import {
   useTransform,
   type MotionValue,
 } from 'framer-motion'
-import { CASE_STUDY_RETURN_PATH_KEY } from '@/lib/case-study-overlay'
+import {
+  dispatchOverlayPreload,
+  openCaseStudyOverlay,
+} from '@/lib/overlay-events'
 import {
   getEditorialTextClasses,
   type CardAlign,
@@ -173,16 +176,7 @@ export function ProjectCard({
       return
     }
     if (slug) {
-      try {
-        sessionStorage.setItem(
-          CASE_STUDY_RETURN_PATH_KEY,
-          window.location.pathname
-        )
-      } catch {
-        /* ignore quota / private mode */
-      }
-      window.history.pushState({}, '', `/case-studies/${slug}`)
-      window.dispatchEvent(new CustomEvent('casestudydialog:check'))
+      openCaseStudyOverlay(slug)
     }
   }
 
@@ -213,12 +207,12 @@ export function ProjectCard({
       onMouseEnter={() => {
         if (isDesktop) setIsHovered(true)
         if (slug) {
-          window.dispatchEvent(new CustomEvent('casestudydialog:preload'))
+          dispatchOverlayPreload('case-study')
         }
       }}
       onPointerDown={() => {
         if (slug) {
-          window.dispatchEvent(new CustomEvent('casestudydialog:preload'))
+          dispatchOverlayPreload('case-study')
         }
       }}
       onMouseLeave={() => { if (isDesktop) setIsHovered(false) }}

@@ -3,7 +3,10 @@
 import { useState, type ReactNode } from 'react'
 import Image from 'next/image'
 import { m, type MotionValue } from 'framer-motion'
-import { CASE_STUDY_RETURN_PATH_KEY } from '@/lib/case-study-overlay'
+import {
+  dispatchOverlayPreload,
+  openCaseStudyOverlay,
+} from '@/lib/overlay-events'
 import { cn } from '@/lib/utils/cn'
 import { AnimatedHeroTextGSAP } from '@/components/hero/AnimatedHeroTextGSAP'
 import { AnimatedText } from '@/components/ui/AnimatedText'
@@ -74,16 +77,7 @@ export function FullpageCard({
 
   const handleClick = () => {
     if (slug) {
-      try {
-        sessionStorage.setItem(
-          CASE_STUDY_RETURN_PATH_KEY,
-          window.location.pathname
-        )
-      } catch {
-        /* ignore quota / private mode */
-      }
-      window.history.pushState({}, '', `/case-studies/${slug}`)
-      window.dispatchEvent(new CustomEvent('casestudydialog:check'))
+      openCaseStudyOverlay(slug)
     }
   }
 
@@ -98,12 +92,12 @@ export function FullpageCard({
       )}
       onMouseEnter={() => {
         if (slug) {
-          window.dispatchEvent(new CustomEvent('casestudydialog:preload'))
+          dispatchOverlayPreload('case-study')
         }
       }}
       onPointerDown={() => {
         if (slug) {
-          window.dispatchEvent(new CustomEvent('casestudydialog:preload'))
+          dispatchOverlayPreload('case-study')
         }
       }}
       onClick={handleClick}

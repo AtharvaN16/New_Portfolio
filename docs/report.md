@@ -15,6 +15,7 @@
 | P0-3 | Tab visibility pause for hero WebGL | 2026-06-21 | ✅ Done |
 | P1-1 | Delete dead `src/components/animations/` | 2026-06-21 | ✅ Done |
 | P0-4 | Remove per-frame layout reads on ProjectCard recede | 2026-06-21 | ✅ Done |
+| P1-3 | Typed overlay event bus + remove dead `force-card-up` | 2026-06-21 | ✅ Done |
 
 **P0-1 details:** Document Lenis now lives in React context (`LenisProvider` + `useLenis()`). Overlay scroll stays local in `useSmoothScroll` via `ContainerScrollProvider`. Files: `LenisProvider.tsx`, `use-smooth-scroll.ts`, `use-container-scroll.tsx`, `CaseStudyLayout.tsx`, `CaseStudySideNav.tsx`, `AnimatedLink.tsx`, `UAlbertaExplorationNotesPanel.tsx`.
 
@@ -25,6 +26,8 @@
 **P1-1 details:** Deleted 10 unused files in `src/components/animations/` (~1,250 LOC). Verified zero imports; `bun run build` passes.
 
 **P0-4 details:** `ProjectCard.tsx` recede effect now updates via `useMotionValueEvent(homeScrollProgress)` + resize observer — no continuous `useAnimationFrame` loop when idle.
+
+**P1-3 details:** New `src/lib/overlay-events.ts` centralizes overlay custom event names, dispatch helpers (`openOverlayRoute`, `openCaseStudyOverlay`, `dispatchHomePauseBlobs`), and subscribe helpers (`addAllOverlayCheckListeners`, etc.). Migrated Navbar, MobileMenu, dialogs, ProjectCard, FullpageCard, SelectedWork, `use-home-scroll`, and `WaterBlob`. Removed dead `force-card-up` dispatches. WaterBlob now pauses on all overlay opens (including About/Writings).
 
 ---
 
@@ -52,7 +55,7 @@ This portfolio uses a **fixed-layer scroll stage** on the home page (not a norma
 | 4 | No tab-visibility pause for hero WebGL | Background tab still animates | ✅ Fixed (P0-3) |
 | 5 | Per-frame layout reads on home project cards | Scroll jank risk on desktop | ✅ Fixed (P0-4) |
 | 6 | ~1,250 lines dead duplicate code in `animations/` | Confusion + maintenance burden | ✅ Fixed (P1-1) |
-| 7 | String-based custom event bus | Easy to break; some events are dead or incomplete | **Next (P1-3)** |
+| 7 | String-based custom event bus | Easy to break; some events are dead or incomplete | ✅ Fixed (P1-3) |
 
 ---
 
@@ -123,7 +126,7 @@ use-home-scroll.ts
 - `src/components/providers/LenisProvider.tsx`
 
 **CTA scroll targets:**
-- "Browse work" → scroll to progress 0.5 + dispatches `force-card-up` (**dead event — no listeners**)
+- "Browse work" → scroll to progress 0.5
 - "Get in touch" → scroll to container bottom
 
 ### 4. Click / navigate / overlays
@@ -143,25 +146,23 @@ Close
 ```
 
 **Active dialog code:** `src/components/dialogs/*`  
-**Dead duplicates:** `src/components/animations/*` (WorkDialog, AboutDialog, etc. — zero imports)
+**Event bus:** `src/lib/overlay-events.ts` (single source of truth for overlay custom events)
 
-**Custom events (partial list):**
+**Custom events (defined in `overlay-events.ts`):**
 
 | Event | Purpose |
 |-------|---------|
 | `workdialog:preload` / `:check` | Work overlay |
 | `explorationsdialog:preload` / `:check` | Explorations overlay |
-| `aboutdialog:check` | About overlay (no preload on nav hover) |
-| `writingsdialog:check` | Writings overlay |
+| `aboutdialog:preload` / `:check` | About overlay |
+| `writingsdialog:preload` / `:check` | Writings overlay |
 | `casestudydialog:preload` / `:check` | Case study overlay |
 | `dialog:closed` | Resume WebGL blob |
 | `home:pause-blobs` | Pause blobs on scroll |
-| `force-card-up` | **Dispatched but never listened to** |
 
 **Fragility:**
 - Next.js router stays on `/` while `window.location` is `/work` — logo `Link href="/"` may not close overlay
-- Mobile About uses normal `<Link>` (full page); desktop uses overlay — inconsistent
-- `WaterBlob` pauses on `workdialog:check`, `casestudydialog:check`, `explorationsdialog:check` but **not** `aboutdialog:check` / `writingsdialog:check`
+- Mobile About uses normal `<Link>` (full page); desktop uses overlay — inconsistent (P1-4)
 
 ### 5. Content sections
 
@@ -279,7 +280,7 @@ interface Props {
 
 ---
 
-#### P1-3: Typed overlay event bus
+#### P1-3: Typed overlay event bus ✅ Done 2026-06-21
 
 **Location:** 15+ dispatch/listen sites across Navbar, page.tsx, dialogs, WaterBlob, ProjectCard
 
@@ -448,12 +449,12 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 1. ~~P0-1 window.lenis fix~~ ✅ Done 2026-06-21
 2. ~~P0-2 lazy-mount dialogs~~ ✅ Done 2026-06-21
 3. ~~P1-1 delete dead animations/~~ ✅ Done 2026-06-21
-4. P1-3 typed events + remove dead `force-card-up` OR implement listener
+4. ~~P1-3 typed events + remove dead `force-card-up`~~ ✅ Done 2026-06-21
 
 **Sprint 2 — Hero perf (2–3 days)**
 5. ~~P0-3 tab visibility pause~~ ✅ Done 2026-06-21
 6. ~~P0-4 ProjectCard recede refactor~~ ✅ Done 2026-06-21
-7. P1-3 typed events ← **next**
+7. ~~P1-3 typed events~~ ✅ Done 2026-06-21
 8. P1-5 split WaterBlob.tsx
 9. P1-6 theme without GL rebuild
 
