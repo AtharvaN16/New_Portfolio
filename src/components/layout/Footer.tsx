@@ -19,6 +19,9 @@ import { AccessibilityModal } from './AccessibilityModal'
 
 type FooterLayoutVariant = 'desktop-reveal' | 'mobile-flow'
 
+/** Hold before mobile footer smog fades in after IO visibility */
+const MOBILE_FOOTER_GLOW_DELAY_MS = 500
+
 interface FooterProps {
   layoutVariant?: FooterLayoutVariant
   revealProgress?: MotionValue<number>
@@ -129,7 +132,7 @@ export function Footer({
     if (isVisible) {
       glowTimerRef.current = setTimeout(() => {
         setShowGlow(true)
-      }, 100)
+      }, MOBILE_FOOTER_GLOW_DELAY_MS)
     } else {
       if (glowTimerRef.current) {
         clearTimeout(glowTimerRef.current)
