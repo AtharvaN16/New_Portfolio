@@ -18,6 +18,8 @@ export interface WaterBlobProps {
   isQuick?: boolean
   /** Starting palette index (shared by F1 ghost + interactive blob on load) */
   initialPaletteIndex?: number
+  /** Delay WebGL context creation until this many ms after mount (desktop F2) */
+  webglInitDelay?: number
 }
 
 export interface Colors {

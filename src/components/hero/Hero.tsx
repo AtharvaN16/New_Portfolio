@@ -140,7 +140,8 @@ export function Hero({
 
               <WaterBlobWithBoundary
                 interactive
-                entryDelay={isMobile ? 1500 : HERO_F2_ENTRY_MS}
+                entryDelay={isMobile ? 1500 : 0}
+                webglInitDelay={isMobile ? 0 : HERO_F2_ENTRY_MS}
                 initialPaletteIndex={initialPaletteIndex}
               />
 

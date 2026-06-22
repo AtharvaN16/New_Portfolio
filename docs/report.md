@@ -25,6 +25,7 @@
 | P2-4 | Add `sizes` to case study `fill` images | 2026-06-21 | ✅ Done |
 | P2-5 | Remove masonry blur duplicate; priority first 2 cards | 2026-06-21 | ✅ Done |
 | P2-6 | Convert remaining JPG/PNG in case study data to WebP | 2026-06-21 | ✅ Done |
+| Hero-1 | Single WebGL context on desktop hero (F1→F2 phase swap) | 2026-06-21 | ✅ Done |
 
 **P0-1 details:** Document Lenis now lives in React context (`LenisProvider` + `useLenis()`). Overlay scroll stays local in `useSmoothScroll` via `ContainerScrollProvider`. Files: `LenisProvider.tsx`, `use-smooth-scroll.ts`, `use-container-scroll.tsx`, `CaseStudyLayout.tsx`, `CaseStudySideNav.tsx`, `AnimatedLink.tsx`, `UAlbertaExplorationNotesPanel.tsx`.
 
@@ -56,6 +57,8 @@
 
 **P2-6 details:** Converted `ualberta-library-website/thumbnail`, `nyc-third-spaces-ethnography/hero`, and `seo-audit/hero-2` to WebP; updated `case-studies.ts` URLs. Original JPG/PNG kept in `public/` for archival only (not referenced from `src/`).
 
+**Hero-1 details:** Desktop interactive blob defers WebGL context creation until `HERO_F2_ENTRY_MS` via `webglInitDelay` — only the F1 ghost uses GPU from ~500ms until F2 inits at 1400ms. Both blobs stay mounted (original crossfade preserved); F2 rises from `yOffset = -1.5` when its context starts.
+
 ---
 
 ## How to use this report (for agents)
@@ -78,7 +81,7 @@ This portfolio uses a **fixed-layer scroll stage** on the home page (not a norma
 |---|--------|--------|--------|
 | 1 | `window.lenis` global clobbered by overlay scroll hook | Home scroll-to-CTA breaks after closing overlays | ✅ Fixed (P0-1) |
 | 2 | All 5 dialogs mount on first overlay open | Unnecessary JS + hydration on first click | ✅ Fixed (P0-2) |
-| 3 | Two WebGL contexts on desktop hero during entry | GPU/CPU cost on first paint | Open (P1-5 scope) |
+| 3 | Two WebGL contexts on desktop hero during entry | GPU/CPU cost on first paint | ✅ Fixed (phase swap) |
 | 4 | No tab-visibility pause for hero WebGL | Background tab still animates | ✅ Fixed (P0-3) |
 | 5 | Per-frame layout reads on home project cards | Scroll jank risk on desktop | ✅ Fixed (P0-4) |
 | 6 | ~1,250 lines dead duplicate code in `animations/` | Confusion + maintenance burden | ✅ Fixed (P1-1) |
@@ -111,7 +114,7 @@ layout.tsx
 ```
 page.tsx → Hero.tsx
   → AnimatedHeroTextGSAP (desktop: dynamic GSAP after fonts.ready)
-  → WaterBlobWithBoundary × 2 on desktop (ghost F1 + interactive F2)
+  → WaterBlobWithBoundary × 2 on desktop (ghost F1 + interactive F2; F2 WebGL deferred)
   → WaterBlobWithBoundary × 1 on mobile
 ```
 
@@ -125,7 +128,7 @@ page.tsx → Hero.tsx
 
 **What happens:**
 - WebGL canvas with fragment shader; CSS gradient fallback when reduced motion / save-data / pause-WebGL
-- Desktop: two canvases overlap during F1→F2 entry (~500ms–1400ms+)
+- Desktop: F1 ghost WebGL from ~500ms; F2 defers GPU init until `HERO_F2_ENTRY_MS` (1400ms) then rises immediately — one active context until overlap window
 - At scroll progress **> 0.03**, `home:pause-blobs` event stops WebGL rAF loops
 - At **~18%** progress, hero fades/hides (`HERO_FADE_END_PROGRESS`)
 

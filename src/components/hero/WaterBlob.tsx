@@ -31,6 +31,7 @@ export function WaterBlob({
   isGhost = false,
   isQuick = false,
   initialPaletteIndex = 0,
+  webglInitDelay = 0,
 }: WaterBlobProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { theme } = useTheme()
@@ -111,6 +112,7 @@ export function WaterBlob({
     pauseWebGL,
     saveData,
     setHasWebGL,
+    webglInitDelay,
   })
 
   useWaterBlobPauseEvents({
