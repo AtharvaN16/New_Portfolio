@@ -21,6 +21,8 @@ type FooterLayoutVariant = 'desktop-reveal' | 'mobile-flow'
 
 /** Hold before mobile footer smog fades in after IO visibility */
 const MOBILE_FOOTER_GLOW_DELAY_MS = 500
+/** Footer must actually enter the viewport — no 200px lookahead on mobile */
+const MOBILE_FOOTER_VISIBLE_RATIO = 0.06
 
 interface FooterProps {
   layoutVariant?: FooterLayoutVariant
@@ -80,9 +82,19 @@ export function Footer({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        if (isMobileFlow) {
+          setIsVisible(
+            entry.isIntersecting &&
+              entry.intersectionRatio >= MOBILE_FOOTER_VISIBLE_RATIO
+          )
+          return
+        }
+
         setIsVisible(entry.isIntersecting)
       },
-      { threshold: 0, rootMargin: '200px' }
+      isMobileFlow
+        ? { threshold: [0, 0.04, 0.06, 0.1, 0.15, 0.25] }
+        : { threshold: 0, rootMargin: '200px' }
     )
 
     if (footerContainerRef.current) {
@@ -90,7 +102,7 @@ export function Footer({
     }
 
     return () => observer.disconnect()
-  }, [])
+  }, [isMobileFlow])
 
   const desktopOpacity = useTransform(progress, [0.8, 1.0], [0, 1])
   const desktopY = useTransform(progress, [0.8, 1.0], [25, 0])
@@ -171,6 +183,8 @@ export function Footer({
   const smogVisible = isMobileFlow ? showGlow && isVisible : showGlow
   const showSmogLayer = isMobileFlow || isDesktop
   const smogVariant = isMobileFlow ? 'mobile' : 'desktop'
+  const renderSmog =
+    showSmogLayer && (isMobileFlow ? smogVisible : isVisible)
   const mobileEntrance = isMobileFlow && !reducedMotion
   const fadeTransition = reducedMotion
     ? { duration: 0 }
@@ -182,10 +196,11 @@ export function Footer({
       className="w-full text-foreground footer-bg relative z-20"
       style={{
         backgroundColor: 'rgb(var(--color-footer-bg))',
-        boxShadow: 'var(--shadow-2xl)',
+        boxShadow:
+          isMobileFlow && !smogVisible ? 'none' : 'var(--shadow-2xl)',
       }}
     >
-      {showSmogLayer && isVisible && (
+      {renderSmog && (
         <FooterSmog visible={smogVisible} variant={smogVariant} />
       )}
 
