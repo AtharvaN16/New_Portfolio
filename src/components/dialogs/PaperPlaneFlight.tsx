@@ -20,6 +20,8 @@ interface PaperPlaneFlightProps {
 
 export const PaperPlaneFlight = forwardRef<PaperPlaneFlightRef, PaperPlaneFlightProps>(
   ({ onComplete }, ref) => {
+    const containerRef = useRef<HTMLDivElement>(null)
+    const stageRef = useRef<HTMLDivElement>(null)
     const planeRef = useRef<SVGSVGElement>(null)
     const pathRef = useRef<SVGPathElement>(null)
     const filterRef = useRef<SVGFETurbulenceElement>(null)
@@ -36,9 +38,28 @@ export const PaperPlaneFlight = forwardRef<PaperPlaneFlightRef, PaperPlaneFlight
       play: () => {
         if (!planeRef.current || !pathRef.current) return
 
+        const container = containerRef.current
+        const stage = stageRef.current
+        if (!container || !stage) return
+
         const path = pathRef.current
         const plane = planeRef.current
         const pathLength = path.getTotalLength()
+        const origin = container.getBoundingClientRect()
+
+        // Reparent animation to a viewport-fixed stage so the 1500px path
+        // cannot expand document scroll width (mobile native-flow footer).
+        gsap.set(container, {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          overflow: 'hidden',
+          pointerEvents: 'none',
+          zIndex: 9999,
+        })
+        gsap.set(stage, { x: origin.left, y: origin.top })
 
         // 1. Reset state
         gsap.set(plane, { 
@@ -62,12 +83,20 @@ export const PaperPlaneFlight = forwardRef<PaperPlaneFlightRef, PaperPlaneFlight
           visibility: 'visible'
         })
 
+        const resetStage = () => {
+          gsap.set(container, {
+            clearProps: 'position,top,left,width,height,overflow,zIndex',
+          })
+          gsap.set(stage, { clearProps: 'transform,x,y' })
+        }
+
         const tl = gsap.timeline({
           onComplete: () => {
             gsap.to([plane, path], { 
               duration: 0.1, 
               opacity: 0, 
               onComplete: () => {
+                resetStage()
                 if (onComplete) onComplete()
               }
             })
@@ -97,7 +126,12 @@ export const PaperPlaneFlight = forwardRef<PaperPlaneFlightRef, PaperPlaneFlight
     }))
 
     return (
-      <div className="absolute inset-0 pointer-events-none overflow-visible z-50">
+      <div
+        ref={containerRef}
+        className="absolute inset-0 pointer-events-none overflow-hidden z-50"
+        aria-hidden="true"
+      >
+        <div ref={stageRef} className="absolute top-0 left-0">
         <svg className="absolute h-0 w-0" aria-hidden="true">
           <filter id="pencil-scribble-v12">
             <feTurbulence 
@@ -113,7 +147,7 @@ export const PaperPlaneFlight = forwardRef<PaperPlaneFlightRef, PaperPlaneFlight
         </svg>
 
         <svg 
-          className="absolute overflow-visible" 
+          className="absolute overflow-hidden" 
           width="1" height="1" viewBox="0 0 1 1"
           style={{ top: `${NOSE_OFFSET_Y}px`, left: `${NOSE_OFFSET_X}px` }}
         >
@@ -140,6 +174,7 @@ export const PaperPlaneFlight = forwardRef<PaperPlaneFlightRef, PaperPlaneFlight
               visibility: 'hidden' 
             }}
           />
+        </div>
         </div>
       </div>
     )
