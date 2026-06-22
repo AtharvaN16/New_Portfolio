@@ -8,6 +8,9 @@
 import type { Colors, WebGLProgramInfo } from './waterBlob.types'
 import { vertexShader, fragmentShader } from './waterBlob.shader'
 
+const MOBILE_DPR_SCALE = 0.25
+const DESKTOP_DPR_CAP = 1.25
+
 /**
  * Compile and validate a WebGL shader
  */
@@ -169,7 +172,6 @@ export function createAnimationLoop(
     gl.uniform1f(programInfo.uTrailLocation, getTrail())
     gl.uniform1f(programInfo.uIsMobileLocation, isMobile ? 1.0 : 0.0)
 
-
     // Update colors dynamically (for interactive mode)
     gl.uniform3fv(programInfo.uColor1Location, colors.primary)
     gl.uniform3fv(programInfo.uColor2Location, colors.secondary)
@@ -192,11 +194,14 @@ export function setupCanvasResize(canvas: HTMLCanvasElement): () => void {
   let lastHeight = 0
 
   const resizeCanvasToDisplaySize = () => {
-    const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
+    const isMobile =
+      window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
     // Performance:
-    // - Mobile: Render at 0.25x resolution (Ultra efficiency, soft organic look)
-    // - Desktop: Cap at 1.5x (Avoids over-rendering on 3x Retina/4K screens)
-    const dpr = isMobile ? 0.25 : Math.min(window.devicePixelRatio || 1, 1.5)
+    // - Mobile: Render at 0.25x resolution (ultra efficiency, soft organic look)
+    // - Desktop: Cap at 1.25x to reduce full-screen fragment shader work
+    const dpr = isMobile
+      ? MOBILE_DPR_SCALE
+      : Math.min(window.devicePixelRatio || 1, DESKTOP_DPR_CAP)
     const rect = canvas.getBoundingClientRect()
 
     const displayWidth = Math.round(rect.width * dpr)
@@ -207,7 +212,7 @@ export function setupCanvasResize(canvas: HTMLCanvasElement): () => void {
     const heightDiff = Math.abs(displayHeight - lastHeight)
     const widthDiff = Math.abs(displayWidth - lastWidth)
 
-    // Logic: 
+    // Logic:
     // 1. If width changed, always resize.
     // 2. If it's NOT mobile, always resize on any change.
     // 3. If it IS mobile, only resize height if the change is > 60px (address bar threshold).

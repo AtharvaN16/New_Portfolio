@@ -40,7 +40,11 @@ describe('hero flash head sync', () => {
   it('uses direct falloff glow — pre film-develop level', () => {
     const band = { top: 40, bottom: 80 }
     const peak = computeNavFlashIntensity(60, band, 0.9)
-    const edge = computeNavFlashIntensity(60 + NAV_FLASH_GLOW_FALLOFF_PX, band, 0.9)
+    const edge = computeNavFlashIntensity(
+      60 + NAV_FLASH_GLOW_FALLOFF_PX,
+      band,
+      0.9
+    )
     expect(peak).toBeCloseTo(0.9, 2)
     expect(edge).toBeLessThan(peak * 0.4)
   })
@@ -79,7 +83,7 @@ describe('hero flash head sync', () => {
       peak * 0.55
     )
     expect(fadeNavFlashIntensity(peak, lead, lead, plateau)).toBe(0)
-    expect(easeOutCubic(0.5)).toBeLessThan(0.5)
+    expect(easeOutCubic(0.5)).toBeGreaterThan(0.5)
   })
 
   it('estimates navbar pass duration from F1 rise speed', () => {

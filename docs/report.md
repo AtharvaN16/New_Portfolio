@@ -8,24 +8,25 @@
 
 ## Fixes applied
 
-| ID | Fix | Date | Status |
-|----|-----|------|--------|
-| P0-1 | Stop clobbering document Lenis after overlay close | 2026-06-21 | ✅ Done |
-| P0-2 | Lazy-mount only the active dialog | 2026-06-21 | ✅ Done |
-| P0-3 | Tab visibility pause for hero WebGL | 2026-06-21 | ✅ Done |
-| P1-1 | Delete dead `src/components/animations/` | 2026-06-21 | ✅ Done |
-| P0-4 | Remove per-frame layout reads on ProjectCard recede | 2026-06-21 | ✅ Done |
-| P1-3 | Typed overlay event bus + remove dead `force-card-up` | 2026-06-21 | ✅ Done |
-| P1-5 | Split `WaterBlob.tsx` into focused hooks | 2026-06-21 | ✅ Done |
-| P1-6 | Theme toggle without WebGL program rebuild | 2026-06-21 | ✅ Done |
-| P1-7 | Throttle `hero:flash-head` dispatches during F1 | 2026-06-21 | ✅ Done |
-| P1-4 | Mobile nav overlay parity (About uses slide-up) | 2026-06-21 | ✅ Done |
-| P1-2 | Consolidate route dialogs into `RouteSlideDialog` | 2026-06-21 | ✅ Done |
-| P2-1 | Remove static barrel re-exports from case study content | 2026-06-21 | ✅ Done |
-| P2-4 | Add `sizes` to case study `fill` images | 2026-06-21 | ✅ Done |
-| P2-5 | Remove masonry blur duplicate; priority first 2 cards | 2026-06-21 | ✅ Done |
-| P2-6 | Convert remaining JPG/PNG in case study data to WebP | 2026-06-21 | ✅ Done |
+| ID     | Fix                                                     | Date       | Status  |
+| ------ | ------------------------------------------------------- | ---------- | ------- |
+| P0-1   | Stop clobbering document Lenis after overlay close      | 2026-06-21 | ✅ Done |
+| P0-2   | Lazy-mount only the active dialog                       | 2026-06-21 | ✅ Done |
+| P0-3   | Tab visibility pause for hero WebGL                     | 2026-06-21 | ✅ Done |
+| P1-1   | Delete dead `src/components/animations/`                | 2026-06-21 | ✅ Done |
+| P0-4   | Remove per-frame layout reads on ProjectCard recede     | 2026-06-21 | ✅ Done |
+| P1-3   | Typed overlay event bus + remove dead `force-card-up`   | 2026-06-21 | ✅ Done |
+| P1-5   | Split `WaterBlob.tsx` into focused hooks                | 2026-06-21 | ✅ Done |
+| P1-6   | Theme toggle without WebGL program rebuild              | 2026-06-21 | ✅ Done |
+| P1-7   | Throttle `hero:flash-head` dispatches during F1         | 2026-06-21 | ✅ Done |
+| P1-4   | Mobile nav overlay parity (About uses slide-up)         | 2026-06-21 | ✅ Done |
+| P1-2   | Consolidate route dialogs into `RouteSlideDialog`       | 2026-06-21 | ✅ Done |
+| P2-1   | Remove static barrel re-exports from case study content | 2026-06-21 | ✅ Done |
+| P2-4   | Add `sizes` to case study `fill` images                 | 2026-06-21 | ✅ Done |
+| P2-5   | Remove masonry blur duplicate; priority first 2 cards   | 2026-06-21 | ✅ Done |
+| P2-6   | Convert remaining JPG/PNG in case study data to WebP    | 2026-06-21 | ✅ Done |
 | Hero-1 | Single WebGL context on desktop hero (F1→F2 phase swap) | 2026-06-21 | ✅ Done |
+| Hero-2 | Smooth F1/F2 blob motion and reduce hero WebGL load     | 2026-06-21 | ✅ Done |
 
 **P0-1 details:** Document Lenis now lives in React context (`LenisProvider` + `useLenis()`). Overlay scroll stays local in `useSmoothScroll` via `ContainerScrollProvider`. Files: `LenisProvider.tsx`, `use-smooth-scroll.ts`, `use-container-scroll.tsx`, `CaseStudyLayout.tsx`, `CaseStudySideNav.tsx`, `AnimatedLink.tsx`, `UAlbertaExplorationNotesPanel.tsx`.
 
@@ -59,6 +60,8 @@
 
 **Hero-1 details:** Desktop interactive blob defers WebGL context creation until `HERO_F2_ENTRY_MS` via `webglInitDelay` — only the F1 ghost uses GPU from ~500ms until F2 inits at 1400ms. Both blobs stay mounted (original crossfade preserved); F2 rises from `yOffset = -1.5` when its context starts.
 
+**Hero-2 details:** WaterBlob entry physics now use reference-frame motion helpers so F1/F2 rise, reveal, ambient, trail, and ghost fade stay consistent across 30/60/120Hz displays. F1 ghost WebGL resources are released after the flash fades instead of staying allocated until hero unmount. Desktop canvas DPR cap lowered from 1.5x to 1.25x to reduce full-screen fragment shader load without changing shader detail.
+
 ---
 
 ## How to use this report (for agents)
@@ -77,15 +80,15 @@ This portfolio uses a **fixed-layer scroll stage** on the home page (not a norma
 
 **Highest-impact issues:**
 
-| # | Issue | Impact | Status |
-|---|--------|--------|--------|
-| 1 | `window.lenis` global clobbered by overlay scroll hook | Home scroll-to-CTA breaks after closing overlays | ✅ Fixed (P0-1) |
-| 2 | All 5 dialogs mount on first overlay open | Unnecessary JS + hydration on first click | ✅ Fixed (P0-2) |
-| 3 | Two WebGL contexts on desktop hero during entry | GPU/CPU cost on first paint | ✅ Fixed (phase swap) |
-| 4 | No tab-visibility pause for hero WebGL | Background tab still animates | ✅ Fixed (P0-3) |
-| 5 | Per-frame layout reads on home project cards | Scroll jank risk on desktop | ✅ Fixed (P0-4) |
-| 6 | ~1,250 lines dead duplicate code in `animations/` | Confusion + maintenance burden | ✅ Fixed (P1-1) |
-| 7 | String-based custom event bus | Easy to break; some events are dead or incomplete | ✅ Fixed (P1-3) |
+| #   | Issue                                                  | Impact                                            | Status                |
+| --- | ------------------------------------------------------ | ------------------------------------------------- | --------------------- |
+| 1   | `window.lenis` global clobbered by overlay scroll hook | Home scroll-to-CTA breaks after closing overlays  | ✅ Fixed (P0-1)       |
+| 2   | All 5 dialogs mount on first overlay open              | Unnecessary JS + hydration on first click         | ✅ Fixed (P0-2)       |
+| 3   | Two WebGL contexts on desktop hero during entry        | GPU/CPU cost on first paint                       | ✅ Fixed (phase swap) |
+| 4   | No tab-visibility pause for hero WebGL                 | Background tab still animates                     | ✅ Fixed (P0-3)       |
+| 5   | Per-frame layout reads on home project cards           | Scroll jank risk on desktop                       | ✅ Fixed (P0-4)       |
+| 6   | ~1,250 lines dead duplicate code in `animations/`      | Confusion + maintenance burden                    | ✅ Fixed (P1-1)       |
+| 7   | String-based custom event bus                          | Easy to break; some events are dead or incomplete | ✅ Fixed (P1-3)       |
 
 ---
 
@@ -100,11 +103,13 @@ layout.tsx
 ```
 
 **Files:**
+
 - `src/app/layout.tsx` — fonts, TextureOverlay, skip link
 - `src/app/AppProviders.tsx` — provider stack
 - `src/app/page.tsx` — home orchestration, dynamic imports for SelectedWork/Footer/dialogs
 
 **What happens:**
+
 - `LazyMotion` with `domAnimation` reduces framer-motion bundle
 - Lenis smooth scroll: desktop only, disabled for touch + `prefers-reduced-motion` (`LenisProvider.tsx`)
 - Home renders 4 fixed layers by z-index (see below)
@@ -119,6 +124,7 @@ page.tsx → Hero.tsx
 ```
 
 **Files:**
+
 - `src/components/hero/Hero.tsx`
 - `src/components/hero/WaterBlob.tsx` (437 lines — over limit)
 - `src/components/hero/WaterBlobWithBoundary.tsx`
@@ -127,6 +133,7 @@ page.tsx → Hero.tsx
 - `src/hooks/use-home-scroll.ts` (334 lines — drives blob pause)
 
 **What happens:**
+
 - WebGL canvas with fragment shader; CSS gradient fallback when reduced motion / save-data / pause-WebGL
 - Desktop: F1 ghost WebGL from ~500ms; F2 defers GPU init until `HERO_F2_ENTRY_MS` (1400ms) then rises immediately — one active context until overlap window
 - At scroll progress **> 0.03**, `home:pause-blobs` event stops WebGL rAF loops
@@ -143,19 +150,21 @@ use-home-scroll.ts
 
 **Layer stack (z-index):**
 
-| z-index | Layer | Behavior |
-|---------|-------|----------|
-| 5 | Footer | Fixed bottom; revealed when SelectedWork scrolls past |
-| 10 | SelectedWork | Fixed; moves up to reveal footer |
-| 30 | Hero | Fixed; content moves up, fades out |
-| 40 | FullpageCard | Fixed; parallax entry, exits upward |
+| z-index | Layer        | Behavior                                              |
+| ------- | ------------ | ----------------------------------------------------- |
+| 5       | Footer       | Fixed bottom; revealed when SelectedWork scrolls past |
+| 10      | SelectedWork | Fixed; moves up to reveal footer                      |
+| 30      | Hero         | Fixed; content moves up, fades out                    |
+| 40      | FullpageCard | Fixed; parallax entry, exits upward                   |
 
 **Files:**
+
 - `src/hooks/use-home-scroll.ts`
 - `src/hooks/home-scroll-timing.ts`
 - `src/components/providers/LenisProvider.tsx`
 
 **CTA scroll targets:**
+
 - "Browse work" → scroll to progress 0.5
 - "Get in touch" → scroll to container bottom
 
@@ -180,33 +189,37 @@ Close
 
 **Custom events (defined in `overlay-events.ts`):**
 
-| Event | Purpose |
-|-------|---------|
-| `workdialog:preload` / `:check` | Work overlay |
-| `explorationsdialog:preload` / `:check` | Explorations overlay |
-| `aboutdialog:preload` / `:check` | About overlay |
-| `writingsdialog:preload` / `:check` | Writings overlay |
-| `casestudydialog:preload` / `:check` | Case study overlay |
-| `dialog:closed` | Resume WebGL blob |
-| `home:pause-blobs` | Pause blobs on scroll |
+| Event                                   | Purpose               |
+| --------------------------------------- | --------------------- |
+| `workdialog:preload` / `:check`         | Work overlay          |
+| `explorationsdialog:preload` / `:check` | Explorations overlay  |
+| `aboutdialog:preload` / `:check`        | About overlay         |
+| `writingsdialog:preload` / `:check`     | Writings overlay      |
+| `casestudydialog:preload` / `:check`    | Case study overlay    |
+| `dialog:closed`                         | Resume WebGL blob     |
+| `home:pause-blobs`                      | Pause blobs on scroll |
 
 **Fragility:**
+
 - Next.js router stays on `/` while `window.location` is `/work` — logo `Link href="/"` may not close overlay
 - Mobile About uses normal `<Link>` (full page); desktop uses overlay — inconsistent (P1-4) ✅ Fixed
 
 ### 5. Content sections
 
 **Selected Work (home):**
+
 - `src/components/work/SelectedWork.tsx` — 4-card bento, not virtualized
 - `src/components/work/ProjectCard.tsx` — per-frame `getBoundingClientRect` for recede effect when `enableHomeCardRecede`
 - Images: `fetchPriority="low"`, no priority on home cards (good)
 - FullpageCard hero image: `priority` (1 eager image on home load)
 
 **Work dialog:**
+
 - `src/components/work/MasonryWorkGrid.tsx` — all studies, first 4 cards get `imagePriority`
 - Each card can render 2 images (blur + hero) → up to 8 priority images on open
 
 **Case studies:**
+
 - Data: `src/lib/data/case-studies.ts`
 - Registry: `src/components/case-study/content/index.ts` (`CONTENT_REGISTRY` with `next/dynamic`)
 - Shell: `CaseStudyDialog` → `CaseStudyDetail` → `CaseStudyContentRenderer`
@@ -225,6 +238,7 @@ Close
 **Problem:** Overlay pages assign `window.lenis` to a container-scoped Lenis instance. On unmount they `delete window.lenis`, destroying the home page's global Lenis. `useHomeScroll` then falls back to native scroll for CTAs.
 
 **Fix applied:**
+
 - Document-level Lenis exposed via React context (`LenisProvider` + `useLenis()`)
 - Container Lenis stays local in `useSmoothScroll` — never touches `window.lenis`
 - Case study in-overlay scroll uses `ContainerScrollProvider` + `useContainerScroll()` / `scrollToContainerElement()`
@@ -244,13 +258,14 @@ When you click **any** nav item or project for the first time (Work, About, Expl
 **What you'd notice visually:**  
 Almost nothing changes on screen. The overlay still slides up the same way. The difference is **under the hood**:
 
-| Moment | Before | After fix |
-|--------|--------|-----------|
-| First click on "About" | Browser downloads JS for all 5 dialogs | Browser downloads **only** About dialog JS |
-| Time to first overlay | Slightly slower first open | Faster first open |
-| Memory | 5 dialog trees initialized; 4 sit idle | 1 dialog tree active (more added only as visited) |
+| Moment                 | Before                                 | After fix                                         |
+| ---------------------- | -------------------------------------- | ------------------------------------------------- |
+| First click on "About" | Browser downloads JS for all 5 dialogs | Browser downloads **only** About dialog JS        |
+| Time to first overlay  | Slightly slower first open             | Faster first open                                 |
+| Memory                 | 5 dialog trees initialized; 4 sit idle | 1 dialog tree active (more added only as visited) |
 
 **Fix applied:**
+
 - New `useOverlayDialogs()` hook tracks a `Set` of dialog IDs to mount
 - Preload events mount **only** the targeted dialog (e.g. `workdialog:preload` → Work only)
 - Pathname sync (`*:check`, `popstate`) mounts only the matching dialog
@@ -297,6 +312,7 @@ Almost nothing changes on screen. The overlay still slides up the same way. The 
 **Problem:** ~137 lines each, nearly identical (checkURL, scroll lock, AnimatePresence, TRANSITION_EASE).
 
 **Fix:** Create `RouteSlideDialog.tsx`:
+
 ```ts
 interface Props {
   path: string
@@ -317,6 +333,7 @@ interface Props {
 **Problem:** String events, easy to miss a dispatch; `force-card-up` is dead; incomplete WaterBlob pause list.
 
 **Fix:** Create `src/lib/overlay-events.ts`:
+
 ```ts
 export const OVERLAY_EVENTS = {
   work: { preload: 'workdialog:preload', check: 'workdialog:check' },
@@ -325,6 +342,7 @@ export const OVERLAY_EVENTS = {
 export function dispatchOverlayCheck(path: string): void
 export function subscribeOverlayEvents(handlers): () => void
 ```
+
 Remove `force-card-up` dispatches OR implement listener in card animation.
 
 **Verify:** Grep for raw string events → only in overlay-events.ts.
@@ -346,6 +364,7 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 **Problem:** Exceeds 300-line rule; mixes React lifecycle, physics, events, GL teardown.
 
 **Fix:** Extract:
+
 - `useWaterBlobAnimation.ts` — rAF loop, pause, entry physics
 - `useWaterBlobPauseEvents.ts` — dialog + scroll + visibility listeners
 - Keep `WaterBlob.tsx` as thin render shell
@@ -390,12 +409,12 @@ Long-form case study bodies (Pratt, Gutenberg, Met, etc.) are **content exceptio
 
 **Split only when it helps:** reusable sections (see `alo-yoga/`, `dcwp/`, `blv-museum/`), prototypes, or heavy interactive UI — not to satisfy line count alone.
 
-| File | Lines | When to touch |
-|------|------:|---------------|
-| `PrattVisitorExperienceContent.tsx` | 2079 | Optional — extract shared UI (e.g. Accordion) if reused |
-| `GutenbergContent.tsx` | 1476 | Fix PNG paths labeled as webpSrc when editing that study |
-| `MetFreeToursContent.tsx` | 917 | Content pass only if placeholders should become real copy |
-| `UAlbertaLibraryContent.tsx` | 784 | Already partially split; extend only if adding new sections |
+| File                                | Lines | When to touch                                               |
+| ----------------------------------- | ----: | ----------------------------------------------------------- |
+| `PrattVisitorExperienceContent.tsx` |  2079 | Optional — extract shared UI (e.g. Accordion) if reused     |
+| `GutenbergContent.tsx`              |  1476 | Fix PNG paths labeled as webpSrc when editing that study    |
+| `MetFreeToursContent.tsx`           |   917 | Content pass only if placeholders should become real copy   |
+| `UAlbertaLibraryContent.tsx`        |   784 | Already partially split; extend only if adding new sections |
 
 ---
 
@@ -447,20 +466,20 @@ Long-form case study bodies (Pratt, Gutenberg, Met, etc.) are **content exceptio
 
 **Case study content files** (Pratt, Gutenberg, etc.) are allowed to exceed 300 lines per `rules.md` content exception. Split only when a section has reusable or interactive UI.
 
-| File | Lines | Tier |
-|------|------:|------|
-| `PrattVisitorExperienceContent.tsx` | 2079 | Content exception |
-| `GutenbergContent.tsx` | 1476 | Content exception |
-| `MetFreeToursContent.tsx` | 917 | Content exception |
-| `UAlbertaLibraryContent.tsx` | 784 | Content exception |
-| `NycThirdSpacesContent.tsx` | 730 | Content exception |
-| `NycDcwpBusinessLicensesContent.tsx` | 697 | Partially split (`dcwp/`) |
-| `WaterBlob.tsx` | ~168 shell + hooks | ✅ Addressed (P1-5) |
-| `ProjectCard.tsx` | 416 | P3 — logic + layout |
-| `AnimatedText.tsx` | 410 | P3 |
-| `use-home-scroll.ts` | 334 | P3 |
-| `WorkFilter.tsx` | 328 | P3 |
-| `SelectedWork.tsx` | 303 | P3 |
+| File                                 |              Lines | Tier                      |
+| ------------------------------------ | -----------------: | ------------------------- |
+| `PrattVisitorExperienceContent.tsx`  |               2079 | Content exception         |
+| `GutenbergContent.tsx`               |               1476 | Content exception         |
+| `MetFreeToursContent.tsx`            |                917 | Content exception         |
+| `UAlbertaLibraryContent.tsx`         |                784 | Content exception         |
+| `NycThirdSpacesContent.tsx`          |                730 | Content exception         |
+| `NycDcwpBusinessLicensesContent.tsx` |                697 | Partially split (`dcwp/`) |
+| `WaterBlob.tsx`                      | ~168 shell + hooks | ✅ Addressed (P1-5)       |
+| `ProjectCard.tsx`                    |                416 | P3 — logic + layout       |
+| `AnimatedText.tsx`                   |                410 | P3                        |
+| `use-home-scroll.ts`                 |                334 | P3                        |
+| `WorkFilter.tsx`                     |                328 | P3                        |
+| `SelectedWork.tsx`                   |                303 | P3                        |
 
 ---
 
@@ -480,6 +499,7 @@ Long-form case study bodies (Pratt, Gutenberg, Met, etc.) are **content exceptio
 ## Suggested implementation order (for agents)
 
 **Sprint 1 — Quick wins (1–2 days)**
+
 1. ~~P0-1 window.lenis fix~~ ✅ Done 2026-06-21
 2. ~~P0-2 lazy-mount dialogs~~ ✅ Done 2026-06-21
 3. ~~P1-1 delete dead animations/~~ ✅ Done 2026-06-21
@@ -523,11 +543,11 @@ Long-form case study bodies (Pratt, Gutenberg, Met, etc.) are **content exceptio
 
 ## Glossary
 
-| Term | Meaning |
-|------|---------|
+| Term               | Meaning                                                                                                        |
+| ------------------ | -------------------------------------------------------------------------------------------------------------- |
 | Fixed-layer scroll | Elements use `position: fixed` and move via CSS transforms driven by scroll progress, not normal document flow |
-| Lenis | Smooth scroll library; adds momentum on desktop |
-| pushState overlay | URL changes without Next.js navigation; home page stays mounted underneath |
-| WebGL blob | GPU-rendered animated gradient on canvas in hero |
-| CONTENT_REGISTRY | Map of case study slug → dynamically imported content component |
-| rAF | `requestAnimationFrame` — browser animation loop (~60fps) |
+| Lenis              | Smooth scroll library; adds momentum on desktop                                                                |
+| pushState overlay  | URL changes without Next.js navigation; home page stays mounted underneath                                     |
+| WebGL blob         | GPU-rendered animated gradient on canvas in hero                                                               |
+| CONTENT_REGISTRY   | Map of case study slug → dynamically imported content component                                                |
+| rAF                | `requestAnimationFrame` — browser animation loop (~60fps)                                                      |

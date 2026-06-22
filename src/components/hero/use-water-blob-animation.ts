@@ -12,6 +12,11 @@ import {
   createAnimationLoop,
   lerpColors,
 } from './waterBlob.helpers'
+import {
+  deltaFramesFromMs,
+  lerpByReferenceFrames,
+  multiplyByReferenceFrames,
+} from './waterBlob.motion'
 import type { Colors } from './waterBlob.types'
 import { dispatchHeroFlashHead, clearHeroFlashHead } from './hero-flash-head'
 
@@ -66,15 +71,10 @@ export function useWaterBlobAnimation({
   // Theme changes are handled by useWaterBlobColorRefs → lerpColors → per-frame
   // uniform updates in createAnimationLoop — no program rebuild needed.
   useEffect(() => {
-    if (
-      prefersReducedMotion ||
-      pauseWebGL ||
-      saveData
-    ) {
+    if (prefersReducedMotion || pauseWebGL || saveData) {
       return
     }
 
-    let initTimeoutId: ReturnType<typeof setTimeout>
     let cancelled = false
     let disposeWebGL: (() => void) | null = null
 
@@ -116,7 +116,8 @@ export function useWaterBlobAnimation({
       }
 
       const isMobile =
-        window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
+        window.matchMedia('(pointer: coarse)').matches ||
+        window.innerWidth < 768
       const display = displayColorsRef.current!
       const target = targetColorsRef.current!
       const programInfo = setupWebGL(gl, display, isMobile)
@@ -147,13 +148,15 @@ export function useWaterBlobAnimation({
       )
 
       let animationId = 0
-      let startTimeoutId: ReturnType<typeof setTimeout>
       let accumulatedTime = 0
       let lastTimestamp: number | null = null
       let ghostOpacity = 1
+      let isDisposed = false
 
       const shouldPauseLoop = () =>
-        isPausedByDialogRef.current || pausedRef.current || isTabHiddenRef.current
+        isPausedByDialogRef.current ||
+        pausedRef.current ||
+        isTabHiddenRef.current
 
       const loop = (timestamp: number) => {
         if (shouldPauseLoop()) {
@@ -162,27 +165,50 @@ export function useWaterBlobAnimation({
           return
         }
 
+        const deltaMs =
+          lastTimestamp === null ? 1000 / 60 : timestamp - lastTimestamp
+        const deltaFrames = deltaFramesFromMs(deltaMs)
+
         if (lastTimestamp !== null) {
-          accumulatedTime +=
-            ((timestamp - lastTimestamp) / 1000) * animationSpeedRef.current
+          accumulatedTime += (deltaMs / 1000) * animationSpeedRef.current
         }
         lastTimestamp = timestamp
 
         const riseRate = isQuick ? 0.06 : 0.035
         if (yOffsetRef.current < -0.001) {
-          yOffsetRef.current += (0 - yOffsetRef.current) * riseRate
+          yOffsetRef.current = lerpByReferenceFrames(
+            yOffsetRef.current,
+            0,
+            riseRate,
+            deltaFrames
+          )
         } else {
           yOffsetRef.current = 0
         }
 
         if (isQuick) {
-          ambientRef.current += (1.0 - ambientRef.current) * 0.08
+          ambientRef.current = lerpByReferenceFrames(
+            ambientRef.current,
+            1.0,
+            0.08,
+            deltaFrames
+          )
         } else if (!isGhost) {
-          ambientRef.current += (0.15 - ambientRef.current) * 0.02
+          ambientRef.current = lerpByReferenceFrames(
+            ambientRef.current,
+            0.15,
+            0.02,
+            deltaFrames
+          )
         }
 
         if (isGhost) {
-          trailRef.current += (1.0 - trailRef.current) * 0.12
+          trailRef.current = lerpByReferenceFrames(
+            trailRef.current,
+            1.0,
+            0.12,
+            deltaFrames
+          )
         }
 
         if (isGhost && isQuick) {
@@ -192,9 +218,17 @@ export function useWaterBlobAnimation({
         if (isGhost) {
           revealPhaseRef.current = 0
           if (yOffsetRef.current > -0.5) {
-            ghostOpacity -= isQuick ? 0.035 : 0.02
-            ambientRef.current *= isQuick ? 0.92 : 0.98
-            trailRef.current *= isQuick ? 0.95 : 0.98
+            ghostOpacity -= (isQuick ? 0.035 : 0.02) * deltaFrames
+            ambientRef.current = multiplyByReferenceFrames(
+              ambientRef.current,
+              isQuick ? 0.92 : 0.98,
+              deltaFrames
+            )
+            trailRef.current = multiplyByReferenceFrames(
+              trailRef.current,
+              isQuick ? 0.95 : 0.98,
+              deltaFrames
+            )
 
             if (canvasRef.current) {
               canvasRef.current.style.opacity = Math.max(
@@ -204,12 +238,17 @@ export function useWaterBlobAnimation({
             }
           }
           if (ghostOpacity <= 0) {
-            if (isQuick) clearHeroFlashHead()
             animationId = 0
+            disposeWebGL?.()
             return
           }
         } else if (yOffsetRef.current > -1.1 && revealPhaseRef.current < 1) {
-          revealPhaseRef.current += (1 - revealPhaseRef.current) * 0.02
+          revealPhaseRef.current = lerpByReferenceFrames(
+            revealPhaseRef.current,
+            1,
+            0.02,
+            deltaFrames
+          )
           if (revealPhaseRef.current > 0.999) revealPhaseRef.current = 1
         }
 
@@ -229,9 +268,11 @@ export function useWaterBlobAnimation({
       }
 
       resumeLoopRef.current = startLoop
-      startTimeoutId = setTimeout(startLoop, loopDelay)
+      const startTimeoutId = setTimeout(startLoop, loopDelay)
 
       disposeWebGL = () => {
+        if (isDisposed) return
+        isDisposed = true
         if (isGhost && isQuick) clearHeroFlashHead()
         resumeLoopRef.current = null
         clearTimeout(startTimeoutId)
@@ -246,7 +287,7 @@ export function useWaterBlobAnimation({
       }
     }
 
-    initTimeoutId = setTimeout(initWebGL, webglInitDelay)
+    const initTimeoutId = setTimeout(initWebGL, webglInitDelay)
 
     return () => {
       cancelled = true

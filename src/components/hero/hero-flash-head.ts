@@ -1,4 +1,8 @@
-import { HERO_F1_ENTRY_MS, HERO_NAV_GLOW_FADE_LEAD_MS } from '@/components/hero/hero-entry-timing'
+import {
+  HERO_F1_ENTRY_MS,
+  HERO_NAV_GLOW_FADE_LEAD_MS,
+} from '@/components/hero/hero-entry-timing'
+import { lerpByReferenceFrames } from './waterBlob.motion'
 
 /** Mirrors `approxTopEdge` in `waterBlob.shader.ts` during F1 plasma (revealPhase = 0). */
 export const FLASH_TRAIL_HEAD_OFFSET = 0.52
@@ -11,7 +15,7 @@ export const FLASH_HEAD_DISPATCH_FRAME_INTERVAL = 2
 
 let flashHeadDispatchFrame = 0
 
-/** Matches `isQuick` rise lerp in `WaterBlob.tsx` (per animation frame). */
+/** Matches `isQuick` reference-frame rise lerp in `WaterBlob.tsx`. */
 export const FLASH_QUICK_RISE_RATE = 0.06
 export const FLASH_ANIMATION_FPS = 60
 
@@ -36,7 +40,8 @@ export interface HeroFlashHeadDetail {
 }
 
 export function computeFlashHeadUvY(yOffset: number): number {
-  const maxCenterY = FLASH_PLASMA_CENTER_Y + yOffset + FLASH_PLASMA_MAX_CENTER_OFFSET
+  const maxCenterY =
+    FLASH_PLASMA_CENTER_Y + yOffset + FLASH_PLASMA_MAX_CENTER_OFFSET
   return maxCenterY + FLASH_TRAIL_HEAD_OFFSET
 }
 
@@ -89,7 +94,12 @@ export function f1MsUntilHeadReachesScreenY(
   const frameMs = 1000 / fps
 
   while (yOffset < targetYOffset - 0.0005 && frame < 600) {
-    yOffset += (FLASH_Y_OFFSET_END - yOffset) * FLASH_QUICK_RISE_RATE
+    yOffset = lerpByReferenceFrames(
+      yOffset,
+      FLASH_Y_OFFSET_END,
+      FLASH_QUICK_RISE_RATE,
+      1
+    )
     frame++
   }
 
@@ -112,8 +122,16 @@ export function flashHeadScreenYPxPerFrame(
   yOffset: number,
   viewportHeight: number
 ): number {
-  const headSpan = computeFlashHeadUvY(FLASH_Y_OFFSET_END) - computeFlashHeadUvY(FLASH_Y_OFFSET_START)
-  const dyOffset = (FLASH_Y_OFFSET_END - yOffset) * FLASH_QUICK_RISE_RATE
+  const headSpan =
+    computeFlashHeadUvY(FLASH_Y_OFFSET_END) -
+    computeFlashHeadUvY(FLASH_Y_OFFSET_START)
+  const nextYOffset = lerpByReferenceFrames(
+    yOffset,
+    FLASH_Y_OFFSET_END,
+    FLASH_QUICK_RISE_RATE,
+    1
+  )
+  const dyOffset = nextYOffset - yOffset
   const dProgress = dyOffset / headSpan
   return Math.abs(viewportHeight * dProgress)
 }
