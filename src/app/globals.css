@@ -182,9 +182,7 @@
 
   /* Typography utility classes for consistent styling */
   .text-hero-body {
-    font-size: calc(
-      var(--text-base) * 0.875
-    ); /* smaller on mobile (~14px if base is 16px) */
+    font-size: var(--text-base); /* 16px on mobile */
     font-weight: 500;
     line-height: 1.6;
     letter-spacing: -0.4px;
@@ -265,7 +263,7 @@
 
   /* Water blob responsive max heights */
   .water-blob-container {
-    max-height: 22.5rem; /* 360px on mobile */
+    max-height: 30rem; /* 480px on mobile */
   }
 
   @media (min-width: 768px) {

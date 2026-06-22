@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { animate } from 'framer-motion'
+import { animate, m } from 'framer-motion'
 import { SplitText } from '@/lib/utils/splitText'
 import { cn } from '@/lib/utils/cn'
 import { createPortal } from 'react-dom'
@@ -33,6 +33,20 @@ export const HERO_BIO_PRONUNCIATION_WORDS: Record<string, string> = {
  */
 const POWER3_OUT: [number, number, number, number] = [0.215, 0.61, 0.355, 1]
 
+const MOTION_TAGS = {
+  h1: m.h1,
+  h2: m.h2,
+  h3: m.h3,
+  h4: m.h4,
+  h5: m.h5,
+  h6: m.h6,
+  p: m.p,
+  span: m.span,
+  div: m.div,
+} as const
+
+const BLUR_IN_TRANSITION = { duration: 1.2, ease: [0.4, 0, 0.2, 1] as const }
+
 /**
  * AnimatedHeroTextGSAP
  *
@@ -58,18 +72,21 @@ export function AnimatedHeroTextGSAP({
   const textRef = useRef<HTMLParagraphElement>(null)
   const hasRevealedRef = useRef(false)
   const [scribbleContainers, setScribbleContainers] = useState<HTMLElement[]>([])
-
-  // Read synchronously — avoids false-on-first-render from useBreakpoints()
-  // (which starts false and only corrects after its own useEffect).
-  const isMd =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(min-width: 768px)').matches
+  const [hasMeasuredViewport, setHasMeasuredViewport] = useState(false)
+  const [isMd, setIsMd] = useState(false)
 
   const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
   const shouldPause = prefersReducedMotion || pauseWebGL
 
   useEffect(() => {
-    if (!textRef.current || hasRevealedRef.current) return
+    setIsMd(window.matchMedia('(min-width: 768px)').matches)
+    setHasMeasuredViewport(true)
+  }, [])
+
+  useEffect(() => {
+    if (!isMd || !textRef.current || hasRevealedRef.current) {
+      return
+    }
 
     const element = textRef.current
     let split: ReturnType<typeof SplitText> | null = null
@@ -77,26 +94,7 @@ export function AnimatedHeroTextGSAP({
     let revealControls: ReturnType<typeof animate> | null = null
     let timeoutId: ReturnType<typeof setTimeout> | undefined
 
-    // ── Mobile: simple opacity fade, no line splitting ──────────────────────
-    if (!isMd) {
-      // delay is measured from page-load (performance.now() ≈ 0 at navigation start)
-      const remainingMs = Math.max(0, delay * 1000 - performance.now())
-      timeoutId = setTimeout(() => {
-        if (cancelled || !textRef.current) return
-        textRef.current.style.opacity = '1'
-        textRef.current.style.transition = 'opacity 1.2s ease-out'
-        hasRevealedRef.current = true
-      }, remainingMs)
-
-      return () => {
-        cancelled = true
-        clearTimeout(timeoutId)
-      }
-    }
-
     // ── Desktop: line-reveal ─────────────────────────────────────────────────
-
-    // Make container visible — individual lines control their own opacity/transform
     element.style.opacity = '1'
 
     // SplitText: synchronous DOM layout read. Satoshi uses next/font/local with
@@ -235,7 +233,51 @@ export function AnimatedHeroTextGSAP({
         split?.revert()
       }
     }
-  }, [delay, children, prefersReducedMotion, pauseWebGL, shouldPause, isMd, boldWords, pronunciationWords])
+  }, [
+    delay,
+    children,
+    prefersReducedMotion,
+    pauseWebGL,
+    shouldPause,
+    isMd,
+    boldWords,
+    pronunciationWords,
+  ])
+
+  if (!hasMeasuredViewport) {
+    return (
+      <Component
+        ref={textRef}
+        className={cn(className)}
+        style={{ ...style, opacity: 0 }}
+      >
+        {children}
+      </Component>
+    )
+  }
+
+  if (!isMd) {
+    const MotionComponent = MOTION_TAGS[Component]
+    const mobileTransition = shouldPause
+      ? { duration: 0 }
+      : { ...BLUR_IN_TRANSITION, delay }
+
+    return (
+      <MotionComponent
+        className={cn(className)}
+        style={style}
+        initial={
+          shouldPause
+            ? { filter: 'blur(0px)', opacity: 1 }
+            : { filter: 'blur(20px)', opacity: 0 }
+        }
+        animate={{ filter: 'blur(0px)', opacity: 1 }}
+        transition={mobileTransition}
+      >
+        {children}
+      </MotionComponent>
+    )
+  }
 
   return (
     <>

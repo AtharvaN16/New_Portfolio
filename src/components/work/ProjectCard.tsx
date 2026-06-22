@@ -377,7 +377,7 @@ export function ProjectCard({
               <p
                 className={cn(
                   'font-semibold',
-                  editorialText?.org ?? 'text-[14px] md:text-[18px]'
+                  editorialText?.org ?? 'text-[14px] sm:text-[16px]'
                 )}
                 style={{ color: 'rgb(var(--color-text-secondary))' }}
               >
@@ -389,9 +389,7 @@ export function ProjectCard({
               className={cn(
                 'font-bold leading-tight text-foreground max-w-none sm:max-w-[85%]',
                 editorialText?.title ??
-                  (variant === 'compact'
-                    ? 'text-[18px] sm:text-xl lg:text-[1.75rem]'
-                    : 'text-[18px] sm:text-2xl lg:text-[1.75rem]')
+                  'text-[18px] sm:text-[20px] md:text-[22px] lg:text-[24px]'
               )}
             >
               {title}
@@ -401,7 +399,7 @@ export function ProjectCard({
               <span
                 className={cn(
                   'font-sans font-medium tracking-normal',
-                  editorialText?.tags ?? 'text-[12px] md:text-[18px]'
+                  editorialText?.tags ?? 'text-[12px] sm:text-[14px]'
                 )}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >

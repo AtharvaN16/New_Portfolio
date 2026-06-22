@@ -92,7 +92,7 @@ export function Hero({
                     delay: currentlyDelay,
                     ease: [0.4, 0, 0.2, 1],
                   }}
-                  className="max-w-[50%] md:w-80 md:max-w-xs self-start text-[12px] md:text-[16px] text-left"
+                  className="hidden md:block w-80 max-w-xs text-[16px] text-left"
                 >
                   <p className="md:max-w-[15rem] text-text-secondary">
                     <span className="font-normal">
@@ -131,7 +131,7 @@ export function Hero({
               </div>
             </div>
 
-            <div className="relative w-full overflow-hidden water-blob-container flex-1 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]">
+            <div className="relative w-full overflow-hidden water-blob-container min-h-[480px] flex-1 md:min-h-0 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]">
               {!isMobile && (
                 <WaterBlobWithBoundary
                   isGhost
