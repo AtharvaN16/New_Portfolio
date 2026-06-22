@@ -39,11 +39,9 @@ export function Hero({
   onBrowseWorkClick,
   onGetInTouchClick,
 }: HeroProps) {
-  const { isMobile } = useBreakpoints()
+  const { isMobile, isMd } = useBreakpoints()
   const [initialPaletteIndex] = useState(() => pickInitialHeroPaletteIndex())
-  const isDesktopAnimation =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(min-width: 768px)').matches
+  const isDesktopAnimation = isMd
 
   const bioDelay = isDesktopAnimation ? HERO_BIO_DELAY_S : isMobile ? 0.3 : 1.8
   const currentlyDelay = isDesktopAnimation

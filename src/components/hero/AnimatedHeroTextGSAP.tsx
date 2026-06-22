@@ -7,6 +7,10 @@ import { createPortal } from 'react-dom'
 import { AnimatedScribble } from './AnimatedScribble'
 import { useBreakpoints } from '@/hooks/use-responsive'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
+import {
+  getRemainingRevealDelayS,
+  waitForHeroElementFonts,
+} from './hero-text-timing'
 
 interface AnimatedHeroTextGSAPProps {
   children: string
@@ -51,7 +55,7 @@ export function AnimatedHeroTextGSAP({
   const textRef = useRef<HTMLParagraphElement>(null)
   const hasRevealedRef = useRef(false)
   const [scribbleContainers, setScribbleContainers] = useState<HTMLElement[]>([])
-  const { isDesktop } = useBreakpoints()
+  const { isMd } = useBreakpoints()
 
   const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
   const shouldPause = prefersReducedMotion || pauseWebGL
@@ -60,27 +64,38 @@ export function AnimatedHeroTextGSAP({
     if (!textRef.current || hasRevealedRef.current) return
 
     const element = textRef.current
+    const timelineOriginMs = performance.now()
     let split: ReturnType<typeof SplitText> | null = null
     let cancelled = false
+    let gsapModule: typeof import('gsap') | null = null
 
-    // Wait for fonts to load before splitting to avoid incorrect line breaks
-    document.fonts.ready.then(async () => {
+    const runReveal = async () => {
       if (cancelled || !textRef.current) return
-      
-      // Mobile Performance Bypass: Skip splitting and complex animation
-      if (!isDesktop) {
-        setTimeout(() => {
+
+      await waitForHeroElementFonts(element)
+      if (cancelled || !textRef.current) return
+
+      const remainingDelayS = getRemainingRevealDelayS(
+        delay,
+        timelineOriginMs
+      )
+
+      // Mobile / tablet: simple fade (matches Hero md breakpoint timing)
+      if (!isMd) {
+        window.setTimeout(() => {
           if (textRef.current) {
             textRef.current.style.opacity = '1'
             textRef.current.style.transition = 'opacity 1.2s ease-out'
             hasRevealedRef.current = true
           }
-        }, delay * 1000)
+        }, remainingDelayS * 1000)
         return
       }
 
-      const { gsap } = await import('gsap')
+      gsapModule = await import('gsap')
       if (cancelled || !textRef.current) return
+
+      const { gsap } = gsapModule
 
       // Make visible
       gsap.set(element, { opacity: 1 })
@@ -194,7 +209,7 @@ export function AnimatedHeroTextGSAP({
         opacity: 1,
         duration: shouldPause ? 0 : 1.0,
         ease: 'power3.out',
-        delay: shouldPause ? 0 : delay,
+        delay: shouldPause ? 0 : remainingDelayS,
         onComplete: () => {
           hasRevealedRef.current = true
           lineMasks.forEach((m) => {
@@ -227,16 +242,19 @@ export function AnimatedHeroTextGSAP({
           }
         },
       })
-    })
+    }
+
+    void runReveal()
 
     // Cleanup
     return () => {
       cancelled = true
       if (hasRevealedRef.current) return
       setScribbleContainers([])
+      gsapModule?.gsap.killTweensOf(split?.lines ?? [])
       split?.revert()
     }
-  }, [delay, children, prefersReducedMotion, pauseWebGL, shouldPause, isDesktop, boldWords, pronunciationWords])
+  }, [delay, children, prefersReducedMotion, pauseWebGL, shouldPause, isMd, boldWords, pronunciationWords])
 
   return (
     <>
