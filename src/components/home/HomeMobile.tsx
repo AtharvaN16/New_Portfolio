@@ -1,11 +1,12 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState, Suspense } from 'react'
+import { useCallback, useEffect, useRef, Suspense } from 'react'
 import dynamic from 'next/dynamic'
 import { Navbar } from '@/components/layout/Navbar'
 import { Hero } from '@/components/hero/Hero'
 import { FullpageCard } from '@/components/ui/FullpageCard'
 import { useOverlayDialogs } from '@/hooks/use-overlay-dialogs'
+import { useMobileFeaturedCover } from '@/hooks/use-mobile-featured-cover'
 import { dispatchHomePauseBlobs } from '@/lib/overlay-events'
 import '@/styles/home-mobile-scroll.css'
 
@@ -63,7 +64,7 @@ const FEATURED_CARD = {
 export function HomeMobile() {
   const { isDialogMounted } = useOverlayDialogs()
   const featuredRef = useRef<HTMLElement>(null)
-  const [featuredCover, setFeaturedCover] = useState(0)
+  const featuredCoverProgress = useMobileFeaturedCover(featuredRef)
 
   const scrollToFooter = useCallback(() => {
     document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' })
@@ -75,12 +76,11 @@ export function HomeMobile() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setFeaturedCover(entry.intersectionRatio)
         dispatchHomePauseBlobs(
           entry.isIntersecting && entry.intersectionRatio > 0.08
         )
       },
-      { threshold: [0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 1] }
+      { threshold: [0, 0.08, 0.25] }
     )
 
     observer.observe(target)
@@ -110,7 +110,7 @@ export function HomeMobile() {
               >
                 <Hero
                   stableMobileViewport
-                  featuredCover={featuredCover}
+                  featuredCoverProgress={featuredCoverProgress}
                   onGetInTouchClick={scrollToFooter}
                 />
               </main>

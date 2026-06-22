@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { m } from 'framer-motion'
+import { m, useMotionValue, useTransform, type MotionValue } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { AnimatedLink } from '@/components/ui/AnimatedLink'
 import { useBreakpoints } from '@/hooks/use-responsive'
@@ -40,15 +40,15 @@ interface HeroProps {
   onGetInTouchClick?: () => void
   /** Use svh-based top spacing — avoids dvh toolbar thrash on mobile home */
   stableMobileViewport?: boolean
-  /** 0–1 featured card visibility — drives bio fade + blob dim on mobile home */
-  featuredCover?: number
+  /** 0–1 featured card rise — MotionValue for smooth mobile scroll polish */
+  featuredCoverProgress?: MotionValue<number>
 }
 
 export function Hero({
   onBrowseWorkClick,
   onGetInTouchClick,
   stableMobileViewport = false,
-  featuredCover = 0,
+  featuredCoverProgress,
 }: HeroProps) {
   const { isMobile } = useBreakpoints()
   const [initialPaletteIndex] = useState(() => pickInitialHeroPaletteIndex())
@@ -70,40 +70,45 @@ export function Hero({
     ? HERO_CURRENTLY_DURATION_S
     : META_FADE_DURATION
   const bottomRowDelay = isDesktopAnimation ? HERO_BOTTOM_ROW_DELAY_S : 0
-  const featuredScrollMix = Math.min(1, featuredCover * 1.6)
+  const staticCover = useMotionValue(0)
+  const coverProgress = featuredCoverProgress ?? staticCover
+  const bioOpacity = useTransform(coverProgress, [0, 1], [1, 0])
+  const bioY = useTransform(coverProgress, [0, 1], [0, -24])
+  const blobOpacity = useTransform(coverProgress, [0, 1], [1, 0.8])
+
+  const bioText = (
+    <AnimatedHeroTextGSAP
+      as="h1"
+      boldWords={HERO_BIO_BOLD_WORDS}
+      pronunciationWords={HERO_BIO_PRONUNCIATION_WORDS}
+      inlinePronunciation={stableMobileViewport}
+      className="text-hero-body"
+      delay={bioDelay}
+    >
+      Hi, I&apos;m Atharva — a product designer based in NYC. I love solving
+      problems through thoughtful design and crafting delightful, user-centered
+      experiences.
+    </AnimatedHeroTextGSAP>
+  )
 
   const bioBlock = (
     <div
       className="flex flex-col gap-12 mb-2 md:mb-5 lg:mb-6 md:flex-row md:items-end md:justify-between md:gap-4 px-6 md:px-0 md:min-h-0"
       style={{ flexShrink: 0 }}
     >
-      <div
-        className={cn(
-          'max-w-[70%] md:max-w-none md:w-[410px]',
-          stableMobileViewport && 'home-mobile-hero-bio'
-        )}
-        style={
-          stableMobileViewport
-            ? {
-                opacity: 1 - featuredScrollMix,
-                transform: `translateY(${-20 * featuredScrollMix}px)`,
-              }
-            : undefined
-        }
-      >
-        <AnimatedHeroTextGSAP
-          as="h1"
-          boldWords={HERO_BIO_BOLD_WORDS}
-          pronunciationWords={HERO_BIO_PRONUNCIATION_WORDS}
-          inlinePronunciation={stableMobileViewport}
-          className="text-hero-body"
-          delay={bioDelay}
+      {stableMobileViewport ? (
+        <m.div
+          className={cn(
+            'max-w-[70%] will-change-transform',
+            'home-mobile-hero-bio'
+          )}
+          style={{ opacity: bioOpacity, y: bioY }}
         >
-          Hi, I&apos;m Atharva — a product designer based in NYC. I love
-          solving problems through thoughtful design and crafting delightful,
-          user-centered experiences.
-        </AnimatedHeroTextGSAP>
-      </div>
+          {bioText}
+        </m.div>
+      ) : (
+        <div className="max-w-[70%] md:max-w-none md:w-[410px]">{bioText}</div>
+      )}
 
       <div className="flex flex-col items-end gap-3 md:flex-row md:items-end md:gap-10 lg:gap-[196px]">
         <m.div
@@ -154,19 +159,36 @@ export function Hero({
     </div>
   )
 
-  const blobBlock = (
+  const blobBlock = stableMobileViewport ? (
+    <m.div
+      className={cn(
+        'relative overflow-hidden water-blob-container water-blob-container--edge h-full min-h-0 w-full'
+      )}
+      style={{ opacity: blobOpacity }}
+    >
+      {!isMobile && (
+        <WaterBlobWithBoundary
+          isGhost
+          isQuick
+          entryDelay={HERO_F1_ENTRY_MS}
+          initialPaletteIndex={initialPaletteIndex}
+        />
+      )}
+
+      <WaterBlobWithBoundary
+        interactive
+        entryDelay={isMobile ? 1500 : 0}
+        webglInitDelay={isMobile ? 0 : HERO_F2_ENTRY_MS}
+        initialPaletteIndex={initialPaletteIndex}
+      />
+
+      {!isMobile && HERO_FLASH_WELCOME_ENABLED && <HeroFlashWelcome />}
+    </m.div>
+  ) : (
     <div
       className={cn(
-        'relative overflow-hidden water-blob-container md:min-h-0 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]',
-        stableMobileViewport
-          ? 'water-blob-container--edge h-full min-h-0 w-full'
-          : 'min-h-[480px] w-full flex-1 md:min-h-0'
+        'relative overflow-hidden water-blob-container min-h-[480px] w-full flex-1 md:min-h-0 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]'
       )}
-      style={
-        stableMobileViewport
-          ? { opacity: 1 - featuredScrollMix * 0.2 }
-          : undefined
-      }
     >
       {!isMobile && (
         <WaterBlobWithBoundary
