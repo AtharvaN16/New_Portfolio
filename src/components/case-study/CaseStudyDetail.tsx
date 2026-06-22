@@ -33,6 +33,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
           animationType="fadeIn"
           alwaysAnimate
           delay={0.8}
+          orphanPrevention="orphan"
           className="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
         />
 

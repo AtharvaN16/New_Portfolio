@@ -48,7 +48,7 @@ export function Hero({
     typeof window !== 'undefined' &&
     window.matchMedia('(min-width: 768px)').matches
 
-  const bioDelay = isDesktopAnimation ? HERO_BIO_DELAY_S : isMobile ? 0.3 : 1.8
+  const bioDelay = isDesktopAnimation ? HERO_BIO_DELAY_S : isMobile ? 1.0 : 1.8
   const currentlyDelay = isDesktopAnimation
     ? HERO_CURRENTLY_DELAY_S
     : isMobile

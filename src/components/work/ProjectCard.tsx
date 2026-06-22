@@ -194,7 +194,6 @@ export function ProjectCard({
     ]
     const tabletHeights = ['md:h-[340px]', 'md:h-[380px]']
     return cn(
-      'h-[300px]',
       tabletHeights[masonryIndex % tabletHeights.length],
       desktopHeights[masonryIndex % desktopHeights.length]
     )
@@ -246,7 +245,7 @@ export function ProjectCard({
                 isEditorial
                   ? 'aspect-[16/9]'
                   : isMasonry
-                    ? cn('flex items-center justify-center', getMasonryHeight())
+                    ? cn('md:flex md:items-center md:justify-center', getMasonryHeight())
                     : className?.includes('h-full')
                       ? 'flex-1 min-h-[200px]'
                       : cn(
@@ -261,8 +260,18 @@ export function ProjectCard({
       >
         {/* Base: themeColor for non-image cards; neutral dark for masonry letterboxing */}
         <div
-          className="absolute inset-0 z-0"
-          style={{ backgroundColor: variant === 'sub-case' ? themeColor : (isMasonry && cardImageUrl ? '#111' : themeColor) }}
+          className={cn(
+            'absolute inset-0 z-0',
+            isMasonry && cardImageUrl && 'max-md:hidden'
+          )}
+          style={{
+            backgroundColor:
+              variant === 'sub-case'
+                ? themeColor
+                : isMasonry && cardImageUrl
+                  ? '#111'
+                  : themeColor,
+          }}
         />
 
         {/* 10% tint overlay for sub-case */}
@@ -300,19 +309,33 @@ export function ProjectCard({
               />
             </m.div>
           ) : isMasonry ? (
-            <div className="relative w-full aspect-[4/3] z-10 shrink-0 overflow-hidden">
+            <>
               <Image
                 src={cardImageUrl}
                 alt={title}
-                fill
+                width={0}
+                height={0}
                 sizes={imageSizes ?? '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'}
                 priority={imagePriority}
                 loading={imagePriority ? 'eager' : 'lazy'}
                 fetchPriority={imageFetchPriority}
                 quality={92}
-                className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] lg:group-hover:scale-[1.04]"
+                className="relative z-10 w-full h-auto md:hidden transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]"
               />
-            </div>
+              <div className="relative hidden w-full aspect-[4/3] z-10 shrink-0 overflow-hidden md:block">
+                <Image
+                  src={cardImageUrl}
+                  alt={title}
+                  fill
+                  sizes={imageSizes ?? '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'}
+                  priority={imagePriority}
+                  loading={imagePriority ? 'eager' : 'lazy'}
+                  fetchPriority={imageFetchPriority}
+                  quality={92}
+                  className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] lg:group-hover:scale-[1.04]"
+                />
+              </div>
+            </>
           ) : videoUrl ? (
             <video
               src={videoUrl}
@@ -358,12 +381,12 @@ export function ProjectCard({
             {title}
           </h3>
         ) : isMasonry ? (
-          <div className="flex items-baseline justify-between gap-4">
+          <div className="flex items-baseline gap-4 md:justify-between">
             <h3 className="min-w-0 font-medium leading-snug text-foreground text-[15px] sm:text-[16px] lg:text-[17px]">
               {title}
             </h3>
             <p
-              className="shrink-0 text-right text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.06em] leading-tight max-w-[45%]"
+              className="hidden shrink-0 text-right text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.06em] leading-tight max-w-[45%] md:block"
               style={{ color: 'rgb(var(--color-text-tertiary))' }}
             >
               {[organization, ...(_tags || []).filter((tag) => tag !== 'Selected Work' && tag !== year).slice(0, 1), year]

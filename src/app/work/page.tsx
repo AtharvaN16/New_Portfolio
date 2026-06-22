@@ -80,15 +80,8 @@ export default function WorkPage() {
       {/* Header with Filters and Back Button */}
       <header className="relative z-50">
         <div className="max-w-[1920px] mx-auto">
-          <nav className="px-6 2xl:px-[140px] pt-[38px] md:pt-[46px] pb-6 flex flex-col md:flex-row md:items-start justify-between gap-6">
-            <div className="flex-1">
-              <WorkFilter
-                projects={allProjects}
-                selectedFilter={selectedFilter}
-                onFilterChange={setSelectedFilter}
-                hasChangedFilter={hasChangedFilter}
-              />
-            </div>
+          {/* Back button row — mirrors CaseStudyHeader */}
+          <div className="px-6 2xl:px-[140px] pt-[38px] md:pt-[46px] flex items-center justify-end">
             <m.div
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -97,13 +90,23 @@ export default function WorkPage() {
                 delay: 0.5,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="md:pt-4" // Align with the filter background's padding
             >
               <NavButton onClick={handleBack} className="-mr-3">
                 Back
               </NavButton>
             </m.div>
-          </nav>
+          </div>
+
+          {/* Filter row — full width below the Back button */}
+          <div className="px-6 2xl:px-[140px] pb-6 pt-4">
+            <WorkFilter
+              projects={allProjects}
+              selectedFilter={selectedFilter}
+              onFilterChange={setSelectedFilter}
+              hasChangedFilter={hasChangedFilter}
+            />
+          </div>
+
           <div className="px-6 2xl:px-[140px]">
             <LineSeparator
               className="opacity-50"

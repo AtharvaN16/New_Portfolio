@@ -59,7 +59,7 @@ export function CaseStudyLayout({
       <div
         id="case-study-scroll-container"
         ref={containerRef}
-        className="min-h-dvh bg-background text-text-primary overflow-y-auto h-dvh"
+        className="min-h-dvh bg-background text-text-primary overflow-x-hidden overflow-y-auto h-dvh"
         style={{
           overscrollBehavior: 'contain',
           WebkitOverflowScrolling: 'touch',
