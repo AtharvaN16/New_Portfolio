@@ -111,9 +111,7 @@ export const fragmentShader = `
     float edgeSoftness = mix(edgeSharpness, 0.6, proximityToOther);
     float influence = 1.0 - smoothstep(turbulentRadius * edgeSoftness, turbulentRadius * 1.5, dist);
 
-    float densityFalloff = uIsMobile > 0.5
-      ? 1.0 - clamp(dist / (turbulentRadius * 1.2), 0.0, 1.0)
-      : exp(-dist / (turbulentRadius * 0.5));
+    float densityFalloff = exp(-dist / (turbulentRadius * 0.5));
     influence *= densityFalloff * VOLUMETRIC_DENSITY + (1.0 - VOLUMETRIC_DENSITY);
 
     float atmosphericNoise = uIsMobile > 0.5
@@ -156,7 +154,7 @@ export const fragmentShader = `
 
     float size1 = mix(1.35, 1.0, uRevealPhase);
     float size2 = mix(1.28, 1.0, uRevealPhase);
-    float mobileSizeBoost = uIsMobile > 0.5 ? 1.22 : 1.0;
+    float mobileSizeBoost = uIsMobile > 0.5 ? 1.28 : 1.0;
     float breath1 = 1.0 + 0.06 * sin(uTime * 0.27);
     float breath2 = 1.0 + 0.06 * sin(uTime * 0.19 + 2.1);
     float blob1 = irregularWaterShape(uv, blob1Center, 0.55 * size1 * breath1 * mobileSizeBoost, uTime, 0.0, 0.25, 0.80, proximity1);
@@ -175,7 +173,7 @@ export const fragmentShader = `
 
     // === GLOW (additive, emissive — dark mode) ===
     float glowIntensity = uIsMobile > 0.5
-      ? pow(totalWater, 0.65) * 0.48
+      ? pow(totalWater, 0.62) * 0.52
       : pow(totalWater, 0.6) * 0.4;
     vec3 color = backgroundColor * (1.0 + glowIntensity);
 
@@ -208,7 +206,7 @@ export const fragmentShader = `
 
     // === ATMOSPHERIC FADE ===
     float atmosphericAlpha = uIsMobile > 0.5
-      ? pow(totalWater, 0.82)
+      ? pow(totalWater, 0.76)
       : pow(totalWater, 0.78);
     color = mix(backgroundColor, color, atmosphericAlpha);
 

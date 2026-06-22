@@ -131,7 +131,7 @@ export function useWaterBlobAnimation({
       if (initialMountRef.current) {
         yOffsetRef.current = -1.5
         revealPhaseRef.current = isMobile && !isGhost ? 1 : 0
-        ambientRef.current = isMobile && !isGhost ? 0.15 : 0
+        ambientRef.current = isMobile && !isGhost ? 0.22 : 0
         trailRef.current = 0
         if (canvasRef.current) canvasRef.current.style.opacity = '1'
       }
