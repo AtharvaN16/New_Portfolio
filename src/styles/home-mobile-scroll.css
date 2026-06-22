@@ -1,0 +1,59 @@
+/**
+ * Mobile home scroll-driven polish (option D on top of sticky stack C).
+ * Compositor-friendly — no JS scroll listeners.
+ */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .home-mobile-featured {
+      view-timeline-name: --home-mobile-card-rise;
+      view-timeline-axis: block;
+    }
+
+    .home-mobile-hero-content {
+      animation: home-mobile-hero-dim linear both;
+      animation-timeline: --home-mobile-card-rise;
+      animation-range: entry 0% cover 45%;
+    }
+
+    .home-mobile-hero-content .water-blob-container {
+      animation: home-mobile-blob-scale linear both;
+      animation-timeline: --home-mobile-card-rise;
+      animation-range: entry 0% cover 45%;
+      transform-origin: center center;
+    }
+
+    .home-mobile-card-scrim {
+      animation: home-mobile-scrim-out linear both;
+      animation-timeline: --home-mobile-card-rise;
+      animation-range: entry 0% cover 50%;
+    }
+  }
+}
+
+@keyframes home-mobile-hero-dim {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.72;
+  }
+}
+
+@keyframes home-mobile-blob-scale {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.93);
+  }
+}
+
+@keyframes home-mobile-scrim-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

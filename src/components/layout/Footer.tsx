@@ -9,23 +9,61 @@ import {
   type MotionValue,
 } from 'framer-motion'
 import { useBreakpoints } from '@/hooks/use-responsive'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
+import { cn } from '@/lib/utils/cn'
 import { FooterClock } from './FooterClock'
 import { FooterSmog } from './FooterSmog'
 import { FooterLinksSection } from './FooterLinksSection'
 import { FooterMessageSection } from './FooterMessageSection'
 import { AccessibilityModal } from './AccessibilityModal'
 
+type FooterLayoutVariant = 'desktop-reveal' | 'mobile-flow'
+
 interface FooterProps {
+  layoutVariant?: FooterLayoutVariant
   revealProgress?: MotionValue<number>
   triggerShimmer?: boolean
 }
 
-export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
+function MobileFooterEntrance({
+  children,
+  delay = 0,
+  enabled,
+}: {
+  children: React.ReactNode
+  delay?: number
+  enabled: boolean
+}) {
+  if (!enabled) return children
+
+  return (
+    <m.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{
+        duration: 0.65,
+        delay,
+        ease: [0.4, 0, 0.2, 1],
+      }}
+    >
+      {children}
+    </m.div>
+  )
+}
+
+export function Footer({
+  layoutVariant = 'desktop-reveal',
+  revealProgress,
+  triggerShimmer,
+}: FooterProps) {
   const footerContainerRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
   const fallbackProgress = useMotionValue(1)
   const progress = revealProgress ?? fallbackProgress
   const { isDesktop } = useBreakpoints()
+  const { reducedMotion } = useAccessibility()
+  const isMobileFlow = layoutVariant === 'mobile-flow'
 
   const [isAccessibilityModalOpen, setIsAccessibilityModalOpen] =
     useState(false)
@@ -54,8 +92,9 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
   const desktopY = useTransform(progress, [0.8, 1.0], [25, 0])
   const staticOpacity = useMotionValue(1)
   const staticY = useMotionValue(0)
-  const sectionOpacity = isDesktop ? desktopOpacity : staticOpacity
-  const sectionY = isDesktop ? desktopY : staticY
+  const sectionOpacity =
+    isMobileFlow || !isDesktop ? staticOpacity : desktopOpacity
+  const sectionY = isMobileFlow || !isDesktop ? staticY : desktopY
 
   const glowFireThreshold = isDesktop ? 0.98 : 0.05
   const glowClearThreshold = isDesktop ? 0.98 : 0.02
@@ -65,6 +104,8 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
   const glowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useMotionValueEvent(progress, 'change', (latest) => {
+    if (isMobileFlow) return
+
     if (latest >= glowFireThreshold && !glowTimerRef.current) {
       glowTimerRef.current = setTimeout(() => {
         setShowGlow(true)
@@ -80,6 +121,29 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
       queueMicrotask(() => setShowGlow(false))
     }
   })
+
+  useEffect(() => {
+    if (!isMobileFlow) return
+
+    if (isVisible) {
+      glowTimerRef.current = setTimeout(() => {
+        setShowGlow(true)
+      }, 100)
+    } else {
+      if (glowTimerRef.current) {
+        clearTimeout(glowTimerRef.current)
+        glowTimerRef.current = null
+      }
+      queueMicrotask(() => setShowGlow(false))
+    }
+
+    return () => {
+      if (glowTimerRef.current) {
+        clearTimeout(glowTimerRef.current)
+        glowTimerRef.current = null
+      }
+    }
+  }, [isMobileFlow, isVisible])
 
   useEffect(() => {
     if (!triggerShimmer) return
@@ -100,6 +164,11 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
     []
   )
 
+  const smogVisible = isMobileFlow ? showGlow && isVisible : showGlow
+  const showSmogLayer = isMobileFlow || isDesktop
+  const smogVariant = isMobileFlow ? 'mobile' : 'desktop'
+  const mobileEntrance = isMobileFlow && !reducedMotion
+
   return (
     <footer
       ref={footerContainerRef}
@@ -109,41 +178,72 @@ export function Footer({ revealProgress, triggerShimmer }: FooterProps) {
         boxShadow: 'var(--shadow-2xl)',
       }}
     >
-      {isVisible && <FooterSmog visible={showGlow} />}
+      {showSmogLayer && isVisible && (
+        <FooterSmog visible={smogVisible} variant={smogVariant} />
+      )}
 
       <div
-        className="mx-auto max-w-[1920px] px-6 2xl:px-[140px] pt-32 md:pt-28 lg:pt-32 [--footer-content-height:480px] lg:[--footer-content-height:300px]"
-        style={{
-          paddingBottom: 'calc(85svh - var(--footer-content-height) - 56px)',
-        }}
+        className={
+          isMobileFlow
+            ? 'mx-auto max-w-[1920px] px-6 pt-16 pb-[max(1.5rem,env(safe-area-inset-bottom))]'
+            : 'mx-auto max-w-[1920px] px-6 2xl:px-[140px] pt-32 md:pt-28 lg:pt-32 [--footer-content-height:480px] lg:[--footer-content-height:300px]'
+        }
+        style={
+          isMobileFlow
+            ? undefined
+            : {
+                paddingBottom:
+                  'calc(85svh - var(--footer-content-height) - 56px)',
+              }
+        }
       >
-        <div className="footer-all-links-wrapper grid grid-cols-1 gap-12 lg:flex lg:items-start lg:justify-between">
-          <FooterMessageSection
-            sectionOpacity={sectionOpacity}
-            sectionY={sectionY}
-            isDesktop={isDesktop}
-            playShimmer={playShimmer}
-          />
+        <div
+          className={cn(
+            'footer-all-links-wrapper grid grid-cols-1 lg:flex lg:items-start lg:justify-between',
+            isMobileFlow ? 'gap-8 -mt-2' : 'gap-12'
+          )}
+        >
+          <MobileFooterEntrance enabled={mobileEntrance} delay={0}>
+            <FooterMessageSection
+              sectionOpacity={sectionOpacity}
+              sectionY={sectionY}
+              isDesktop={isDesktop}
+              playShimmer={playShimmer}
+            />
+          </MobileFooterEntrance>
 
-          <FooterLinksSection
-            sectionOpacity={sectionOpacity}
-            sectionY={sectionY}
-            playShimmer={playShimmer}
-            onOpenAccessibility={() => setIsAccessibilityModalOpen(true)}
-          />
+          <MobileFooterEntrance enabled={mobileEntrance} delay={0.1}>
+            <FooterLinksSection
+              sectionOpacity={sectionOpacity}
+              sectionY={sectionY}
+              playShimmer={playShimmer}
+              onOpenAccessibility={() => setIsAccessibilityModalOpen(true)}
+            />
+          </MobileFooterEntrance>
 
-          <m.div
-            className="order-2 mt-12 lg:order-3 lg:mt-0"
-            style={{ opacity: sectionOpacity, y: sectionY }}
-          >
-            <FooterClock className="text-left lg:text-right" />
-          </m.div>
+          <MobileFooterEntrance enabled={mobileEntrance} delay={0.2}>
+            <m.div
+              className="order-2 mt-12 lg:order-3 lg:mt-0"
+              style={
+                isMobileFlow
+                  ? undefined
+                  : { opacity: sectionOpacity, y: sectionY }
+              }
+            >
+              <FooterClock className="text-left lg:text-right" />
+            </m.div>
+          </MobileFooterEntrance>
         </div>
       </div>
 
       <div
         className="mx-auto flex max-w-[1920px] flex-col gap-2 px-6 2xl:px-[140px] py-4 sm:flex-row sm:items-center sm:justify-between"
-        style={{ color: 'rgb(var(--color-text-secondary))' }}
+        style={{
+          color: 'rgb(var(--color-text-secondary))',
+          paddingBottom: isMobileFlow
+            ? 'max(1rem, env(safe-area-inset-bottom))'
+            : undefined,
+        }}
       >
         <p className="vulf-mono-italic-light text-[10px] md:text-sm">
           Designed and Coded by Atharva

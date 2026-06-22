@@ -15,7 +15,7 @@ This file is an **audit**, not a work order. Treat every item as a hypothesis to
 
 1. **Re-read the actual file and line** cited before touching it. Line numbers drift; the code may already differ.
 2. **Confirm the finding is still true** in the current code. If a finding is tagged `[NEEDS-CONFIRM]`, verifying it IS part of the task — do not "fix" something you haven't reproduced.
-3. **Understand WHY the current code is the way it is** before replacing it. This codebase has *intentional* mobile branches (DPR scaling, frame caps, desktop-only animations). Many "missing" things are deliberate. Do not "optimize" something that is already a tuned tradeoff (see the ✅ DO-NOT-TOUCH list).
+3. **Understand WHY the current code is the way it is** before replacing it. This codebase has _intentional_ mobile branches (DPR scaling, frame caps, desktop-only animations). Many "missing" things are deliberate. Do not "optimize" something that is already a tuned tradeoff (see the ✅ DO-NOT-TOUCH list).
 4. **One concern per change.** Do not bundle an image fix with an a11y fix with a refactor. Small, reviewable diffs.
 5. **Respect the project rules** in `CLAUDE.md` and `rules.md`: max 300 lines/file, no hardcoded values (use tokens in `src/app/globals.css`), strict TypeScript (no `any`), mobile-first, WCAG 2.2 **AA** (not AAA — see note in §4).
 6. **Verify before claiming done.** Run `bun run validate` (lint + format + type-check + test). For UI/animation/scroll changes, you MUST check behavior on an actual mobile viewport (DevTools device mode at minimum, real device preferred) — type/scroll/tap changes cannot be verified by tests alone.
@@ -30,11 +30,11 @@ This file is an **audit**, not a work order. Treat every item as a hypothesis to
 
 There are **three different mobile cutoffs** in the codebase. Know which one a file uses before editing.
 
-| Mechanism | Cutoff | Where | Notes |
-|---|---|---|---|
-| `useBreakpoints()` → `isMobile = !isSm` | `< 640px` | `src/hooks/use-responsive.ts:80` | React hook. **Starts `false`, flips after mount** (`useState(false)` + effect). Causes first-render flicker if used naively. |
-| Synchronous `matchMedia('(min-width: 768px)')` | `< 768px` | `src/components/hero/Hero.tsx:47` | Used to avoid the hook's "false on first render" problem. |
-| `(pointer: coarse) \|\| innerWidth < 768` | touch OR `< 768px` | `waterBlob.helpers.ts`, `LenisProvider.tsx`, `TextureOverlay.tsx` | Used for WebGL/scroll/texture gating. |
+| Mechanism                                      | Cutoff             | Where                                                             | Notes                                                                                                                        |
+| ---------------------------------------------- | ------------------ | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `useBreakpoints()` → `isMobile = !isSm`        | `< 640px`          | `src/hooks/use-responsive.ts:80`                                  | React hook. **Starts `false`, flips after mount** (`useState(false)` + effect). Causes first-render flicker if used naively. |
+| Synchronous `matchMedia('(min-width: 768px)')` | `< 768px`          | `src/components/hero/Hero.tsx:47`                                 | Used to avoid the hook's "false on first render" problem.                                                                    |
+| `(pointer: coarse) \|\| innerWidth < 768`      | touch OR `< 768px` | `waterBlob.helpers.ts`, `LenisProvider.tsx`, `TextureOverlay.tsx` | Used for WebGL/scroll/texture gating.                                                                                        |
 
 **Maintainability finding (M1):** these should converge on a single source of truth (`useIsMobile()` / `useIsTouch()`). But changing the contract touches many files — treat as its own scoped task, do it deliberately, and verify each call site still gets the cutoff it expects (640 vs 768 vs coarse are NOT interchangeable).
 
@@ -82,6 +82,7 @@ Use this to orient before editing. Verified files marked `[V]`.
 Each finding: **what / where / why it matters / suggested fix / risk & verification**.
 
 ### P1 — 🔴 Oversized source images (highest real-world impact)
+
 - **What:** `public/` totals ~344 MB. Several 7–20 MB PNGs, e.g. `public/images/case-studies/nyc-dcwp-business-licenses/old-dcwp-page.png` (~20MB), `…/pratt-institute-visitor-experience/pratt-service-design-hero-8k.png` (~13MB).
 - **Why:** Dominates case-study LCP on cellular. Even with next/image transcoding, large sources are slow to process and any direct `<img>`/CSS reference ships them raw.
 - **Confirm first:** `du -sh public`, `find public -type f -size +1M`. Grep each large file name across `src/` to see whether it's served via next/image (transcoded) or referenced directly.
@@ -89,24 +90,28 @@ Each finding: **what / where / why it matters / suggested fix / risk & verificat
 - **Risk:** Low if done per-image with visual check. **Verify:** open each affected case study on mobile viewport, confirm no visible quality regression + smaller transfer in Network tab.
 
 ### P2 — 🔴 Card/fullpage video autoplay not gated on mobile
+
 - **What:** `ProjectCard.tsx:316–326` — `<video autoPlay muted loop playsInline preload="none">` with no mobile branch. `[NEEDS-CONFIRM]` `FullpageCard` reportedly same pattern, possibly without a `poster`.
 - **Why:** `preload="none"` helps, but once on-screen a phone fetches the full clip; multiple such cards compound on cellular.
 - **Fix:** On mobile, render the poster image (`cardImageUrl`) instead of the autoplay video. Reuse the existing mobile-detection approach already in that file/area — do not introduce a 4th cutoff.
 - **Risk:** Medium — changes what mobile users see (static vs motion). Confirm the design intent with the user if unsure. **Verify:** mobile viewport, Network tab shows no video request until/unless intended.
 
 ### P3 — 🟡 WebGL blob JS not device-split
+
 - **What:** The blob is `dynamic(ssr:false)` (`Hero.tsx:23`) but the shader/animation/color bundle still downloads on mobile even though only one simplified blob runs.
 - **Why:** Extra critical-path JS on phones.
 - **Fix:** Consider a lighter mobile entry or further splitting. **Lower priority** — measure with a bundle analyzer before investing; the blob is already heavily runtime-optimized (§2), so JS weight may not be the bottleneck.
 - **Risk:** Medium-high (touches the tuned WebGL path). Do not attempt without profiling proof it matters.
 
 ### P4 — 🟡 Always-on `backdrop-blur` on `ReadingGuide` fixed tooltip
+
 - **What:** `[NEEDS-CONFIRM]` `ReadingGuide.tsx` fixed tooltip uses `backdrop-blur-md` always.
 - **Why:** Continuous GPU compositing cost during scroll on low-end phones.
 - **Fix:** Gate blur off on mobile (`max-md:backdrop-blur-none`) or make it an accessibility-setting opt-in. Note: `[NEEDS-CONFIRM]` ReadingGuide may be desktop-only anyway (tracks `mousemove`, no `touchmove`) — confirm whether it even runs on mobile before touching.
 - **Risk:** Low. **Verify:** scroll perf on mobile viewport.
 
 ### P5 — 🟡 Infinite `travelingGradient` footer animation
+
 - **What:** `globals.css` ~357–389 — `animation: travelingGradient 4s linear infinite` on the résumé link (background-position).
 - **Why:** Continuous composite; small viewport area so impact is minor.
 - **Fix:** Pause when offscreen, or disable on mobile/`pointer:coarse`, or gate by reduced-motion. Low priority.
@@ -117,6 +122,7 @@ Each finding: **what / where / why it matters / suggested fix / risk & verificat
 ## 5. Findings & fixes — ACCESSIBILITY & UX
 
 ### A1 — 🔴 `CaseStudyDialog` missing dialog semantics + focus trap `[NEEDS-CONFIRM]`
+
 - **What:** Reported: `CaseStudyDialog.tsx` lacks `role="dialog"` / `aria-modal="true"` and has no focus trap or focus return. (For contrast, `MobileMenu.tsx` DOES have these — use it as the reference pattern.)
 - **Why:** Keyboard/screen-reader users can tab into the page behind the modal.
 - **Confirm first:** open `CaseStudyDialog.tsx`, check the dialog root element's attributes and whether any focus management exists. **This verification is part of the task.**
@@ -124,18 +130,21 @@ Each finding: **what / where / why it matters / suggested fix / risk & verificat
 - **Risk:** Medium (focus management interacts with the open/close animation timing — 1.2s open / 1.0s close). **Verify:** keyboard-only tab cycle stays inside; VoiceOver/screen-reader announces dialog; focus returns to the card on close.
 
 ### A2 — 🟡 Reduced-motion not honored in home parallax & dialogs
+
 - **What:** Hero/WebGL honor reduced-motion thoroughly, but `[NEEDS-CONFIRM]` the home layer transforms (hero fade, card parallax in `use-home-scroll.ts`/`page.tsx`) and dialog durations do not.
 - **Why:** Vestibular-sensitivity users still get full parallax + 1.2s slides.
 - **Fix:** Thread the existing reduced-motion signal (`useReducedMotion()` / `useAccessibility().reducedMotion`) into these paths; collapse durations / disable parallax when set.
 - **Risk:** Medium — don't break the layer choreography; reduced-motion should still land at the same final layout, just without the journey. **Verify:** toggle OS reduce-motion + in-app pause, confirm content is fully reachable and laid out correctly.
 
 ### A3 — 🟡 `NavButton` touch target marginal
+
 - **What:** `[V]` `NavButton.tsx:28` — `text-[14px] px-3 py-1.5 leading-none` → ~26px tall. Used for Menu/Close/Back.
 - **Why:** Clears WCAG 2.2 **AA** (2.5.8 = 24×24 CSS px) but only just; fails the 44px AAA guideline. **Project target is AA**, so this is compliant — treat as polish, not a bug.
 - **Fix (optional):** Increase mobile vertical hit area (e.g. `py-2`/min-height) without changing visual type size, if the user wants more comfortable targets.
 - **Risk:** Low, but it's a high-visibility nav element — get design sign-off.
 
 ### A4 — 🟡 Mobile menu backdrop tap doesn't close; scroll position not restored `[NEEDS-CONFIRM]`
+
 - **What:** `MobileMenu.tsx` — only the close button dismisses; `body.style.overflow` lock may not restore scroll offset.
 - **Fix:** Add backdrop-tap-to-close; ensure scroll position is preserved/restored (consider unifying on `react-remove-scroll`, see M2).
 - **Risk:** Low. **Verify:** open menu mid-page, close via backdrop, confirm scroll position unchanged.
@@ -145,12 +154,15 @@ Each finding: **what / where / why it matters / suggested fix / risk & verificat
 ## 6. Findings & fixes — MAINTAINABILITY
 
 ### M1 — Three mobile-detection cutoffs
+
 See §1. Converge on one source of truth. **Scoped, deliberate task** — verify each call site keeps its intended cutoff (640 ≠ 768 ≠ coarse).
 
 ### M2 — Duplicated scroll-lock logic
+
 `MobileMenu` uses `body.style.overflow='hidden'`; dialogs use `react-remove-scroll`. Consolidate on `react-remove-scroll` everywhere for consistent behavior and scrollbar-compensation.
 
 ### M3 — 🔴 300-line rule broken widely (per `CLAUDE.md`)
+
 Confirmed large files:
 | File | Lines |
 |---|---|
@@ -162,6 +174,7 @@ Confirmed large files:
 | `src/components/case-study/content/NycDcwpBusinessLicensesContent.tsx` | 697 |
 | `src/components/layout/AccessibilityModal.tsx` | 618 |
 | (+ several 400–550 line files) | |
+
 - **Fix:** Split case-study content into per-section components; consider a shared `CaseStudySection` wrapper. Pure structural refactor — **behavior must not change**.
 - **Risk:** Low logically, but high surface area. Do ONE file at a time, diff visually on desktop + mobile after each, run `bun run validate`.
 
@@ -205,18 +218,19 @@ Lower priority / measure-first: P3, P4, P5, A3, A4.
 The homepage **does not actually scroll**. `src/app/page.tsx` renders **4 `position: fixed` layers** (Footer z5, SelectedWork z10, Hero z30, Card z40) inside a tall empty container. Native scroll moves nothing visible; instead Framer Motion `useScroll` reads scroll position and `useTransform` writes `translateY`/`opacity` onto each fixed layer **on the JS main thread every frame** (`src/hooks/use-home-scroll.ts:184–224`).
 
 Why this jitters on mobile specifically:
+
 - Native touch scroll runs on the **compositor thread** (smooth, off-main-thread).
 - Framer's transform writes run on the **main thread**, reacting to `scroll` events that on mobile fire **irregularly / coalesced** (sometimes only at gesture end on older iOS Safari).
 - **Lenis — which normally reconciles the two via a RAF loop — is disabled on touch devices** (`LenisProvider` early-returns on `(pointer: coarse)`).
 - Result: visible fixed layers lag the finger and snap to catch up → perceived jitter.
 
-This is a documented Motion issue (`motiondivision/motion` #2770, "useScroll jittery when using translateY on mobile"); Motion's docs confirm `useScroll` only hardware-accelerates *certain* animations — `translateY` pinning stays on the main thread.
+This is a documented Motion issue (`motiondivision/motion` #2770, "useScroll jittery when using translateY on mobile"); Motion's docs confirm `useScroll` only hardware-accelerates _certain_ animations — `translateY` pinning stays on the main thread.
 
-**The author already diagnosed this from the inside.** See the comment at `src/components/work/SelectedWork.tsx:159–170`: *"on the home page this section is dragged hundreds of vh by a transform every frame... Desktop GPUs absorb it; mobile does not, so only apply it on desktop."* Existing mitigations (disabling `content-visibility` on mobile, gating internal scroll listeners, the recede effect) treat **symptoms** — the transform-per-frame machine still mounts and runs on mobile.
+**The author already diagnosed this from the inside.** See the comment at `src/components/work/SelectedWork.tsx:159–170`: _"on the home page this section is dragged hundreds of vh by a transform every frame... Desktop GPUs absorb it; mobile does not, so only apply it on desktop."_ Existing mitigations (disabling `content-visibility` on mobile, gating internal scroll listeners, the recede effect) treat **symptoms** — the transform-per-frame machine still mounts and runs on mobile.
 
 ### 9.2 Amplifiers (each makes it worse)
 
-- **A1 — Address-bar resize thrash.** `windowHeight` is JS state (`use-home-scroll.ts:47,70`) and the container height + every transform output range depend on it (`heroContentOutput`, `cardOutput`, `selectedWorkOutput`). The mobile URL bar *animates* during scroll → `innerHeight` changes continuously → `handleResize` recomputes heights and even calls `scrollTo` mid-gesture (lines 96–111). Relayout + programmatic scroll during a scroll gesture = guaranteed jank. Hero also uses `pt-[20dvh]`; `dvh` recalculates layout on every toolbar animation frame.
+- **A1 — Address-bar resize thrash.** `windowHeight` is JS state (`use-home-scroll.ts:47,70`) and the container height + every transform output range depend on it (`heroContentOutput`, `cardOutput`, `selectedWorkOutput`). The mobile URL bar _animates_ during scroll → `innerHeight` changes continuously → `handleResize` recomputes heights and even calls `scrollTo` mid-gesture (lines 96–111). Relayout + programmatic scroll during a scroll gesture = guaranteed jank. Hero also uses `pt-[20dvh]`; `dvh` recalculates layout on every toolbar animation frame.
 - **A2 — 5 permanently-promoted layers.** `page.tsx` sets `willChange:'transform'`/`'opacity'` on SelectedWork, Hero, Card, hero-main, navbar — always on. On memory-limited mobile GPUs this causes layer-memory pressure and slower paints. `will-change` should be transient, not permanent.
 - **A3 — WebGL blob during first scroll.** F2 blob runs (30fps) on mobile and shares main thread/GPU. It pauses past 3% scroll (`dispatchHomePauseBlobs`, line 148) but is live during the critical first-scroll moment.
 - **A4 — React re-render mid-scroll.** `setHeroIsHidden` (line 157) fires a state update while dragging.
@@ -226,7 +240,7 @@ This is a documented Motion issue (`motiondivision/motion` #2770, "useScroll jit
 
 On mobile (`pointer: coarse` / below the chosen cutoff), **do not mount the fixed-layer transform machine at all.** Render the homepage in normal document flow: Hero → FullpageCard → SelectedWork → Footer, stacked, scrolled natively. Desktop keeps the full layered parallax reveal unchanged.
 
-This matches what the author already started — the mobile `SelectedWork` is a plain column stack commented *"Optimized for 0 jitter"*. The job is to extend that principle to the **whole page** so `useHomeScroll`'s transforms / fixed layers never run on mobile.
+This matches what the author already started — the mobile `SelectedWork` is a plain column stack commented _"Optimized for 0 jitter"_. The job is to extend that principle to the **whole page** so `useHomeScroll`'s transforms / fixed layers never run on mobile.
 
 ### 9.4 Implementation guidance for the agent doing this
 
@@ -242,6 +256,7 @@ This matches what the author already started — the mobile `SelectedWork` is a 
 - Respect the 300-line rule; if `page.tsx`/`use-home-scroll.ts` grow, split the mobile path into its own component/hook.
 
 **Verification (mandatory):**
+
 - Test on a real device or DevTools device mode with CPU 4–6× throttle. Record a Performance trace while scrolling; confirm no long main-thread tasks per frame and no layout thrash on address-bar show/hide.
 - Confirm desktop parallax is byte-for-byte unchanged (diff the desktop branch).
 - `bun run validate` passes.
@@ -251,13 +266,27 @@ This matches what the author already started — the mobile `SelectedWork` is a 
 
 Surgical-only path (reduces but does not eliminate jitter): lock viewport height to a `--vh` var set once; remove the mid-scroll `scrollTo`; drop permanent `will-change`; gate `heroPointerEvents`/`transition-all`; consider `useSpring` smoothing. Document says this won't be perfectly buttery because main-thread transform lag remains — that's why option A was chosen.
 
+### 9.6 ✅ FIXED — Native-flow mobile homepage (2026-06-22)
+
+**Implemented:** Sticky-stack mobile home (`HomeMobile.tsx`) with CSS scroll-driven hero dim / blob scale / card scrim (`home-mobile-scroll.css`). Desktop path extracted unchanged to `HomeDesktop.tsx`. Branch via `useMobileHomeLayout()` — `(max-width: 767px), (pointer: coarse)`.
+
+**Also shipped with this fix:**
+- Selected Work: `whileInView` once entrances on title + cards (`mobileHomeEntrance`), `15svh` breathing room after featured card
+- Viewport: `100svh` section heights, `12svh` hero top padding (`stableMobileViewport`), safe-area insets — no `dvh` on sticky layout, no `useHomeScroll` on mobile
+- Footer mobile-flow: normal document footer, staggered entrance, **lite smog** (static gradient swells, 28px blur, 6 dust particles via IO-gated canvas, no SVG dither, no swell animation)
+- WebGL blob kept on mobile; pauses via IntersectionObserver when featured card enters
+
+**Verified:** `bun run type-check` passes; eslint clean on touched files (pre-existing Footer IO lint elsewhere). Manual mobile viewport check recommended before merge.
+
+**Files:** `src/components/home/HomeMobile.tsx`, `HomeDesktop.tsx`, `src/hooks/use-is-mobile-home-layout.ts`, `src/styles/home-mobile-scroll.css`, `src/app/page.tsx`, `SelectedWork.tsx`, `Footer.tsx`, `FooterSmog.tsx`, `FooterDustParticles.tsx`, `Hero.tsx`, `FullpageCard.tsx`
+
 ---
 
 ---
 
 ## 10. COMPLETE MOBILE PERFORMANCE DIAGNOSIS (added 2026-06-22)
 
-> Whole-site sweep: load path, fonts, bundle, assets, CSS, runtime, and the case-study/secondary routes. The homepage scroll architecture (§9) remains the #1 *feel* problem; this section covers everything else. **No fabricated metrics** — severity is relative, measured numbers must come from a real Lighthouse/WebPageTest run on a throttled device.
+> Whole-site sweep: load path, fonts, bundle, assets, CSS, runtime, and the case-study/secondary routes. The homepage scroll architecture (§9) remains the #1 _feel_ problem; this section covers everything else. **No fabricated metrics** — severity is relative, measured numbers must come from a real Lighthouse/WebPageTest run on a throttled device.
 >
 > Same safety rules as §0 apply: re-read each cited line, confirm `[NEEDS-CONFIRM]` items, one concern per change, don't touch the §2 DO-NOT-TOUCH list, verify on a real mobile profile.
 
@@ -307,15 +336,15 @@ Surgical-only path (reduces but does not eliminate jitter): lock viewport height
 
 ### 10.F — Prioritized action list (mobile perf)
 
-1. **§9 native-flow homepage** — kills scroll jank (already chosen).
+1. ~~**§9 native-flow homepage**~~ ✅ Done — see §9.6.
 2. **10.A image/video pipeline** — re-encode oversized sources, all via `next/image`+`sizes`, lazy collapsed media, gate video autoplay. Biggest load/LCP win.
 3. **10.B fonts** — remove global render-blocking Material Symbols; scope to its one case study.
 4. **10.C runtime** — throttle `CaseStudyVideo`/`CaseStudySideNav`, fix `once:false`, gate `WorkFilter` stagger on mobile.
 5. **10.B `next.config`** — raise `minimumCacheTTL`, add `optimizePackageImports`; convert stray `<motion.>` → `<m.>`.
 6. **10.E** — split the 300-line content files, lazy-mount below-the-fold sections.
 
-**Before claiming any of this improved anything:** capture a *baseline* Lighthouse mobile + Performance trace (CPU 4–6× throttle) on `dev`, make the change, re-measure, and compare. Severity tags above are reasoning, not measurements.
+**Before claiming any of this improved anything:** capture a _baseline_ Lighthouse mobile + Performance trace (CPU 4–6× throttle) on `dev`, make the change, re-measure, and compare. Severity tags above are reasoning, not measurements.
 
 ---
 
-*Findings tagged `[V]` were read directly during the audit. `[NEEDS-CONFIRM]` came from exploration and must be verified before action. Line numbers are accurate as of 2026-06-22 on `dev` and will drift — always re-read.*
+_Findings tagged `[V]` were read directly during the audit. `[NEEDS-CONFIRM]` came from exploration and must be verified before action. Line numbers are accurate as of 2026-06-22 on `dev` and will drift — always re-read._

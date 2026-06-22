@@ -13,10 +13,8 @@ import { getFeaturedCaseStudies } from '@/lib/data/case-studies'
 import { AnimatedArrow } from '@/components/ui/AnimatedArrow'
 import { useArrowAnimation } from '@/hooks/use-arrow-animation'
 import { useBreakpoints } from '@/hooks/use-responsive'
-import {
-  dispatchOverlayPreload,
-  openOverlayRoute,
-} from '@/lib/overlay-events'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
+import { dispatchOverlayPreload, openOverlayRoute } from '@/lib/overlay-events'
 
 interface SelectedWorkProps {
   projects?: ProjectCardProps[]
@@ -24,6 +22,9 @@ interface SelectedWorkProps {
   enableHomeCardRecede?: boolean
   homeScrollProgress?: MotionValue<number>
   desktopSpacingScale?: number
+  /** Staggered whileInView entrances on mobile home native-flow layout */
+  mobileHomeEntrance?: boolean
+  sectionId?: string
 }
 
 /**
@@ -103,7 +104,9 @@ const defaultProjects: ProjectCardProps[] = [
   },
   // Card 4 (Gutenberg stays here)
   {
-    ...featuredStudies.find((s) => s.slug === 'gutenberg-cms-usability-evaluation')!,
+    ...featuredStudies.find(
+      (s) => s.slug === 'gutenberg-cms-usability-evaluation'
+    )!,
     cardHeight: cardConfig[3].height,
   },
 ]
@@ -114,6 +117,8 @@ export function SelectedWork({
   enableHomeCardRecede = false,
   homeScrollProgress,
   desktopSpacingScale = 1,
+  mobileHomeEntrance = false,
+  sectionId,
 }: SelectedWorkProps) {
   const {
     isAnimating,
@@ -124,6 +129,9 @@ export function SelectedWork({
   } = useArrowAnimation()
 
   const { isDesktop } = useBreakpoints()
+  const { reducedMotion } = useAccessibility()
+
+  const useMobileEntrance = mobileHomeEntrance && !isDesktop && !reducedMotion
 
   // Track if user has scrolled past the initial cards
   const [hasScrolledPast, setHasScrolledPast] = useState(false)
@@ -154,6 +162,7 @@ export function SelectedWork({
 
   return (
     <section
+      id={sectionId}
       className={cn('w-full bg-background pb-0', className)}
       style={
         // content-visibility:auto is a load-time win on static pages, but on the
@@ -182,6 +191,16 @@ export function SelectedWork({
         >
           Selected Work
         </m.h2>
+      ) : useMobileEntrance ? (
+        <m.h2
+          className="mt-8 mb-14 text-[32px] font-bold tracking-[-0.05em] text-foreground sm:mt-10 sm:mb-16 md:text-2xl"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.45 }}
+          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+        >
+          Selected Work
+        </m.h2>
       ) : (
         <h2 className="mt-8 mb-14 text-[32px] font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 md:text-2xl text-foreground">
           Selected Work
@@ -190,18 +209,42 @@ export function SelectedWork({
 
       {/* Mobile/Tablet: Single column stack - Optimized for 0 jitter */}
       <div className="flex flex-col gap-20 lg:hidden">
-        {projects.map((project, index) => (
-          <div
-            key={`${project.title}-${project.organization}`}
-            className="opacity-100 transform-none" // Direct reveal on mobile
-          >
+        {projects.map((project, index) => {
+          const card = (
             <ProjectCard
               {...project}
               imageSizes="(max-width: 1024px) 100vw, 75vw"
               imageFetchPriority="low"
             />
-          </div>
-        ))}
+          )
+
+          if (!useMobileEntrance) {
+            return (
+              <div
+                key={`${project.title}-${project.organization}`}
+                className="opacity-100 transform-none"
+              >
+                {card}
+              </div>
+            )
+          }
+
+          return (
+            <m.div
+              key={`${project.title}-${project.organization}`}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.12 }}
+              transition={{
+                duration: 0.65,
+                delay: index * 0.1,
+                ease: [0.4, 0, 0.2, 1],
+              }}
+            >
+              {card}
+            </m.div>
+          )
+        })}
       </div>
 
       {/* Desktop (lg+): 12-column Bento Grid for art-directed layout */}

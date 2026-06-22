@@ -207,7 +207,8 @@
 
   .pronunciation-word {
     position: relative;
-    display: inline-block;
+    display: inline;
+    vertical-align: baseline;
     font-weight: 700; /* Atharva should be bold */
     cursor: default;
   }
@@ -257,11 +258,27 @@
     pointer-events: none;
   }
 
-  .pronunciation-word:hover .pronunciation-tooltip {
+  .pronunciation-word:hover .pronunciation-tooltip,
+  .pronunciation-word.pronunciation-active .pronunciation-tooltip {
     opacity: 1;
   }
 
+  .pronunciation-word--tappable {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (max-width: 767px) {
+    .pronunciation-word--tappable .scribble-container {
+      transform: translateY(-5px);
+    }
+  }
+
   /* Water blob responsive max heights */
+  .water-blob-container--edge {
+    max-height: none;
+    width: 100%;
+  }
   .water-blob-container {
     max-height: 30rem; /* 480px on mobile */
   }

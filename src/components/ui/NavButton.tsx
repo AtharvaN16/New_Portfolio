@@ -38,7 +38,7 @@ export function NavButton({ children, className, ...props }: NavButtonProps) {
       />
       
       {/* Label - Subtle color change on hover (Desktop only) */}
-      <span className="relative z-10 block transition-colors duration-300 text-text-secondary md:group-hover:text-foreground pointer-events-none font-sans font-medium tracking-[0.1em] uppercase leading-none">
+      <span className="relative z-10 block transition-colors duration-300 text-foreground md:text-text-secondary md:group-hover:text-foreground pointer-events-none font-sans font-medium tracking-[0.1em] uppercase leading-none">
         {children}
       </span>
     </m.button>

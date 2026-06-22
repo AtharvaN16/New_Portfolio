@@ -8,7 +8,7 @@
 import type { Colors, WebGLProgramInfo } from './waterBlob.types'
 import { vertexShader, fragmentShader } from './waterBlob.shader'
 
-const MOBILE_DPR_SCALE = 0.25
+const MOBILE_DPR_SCALE = 0.35
 const DESKTOP_DPR_CAP = 1.25
 
 /**
@@ -197,7 +197,7 @@ export function setupCanvasResize(canvas: HTMLCanvasElement): () => void {
     const isMobile =
       window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
     // Performance:
-    // - Mobile: Render at 0.25x resolution (ultra efficiency, soft organic look)
+    // - Mobile: Render at 0.35x resolution (efficiency with less softness than 0.25x)
     // - Desktop: Cap at 1.25x to reduce full-screen fragment shader work
     const dpr = isMobile
       ? MOBILE_DPR_SCALE

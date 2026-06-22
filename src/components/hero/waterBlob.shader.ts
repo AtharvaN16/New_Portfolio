@@ -174,7 +174,7 @@ export const fragmentShader = `
 
     // === GLOW (additive, emissive — dark mode) ===
     float glowIntensity = uIsMobile > 0.5
-      ? totalWater * 0.4
+      ? pow(totalWater, 0.65) * 0.48
       : pow(totalWater, 0.6) * 0.4;
     vec3 color = backgroundColor * (1.0 + glowIntensity);
 
@@ -207,7 +207,7 @@ export const fragmentShader = `
 
     // === ATMOSPHERIC FADE ===
     float atmosphericAlpha = uIsMobile > 0.5
-      ? totalWater * 0.9
+      ? pow(totalWater, 0.82)
       : pow(totalWater, 0.78);
     color = mix(backgroundColor, color, atmosphericAlpha);
 

@@ -1,11 +1,13 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { animate, m } from 'framer-motion'
 import { SplitText } from '@/lib/utils/splitText'
 import { cn } from '@/lib/utils/cn'
 import { createPortal } from 'react-dom'
 import { AnimatedScribble } from './AnimatedScribble'
+import { HeroPronunciationWord } from './HeroPronunciationWord'
+import { PRONUNCIATION_SCRIBBLE_MOUNT_STYLE } from './pronunciation-scribble-mount'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 interface AnimatedHeroTextGSAPProps {
@@ -16,6 +18,8 @@ interface AnimatedHeroTextGSAPProps {
   delay?: number
   style?: React.CSSProperties
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div'
+  /** Always show pronunciation + underline below marked words (mobile home) */
+  inlinePronunciation?: boolean
 }
 
 const DEFAULT_BOLD_WORDS: string[] = []
@@ -47,6 +51,38 @@ const MOTION_TAGS = {
 
 const BLUR_IN_TRANSITION = { duration: 1.2, ease: [0.4, 0, 0.2, 1] as const }
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function renderInlinePronunciation(
+  text: string,
+  pronunciationWords: Record<string, string>,
+  showScribble: boolean
+): ReactNode[] {
+  const words = Object.keys(pronunciationWords).filter(Boolean)
+  if (words.length === 0) return [text]
+
+  const pattern = new RegExp(`\\b(${words.map(escapeRegExp).join('|')})\\b`, 'g')
+  const parts = text.split(pattern)
+
+  return parts.map((part, index) => {
+    const pronunciation = pronunciationWords[part]
+    if (!pronunciation) {
+      return part
+    }
+
+    return (
+      <HeroPronunciationWord
+        key={`${part}-${index}`}
+        word={part}
+        pronunciation={pronunciation}
+        showScribble={showScribble}
+      />
+    )
+  })
+}
+
 /**
  * AnimatedHeroTextGSAP
  *
@@ -68,10 +104,12 @@ export function AnimatedHeroTextGSAP({
   delay = 0.2,
   style,
   as: Component = 'p',
+  inlinePronunciation = false,
 }: AnimatedHeroTextGSAPProps) {
   const textRef = useRef<HTMLParagraphElement>(null)
   const hasRevealedRef = useRef(false)
   const [scribbleContainers, setScribbleContainers] = useState<HTMLElement[]>([])
+  const [mobileScribblesReady, setMobileScribblesReady] = useState(false)
   const [hasMeasuredViewport, setHasMeasuredViewport] = useState(false)
   const [isMd, setIsMd] = useState(false)
 
@@ -175,8 +213,7 @@ export function AnimatedHeroTextGSAP({
 
         pronunciationEls.forEach((wordEl) => {
           const container = document.createElement('span')
-          container.style.cssText =
-            'position:absolute;left:0;right:0;bottom:-4px;height:16px;pointer-events:none;'
+          Object.assign(container.style, PRONUNCIATION_SCRIBBLE_MOUNT_STYLE)
           wordEl.appendChild(container)
           newContainers.push(container)
         })
@@ -261,6 +298,14 @@ export function AnimatedHeroTextGSAP({
     const mobileTransition = shouldPause
       ? { duration: 0 }
       : { ...BLUR_IN_TRANSITION, delay }
+    const showMobileScribble = shouldPause || mobileScribblesReady
+    const mobileContent = inlinePronunciation
+      ? renderInlinePronunciation(
+          children,
+          pronunciationWords,
+          showMobileScribble
+        )
+      : children
 
     return (
       <MotionComponent
@@ -273,8 +318,13 @@ export function AnimatedHeroTextGSAP({
         }
         animate={{ filter: 'blur(0px)', opacity: 1 }}
         transition={mobileTransition}
+        onAnimationComplete={() => {
+          if (!shouldPause && inlinePronunciation) {
+            setMobileScribblesReady(true)
+          }
+        }}
       >
-        {children}
+        {mobileContent}
       </MotionComponent>
     )
   }

@@ -30,6 +30,8 @@ interface FullpageCardProps {
   mediaClassName?: string
   slug?: string
   mediaScrimOpacity?: MotionValue<number>
+  /** CSS view-timeline scrim for mobile home sticky stack (no JS scroll binding) */
+  enableMobileScrollScrim?: boolean
 }
 
 /**
@@ -51,6 +53,7 @@ export function FullpageCard({
   mediaClassName,
   slug,
   mediaScrimOpacity,
+  enableMobileScrollScrim = false,
 }: FullpageCardProps) {
   if (!title || title.trim().length === 0) {
     throw new Error('FullpageCard: title prop is required and cannot be empty')
@@ -142,6 +145,17 @@ export function FullpageCard({
               style={{
                 opacity: mediaScrimOpacity,
                 backgroundColor: mediaScrimColor,
+              }}
+            />
+          )}
+
+          {enableMobileScrollScrim && !mediaScrimOpacity && !reducedMotion && (
+            <div
+              aria-hidden
+              className="home-mobile-card-scrim pointer-events-none absolute inset-0 z-[1]"
+              style={{
+                backgroundColor: mediaScrimColor,
+                opacity: 1,
               }}
             />
           )}

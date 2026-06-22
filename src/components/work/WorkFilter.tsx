@@ -213,7 +213,7 @@ export function WorkFilter({
       >
         {/* Single unified container — expands in normal document flow */}
         <div
-          className="max-w-[95%] lg:max-w-[60%] px-5 py-4 sm:px-6 sm:py-5 lg:px-8 lg:py-6"
+          className="max-w-[95%] lg:max-w-[60%] py-4 sm:py-5 lg:py-6"
           style={{ backgroundColor: 'rgb(var(--color-background))' }}
         >
           {/* All filters in one continuous flex-wrap row */}

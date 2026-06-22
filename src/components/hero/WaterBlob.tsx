@@ -127,15 +127,9 @@ export function WaterBlob({
     return setupCanvasResize(canvasRef.current)
   }, [])
 
-  const handleClick = (_e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handlePointerUp = (event: React.PointerEvent<HTMLCanvasElement>) => {
     if (!interactive) return
-
-    const isMobile =
-      typeof window !== 'undefined' &&
-      (window.matchMedia('(pointer: coarse)').matches ||
-        window.innerWidth < 768)
-    if (isMobile) return
-
+    if (event.pointerType === 'mouse' && event.button !== 0) return
     advancePalette()
   }
 
@@ -152,7 +146,7 @@ export function WaterBlob({
   return (
     <canvas
       ref={canvasRef}
-      onClick={handleClick}
+      onPointerUp={handlePointerUp}
       className={`absolute inset-0 w-full h-full block ${interactive ? 'cursor-pointer' : ''} ${isGhost ? 'pointer-events-none' : ''} ${theme === 'dark' ? 'hero-gradient-dark' : 'hero-gradient-light'} ${enhanced ? 'shadow-inner' : ''} ${className}`}
       suppressHydrationWarning
       style={

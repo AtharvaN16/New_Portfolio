@@ -2,7 +2,6 @@
 
 import { useRef, useEffect } from 'react'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
-import { useBreakpoints } from '@/hooks/use-responsive'
 
 /**
  * FooterDustParticles - Sparse, high-luminance dust motes
@@ -14,6 +13,7 @@ import { useBreakpoints } from '@/hooks/use-responsive'
 
 interface FooterDustParticlesProps {
   visible: boolean
+  variant?: 'desktop' | 'mobile-lite'
 }
 
 interface Particle {
@@ -31,17 +31,25 @@ interface Particle {
   baseVx: number
 }
 
-const PARTICLE_COUNT = 16
+const DESKTOP_PARTICLE_COUNT = 16
+const MOBILE_LITE_PARTICLE_COUNT = 6
 
-export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
+export function FooterDustParticles({
+  visible,
+  variant = 'desktop',
+}: FooterDustParticlesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
   const particlesRef = useRef<Particle[]>([])
   const opacityRef = useRef(0)
   const visibleRef = useRef(visible)
   const { reducedMotion, pauseWebGL } = useAccessibility()
-  const { isDesktop } = useBreakpoints()
   const pausedRef = useRef(reducedMotion || pauseWebGL)
+  const isMobileLite = variant === 'mobile-lite'
+  const particleCount = isMobileLite
+    ? MOBILE_LITE_PARTICLE_COUNT
+    : DESKTOP_PARTICLE_COUNT
+  const maxDpr = isMobileLite ? 1.5 : 2
 
   useEffect(() => {
     visibleRef.current = visible
@@ -53,11 +61,13 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
 
   useEffect(() => {
     const canvas = canvasRef.current
-    if (!canvas || !isDesktop) return
+    if (!canvas) return
 
     const particles: Particle[] = []
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
-      particles.push(createParticle(canvas.clientWidth, canvas.clientHeight, true))
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(
+        createParticle(canvas.clientWidth, canvas.clientHeight, true)
+      )
     }
     particlesRef.current = particles
 
@@ -65,7 +75,7 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
       const ctx = canvas.getContext('2d')
       if (!ctx) return
 
-      const dpr = Math.min(window.devicePixelRatio, 2)
+      const dpr = Math.min(window.devicePixelRatio, maxDpr)
       const w = canvas.clientWidth
       const h = canvas.clientHeight
       const cw = Math.round(w * dpr)
@@ -85,7 +95,8 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
       }
 
       const target = visibleRef.current ? 1 : 0
-      opacityRef.current += (target - opacityRef.current) * 0.02
+      const fadeSpeed = isMobileLite ? 0.035 : 0.02
+      opacityRef.current += (target - opacityRef.current) * fadeSpeed
 
       ctx.clearRect(0, 0, cw, ch)
 
@@ -125,9 +136,10 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
         const fadeFactor = Math.max(0, 1 - distFromLight / h)
         const alpha = p.opacity * opacityRef.current * fadeFactor
 
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+        const isDark =
+          document.documentElement.getAttribute('data-theme') === 'dark'
         const particleSize = isDark ? p.size : 2.5
-        const particleColor = isDark 
+        const particleColor = isDark
           ? `rgba(255, 255, 255, ${alpha})`
           : `rgba(255, 255, 255, ${Math.min(1, alpha * 1.5)})` // Brighter white for light mode
 
@@ -165,9 +177,7 @@ export function FooterDustParticles({ visible }: FooterDustParticlesProps) {
         rafRef.current = 0
       }
     }
-  }, [isDesktop])
-
-  if (!isDesktop) return null
+  }, [isMobileLite, maxDpr, particleCount])
 
   return (
     <canvas

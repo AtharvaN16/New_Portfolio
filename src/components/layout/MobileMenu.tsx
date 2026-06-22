@@ -84,8 +84,16 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             }}
           />
 
-          {/* Content */}
-          <div className="relative flex flex-col h-full px-6 pt-6 pb-8" style={{ zIndex: 1 }}>
+          {/* Content — padding matches HomeMobile navbar row */}
+          <div
+            className="relative flex flex-col h-full px-6 pt-6 pb-8"
+            style={{
+              paddingTop: 'max(1.5rem, env(safe-area-inset-top))',
+              paddingLeft: 'max(1.5rem, env(safe-area-inset-left))',
+              paddingRight: 'max(1.5rem, env(safe-area-inset-right))',
+              zIndex: 1,
+            }}
+          >
             {/* Close button */}
             <div className="flex items-center justify-end h-8">
               <NavButton onClick={onClose} aria-label="Close menu" className="-mr-3">
