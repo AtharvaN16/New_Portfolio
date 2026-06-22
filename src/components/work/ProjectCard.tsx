@@ -259,26 +259,11 @@ export function ProjectCard({
               )
         )}
       >
-        {/* Base: themeColor for non-image cards; neutral dark for masonry+image (blurred layer provides color) */}
+        {/* Base: themeColor for non-image cards; neutral dark for masonry letterboxing */}
         <div
           className="absolute inset-0 z-0"
           style={{ backgroundColor: variant === 'sub-case' ? themeColor : (isMasonry && cardImageUrl ? '#111' : themeColor) }}
         />
-
-        {/* Frosted bars — blurred image provides image-matched color in the bar regions */}
-        {cardImageUrl && isMasonry && variant !== 'sub-case' && (
-          <Image
-            src={cardImageUrl}
-            alt=""
-            fill
-            aria-hidden
-            sizes={imageSizes ?? '(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw'}
-            priority={imagePriority}
-            loading={imagePriority ? 'eager' : 'lazy'}
-            quality={60}
-            className="object-cover scale-125 blur-2xl z-0"
-          />
-        )}
 
         {/* 10% tint overlay for sub-case */}
         {variant === 'sub-case' && (
@@ -315,7 +300,6 @@ export function ProjectCard({
               />
             </m.div>
           ) : isMasonry ? (
-            // 4:3 hero: constrain to ratio so blurred background bars show as intended
             <div className="relative w-full aspect-[4/3] z-10 shrink-0 overflow-hidden">
               <Image
                 src={cardImageUrl}

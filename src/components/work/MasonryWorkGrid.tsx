@@ -15,7 +15,7 @@ function useCardMotion(
   isDialogSettled: boolean,
   hasChangedFilter: boolean
 ) {
-  const isInitialCard = index < 4
+  const isInitialCard = index < 2
 
   return {
     initial: { opacity: 0, y: 24 } as const,
@@ -67,7 +67,7 @@ function MasonryWorkCard({
         cardAlign={undefined}
         isMasonry
         masonryIndex={index}
-        imagePriority={index < 4}
+        imagePriority={index < 2}
         imageSizes="(max-width: 768px) 100vw, 50vw"
       />
     </m.div>

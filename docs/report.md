@@ -23,6 +23,8 @@
 | P1-2 | Consolidate route dialogs into `RouteSlideDialog` | 2026-06-21 | ✅ Done |
 | P2-1 | Remove static barrel re-exports from case study content | 2026-06-21 | ✅ Done |
 | P2-4 | Add `sizes` to case study `fill` images | 2026-06-21 | ✅ Done |
+| P2-5 | Remove masonry blur duplicate; priority first 2 cards | 2026-06-21 | ✅ Done |
+| P2-6 | Convert remaining JPG/PNG in case study data to WebP | 2026-06-21 | ✅ Done |
 
 **P0-1 details:** Document Lenis now lives in React context (`LenisProvider` + `useLenis()`). Overlay scroll stays local in `useSmoothScroll` via `ContainerScrollProvider`. Files: `LenisProvider.tsx`, `use-smooth-scroll.ts`, `use-container-scroll.tsx`, `CaseStudyLayout.tsx`, `CaseStudySideNav.tsx`, `AnimatedLink.tsx`, `UAlbertaExplorationNotesPanel.tsx`.
 
@@ -49,6 +51,10 @@
 **P2-1 details:** Removed unused static re-exports from `content/index.ts` (lines 55–65). Removed `CONTENT_REGISTRY` import from `case-studies.ts` so home/work metadata no longer depends on the content barrel. Slug validation warning moved to `CaseStudyContentRenderer` (dev only). `CONTENT_REGISTRY` still lazy-loads each case study when opened.
 
 **P2-4 details:** Added shared `src/lib/case-study-image-sizes.ts` tokens and `sizes` on all BLV + Alo Lighthouse `fill` images (`SolutionParadigm`, `MuseumAnalysis`, `MatisseSimulation`, `AloLighthouseScores`). Next.js now serves appropriately sized variants instead of assuming full viewport width.
+
+**P2-5 details:** Removed legacy frosted-sidebar blurred duplicate `<Image>` from masonry `ProjectCard` (sidebars no longer in design). `MasonryWorkGrid` now sets `imagePriority` only for the first 2 cards (`index < 2`).
+
+**P2-6 details:** Converted `ualberta-library-website/thumbnail`, `nyc-third-spaces-ethnography/hero`, and `seo-audit/hero-2` to WebP; updated `case-studies.ts` URLs. Original JPG/PNG kept in `public/` for archival only (not referenced from `src/`).
 
 ---
 
@@ -375,14 +381,18 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 
 ---
 
-#### P2-2: Split giant case study files
+#### P2-2: Split giant case study files — **Optional / deferred**
 
-| File | Lines | Action |
-|------|------:|--------|
-| `PrattVisitorExperienceContent.tsx` | 2079 | Split into section components |
-| `GutenbergContent.tsx` | 1476 | Split + fix PNG paths labeled as webpSrc |
-| `MetFreeToursContent.tsx` | 917 | Trim placeholders or add real content |
-| `UAlbertaLibraryContent.tsx` | 784 | Split sections |
+Long-form case study bodies (Pratt, Gutenberg, Met, etc.) are **content exceptions** per `rules.md` — one file per study is acceptable when the file is mostly prose, images, and layout, not tangled logic.
+
+**Split only when it helps:** reusable sections (see `alo-yoga/`, `dcwp/`, `blv-museum/`), prototypes, or heavy interactive UI — not to satisfy line count alone.
+
+| File | Lines | When to touch |
+|------|------:|---------------|
+| `PrattVisitorExperienceContent.tsx` | 2079 | Optional — extract shared UI (e.g. Accordion) if reused |
+| `GutenbergContent.tsx` | 1476 | Fix PNG paths labeled as webpSrc when editing that study |
+| `MetFreeToursContent.tsx` | 917 | Content pass only if placeholders should become real copy |
+| `UAlbertaLibraryContent.tsx` | 784 | Already partially split; extend only if adding new sections |
 
 ---
 
@@ -400,15 +410,15 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 
 ---
 
-#### P2-5: Reduce masonry priority images
+#### P2-5: Reduce masonry priority images ✅ Done 2026-06-21
 
 **Location:** `MasonryWorkGrid.tsx:70`, `ProjectCard.tsx` blur duplicate
 
-**Fix:** Priority on first 2 visible cards only; replace blur duplicate with CSS if possible.
+**Fix:** Removed duplicate blurred masonry image; priority on first 2 visible cards only.
 
 ---
 
-#### P2-6: Convert remaining JPG/PNG in data layer
+#### P2-6: Convert remaining JPG/PNG in data layer ✅ Done 2026-06-21
 
 **Location:** `case-studies.ts` — e.g. `thumbnail.jpg`, `hero.jpg`, `hero-2.png`
 
@@ -430,18 +440,20 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 
 ---
 
-## Files over 300-line limit (project rule violations)
+## Files over 300-line limit
+
+**Case study content files** (Pratt, Gutenberg, etc.) are allowed to exceed 300 lines per `rules.md` content exception. Split only when a section has reusable or interactive UI.
 
 | File | Lines | Tier |
 |------|------:|------|
-| `PrattVisitorExperienceContent.tsx` | 2079 | P2 |
-| `GutenbergContent.tsx` | 1476 | P2 |
-| `MetFreeToursContent.tsx` | 917 | P2 |
-| `UAlbertaLibraryContent.tsx` | 784 | P2 |
-| `NycThirdSpacesContent.tsx` | 730 | P2 |
-| `NycDcwpBusinessLicensesContent.tsx` | 697 | P2 |
-| `WaterBlob.tsx` | 437 | P1 |
-| `ProjectCard.tsx` | 416 | P1 |
+| `PrattVisitorExperienceContent.tsx` | 2079 | Content exception |
+| `GutenbergContent.tsx` | 1476 | Content exception |
+| `MetFreeToursContent.tsx` | 917 | Content exception |
+| `UAlbertaLibraryContent.tsx` | 784 | Content exception |
+| `NycThirdSpacesContent.tsx` | 730 | Content exception |
+| `NycDcwpBusinessLicensesContent.tsx` | 697 | Partially split (`dcwp/`) |
+| `WaterBlob.tsx` | ~168 shell + hooks | ✅ Addressed (P1-5) |
+| `ProjectCard.tsx` | 416 | P3 — logic + layout |
 | `AnimatedText.tsx` | 410 | P3 |
 | `use-home-scroll.ts` | 334 | P3 |
 | `WorkFilter.tsx` | 328 | P3 |
@@ -486,7 +498,9 @@ Remove `force-card-up` dispatches OR implement listener in card animation.
 11. ~~P2-1 barrel fix~~ ✅ Done 2026-06-21
 12. ~~P2-3 IMDb gallery~~ Removed with case study
 13. ~~P2-4 sizes on fill images~~ ✅ Done 2026-06-21
-14. P2-2 split largest case study files
+14. ~~P2-2 split case study files~~ Optional — content exception per `rules.md`; split only when adding reusable sections
+15. ~~P2-5 masonry image priority~~ ✅ Done 2026-06-21
+16. ~~P2-6 convert remaining JPG/PNG in data layer~~ ✅ Done 2026-06-21
 
 ---
 

@@ -90,7 +90,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     team: ['Atharva Nayak', 'Arnav Sharma', 'Azka Qasim', 'Natalie Cheng'],
     timeline: 'Mar - Jun 2024',
     videoUrl: '/videos/case-studies/ualberta-reel.mp4',
-    thumbnailUrl: '/images/case-studies/ualberta-library-website/thumbnail.jpg',
+    thumbnailUrl: '/images/case-studies/ualberta-library-website/thumbnail.webp',
   },
   {
     slug: 'gutenberg-cms-usability-evaluation',
@@ -131,7 +131,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
       'This case study documents a semester-long ethnographic research project conducted as a collaboration between Pratt Institute and Woven by Toyota. Our team studied how communities in New York City\'s third spaces naturally engage, collaborate, and innovate through everyday interactions.',
     tags: ['Ethnography', 'Client Project'],
     themeColor: '#FFB6C1',
-    imageUrl: '/images/case-studies/nyc-third-spaces-ethnography/hero.jpg',
+    imageUrl: '/images/case-studies/nyc-third-spaces-ethnography/hero.webp',
     featured: false,
     category: 'ux-research',
     team: ['Ananya Yadav', 'Atharva Nayak', 'Nisheta Gupta'],
@@ -154,7 +154,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
     team: ['Atharva Nayak'],
     timeline: '1 Week',
     pageVariant: 'figma-presentation',
-    imageUrl: '/images/case-studies/seo-audit/hero-2.png',
+    imageUrl: '/images/case-studies/seo-audit/hero-2.webp',
     figmaEmbedUrl:
       'https://embed.figma.com/deck/TGsYVaQSar3IDgKfNiiTrU/SEO-audit-jif.com---AN?node-id=27-3673&embed-host=share',
     fullDescription:
