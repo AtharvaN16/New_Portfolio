@@ -275,9 +275,16 @@
   }
 
   /* Water blob responsive max heights */
+  .home-mobile .water-blob-container--edge {
+    max-height: none;
+    width: 100%;
+    align-self: stretch;
+  }
+
   .water-blob-container--edge {
     max-height: none;
     width: 100%;
+    align-self: stretch;
   }
   .water-blob-container {
     max-height: 30rem; /* 480px on mobile */

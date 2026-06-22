@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, Suspense } from 'react'
+import { useCallback, useEffect, useRef, useState, Suspense } from 'react'
 import dynamic from 'next/dynamic'
 import { Navbar } from '@/components/layout/Navbar'
 import { Hero } from '@/components/hero/Hero'
@@ -63,6 +63,7 @@ const FEATURED_CARD = {
 export function HomeMobile() {
   const { isDialogMounted } = useOverlayDialogs()
   const featuredRef = useRef<HTMLElement>(null)
+  const [featuredCover, setFeaturedCover] = useState(0)
 
   const scrollToFooter = useCallback(() => {
     document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' })
@@ -74,11 +75,12 @@ export function HomeMobile() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        setFeaturedCover(entry.intersectionRatio)
         dispatchHomePauseBlobs(
           entry.isIntersecting && entry.intersectionRatio > 0.08
         )
       },
-      { threshold: [0, 0.08, 0.25] }
+      { threshold: [0, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.65, 0.8, 1] }
     )
 
     observer.observe(target)
@@ -106,7 +108,11 @@ export function HomeMobile() {
                 id="main-content"
                 className="flex min-h-0 flex-1 flex-col px-0"
               >
-                <Hero stableMobileViewport onGetInTouchClick={scrollToFooter} />
+                <Hero
+                  stableMobileViewport
+                  featuredCover={featuredCover}
+                  onGetInTouchClick={scrollToFooter}
+                />
               </main>
             </div>
           </div>

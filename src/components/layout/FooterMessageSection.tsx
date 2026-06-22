@@ -8,6 +8,7 @@ import {
   type Variants,
 } from 'framer-motion'
 import { cn } from '@/lib/utils/cn'
+import { HoverButton } from '@/components/ui/HoverButton'
 import { PaperPlane } from '@/components/ui/PaperPlane'
 import { sendMessage } from '@/app/actions/send-message'
 import type { PaperPlaneFlightRef } from '@/components/dialogs/PaperPlaneFlight'
@@ -26,8 +27,10 @@ const PaperPlaneFlight = dynamic(
 interface FooterMessageSectionProps {
   sectionOpacity: MotionValue<number>
   sectionY: MotionValue<number>
-  isDesktop: boolean
+  isMobileFlow?: boolean
   playShimmer: boolean
+  isFormOpen: boolean
+  onFormOpenChange: (open: boolean) => void
 }
 
 const formVariants: Variants = {
@@ -53,10 +56,11 @@ const fieldVariants: Variants = {
 export function FooterMessageSection({
   sectionOpacity,
   sectionY,
-  isDesktop,
+  isMobileFlow = false,
   playShimmer,
+  isFormOpen,
+  onFormOpenChange,
 }: FooterMessageSectionProps) {
-  const [isFormOpen, setIsFormOpen] = useState(false)
   const [isFlying, setIsFlying] = useState(false)
   const [isSent, setIsSent] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -69,13 +73,20 @@ export function FooterMessageSection({
     setIsMounted(true)
   }, [])
 
+  const closeForm = () => {
+    onFormOpenChange(false)
+    setIsFlying(false)
+    setErrorMessage(null)
+  }
+
   const handleTapMessage = () => {
     setIsTappingMessage(true)
     setTimeout(() => setIsTappingMessage(false), 200)
-    setIsFormOpen(!isFormOpen)
+    const nextOpen = !isFormOpen
+    onFormOpenChange(nextOpen)
     setIsFlying(false)
     setErrorMessage(null)
-    if (!isFormOpen) setIsSent(false)
+    if (!nextOpen) setIsSent(false)
   }
 
   useEffect(() => {
@@ -91,8 +102,15 @@ export function FooterMessageSection({
 
   return (
     <m.div
-      className="hidden lg:block lg:order-1 lg:min-w-[420px] relative z-30"
-      style={{ opacity: sectionOpacity, y: sectionY }}
+      className={cn(
+        'relative z-30',
+        isMobileFlow
+          ? 'order-first mb-16 w-full'
+          : 'hidden lg:block lg:order-1 lg:min-w-[420px]'
+      )}
+      style={
+        isMobileFlow ? undefined : { opacity: sectionOpacity, y: sectionY }
+      }
     >
       <div className="relative">
         <m.button
@@ -100,7 +118,8 @@ export function FooterMessageSection({
           animate={{ scale: isTappingMessage ? 0.94 : 1 }}
           transition={{ type: 'spring', stiffness: 400, damping: 17 }}
           className={cn(
-            'group inline-flex items-start gap-[16px] text-base font-bold tracking-tight text-foreground md:text-xl lg:text-2xl transition-all duration-500 hover:text-primary relative outline-none',
+            'group inline-flex items-start gap-[16px] font-bold tracking-tight text-foreground transition-all duration-500 hover:text-primary relative outline-none',
+            isMobileFlow ? 'text-xl' : 'text-base md:text-xl lg:text-2xl',
             playShimmer && 'shimmer-glow'
           )}
         >
@@ -116,7 +135,11 @@ export function FooterMessageSection({
                 y:
                   isFormOpen || isFlying
                     ? { duration: 0.25, ease: 'easeOut' }
-                    : { repeat: Infinity, duration: 1.5, ease: 'easeInOut' },
+                    : {
+                        repeat: Infinity,
+                        duration: 1.5,
+                        ease: 'easeInOut',
+                      },
                 scale: {
                   type: 'spring',
                   stiffness: 500,
@@ -136,7 +159,7 @@ export function FooterMessageSection({
               <PaperPlane className="w-[28px] h-[28px] text-foreground" />
             </m.div>
             <div className="absolute top-0 left-0">
-              {isMounted && isDesktop && (
+              {isMounted && (
                 <PaperPlaneFlight
                   ref={flightRef}
                   onComplete={() => {
@@ -192,7 +215,7 @@ export function FooterMessageSection({
 
                   if (response.success) {
                     setIsFlying(true)
-                    setIsFormOpen(false)
+                    onFormOpenChange(false)
                     setIsSent(false)
                     flightRef.current?.play()
                   } else {
@@ -272,18 +295,14 @@ export function FooterMessageSection({
 
               <m.div
                 variants={fieldVariants}
-                className="flex justify-end pt-8"
+                className="flex items-center justify-between pt-8"
               >
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className={cn(
-                    'text-sm font-bold uppercase tracking-widest text-foreground hover:text-primary transition-colors py-2',
-                    isSubmitting && 'opacity-50 cursor-not-allowed'
-                  )}
-                >
+                <HoverButton type="button" muted animate={false} onClick={closeForm}>
+                  Close
+                </HoverButton>
+                <HoverButton type="submit" disabled={isSubmitting}>
                   {isSubmitting ? 'Sending...' : 'Send'}
-                </button>
+                </HoverButton>
               </m.div>
             </m.form>
           )}

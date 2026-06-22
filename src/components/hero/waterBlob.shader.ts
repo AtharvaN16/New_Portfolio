@@ -156,10 +156,11 @@ export const fragmentShader = `
 
     float size1 = mix(1.35, 1.0, uRevealPhase);
     float size2 = mix(1.28, 1.0, uRevealPhase);
+    float mobileSizeBoost = uIsMobile > 0.5 ? 1.22 : 1.0;
     float breath1 = 1.0 + 0.06 * sin(uTime * 0.27);
     float breath2 = 1.0 + 0.06 * sin(uTime * 0.19 + 2.1);
-    float blob1 = irregularWaterShape(uv, blob1Center, 0.55 * size1 * breath1, uTime, 0.0, 0.25, 0.80, proximity1);
-    float blob2 = irregularWaterShape(uv, blob2Center, 0.38 * size2 * breath2, uTime, 5.0, 0.55, 0.80, proximity2);
+    float blob1 = irregularWaterShape(uv, blob1Center, 0.55 * size1 * breath1 * mobileSizeBoost, uTime, 0.0, 0.25, 0.80, proximity1);
+    float blob2 = irregularWaterShape(uv, blob2Center, 0.38 * size2 * breath2 * mobileSizeBoost, uTime, 5.0, 0.55, 0.80, proximity2);
 
     blob1 = clamp(blob1, 0.0, 1.0);
     blob2 = clamp(blob2, 0.0, 1.0);

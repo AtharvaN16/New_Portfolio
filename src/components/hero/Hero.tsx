@@ -40,12 +40,15 @@ interface HeroProps {
   onGetInTouchClick?: () => void
   /** Use svh-based top spacing — avoids dvh toolbar thrash on mobile home */
   stableMobileViewport?: boolean
+  /** 0–1 featured card visibility — drives bio fade + blob dim on mobile home */
+  featuredCover?: number
 }
 
 export function Hero({
   onBrowseWorkClick,
   onGetInTouchClick,
   stableMobileViewport = false,
+  featuredCover = 0,
 }: HeroProps) {
   const { isMobile } = useBreakpoints()
   const [initialPaletteIndex] = useState(() => pickInitialHeroPaletteIndex())
@@ -67,13 +70,27 @@ export function Hero({
     ? HERO_CURRENTLY_DURATION_S
     : META_FADE_DURATION
   const bottomRowDelay = isDesktopAnimation ? HERO_BOTTOM_ROW_DELAY_S : 0
+  const featuredScrollMix = Math.min(1, featuredCover * 1.6)
 
   const bioBlock = (
     <div
       className="flex flex-col gap-12 mb-2 md:mb-5 lg:mb-6 md:flex-row md:items-end md:justify-between md:gap-4 px-6 md:px-0 md:min-h-0"
       style={{ flexShrink: 0 }}
     >
-      <div className="max-w-[70%] md:max-w-none md:w-[410px]">
+      <div
+        className={cn(
+          'max-w-[70%] md:max-w-none md:w-[410px]',
+          stableMobileViewport && 'home-mobile-hero-bio'
+        )}
+        style={
+          stableMobileViewport
+            ? {
+                opacity: 1 - featuredScrollMix,
+                transform: `translateY(${-20 * featuredScrollMix}px)`,
+              }
+            : undefined
+        }
+      >
         <AnimatedHeroTextGSAP
           as="h1"
           boldWords={HERO_BIO_BOLD_WORDS}
@@ -140,10 +157,16 @@ export function Hero({
   const blobBlock = (
     <div
       className={cn(
-        'relative overflow-hidden water-blob-container min-h-[480px] flex-1 md:min-h-0 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]',
-        stableMobileViewport && 'water-blob-container--edge',
-        !stableMobileViewport && 'w-full'
+        'relative overflow-hidden water-blob-container min-h-[480px] md:min-h-0 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]',
+        stableMobileViewport
+          ? 'water-blob-container--edge h-full min-h-[480px] w-full flex-1'
+          : 'w-full flex-1 md:min-h-0'
       )}
+      style={
+        stableMobileViewport
+          ? { opacity: 1 - featuredScrollMix * 0.2 }
+          : undefined
+      }
     >
       {!isMobile && (
         <WaterBlobWithBoundary
@@ -167,12 +190,10 @@ export function Hero({
 
   if (stableMobileViewport) {
     return (
-      <section className="relative flex h-full w-full flex-col">
-        <div className="flex h-full flex-col gap-6 pt-[16svh]">
-          {bioBlock}
-          {blobBlock}
-        </div>
-      </section>
+      <div className="flex h-full min-h-0 w-full flex-1 flex-col">
+        <div className="shrink-0 pt-[16svh]">{bioBlock}</div>
+        <div className="min-h-0 w-full flex-1">{blobBlock}</div>
+      </div>
     )
   }
 

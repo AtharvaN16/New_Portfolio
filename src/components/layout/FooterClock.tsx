@@ -17,9 +17,10 @@ import { useCurrentTime } from '@/hooks/use-current-time'
  */
 interface FooterClockProps {
   className?: string
+  compact?: boolean
 }
 
-function FooterClockComponent({ className }: FooterClockProps) {
+function FooterClockComponent({ className, compact = false }: FooterClockProps) {
   const { formattedTime } = useCurrentTime()
 
   return (
@@ -28,14 +29,18 @@ function FooterClockComponent({ className }: FooterClockProps) {
       style={{ fontFamily: 'var(--font-jetbrains-mono), ui-monospace, monospace' }}
     >
       <p
-        className="mb-1 text-sm font-medium tracking-wide lg:mb-2 lg:text-lg"
-        style={{ color: 'rgb(var(--color-text-secondary))' }}
+        className={cn(
+          'mb-0.5 font-medium tracking-wide text-text-secondary',
+          compact ? 'text-[10px]' : 'text-sm lg:mb-2 lg:text-lg'
+        )}
       >
         NEW YORK
       </p>
       <div
-        className="text-sm font-medium tabular-nums lg:text-lg"
-        style={{ color: 'rgb(var(--color-text-secondary))' }}
+        className={cn(
+          'font-medium tabular-nums text-text-secondary',
+          compact ? 'text-xs' : 'text-sm lg:text-lg'
+        )}
         suppressHydrationWarning
       >
         {formattedTime}
