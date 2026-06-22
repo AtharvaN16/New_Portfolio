@@ -277,6 +277,7 @@
   /* Water blob responsive max heights */
   .home-mobile .water-blob-container--edge {
     max-height: none;
+    min-height: 0;
     width: 100%;
     align-self: stretch;
   }

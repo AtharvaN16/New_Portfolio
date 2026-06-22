@@ -120,7 +120,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         delay: 0.06 + index * 0.07,
                         ease: [0.22, 1, 0.36, 1],
                       }}
-                      className="flex flex-col items-end group"
+                      className="relative flex flex-col items-end group"
                     >
                       <Link
                         href={isComingSoon ? '#' : link.href}
@@ -149,8 +149,8 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         {link.label}
                       </Link>
                       {isComingSoon && (
-                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-1">
-                          <span className="text-[10px] uppercase tracking-widest font-medium text-text-color60">
+                        <div className="pointer-events-none absolute top-full right-0 mt-1 whitespace-nowrap opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                          <span className="text-[10px] font-medium uppercase tracking-widest text-text-color60">
                             Coming soon
                           </span>
                         </div>

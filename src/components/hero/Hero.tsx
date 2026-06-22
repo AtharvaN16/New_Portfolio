@@ -157,10 +157,10 @@ export function Hero({
   const blobBlock = (
     <div
       className={cn(
-        'relative overflow-hidden water-blob-container min-h-[480px] md:min-h-0 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]',
+        'relative overflow-hidden water-blob-container md:min-h-0 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]',
         stableMobileViewport
-          ? 'water-blob-container--edge h-full min-h-[480px] w-full flex-1'
-          : 'w-full flex-1 md:min-h-0'
+          ? 'water-blob-container--edge h-full min-h-0 w-full'
+          : 'min-h-[480px] w-full flex-1 md:min-h-0'
       )}
       style={
         stableMobileViewport
@@ -190,9 +190,14 @@ export function Hero({
 
   if (stableMobileViewport) {
     return (
-      <div className="flex h-full min-h-0 w-full flex-1 flex-col">
-        <div className="shrink-0 pt-[16svh]">{bioBlock}</div>
-        <div className="min-h-0 w-full flex-1">{blobBlock}</div>
+      <div
+        className="grid h-full min-h-0 w-full flex-1"
+        style={{
+          gridTemplateRows: 'minmax(0, 11fr) minmax(40svh, 9fr)',
+        }}
+      >
+        <div className="min-h-0 self-end pt-[18svh]">{bioBlock}</div>
+        <div className="min-h-0 w-full">{blobBlock}</div>
       </div>
     )
   }
