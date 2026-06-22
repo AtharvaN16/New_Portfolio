@@ -215,10 +215,10 @@ export function Hero({
       <div
         className="grid h-full min-h-0 w-full flex-1"
         style={{
-          gridTemplateRows: 'minmax(0, 11fr) minmax(40svh, 9fr)',
+          gridTemplateRows: 'minmax(0, 12fr) minmax(36svh, 8fr)',
         }}
       >
-        <div className="min-h-0 self-end pt-[18svh]">{bioBlock}</div>
+        <div className="min-h-0 self-end pt-[20svh]">{bioBlock}</div>
         <div className="min-h-0 w-full">{blobBlock}</div>
       </div>
     )

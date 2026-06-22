@@ -193,7 +193,7 @@ export function SelectedWork({
         </m.h2>
       ) : useMobileEntrance ? (
         <m.h2
-          className="mt-8 mb-[4.5rem] text-[32px] font-bold tracking-[-0.05em] text-foreground sm:mt-10 md:text-2xl"
+          className="mt-8 mb-[4.5rem] text-[28px] font-bold tracking-[-0.05em] text-foreground sm:mt-10 md:text-2xl"
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.45 }}
@@ -202,7 +202,7 @@ export function SelectedWork({
           Selected Work
         </m.h2>
       ) : (
-        <h2 className="mt-8 mb-14 text-[32px] font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 md:text-2xl text-foreground">
+        <h2 className="mt-8 mb-14 text-[28px] font-bold tracking-[-0.05em] sm:mt-10 sm:mb-16 md:text-2xl text-foreground">
           Selected Work
         </h2>
       )}

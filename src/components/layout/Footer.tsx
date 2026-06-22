@@ -20,7 +20,7 @@ import { AccessibilityModal } from './AccessibilityModal'
 type FooterLayoutVariant = 'desktop-reveal' | 'mobile-flow'
 
 /** Hold before mobile footer smog fades in after IO visibility */
-const MOBILE_FOOTER_GLOW_DELAY_MS = 500
+const MOBILE_FOOTER_GLOW_DELAY_MS = 800
 /** Footer must actually enter the viewport — no 200px lookahead on mobile */
 const MOBILE_FOOTER_VISIBLE_RATIO = 0.06
 
