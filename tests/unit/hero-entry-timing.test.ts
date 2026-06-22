@@ -28,7 +28,8 @@ describe('hero entry timing', () => {
   it('reveals browse work and bottom row after hero copy', () => {
     expect(HERO_BROWSE_WORK_DELAY_MS).toBe(HERO_CTA_DELAY_MS)
     expect(HERO_CTA_DELAY_MS).toBeGreaterThan(HERO_BIO_DELAY_S * 1000)
-    expect(HERO_CTA_DELAY_MS).toBeLessThan(HERO_F2_ENTRY_MS + 2000)
+    // CTA appears within 1.5s of bio start (bio at 2.6s, CTA at 3.6s)
+    expect(HERO_CTA_DELAY_MS).toBeLessThan(HERO_BIO_DELAY_S * 1000 + 1500)
   })
 
   it('fades nav glow over 2.2s from first F1 light', () => {

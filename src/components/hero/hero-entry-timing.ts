@@ -23,7 +23,7 @@ export const HERO_TEXT_DELAY_MS = HERO_F2_ENTRY_MS + HERO_F2_TEXT_OFFSET_MS
 export const HERO_BIO_DELAY_S = HERO_TEXT_DELAY_MS / 1000
 
 /** Meta line follows bio reveal */
-export const HERO_CURRENTLY_DELAY_S = HERO_BIO_DELAY_S + 0.35
+export const HERO_CURRENTLY_DELAY_S = HERO_BIO_DELAY_S + 0.18
 
 export const HERO_CURRENTLY_DURATION_S = 1.0
 

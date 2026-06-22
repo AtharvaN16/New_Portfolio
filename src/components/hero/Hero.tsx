@@ -39,9 +39,14 @@ export function Hero({
   onBrowseWorkClick,
   onGetInTouchClick,
 }: HeroProps) {
-  const { isMobile, isMd } = useBreakpoints()
+  const { isMobile } = useBreakpoints()
   const [initialPaletteIndex] = useState(() => pickInitialHeroPaletteIndex())
-  const isDesktopAnimation = isMd
+  // Read matchMedia synchronously — avoids the false-on-first-render problem
+  // that useBreakpoints() has (starts false, updates after mount).
+  // Hero.tsx is 'use client' so window is always available here.
+  const isDesktopAnimation =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(min-width: 768px)').matches
 
   const bioDelay = isDesktopAnimation ? HERO_BIO_DELAY_S : isMobile ? 0.3 : 1.8
   const currentlyDelay = isDesktopAnimation
