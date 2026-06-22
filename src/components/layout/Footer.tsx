@@ -19,10 +19,15 @@ import { AccessibilityModal } from './AccessibilityModal'
 
 type FooterLayoutVariant = 'desktop-reveal' | 'mobile-flow'
 
-/** Hold before mobile footer smog fades in after IO visibility */
-const MOBILE_FOOTER_GLOW_DELAY_MS = 800
-/** Footer must actually enter the viewport — no 200px lookahead on mobile */
-const MOBILE_FOOTER_VISIBLE_RATIO = 0.06
+/** Mobile smog fires when the footer covers this much of the viewport (desktop ≈ 0.98 scroll progress) */
+const MOBILE_FOOTER_GLOW_COVERAGE = 0.9
+/** Hysteresis — clear glow slightly earlier when scrolling back up */
+const MOBILE_FOOTER_GLOW_CLEAR_COVERAGE = 0.82
+
+function footerViewportCoverage(entry: IntersectionObserverEntry): number {
+  const viewportHeight = window.innerHeight || 1
+  return entry.intersectionRect.height / viewportHeight
+}
 
 interface FooterProps {
   layoutVariant?: FooterLayoutVariant
@@ -73,6 +78,9 @@ export function Footer({
   const [isAccessibilityModalOpen, setIsAccessibilityModalOpen] =
     useState(false)
   const [isMessageFormOpen, setIsMessageFormOpen] = useState(false)
+  const [showGlow, setShowGlow] = useState(false)
+  const [playShimmer, setPlayShimmer] = useState(false)
+  const glowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
@@ -83,9 +91,23 @@ export function Footer({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (isMobileFlow) {
+          const coverage = footerViewportCoverage(entry)
+
+          if (
+            entry.isIntersecting &&
+            coverage >= MOBILE_FOOTER_GLOW_COVERAGE
+          ) {
+            setShowGlow(true)
+          } else if (
+            !entry.isIntersecting ||
+            coverage < MOBILE_FOOTER_GLOW_CLEAR_COVERAGE
+          ) {
+            setShowGlow(false)
+          }
+
           setIsVisible(
             entry.isIntersecting &&
-              entry.intersectionRatio >= MOBILE_FOOTER_VISIBLE_RATIO
+              coverage >= MOBILE_FOOTER_GLOW_CLEAR_COVERAGE
           )
           return
         }
@@ -93,7 +115,11 @@ export function Footer({
         setIsVisible(entry.isIntersecting)
       },
       isMobileFlow
-        ? { threshold: [0, 0.04, 0.06, 0.1, 0.15, 0.25] }
+        ? {
+            threshold: [
+              0, 0.05, 0.1, 0.25, 0.5, 0.65, 0.75, 0.85, 0.9, 0.95, 1,
+            ],
+          }
         : { threshold: 0, rootMargin: '200px' }
     )
 
@@ -112,12 +138,8 @@ export function Footer({
     isMobileFlow || !isDesktop ? staticOpacity : desktopOpacity
   const sectionY = isMobileFlow || !isDesktop ? staticY : desktopY
 
-  const glowFireThreshold = isDesktop ? 0.98 : 0.05
-  const glowClearThreshold = isDesktop ? 0.98 : 0.02
-
-  const [showGlow, setShowGlow] = useState(false)
-  const [playShimmer, setPlayShimmer] = useState(false)
-  const glowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const glowFireThreshold = 0.98
+  const glowClearThreshold = 0.98
 
   useMotionValueEvent(progress, 'change', (latest) => {
     if (isMobileFlow) return
@@ -137,29 +159,6 @@ export function Footer({
       queueMicrotask(() => setShowGlow(false))
     }
   })
-
-  useEffect(() => {
-    if (!isMobileFlow) return
-
-    if (isVisible) {
-      glowTimerRef.current = setTimeout(() => {
-        setShowGlow(true)
-      }, MOBILE_FOOTER_GLOW_DELAY_MS)
-    } else {
-      if (glowTimerRef.current) {
-        clearTimeout(glowTimerRef.current)
-        glowTimerRef.current = null
-      }
-      queueMicrotask(() => setShowGlow(false))
-    }
-
-    return () => {
-      if (glowTimerRef.current) {
-        clearTimeout(glowTimerRef.current)
-        glowTimerRef.current = null
-      }
-    }
-  }, [isMobileFlow, isVisible])
 
   useEffect(() => {
     if (!triggerShimmer) return
