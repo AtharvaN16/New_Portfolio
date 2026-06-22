@@ -194,4 +194,128 @@ Lower priority / measure-first: P3, P4, P5, A3, A4.
 
 ---
 
+---
+
+## 9. 🔴 SCROLL PERFORMANCE — ROOT CAUSE OF MOBILE JITTER (added 2026-06-22)
+
+> This section supersedes scattered scroll notes above. It is the **primary reason the site feels janky on mobile**. Decision taken with the site owner: **fix via native-flow rendering on mobile** (option A below).
+
+### 9.1 The root cause (verified)
+
+The homepage **does not actually scroll**. `src/app/page.tsx` renders **4 `position: fixed` layers** (Footer z5, SelectedWork z10, Hero z30, Card z40) inside a tall empty container. Native scroll moves nothing visible; instead Framer Motion `useScroll` reads scroll position and `useTransform` writes `translateY`/`opacity` onto each fixed layer **on the JS main thread every frame** (`src/hooks/use-home-scroll.ts:184–224`).
+
+Why this jitters on mobile specifically:
+- Native touch scroll runs on the **compositor thread** (smooth, off-main-thread).
+- Framer's transform writes run on the **main thread**, reacting to `scroll` events that on mobile fire **irregularly / coalesced** (sometimes only at gesture end on older iOS Safari).
+- **Lenis — which normally reconciles the two via a RAF loop — is disabled on touch devices** (`LenisProvider` early-returns on `(pointer: coarse)`).
+- Result: visible fixed layers lag the finger and snap to catch up → perceived jitter.
+
+This is a documented Motion issue (`motiondivision/motion` #2770, "useScroll jittery when using translateY on mobile"); Motion's docs confirm `useScroll` only hardware-accelerates *certain* animations — `translateY` pinning stays on the main thread.
+
+**The author already diagnosed this from the inside.** See the comment at `src/components/work/SelectedWork.tsx:159–170`: *"on the home page this section is dragged hundreds of vh by a transform every frame... Desktop GPUs absorb it; mobile does not, so only apply it on desktop."* Existing mitigations (disabling `content-visibility` on mobile, gating internal scroll listeners, the recede effect) treat **symptoms** — the transform-per-frame machine still mounts and runs on mobile.
+
+### 9.2 Amplifiers (each makes it worse)
+
+- **A1 — Address-bar resize thrash.** `windowHeight` is JS state (`use-home-scroll.ts:47,70`) and the container height + every transform output range depend on it (`heroContentOutput`, `cardOutput`, `selectedWorkOutput`). The mobile URL bar *animates* during scroll → `innerHeight` changes continuously → `handleResize` recomputes heights and even calls `scrollTo` mid-gesture (lines 96–111). Relayout + programmatic scroll during a scroll gesture = guaranteed jank. Hero also uses `pt-[20dvh]`; `dvh` recalculates layout on every toolbar animation frame.
+- **A2 — 5 permanently-promoted layers.** `page.tsx` sets `willChange:'transform'`/`'opacity'` on SelectedWork, Hero, Card, hero-main, navbar — always on. On memory-limited mobile GPUs this causes layer-memory pressure and slower paints. `will-change` should be transient, not permanent.
+- **A3 — WebGL blob during first scroll.** F2 blob runs (30fps) on mobile and shares main thread/GPU. It pauses past 3% scroll (`dispatchHomePauseBlobs`, line 148) but is live during the critical first-scroll moment.
+- **A4 — React re-render mid-scroll.** `setHeroIsHidden` (line 157) fires a state update while dragging.
+- **A5 — Misc per-frame work.** `heroPointerEvents` MotionValue maps opacity→string each frame; `FullpageCard.tsx:87` uses `transition-all duration-500` (broad).
+
+### 9.3 Chosen fix: NATIVE-FLOW ON MOBILE (option A)
+
+On mobile (`pointer: coarse` / below the chosen cutoff), **do not mount the fixed-layer transform machine at all.** Render the homepage in normal document flow: Hero → FullpageCard → SelectedWork → Footer, stacked, scrolled natively. Desktop keeps the full layered parallax reveal unchanged.
+
+This matches what the author already started — the mobile `SelectedWork` is a plain column stack commented *"Optimized for 0 jitter"*. The job is to extend that principle to the **whole page** so `useHomeScroll`'s transforms / fixed layers never run on mobile.
+
+### 9.4 Implementation guidance for the agent doing this
+
+**Confirm the approach with current code before starting; this is a behavior change — brainstorm/plan it.**
+
+- **Branch the render in `page.tsx`** by device. Mobile branch: normal-flow sections, no `position: fixed`, no `style={{ y: ... }}` MotionValues, no `useHomeScroll` transform outputs. Desktop branch: existing behavior untouched.
+- **Do not call `useHomeScroll`'s transform machinery on mobile** (or make it a no-op on mobile so no `useScroll`/`useTransform`/resize-scrollTo runs). The `scrollTo`-on-resize (lines 96–111) must NOT run on mobile.
+- **Anchor-based nav:** "Browse work" / "Get in touch" should become anchor scrolls (`scrollIntoView`) on mobile rather than progress-target math.
+- **Viewport height:** prefer `100svh` for stable full-screen sections (FullpageCard already uses `min-h-[100svh]` ✅). Avoid `dvh`/JS `innerHeight` for anything that affects layout during scroll. If a JS height is unavoidable, set a `--vh` CSS var **once** on mount (throttle any resize 100–200ms) instead of reading `innerHeight` live.
+- **Strip permanent `will-change`** on the mobile branch (nothing is being transformed, so it's pure cost).
+- **Keep the WebGL blob decision explicit** — owner wants "super optimized"; confirm whether mobile hero keeps the single optimized blob (signature visual) or drops it for max perf. Do not silently change it.
+- **Reuse existing mobile variants** — `SelectedWork` mobile column stack, `FullpageCard`, Footer already have mobile paths. Prefer composing them over new code.
+- Respect the 300-line rule; if `page.tsx`/`use-home-scroll.ts` grow, split the mobile path into its own component/hook.
+
+**Verification (mandatory):**
+- Test on a real device or DevTools device mode with CPU 4–6× throttle. Record a Performance trace while scrolling; confirm no long main-thread tasks per frame and no layout thrash on address-bar show/hide.
+- Confirm desktop parallax is byte-for-byte unchanged (diff the desktop branch).
+- `bun run validate` passes.
+- No `position: fixed` transform layers present in the mobile DOM (inspect).
+
+### 9.5 If owner ever reverts to "keep the effect" (option B — NOT chosen, for reference)
+
+Surgical-only path (reduces but does not eliminate jitter): lock viewport height to a `--vh` var set once; remove the mid-scroll `scrollTo`; drop permanent `will-change`; gate `heroPointerEvents`/`transition-all`; consider `useSpring` smoothing. Document says this won't be perfectly buttery because main-thread transform lag remains — that's why option A was chosen.
+
+---
+
+---
+
+## 10. COMPLETE MOBILE PERFORMANCE DIAGNOSIS (added 2026-06-22)
+
+> Whole-site sweep: load path, fonts, bundle, assets, CSS, runtime, and the case-study/secondary routes. The homepage scroll architecture (§9) remains the #1 *feel* problem; this section covers everything else. **No fabricated metrics** — severity is relative, measured numbers must come from a real Lighthouse/WebPageTest run on a throttled device.
+>
+> Same safety rules as §0 apply: re-read each cited line, confirm `[NEEDS-CONFIRM]` items, one concern per change, don't touch the §2 DO-NOT-TOUCH list, verify on a real mobile profile.
+
+### 10.A — Network & asset weight 🔴 (the biggest non-scroll cost)
+
+- **`public/` is ~344 MB** `[V]` — 303 MB images, ~69 MB of referenced video. `find public -type f -size +1M` → **74 images over 1 MB**.
+- **Oversized sources, incl. "optimized" copies that aren't** `[V]`:
+  - `nyc-dcwp-business-licenses/old-dcwp-page.png` **20 MB** AND `old-dcwp-page.webp` **14 MB** (the webp is still enormous — false optimization).
+  - `pratt-service-design-hero-8k.png` **13 MB**, `gutenberg/hero.png` **6.8 MB**, `alo-yoga/alo_insta.png` **7.4 MB** (+4.5 MB webp), plus ~dozen 3–5 MB files.
+- **Why it hurts mobile:** even though next/image transcodes to AVIF/WebP at delivery, (a) any image referenced as a raw `<img>`, video `poster`, or CSS background ships the multi-MB source as-is; (b) `quality` is set high (92 in `ProjectCard`, reportedly 95 in `CaseStudyDetail` `[NEEDS-CONFIRM]`); (c) media inside collapsed "Read more" sections loads eagerly.
+- **Fixes (per-image, with visual check):**
+  1. Re-encode/resize all source images to a sane max (~2560px wide) and modern format; delete the redundant giant `.webp` twins **only after confirming nothing references them** (look before deleting).
+  2. Ensure **every** case-study/grid image goes through `next/image` with a correct `sizes` prop (several lack it — `[NEEDS-CONFIRM]` `alo-yoga/AloSocialSection.tsx` images use `width/height` but no `sizes`).
+  3. Lower `quality` to ~70–75 for non-hero imagery.
+  4. **Lazy-load media in collapsed sections** (`CaseStudyReadMore` children) so hidden 4–7 MB images don't download until revealed.
+  5. **Gate card/fullpage autoplay video to desktop** (already in §4 P2) — confirmed `ProjectCard.tsx:316–326` and `FullpageCard.tsx:117–125` autoplay with no mobile branch `[V]`.
+
+### 10.B — Critical-path load, fonts, bundle
+
+- **🔴 Render-blocking Google Fonts in the root `<head>`** `[V]` — `src/app/layout.tsx:35–38` loads **Material Symbols Rounded** via a synchronous `<link rel="stylesheet">` for **every page and every user**. It is used in only **two components, both inside the single "UAlberta Library" case study** (`LibraryLocationCard.tsx:34`, `SubjectGuidesPrototype.tsx:116`) `[V]`. No `preconnect`, no `&display=swap`. This blocks first paint sitewide for an icon font almost no one loads.
+  - **Fix:** remove from global `<head>`; load it only within the Library case study (or self-host/subset, or replace those ~2 icons with inline SVG). If kept anywhere, add `<link rel="preconnect">` + `&display=swap`.
+- **🟡 Mixed Framer Motion imports** `[V]` — 152 lazy `<m.>` (good, paired with `LazyMotion features={domAnimation}` in `AppProviders`) but **10 `<motion.>`** that pull the full feature bundle, in `LibraryServicesDirectory.tsx`, `LibraryServiceItem.tsx`, `DirectorySidebar.tsx`, `DirectoryTopBar.tsx`. All scoped to the dynamically-imported Library case study, so **not a homepage cost** — but convert to `<m.>` for consistency and to keep that chunk lean. (Also: `<motion.>` inside a `LazyMotion` tree can misbehave — another reason to switch.)
+- **🟡 `next.config`** `[V]` is minimal: `minimumCacheTTL: 60` is very low (images re-optimized constantly — raise to e.g. 2592000). Consider `experimental.optimizePackageImports: ['framer-motion']` and confirm production compression. Image `formats`/`deviceSizes` already good.
+- **✅ Good:** local fonts `display:swap` + variable; `JetBrains_Mono`/`Mynerve` `preload:false`; **GSAP is code-split** (`PaperPlaneFlight` is `dynamic()` in `FooterMessageSection.tsx:16`) so it never ships on initial load `[V]`; home dialogs/`SelectedWork`/`Footer` are `dynamic()`.
+
+### 10.C — Runtime / animation cost on mobile
+
+- **🔴 Homepage fixed-layer transform machine** — see §9. Root cause of jank; dominates everything here.
+- **🟡 `CaseStudySideNav`** `[NEEDS-CONFIRM]` — IntersectionObserver updates `activeId` state on scroll → re-render per active-section change while scrolling a case study. Throttle via RAF / only setState on actual change.
+- **🟡 `CaseStudyVideo` progress** `[NEEDS-CONFIRM]` — `timeupdate` fires ~4–60×/s and drives a React state update + progress-bar re-render. Throttle to ~10/s or drive the bar via a ref/CSS var instead of state. (Note: the video itself is well-built — `preload="none"`, IO-gated play, reduced-motion aware.)
+- **🟡 `whileInView` with `viewport={{ once: false }}`** `[NEEDS-CONFIRM]` in `ExplorationsGrid` (and the desktop `SelectedWork` grid) re-runs entrance animations every time cards scroll in/out. Use `once: true` where re-animation isn't intended.
+- **🟡 `WorkFilter`** `[NEEDS-CONFIRM]` — word-level stagger (~30–40 motion nodes, `delayChildren ~0.9`) animates on `/work` load; gate the per-word animation off on mobile.
+- **🟢 `use-interactive-gradient`** `[V]` attaches a `document` `mousemove` listener unconditionally (`use-interactive-gradient.ts:95`), used by `GradientBar` on `/work`. Idle on touch (no mouse) but a wasted always-on listener — gate behind `(hover:hover)` / non-coarse. Low priority.
+- **✅ Good / already gated:** `FooterDustParticles` canvas RAF returns `null` on mobile and only starts via IntersectionObserver (`FooterDustParticles.tsx:56,150,170`) `[V]`; `SelectedWork` scroll listener and `ProjectCard` recede effect are `isDesktop`-gated; Lenis off on touch.
+
+### 10.D — CSS rendering
+
+- **✅ CORRECTION to §4 P5:** the footer résumé **`travelingGradient` and `shimmer-glow` are wrapped in `@media (hover: hover)` and explicitly neutralized in `@media (max-width:767px),(hover:none)`** (`globals.css:312,393`) `[V]` — they do **NOT** run on mobile. Do not "fix" them; the earlier flag was wrong.
+- **🟡 Permanent `will-change`** on ~5 always-mounted homepage layers (`page.tsx`) — see §9 A2. Strip on the mobile native-flow branch.
+- **🟡 `transition: all`** smells: `FullpageCard.tsx:87` (`transition-all duration-500`) and `globals.css:334,353`. Scope to specific properties.
+- **✅ Good:** `TextureOverlay` swaps SVG filter → static texture on mobile/Safari; `ProgressiveBlur` capped to 3 steps on mobile; shimmer disabled on mobile. CSS is generally mobile-aware.
+
+### 10.E — Case-study content (parse + mount cost)
+
+- **🟡 Whole case study mounts at once** `[NEEDS-CONFIRM]` — content components are huge and render their entire tree (all sections + media) on open; "Read more" toggles visibility via `AnimatePresence`, not virtualization. On a phone that's a large synchronous DOM/JS mount.
+- **🔴 300-line rule broken (also a parse-cost issue)** `[V]`: `PrattVisitorExperienceContent.tsx` **2,079**, `GutenbergContent.tsx` **1,476**, `MetFreeToursContent.tsx` **917**, + several 400–784. Splitting into per-section components (and lazy-mounting below-the-fold / behind "Read more") cuts initial parse + mount on mobile and fixes the rule violation in one move.
+
+### 10.F — Prioritized action list (mobile perf)
+
+1. **§9 native-flow homepage** — kills scroll jank (already chosen).
+2. **10.A image/video pipeline** — re-encode oversized sources, all via `next/image`+`sizes`, lazy collapsed media, gate video autoplay. Biggest load/LCP win.
+3. **10.B fonts** — remove global render-blocking Material Symbols; scope to its one case study.
+4. **10.C runtime** — throttle `CaseStudyVideo`/`CaseStudySideNav`, fix `once:false`, gate `WorkFilter` stagger on mobile.
+5. **10.B `next.config`** — raise `minimumCacheTTL`, add `optimizePackageImports`; convert stray `<motion.>` → `<m.>`.
+6. **10.E** — split the 300-line content files, lazy-mount below-the-fold sections.
+
+**Before claiming any of this improved anything:** capture a *baseline* Lighthouse mobile + Performance trace (CPU 4–6× throttle) on `dev`, make the change, re-measure, and compare. Severity tags above are reasoning, not measurements.
+
+---
+
 *Findings tagged `[V]` were read directly during the audit. `[NEEDS-CONFIRM]` came from exploration and must be verified before action. Line numbers are accurate as of 2026-06-22 on `dev` and will drift — always re-read.*
