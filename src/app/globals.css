@@ -268,10 +268,8 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  @media (max-width: 767px) {
-    .pronunciation-word--tappable .scribble-container {
-      transform: translateY(-5px);
-    }
+  .pronunciation-word .scribble-container {
+    transform: translateY(-5px);
   }
 
   /* Water blob responsive max heights */
