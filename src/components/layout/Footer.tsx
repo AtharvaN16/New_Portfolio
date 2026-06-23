@@ -21,8 +21,8 @@ type FooterLayoutVariant = 'desktop-reveal' | 'mobile-flow'
 
 /** Mobile smog fires when the footer covers this much of the viewport (desktop ≈ 0.98 scroll progress) */
 const MOBILE_FOOTER_GLOW_COVERAGE = 0.9
-/** Hysteresis — clear glow slightly earlier when scrolling back up */
-const MOBILE_FOOTER_GLOW_CLEAR_COVERAGE = 0.82
+/** Delay before glow fades in — avoids an abrupt pop when threshold is hit */
+const MOBILE_FOOTER_GLOW_DELAY_MS = 550
 
 function footerViewportCoverage(entry: IntersectionObserverEntry): number {
   const viewportHeight = window.innerHeight || 1
@@ -81,6 +81,8 @@ export function Footer({
   const [showGlow, setShowGlow] = useState(false)
   const [playShimmer, setPlayShimmer] = useState(false)
   const glowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  /** Mobile glow latches on once fired — never clears when scrolling back up */
+  const mobileGlowLatchedRef = useRef(false)
 
   useEffect(() => {
     if (typeof window === 'undefined' || !('IntersectionObserver' in window)) {
@@ -95,20 +97,26 @@ export function Footer({
 
           if (
             entry.isIntersecting &&
-            coverage >= MOBILE_FOOTER_GLOW_COVERAGE
+            coverage >= MOBILE_FOOTER_GLOW_COVERAGE &&
+            !mobileGlowLatchedRef.current &&
+            !glowTimerRef.current
           ) {
-            setShowGlow(true)
+            glowTimerRef.current = setTimeout(() => {
+              mobileGlowLatchedRef.current = true
+              setShowGlow(true)
+              glowTimerRef.current = null
+            }, MOBILE_FOOTER_GLOW_DELAY_MS)
           } else if (
-            !entry.isIntersecting ||
-            coverage < MOBILE_FOOTER_GLOW_CLEAR_COVERAGE
+            !mobileGlowLatchedRef.current &&
+            (coverage < MOBILE_FOOTER_GLOW_COVERAGE || !entry.isIntersecting)
           ) {
-            setShowGlow(false)
+            if (glowTimerRef.current) {
+              clearTimeout(glowTimerRef.current)
+              glowTimerRef.current = null
+            }
           }
 
-          setIsVisible(
-            entry.isIntersecting &&
-              coverage >= MOBILE_FOOTER_GLOW_CLEAR_COVERAGE
-          )
+          setIsVisible(entry.isIntersecting)
           return
         }
 
@@ -179,11 +187,11 @@ export function Footer({
     []
   )
 
-  const smogVisible = isMobileFlow ? showGlow && isVisible : showGlow
+  const smogVisible = showGlow
   const showSmogLayer = isMobileFlow || isDesktop
   const smogVariant = isMobileFlow ? 'mobile' : 'desktop'
   const renderSmog =
-    showSmogLayer && (isMobileFlow ? smogVisible : isVisible)
+    showSmogLayer && (isMobileFlow ? showGlow : isVisible)
   const mobileEntrance = isMobileFlow && !reducedMotion
   const fadeTransition = reducedMotion
     ? { duration: 0 }

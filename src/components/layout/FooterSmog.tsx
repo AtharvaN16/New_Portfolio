@@ -29,8 +29,9 @@ export function FooterSmog({ visible, variant = 'desktop' }: FooterSmogProps) {
 
   return (
     <div
-      className="absolute top-0 left-0 right-0 pointer-events-none z-0 overflow-hidden"
+      className="absolute left-0 right-0 pointer-events-none z-0 overflow-hidden"
       style={{
+        top: isMobile ? '-36px' : '0',
         height: `${smogHeight}px`,
         maskImage:
           'linear-gradient(to bottom, black 0%, black 20%, transparent 100%)',
@@ -94,11 +95,17 @@ function CSSGlow({
   const height2 = isLight ? '65%' : '85%'
   const height3 = isLight ? '75%' : '100%'
 
+  const swellOriginY = isMobile ? '-12%' : '0%'
+
   return (
     <m.div
       className="absolute inset-0"
       animate={{ opacity: visible ? 1 : 0 }}
-      transition={{ duration: isMobile ? 0.9 : 1.2, ease: 'easeOut' }}
+      transition={
+        isMobile
+          ? { duration: 1.6, ease: [0.4, 0, 0.2, 1] }
+          : { duration: 1.2, ease: 'easeOut' }
+      }
       initial={{ opacity: 0 }}
     >
       <div
@@ -135,7 +142,7 @@ function CSSGlow({
             ease: 'easeInOut',
           }}
           style={{
-            background: `radial-gradient(in oklch ellipse 40% ${height1} at 28% 0%, rgb(var(--color-gradient-start) / ${swell1Alpha}) 0%, transparent 75%)`,
+            background: `radial-gradient(in oklch ellipse 40% ${height1} at 28% ${swellOriginY}, rgb(var(--color-gradient-start) / ${swell1Alpha}) 0%, transparent 75%)`,
           }}
         />
 
@@ -157,7 +164,7 @@ function CSSGlow({
             ease: 'easeInOut',
           }}
           style={{
-            background: `radial-gradient(in oklch ellipse 35% ${height2} at 72% 0%, rgb(var(--color-gradient-end) / ${swell2Alpha}) 0%, transparent 75%)`,
+            background: `radial-gradient(in oklch ellipse 35% ${height2} at 72% ${swellOriginY}, rgb(var(--color-gradient-end) / ${swell2Alpha}) 0%, transparent 75%)`,
           }}
         />
 
@@ -179,7 +186,7 @@ function CSSGlow({
             ease: 'easeInOut',
           }}
           style={{
-            background: `radial-gradient(in oklch ellipse 30% ${height3} at 50% 0%, rgb(var(--color-gradient-start) / ${swell3Alpha}) 0%, transparent 70%)`,
+            background: `radial-gradient(in oklch ellipse 30% ${height3} at 50% ${swellOriginY}, rgb(var(--color-gradient-start) / ${swell3Alpha}) 0%, transparent 70%)`,
           }}
         />
       </div>
