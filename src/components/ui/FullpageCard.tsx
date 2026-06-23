@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type ReactNode } from 'react'
+import { useState, useRef, type ReactNode } from 'react'
 import Image from 'next/image'
 import { m, type MotionValue } from 'framer-motion'
 import {
@@ -13,6 +13,10 @@ import { AnimatedText } from '@/components/ui/AnimatedText'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { useBreakpoints } from '@/hooks/use-responsive'
+import {
+  useVideoPlaybackInView,
+  VIDEO_CARD_VISIBILITY_THRESHOLD,
+} from '@/hooks/use-video-playback-in-view'
 
 interface FullpageCardProps {
   title: string
@@ -60,9 +64,15 @@ export function FullpageCard({
   }
 
   const [mediaError, setMediaError] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const { isDesktop } = useBreakpoints()
   const { reducedMotion } = useAccessibility()
   const { theme } = useTheme()
+
+  useVideoPlaybackInView(videoRef, undefined, {
+    enabled: mediaType === 'video' && !!mediaSrc && !mediaError,
+    threshold: VIDEO_CARD_VISIBILITY_THRESHOLD,
+  })
 
   const mediaScrimColor =
     theme === 'dark' ? 'rgb(0 0 0)' : 'rgb(var(--color-background))'
@@ -118,11 +128,12 @@ export function FullpageCard({
         <div className="absolute inset-0 w-full h-full">
           {mediaType === 'video' ? (
             <video
+              ref={videoRef}
               src={mediaSrc}
-              autoPlay
               loop
               muted
               playsInline
+              preload="none"
               onError={handleMediaError}
               className={cn('w-full h-full object-cover', mediaClassName)}
             />

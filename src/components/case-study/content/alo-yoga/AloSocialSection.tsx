@@ -2,6 +2,7 @@
 
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import Image from 'next/image'
+import { CASE_STUDY_HALF_COLUMN_IMAGE_SIZES } from '@/lib/case-study-image-sizes'
 
 const ALO_INSTA = '/images/case-studies/alo-yoga-digital-analytics/alo_insta.avif'
 const ALO_TIKTOK = '/images/case-studies/alo-yoga-digital-analytics/alo_tiktok.avif'
@@ -68,6 +69,7 @@ export function AloSocialSection() {
                 alt="Instagram strategy analysis" 
                 width={480}
                 height={640}
+                sizes={CASE_STUDY_HALF_COLUMN_IMAGE_SIZES}
                 className="w-full h-auto max-h-full object-contain object-bottom origin-bottom-right"
               />
             </div>
@@ -109,6 +111,7 @@ export function AloSocialSection() {
                 alt="YouTube content focus" 
                 width={480}
                 height={640}
+                sizes={CASE_STUDY_HALF_COLUMN_IMAGE_SIZES}
                 className="w-full h-auto max-h-full object-contain object-bottom origin-bottom-right"
               />
             </div>
@@ -150,6 +153,7 @@ export function AloSocialSection() {
                 alt="TikTok growth signal" 
                 width={480}
                 height={640}
+                sizes={CASE_STUDY_HALF_COLUMN_IMAGE_SIZES}
                 className="w-full h-auto max-h-full object-contain object-bottom origin-bottom-right"
               />
             </div>

@@ -4,6 +4,11 @@ import { m, useTransform, useScroll } from 'framer-motion'
 import { useRef } from 'react'
 import Image from 'next/image'
 import type { CaseStudy } from '@/lib/data/case-studies'
+import { CASE_STUDY_HERO_IMAGE_QUALITY } from '@/lib/case-study-image-sizes'
+import {
+  useVideoPlaybackInView,
+  VIDEO_HERO_VISIBILITY_THRESHOLD,
+} from '@/hooks/use-video-playback-in-view'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 
 interface ShowcaseHeroProps {
@@ -13,6 +18,12 @@ interface ShowcaseHeroProps {
 
 export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
   const heroSectionRef = useRef<HTMLElement>(null)
+  const heroVideoRef = useRef<HTMLVideoElement>(null)
+
+  useVideoPlaybackInView(heroVideoRef, heroSectionRef, {
+    enabled: !!caseStudy.videoUrl,
+    threshold: VIDEO_HERO_VISIBILITY_THRESHOLD,
+  })
 
   // Parallax: image moves UP as user scrolls through the 200dvh hero.
   // The travel distance is 100vh (200vh total height - 100vh viewport).
@@ -44,9 +55,9 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
           >
             {caseStudy.videoUrl ? (
               <video
+                ref={heroVideoRef}
                 src={caseStudy.videoUrl}
                 poster={caseStudy.imageUrl}
-                autoPlay
                 muted
                 loop
                 playsInline
@@ -61,7 +72,7 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
                 className="object-cover [filter:contrast(1.05)]"
                 sizes="100vw"
                 priority
-                quality={95}
+                quality={CASE_STUDY_HERO_IMAGE_QUALITY}
               />
             )}
           </m.div>

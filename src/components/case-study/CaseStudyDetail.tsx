@@ -4,6 +4,11 @@ import { m } from 'framer-motion'
 import { useRef } from 'react'
 import Image from 'next/image'
 import type { CaseStudy } from '@/lib/data/case-studies'
+import { CASE_STUDY_HERO_IMAGE_QUALITY } from '@/lib/case-study-image-sizes'
+import {
+  useVideoPlaybackInView,
+  VIDEO_HERO_VISIBILITY_THRESHOLD,
+} from '@/hooks/use-video-playback-in-view'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import { CaseStudyLayout } from '@/components/case-study/CaseStudyLayout'
 
@@ -20,6 +25,13 @@ interface CaseStudyDetailProps {
  */
 export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
   const heroSectionRef = useRef<HTMLElement>(null)
+  const heroVideoRef = useRef<HTMLVideoElement>(null)
+  const heroMediaRef = useRef<HTMLDivElement>(null)
+
+  useVideoPlaybackInView(heroVideoRef, heroMediaRef, {
+    enabled: !!caseStudy.videoUrl,
+    threshold: VIDEO_HERO_VISIBILITY_THRESHOLD,
+  })
 
   const heroSlot = (
     <>
@@ -102,12 +114,12 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
         aria-label={`${caseStudy.title} hero`}
       >
         <figure className="w-full overflow-hidden">
-          <div className="relative w-full aspect-[16/9] md:aspect-auto md:min-h-screen">
+          <div ref={heroMediaRef} className="relative w-full aspect-[16/9] md:aspect-auto md:min-h-screen">
             {caseStudy.videoUrl ? (
               <video
+                ref={heroVideoRef}
                 src={caseStudy.videoUrl}
                 poster={caseStudy.thumbnailUrl ?? caseStudy.imageUrl}
-                autoPlay
                 muted
                 loop
                 playsInline
@@ -122,7 +134,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
                 className="object-cover [filter:contrast(1.05)]"
                 sizes="100vw"
                 priority
-                quality={95}
+                quality={CASE_STUDY_HERO_IMAGE_QUALITY}
               />
             )}
           </div>

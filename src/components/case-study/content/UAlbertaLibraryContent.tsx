@@ -15,6 +15,7 @@ import SubjectGuidesPrototype from './SubjectGuidesPrototype'
 import { ResearchObjectiveNotes } from './ResearchObjectiveNotes'
 import { SectionSpacer } from '@/components/case-study/SectionSpacer'
 import { UAlbertaResearchSection } from './UAlbertaResearchSection'
+import { MaterialSymbolsFont } from '@/components/case-study/MaterialSymbolsFont'
 import { CASE_STUDY_SECTION_LABEL_PROSE } from '@/components/case-study/caseStudyTypography'
 
 interface UAlbertaLibraryContentProps {
@@ -128,6 +129,7 @@ export function UAlbertaLibraryContent({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.8 }}
     >
+      <MaterialSymbolsFont />
       <div className="max-w-[1044px] mx-auto text-left">
         {/* Abstract */}
         <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">

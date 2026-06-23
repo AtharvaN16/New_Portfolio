@@ -72,6 +72,7 @@ export const LibraryLocationCard: React.FC<LibraryLocationCardProps> = ({ librar
                 alt={library.name} 
                 width={110}
                 height={110}
+                sizes="110px"
                 className="w-full h-full object-cover" 
               />
             ) : (

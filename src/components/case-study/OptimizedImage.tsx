@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Image, { type ImageProps } from 'next/image'
+import { CASE_STUDY_CONTENT_IMAGE_QUALITY } from '@/lib/case-study-image-sizes'
 import { cn } from '@/lib/utils/cn'
 
 interface OptimizedImageProps extends Omit<ImageProps, 'onLoad' | 'src'> {
@@ -35,6 +36,8 @@ export function OptimizedImage({
   className,
   containerClassName,
   priority,
+  quality = CASE_STUDY_CONTENT_IMAGE_QUALITY,
+  loading,
   ...props
 }: OptimizedImageProps) {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -80,6 +83,8 @@ export function OptimizedImage({
         width={width}
         height={height}
         priority={priority}
+        quality={quality}
+        loading={loading ?? (priority ? 'eager' : 'lazy')}
         onLoad={() => setIsLoaded(true)}
         className={cn(
           "transition-opacity duration-700 ease-out",

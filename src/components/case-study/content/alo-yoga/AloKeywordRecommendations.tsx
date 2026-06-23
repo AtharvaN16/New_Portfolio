@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { CASE_STUDY_INLINE_IMAGE_SIZES } from '@/lib/case-study-image-sizes'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 
 const recommendations = [
@@ -119,6 +120,7 @@ export function AloKeywordRecommendations() {
                   alt="Connected Content and Landing Page Strategy"
                   width={1920}
                   height={1080}
+                  sizes={CASE_STUDY_INLINE_IMAGE_SIZES}
                   className="w-full h-auto"
                 />
               </div>

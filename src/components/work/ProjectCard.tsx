@@ -20,6 +20,10 @@ import {
 } from '@/lib/project-card-layout'
 import { cn } from '@/lib/utils/cn'
 import { useBreakpoint } from '@/hooks/use-responsive'
+import {
+  useVideoPlaybackInView,
+  VIDEO_CARD_VISIBILITY_THRESHOLD,
+} from '@/hooks/use-video-playback-in-view'
 
 export interface ProjectCardProps {
   title: string
@@ -85,7 +89,13 @@ export function ProjectCard({
   const [isHovered, setIsHovered] = useState(false)
   const cardRef = useRef<HTMLElement>(null)
   const isDesktop = useBreakpoint('lg')
+  const videoRef = useRef<HTMLVideoElement>(null)
   const edgeProgress = useMotionValue(0)
+
+  useVideoPlaybackInView(videoRef, undefined, {
+    enabled: !!videoUrl,
+    threshold: VIDEO_CARD_VISIBILITY_THRESHOLD,
+  })
 
   const shouldApplyRecede = recedeEffect === 'homeDesktop' && isDesktop
 
@@ -304,7 +314,7 @@ export function ProjectCard({
                 priority={imagePriority}
                 loading={imagePriority ? 'eager' : 'lazy'}
                 fetchPriority={imageFetchPriority}
-                quality={92}
+                quality={75}
                 className="w-full h-auto shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] lg:group-hover:scale-[1.04]"
               />
             </m.div>
@@ -319,7 +329,7 @@ export function ProjectCard({
                 priority={imagePriority}
                 loading={imagePriority ? 'eager' : 'lazy'}
                 fetchPriority={imageFetchPriority}
-                quality={92}
+                quality={75}
                 className="relative z-10 w-full h-auto md:hidden transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)]"
               />
               <div className="relative hidden w-full aspect-[4/3] z-10 shrink-0 overflow-hidden md:block">
@@ -331,16 +341,16 @@ export function ProjectCard({
                   priority={imagePriority}
                   loading={imagePriority ? 'eager' : 'lazy'}
                   fetchPriority={imageFetchPriority}
-                  quality={92}
+                  quality={75}
                   className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] lg:group-hover:scale-[1.04]"
                 />
               </div>
             </>
           ) : videoUrl ? (
             <video
+              ref={videoRef}
               src={videoUrl}
               poster={cardImageUrl}
-              autoPlay
               muted
               loop
               playsInline
@@ -356,7 +366,7 @@ export function ProjectCard({
               priority={imagePriority}
               loading={imagePriority ? 'eager' : 'lazy'}
               fetchPriority={imageFetchPriority}
-              quality={isDesktop ? 92 : 75}
+              quality={75}
               className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.33,1,0.68,1)] lg:group-hover:scale-[1.04]"
             />
           )

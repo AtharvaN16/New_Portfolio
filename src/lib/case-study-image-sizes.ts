@@ -1,3 +1,9 @@
+/** next/image quality — hero / above-the-fold imagery. */
+export const CASE_STUDY_HERO_IMAGE_QUALITY = 85
+
+/** next/image quality — in-body screenshots, grids, and cards. */
+export const CASE_STUDY_CONTENT_IMAGE_QUALITY = 75
+
 /** Default reading-column width used across long-form case study bodies. */
 export const CASE_STUDY_INLINE_IMAGE_SIZES =
   '(max-width: 1044px) 100vw, 1044px'

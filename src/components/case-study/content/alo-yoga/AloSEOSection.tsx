@@ -11,6 +11,7 @@ import { AloKeywordRecommendations } from './AloKeywordRecommendations'
 import { AloCWVTable } from './AloCWVTable'
 import { AloLighthouseScores } from './AloLighthouseScores'
 import Image from 'next/image'
+import { CASE_STUDY_INLINE_IMAGE_SIZES } from '@/lib/case-study-image-sizes'
 
 const ONPAGE_I1 = '/images/case-studies/alo-yoga-digital-analytics/onpage_i1.avif'
 const ONPAGE_I2 = '/images/case-studies/alo-yoga-digital-analytics/onpage_i2.avif'
@@ -359,6 +360,7 @@ export function AloSEOSection() {
                       alt="On-page Insight 1" 
                       width={800}
                       height={600}
+                      sizes={CASE_STUDY_INLINE_IMAGE_SIZES}
                       className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
@@ -406,6 +408,7 @@ export function AloSEOSection() {
                       alt="On-page Insight 2" 
                       width={800}
                       height={600}
+                      sizes={CASE_STUDY_INLINE_IMAGE_SIZES}
                       className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>
@@ -453,6 +456,7 @@ export function AloSEOSection() {
                       alt="On-page Insight 3" 
                       width={800}
                       height={600}
+                      sizes={CASE_STUDY_INLINE_IMAGE_SIZES}
                       className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>

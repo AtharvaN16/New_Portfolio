@@ -31,12 +31,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="dark" className={`${satoshi.variable} ${vulfMono.variable} ${vulfMonoLightItalic.variable}`}>
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0"
-        />
-      </head>
       <body
         className={`${jetbrainsMono.variable} ${mynerve.variable} font-sans antialiased`}
       >

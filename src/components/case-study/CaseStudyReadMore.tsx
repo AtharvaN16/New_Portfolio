@@ -70,7 +70,7 @@ export function CaseStudyReadMore({
         </button>
       </div>
 
-      <AnimatePresence initial={false}>
+      <AnimatePresence initial={false} mode="wait">
         {isContentRevealed && (
           <m.div
             className="mt-[160px] md:mt-[224px] lg:mt-[288px]"
