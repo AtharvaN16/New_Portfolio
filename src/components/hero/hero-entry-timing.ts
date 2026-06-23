@@ -1,7 +1,7 @@
 /**
  * Desktop hero entry timeline (milliseconds from page load).
  *
- * Mobile uses separate hardcoded timings in Hero.tsx — do not change those here.
+ * Mobile hero copy timings — keep in sync with Navbar.tsx + AnimatedHeroTextGSAP.
  */
 
 /** F1 ghost flash starts */
@@ -21,6 +21,15 @@ export const HERO_F2_TEXT_OFFSET_MS = 1200
 export const HERO_TEXT_DELAY_MS = HERO_F2_ENTRY_MS + HERO_F2_TEXT_OFFSET_MS
 
 export const HERO_BIO_DELAY_S = HERO_TEXT_DELAY_MS / 1000
+
+/** Mobile menu button entry delay — keep in sync with Navbar.tsx */
+export const NAVBAR_MOBILE_MENU_DELAY_S = 0.5
+
+/** Bio blur-in starts this long after the menu button animation begins */
+export const MOBILE_BIO_OFFSET_AFTER_MENU_S = 0.4
+
+export const MOBILE_BIO_DELAY_S =
+  NAVBAR_MOBILE_MENU_DELAY_S + MOBILE_BIO_OFFSET_AFTER_MENU_S
 
 /** Meta line follows bio reveal */
 export const HERO_CURRENTLY_DELAY_S = HERO_BIO_DELAY_S + 0.18

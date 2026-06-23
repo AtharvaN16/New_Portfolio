@@ -25,18 +25,20 @@ export function FooterSmog({ visible, variant = 'desktop' }: FooterSmogProps) {
   const isMobile = variant === 'mobile'
 
   const showEffects = !reducedMotion && !pauseWebGL
-  const smogHeight = isMobile ? 300 : 450
+  const smogHeight = isMobile ? 320 : 450
 
   return (
     <div
       className="absolute left-0 right-0 pointer-events-none z-0 overflow-hidden"
       style={{
-        top: isMobile ? '-36px' : '0',
+        top: 0,
         height: `${smogHeight}px`,
-        maskImage:
-          'linear-gradient(to bottom, black 0%, black 20%, transparent 100%)',
-        WebkitMaskImage:
-          'linear-gradient(to bottom, black 0%, black 20%, transparent 100%)',
+        maskImage: isMobile
+          ? 'linear-gradient(to bottom, black 0%, black 18%, transparent 85%)'
+          : 'linear-gradient(to bottom, black 0%, black 20%, transparent 100%)',
+        WebkitMaskImage: isMobile
+          ? 'linear-gradient(to bottom, black 0%, black 18%, transparent 85%)'
+          : 'linear-gradient(to bottom, black 0%, black 20%, transparent 100%)',
       }}
       aria-hidden="true"
     >
@@ -77,17 +79,42 @@ function CSSGlow({
   const isLight = theme === 'light'
   const isDesktop = !isMobile
 
-  const baseAlpha = isLight ? '0.35' : isDesktop ? '0.2' : '0.38'
-  const swell1Alpha = isLight ? '0.50' : isDesktop ? '0.4' : '0.58'
-  const swell2Alpha = isLight ? '0.40' : isDesktop ? '0.35' : '0.48'
-  const swell3Alpha = isLight ? '0.30' : isDesktop ? '0.3' : '0.42'
+  const baseAlpha = isLight
+    ? isMobile
+      ? '0.26'
+      : '0.35'
+    : isDesktop
+      ? '0.2'
+      : '0.24'
+  const swell1Alpha = isLight
+    ? isMobile
+      ? '0.36'
+      : '0.50'
+    : isDesktop
+      ? '0.4'
+      : '0.34'
+  const swell2Alpha = isLight
+    ? isMobile
+      ? '0.30'
+      : '0.40'
+    : isDesktop
+      ? '0.35'
+      : '0.28'
+  const swell3Alpha = isLight
+    ? isMobile
+      ? '0.22'
+      : '0.30'
+    : isDesktop
+      ? '0.3'
+      : '0.20'
+  const baseGradientEndAlpha = isMobile ? '0.28' : '0.20'
 
   const containerBlur = isLight
     ? isMobile
-      ? '56px'
+      ? '52px'
       : '80px'
     : isMobile
-      ? '28px'
+      ? '32px'
       : '40px'
   const ditherOpacity = isLight ? 0.12 : 0.18
 
@@ -95,12 +122,13 @@ function CSSGlow({
   const height2 = isLight ? '65%' : '85%'
   const height3 = isLight ? '75%' : '100%'
 
-  const swellOriginY = isMobile ? '-12%' : '0%'
+  const swellOriginY = isMobile ? '-18%' : '0%'
 
   return (
     <m.div
       className="absolute inset-0"
-      animate={{ opacity: visible ? 1 : 0 }}
+      style={isMobile ? { transform: 'translateY(-32px)' } : undefined}
+      animate={{ opacity: visible ? (isMobile ? 0.75 : 1) : 0 }}
       transition={
         isMobile
           ? { duration: 1.6, ease: [0.4, 0, 0.2, 1] }
@@ -113,7 +141,9 @@ function CSSGlow({
         style={{
           filter: isLight
             ? `blur(${containerBlur}) saturate(1.6) brightness(1.1)`
-            : `blur(${containerBlur})`,
+            : isMobile
+              ? `blur(${containerBlur}) saturate(1.12)`
+              : `blur(${containerBlur})`,
           mixBlendMode: isLight ? 'screen' : 'normal',
         }}
       >
@@ -121,7 +151,7 @@ function CSSGlow({
           suppressHydrationWarning
           className="absolute inset-0"
           style={{
-            background: `linear-gradient(in oklch to right, rgb(var(--color-gradient-start) / ${baseAlpha}), rgb(var(--color-gradient-end) / 0.20))`,
+            background: `linear-gradient(in oklch to right, rgb(var(--color-gradient-start) / ${baseAlpha}), rgb(var(--color-gradient-end) / ${baseGradientEndAlpha}))`,
             maskImage: 'linear-gradient(to bottom, black 0%, transparent 90%)',
             WebkitMaskImage:
               'linear-gradient(to bottom, black 0%, transparent 90%)',
@@ -156,7 +186,7 @@ function CSSGlow({
                   scale: isLight ? [1, 1.15, 1] : 1,
                   opacity: [0.8, 1, 0.8],
                 }
-              : { x: '0%', scale: 1, opacity: 0.8 }
+              : { x: '0%', scale: 1, opacity: isMobile ? 0.58 : 0.8 }
           }
           transition={{
             duration: 18,
@@ -178,7 +208,7 @@ function CSSGlow({
                   scale: isLight ? [1, 1.08, 1] : 1,
                   opacity: [0.5, 1, 0.5],
                 }
-              : { x: '-3%', scale: 1, opacity: 0.5 }
+              : { x: '-3%', scale: 1, opacity: isMobile ? 0.38 : 0.5 }
           }
           transition={{
             duration: 22,

@@ -137,10 +137,15 @@ export function HomeMobile() {
           </section>
         </div>
 
-        <div className="home-mobile-work px-6 pt-[15svh] pb-20">
+        <div className="home-mobile-work relative z-10 bg-background px-6 pt-[15svh] pb-20">
           <Suspense fallback={<div className="min-h-screen bg-background" />}>
             <SelectedWork mobileHomeEntrance sectionId="selected-work" />
           </Suspense>
+          {/* Opaque seam — footer smog blur bleeds upward; this keeps it behind work */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-30 h-28 bg-background"
+          />
         </div>
 
         <div id="footer">

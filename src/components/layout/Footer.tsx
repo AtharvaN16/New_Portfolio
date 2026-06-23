@@ -22,7 +22,7 @@ type FooterLayoutVariant = 'desktop-reveal' | 'mobile-flow'
 /** Mobile smog fires when the footer covers this much of the viewport (desktop ≈ 0.98 scroll progress) */
 const MOBILE_FOOTER_GLOW_COVERAGE = 0.9
 /** Delay before glow fades in — avoids an abrupt pop when threshold is hit */
-const MOBILE_FOOTER_GLOW_DELAY_MS = 550
+const MOBILE_FOOTER_GLOW_DELAY_MS = 350
 
 function footerViewportCoverage(entry: IntersectionObserverEntry): number {
   const viewportHeight = window.innerHeight || 1
@@ -200,11 +200,13 @@ export function Footer({
   return (
     <footer
       ref={footerContainerRef}
-      className="w-full text-foreground footer-bg relative z-20"
+      className={cn(
+        'w-full text-foreground footer-bg relative',
+        isMobileFlow ? 'z-0 overflow-hidden' : 'z-20'
+      )}
       style={{
         backgroundColor: 'rgb(var(--color-footer-bg))',
-        boxShadow:
-          isMobileFlow && !smogVisible ? 'none' : 'var(--shadow-2xl)',
+        boxShadow: isMobileFlow ? 'none' : 'var(--shadow-2xl)',
       }}
     >
       {renderSmog && (
@@ -214,7 +216,7 @@ export function Footer({
       <div
         className={
           isMobileFlow
-            ? 'mx-auto min-h-[min(72svh,560px)] max-w-[1920px] px-6 pt-16 pb-[max(8rem,env(safe-area-inset-bottom))]'
+            ? 'relative z-10 mx-auto min-h-[min(72svh,560px)] max-w-[1920px] px-6 pt-16 pb-[max(8rem,env(safe-area-inset-bottom))]'
             : 'mx-auto max-w-[1920px] px-6 2xl:px-[140px] pt-32 md:pt-28 lg:pt-32 [--footer-content-height:480px] lg:[--footer-content-height:300px]'
         }
         style={

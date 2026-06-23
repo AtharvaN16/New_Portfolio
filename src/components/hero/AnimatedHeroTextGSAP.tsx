@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import { animate, m } from 'framer-motion'
 import { SplitText } from '@/lib/utils/splitText'
 import { cn } from '@/lib/utils/cn'
@@ -50,6 +50,12 @@ const MOTION_TAGS = {
 } as const
 
 const BLUR_IN_TRANSITION = { duration: 1.2, ease: [0.4, 0, 0.2, 1] as const }
+
+/** Seconds from page navigation start → Framer Motion delay (same anchor as Navbar). */
+function getDelayFromPageLoad(delaySeconds: number): number {
+  if (typeof performance === 'undefined') return delaySeconds
+  return Math.max(0, delaySeconds - performance.now() / 1000)
+}
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
@@ -116,7 +122,7 @@ export function AnimatedHeroTextGSAP({
   const { reducedMotion: prefersReducedMotion, pauseWebGL } = useAccessibility()
   const shouldPause = prefersReducedMotion || pauseWebGL
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setIsMd(window.matchMedia('(min-width: 768px)').matches)
     setHasMeasuredViewport(true)
   }, [])
@@ -295,9 +301,10 @@ export function AnimatedHeroTextGSAP({
 
   if (!isMd) {
     const MotionComponent = MOTION_TAGS[Component]
+    const pageAnchoredDelay = getDelayFromPageLoad(delay)
     const mobileTransition = shouldPause
       ? { duration: 0 }
-      : { ...BLUR_IN_TRANSITION, delay }
+      : { ...BLUR_IN_TRANSITION, delay: pageAnchoredDelay }
     const showMobileScribble = shouldPause || mobileScribblesReady
     const mobileContent = inlinePronunciation
       ? renderInlinePronunciation(

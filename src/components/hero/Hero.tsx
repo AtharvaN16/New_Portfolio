@@ -8,6 +8,7 @@ import { getBreakpointMatch, useBreakpoints } from '@/hooks/use-responsive'
 import { cn } from '@/lib/utils/cn'
 import {
   HERO_BIO_DELAY_S,
+  MOBILE_BIO_DELAY_S,
   HERO_BOTTOM_ROW_DELAY_S,
   HERO_BROWSE_WORK_DELAY_MS,
   HERO_BROWSE_WORK_DELAY_S,
@@ -56,7 +57,7 @@ export function Hero({
   // that useBreakpoints() has (starts false, updates after mount).
   const isDesktopAnimation = getBreakpointMatch('md')
 
-  const bioDelay = isDesktopAnimation ? HERO_BIO_DELAY_S : isMobile ? 1.0 : 1.8
+  const bioDelay = isDesktopAnimation ? HERO_BIO_DELAY_S : MOBILE_BIO_DELAY_S
   const currentlyDelay = isDesktopAnimation
     ? HERO_CURRENTLY_DELAY_S
     : isMobile
