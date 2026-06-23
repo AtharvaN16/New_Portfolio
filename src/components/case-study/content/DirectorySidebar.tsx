@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 interface DirectorySidebarProps {
   categories: string[];
@@ -32,7 +32,7 @@ const DirectorySidebar: React.FC<DirectorySidebarProps> = ({
             >
               {/* Active Indicator */}
               {isActive && (
-                <motion.div
+                <m.div
                   layoutId="activeCategoryIndicator"
                   className="absolute left-0 top-0 bottom-0 w-[4px] bg-[#EAB308]"
                   transition={{

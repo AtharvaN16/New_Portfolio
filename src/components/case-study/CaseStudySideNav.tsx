@@ -31,7 +31,8 @@ export function CaseStudySideNav({
       (entries) => {
         const visibleEntries = entries.filter((entry) => entry.isIntersecting)
         if (visibleEntries.length > 0) {
-          setActiveId(visibleEntries[0].target.id)
+          const nextId = visibleEntries[0].target.id
+          setActiveId((prev) => (prev === nextId ? prev : nextId))
         }
       },
       {

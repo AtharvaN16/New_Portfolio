@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Inter } from 'next/font/google';
-import { motion, AnimatePresence } from 'framer-motion';
 import { LIBRARY_DIRECTORY_DATA } from '@/lib/data/library-directory-data';
 
 const inter = Inter({ subsets: ['latin'] });

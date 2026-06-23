@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 
 interface LibraryServiceItemProps {
   title: string;
@@ -54,14 +54,14 @@ export const LibraryServiceItem: React.FC<LibraryServiceItemProps> = ({
           </h4>
           <AnimatePresence>
             {isBookmarked && (
-              <motion.span
+              <m.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="text-[#383838]/60 text-[9px] font-bold uppercase tracking-widest"
               >
                 Bookmarked
-              </motion.span>
+              </m.span>
             )}
           </AnimatePresence>
         </div>

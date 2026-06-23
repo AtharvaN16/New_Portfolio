@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 
 interface DirectoryTopBarProps {
   searchQuery: string;
@@ -80,19 +80,19 @@ const DirectoryTopBar: React.FC<DirectoryTopBarProps> = ({
           <span className="truncate">
             {activeAudience === '-Any-' ? 'Audience Type' : activeAudience}
           </span>
-          <motion.div
+          <m.div
             animate={{ rotate: isDropdownOpen ? 180 : 0 }}
             className="text-[#383838]"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="6 9 12 15 18 9" />
             </svg>
-          </motion.div>
+          </m.div>
         </button>
 
         <AnimatePresence>
           {isDropdownOpen && (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 5 }}
@@ -142,7 +142,7 @@ const DirectoryTopBar: React.FC<DirectoryTopBarProps> = ({
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </div>

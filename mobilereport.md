@@ -83,6 +83,7 @@ Each finding: **what / where / why it matters / suggested fix / risk & verificat
 
 ### P1 — 🔴 Oversized source images (highest real-world impact)
 
+- **Status:** ✅ **Largely fixed (2026-06-22)** — AVIF migration, `public/images` ~411 MB → ~140 MB, legacy PNG/JPG/WebP purged; `sizes` + lower `quality` on grid/hero images; scripts: `images:optimize`, `images:purge`, `images:audit`.
 - **What:** `public/` totals ~344 MB. Several 7–20 MB PNGs, e.g. `public/images/case-studies/nyc-dcwp-business-licenses/old-dcwp-page.png` (~20MB), `…/pratt-institute-visitor-experience/pratt-service-design-hero-8k.png` (~13MB).
 - **Why:** Dominates case-study LCP on cellular. Even with next/image transcoding, large sources are slow to process and any direct `<img>`/CSS reference ships them raw.
 - **Confirm first:** `du -sh public`, `find public -type f -size +1M`. Grep each large file name across `src/` to see whether it's served via next/image (transcoded) or referenced directly.
@@ -91,6 +92,7 @@ Each finding: **what / where / why it matters / suggested fix / risk & verificat
 
 ### P2 — 🔴 Card/fullpage video autoplay not gated on mobile
 
+- **Status:** ✅ **Fixed (2026-06-22)** — kept video + poster; removed blind `autoPlay`; `useVideoPlaybackInView` plays at **50% visible** (cards/fullpage) / **35%** (case-study heroes), pauses off-screen + on tab hide. Files: `ProjectCard.tsx`, `FullpageCard.tsx`, `CaseStudyDetail.tsx`, `ShowcaseHero.tsx`, `use-video-playback-in-view.ts`.
 - **What:** `ProjectCard.tsx:316–326` — `<video autoPlay muted loop playsInline preload="none">` with no mobile branch. `[NEEDS-CONFIRM]` `FullpageCard` reportedly same pattern, possibly without a `poster`.
 - **Why:** `preload="none"` helps, but once on-screen a phone fetches the full clip; multiple such cards compound on cellular.
 - **Fix:** On mobile, render the poster image (`cardImageUrl`) instead of the autoplay video. Reuse the existing mobile-detection approach already in that file/area — do not introduce a 4th cutoff.
@@ -182,12 +184,14 @@ Confirmed large files:
 
 ## 7. Suggested priority order
 
-1. **P1** (compress/resize oversized images) + **P2** (gate video autoplay on mobile) — biggest real mobile win.
-2. **A1** (`CaseStudyDialog` semantics + focus trap) — confirm first, then fix.
-3. **A2** (reduced-motion in parallax/dialogs).
-4. **M1/M2** (unify mobile detection + scroll lock), then chip at **M3** (split large files) one file at a time.
+1. ~~**P1** (compress/resize oversized images) + **P2** (video IO play/pause)~~ ✅ Done.
+2. ~~**10.B** (`next.config` + Material Symbols + `<motion.>` → `<m.>`)~~ ✅ Done — see §10.F.
+3. **10.C runtime** — throttle `CaseStudyVideo`/`CaseStudySideNav`, fix `once:false`, gate `WorkFilter` stagger on mobile.
+4. **A1** (`CaseStudyDialog` semantics + focus trap) — confirm first, then fix.
+5. **A2** (reduced-motion in parallax/dialogs).
+6. **M1/M2** (unify mobile detection + scroll lock), then chip at **M3** (split large files) one file at a time.
 
-Lower priority / measure-first: P3, P4, P5, A3, A4.
+Lower priority / measure-first: P3, P4, P5, A3, A4, **10.E**.
 
 ---
 
@@ -292,6 +296,7 @@ Surgical-only path (reduces but does not eliminate jitter): lock viewport height
 
 ### 10.A — Network & asset weight 🔴 (the biggest non-scroll cost)
 
+- **Status:** ✅ **Fixed (2026-06-22)** — AVIF sources, `public/` slimmed, all `src/` refs `.avif`, `sizes` on Alo/social images, `CASE_STUDY_*_IMAGE_QUALITY` (75 content / 85 hero), `CaseStudyReadMore` mounts children only when revealed (`mode="wait"`).
 - **`public/` is ~344 MB** `[V]` — 303 MB images, ~69 MB of referenced video. `find public -type f -size +1M` → **74 images over 1 MB**.
 - **Oversized sources, incl. "optimized" copies that aren't** `[V]`:
   - `nyc-dcwp-business-licenses/old-dcwp-page.png` **20 MB** AND `old-dcwp-page.webp` **14 MB** (the webp is still enormous — false optimization).
@@ -304,12 +309,14 @@ Surgical-only path (reduces but does not eliminate jitter): lock viewport height
   4. **Lazy-load media in collapsed sections** (`CaseStudyReadMore` children) so hidden 4–7 MB images don't download until revealed.
   5. **Gate card/fullpage autoplay video to desktop** (already in §4 P2) — confirmed `ProjectCard.tsx:316–326` and `FullpageCard.tsx:117–125` autoplay with no mobile branch `[V]`.
 
+  5. ~~**Gate card/fullpage autoplay video to desktop**~~ ✅ IO play/pause instead — see P2 / `use-video-playback-in-view.ts`.
+
 ### 10.B — Critical-path load, fonts, bundle
 
-- **🔴 Render-blocking Google Fonts in the root `<head>`** `[V]` — `src/app/layout.tsx:35–38` loads **Material Symbols Rounded** via a synchronous `<link rel="stylesheet">` for **every page and every user**. It is used in only **two components, both inside the single "UAlberta Library" case study** (`LibraryLocationCard.tsx:34`, `SubjectGuidesPrototype.tsx:116`) `[V]`. No `preconnect`, no `&display=swap`. This blocks first paint sitewide for an icon font almost no one loads.
-  - **Fix:** remove from global `<head>`; load it only within the Library case study (or self-host/subset, or replace those ~2 icons with inline SVG). If kept anywhere, add `<link rel="preconnect">` + `&display=swap`.
-- **🟡 Mixed Framer Motion imports** `[V]` — 152 lazy `<m.>` (good, paired with `LazyMotion features={domAnimation}` in `AppProviders`) but **10 `<motion.>`** that pull the full feature bundle, in `LibraryServicesDirectory.tsx`, `LibraryServiceItem.tsx`, `DirectorySidebar.tsx`, `DirectoryTopBar.tsx`. All scoped to the dynamically-imported Library case study, so **not a homepage cost** — but convert to `<m.>` for consistency and to keep that chunk lean. (Also: `<motion.>` inside a `LazyMotion` tree can misbehave — another reason to switch.)
-- **🟡 `next.config`** `[V]` is minimal: `minimumCacheTTL: 60` is very low (images re-optimized constantly — raise to e.g. 2592000). Consider `experimental.optimizePackageImports: ['framer-motion']` and confirm production compression. Image `formats`/`deviceSizes` already good.
+- **Status:** ✅ **Fixed (2026-06-22)** — Material Symbols scoped to `UAlbertaLibraryContent` via `MaterialSymbolsFont.tsx`; `next.config` `minimumCacheTTL` → 30 days + `optimizePackageImports: ['framer-motion']`; all Library directory prototypes use `<m.>` not `<motion.>`; removed dead `framer-motion` import from `LibraryServicesHero.tsx`.
+- ~~**🔴 Render-blocking Google Fonts in the root `<head>`**~~ ✅ `[V]` — was `layout.tsx:35–38` **Material Symbols Rounded** sitewide; now only UAlberta Library case study (`MaterialSymbolsFont.tsx` in `UAlbertaLibraryContent.tsx`). Icons: `check_circle` in `LibraryLocationCard.tsx`; 13 subject icons in `SubjectGuidesPrototype.tsx`.
+- ~~**🟡 Mixed Framer Motion imports**~~ ✅ — Library files now `<m.>` paired with `LazyMotion` in `AppProviders`.
+- ~~**🟡 `next.config`**~~ ✅ — `minimumCacheTTL: 2_592_000` (30d), `experimental.optimizePackageImports: ['framer-motion']`.
 - **✅ Good:** local fonts `display:swap` + variable; `JetBrains_Mono`/`Mynerve` `preload:false`; **GSAP is code-split** (`PaperPlaneFlight` is `dynamic()` in `FooterMessageSection.tsx:16`) so it never ships on initial load `[V]`; home dialogs/`SelectedWork`/`Footer` are `dynamic()`.
 
 ### 10.C — Runtime / animation cost on mobile
@@ -337,11 +344,12 @@ Surgical-only path (reduces but does not eliminate jitter): lock viewport height
 ### 10.F — Prioritized action list (mobile perf)
 
 1. ~~**§9 native-flow homepage**~~ ✅ Done — see §9.6.
-2. **10.A image/video pipeline** — re-encode oversized sources, all via `next/image`+`sizes`, lazy collapsed media, gate video autoplay. Biggest load/LCP win.
-3. **10.B fonts** — remove global render-blocking Material Symbols; scope to its one case study.
-4. **10.C runtime** — throttle `CaseStudyVideo`/`CaseStudySideNav`, fix `once:false`, gate `WorkFilter` stagger on mobile.
-5. **10.B `next.config`** — raise `minimumCacheTTL`, add `optimizePackageImports`; convert stray `<motion.>` → `<m.>`.
-6. **10.E** — split the 300-line content files, lazy-mount below-the-fold sections.
+2. ~~**10.A image/video pipeline**~~ ✅ Done — AVIF, sizes, quality, read-more lazy mount, video IO play/pause.
+3. ~~**10.B fonts + bundle + `next.config`**~~ ✅ Done — see §10.B status.
+4. **10.C runtime** — throttle `CaseStudyVideo`/`CaseStudySideNav`, fix `once:false`, gate `WorkFilter` stagger on mobile. **← next**
+5. **A1** — `CaseStudyDialog` focus trap + dialog semantics.
+6. **A2** — reduced-motion in desktop parallax + dialog slides.
+7. **10.E / M3** — split 300-line case study files; lazy-mount below-the-fold sections.
 
 **Before claiming any of this improved anything:** capture a _baseline_ Lighthouse mobile + Performance trace (CPU 4–6× throttle) on `dev`, make the change, re-measure, and compare. Severity tags above are reasoning, not measurements.
 

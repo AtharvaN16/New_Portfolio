@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Inter } from 'next/font/google';
 import DirectorySidebar from './DirectorySidebar';
 import DirectoryTopBar from './DirectoryTopBar';
@@ -193,7 +193,7 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
             >
               All Services
               {activeTab === "all" && (
-                <motion.div 
+                <m.div 
                   layoutId="directoryTabUnderline"
                   className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#265D38]"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -207,7 +207,7 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
             >
               Frequently visited
               {activeTab === "frequently" && (
-                <motion.div 
+                <m.div 
                   layoutId="directoryTabUnderline"
                   className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#265D38]"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -221,7 +221,7 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
             >
               Bookmarked
               {activeTab === "bookmarked" && (
-                <motion.div 
+                <m.div 
                   layoutId="directoryTabUnderline"
                   className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#265D38]"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -249,7 +249,7 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
           >
             <AnimatePresence mode="wait">
               {activeTab === "all" ? (
-                <motion.div
+                <m.div
                   key="all-tab"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -284,9 +284,9 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
                       </div>
                     );
                   })}
-                </motion.div>
+                </m.div>
               ) : activeTab === "frequently" ? (
-                <motion.div
+                <m.div
                   key="frequently-tab"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -338,9 +338,9 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
                       No frequently visited services found matching your criteria.
                     </div>
                   )}
-                </motion.div>
+                </m.div>
               ) : (
-                <motion.div
+                <m.div
                   key="bookmarked-tab"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -370,7 +370,7 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
                       )}
                     </div>
                   </div>
-                </motion.div>
+                </m.div>
               )}
             </AnimatePresence>
           </div>
