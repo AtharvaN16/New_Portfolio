@@ -167,7 +167,8 @@ See §1. Converge on one source of truth. **Scoped, deliberate task** — verify
 ### M3 — 🔴 300-line rule broken widely (per `CLAUDE.md`)
 
 - **Status (Pratt):** ✅ **Split (2026-06-22)** — `PrattVisitorExperienceContent.tsx` **2,079 → 67 lines**; sections in `src/components/case-study/content/pratt/` (shared `Accordion`/`SectionDivider`/`OpportunityAreas` + 15 section components). Regenerate via `node scripts/split-pratt-content.mjs` if needed.
-- **Remaining:** `GutenbergContent.tsx` **1,476**, `MetFreeToursContent.tsx` **917**, + several 400–784. Split one file at a time using the same pattern.
+- **Status (Gutenberg):** ✅ **Split (2026-06-22)** — `GutenbergContent.tsx` **1,476 → 74 lines**; sections in `src/components/case-study/content/gutenberg/` (11 section components; SUS callout state in `GutenbergMethodologySusSection`). Regenerate via `node scripts/split-gutenberg-content.mjs` (needs monolith snapshot in `/tmp/GutenbergContent.original.tsx`).
+- **Remaining:** `MetFreeToursContent.tsx` **917**, + several 400–784. Split one file at a time using the same pattern.
 
 ---
 
@@ -328,7 +329,7 @@ Surgical-only path (reduces but does not eliminate jitter): lock viewport height
 ### 10.E — Case-study content (parse + mount cost)
 
 - **🟡 Whole case study mounts at once** `[NEEDS-CONFIRM]` — content components are huge and render their entire tree (all sections + media) on open; "Read more" toggles visibility via `AnimatePresence`, not virtualization. On a phone that's a large synchronous DOM/JS mount.
-- **🔴 300-line rule broken (also a parse-cost issue)** `[V]`: `PrattVisitorExperienceContent.tsx` **2,079**, `GutenbergContent.tsx` **1,476**, `MetFreeToursContent.tsx` **917**, + several 400–784. Splitting into per-section components (and lazy-mounting below-the-fold / behind "Read more") cuts initial parse + mount on mobile and fixes the rule violation in one move.
+- **🔴 300-line rule broken (also a parse-cost issue)** `[V]`: ~~`PrattVisitorExperienceContent.tsx` **2,079**~~ ✅, ~~`GutenbergContent.tsx` **1,476**~~ ✅, `MetFreeToursContent.tsx` **917**, + several 400–784. Splitting into per-section components (and lazy-mounting below-the-fold / behind "Read more") cuts initial parse + mount on mobile and fixes the rule violation in one move.
 
 ### 10.F — Prioritized action list (mobile perf)
 
@@ -337,7 +338,8 @@ Surgical-only path (reduces but does not eliminate jitter): lock viewport height
 3. ~~**10.B fonts + bundle + `next.config`**~~ ✅ Done — see §10.B status.
 4. ~~**A1** — `CaseStudyDialog` focus trap + dialog semantics.~~ ✅ Done.
 5. ~~**10.E / M3 — Pratt case study split**~~ ✅ Done — see M3 status.
-6. **10.E / M3 — remaining giants** — Gutenberg (1,476), Met (917), UAlberta (784), etc. **← next**
+6. ~~**10.E / M3 — Gutenberg split**~~ ✅ Done — see M3 status.
+7. **10.E / M3 — remaining giants** — Met (917), UAlberta (784), etc. **← next**
 7. **M1/M2** — unify mobile detection + scroll lock.
 
 **Before claiming any of this improved anything:** capture a _baseline_ Lighthouse mobile + Performance trace (CPU 4–6× throttle) on `dev`, make the change, re-measure, and compare. Severity tags above are reasoning, not measurements.
