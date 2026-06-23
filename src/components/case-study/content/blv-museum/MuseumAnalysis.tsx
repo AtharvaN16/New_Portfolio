@@ -115,7 +115,7 @@ export function MuseumAnalysis() {
           >
             <div className="relative w-full aspect-[3/2] max-w-[500px] lg:max-w-none">
               <Image
-                src="/images/case-studies/blv-museum-accessibility/matisse-dance-original.jpg"
+                src="/images/case-studies/blv-museum-accessibility/matisse-dance-original.avif"
                 alt="Henri Matisse, Dance (I), 1909, with handwritten annotations questioning whether the background components are Sky, Water, or Hill."
                 fill
                 sizes={CASE_STUDY_HALF_COLUMN_IMAGE_SIZES}
@@ -166,7 +166,7 @@ export function MuseumAnalysis() {
           <div className="relative w-full flex items-center min-h-[400px] py-12 md:py-20">
             <div className="absolute top-1/2 -translate-y-1/2 -left-6 md:-left-12 w-[100%] md:w-[90%] h-[600px] md:h-[700px] z-0 opacity-40 md:opacity-60 [mask-image:linear-gradient(to_right,black_45%,transparent_70%)] pointer-events-none">
               <Image 
-                src="/images/case-studies/blv-museum-accessibility/acc_matrix.png" 
+                src="/images/case-studies/blv-museum-accessibility/acc_matrix.avif" 
                 alt="The Accessibility Analysis Matrix, categorizing parts of visual description into objective observations versus subjective conclusions." 
                 fill 
                 sizes={CASE_STUDY_WIDE_BACKDROP_IMAGE_SIZES}

@@ -18,7 +18,7 @@ export function FullpageCardExamples() {
       <FullpageCard
         title="Designing for accessibility and inclusion"
         description="Creating inclusive digital experiences that work for everyone."
-        mediaSrc="/images/project-screenshot.png"
+        mediaSrc="/images/case-studies/nyc-dcwp-business-licenses/fullpage-card-v2.avif"
         mediaType="image"
         mediaAlt="Project screenshot showing accessible design"
       />

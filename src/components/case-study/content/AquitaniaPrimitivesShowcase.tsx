@@ -25,7 +25,7 @@ const COLOR_PRIMITIVE_HEIGHT = 1571
 const PRIMITIVES: PrimitiveBlock[] = [
   {
     title: 'Typography',
-    src: '/images/case-studies/aquitania-design-system/type-primitive.png',
+    src: '/images/case-studies/aquitania-design-system/type-primitive.avif',
     alt: 'Aquitania typography primitive scale and type styles',
     width: 3783,
     height: 1623,
@@ -33,14 +33,14 @@ const PRIMITIVES: PrimitiveBlock[] = [
   },
   {
     title: 'Color',
-    src: '/images/case-studies/aquitania-design-system/colors-primitive.png',
+    src: '/images/case-studies/aquitania-design-system/colors-primitive.avif',
     alt: 'Aquitania color primitive ramps and brand palettes',
     width: 1161,
     height: 1571,
   },
   {
     title: 'Spacing',
-    src: '/images/case-studies/aquitania-design-system/spacing-primitive.png',
+    src: '/images/case-studies/aquitania-design-system/spacing-primitive.avif',
     alt: 'Aquitania spacing primitive scale',
     width: 800,
     height: 1720,
@@ -49,14 +49,14 @@ const PRIMITIVES: PrimitiveBlock[] = [
   },
   {
     title: 'Border',
-    src: '/images/case-studies/aquitania-design-system/border-primitive.png',
+    src: '/images/case-studies/aquitania-design-system/border-primitive.avif',
     alt: 'Aquitania border radius and border width primitives',
     width: 1454,
     height: 936,
   },
   {
     title: 'Grid',
-    src: '/images/case-studies/aquitania-design-system/grid-primitive.png',
+    src: '/images/case-studies/aquitania-design-system/grid-primitive.avif',
     alt: 'Aquitania desktop, tablet, and mobile layout grid primitives',
     width: 900,
     height: 565,

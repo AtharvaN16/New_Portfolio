@@ -243,7 +243,7 @@ export function PrattVisitorExperienceContent({
                 {/* Ecosystem Loops image */}
                 <figure className="w-full">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/ecosystem-loops.png"
+                    src="/images/case-studies/pratt-institute-visitor-experience/ecosystem-loops.avif"
                     alt="Pratt Visitor Experience Ecosystem Loops diagram showing how Visitors, Student Ambassadors, Shamôr Peeler, Admissions Communication, and Counsellors exchange value"
                     width={1207}
                     height={876}
@@ -367,7 +367,7 @@ export function PrattVisitorExperienceContent({
                   </h4>
                   <figure className="w-full mb-8">
                     <Image
-                      src="/images/case-studies/pratt-institute-visitor-experience/safari-p1.png"
+                      src="/images/case-studies/pratt-institute-visitor-experience/safari-p1.avif"
                       alt="Collage of Pratt website, scheduling page, and confirmation emails for the Discover and Register phase"
                       width={1600}
                       height={1000}
@@ -623,7 +623,7 @@ export function PrattVisitorExperienceContent({
                   </p>
                   <figure className="w-full overflow-x-auto">
                     <Image
-                      src="/images/case-studies/pratt-institute-visitor-experience/blueprint.png"
+                      src="/images/case-studies/pratt-institute-visitor-experience/blueprint.avif"
                       alt="Service blueprint mapping visitor actions, front-stage and back-stage employee actions, technology, and support processes across all five journey phases"
                       width={2400}
                       height={1350}
@@ -665,7 +665,7 @@ export function PrattVisitorExperienceContent({
 
                 <figure className="w-full mb-12 md:mb-16">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/analysis.png"
+                    src="/images/case-studies/pratt-institute-visitor-experience/analysis.avif"
                     alt="Side-by-side view of the Excel spreadsheet with 718 tour feedback responses and the Google Sheets analysis dashboard"
                     width={1600}
                     height={1000}
@@ -1121,7 +1121,7 @@ export function PrattVisitorExperienceContent({
                 {/* Workshop artifacts photo */}
                 <figure className="w-full mb-12 md:mb-16">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/codesign-artifacts.png"
+                    src="/images/case-studies/pratt-institute-visitor-experience/codesign-artifacts.avif"
                     alt="Workshop artifacts: filled welcome cards, ambassador annotated journey map, observation cards, and sketching sheets"
                     width={900}
                     height={900}
@@ -1280,7 +1280,7 @@ export function PrattVisitorExperienceContent({
                     {
                       name: 'Service Promise Card',
                       imageSrc:
-                        '/images/case-studies/pratt-institute-visitor-experience/service-promise-card.png',
+                        '/images/case-studies/pratt-institute-visitor-experience/service-promise-card.avif',
                       imageAlt: 'Service Promise Card template for ambassador training',
                       whatItIs:
                         'It\'s a card where ambassadors write a "We Promise" statement to visitors and then describe how they will keep that promise in real life, focusing on Pratt\'s values (creativity, belonging, and inclusivity).',
@@ -1365,7 +1365,7 @@ export function PrattVisitorExperienceContent({
                   <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-12 items-start mb-12 md:mb-16">
                     <figure>
                       <Image
-                        src="/images/case-studies/pratt-institute-visitor-experience/cue-cards.png"
+                        src="/images/case-studies/pratt-institute-visitor-experience/cue-cards.avif"
                         alt="Physical cue card deck showing four cards: tour guide cover, opening script, student union, and foundation spaces"
                         width={560}
                         height={560}
@@ -1415,7 +1415,7 @@ export function PrattVisitorExperienceContent({
                   {/* Mobile mockup */}
                   <figure className="w-full">
                     <Image
-                      src="/images/case-studies/pratt-institute-visitor-experience/cue-cards-mobile.png"
+                      src="/images/case-studies/pratt-institute-visitor-experience/cue-cards-mobile.avif"
                       alt="Three iPhone mockups showing the digital cue card deck: cover card, opening script card, and student union card"
                       width={1400}
                       height={700}
@@ -1464,7 +1464,7 @@ export function PrattVisitorExperienceContent({
                     {
                       name: 'Challenge Cluster Sheet',
                       imageSrc:
-                        '/images/case-studies/pratt-institute-visitor-experience/challenge-cluster.png',
+                        '/images/case-studies/pratt-institute-visitor-experience/challenge-cluster.avif',
                       imageAlt: 'Challenge Cluster worksheet with two columns: What\'s really happening and Quick Wins',
                       imageW: 1200,
                       imageH: 700,
@@ -1476,7 +1476,7 @@ export function PrattVisitorExperienceContent({
                     {
                       name: 'One Win + One Shift Card',
                       imageSrc:
-                        '/images/case-studies/pratt-institute-visitor-experience/one-win-card.png',
+                        '/images/case-studies/pratt-institute-visitor-experience/one-win-card.avif',
                       imageAlt: 'One Win + One Shift card: dark cover card and cream answer card side by side',
                       imageW: 800,
                       imageH: 500,
@@ -1640,7 +1640,7 @@ export function PrattVisitorExperienceContent({
                 <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-12 items-start mb-20 md:mb-24">
                   <figure>
                     <Image
-                      src="/images/case-studies/pratt-institute-visitor-experience/welcome-one-pager.png"
+                      src="/images/case-studies/pratt-institute-visitor-experience/welcome-one-pager.avif"
                       alt="Redesigned Welcome to Pratt one-pager listing resources inside the visitor folder"
                       width={800}
                       height={1100}
@@ -1706,7 +1706,7 @@ export function PrattVisitorExperienceContent({
                 </h4>
                 <figure className="w-full mb-8 md:mb-10 overflow-x-auto">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/campus-map-redesign.png"
+                    src="/images/case-studies/pratt-institute-visitor-experience/campus-map-redesign.avif"
                     alt="Redesigned Pratt Brooklyn Campus map with color-coded tour stops, notes area, QR code for feedback, and digital guide QR code"
                     width={1600}
                     height={1100}
@@ -1767,7 +1767,7 @@ export function PrattVisitorExperienceContent({
                 <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-12 items-start mb-12 md:mb-16">
                   <figure>
                     <Image
-                      src="/images/case-studies/pratt-institute-visitor-experience/visitor-welcome-guide.png"
+                      src="/images/case-studies/pratt-institute-visitor-experience/visitor-welcome-guide.avif"
                       alt="iPhone mockup showing the Digital Visitor Welcome Guide on the Pratt admissions website"
                       width={500}
                       height={1000}
@@ -1838,7 +1838,7 @@ export function PrattVisitorExperienceContent({
                 </p>
                 <figure className="w-full mb-6">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/visitor-guide-screens-1.png"
+                    src="/images/case-studies/pratt-institute-visitor-experience/visitor-guide-screens-1.avif"
                     alt="Three iPhone mockups showing the Digital Visitor Welcome Guide: Financial Aid Essentials, Housing and Dorm Life, and Dining and Student Life sections"
                     width={1500}
                     height={750}
@@ -1849,7 +1849,7 @@ export function PrattVisitorExperienceContent({
                 </figure>
                 <figure className="w-full mb-20 md:mb-24">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/visitor-guide-screens-2.png"
+                    src="/images/case-studies/pratt-institute-visitor-experience/visitor-guide-screens-2.avif"
                     alt="Three iPhone mockups showing the Digital Visitor Welcome Guide: Study Abroad Programs, Career and Internships, and What's Next After Your Visit sections"
                     width={1500}
                     height={750}
@@ -1866,7 +1866,7 @@ export function PrattVisitorExperienceContent({
                 <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-12 items-start">
                   <figure>
                     <Image
-                      src="/images/case-studies/pratt-institute-visitor-experience/faq-guide.png"
+                      src="/images/case-studies/pratt-institute-visitor-experience/faq-guide.avif"
                       alt="Pratt Institute Quick FAQ Guide cover page with yellow title and admissions contact details"
                       width={800}
                       height={1100}

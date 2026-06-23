@@ -76,8 +76,8 @@ export function ChecklistSolutionsSection() {
         <Image
           src={
             isDark
-              ? '/images/case-studies/nyc-dcwp-business-licenses/solution-2-dark.png'
-              : '/images/case-studies/nyc-dcwp-business-licenses/solution-2-light.png'
+              ? '/images/case-studies/nyc-dcwp-business-licenses/solution-2-dark.avif'
+              : '/images/case-studies/nyc-dcwp-business-licenses/solution-2-light.avif'
           }
           alt="Redesigned DCWP overview page with application timeline and CTA"
           width={1440}

@@ -1032,8 +1032,8 @@ export function GutenbergContent({
                       </p>
                       <div className="mb-2">
                         <OptimizedImage
-                          webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-current-ai-workflow.png"
-                          fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-current-ai-workflow.png"
+                          webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-current-ai-workflow.avif"
+                          fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-current-ai-workflow.avif"
                           alt="Current Generate with AI workflow showing language selection, pattern selection, and generation steps"
                           width={1634}
                           height={773}
@@ -1198,8 +1198,8 @@ export function GutenbergContent({
                       <div className="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-8 md:gap-12 items-start">
                         <div>
                           <OptimizedImage
-                            webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-default-ai-blocks.png"
-                            fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-default-ai-blocks.png"
+                            webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-default-ai-blocks.avif"
+                            fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-default-ai-blocks.avif"
                             alt="Default AI blocks panel showing Text, Interactive, and Callouts categories"
                             width={800}
                             height={1200}
@@ -1318,8 +1318,8 @@ export function GutenbergContent({
                         <div>
                           <div className="mb-2">
                             <OptimizedImage
-                              webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-ai-context-gaze-plot.png"
-                              fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-ai-context-gaze-plot.png"
+                              webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-ai-context-gaze-plot.avif"
+                              fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-ai-context-gaze-plot.avif"
                               alt="Gaze plot showing participants fixating on the blank center of the AI generation panel"
                               width={1600}
                               height={1000}
@@ -1378,16 +1378,16 @@ export function GutenbergContent({
                       </h4>
                       <div className="space-y-6">
                         <OptimizedImage
-                          webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-recommendation-ai-blocks.png"
-                          fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-recommendation-ai-blocks.png"
+                          webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-recommendation-ai-blocks.avif"
+                          fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-recommendation-ai-blocks.avif"
                           alt="Recommendation mockup showing annotated improvements to the Generate with AI blocks panel"
                           width={1920}
                           height={1080}
                           className="w-full rounded-lg"
                         />
                         <OptimizedImage
-                          webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-recommendation-ai-modal.png"
-                          fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-recommendation-ai-modal.png"
+                          webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-recommendation-ai-modal.avif"
+                          fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f3-recommendation-ai-modal.avif"
                           alt="Recommendation mockup showing consolidated language selection and enlarged instruction area in the AI generation modal"
                           width={1920}
                           height={1080}

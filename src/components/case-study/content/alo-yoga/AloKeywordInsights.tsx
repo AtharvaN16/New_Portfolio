@@ -4,9 +4,9 @@ import { m } from 'framer-motion'
 import { AloInsightHandwrittenKeywords } from './AloInsightHandwrittenKeywords'
 
 const CLUSTER_DIAGRAM_SRC =
-  '/images/case-studies/alo-yoga-digital-analytics/cluster-diagram.png'
+  '/images/case-studies/alo-yoga-digital-analytics/cluster-diagram.avif'
 const UNTAPPED_DIAGRAM_SRC =
-  '/images/case-studies/alo-yoga-digital-analytics/untapped.png'
+  '/images/case-studies/alo-yoga-digital-analytics/untapped.avif'
 
 const INSIGHT_TITLE_CLASS =
   'max-w-[420px] text-2xl md:text-[30px] font-bold text-text-primary leading-tight tracking-[-0.04em]'

@@ -277,7 +277,7 @@ export function NycDcwpBusinessLicensesContent({
                   title="Redesigning the Application Checklist Page"
                   description="NYC Department of Consumer Affairs & Worker Protection — 2025"
                   readTime="8 min read"
-                  imageUrl="/images/case-studies/nyc-dcwp-business-licenses/checklist-thumbnail.png"
+                  imageUrl="/images/case-studies/nyc-dcwp-business-licenses/checklist-thumbnail.avif"
                   themeColor="rgb(var(--color-text-color10))"
                   glowColor="#3183CB"
                   imageSizes="(max-width: 768px) 100vw, 45vw"
@@ -354,7 +354,7 @@ export function NycDcwpBusinessLicensesContent({
                     className="relative w-full overflow-hidden"
                   >
                     <Image
-                      src="/images/case-studies/nyc-dcwp-business-licenses/insight-1-no-annotations.png"
+                      src="/images/case-studies/nyc-dcwp-business-licenses/insight-1-no-annotations.avif"
                       alt="DCWP checklist page without annotations"
                       width={1000}
                       height={1400}
@@ -368,7 +368,7 @@ export function NycDcwpBusinessLicensesContent({
                       transition={{ duration: 0.4, ease: 'easeInOut' }}
                     >
                       <Image
-                        src="/images/case-studies/nyc-dcwp-business-licenses/insight-1-annotated.png"
+                        src="/images/case-studies/nyc-dcwp-business-licenses/insight-1-annotated.avif"
                         alt="DCWP checklist page with annotations highlighting problem areas"
                         width={1000}
                         height={1400}
@@ -523,7 +523,7 @@ export function NycDcwpBusinessLicensesContent({
                     className="relative w-full overflow-hidden"
                   >
                     <Image
-                      src="/images/case-studies/nyc-dcwp-business-licenses/insight-2-no-annotations.png"
+                      src="/images/case-studies/nyc-dcwp-business-licenses/insight-2-no-annotations.avif"
                       alt="DCWP checklist page without annotations"
                       width={1000}
                       height={1400}
@@ -537,7 +537,7 @@ export function NycDcwpBusinessLicensesContent({
                       transition={{ duration: 0.4, ease: 'easeInOut' }}
                     >
                       <Image
-                        src="/images/case-studies/nyc-dcwp-business-licenses/insight-2-annotated.png"
+                        src="/images/case-studies/nyc-dcwp-business-licenses/insight-2-annotated.avif"
                         alt="DCWP checklist page with annotations on fee table and CTA"
                         width={1000}
                         height={1400}

@@ -13,14 +13,14 @@ const GOLD_VIDEO_SHADOW_STYLE = {
 } as const
 
 const BUTTONS_IMAGE = {
-  src: '/images/case-studies/aquitania-design-system/buttons.png',
+  src: '/images/case-studies/aquitania-design-system/buttons.avif',
   alt: 'Aquitania button component variants showing states, sizes, and focus styles',
   width: 1484,
   height: 1497,
 } as const
 
 const CARDS_STAND_IMAGE = {
-  src: '/images/case-studies/aquitania-design-system/cards-stand.png',
+  src: '/images/case-studies/aquitania-design-system/cards-stand.avif',
   alt: 'Aquitania standardized card component variants across product layouts',
   width: 800,
   height: 1043,

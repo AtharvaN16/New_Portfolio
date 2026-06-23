@@ -6,7 +6,7 @@ import { AnimatedText } from '@/components/ui/AnimatedText'
 const competitors = [
   {
     name: 'Lululemon',
-    src: '/images/case-studies/alo-yoga-digital-analytics/Lulu.png',
+    src: '/images/case-studies/alo-yoga-digital-analytics/Lulu.avif',
     share: '49%',
     traffic: '18.5M',
     trend: 'up',
@@ -15,7 +15,7 @@ const competitors = [
   },
   {
     name: 'Gymshark',
-    src: '/images/case-studies/alo-yoga-digital-analytics/gymshark.png',
+    src: '/images/case-studies/alo-yoga-digital-analytics/gymshark.avif',
     share: '21%',
     traffic: '8M',
     trend: 'down',
@@ -24,7 +24,7 @@ const competitors = [
   },
   {
     name: 'Under Armour',
-    src: '/images/case-studies/alo-yoga-digital-analytics/UA.png',
+    src: '/images/case-studies/alo-yoga-digital-analytics/UA.avif',
     share: '11%',
     traffic: '4.2M',
     trend: 'up',
@@ -33,7 +33,7 @@ const competitors = [
   },
   {
     name: 'Vuori',
-    src: '/images/case-studies/alo-yoga-digital-analytics/vuori.png',
+    src: '/images/case-studies/alo-yoga-digital-analytics/vuori.avif',
     share: '4%',
     traffic: '1.5M',
     trend: 'up',

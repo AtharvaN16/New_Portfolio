@@ -12,7 +12,7 @@ import { AloCWVTable } from './AloCWVTable'
 import { AloLighthouseScores } from './AloLighthouseScores'
 import Image from 'next/image'
 
-const ONPAGE_I1 = '/images/case-studies/alo-yoga-digital-analytics/onpage_i1.png'
+const ONPAGE_I1 = '/images/case-studies/alo-yoga-digital-analytics/onpage_i1.avif'
 const ONPAGE_I2 = '/images/case-studies/alo-yoga-digital-analytics/onpage_i2.avif'
 const ONPAGE_I3 = '/images/case-studies/alo-yoga-digital-analytics/onpage_i3.avif'
 
