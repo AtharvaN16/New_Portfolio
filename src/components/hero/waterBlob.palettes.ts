@@ -19,20 +19,20 @@ export interface HeroPalette {
 
 const EXPLICIT_WEIGHTS = {
   orangeCyan: 40,
-  goldBurgundy: 12,
-  salmonLavender: 26,
-  grayCherryRed: 4,
+  goldBurgundy: 10,
+  salmonLavender: 27,
+  navySky: 2,
   oceanYellow: 3,
-  indigoCoralRed: 5,
+  indigoCoralRed: 8,
 } as const
 
-/** Navy / Sky, Soft Green / Soft Pink, Ice Blue / Lilac share the remainder. */
+/** Gray / Cherry Red, Soft Green / Soft Pink, Ice Blue / Lilac share the remainder. */
 const SHARED_PALETTE_WEIGHT =
   (100 -
     EXPLICIT_WEIGHTS.orangeCyan -
     EXPLICIT_WEIGHTS.goldBurgundy -
     EXPLICIT_WEIGHTS.salmonLavender -
-    EXPLICIT_WEIGHTS.grayCherryRed -
+    EXPLICIT_WEIGHTS.navySky -
     EXPLICIT_WEIGHTS.oceanYellow -
     EXPLICIT_WEIGHTS.indigoCoralRed) /
   3
@@ -81,7 +81,7 @@ export const HERO_PALETTES: readonly HeroPalette[] = [
   {
     id: 'gray-cherry-red',
     name: 'Gray / Cherry Red',
-    weight: EXPLICIT_WEIGHTS.grayCherryRed,
+    weight: SHARED_PALETTE_WEIGHT,
     light: [
       [130, 130, 135],
       [185, 22, 48],
@@ -128,7 +128,7 @@ export const HERO_PALETTES: readonly HeroPalette[] = [
   {
     id: 'navy-sky',
     name: 'Navy / Sky',
-    weight: SHARED_PALETTE_WEIGHT,
+    weight: EXPLICIT_WEIGHTS.navySky,
     light: [
       [12, 28, 80],
       [85, 150, 190],
