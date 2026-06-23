@@ -26,7 +26,7 @@ export function CaseStudyHeader({ onClose }: CaseStudyHeaderProps) {
             ease: [0.22, 1, 0.36, 1],
           }}
         >
-          <NavButton onClick={onClose} className="-mr-3">
+          <NavButton id="case-study-dialog-close" onClick={onClose} className="-mr-3">
             Close
           </NavButton>
         </m.div>

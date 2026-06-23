@@ -123,8 +123,9 @@ Each finding: **what / where / why it matters / suggested fix / risk & verificat
 
 ## 5. Findings & fixes — ACCESSIBILITY & UX
 
-### A1 — 🔴 `CaseStudyDialog` missing dialog semantics + focus trap `[NEEDS-CONFIRM]`
+### A1 — 🔴 `CaseStudyDialog` missing dialog semantics + focus trap
 
+- **Status:** ✅ **Fixed (2026-06-22)** — `role="dialog"`, `aria-modal="true"`, `aria-label` on dialog root; `useFocusTrap` with Tab cycle + Escape close; initial focus on `#case-study-dialog-close`; focus returns to opener via `rememberCaseStudyOpener` / `restoreCaseStudyOpenerFocus` (wired in `ProjectCard`, `FullpageCard`, `openCaseStudyOverlay`).
 - **What:** Reported: `CaseStudyDialog.tsx` lacks `role="dialog"` / `aria-modal="true"` and has no focus trap or focus return. (For contrast, `MobileMenu.tsx` DOES have these — use it as the reference pattern.)
 - **Why:** Keyboard/screen-reader users can tab into the page behind the modal.
 - **Confirm first:** open `CaseStudyDialog.tsx`, check the dialog root element's attributes and whether any focus management exists. **This verification is part of the task.**
@@ -186,9 +187,9 @@ Confirmed large files:
 
 1. ~~**P1** (compress/resize oversized images) + **P2** (video IO play/pause)~~ ✅ Done.
 2. ~~**10.B** (`next.config` + Material Symbols + `<motion.>` → `<m.>`)~~ ✅ Done — see §10.F.
-3. **10.C runtime** — throttle `CaseStudyVideo`/`CaseStudySideNav`, fix `once:false`, gate `WorkFilter` stagger on mobile.
-4. **A1** (`CaseStudyDialog` semantics + focus trap) — confirm first, then fix.
-5. **A2** (reduced-motion in parallax/dialogs).
+3. ~~**A1** (`CaseStudyDialog` semantics + focus trap)~~ ✅ Done.
+4. **10.C runtime** (partial) — `CaseStudySideNav` dedupe ✅; remaining: `CaseStudyVideo` throttle (skipped), `once:false` grids (skipped), `WorkFilter` mobile stagger (skipped).
+5. **A2** (reduced-motion in parallax/dialogs) — deferred.
 6. **M1/M2** (unify mobile detection + scroll lock), then chip at **M3** (split large files) one file at a time.
 
 Lower priority / measure-first: P3, P4, P5, A3, A4, **10.E**.
@@ -346,10 +347,10 @@ Surgical-only path (reduces but does not eliminate jitter): lock viewport height
 1. ~~**§9 native-flow homepage**~~ ✅ Done — see §9.6.
 2. ~~**10.A image/video pipeline**~~ ✅ Done — AVIF, sizes, quality, read-more lazy mount, video IO play/pause.
 3. ~~**10.B fonts + bundle + `next.config`**~~ ✅ Done — see §10.B status.
-4. **10.C runtime** — throttle `CaseStudyVideo`/`CaseStudySideNav`, fix `once:false`, gate `WorkFilter` stagger on mobile. **← next**
-5. **A1** — `CaseStudyDialog` focus trap + dialog semantics.
-6. **A2** — reduced-motion in desktop parallax + dialog slides.
-7. **10.E / M3** — split 300-line case study files; lazy-mount below-the-fold sections.
+4. ~~**A1** — `CaseStudyDialog` focus trap + dialog semantics.~~ ✅ Done.
+5. **10.E / M3** — split 300-line case study files; lazy-mount below-the-fold sections. **← next**
+6. **M1/M2** — unify mobile detection + scroll lock.
+7. **A2** — reduced-motion in desktop parallax + dialog slides (deferred).
 
 **Before claiming any of this improved anything:** capture a _baseline_ Lighthouse mobile + Performance trace (CPU 4–6× throttle) on `dev`, make the change, re-measure, and compare. Severity tags above are reasoning, not measurements.
 

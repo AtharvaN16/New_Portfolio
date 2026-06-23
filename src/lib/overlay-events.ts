@@ -1,4 +1,4 @@
-import { CASE_STUDY_RETURN_PATH_KEY } from '@/lib/case-study-overlay'
+import { CASE_STUDY_RETURN_PATH_KEY, rememberCaseStudyOpener } from '@/lib/case-study-overlay'
 
 export type OverlayDialogId =
   | 'work'
@@ -86,6 +86,7 @@ export function openCaseStudyOverlay(
   slug: string,
   returnPath = window.location.pathname
 ): void {
+  rememberCaseStudyOpener()
   try {
     sessionStorage.setItem(CASE_STUDY_RETURN_PATH_KEY, returnPath)
   } catch {

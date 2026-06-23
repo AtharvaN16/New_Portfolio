@@ -9,6 +9,7 @@ import {
   useTransform,
   type MotionValue,
 } from 'framer-motion'
+import { rememberCaseStudyOpener } from '@/lib/case-study-overlay'
 import {
   dispatchOverlayPreload,
   openCaseStudyOverlay,
@@ -219,9 +220,10 @@ export function ProjectCard({
           dispatchOverlayPreload('case-study')
         }
       }}
-      onPointerDown={() => {
+      onPointerDown={(e) => {
         if (slug) {
           dispatchOverlayPreload('case-study')
+          rememberCaseStudyOpener(e.currentTarget as HTMLElement)
         }
       }}
       onMouseLeave={() => { if (isDesktop) setIsHovered(false) }}

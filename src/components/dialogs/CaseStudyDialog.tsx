@@ -3,7 +3,7 @@
 import { m, AnimatePresence } from 'framer-motion'
 import { useCallback, useEffect, useState, useRef } from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
-import { CASE_STUDY_RETURN_PATH_KEY } from '@/lib/case-study-overlay'
+import { CASE_STUDY_RETURN_PATH_KEY, rememberCaseStudyOpener, restoreCaseStudyOpenerFocus } from '@/lib/case-study-overlay'
 import {
   dispatchDialogClosed,
   dispatchOverlayCheck,
@@ -11,6 +11,7 @@ import {
   subscribeOverlayPreload,
 } from '@/lib/overlay-events'
 import { getCaseStudyBySlug } from '@/lib/data/case-studies'
+import { useFocusTrap } from '@/hooks/use-focus-trap'
 import { useImageDominantColor } from '@/hooks/use-image-dominant-color'
 import dynamic from 'next/dynamic'
 
@@ -62,6 +63,7 @@ interface FlashState {
 
 export function CaseStudyDialog() {
   const scrollYRef = useRef(0)
+  const dialogRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [currentSlug, setCurrentSlug] = useState<string | null>(null)
   const isClosingRef = useRef(false)
@@ -109,6 +111,7 @@ export function CaseStudyDialog() {
         const slug = caseStudyMatch[1]
         if (!isOpenRef.current || currentSlugRef.current !== slug) {
           isClosingRef.current = false
+          rememberCaseStudyOpener()
           setCurrentSlug(slug)
           scrollYRef.current = window.scrollY
           document.body.style.overflow = 'hidden'
@@ -164,10 +167,10 @@ export function CaseStudyDialog() {
     dispatchOverlayCheck('case-study')
   }, [])
 
-  const handleShowcaseClose = () => {
+  const handleShowcaseClose = useCallback(() => {
     if (flashTimerRef.current) clearTimeout(flashTimerRef.current)
-    setFlashBgColor('rgb(var(--color-background))')             // theme bg, not dominant color
-    setFlash({ visible: true, opacity: 1, duration: 0.15 })    // even faster cover (was 0.18)
+    setFlashBgColor('rgb(var(--color-background))')
+    setFlash({ visible: true, opacity: 1, duration: 0.15 })
 
     setTimeout(() => {
       if (window.history.length > 1) {
@@ -175,8 +178,30 @@ export function CaseStudyDialog() {
       } else {
         window.location.href = '/'
       }
-    }, 180)                                                      // navigate once opaque (was 220)
-  }
+    }, 180)
+  }, [])
+
+  const handleEscapeClose = useCallback(() => {
+    if (isShowcase) {
+      handleShowcaseClose()
+      return
+    }
+    if (isFigmaPresentation) {
+      handleFigmaClose()
+      return
+    }
+    if (window.history.length > 1) {
+      window.history.back()
+    } else {
+      window.location.href = '/'
+    }
+  }, [isShowcase, isFigmaPresentation, handleFigmaClose, handleShowcaseClose])
+
+  useFocusTrap(dialogRef, {
+    enabled: isOpen && !!caseStudy,
+    initialFocusSelector: '#case-study-dialog-close',
+    onEscape: handleEscapeClose,
+  })
 
   const handleExitComplete = () => {
     // A new case study was opened before this exit finished — skip state reset.
@@ -196,6 +221,8 @@ export function CaseStudyDialog() {
     } else {
       window.scrollTo(0, scrollYRef.current)
     }
+
+    restoreCaseStudyOpenerFocus()
   }
 
   return (
@@ -218,10 +245,14 @@ export function CaseStudyDialog() {
       <AnimatePresence onExitComplete={handleExitComplete}>
         {isOpen && caseStudy && (
           <m.div
+            ref={dialogRef}
             key={currentSlug}
             id="case-study-dialog"
             className="dialog fixed inset-0 z-[110]"
             data-lenis-prevent="true"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${caseStudy.title} case study`}
             initial={isShowcase ? { opacity: 1 } : { y: '100%' }}
             animate={
               isShowcase

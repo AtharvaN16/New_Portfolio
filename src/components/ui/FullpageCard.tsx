@@ -3,6 +3,7 @@
 import { useState, useRef, type ReactNode } from 'react'
 import Image from 'next/image'
 import { m, type MotionValue } from 'framer-motion'
+import { rememberCaseStudyOpener } from '@/lib/case-study-overlay'
 import {
   dispatchOverlayPreload,
   openCaseStudyOverlay,
@@ -108,9 +109,10 @@ export function FullpageCard({
           dispatchOverlayPreload('case-study')
         }
       }}
-      onPointerDown={() => {
+      onPointerDown={(e) => {
         if (slug) {
           dispatchOverlayPreload('case-study')
+          rememberCaseStudyOpener(e.currentTarget as HTMLElement)
         }
       }}
       onClick={handleClick}
