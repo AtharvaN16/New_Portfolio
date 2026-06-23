@@ -166,20 +166,8 @@ See §1. Converge on one source of truth. **Scoped, deliberate task** — verify
 
 ### M3 — 🔴 300-line rule broken widely (per `CLAUDE.md`)
 
-Confirmed large files:
-| File | Lines |
-|---|---|
-| `src/components/case-study/content/PrattVisitorExperienceContent.tsx` | 2,079 |
-| `src/components/case-study/content/GutenbergContent.tsx` | 1,476 |
-| `src/components/case-study/content/MetFreeToursContent.tsx` | 917 |
-| `src/components/case-study/content/UAlbertaLibraryContent.tsx` | 784 |
-| `src/components/case-study/content/NycThirdSpacesContent.tsx` | 730 |
-| `src/components/case-study/content/NycDcwpBusinessLicensesContent.tsx` | 697 |
-| `src/components/layout/AccessibilityModal.tsx` | 618 |
-| (+ several 400–550 line files) | |
-
-- **Fix:** Split case-study content into per-section components; consider a shared `CaseStudySection` wrapper. Pure structural refactor — **behavior must not change**.
-- **Risk:** Low logically, but high surface area. Do ONE file at a time, diff visually on desktop + mobile after each, run `bun run validate`.
+- **Status (Pratt):** ✅ **Split (2026-06-22)** — `PrattVisitorExperienceContent.tsx` **2,079 → 67 lines**; sections in `src/components/case-study/content/pratt/` (shared `Accordion`/`SectionDivider`/`OpportunityAreas` + 15 section components). Regenerate via `node scripts/split-pratt-content.mjs` if needed.
+- **Remaining:** `GutenbergContent.tsx` **1,476**, `MetFreeToursContent.tsx` **917**, + several 400–784. Split one file at a time using the same pattern.
 
 ---
 
@@ -348,9 +336,9 @@ Surgical-only path (reduces but does not eliminate jitter): lock viewport height
 2. ~~**10.A image/video pipeline**~~ ✅ Done — AVIF, sizes, quality, read-more lazy mount, video IO play/pause.
 3. ~~**10.B fonts + bundle + `next.config`**~~ ✅ Done — see §10.B status.
 4. ~~**A1** — `CaseStudyDialog` focus trap + dialog semantics.~~ ✅ Done.
-5. **10.E / M3** — split 300-line case study files; lazy-mount below-the-fold sections. **← next**
-6. **M1/M2** — unify mobile detection + scroll lock.
-7. **A2** — reduced-motion in desktop parallax + dialog slides (deferred).
+5. ~~**10.E / M3 — Pratt case study split**~~ ✅ Done — see M3 status.
+6. **10.E / M3 — remaining giants** — Gutenberg (1,476), Met (917), UAlberta (784), etc. **← next**
+7. **M1/M2** — unify mobile detection + scroll lock.
 
 **Before claiming any of this improved anything:** capture a _baseline_ Lighthouse mobile + Performance trace (CPU 4–6× throttle) on `dev`, make the change, re-measure, and compare. Severity tags above are reasoning, not measurements.
 
