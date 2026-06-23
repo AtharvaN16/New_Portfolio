@@ -27,7 +27,7 @@ const CARDS_STAND_IMAGE = {
 } as const
 
 const USER_TESTING_IMAGE = {
-  src: '/images/case-studies/aquitania-design-system/user-testing.webp',
+  src: '/images/case-studies/aquitania-design-system/user-testing.avif',
   alt: 'Designers reviewing and testing the Aquitania UI kit in Figma',
   width: 1600,
   height: 1200,

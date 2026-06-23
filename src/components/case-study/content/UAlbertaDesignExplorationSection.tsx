@@ -38,7 +38,7 @@ const explorations: Exploration[] = [
   {
     id: 'v1',
     label: 'V1',
-    image: '/images/case-studies/ualberta-library-website/services-v1.webp',
+    image: '/images/case-studies/ualberta-library-website/services-v1.avif',
     imageWidth: 1200,
     imageHeight: 1155,
     bottomClipPercent: 3,
@@ -80,7 +80,7 @@ const explorations: Exploration[] = [
   {
     id: 'v2',
     label: 'V2',
-    image: '/images/case-studies/ualberta-library-website/services-v2.webp',
+    image: '/images/case-studies/ualberta-library-website/services-v2.avif',
     imageWidth: 1200,
     imageHeight: 1552,
     bottomClipPercent: 4,
@@ -99,7 +99,7 @@ const explorations: Exploration[] = [
   {
     id: 'v3',
     label: 'V3',
-    image: '/images/case-studies/ualberta-library-website/services-v3.webp',
+    image: '/images/case-studies/ualberta-library-website/services-v3.avif',
     imageWidth: 1200,
     imageHeight: 1902,
     bottomClipPercent: 2,

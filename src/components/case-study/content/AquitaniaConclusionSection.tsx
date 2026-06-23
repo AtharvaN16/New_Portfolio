@@ -4,13 +4,13 @@ import Image from 'next/image'
 
 const CONCLUSION_IMAGES = {
   portrait: {
-    src: '/images/case-studies/aquitania-design-system/conclusion-portrait.webp',
+    src: '/images/case-studies/aquitania-design-system/conclusion-portrait.avif',
     alt: 'Aquitania design system conclusion portrait image',
     width: 900,
     height: 1600,
   },
   landscape: {
-    src: '/images/case-studies/aquitania-design-system/conclusion-landscape.webp',
+    src: '/images/case-studies/aquitania-design-system/conclusion-landscape.avif',
     alt: 'Aquitania design system conclusion landscape image',
     width: 653,
     height: 444,

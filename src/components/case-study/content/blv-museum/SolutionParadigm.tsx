@@ -28,7 +28,7 @@ export function SolutionParadigm() {
           <div className="space-y-4 mb-8">
             <div className="relative w-full aspect-[2639/1442] overflow-hidden bg-neutral-900 dark:bg-neutral-950">
               <Image
-                src="/images/case-studies/blv-museum-accessibility/Descripto-hero.png"
+                src="/images/case-studies/blv-museum-accessibility/Descripto-hero.avif"
                 alt="Descripto app interface shown on a mobile device, demonstrating the accessible art exploration features."
                 fill
                 sizes={CASE_STUDY_INLINE_IMAGE_SIZES}
@@ -57,7 +57,7 @@ export function SolutionParadigm() {
         {/* How it works - Full Bleed */}
         <div className="w-screen relative left-1/2 right-1/2 -translate-x-1/2 bg-neutral-900 dark:bg-neutral-950 mt-24 md:mt-32 aspect-[2639/5739] overflow-hidden">
           <Image
-            src="/images/case-studies/blv-museum-accessibility/Descripto-img3-v5.webp"
+            src="/images/case-studies/blv-museum-accessibility/Descripto-img3-v5.avif"
             alt="A detailed, full-page workflow infographic showing how visually impaired users interact with the Descripto app across different stages of a museum visit."
             fill
             sizes={CASE_STUDY_FULL_BLEED_IMAGE_SIZES}
@@ -159,7 +159,7 @@ export function SolutionParadigm() {
         <div className="space-y-4 mb-8">
           <div className="relative w-full aspect-[16/9] overflow-hidden bg-neutral-900 dark:bg-neutral-950">
             <Image
-              src="/images/case-studies/blv-museum-accessibility/bts-process.webp"
+              src="/images/case-studies/blv-museum-accessibility/bts-process.avif"
               alt="A compilation of behind-the-scenes photographs showcasing the research, collaborative whiteboarding sessions, and prototyping process."
               fill
               sizes={CASE_STUDY_INLINE_IMAGE_SIZES}

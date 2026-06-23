@@ -56,7 +56,7 @@ export function ChecklistSolutionsSection() {
         className="space-y-4"
       >
         <Image
-          src="/images/case-studies/nyc-dcwp-business-licenses/solution-1.webp"
+          src="/images/case-studies/nyc-dcwp-business-licenses/solution-1.avif"
           alt="Redesigned DCWP page making important information visually distinct"
           width={1440}
           height={900}

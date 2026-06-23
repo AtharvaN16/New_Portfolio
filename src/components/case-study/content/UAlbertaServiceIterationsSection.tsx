@@ -24,7 +24,7 @@ interface Iteration {
 const iterations: Iteration[] = [
   {
     label: 'V1',
-    src: '/images/case-studies/ualberta-library-website/services-strip-v1.webp',
+    src: '/images/case-studies/ualberta-library-website/services-strip-v1.avif',
     width: 1122,
     height: 1836,
     notPicturedOpacity: 1,
@@ -41,7 +41,7 @@ const iterations: Iteration[] = [
   },
   {
     label: 'V2',
-    src: '/images/case-studies/ualberta-library-website/services-strip-v2.webp',
+    src: '/images/case-studies/ualberta-library-website/services-strip-v2.avif',
     width: 1161,
     height: 1837,
     notes: [
@@ -51,7 +51,7 @@ const iterations: Iteration[] = [
   },
   {
     label: 'V3',
-    src: '/images/case-studies/ualberta-library-website/services-strip-v3.webp',
+    src: '/images/case-studies/ualberta-library-website/services-strip-v3.avif',
     width: 1076,
     height: 1836,
     notes: [
@@ -62,7 +62,7 @@ const iterations: Iteration[] = [
   },
   {
     label: 'Final',
-    src: '/images/case-studies/ualberta-library-website/services-final.webp',
+    src: '/images/case-studies/ualberta-library-website/services-final.avif',
     width: 1115,
     height: 1836,
     notes: [
@@ -74,7 +74,7 @@ const iterations: Iteration[] = [
   },
 ]
 
-const NOT_PICTURED_SRC = '/images/case-studies/ualberta-library-website/services-not-pictured.webp'
+const NOT_PICTURED_SRC = '/images/case-studies/ualberta-library-website/services-not-pictured.avif'
 
 export function UAlbertaServiceIterationsSection() {
   return (

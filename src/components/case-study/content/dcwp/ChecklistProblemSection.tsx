@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 const OLD_DCWP_PAGE_IMAGE =
-  '/images/case-studies/nyc-dcwp-business-licenses/old-dcwp-page.webp'
+  '/images/case-studies/nyc-dcwp-business-licenses/old-dcwp-page.avif'
 
 /** Sub-case surface behind image; single column — copy sits 120px below the figure. */
 export function ChecklistProblemSection() {

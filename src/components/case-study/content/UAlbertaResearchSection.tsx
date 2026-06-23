@@ -138,7 +138,7 @@ export function UAlbertaResearchSection() {
         <div className="grid gap-8 md:grid-cols-[1fr_1fr] md:gap-14">
           <GrayFrame className="flex h-[430px] items-start justify-end overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
             <Image
-              src="/images/case-studies/ualberta-library-website/servicespage.png"
+              src="/images/case-studies/ualberta-library-website/servicespage.avif"
               alt="University of Alberta Library Services page"
               width={1640}
               height={2260}
@@ -183,7 +183,7 @@ export function UAlbertaResearchSection() {
         <div className="grid gap-8 md:grid-cols-[1fr_1fr] md:gap-14">
           <GrayFrame className="flex h-[430px] items-start justify-end overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
             <Image
-              src="/images/case-studies/ualberta-library-website/hourspage.png"
+              src="/images/case-studies/ualberta-library-website/hourspage.avif"
               alt="University of Alberta Library Hours + Locations page"
               width={1640}
               height={2260}
@@ -218,7 +218,7 @@ export function UAlbertaResearchSection() {
           <div className="space-y-5">
             <GrayFrame className="flex h-[430px] items-start justify-start overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
               <Image
-                src="/images/case-studies/ualberta-library-website/subjectguides.png"
+                src="/images/case-studies/ualberta-library-website/subjectguides.avif"
                 alt="University of Alberta Subject Guides page"
                 width={1640}
                 height={2260}
@@ -236,7 +236,7 @@ export function UAlbertaResearchSection() {
           <div className="space-y-5">
             <GrayFrame className="flex h-[430px] items-start justify-start overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
               <Image
-                src="/images/case-studies/ualberta-library-website/homepage.png"
+                src="/images/case-studies/ualberta-library-website/homepage.avif"
                 alt="University of Alberta Library homepage"
                 width={1640}
                 height={2260}
@@ -266,7 +266,7 @@ export function UAlbertaResearchSection() {
             Competitor Research
           </h3>
           <Image
-            src="/images/case-studies/ualberta-library-website/competitor-research.png"
+            src="/images/case-studies/ualberta-library-website/competitor-research.avif"
             alt="Competitor research — screenshots of comparable university library websites"
             width={2560}
             height={1440}

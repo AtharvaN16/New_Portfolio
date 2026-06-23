@@ -258,8 +258,8 @@ export function GutenbergContent({
                   {/* Eye Tracking Setup Image */}
                   <div className="mb-12 md:mb-16 max-w-full md:max-w-[768px] mx-auto">
                     <OptimizedImage
-                      webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/eyetracking-01.webp"
-                      fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/eyetracking-01.webp"
+                      webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/eyetracking-01.avif"
+                      fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/eyetracking-01.avif"
                       alt="Eye tracking setup during usability testing session"
                       width={768}
                       height={432}
@@ -305,8 +305,8 @@ export function GutenbergContent({
                     {/* Task Performance */}
                     <div className="space-y-3">
                       <OptimizedImage
-                        webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/timeontask.webp"
-                        fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/timeontask.webp"
+                        webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/timeontask.avif"
+                        fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/timeontask.avif"
                         alt="Task Performance data"
                         width={223}
                         height={116}
@@ -332,8 +332,8 @@ export function GutenbergContent({
                     {/* Usability Assessment */}
                     <div className="space-y-3">
                       <OptimizedImage
-                        webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/SUS.webp"
-                        fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/SUS.webp"
+                        webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/SUS.avif"
+                        fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/SUS.avif"
                         alt="Usability Assessment data"
                         width={223}
                         height={116}
@@ -360,8 +360,8 @@ export function GutenbergContent({
                     {/* Gaze Data */}
                     <div className="space-y-3">
                       <OptimizedImage
-                        webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/Gazedata.webp"
-                        fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/Gazedata.webp"
+                        webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/Gazedata.avif"
+                        fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/Gazedata.avif"
                         alt="Gaze Data visualization"
                         width={223}
                         height={116}
@@ -388,8 +388,8 @@ export function GutenbergContent({
                     {/* Retrospective Think-Aloud */}
                     <div className="space-y-3">
                       <OptimizedImage
-                        webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/RTA.webp"
-                        fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/RTA.webp"
+                        webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/RTA.avif"
+                        fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/RTA.avif"
                         alt="Retrospective Think-Aloud notes"
                         width={223}
                         height={116}
@@ -425,8 +425,8 @@ export function GutenbergContent({
                     {/* SUS Diagram Image */}
                     <div className="mb-6 md:mb-8">
                       <OptimizedImage
-                        webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/SUS_Diagram.webp"
-                        fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/SUS_Diagram.webp"
+                        webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/SUS_Diagram.avif"
+                        fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/SUS_Diagram.avif"
                         alt="System Usability Scale (SUS) score visualization"
                         width={940}
                         height={529}
@@ -650,8 +650,8 @@ export function GutenbergContent({
                   {/* Finding 1 - Image 1.1 */}
                   <div id="finding-1-image-1" className="mb-2">
                     <OptimizedImage
-                      webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f1-s1-2.webp"
-                      fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f1-s1-2.webp"
+                      webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f1-s1-2.avif"
+                      fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f1-s1-2.avif"
                       alt="Comparison of current and proposed design for project creation modal - showing how adding a 'Continue without a theme' option improves user experience"
                       width={2820}
                       height={1621}
@@ -668,8 +668,8 @@ export function GutenbergContent({
                   {/* Finding 1 - Image 1.2 */}
                   <div className="mb-2">
                     <OptimizedImage
-                      webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f1-s1-1.webp"
-                      fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f1-s1-1.webp"
+                      webpSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f1-s1-1.avif"
+                      fallbackSrc="/images/case-studies/gutenberg-cms-usability-evaluation/f1-s1-1.avif"
                       alt="Comparison of current and proposed design for template selection - showing how the revised title and 'Start from Scratch' option reduces confusion"
                       width={2820}
                       height={1621}

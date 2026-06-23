@@ -9,7 +9,7 @@ const CHECK_ALL = process.argv.includes('--all')
 const SOURCE_EXTENSIONS = new Set(['.ts', '.tsx', '.md', '.mdx', '.css'])
 const RASTER_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.avif'])
 const LEGACY_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg'])
-const MODERN_EXTENSIONS = new Set(['.webp', '.avif'])
+const MODERN_EXTENSIONS = ['.avif', '.webp']
 const LARGE_LEGACY_BYTES = 750 * 1024
 const MAX_LEGACY_BYTES = 1024 * 1024
 const LARGE_MODERN_BYTES = 2500 * 1024
@@ -95,12 +95,19 @@ function formatBytes(bytes) {
 function smallerAdjacentModernAsset(publicPath) {
   const currentSize = statSync(publicPath).size
   const parsed = path.parse(publicPath)
-  return [...MODERN_EXTENSIONS]
-    .map((ext) => path.join(parsed.dir, `${parsed.name}${ext}`))
-    .find(
-      (candidate) =>
-        existsSync(candidate) && statSync(candidate).size < currentSize
-    )
+  let best = null
+
+  for (const ext of MODERN_EXTENSIONS) {
+    const candidate = path.join(parsed.dir, `${parsed.name}${ext}`)
+    if (!existsSync(candidate)) continue
+    const size = statSync(candidate).size
+    if (size >= currentSize) continue
+    if (!best || size < best.size) {
+      best = { path: candidate, size }
+    }
+  }
+
+  return best?.path
 }
 
 const errors = []
@@ -129,13 +136,13 @@ for (const file of sourceFilesToCheck()) {
 
     if (size > MAX_LEGACY_BYTES && modern) {
       errors.push(
-        `${publicRef} is ${formatBytes(size)}. Reference WebP/AVIF instead${
+        `${publicRef} is ${formatBytes(size)}. Reference AVIF instead${
           modern ? `: /${toPosix(path.relative(path.join(ROOT, 'public'), modern))}` : '.'
         }`
       )
     } else if (size > LARGE_LEGACY_BYTES) {
       warnings.push(
-        `${publicRef} is ${formatBytes(size)}. Prefer WebP/AVIF if it is smaller and visually equivalent.`
+        `${publicRef} is ${formatBytes(size)}. Prefer AVIF if it is smaller and visually equivalent.`
       )
     }
   }
@@ -150,20 +157,20 @@ for (const file of publicImagesToCheck()) {
     const modern = smallerAdjacentModernAsset(file)
     if (modern && !CHECK_ALL) {
       errors.push(
-        `${publicRef} is ${formatBytes(size)}. Reference smaller WebP/AVIF (${toPosix(path.relative(ROOT, modern))}).`
+        `${publicRef} is ${formatBytes(size)}. Reference smaller AVIF (${toPosix(path.relative(ROOT, modern))}).`
       )
     } else {
       warnings.push(
         `${publicRef} is ${formatBytes(size)}. ${
           modern
             ? `Smaller modern asset exists: ${toPosix(path.relative(ROOT, modern))}.`
-            : 'Add WebP/AVIF only if it is smaller and visually equivalent.'
+            : 'Add AVIF only if it is smaller and visually equivalent.'
         }`
       )
     }
   }
 
-  if (MODERN_EXTENSIONS.has(extension) && size > LARGE_MODERN_BYTES) {
+  if (MODERN_EXTENSIONS.includes(extension) && size > LARGE_MODERN_BYTES) {
     warnings.push(
       `${publicRef} is ${formatBytes(size)} even after optimization. Confirm it needs full resolution.`
     )
@@ -174,7 +181,7 @@ for (const assetPath of referencedAssets) {
   if (!existsSync(assetPath)) continue
   const extension = path.extname(assetPath).toLowerCase()
   const size = statSync(assetPath).size
-  if (MODERN_EXTENSIONS.has(extension) && size > LARGE_MODERN_BYTES) {
+  if (MODERN_EXTENSIONS.includes(extension) && size > LARGE_MODERN_BYTES) {
     warnings.push(
       `Referenced ${`/${toPosix(path.relative(path.join(ROOT, 'public'), assetPath))}`} is ${formatBytes(size)}. Confirm it needs full resolution.`
     )

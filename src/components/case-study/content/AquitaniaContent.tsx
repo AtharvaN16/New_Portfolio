@@ -183,7 +183,7 @@ export function AquitaniaContent({
                 className="w-full"
               >
                 <Image
-                  src="/images/case-studies/aquitania-design-system/current-digital-experience.webp"
+                  src="/images/case-studies/aquitania-design-system/current-digital-experience.avif"
                   alt="Cunard's current digital experience across desktop and mobile touchpoints"
                   width={1220}
                   height={1617}
@@ -242,7 +242,7 @@ export function AquitaniaContent({
                     className="block overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                   >
                     <Image
-                      src="/images/case-studies/aquitania-design-system/documentation-visible-equal.webp"
+                      src="/images/case-studies/aquitania-design-system/documentation-visible-equal.avif"
                       alt="Aquitania design system documentation overview"
                       width={2880}
                       height={1558}
@@ -271,7 +271,7 @@ export function AquitaniaContent({
                     className="block overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                   >
                     <Image
-                      src="/images/case-studies/aquitania-design-system/ui-kit-cover-visible-equal.webp"
+                      src="/images/case-studies/aquitania-design-system/ui-kit-cover-visible-equal.avif"
                       alt="Aquitania UI kit cover preview"
                       width={2880}
                       height={1558}

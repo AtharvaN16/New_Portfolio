@@ -175,7 +175,7 @@ export function NycDcwpBusinessLicensesContent({
                       className="relative w-full overflow-hidden aspect-[4/3]"
                     >
                       <Image
-                        src="/images/case-studies/nyc-dcwp-business-licenses/process-1.webp"
+                        src="/images/case-studies/nyc-dcwp-business-licenses/process-1.avif"
                         alt="DCWP office waiting area at 42 Broadway"
                         fill
                         className="object-cover"
@@ -187,7 +187,7 @@ export function NycDcwpBusinessLicensesContent({
                       className="relative w-full overflow-hidden aspect-[4/3]"
                     >
                       <Image
-                        src="/images/case-studies/nyc-dcwp-business-licenses/process-2.webp"
+                        src="/images/case-studies/nyc-dcwp-business-licenses/process-2.avif"
                         alt="DCWP service counter with queue number display"
                         fill
                         className="object-cover"
@@ -207,7 +207,7 @@ export function NycDcwpBusinessLicensesContent({
                     className="relative w-full overflow-hidden aspect-[4/3]"
                   >
                     <Image
-                      src="/images/case-studies/nyc-dcwp-business-licenses/process-3.webp"
+                      src="/images/case-studies/nyc-dcwp-business-licenses/process-3.avif"
                       alt="Staff member assisting a user in the DCWP testing room"
                       fill
                       className="object-cover"
@@ -219,7 +219,7 @@ export function NycDcwpBusinessLicensesContent({
                     className="relative w-full overflow-hidden aspect-[4/3]"
                   >
                     <Image
-                      src="/images/case-studies/nyc-dcwp-business-licenses/process-4.webp"
+                      src="/images/case-studies/nyc-dcwp-business-licenses/process-4.avif"
                       alt="iPad kiosk station at DCWP office"
                       fill
                       className="object-cover"
@@ -290,7 +290,7 @@ export function NycDcwpBusinessLicensesContent({
                   variant="sub-case"
                   title="Form Design"
                   description="NYC Department of Consumer Affairs & Worker Protection — 2025"
-                  imageUrl="/images/case-studies/nyc-dcwp-business-licenses/thumb-form-design.png"
+                  imageUrl="/images/case-studies/nyc-dcwp-business-licenses/thumb-form-design.avif"
                   themeColor="rgb(var(--color-text-color10))"
                   glowColor="#3183CB"
                   imageSizes="(max-width: 768px) 100vw, 45vw"
@@ -303,7 +303,7 @@ export function NycDcwpBusinessLicensesContent({
                   title="Dashboard"
                   description="NYC Department of Consumer Affairs & Worker Protection — 2025"
                   readTime="12 min read"
-                  imageUrl="/images/case-studies/nyc-dcwp-business-licenses/thumb-dashboard.png"
+                  imageUrl="/images/case-studies/nyc-dcwp-business-licenses/thumb-dashboard.avif"
                   themeColor="rgb(var(--color-text-color10))"
                   glowColor="#3183CB"
                   imageSizes="(max-width: 768px) 100vw, 45vw"

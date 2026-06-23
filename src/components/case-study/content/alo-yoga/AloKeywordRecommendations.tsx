@@ -115,7 +115,7 @@ export function AloKeywordRecommendations() {
             {showImage && (
               <div className="mt-12 md:mt-16 border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 overflow-hidden">
                 <Image
-                  src="/images/case-studies/alo-yoga-digital-analytics/rec3_keyword.png"
+                  src="/images/case-studies/alo-yoga-digital-analytics/rec3_keyword.avif"
                   alt="Connected Content and Landing Page Strategy"
                   width={1920}
                   height={1080}

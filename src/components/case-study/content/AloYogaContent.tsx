@@ -195,7 +195,7 @@ export function AloYogaContent({
                   className="absolute top-0 left-0 w-[65%] overflow-hidden shadow-lg transition-transform duration-500 hover:-translate-y-2 hover:shadow-2xl z-10 hover:z-30"
                 >
                   <Image 
-                    src="/images/case-studies/alo-yoga-digital-analytics/alo-intro-2.webp" 
+                    src="/images/case-studies/alo-yoga-digital-analytics/alo-intro-2.avif" 
                     alt="Alo Yoga Lifestyle 2" 
                     width={400}
                     height={500}
@@ -212,7 +212,7 @@ export function AloYogaContent({
                   className="absolute bottom-4 right-0 w-[65%] overflow-hidden shadow-2xl transition-transform duration-500 hover:-translate-y-2 hover:shadow-2xl z-20 hover:z-30"
                 >
                   <Image 
-                    src="/images/case-studies/alo-yoga-digital-analytics/alo-intro-1.webp" 
+                    src="/images/case-studies/alo-yoga-digital-analytics/alo-intro-1.avif" 
                     alt="Alo Yoga Lifestyle 1" 
                     width={400}
                     height={500}

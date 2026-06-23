@@ -317,7 +317,7 @@ export function PrattVisitorExperienceContent({
                 {/* ── Cover image: Service Safari ── */}
                 <figure className="w-full mb-16 md:mb-20">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/safari-cover.webp"
+                    src="/images/case-studies/pratt-institute-visitor-experience/safari-cover.avif"
                     alt="Prospective students and families walking through Pratt Institute campus on a tour"
                     width={1600}
                     height={600}
@@ -457,7 +457,7 @@ export function PrattVisitorExperienceContent({
                   </h4>
                   <figure className="w-full mb-8">
                     <Image
-                      src="/images/case-studies/pratt-institute-visitor-experience/safari-p3.webp"
+                      src="/images/case-studies/pratt-institute-visitor-experience/safari-p3.avif"
                       alt="Photos from the Arrival and Check-In phase: Myrtle Hall exterior, admissions office lobby, directional signage, and welcome packet"
                       width={1600}
                       height={1000}
@@ -511,7 +511,7 @@ export function PrattVisitorExperienceContent({
                   </h4>
                   <figure className="w-full mb-8">
                     <Image
-                      src="/images/case-studies/pratt-institute-visitor-experience/safari-p4.webp"
+                      src="/images/case-studies/pratt-institute-visitor-experience/safari-p4.avif"
                       alt="Photos from the campus tour: info session, campus model, student gathering spaces, and outdoor walking tour"
                       width={1600}
                       height={1100}
@@ -563,7 +563,7 @@ export function PrattVisitorExperienceContent({
                   </h4>
                   <figure className="w-full mb-8">
                     <Image
-                      src="/images/case-studies/pratt-institute-visitor-experience/safari-p5.png"
+                      src="/images/case-studies/pratt-institute-visitor-experience/safari-p5.avif"
                       alt="Photos from the post-visit phase: feedback QR code, counselor meeting, and follow-up emails from Pratt Admissions"
                       width={1600}
                       height={1000}
@@ -979,7 +979,7 @@ export function PrattVisitorExperienceContent({
                 {/* ── Cover image: Co-Design Workshops ── */}
                 <figure className="w-full mb-16 md:mb-20">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/codesign-cover.webp"
+                    src="/images/case-studies/pratt-institute-visitor-experience/codesign-cover.avif"
                     alt="Students walking through Pratt Institute campus gardens"
                     width={1600}
                     height={560}
@@ -1028,7 +1028,7 @@ export function PrattVisitorExperienceContent({
                 {/* Workshop photos */}
                 <figure className="w-full mb-12 md:mb-16">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/codesign-workshop.webp"
+                    src="/images/case-studies/pratt-institute-visitor-experience/codesign-workshop.avif"
                     alt="Co-design workshop sessions: ambassadors placing sticky notes on the journey map and collaborating at tables"
                     width={800}
                     height={1000}
@@ -1270,7 +1270,7 @@ export function PrattVisitorExperienceContent({
                     {
                       name: 'Shadow Note Card',
                       imageSrc:
-                        '/images/case-studies/pratt-institute-visitor-experience/shadow-note-card.png',
+                        '/images/case-studies/pratt-institute-visitor-experience/shadow-note-card.avif',
                       imageAlt: 'Shadow Note Card template for new ambassador onboarding',
                       whatItIs:
                         'This is used during the first two weeks when a new recruit shadows a senior ambassador. It prompts them to note three things to observe, listen for a moment of visitor connection, and write one question to ask the senior ambassador.',
@@ -1290,7 +1290,7 @@ export function PrattVisitorExperienceContent({
                     {
                       name: 'Commitment Card',
                       imageSrc:
-                        '/images/case-studies/pratt-institute-visitor-experience/commitment-card.png',
+                        '/images/case-studies/pratt-institute-visitor-experience/commitment-card.avif',
                       imageAlt: 'Commitment Card template for ambassador self-improvement',
                       whatItIs:
                         'The Commitment Card is a tool used at the end of the first training workshop where new ambassadors focus on making the material immediately useful by identifying one small, specific action they will try on their next tour, along with how they plan to put it into action. This simple process helps new ambassadors bridge the gap between learning theory and practicing behavior.',
@@ -1452,7 +1452,7 @@ export function PrattVisitorExperienceContent({
                     {
                       name: 'Mid-Point Reflection Sheet',
                       imageSrc:
-                        '/images/case-studies/pratt-institute-visitor-experience/reflection-sheet.png',
+                        '/images/case-studies/pratt-institute-visitor-experience/reflection-sheet.avif',
                       imageAlt: 'Mid-Point Reflection Sheet with emoji mood scale and open-text fields',
                       imageW: 780,
                       imageH: 1100,
@@ -1623,7 +1623,7 @@ export function PrattVisitorExperienceContent({
                 </h4>
                 <figure className="w-full mb-20 md:mb-24">
                   <Image
-                    src="/images/case-studies/pratt-institute-visitor-experience/current-welcome-packet.webp"
+                    src="/images/case-studies/pratt-institute-visitor-experience/current-welcome-packet.avif"
                     alt="Current Pratt visitor welcome packet spread out showing FAQ sheet, welcome letter, campus map, and campus directory"
                     width={1600}
                     height={1000}

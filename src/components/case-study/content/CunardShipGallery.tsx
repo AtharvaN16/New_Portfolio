@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils/cn'
 
 const SHIPS = [
   {
-    src: '/images/case-studies/aquitania-design-system/rms-carpathia.webp',
+    src: '/images/case-studies/aquitania-design-system/rms-carpathia.avif',
     alt: 'RMS Carpathia sailing at sea',
     name: 'RMS Carpathia',
     width: 800,
@@ -15,7 +15,7 @@ const SHIPS = [
     staggerClass: 'md:translate-y-10',
   },
   {
-    src: '/images/case-studies/aquitania-design-system/rms-aquitania.webp',
+    src: '/images/case-studies/aquitania-design-system/rms-aquitania.avif',
     alt: 'RMS Aquitania ocean liner',
     name: 'RMS Aquitania',
     width: 800,
@@ -24,7 +24,7 @@ const SHIPS = [
     staggerClass: 'md:-translate-y-2',
   },
   {
-    src: '/images/case-studies/aquitania-design-system/queen-mary-new-york.webp',
+    src: '/images/case-studies/aquitania-design-system/queen-mary-new-york.avif',
     alt: 'RMS Queen Mary with the New York skyline',
     name: 'RMS Queen Mary',
     width: 800,

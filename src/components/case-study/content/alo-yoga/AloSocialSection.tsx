@@ -3,9 +3,9 @@
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import Image from 'next/image'
 
-const ALO_INSTA = '/images/case-studies/alo-yoga-digital-analytics/alo_insta.webp'
-const ALO_TIKTOK = '/images/case-studies/alo-yoga-digital-analytics/alo_tiktok.webp'
-const ALO_YT = '/images/case-studies/alo-yoga-digital-analytics/alo_yt.webp'
+const ALO_INSTA = '/images/case-studies/alo-yoga-digital-analytics/alo_insta.avif'
+const ALO_TIKTOK = '/images/case-studies/alo-yoga-digital-analytics/alo_tiktok.avif'
+const ALO_YT = '/images/case-studies/alo-yoga-digital-analytics/alo_yt.avif'
 
 export function AloSocialSection() {
   return (

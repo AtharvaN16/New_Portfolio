@@ -466,7 +466,7 @@ export function UAlbertaLibraryContent({
 
               <div className="flex w-full justify-center">
                 <Image
-                  src="/images/case-studies/ualberta-library-website/full-hours-locations-prototype.webp"
+                  src="/images/case-studies/ualberta-library-website/full-hours-locations-prototype.avif"
                   alt="Hours and locations prototype with sidebar navigation, map link, and campus jump categories"
                   width={1618}
                   height={1704}
@@ -571,7 +571,7 @@ export function UAlbertaLibraryContent({
 
               <div className="flex w-full justify-center">
                 <Image
-                  src="/images/case-studies/ualberta-library-website/full-subject-guides-prototype.webp"
+                  src="/images/case-studies/ualberta-library-website/full-subject-guides-prototype.avif"
                   alt="Full subject guides prototype with search, collapsible subject drawers, and guide links"
                   width={1582}
                   height={1704}
@@ -769,7 +769,7 @@ export function UAlbertaLibraryContent({
 
               <div className="flex w-full justify-center">
                 <Image
-                  src="/images/case-studies/ualberta-library-website/full-experience-prototype.webp"
+                  src="/images/case-studies/ualberta-library-website/full-experience-prototype.avif"
                   alt="Full library services page prototype showing hero discovery and the complete services directory"
                   width={1006}
                   height={1704}
