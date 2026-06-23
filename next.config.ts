@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['framer-motion'],
   },
 
+
   // Image optimization
   images: {
     formats: ['image/avif', 'image/webp'],

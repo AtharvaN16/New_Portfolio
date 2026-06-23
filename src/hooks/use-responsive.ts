@@ -2,7 +2,14 @@
 
 import { useEffect, useState } from 'react'
 
-/** Tailwind default breakpoints — keep in sync with `src/styles/tailwind-theme.css` */
+/**
+ * Tailwind default breakpoints — keep in sync with `src/styles/tailwind-theme.css`.
+ *
+ * Three "mobile" concepts exist in this codebase — pick the right one:
+ *   Layout / nav:  `useBreakpoints().isMobile`  → < 640px (Tailwind `sm`)
+ *   Animation:     `getBreakpointMatch('md')`   → < 768px (Tailwind `md`)
+ *   Touch / WebGL: `getIsTouch()`               → pointer: coarse (any width)
+ */
 export const BREAKPOINTS = {
   sm: 640,
   md: 768,
@@ -12,6 +19,30 @@ export const BREAKPOINTS = {
 } as const
 
 export type Breakpoint = keyof typeof BREAKPOINTS
+
+/**
+ * Synchronous breakpoint check — safe to call outside React render or on
+ * first render in client components to avoid the false-on-SSR flash that
+ * `useBreakpoints()` has (starts false, flips after mount).
+ *
+ * @example
+ * // Hero animation gate — needs a real answer immediately
+ * const isDesktopAnimation = getBreakpointMatch('md')
+ */
+export function getBreakpointMatch(breakpoint: Breakpoint): boolean {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia(`(min-width: ${BREAKPOINTS[breakpoint]}px)`).matches
+}
+
+/**
+ * Synchronous touch-device check.
+ * Use for gating WebGL, Lenis smooth scroll, and other pointer-sensitive code.
+ * Do NOT use for layout — prefer `getBreakpointMatch` or `useBreakpoints()` for width-based decisions.
+ */
+export function getIsTouch(): boolean {
+  if (typeof window === 'undefined') return false
+  return window.matchMedia('(pointer: coarse)').matches
+}
 
 /**
  * Subscribe to any CSS media query.

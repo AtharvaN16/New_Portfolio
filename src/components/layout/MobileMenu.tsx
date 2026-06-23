@@ -5,6 +5,7 @@ import '@theme-toggles/react/css/Expand.css'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { m, AnimatePresence } from 'framer-motion'
+import { RemoveScroll } from 'react-remove-scroll'
 import Link from 'next/link'
 import { useTheme } from '@/components/providers/ThemeProvider'
 import { NavButton } from '@/components/ui/NavButton'
@@ -37,26 +38,18 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     setMounted(true)
   }, [])
 
-  // Scroll lock + escape key
+  // Escape key — scroll lock is handled by RemoveScroll below
   useEffect(() => {
-    if (!isOpen) {
-      return
-    }
-
+    if (!isOpen) return
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
-
-    document.body.style.overflow = 'hidden'
     document.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.body.style.overflow = ''
-      document.removeEventListener('keydown', handleKeyDown)
-    }
+    return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, onClose])
 
   const overlay = (
+    <RemoveScroll enabled={isOpen}>
     <AnimatePresence>
       {isOpen && (
         <m.div
@@ -184,6 +177,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         </m.div>
       )}
     </AnimatePresence>
+    </RemoveScroll>
   )
 
   // Portal renders directly onto body — bypasses all stacking contexts including WebGL layers

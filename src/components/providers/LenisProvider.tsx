@@ -21,6 +21,7 @@ import {
   type ReactNode,
 } from 'react'
 import type Lenis from 'lenis'
+import { getIsTouch } from '@/hooks/use-responsive'
 
 const LenisContext = createContext<Lenis | undefined>(undefined)
 
@@ -37,7 +38,7 @@ export function LenisProvider({ children }: LenisProviderProps) {
     ).matches
     if (prefersReducedMotion) return
 
-    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
+    const isTouchDevice = getIsTouch()
     if (isTouchDevice) return
 
     let rafId = 0

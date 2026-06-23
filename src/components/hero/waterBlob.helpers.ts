@@ -7,6 +7,7 @@
 
 import type { Colors, WebGLProgramInfo } from './waterBlob.types'
 import { vertexShader, fragmentShader } from './waterBlob.shader'
+import { getBreakpointMatch, getIsTouch } from '@/hooks/use-responsive'
 
 const MOBILE_DPR_SCALE = 0.35
 const DESKTOP_DPR_CAP = 1.25
@@ -194,8 +195,7 @@ export function setupCanvasResize(canvas: HTMLCanvasElement): () => void {
   let lastHeight = 0
 
   const resizeCanvasToDisplaySize = () => {
-    const isMobile =
-      window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768
+    const isMobile = getIsTouch() || !getBreakpointMatch('md')
     // Performance:
     // - Mobile: Render at 0.35x resolution (efficiency with less softness than 0.25x)
     // - Desktop: Cap at 1.25x to reduce full-screen fragment shader work

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { m, useMotionValue, useTransform, type MotionValue } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { AnimatedLink } from '@/components/ui/AnimatedLink'
-import { useBreakpoints } from '@/hooks/use-responsive'
+import { getBreakpointMatch, useBreakpoints } from '@/hooks/use-responsive'
 import { cn } from '@/lib/utils/cn'
 import {
   HERO_BIO_DELAY_S,
@@ -52,12 +52,9 @@ export function Hero({
 }: HeroProps) {
   const { isMobile } = useBreakpoints()
   const [initialPaletteIndex] = useState(() => pickInitialHeroPaletteIndex())
-  // Read matchMedia synchronously — avoids the false-on-first-render problem
+  // Read sync via getBreakpointMatch — avoids the false-on-first-render problem
   // that useBreakpoints() has (starts false, updates after mount).
-  // Hero.tsx is 'use client' so window is always available here.
-  const isDesktopAnimation =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(min-width: 768px)').matches
+  const isDesktopAnimation = getBreakpointMatch('md')
 
   const bioDelay = isDesktopAnimation ? HERO_BIO_DELAY_S : isMobile ? 1.0 : 1.8
   const currentlyDelay = isDesktopAnimation

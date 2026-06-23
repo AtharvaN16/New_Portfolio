@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
+import { RemoveScroll } from 'react-remove-scroll'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 import { cn } from '@/lib/utils/cn'
 import { NavButton } from '@/components/ui/NavButton'
@@ -51,23 +52,18 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
     ? { duration: 0.01 }
     : { type: 'spring' as const, stiffness: 500, damping: 38, mass: 0.9 }
 
+  // Escape key — scroll lock is handled by RemoveScroll below
   useEffect(() => {
     if (!isOpen) return
-
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose()
     }
-
     document.addEventListener('keydown', onKeyDown)
-    document.body.style.overflow = 'hidden'
-
-    return () => {
-      document.removeEventListener('keydown', onKeyDown)
-      document.body.style.overflow = ''
-    }
+    return () => document.removeEventListener('keydown', onKeyDown)
   }, [isOpen, onClose])
 
   return (
+    <RemoveScroll enabled={isOpen}>
     <AnimatePresence>
       {isOpen && (
         <>
@@ -297,6 +293,7 @@ export function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps)
         </>
       )}
     </AnimatePresence>
+    </RemoveScroll>
   )
 }
 

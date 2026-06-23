@@ -134,10 +134,9 @@ Each finding: **what / where / why it matters / suggested fix / risk & verificat
 
 ### A2 — 🟡 Reduced-motion not honored in home parallax & dialogs
 
-- **What:** Hero/WebGL honor reduced-motion thoroughly, but `[NEEDS-CONFIRM]` the home layer transforms (hero fade, card parallax in `use-home-scroll.ts`/`page.tsx`) and dialog durations do not.
-- **Why:** Vestibular-sensitivity users still get full parallax + 1.2s slides.
-- **Fix:** Thread the existing reduced-motion signal (`useReducedMotion()` / `useAccessibility().reducedMotion`) into these paths; collapse durations / disable parallax when set.
-- **Risk:** Medium — don't break the layer choreography; reduced-motion should still land at the same final layout, just without the journey. **Verify:** toggle OS reduce-motion + in-app pause, confirm content is fully reachable and laid out correctly.
+- **Status:** ❌ **Won't do** — user decision (2026-06-22). Hero/WebGL already honor reduced-motion; home parallax and dialog durations stay as-is.
+- ~~**What:** Hero/WebGL honor reduced-motion thoroughly, but `[NEEDS-CONFIRM]` the home layer transforms (hero fade, card parallax in `use-home-scroll.ts`/`page.tsx`) and dialog durations do not.~~
+- ~~**Fix:** Thread the existing reduced-motion signal into these paths.~~
 
 ### A3 — 🟡 `NavButton` touch target marginal
 
@@ -148,9 +147,8 @@ Each finding: **what / where / why it matters / suggested fix / risk & verificat
 
 ### A4 — 🟡 Mobile menu backdrop tap doesn't close; scroll position not restored `[NEEDS-CONFIRM]`
 
-- **What:** `MobileMenu.tsx` — only the close button dismisses; `body.style.overflow` lock may not restore scroll offset.
-- **Fix:** Add backdrop-tap-to-close; ensure scroll position is preserved/restored (consider unifying on `react-remove-scroll`, see M2).
-- **Risk:** Low. **Verify:** open menu mid-page, close via backdrop, confirm scroll position unchanged.
+- **Status:** ❌ **Won't do (2026-06-22)** — menu button is hidden on scroll so the menu is only opened from the top of the page; backdrop-tap-to-close not needed. Scroll position is now correctly preserved by M2 (RemoveScroll doesn't touch scrollY).
+- ~~**Fix:** Add backdrop-tap-to-close~~
 
 ---
 
@@ -158,17 +156,21 @@ Each finding: **what / where / why it matters / suggested fix / risk & verificat
 
 ### M1 — Three mobile-detection cutoffs
 
-See §1. Converge on one source of truth. **Scoped, deliberate task** — verify each call site keeps its intended cutoff (640 ≠ 768 ≠ coarse).
+- **Status:** ✅ **Fixed (2026-06-22)** — Added `getBreakpointMatch(breakpoint)` and `getIsTouch()` sync helpers to `src/hooks/use-responsive.ts` with inline doc comment mapping the three concepts (layout < 640, animation < 768, touch/WebGL pointer:coarse). Updated all three ad-hoc sites:
+  - `Hero.tsx`: inline `window.matchMedia('(min-width: 768px)')` → `getBreakpointMatch('md')`
+  - `waterBlob.helpers.ts`: inline `(pointer:coarse)||innerWidth<768` → `getIsTouch()||!getBreakpointMatch('md')`
+  - `LenisProvider.tsx`: inline `matchMedia('(pointer:coarse)')` → `getIsTouch()`
+- Intentional differences preserved: `useBreakpoints().isMobile` stays at < 640px for layout; `getBreakpointMatch('md')` at 768px for animations; `getIsTouch()` for touch-device gating.
 
 ### M2 — Duplicated scroll-lock logic
 
-`MobileMenu` uses `body.style.overflow='hidden'`; dialogs use `react-remove-scroll`. Consolidate on `react-remove-scroll` everywhere for consistent behavior and scrollbar-compensation.
+- **Status:** ✅ **Fixed (2026-06-22)** — `MobileMenu` and `AccessibilityModal` now use `<RemoveScroll enabled={isOpen}>` (same as `CaseStudyDialog`). Manual `document.body.style.overflow` removed from both. `PageOverlay` kept as-is (uses `position:fixed` + Lenis coordination, different technique by design). `CaseStudyDialog` kept as-is (already had RemoveScroll; manual overflow was a sync fallback during animation).
 
 ### M3 — 🔴 300-line rule broken widely (per `CLAUDE.md`)
 
 - **Status (Pratt):** ✅ **Split (2026-06-22)** — `PrattVisitorExperienceContent.tsx` **2,079 → 67 lines**; sections in `src/components/case-study/content/pratt/` (shared `Accordion`/`SectionDivider`/`OpportunityAreas` + 15 section components). Regenerate via `node scripts/split-pratt-content.mjs` if needed.
 - **Status (Gutenberg):** ✅ **Split (2026-06-22)** — `GutenbergContent.tsx` **1,476 → 74 lines**; sections in `src/components/case-study/content/gutenberg/` (11 section components; SUS callout state in `GutenbergMethodologySusSection`). Regenerate via `node scripts/split-gutenberg-content.mjs` (needs monolith snapshot in `/tmp/GutenbergContent.original.tsx`).
-- **Remaining:** `MetFreeToursContent.tsx` **917**, + several 400–784. Split one file at a time using the same pattern.
+- **Policy (2026-06-22):** No further case-study splits unless a **measured** perf/maintainability gain justifies the churn. Pratt + Gutenberg done; remaining giants (`MetFreeToursContent.tsx` **917**, UAlberta **786**, etc.) stay monolithic until evidence says otherwise.
 
 ---
 
@@ -178,10 +180,10 @@ See §1. Converge on one source of truth. **Scoped, deliberate task** — verify
 2. ~~**10.B** (`next.config` + Material Symbols + `<motion.>` → `<m.>`)~~ ✅ Done — see §10.F.
 3. ~~**A1** (`CaseStudyDialog` semantics + focus trap)~~ ✅ Done.
 4. **10.C runtime** (partial) — `CaseStudySideNav` dedupe ✅; remaining: `CaseStudyVideo` throttle (skipped), `once:false` grids (skipped), `WorkFilter` mobile stagger (skipped).
-5. **A2** (reduced-motion in parallax/dialogs) — deferred.
-6. **M1/M2** (unify mobile detection + scroll lock), then chip at **M3** (split large files) one file at a time.
+5. ~~**A2** (reduced-motion in parallax/dialogs)~~ ❌ Won't do.
+6. ~~**M1/M2** (unify mobile detection + scroll lock)~~ ✅ Done — see §6.
 
-Lower priority / measure-first: P3, P4, P5, A3, A4, **10.E**.
+Lower priority / measure-first: P3, P4, P5, A3. ~~**A4**~~ ❌ Won't do. ~~**M3** further splits~~ — only if measured gain (see M3 policy).
 
 ---
 
@@ -329,7 +331,7 @@ Surgical-only path (reduces but does not eliminate jitter): lock viewport height
 ### 10.E — Case-study content (parse + mount cost)
 
 - **🟡 Whole case study mounts at once** `[NEEDS-CONFIRM]` — content components are huge and render their entire tree (all sections + media) on open; "Read more" toggles visibility via `AnimatePresence`, not virtualization. On a phone that's a large synchronous DOM/JS mount.
-- **🔴 300-line rule broken (also a parse-cost issue)** `[V]`: ~~`PrattVisitorExperienceContent.tsx` **2,079**~~ ✅, ~~`GutenbergContent.tsx` **1,476**~~ ✅, `MetFreeToursContent.tsx` **917**, + several 400–784. Splitting into per-section components (and lazy-mounting below-the-fold / behind "Read more") cuts initial parse + mount on mobile and fixes the rule violation in one move.
+- **🔴 300-line rule broken (also a parse-cost issue)** `[V]`: ~~Pratt~~ ✅, ~~Gutenberg~~ ✅; **Met (917), UAlberta (786), NYC Third Spaces (730), etc.** still over 300 lines. **No further splits planned** unless Lighthouse/trace shows case-study open is a bottleneck — splitting fixes the rule and _may_ help parse/mount, but that was not measured for the remaining files.
 
 ### 10.F — Prioritized action list (mobile perf)
 
@@ -339,8 +341,9 @@ Surgical-only path (reduces but does not eliminate jitter): lock viewport height
 4. ~~**A1** — `CaseStudyDialog` focus trap + dialog semantics.~~ ✅ Done.
 5. ~~**10.E / M3 — Pratt case study split**~~ ✅ Done — see M3 status.
 6. ~~**10.E / M3 — Gutenberg split**~~ ✅ Done — see M3 status.
-7. **10.E / M3 — remaining giants** — Met (917), UAlberta (784), etc. **← next**
-7. **M1/M2** — unify mobile detection + scroll lock.
+7. ~~**M1/M2** — unify mobile detection + scroll lock.~~ ✅ Done.
+8. **A4** — menu backdrop tap + scroll position restore. **← next** (small polish, overlaps M2)
+9. Further **M3 splits** — only if measured gain (policy above).
 
 **Before claiming any of this improved anything:** capture a _baseline_ Lighthouse mobile + Performance trace (CPU 4–6× throttle) on `dev`, make the change, re-measure, and compare. Severity tags above are reasoning, not measurements.
 
