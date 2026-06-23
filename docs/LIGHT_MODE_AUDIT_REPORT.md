@@ -14,35 +14,43 @@ This report traces the journey **Landing → Hero → Home scroll → Work → F
 
 ## TL;DR — the five things that actually matter
 
-1. **Light mode is never restored on reload (guaranteed dark flash).** `layout.tsx` hardcodes `data-theme="dark"`, `ThemeProvider` initializes state to `'dark'` and **never reads `localStorage`** (it only writes it). There is **no anti-FOUC `ThemeScript`** despite a comment claiming one exists. A user who picks Light gets dark on every fresh load until they re-toggle. _Verified._
-2. **`--cs-pop-light` / `--cs-pop-dark` are used 8× but defined 0×.** This is the primary accent for case-study **progress bars, hero accent bands, "The End" headings, and the side-nav active state** — all render with an invalid/empty color in both themes. _Verified._
-3. **The entire hero (WaterBlob) is additive/emissive math designed for black.** The shader always uses the *dark* palette, ignores the authored light palette entirely, and its glow/plasma/trail blow out to white on the light background. The "flash lights the navbar" beat is invisible in light. _(The prior plan already proposes the `multiply` "ink on paper" fix.)_
-4. **`--color-case-study-gold` (#FFCE2E) and `#FF8C00` are used as *text* on white** (Pratt headline stats, BLV highlights/annotations) at ~1.6–2.3:1 — effectively illegible. Several pastel case-study tokens were never given readable light variants.
-5. **A recurring contrast tax:** `text-color30/40/60` and a few status colors are used for real body/label text and fail WCAG AA on the light background.
+1. ~~**`--cs-pop-light` / `--cs-pop-dark` are used 8× but defined 0×.**~~ **FIXED (2026-06-23).** Case-study accents now derive from each study's `themeColor` via OKLCH in `globals.css` + `--cs-primary-rgb` in `ThemeScoper`.
+2. **The entire hero (WaterBlob) is additive/emissive math designed for black.** The shader always uses the *dark* palette, ignores the authored light palette entirely, and its glow/plasma/trail blow out to white on the light background. The "flash lights the navbar" beat is invisible in light. _(The prior plan already proposes the `multiply` "ink on paper" fix.)_
+3. **`--color-case-study-gold` (#FFCE2E) and `#FF8C00` are used as *text* on white** (Pratt headline stats, BLV highlights/annotations) at ~1.6–2.3:1 — effectively illegible. Several pastel case-study tokens were never given readable light variants.
+4. **A recurring contrast tax:** `text-color30/40/60` and a few status colors are used for real body/label text and fail WCAG AA on the light background.
+5. **A1 (theme persistence) — intentional, not a defect.** Dark mode is the intended landing default; `layout.tsx` and `ThemeProvider` hardcode dark by design. No ThemeScript needed unless product direction changes to restore a user's last-selected theme on reload.
 
 ### Severity totals (de-duplicated across the journey)
 
 | Severity | Count (approx.) | Meaning |
 | :-- | :-- | :-- |
-| **High** | ~28 | Broken / invisible / unreadable in light mode |
+| **High** | ~27 | Broken / invisible / unreadable in light mode |
 | **Medium** | ~49 | Poor contrast, off-brand, or inconsistent in light |
 | **Low** | ~28 | Polish / token-hygiene nits |
+
+### Resolved
+
+| ID | Fixed | Summary |
+| :-- | :-- | :-- |
+| **A2** | 2026-06-23 | Completed case-study OKLCH color engine: `ThemeScoper` injects `--cs-primary-rgb`; `globals.css` `.case-study-theme` derives `--cs-pop-light`, `--cs-pop-dark`, selection tokens. |
 
 ---
 
 ## A. Systemic / cross-cutting issues (fix these first — they fan out everywhere)
 
-### A1. [HIGH] Theme is not persisted/restored → dark flash on every load
+### A1. [INTENTIONAL] Dark mode is the landing default — theme not restored on reload
 - **Files:** `src/components/providers/ThemeProvider.tsx:35,37-39`, `src/app/layout.tsx:33`
-- **Problem:** `useState<Theme>('dark')` hardcodes initial state; the only effect *writes* `theme` to the DOM and never reads `localStorage`. `setTheme` does `localStorage.setItem('theme', …)` but **nothing ever calls `getItem('theme')`** (verified: 0 reads in `src/`). `layout.tsx:33` ships `<html data-theme="dark">`. The comment at `ThemeProvider.tsx:32-34` references a "ThemeScript" that does not exist anywhere.
-- **Light-mode impact:** Server renders dark → first paint dark → hydration state is `'dark'` → effect re-writes dark. Light is **never restored on a fresh load**; only a manual re-toggle brings it back. This is the single largest light-mode defect.
-- **Fix:** Add a blocking inline `<script>` in `<head>` (`layout.tsx`, via `dangerouslySetInnerHTML`) that reads `localStorage.getItem('theme')` (fallback `matchMedia('(prefers-color-scheme: …)')` or your chosen default) and sets `document.documentElement.dataset.theme` **before first paint**. Initialize `ThemeProvider` state lazily from the DOM attribute, not the literal `'dark'`. Add `suppressHydrationWarning` to `<html>`.
+- **Original audit finding:** `useState<Theme>('dark')` hardcodes initial state; the only effect *writes* `theme` to the DOM and never reads `localStorage`. `layout.tsx:33` ships `<html data-theme="dark">`. No anti-FOUC `ThemeScript` exists.
+- **Product decision (2026-06-23):** Dark landing is **intentional**. Users always land on dark; a manual toggle switches to light for the session but is not restored on reload. Re-classified from HIGH defect to documented behavior. Only revisit if product direction changes to persist user theme preference.
 
-### A2. [HIGH] `--cs-pop-light` / `--cs-pop-dark` are undefined (8 usages, 0 definitions)
+### A2. [RESOLVED 2026-06-23] `--cs-pop-light` / `--cs-pop-dark` were undefined (8 usages, 0 definitions)
 - **Files (usages):** `CaseStudyLayout.tsx:71` (scroll progress bar), `CaseStudyDetail.tsx:110` (hero accent band), `AloYogaContent.tsx:75,291` (side-nav active + "The End"), `GutenbergClosingSection.tsx:68`, `NycDcwpBusinessLicensesContent.tsx:129`, plus `AnimatedBars` `filledColor` in Gutenberg findings.
-- **Problem:** Neither var is declared in any CSS file or any `setProperty()` call (verified). `ThemeScoper` only sets `--cs-theme-color`.
-- **Light-mode impact:** Progress bar, hero accent band, accent headings, and finding-chart bars resolve to no color → transparent/inherited. The case-study accent system is effectively dead.
-- **Fix:** Define `--cs-pop-light` / `--cs-pop-dark` (likely derived from `--cs-theme-color`, light/dark variants) in `ThemeScoper` or `design-tokens.css`, **or** replace usages with a real token (`--color-primary`, `--color-alo-progress`, etc.).
+- **Original problem:** Neither var was declared in any CSS file. `ThemeScoper` only set `--cs-theme-color` with no derivation step — the May 2026 color-engine plan was half-implemented (consumers migrated, engine never added).
+- **Fix applied:**
+  - `ThemeScoper.tsx` — injects `--cs-primary-rgb` from each case study's `themeColor` hex via `hexToRgb()`.
+  - `globals.css` — `.case-study-theme` block derives `--cs-pop-light`, `--cs-pop-dark`, `--cs-soft-*`, `--cs-contrast-*` using OKLCH relative color syntax; branded `::selection` highlights included.
+  - `tests/unit/theme-scoper.test.tsx` — regression test for RGB injection.
+- **Result:** Progress bar, hero accent band, accent headings, Gutenberg chart bars, DCWP SVG fills, and Alo side-nav active state now resolve to per-study brand accents in both light and dark modes.
 
 ### A3. [HIGH] WaterBlob hero is built additive/emissive for a black background
 - **Files:** `waterBlob.colors.ts:54-56`, `waterBlob.shader.ts:174-178,216-249`, `hero-flash-head.ts:203-227`, `waterBlob.palettes.ts:46-174`
@@ -110,11 +118,11 @@ Covered by A3 (WaterBlob) and A7 (gradient duplication). Additional:
 - **Clean (verified):** `HomeDesktop`/`HomeMobile`, `SelectedWork`, `MasonryWorkGrid`/`MasonryGrid`/`ExplorationsGrid`, `page.tsx`, `/explorations`/`/writings`/`/about`, `AnimatedLink`, `GradientBar`, `AnimatedText`, `PaperPlane`/`AnimatedArrow`, `ScrollContainer`, `LineSeparator`.
 
 ### B4. Case studies — framework
-Covered by A2 (`--cs-pop-*`). Additional:
+~~Covered by A2 (`--cs-pop-*`).~~ **A2 resolved** — accent vars now live. Additional:
 - **[LOW] `CaseStudyVideo.tsx:189`** — `bg-black` video letterbox heavy on a light page; consider `surface-elevated`.
 - **[LOW] `OptimizedImage.tsx:69`** — shimmer placeholder white-only `rgba(255,255,255,0.15)` over light `surface-muted` → nearly invisible. Use foreground-tinted shimmer.
 - **[LOW] `CaseStudySideNav.tsx:21`** — default `themeColor='#4285F4'` hardcoded; use `--color-primary`.
-- **Clean:** `FigmaPresentationDetail`, `ShowcaseHero` (text-white over dark photo scrim — correct), `CaseStudyContentRenderer`, `ThemeScoper`.
+- **Clean:** `FigmaPresentationDetail`, `ShowcaseHero` (text-white over dark photo scrim — correct), `CaseStudyContentRenderer`, `ThemeScoper` (color engine complete).
 
 ### B5. Case studies — Alo Yoga & Pratt
 - **[HIGH] Pratt `case-study-gold` (#FFCE2E) as text** — `PrattSurveyAnalysisAccordionsSection.tsx:27,264`, `PrattIntervention1Section.tsx:45,73`, `PrattIntervention2ChangesLateSection.tsx:153`, `PrattConclusionSection.tsx:10`. Headline stats, phase labels, list numbers, "The End" at ~1.6:1 — illegible on white. Replace with readable accent / `text-text-primary`.
@@ -155,9 +163,10 @@ Covered by A2 (`--cs-pop-*`). Additional:
 ## D. Suggested fix roadmap
 
 **Phase 1 — Architecture (unblocks correctness):**
-1. A1 ThemeScript + DOM-initialized provider.
-2. A2 define `--cs-pop-light/dark`; A4 `text-primary-main`→`text-primary`; A6 delete dead media block.
+1. ~~A2 define `--cs-pop-light/dark`~~ **DONE (2026-06-23).**
+2. A4 `text-primary-main`→`text-primary`; A6 delete dead media block.
 3. A5 invert `.shimmer-glow`/`.footer-resume-link` cascade.
+4. _(A1 deferred — dark landing is intentional.)_
 
 **Phase 2 — Visible breakage:**
 4. A3 theme the WaterBlob shader/palette/flash (`multiply` "ink on paper").
@@ -171,4 +180,4 @@ Covered by A2 (`--cs-pop-*`). Additional:
 
 ---
 
-_All findings were produced by read-only inspection; no source files were modified. The three highest-leverage claims (A1 FOUC, A2 undefined `--cs-pop-*`, A4 `primary-main`) were independently verified via grep._
+_Original findings produced by read-only inspection (2026-06-23). **A2 fixed same day** — see Resolved table and A2 section. A1 reclassified as intentional. Remaining high-leverage open items: A3 (WaterBlob), A4 (`primary-main`), B-tier contrast HIGHs._

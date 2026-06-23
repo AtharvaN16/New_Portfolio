@@ -752,6 +752,35 @@
   background-color: #333 !important;
 }
 
+/* ========================================
+   CASE STUDY THEME SCOPER
+   Derives accent palette from per-study seed (--cs-primary-rgb)
+   ======================================== */
+.case-study-theme {
+  --cs-primary: rgb(var(--cs-primary-rgb));
+
+  --cs-pop-light: oklch(from var(--cs-primary) 0.65 0.25 h);
+  --cs-soft-light: oklch(from var(--cs-primary) 0.96 0.05 h);
+  --cs-contrast-light: oklch(from var(--cs-primary) 0.3 0.2 h);
+
+  --cs-pop-dark: oklch(from var(--cs-primary) 0.75 0.2 h);
+  --cs-soft-dark: oklch(from var(--cs-primary) 0.2 0.08 h / 0.9);
+  --cs-contrast-dark: oklch(from var(--cs-primary) 0.96 0.05 h);
+
+  --cs-selection-bg: var(--cs-soft-light);
+  --cs-selection-text: var(--cs-contrast-light);
+}
+
+[data-theme='dark'] .case-study-theme {
+  --cs-selection-bg: var(--cs-soft-dark);
+  --cs-selection-text: var(--cs-contrast-dark);
+}
+
+.case-study-theme ::selection {
+  background-color: var(--cs-selection-bg);
+  color: var(--cs-selection-text);
+}
+
 @font-face {
   font-family: 'OpenDyslexic';
   src: url('https://opendyslexic.org/font/OpenDyslexic-Regular.otf')

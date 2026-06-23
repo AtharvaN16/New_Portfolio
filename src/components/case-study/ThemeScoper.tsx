@@ -1,5 +1,7 @@
 'use client'
 
+import { hexToRgb } from '@/lib/utils/color'
+
 interface ThemeScoperProps {
   themeColor: string
   children: React.ReactNode
@@ -7,11 +9,13 @@ interface ThemeScoperProps {
 
 export function ThemeScoper({ themeColor, children }: ThemeScoperProps) {
   return (
-    <div 
+    <div
       className="case-study-theme"
-      style={{ 
-        ['--cs-theme-color' as string]: themeColor 
-      } as React.CSSProperties}
+      style={
+        {
+          ['--cs-primary-rgb' as string]: hexToRgb(themeColor),
+        } as React.CSSProperties
+      }
     >
       {children}
     </div>
