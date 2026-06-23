@@ -81,40 +81,40 @@ function CSSGlow({
 
   const baseAlpha = isLight
     ? isMobile
-      ? '0.26'
+      ? '0.30'
       : '0.35'
     : isDesktop
       ? '0.2'
-      : '0.24'
+      : '0.30'
   const swell1Alpha = isLight
     ? isMobile
-      ? '0.36'
+      ? '0.42'
       : '0.50'
     : isDesktop
       ? '0.4'
-      : '0.34'
+      : '0.40'
   const swell2Alpha = isLight
     ? isMobile
-      ? '0.30'
+      ? '0.36'
       : '0.40'
     : isDesktop
       ? '0.35'
-      : '0.28'
+      : '0.34'
   const swell3Alpha = isLight
     ? isMobile
-      ? '0.22'
+      ? '0.28'
       : '0.30'
     : isDesktop
       ? '0.3'
-      : '0.20'
-  const baseGradientEndAlpha = isMobile ? '0.28' : '0.20'
+      : '0.26'
+  const baseGradientEndAlpha = isMobile ? '0.34' : '0.20'
 
   const containerBlur = isLight
     ? isMobile
-      ? '52px'
+      ? '44px'
       : '80px'
     : isMobile
-      ? '32px'
+      ? '26px'
       : '40px'
   const ditherOpacity = isLight ? 0.12 : 0.18
 
@@ -128,7 +128,7 @@ function CSSGlow({
     <m.div
       className="absolute inset-0"
       style={isMobile ? { transform: 'translateY(-32px)' } : undefined}
-      animate={{ opacity: visible ? (isMobile ? 0.75 : 1) : 0 }}
+      animate={{ opacity: visible ? (isMobile ? 0.85 : 1) : 0 }}
       transition={
         isMobile
           ? { duration: 1.6, ease: [0.4, 0, 0.2, 1] }
@@ -142,7 +142,7 @@ function CSSGlow({
           filter: isLight
             ? `blur(${containerBlur}) saturate(1.6) brightness(1.1)`
             : isMobile
-              ? `blur(${containerBlur}) saturate(1.12)`
+              ? `blur(${containerBlur}) saturate(1.18)`
               : `blur(${containerBlur})`,
           mixBlendMode: isLight ? 'screen' : 'normal',
         }}
@@ -186,7 +186,7 @@ function CSSGlow({
                   scale: isLight ? [1, 1.15, 1] : 1,
                   opacity: [0.8, 1, 0.8],
                 }
-              : { x: '0%', scale: 1, opacity: isMobile ? 0.58 : 0.8 }
+              : { x: '0%', scale: 1, opacity: isMobile ? 0.68 : 0.8 }
           }
           transition={{
             duration: 18,
@@ -208,7 +208,7 @@ function CSSGlow({
                   scale: isLight ? [1, 1.08, 1] : 1,
                   opacity: [0.5, 1, 0.5],
                 }
-              : { x: '-3%', scale: 1, opacity: isMobile ? 0.38 : 0.5 }
+              : { x: '-3%', scale: 1, opacity: isMobile ? 0.48 : 0.5 }
           }
           transition={{
             duration: 22,
