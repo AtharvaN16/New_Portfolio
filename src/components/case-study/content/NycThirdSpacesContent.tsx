@@ -184,7 +184,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
               <SectionTitle>About the Client</SectionTitle>
               <div className="w-full rounded-xl overflow-hidden mb-8 md:mb-10">
                 <OptimizedImage
-                  src={`${BASE}/woven-city-entrance.jpg`}
+                  src={`${BASE}/woven-city-entrance.avif`}
                   alt="Toyota Woven City entrance at night"
                   width={1200}
                   height={675}
@@ -271,7 +271,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 {/* Book cover on left */}
                 <div className="w-full md:w-[200px] flex-shrink-0 mb-8 md:mb-0">
                   <OptimizedImage
-                    src={`${BASE}/palace.png`}
+                    src={`${BASE}/palace.avif`}
                     alt="Palaces for the People book cover by Eric Klinenberg"
                     width={200}
                     height={300}
@@ -304,9 +304,9 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                   Brooklyn Library, The Met Date Night, Community Gardens—structured environments with defined rules and roles
                 </p>
                 <div className="grid grid-cols-3 gap-3 md:gap-4">
-                  <SitePhoto src="brooklyn-lib.png" alt="Brooklyn Library" />
-                  <SitePhoto src="met.png" alt="The Met Date Night" />
-                  <SitePhoto src="garden.png" alt="Community Garden" />
+                  <SitePhoto src="brooklyn-lib.avif" alt="Brooklyn Library" />
+                  <SitePhoto src="met.avif" alt="The Met Date Night" />
+                  <SitePhoto src="garden.avif" alt="Community Garden" />
                 </div>
               </div>
               <div className="mb-14">
@@ -316,9 +316,9 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                   interactions emerge naturally
                 </p>
                 <div className="grid grid-cols-3 gap-3 md:gap-4">
-                  <SitePhoto src="winter-market.png" alt="Union Square Winter Market" />
-                  <SitePhoto src="farmers-market.png" alt="Union Square Farmers Market" />
-                  <SitePhoto src="queens.png" alt="Queens Night Market" />
+                  <SitePhoto src="winter-market.avif" alt="Union Square Winter Market" />
+                  <SitePhoto src="farmers-market.avif" alt="Union Square Farmers Market" />
+                  <SitePhoto src="queens.avif" alt="Queens Night Market" />
                 </div>
               </div>
 
@@ -330,10 +330,10 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 spaces, what motivates sustained participation, what subtle barriers shape who engages.
               </p>
               <div className="grid grid-cols-2 gap-4 md:gap-6">
-                <FieldPhoto src="union-sq-winter-1.png" alt="Union Square Holiday Market booth" caption="Union Square Winter Market" />
-                <FieldPhoto src="union-sq-winter-2.png" alt="Union Square Winter Market crowd" caption="Union Square Winter Market" />
-                <FieldPhoto src="union-sq-farmers-1.png" alt="Union Square Farmers Market produce" caption="Union Square Farmers Market" />
-                <FieldPhoto src="union-sq-farmers-2.png" alt="Union Square Farmers Market tents" caption="Union Square Farmers Market" />
+                <FieldPhoto src="union-sq-winter-1.avif" alt="Union Square Holiday Market booth" caption="Union Square Winter Market" />
+                <FieldPhoto src="union-sq-winter-2.avif" alt="Union Square Winter Market crowd" caption="Union Square Winter Market" />
+                <FieldPhoto src="union-sq-farmers-1.avif" alt="Union Square Farmers Market produce" caption="Union Square Farmers Market" />
+                <FieldPhoto src="union-sq-farmers-2.avif" alt="Union Square Farmers Market tents" caption="Union Square Farmers Market" />
               </div>
 
               <Divider />
@@ -382,7 +382,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 <div className="flex flex-col md:flex-row md:items-start md:gap-10 mb-10 md:mb-14">
                   <div className="w-full md:w-[280px] flex-shrink-0 mb-8 md:mb-0">
                     <OptimizedImage
-                      src={`${BASE}/int-blank-slate.png`}
+                      src={`${BASE}/int-blank-slate.avif`}
                       alt="Blank Slate Zones isometric"
                       width={280}
                       height={210}
@@ -414,7 +414,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 <div className="mb-6 max-w-[500px]">
                   <div className="rounded-xl overflow-hidden mb-2">
                     <OptimizedImage
-                      src={`${BASE}/int-brick-lane.png`}
+                      src={`${BASE}/int-brick-lane.avif`}
                       alt="Brick Lane graffiti district, London"
                       width={500}
                       height={375}
@@ -450,7 +450,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 <div className="flex flex-col md:flex-row md:items-start md:gap-10 mb-10 md:mb-14">
                   <div className="w-full md:w-[280px] flex-shrink-0 mb-8 md:mb-0">
                     <OptimizedImage
-                      src={`${BASE}/int-steward.png`}
+                      src={`${BASE}/int-steward.avif`}
                       alt="Participatory Stewardship isometric"
                       width={280}
                       height={210}
@@ -483,7 +483,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                     <div className="mb-5">
                       <div className="rounded-xl overflow-hidden mb-2">
                         <OptimizedImage
-                          src={`${BASE}/int-lectures-on-tap.png`}
+                          src={`${BASE}/int-lectures-on-tap.avif`}
                           alt="Lectures on Tap event at a bar in NYC"
                           width={600}
                           height={400}
@@ -507,7 +507,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                     <div className="mb-5">
                       <div className="rounded-xl overflow-hidden mb-2">
                         <OptimizedImage
-                          src={`${BASE}/int-community-garden.png`}
+                          src={`${BASE}/int-community-garden.avif`}
                           alt="NYC community garden with raised beds"
                           width={600}
                           height={400}
@@ -542,7 +542,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 <div className="flex flex-col md:flex-row md:items-start md:gap-10 mb-10 md:mb-14">
                   <div className="w-full md:w-[280px] flex-shrink-0 mb-8 md:mb-0">
                     <OptimizedImage
-                      src={`${BASE}/int-micro-rituals.png`}
+                      src={`${BASE}/int-micro-rituals.avif`}
                       alt="Micro-Rituals isometric"
                       width={280}
                       height={210}
@@ -574,7 +574,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                   <div>
                     <div className="rounded-xl overflow-hidden mb-2">
                       <OptimizedImage
-                        src={`${BASE}/int-winter-tea.png`}
+                        src={`${BASE}/int-winter-tea.avif`}
                         alt="Winter Tea Party flyer"
                         width={300}
                         height={400}
@@ -586,7 +586,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                   <div>
                     <div className="rounded-xl overflow-hidden mb-2">
                       <OptimizedImage
-                        src={`${BASE}/int-pepperpalooza.png`}
+                        src={`${BASE}/int-pepperpalooza.avif`}
                         alt="Pepperpalooza flyer"
                         width={300}
                         height={400}
@@ -598,7 +598,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                   <div>
                     <div className="rounded-xl overflow-hidden mb-2">
                       <OptimizedImage
-                        src={`${BASE}/int-plant-swap.png`}
+                        src={`${BASE}/int-plant-swap.avif`}
                         alt="Plant Swap flyer"
                         width={300}
                         height={400}
@@ -634,7 +634,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                 <div className="flex flex-col md:flex-row md:items-start md:gap-10 mb-10 md:mb-14">
                   <div className="w-full md:w-[280px] flex-shrink-0 mb-8 md:mb-0">
                     <OptimizedImage
-                      src={`${BASE}/int-common-bank.png`}
+                      src={`${BASE}/int-common-bank.avif`}
                       alt="Common Banks isometric"
                       width={280}
                       height={210}
@@ -666,7 +666,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                   <div>
                     <div className="rounded-xl overflow-hidden mb-2">
                       <OptimizedImage
-                        src={`${BASE}/int-japan-trust.png`}
+                        src={`${BASE}/int-japan-trust.avif`}
                         alt="Mujin Hanbaisho roadside stand in Japan"
                         width={600}
                         height={400}
@@ -678,7 +678,7 @@ export function NycThirdSpacesContent({ isContentRevealed, onToggleContent }: Ny
                   <div>
                     <div className="rounded-xl overflow-hidden mb-2">
                       <OptimizedImage
-                        src={`${BASE}/int-little-library.png`}
+                        src={`${BASE}/int-little-library.avif`}
                         alt="Little Free Library red box"
                         width={600}
                         height={400}

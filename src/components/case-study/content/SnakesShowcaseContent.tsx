@@ -12,7 +12,7 @@ const SHOT_WIDTH = 2940
 const SHOT_HEIGHT = 1842
 
 const SNAKE_SCREENSHOTS = Array.from({ length: 13 }, (_, i) => ({
-  src: `/images/case-studies/snakes/${i + 1}.png`,
+  src: `/images/case-studies/snakes/${i + 1}.avif`,
   alt: `Snakes data visualization project — screenshot ${i + 1} of 13`,
 }))
 
