@@ -12,7 +12,6 @@ import { cn } from '@/lib/utils/cn'
 import { AnimatedHeroTextGSAP } from '@/components/hero/AnimatedHeroTextGSAP'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
-import { useTheme } from '@/components/providers/ThemeProvider'
 import { useBreakpoints } from '@/hooks/use-responsive'
 import {
   useVideoPlaybackInView,
@@ -68,15 +67,13 @@ export function FullpageCard({
   const videoRef = useRef<HTMLVideoElement>(null)
   const { isDesktop } = useBreakpoints()
   const { reducedMotion } = useAccessibility()
-  const { theme } = useTheme()
 
   useVideoPlaybackInView(videoRef, undefined, {
     enabled: mediaType === 'video' && !!mediaSrc && !mediaError,
     threshold: VIDEO_CARD_VISIBILITY_THRESHOLD,
   })
 
-  const mediaScrimColor =
-    theme === 'dark' ? 'rgb(0 0 0)' : 'rgb(var(--color-background))'
+  const mediaScrimColor = 'rgb(var(--color-background))'
 
   const variantStyles = {
     surface: 'bg-[rgb(var(--color-gray-dark))]',

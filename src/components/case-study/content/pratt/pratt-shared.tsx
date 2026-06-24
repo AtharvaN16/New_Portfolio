@@ -84,10 +84,7 @@ export function OpportunityAreas({
   opportunities: string[]
 }) {
   return (
-    <div
-      className="mt-10 md:mt-12 rounded-xl p-6 md:p-8"
-      style={{ backgroundColor: 'rgb(10 10 10)' }}
-    >
+    <div className="mt-10 md:mt-12 rounded-xl p-6 md:p-8 bg-[rgb(10,10,10)] dark:bg-surface-elevated">
       <h4 className="text-base md:text-[18px] font-bold text-white mb-6 md:mb-8">
         Opportunity areas in the current journey
       </h4>

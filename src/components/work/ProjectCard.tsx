@@ -281,7 +281,7 @@ export function ProjectCard({
               variant === 'sub-case'
                 ? themeColor
                 : isMasonry && cardImageUrl
-                  ? '#111'
+                  ? 'rgb(var(--color-surface-muted))'
                   : themeColor,
           }}
         />

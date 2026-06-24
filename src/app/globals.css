@@ -749,7 +749,7 @@
 
 :root[data-theme='dark'].a11y-hide-images img,
 :root[data-theme='dark'].a11y-hide-images svg image {
-  background-color: #333 !important;
+  background-color: rgb(var(--color-surface-muted)) !important;
 }
 
 /* ========================================

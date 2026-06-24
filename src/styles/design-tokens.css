@@ -184,23 +184,23 @@
   [data-theme='dark'] {
     /* --- Colors: Background --- */
     --color-background: 13 8 5; /* #0D0805 - Warm near-black */
-    --color-surface: 32 34 35; /* #202223 - Slightly lighter surface */
-    --color-surface-elevated: 42 44 45; /* #2A2C2D - More elevated */
-    --color-surface-muted: 34 34 34; /* #222222 - Subtle dark background */
-    --color-footer-bg: 24 26 27; /* #181A1B - Previous dark bg color */
+    --color-surface: 30 28 25; /* #1E1C19 - Subtle warm lift from bg */
+    --color-surface-elevated: 36 34 30; /* #24221E - Elevated panels */
+    --color-surface-muted: 26 24 21; /* #1A1815 - Muted fills / letterboxes */
+    --color-footer-bg: 19 16 13; /* #13100D - Footer step from page bg */
 
-    /* --- Colors: Text (opacity-based) --- */
+    /* --- Colors: Text (opacity-based on #E8E5DD over #0D0805) --- */
     --color-foreground: 232 229 221; /* #E8E5DD - Warm cream, pairs with #0D0805 bg */
-    --color-text-color10: 45 45 45; /* ~#E8E6E3 at 10% opacity on dark bg */
-    --color-text-color20: 66 66 66; /* ~#E8E6E3 at 20% opacity on dark bg */
-    --color-text-color30: 92 93 93; /* ~#E8E6E3 at 30% opacity on dark bg */
-    --color-text-color40: 107 107 107; /* ~#E8E6E3 at 40% opacity on dark bg */
-    --color-text-tertiary-50: 132 132 131; /* ~#E8E6E3 at 50% opacity on dark bg */
-    --color-text-color60: 149 149 149; /* ~#E8E6E3 at 60% opacity on dark bg */
-    --color-text-color70: 170 170 170; /* ~#E8E6E3 at 70% opacity on dark bg */
-    --color-text-secondary-80: 192 191 189; /* ~#E8E6E3 at 80% opacity on dark bg */
-    --color-text-body: 192 191 189; /* Body copy aligns with secondary in dark mode */
-    --color-text-color90: 209 207 204; /* ~#E8E6E3 at 90% opacity on dark bg */
+    --color-text-color10: 35 30 27; /* ~10% cream on bg */
+    --color-text-color20: 57 52 48; /* ~20% */
+    --color-text-color30: 79 74 70; /* ~30% */
+    --color-text-color40: 101 96 91; /* ~40% */
+    --color-text-tertiary-50: 122 118 113; /* ~50% */
+    --color-text-color60: 144 141 135; /* ~60% */
+    --color-text-color70: 166 163 156; /* ~70% */
+    --color-text-secondary-80: 188 185 178; /* ~80% */
+    --color-text-body: 188 185 178; /* Body copy aligns with secondary in dark mode */
+    --color-text-color90: 210 207 199; /* ~90% */
     --color-text-primary-100: 232 229 221; /* #E8E5DD - 100% opacity */
 
     /* Backward compatibility aliases */
@@ -228,7 +228,7 @@
     --color-case-study-pale-green: 187 247 208; /* #BBF7D0 - Lighter pale green */
     --color-case-study-gold: 253 224 71; /* #FDE047 - Brighter gold for dark mode */
     --color-case-study-teal: 45 212 191; /* #2DD4BF - Brighter teal for dark mode */
-    --color-alo-hero-bg: 42 44 45; /* #2A2C2D */
+    --color-alo-hero-bg: 36 34 30; /* #24221E - matches surface-elevated */
     --color-alo-progress: 183 216 255; /* #B7D8FF */
     --color-alo-data-accent: 183 216 255; /* #B7D8FF */
     --color-case-study-met: 227 3 42; /* #e3032a - MET brand red (same in dark for fidelity) */
@@ -242,8 +242,11 @@
     --color-info: 96 165 250; /* #60A5FA - Lighter blue for dark */
 
     /* --- Colors: Borders --- */
-    --color-border: 38 38 38; /* #262626 */
-    --color-border-hover: 64 64 64; /* #404040 */
+    --color-border: 40 38 34; /* #282622 */
+    --color-border-hover: 62 58 52; /* #3E3A34 */
+
+    /* --- Colors: Cards (home featured) --- */
+    --color-gray-dark: 26 24 21; /* #1A1815 - aligns with surface-muted in dark */
 
     /* --- Colors: Gradient Bar --- */
     /* Enhanced: Matches WaterBlob palette 0 (Orange-Cyan) for initial consistency */
@@ -253,7 +256,7 @@
     /* --- Filter expanded glow (dark mode = orange/cyan from gradient palette) --- */
     --filter-glow:
       0 0 28px rgba(251, 146, 60, 0.22), 0 0 56px rgba(34, 211, 238, 0.12),
-      0 4px 12px rgba(0, 0, 0, 0.4);
+      0 4px 12px rgba(13, 8, 5, 0.45);
 
     /* --- Colors: Scribble --- */
     /* Matches gradient start for consistency on dark backgrounds */
@@ -268,12 +271,12 @@
     ); /* highlighter yellow, dark mode */
     --color-highlight-word: rgba(255, 193, 7, 0.4); /* amber, dark mode */
 
-    /* Shadows adjusted for dark mode */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.6);
-    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.7);
+    /* Shadows adjusted for dark mode (warm base tint) */
+    --shadow-sm: 0 1px 2px 0 rgb(13 8 5 / 0.35);
+    --shadow-md: 0 4px 6px -1px rgb(13 8 5 / 0.45);
+    --shadow-lg: 0 10px 15px -3px rgb(13 8 5 / 0.55);
+    --shadow-xl: 0 20px 25px -5px rgb(13 8 5 / 0.65);
+    --shadow-2xl: 0 25px 50px -12px rgb(13 8 5 / 0.75);
   }
 
   /* ========================================
