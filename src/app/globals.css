@@ -163,20 +163,20 @@
       rgba(var(--hero-blob-blue), 0.6) 0%,
       rgba(var(--hero-blob-purple), 0.5) 40%,
       rgba(var(--hero-blob-pink), 0.45) 80%,
-      rgba(var(--color-background), 1) 100%
+      rgba(var(--color-hero-blob-background), 1) 100%
     );
     /* Subtle texture overlay for light mode (pigment effect) */
     background-blend-mode: normal;
   }
 
-  /* Dark mode: bright, glowy colors for emissive effect on black */
+  /* Dark mode: bright, glowy colors for emissive effect on warm near-black */
   .hero-gradient-dark {
     background: radial-gradient(
       ellipse at 30% 50%,
       rgba(var(--hero-blob-blue), 0.6) 0%,
       rgba(var(--hero-blob-purple), 0.5) 40%,
       rgba(var(--hero-blob-pink), 0.45) 80%,
-      rgba(var(--color-background), 1) 100%
+      rgba(var(--color-hero-blob-background), 1) 100%
     );
   }
 

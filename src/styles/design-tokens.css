@@ -47,6 +47,7 @@
     --hero-blob-blue: 42 52 165; /* hsl(235, 59%, 41%) - Deep saturated indigo */
     --hero-blob-purple: 110 75 195; /* hsl(258, 47%, 53%) - Rich purple */
     --hero-blob-pink: 220 65 105; /* hsl(345, 68%, 56%) - Deep rose */
+    --color-hero-blob-background: 247 247 245; /* #F7F7F5 — canvas + gradient base */
 
     /* --- Colors: Semantic --- */
     --color-success: 22 101 52; /* #166534 - darker for contrast on light bg */
@@ -182,14 +183,14 @@
      ======================================== */
   [data-theme='dark'] {
     /* --- Colors: Background --- */
-    --color-background: 0 0 0; /* #000000 - Pure black */
+    --color-background: 13 8 5; /* #0D0805 - Warm near-black */
     --color-surface: 32 34 35; /* #202223 - Slightly lighter surface */
     --color-surface-elevated: 42 44 45; /* #2A2C2D - More elevated */
     --color-surface-muted: 34 34 34; /* #222222 - Subtle dark background */
     --color-footer-bg: 24 26 27; /* #181A1B - Previous dark bg color */
 
     /* --- Colors: Text (opacity-based) --- */
-    --color-foreground: 232 230 227; /* #E8E6E3 - Your specified text color */
+    --color-foreground: 232 229 221; /* #E8E5DD - Warm cream, pairs with #0D0805 bg */
     --color-text-color10: 45 45 45; /* ~#E8E6E3 at 10% opacity on dark bg */
     --color-text-color20: 66 66 66; /* ~#E8E6E3 at 20% opacity on dark bg */
     --color-text-color30: 92 93 93; /* ~#E8E6E3 at 30% opacity on dark bg */
@@ -200,7 +201,7 @@
     --color-text-secondary-80: 192 191 189; /* ~#E8E6E3 at 80% opacity on dark bg */
     --color-text-body: 192 191 189; /* Body copy aligns with secondary in dark mode */
     --color-text-color90: 209 207 204; /* ~#E8E6E3 at 90% opacity on dark bg */
-    --color-text-primary-100: 232 230 227; /* #E8E6E3 - 100% opacity */
+    --color-text-primary-100: 232 229 221; /* #E8E5DD - 100% opacity */
 
     /* Backward compatibility aliases */
     --color-text-primary: var(--color-text-primary-100);
@@ -216,6 +217,7 @@
     --hero-blob-blue: 99 102 241; /* #6366F1 - More vibrant purple-blue */
     --hero-blob-purple: 167 139 250; /* #A78BFA - Brighter purple */
     --hero-blob-pink: 236 72 153; /* #EC4899 - More vibrant pink */
+    --color-hero-blob-background: 13 8 5; /* #0D0805 — canvas + gradient base */
 
     /* --- Colors: Case Studies (slightly adjusted for dark mode contrast) --- */
     --color-case-study-purple: 167 139 250; /* #A78BFA - Lighter purple for dark mode */

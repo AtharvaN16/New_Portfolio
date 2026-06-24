@@ -160,7 +160,7 @@ export function Hero({
   const blobBlock = stableMobileViewport ? (
     <m.div
       className={cn(
-        'relative overflow-hidden water-blob-container water-blob-container--edge h-full min-h-0 w-full'
+        'relative overflow-hidden water-blob-container water-blob-container--edge h-full min-h-0 w-full bg-background'
       )}
       style={{ opacity: blobOpacity }}
     >
@@ -185,7 +185,7 @@ export function Hero({
   ) : (
     <div
       className={cn(
-        'relative overflow-hidden water-blob-container min-h-[480px] w-full flex-1 md:min-h-0 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]'
+        'relative overflow-hidden water-blob-container min-h-[480px] w-full flex-1 md:min-h-0 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px] bg-background'
       )}
     >
       {!isMobile && (

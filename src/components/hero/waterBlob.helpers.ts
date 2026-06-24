@@ -7,10 +7,19 @@
 
 import type { Colors, WebGLProgramInfo } from './waterBlob.types'
 import { vertexShader, fragmentShader } from './waterBlob.shader'
+import { readHeroBlobBackground } from './waterBlob.colors'
 import { getBreakpointMatch, getIsTouch } from '@/hooks/use-responsive'
 
 const MOBILE_DPR_SCALE = 0.35
 const DESKTOP_DPR_CAP = 1.25
+
+/** Match WebGL clear color to the hero canvas base (avoids black flash on edges). */
+export function setClearColorFromBackground(
+  gl: WebGLRenderingContext,
+  background: [number, number, number]
+): void {
+  gl.clearColor(background[0], background[1], background[2], 1)
+}
 
 /**
  * Compile and validate a WebGL shader
@@ -131,6 +140,7 @@ export function setupWebGL(
   gl.uniform3fv(uniforms.uBackgroundColorLocation, colors.background)
   gl.uniform1f(uniforms.uAmbientLocation, 0.0)
   gl.uniform1f(uniforms.uTrailLocation, 0.0)
+  setClearColorFromBackground(gl, colors.background)
 
   return {
     program,
@@ -176,7 +186,11 @@ export function createAnimationLoop(
     // Update colors dynamically (for interactive mode)
     gl.uniform3fv(programInfo.uColor1Location, colors.primary)
     gl.uniform3fv(programInfo.uColor2Location, colors.secondary)
-    gl.uniform3fv(programInfo.uBackgroundColorLocation, colors.background)
+
+    const liveBackground = readHeroBlobBackground() ?? colors.background
+    colors.background = liveBackground
+    gl.uniform3fv(programInfo.uBackgroundColorLocation, liveBackground)
+    setClearColorFromBackground(gl, liveBackground)
 
     gl.clear(gl.COLOR_BUFFER_BIT)
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
