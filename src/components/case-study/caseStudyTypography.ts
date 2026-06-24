@@ -54,3 +54,6 @@ export const CASE_STUDY_SECTION_LABEL_PROSE = `${CASE_STUDY_SECTION_LABEL_WITH_S
 /** Alternate kickers (Aquitania, NYC DCWP) — same label treatment */
 export const CASE_STUDY_SECTION_KICKER =
   'text-sm md:text-base font-semibold normal-case leading-ui'
+
+/** Top margin before a new narrative block — 48px mobile, 128px desktop */
+export const CASE_STUDY_NARRATIVE_SECTION_GAP = 'cs-narrative-section-gap'

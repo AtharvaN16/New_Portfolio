@@ -24,16 +24,20 @@ import { MaterialSymbolsFont } from '@/components/case-study/MaterialSymbolsFont
 import {
   CASE_STUDY_SECTION_LABEL_PROSE,
   CASE_STUDY_BODY_LEADING,
+  CASE_STUDY_SECTION_HEADLINE,
   CASE_STUDY_SECTION_HEADLINE_SPACED,
+  CASE_STUDY_NARRATIVE_SECTION_GAP,
 } from '@/components/case-study/caseStudyTypography'
 
 /** Readable line length — aligned with NYC DCWP case study */
 const PROSE_MAX = 'max-w-[680px]'
 const SECTION_LABEL = CASE_STUDY_SECTION_LABEL_PROSE
 const BODY_TEXT = `text-base md:text-[18px] font-normal text-text-body ${CASE_STUDY_BODY_LEADING} ${PROSE_MAX}`
+const BODY_FULL = `text-base md:text-[18px] font-normal ${CASE_STUDY_BODY_LEADING} w-full`
 const BODY_MUTED = `text-base md:text-[18px] font-normal ${CASE_STUDY_BODY_LEADING} ${PROSE_MAX}`
 /** Section hero headlines — 24px (text-2xl) */
 const HEADLINE_LG = `${CASE_STUDY_SECTION_HEADLINE_SPACED} ${PROSE_MAX}`
+const HEADLINE_SPLIT = `${CASE_STUDY_SECTION_HEADLINE} mb-4 md:mb-0`
 const HEADLINE_MD = `${CASE_STUDY_SECTION_HEADLINE_SPACED} ${PROSE_MAX}`
 
 function ImagePlaceholder({
@@ -138,7 +142,7 @@ export function UAlbertaLibraryContent() {
               </h3>
 
               <AnimatedText variant="heading"
-                text="Making library services easy to find"
+                text="Making library services easier to find"
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
@@ -146,7 +150,7 @@ export function UAlbertaLibraryContent() {
               />
 
               <p
-                className={`${BODY_MUTED} mb-12 md:mb-16`}
+                className={`${BODY_FULL}`}
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The University of Alberta is one of Canada&apos;s largest research
@@ -157,6 +161,43 @@ export function UAlbertaLibraryContent() {
                 actually navigate the site and what improvements would reduce
                 confusion.
               </p>
+
+              <div className={`${CASE_STUDY_NARRATIVE_SECTION_GAP} mb-12 md:mb-16`}>
+                <h3
+                  className={SECTION_LABEL}
+                  style={{ color: 'rgb(var(--color-text-tertiary))' }}
+                >
+                  Key Insights
+                </h3>
+
+                <div className="mt-6 grid grid-cols-1 gap-6 md:mt-8 md:grid-cols-[minmax(0,5fr)_minmax(0,2fr)_minmax(0,6fr)] md:items-start md:gap-0">
+                  <div>
+                    <AnimatedText
+                      variant="heading"
+                      text="Students are unaware of the various ways in which the library can support them"
+                      animationType="fadeIn"
+                      alwaysAnimate={false}
+                      delay={0}
+                      maxWidth="full"
+                      className={HEADLINE_SPLIT}
+                    />
+                  </div>
+                  <div className="hidden md:block" aria-hidden="true" />
+                  <div>
+                    <p
+                      className={BODY_FULL}
+                      style={{ color: 'rgb(var(--color-text-color90))' }}
+                    >
+                      The library website has a lot of resources but students use the
+                      site for only a handful of tasks. They don&apos;t explore because
+                      they don&apos;t know what&apos;s available and the website fails to
+                      inform them. Across four key pages, we saw a similar pattern.
+                      When students need help, they turn to library staff or their
+                      professors instead of using the website.
+                    </p>
+                  </div>
+                </div>
+              </div>
 
               <ImagePlaceholder
                 label="University of Alberta Library homepage — current design"

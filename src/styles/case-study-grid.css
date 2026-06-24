@@ -59,4 +59,15 @@
     max-width: var(--cs-content-max);
     margin-inline: auto;
   }
+
+  /** Standard top margin before a new narrative block (desktop: 128px). */
+  .cs-narrative-section-gap {
+    margin-top: var(--cs-narrative-section-gap);
+  }
+
+  @media (min-width: 768px) {
+    .cs-narrative-section-gap {
+      margin-top: var(--cs-narrative-section-gap-md);
+    }
+  }
 }

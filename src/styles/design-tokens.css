@@ -127,6 +127,9 @@
     --cs-grid-gap-md: var(--space-8); /* 32px at md+ */
     --cs-section-py: var(--space-16); /* py-16 */
     --cs-section-py-md: var(--space-24); /* md:py-24 */
+    /* Gap between narrative blocks (mission → key insight, etc.) */
+    --cs-narrative-section-gap: var(--space-12); /* 48px mobile */
+    --cs-narrative-section-gap-md: var(--space-32); /* 128px desktop — 2× prior 64px */
 
     /* --- Typography: Font Families --- */
     --font-sans: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
