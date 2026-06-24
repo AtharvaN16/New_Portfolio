@@ -3,10 +3,6 @@
 import { m } from 'framer-motion'
 import { useRef } from 'react'
 import type { CaseStudy } from '@/lib/data/case-studies'
-import {
-  useVideoPlaybackInView,
-  VIDEO_HERO_VISIBILITY_THRESHOLD,
-} from '@/hooks/use-video-playback-in-view'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import { CaseStudyLayout } from '@/components/case-study/CaseStudyLayout'
 import { CaseStudyHeroImage } from '@/components/case-study/CaseStudyHeroImage'
@@ -24,13 +20,7 @@ interface CaseStudyDetailProps {
  */
 export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
   const heroSectionRef = useRef<HTMLElement>(null)
-  const heroVideoRef = useRef<HTMLVideoElement>(null)
   const heroMediaRef = useRef<HTMLDivElement>(null)
-
-  useVideoPlaybackInView(heroVideoRef, heroMediaRef, {
-    enabled: !!caseStudy.videoUrl,
-    threshold: VIDEO_HERO_VISIBILITY_THRESHOLD,
-  })
 
   const heroSlot = (
     <>
@@ -112,7 +102,6 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
         posterUrl={caseStudy.thumbnailUrl ?? caseStudy.imageUrl}
         caption={caseStudy.heroImageDescription}
         mediaRef={heroMediaRef}
-        videoRef={heroVideoRef}
       />
     ) : null
 

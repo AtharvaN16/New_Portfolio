@@ -13,6 +13,10 @@ import {
   latchSettleVisibleRatio,
 } from '@/lib/case-study-hero-scrim'
 import { useCaseStudyScrollContainerRef } from '@/hooks/use-container-scroll'
+import {
+  useVideoPlaybackInView,
+  VIDEO_HERO_VISIBILITY_THRESHOLD,
+} from '@/hooks/use-video-playback-in-view'
 import { useBreakpoint } from '@/hooks/use-responsive'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
@@ -36,7 +40,9 @@ export function CaseStudyHeroImage({
   videoRef,
 }: CaseStudyHeroImageProps) {
   const internalMediaRef = useRef<HTMLDivElement>(null)
+  const internalVideoRef = useRef<HTMLVideoElement>(null)
   const mediaRef = externalMediaRef ?? internalMediaRef
+  const resolvedVideoRef = videoRef ?? internalVideoRef
   const scrollContainerRef = useCaseStudyScrollContainerRef()
   const visibleRatio = useMotionValue(0)
   const settleRatio = useMotionValue(0)
@@ -61,6 +67,12 @@ export function CaseStudyHeroImage({
   useEffect(() => {
     setEffectsReady(true)
   }, [])
+
+  useVideoPlaybackInView(resolvedVideoRef, mediaRef, {
+    enabled: !!videoUrl,
+    threshold: VIDEO_HERO_VISIBILITY_THRESHOLD,
+    root: scrollContainerRef,
+  })
 
   useLayoutEffect(() => {
     if (!effectsReady || reducedMotion) {
@@ -136,7 +148,7 @@ export function CaseStudyHeroImage({
 
   const mediaContent = videoUrl ? (
     <video
-      ref={videoRef}
+      ref={resolvedVideoRef}
       src={videoUrl}
       poster={posterUrl ?? imageUrl}
       muted
@@ -166,16 +178,20 @@ export function CaseStudyHeroImage({
         ref={mediaRef}
         className="relative aspect-[16/9] w-full overflow-hidden md:aspect-auto md:min-h-screen"
       >
-        {enableSettle ? (
-          <m.div
-            className="absolute inset-0 will-change-transform"
-            style={{ scale: mediaScale, y: mediaY }}
-          >
-            {mediaContent}
-          </m.div>
-        ) : (
-          <div className="absolute inset-0">{mediaContent}</div>
-        )}
+        <m.div
+          className={
+            enableSettle
+              ? 'absolute inset-0 will-change-transform'
+              : 'absolute inset-0'
+          }
+          style={
+            enableSettle
+              ? { scale: mediaScale, y: mediaY }
+              : { scale: 1, y: '0%' }
+          }
+        >
+          {mediaContent}
+        </m.div>
 
         {enableScrim ? (
           <m.div
