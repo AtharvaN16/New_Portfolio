@@ -234,8 +234,9 @@ export const fragmentShader = `
 
     // === AMBIENT ILLUMINATION ===
     float ambientWash = exp(-abs(vUv.y - uYOffset) * 1.8) * uAmbient;
+    float ambientMask = smoothstep(0.015, 0.16, totalWater);
     vec3 lightColor = mix(uColor1, vec3(1.0), 0.7);
-    color += lightColor * ambientWash * 0.25;
+    color += lightColor * ambientWash * ambientMask * 0.25;
 
     // === FIRST-FLASH WHITE TRAIL ===
     // Analytical — uses already-computed blob centers and totalWater, zero extra samples.

@@ -20,13 +20,16 @@ export const FLASH_QUICK_RISE_RATE = 0.06
 export const FLASH_ANIMATION_FPS = 60
 
 /** Glow level when logo was visible — direct live sync. */
-export const NAV_FLASH_GLOW_FALLOFF_PX = 140
+export const NAV_FLASH_GLOW_FALLOFF_PX = 158
+
+/** Scales live + faded logo glow before filter mapping. */
+export const NAV_FLASH_LOGO_INTENSITY_SCALE = 0.78
 
 /** Exponential tau — legacy; prefer ease-out fade over `HERO_NAV_GLOW_FADE_LEAD_MS`. */
 export const NAV_FLASH_DECAY_MS = Math.round(HERO_NAV_GLOW_FADE_LEAD_MS / 3.33)
 
 /** Full-brightness plateau once fade phase begins, then ease-out to zero. */
-export const NAV_FLASH_FADE_PLATEAU_MS = 400
+export const NAV_FLASH_FADE_PLATEAU_MS = 200
 
 /** Ghost pulse yOffset range during F1 rise. */
 export const FLASH_Y_OFFSET_START = -1.5
@@ -201,13 +204,14 @@ export function fadeNavFlashIntensity(
 }
 
 export function navFlashFilterGlow(intensity: number): string {
+  intensity *= NAV_FLASH_LOGO_INTENSITY_SCALE
   if (intensity <= 0.003) return 'none'
-  const alpha = Math.min(1, intensity * 1.6)
-  const blur = Math.round(12 + intensity * 32)
-  const core = Math.round(3 + intensity * 8)
-  const bright = (1 + intensity * 0.55).toFixed(2)
-  const soft = (alpha * 0.95).toFixed(3)
-  const hot = (alpha * 0.65).toFixed(3)
+  const alpha = Math.min(1, intensity * 1.25)
+  const blur = Math.round(10 + intensity * 22)
+  const core = Math.round(3 + intensity * 6)
+  const bright = (1 + intensity * 0.4).toFixed(2)
+  const soft = (alpha * 0.82).toFixed(3)
+  const hot = (alpha * 0.56).toFixed(3)
   return [
     `brightness(${bright})`,
     `drop-shadow(0 0 ${blur}px rgba(255,255,255,${soft}))`,

@@ -59,9 +59,9 @@ export const MOBILE_BIO_DELAY_S =
 export const HERO_NAV_GLOW_FIRST_LIGHT_MS = 1250
 
 /** Total visible glow from first light to fully off */
-export const HERO_NAV_GLOW_TOTAL_MS = 2200
+export const HERO_NAV_GLOW_TOTAL_MS = 1400
 
-export const HERO_NAV_GLOW_HOLD_MS = 100
+export const HERO_NAV_GLOW_HOLD_MS = 50
 
 export const HERO_NAV_GLOW_FADE_START_MS =
   HERO_F2_ENTRY_MS + HERO_NAV_GLOW_HOLD_MS

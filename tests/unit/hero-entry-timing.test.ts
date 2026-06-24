@@ -33,12 +33,12 @@ describe('hero entry timing', () => {
     expect(HERO_CTA_DELAY_MS).toBeGreaterThan(HERO_CURRENTLY_DELAY_S * 1000)
   })
 
-  it('fades nav glow over 2.2s from first F1 light', () => {
+  it('fades nav glow from first F1 light within a tuned total window', () => {
     expect(HERO_NAV_GLOW_FADE_START_MS).toBe(
       HERO_F2_ENTRY_MS + HERO_NAV_GLOW_HOLD_MS
     )
     expect(HERO_NAV_GLOW_FADE_START_MS).toBeGreaterThan(HERO_F1_CREST_MS)
-    expect(HERO_NAV_GLOW_TOTAL_MS).toBe(2200)
+    expect(HERO_NAV_GLOW_TOTAL_MS).toBe(1400)
     expect(HERO_NAV_GLOW_FADE_START_MS + HERO_NAV_GLOW_FADE_LEAD_MS).toBe(
       HERO_NAV_GLOW_END_MS
     )

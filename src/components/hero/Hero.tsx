@@ -1,7 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { m, useMotionValue, useTransform, type MotionValue } from 'framer-motion'
+import {
+  m,
+  useMotionValue,
+  useTransform,
+  type MotionValue,
+} from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { AnimatedLink } from '@/components/ui/AnimatedLink'
 import { getBreakpointMatch, useBreakpoints } from '@/hooks/use-responsive'
@@ -32,6 +37,7 @@ import {
   HERO_BIO_BOLD_WORDS,
   HERO_BIO_PRONUNCIATION_WORDS,
 } from './AnimatedHeroTextGSAP'
+import { HeroFlashAtmosphere } from './HeroFlashAtmosphere'
 import { HoverLink } from '@/components/ui/HoverLink'
 
 const META_FADE_DURATION = 1.2
@@ -180,6 +186,8 @@ export function Hero({
         initialPaletteIndex={initialPaletteIndex}
       />
 
+      {!isMobile && <HeroFlashAtmosphere />}
+
       {!isMobile && HERO_FLASH_WELCOME_ENABLED && <HeroFlashWelcome />}
     </m.div>
   ) : (
@@ -203,6 +211,8 @@ export function Hero({
         webglInitDelay={isMobile ? 0 : HERO_F2_ENTRY_MS}
         initialPaletteIndex={initialPaletteIndex}
       />
+
+      {!isMobile && <HeroFlashAtmosphere />}
 
       {!isMobile && HERO_FLASH_WELCOME_ENABLED && <HeroFlashWelcome />}
     </div>
