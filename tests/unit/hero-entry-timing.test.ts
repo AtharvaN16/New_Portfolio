@@ -3,6 +3,7 @@ import {
   HERO_BIO_DELAY_S,
   HERO_BROWSE_WORK_DELAY_MS,
   HERO_CTA_DELAY_MS,
+  HERO_CURRENTLY_DELAY_S,
   HERO_F1_CREST_MS,
   HERO_F2_ENTRY_MS,
   HERO_F2_TEXT_OFFSET_MS,
@@ -25,11 +26,11 @@ describe('hero entry timing', () => {
     expect(HERO_F2_ENTRY_MS).toBeLessThan(HERO_F1_CREST_MS + 1000)
   })
 
-  it('reveals browse work and bottom row after hero copy', () => {
+  it('reveals Pratt/meta and CTAs at tuned desktop offsets', () => {
+    expect(HERO_CURRENTLY_DELAY_S).toBe(2.9)
     expect(HERO_BROWSE_WORK_DELAY_MS).toBe(HERO_CTA_DELAY_MS)
-    expect(HERO_CTA_DELAY_MS).toBeGreaterThan(HERO_BIO_DELAY_S * 1000)
-    // CTA appears within 1.5s of bio start (bio at 2.6s, CTA at 3.6s)
-    expect(HERO_CTA_DELAY_MS).toBeLessThan(HERO_BIO_DELAY_S * 1000 + 1500)
+    expect(HERO_CTA_DELAY_MS).toBe(3400)
+    expect(HERO_CTA_DELAY_MS).toBeGreaterThan(HERO_CURRENTLY_DELAY_S * 1000)
   })
 
   it('fades nav glow over 2.2s from first F1 light', () => {

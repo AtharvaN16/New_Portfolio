@@ -98,8 +98,8 @@ function renderInlinePronunciation(
  * every other hero element.
  *
  * Animation details:
- * - Line i starts at translateY(-(i+1)*100%) — deeper lines start further below
- * - All lines animate to y:0% together — duration 1s, power3.out
+ * - Line i starts at translateY((i+1)*100%) — deeper lines start further below
+ * - All lines animate to y:0% together — duration 1s, power3.out (upward rise)
  * - Opacity: 0.4 → 1
  */
 export function AnimatedHeroTextGSAP({
@@ -236,11 +236,11 @@ export function AnimatedHeroTextGSAP({
       }
     }
 
-    // ── Set initial staggered positions above each mask ──────────────────────
-    // Line i starts at -(i+1)*100% — deeper lines start further above,
-    // so they move faster and all land at 0 at the same time.
+    // ── Set initial staggered positions below each mask ──────────────────────
+    // Line i starts at (i+1)*100% — deeper lines start further below,
+    // so they travel farther and all land at 0 at the same time (rising in).
     split.lines.forEach((line, i) => {
-      line.style.transform = `translateY(${-(i + 1) * 100}%)`
+      line.style.transform = `translateY(${(i + 1) * 100}%)`
       line.style.opacity = '0.4'
     })
 

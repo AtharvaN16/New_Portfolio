@@ -22,24 +22,16 @@ export const HERO_TEXT_DELAY_MS = HERO_F2_ENTRY_MS + HERO_F2_TEXT_OFFSET_MS
 
 export const HERO_BIO_DELAY_S = HERO_TEXT_DELAY_MS / 1000
 
-/** Mobile menu button entry delay — keep in sync with Navbar.tsx */
-export const NAVBAR_MOBILE_MENU_DELAY_S = 0.5
+/** Desktop bio line-reveal duration — keep in sync with AnimatedHeroTextGSAP */
+export const HERO_BIO_REVEAL_DURATION_S = 1.0
 
-/** Bio blur-in starts this long after the menu button animation begins */
-export const MOBILE_BIO_OFFSET_AFTER_MENU_S = 0.4
-
-export const MOBILE_BIO_DELAY_S =
-  NAVBAR_MOBILE_MENU_DELAY_S + MOBILE_BIO_OFFSET_AFTER_MENU_S
-
-/** Meta line follows bio reveal */
-export const HERO_CURRENTLY_DELAY_S = HERO_BIO_DELAY_S + 0.18
+/** Pratt/meta line (desktop) */
+export const HERO_CURRENTLY_DELAY_S = 2.9
 
 export const HERO_CURRENTLY_DURATION_S = 1.0
 
-/** CTAs enter after hero copy has started */
-export const HERO_CTA_AFTER_TEXT_MS = 1000
-
-export const HERO_CTA_DELAY_MS = HERO_TEXT_DELAY_MS + HERO_CTA_AFTER_TEXT_MS
+/** Browse work + bottom row CTAs (desktop) */
+export const HERO_CTA_DELAY_MS = 3400
 
 export const HERO_CTA_DELAY_S = HERO_CTA_DELAY_MS / 1000
 
@@ -50,6 +42,15 @@ export const HERO_BROWSE_WORK_DELAY_S = HERO_CTA_DELAY_S
 export const HERO_BROWSE_WORK_DELAY_MS = HERO_CTA_DELAY_MS
 
 export const HERO_BOTTOM_ROW_DELAY_S = HERO_CTA_DELAY_S
+
+/** Mobile menu button entry delay — keep in sync with Navbar.tsx */
+export const NAVBAR_MOBILE_MENU_DELAY_S = 0.5
+
+/** Bio blur-in starts this long after the menu button animation begins */
+export const MOBILE_BIO_OFFSET_AFTER_MENU_S = 0.4
+
+export const MOBILE_BIO_DELAY_S =
+  NAVBAR_MOBILE_MENU_DELAY_S + MOBILE_BIO_OFFSET_AFTER_MENU_S
 
 /**
  * Logo glow: F1 lights the navbar, brief hold, then ease-out fade.
