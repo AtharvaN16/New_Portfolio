@@ -15,7 +15,7 @@ export function PrattIntervention1PhasesSection() {
             Tools introduced during onboarding
           </p>
           <p
-            className="text-base md:text-[18px] font-normal leading-relaxed mb-16 md:mb-20"
+            className="text-base md:text-[18px] font-normal leading-normal mb-16 md:mb-20"
             style={{ color: 'rgb(var(--color-text-color90))' }}
           >
             These tools are used during the Initial training sessions to
@@ -56,7 +56,7 @@ export function PrattIntervention1PhasesSection() {
             },
           ].map(({ name, imageSrc, imageAlt, whatItIs, purpose }) => (
             <div key={name} className="mb-16 md:mb-20">
-              <h5 className="text-base md:text-[20px] font-bold text-text-primary mb-8 md:mb-10">
+              <h5 className="text-base md:text-lg font-bold text-text-primary mb-8 md:mb-10">
                 {name}
               </h5>
               <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-12 items-start">
@@ -83,7 +83,7 @@ export function PrattIntervention1PhasesSection() {
                       What it is?
                     </h6>
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       {whatItIs}
@@ -94,7 +94,7 @@ export function PrattIntervention1PhasesSection() {
                       Purpose
                     </h6>
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       {purpose}
@@ -116,7 +116,7 @@ export function PrattIntervention1PhasesSection() {
           </p>
 
           {/* Cue Cards */}
-          <h5 className="text-base md:text-[20px] font-bold text-text-primary mb-8 md:mb-10">
+          <h5 className="text-base md:text-lg font-bold text-text-primary mb-8 md:mb-10">
             Cue Cards
           </h5>
           <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-12 items-start mb-12 md:mb-16">
@@ -143,7 +143,7 @@ export function PrattIntervention1PhasesSection() {
                   What it is?
                 </h6>
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   These are Cue Cards (physical or digital) that
@@ -158,7 +158,7 @@ export function PrattIntervention1PhasesSection() {
                   Purpose
                 </h6>
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   The Cue Cards were introduced to make information easier
@@ -178,7 +178,7 @@ export function PrattIntervention1PhasesSection() {
               height={700}
               className="w-full h-auto"
               quality={85}
-              sizes="(max-width: 768px) 100vw, 1044px"
+              sizes="(max-width: 768px) 100vw, 896px"
             />
             <figcaption
               className="mt-3 text-sm italic"
@@ -198,7 +198,7 @@ export function PrattIntervention1PhasesSection() {
             Mid-Semester Check-In Tools
           </p>
           <p
-            className="text-base md:text-[18px] font-normal leading-relaxed mb-16 md:mb-20"
+            className="text-base md:text-[18px] font-normal leading-normal mb-16 md:mb-20"
             style={{ color: 'rgb(var(--color-text-color90))' }}
           >
             This is a very short, focused session, only 15&ndash;20
@@ -244,7 +244,7 @@ export function PrattIntervention1PhasesSection() {
             },
           ].map(({ name, imageSrc, imageAlt, imageW, imageH, whatItIs, purpose }) => (
             <div key={name} className="mb-16 md:mb-20">
-              <h5 className="text-base md:text-[20px] font-bold text-text-primary mb-8 md:mb-10">
+              <h5 className="text-base md:text-lg font-bold text-text-primary mb-8 md:mb-10">
                 {name}
               </h5>
               <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-12 items-start">
@@ -271,7 +271,7 @@ export function PrattIntervention1PhasesSection() {
                       What it is?
                     </h6>
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       {whatItIs}
@@ -282,7 +282,7 @@ export function PrattIntervention1PhasesSection() {
                       Purpose
                     </h6>
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       {purpose}

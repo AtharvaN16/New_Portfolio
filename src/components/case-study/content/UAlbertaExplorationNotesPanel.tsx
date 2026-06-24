@@ -43,7 +43,7 @@ function ExplorationNotesList({ notes }: { notes: ExplorationNote[] }) {
           >
             {noteIndex + 1}
           </span>
-          <p className="text-[12px] leading-relaxed text-text-secondary">
+          <p className="text-[12px] leading-normal text-text-secondary">
             {note.text}
           </p>
         </li>

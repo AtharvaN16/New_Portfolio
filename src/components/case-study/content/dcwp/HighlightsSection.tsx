@@ -10,7 +10,7 @@ export function HighlightsSection() {
       data-section="nyc-dcwp-highlights"
       className="w-full mt-20 md:mt-28 lg:mt-36"
     >
-      <h3 className="text-xl md:text-[28px] font-bold text-text-primary mb-8">
+      <h3 className="text-lg md:text-2xl font-bold text-text-primary mb-8">
         Highlights
       </h3>
       <CaseStudyVideo src={VIDEO_SRC} alt="Highlight reel of DCWP checklist redesign" />

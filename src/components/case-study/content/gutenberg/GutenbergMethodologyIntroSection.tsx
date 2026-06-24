@@ -7,7 +7,7 @@ export function GutenbergMethodologyIntroSection() {
   return (
     <>
           <h3
-            className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+            className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
             style={{ color: 'rgb(var(--color-text-tertiary))' }}
           >
             Methodology
@@ -20,7 +20,7 @@ export function GutenbergMethodologyIntroSection() {
             animationType="fadeIn"
             alwaysAnimate={false}
             delay={0}
-            className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+            className="text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
           />
 
           {/* Eye Tracking Setup Image */}
@@ -37,7 +37,7 @@ export function GutenbergMethodologyIntroSection() {
 
           <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
             <p
-              className="text-base md:text-[18px] font-normal leading-relaxed"
+              className="text-base md:text-[18px] font-normal leading-normal"
               style={{ color: 'rgb(var(--color-text-color90))' }}
             >
               We conducted{' '}
@@ -63,7 +63,7 @@ export function GutenbergMethodologyIntroSection() {
           </div>
 
           <h4
-            className="text-base md:text-[22px] font-bold mb-6 md:mb-[28px]"
+            className="text-sm md:text-lg font-bold mb-6 md:mb-[28px]"
             style={{ color: 'rgb(var(--color-text-primary))' }}
           >
             Data Collected:
@@ -82,13 +82,13 @@ export function GutenbergMethodologyIntroSection() {
               />
               <div className="space-y-1">
                 <p
-                  className="text-[14px] font-bold leading-relaxed"
+                  className="text-[14px] font-bold leading-normal"
                   style={{ color: 'rgb(var(--color-text-secondary))' }}
                 >
                   Task Performance
                 </p>
                 <p
-                  className="text-[14px] font-normal leading-relaxed"
+                  className="text-[14px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color60))' }}
                 >
                   Tracking task completion, time-on-task to identify
@@ -109,13 +109,13 @@ export function GutenbergMethodologyIntroSection() {
               />
               <div className="space-y-1">
                 <p
-                  className="text-[14px] font-bold leading-relaxed"
+                  className="text-[14px] font-bold leading-normal"
                   style={{ color: 'rgb(var(--color-text-secondary))' }}
                 >
                   Usability Assessment
                 </p>
                 <p
-                  className="text-[14px] font-normal leading-relaxed"
+                  className="text-[14px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color60))' }}
                 >
                   Using System Usability Scale (SUS) responses to capture
@@ -137,13 +137,13 @@ export function GutenbergMethodologyIntroSection() {
               />
               <div className="space-y-1">
                 <p
-                  className="text-[14px] font-bold leading-relaxed"
+                  className="text-[14px] font-bold leading-normal"
                   style={{ color: 'rgb(var(--color-text-secondary))' }}
                 >
                   Gaze Data
                 </p>
                 <p
-                  className="text-[14px] font-normal leading-relaxed"
+                  className="text-[14px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color60))' }}
                 >
                   Analyzing gaze plots, heatmaps, and gaze replays to
@@ -165,13 +165,13 @@ export function GutenbergMethodologyIntroSection() {
               />
               <div className="space-y-1">
                 <p
-                  className="text-[14px] font-bold leading-relaxed"
+                  className="text-[14px] font-bold leading-normal"
                   style={{ color: 'rgb(var(--color-text-secondary))' }}
                 >
                   Retrospective Think-Aloud (RTA) Notes
                 </p>
                 <p
-                  className="text-[14px] font-normal leading-relaxed"
+                  className="text-[14px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color60))' }}
                 >
                   Reviewing session replays with participants to understand

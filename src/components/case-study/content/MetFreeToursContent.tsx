@@ -2,12 +2,6 @@
 
 import { m } from 'framer-motion'
 import { AnimatedText } from '@/components/ui/AnimatedText'
-import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
-
-interface MetFreeToursContentProps {
-  isContentRevealed: boolean
-  onToggleContent: () => void
-}
 
 function ImagePlaceholder({
   aspectRatio = '16/9',
@@ -56,7 +50,7 @@ function Quote({
       />
       <div className="flex-1">
         <p
-          className="text-[18px] italic leading-relaxed mb-2"
+          className="text-[18px] italic leading-normal mb-2"
           style={{ color: 'rgb(var(--color-text-color60))' }}
         >
           &ldquo;{text}&rdquo;
@@ -87,10 +81,7 @@ function Divider() {
   )
 }
 
-export function MetFreeToursContent({
-  isContentRevealed,
-  onToggleContent,
-}: MetFreeToursContentProps) {
+export function MetFreeToursContent() {
   return (
     <m.section
       className="w-full px-6 2xl:px-[140px] py-16 md:py-24 max-w-[1920px] mx-auto"
@@ -98,38 +89,10 @@ export function MetFreeToursContent({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.8 }}
     >
-      <div className="max-w-[1044px] mx-auto text-left">
-        {/* Abstract */}
-        <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
-          Abstract
-        </h3>
-
-        <div className="space-y-6 md:space-y-8">
-          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
-            The Metropolitan Museum of Art offers free guided tours daily, but
-            half the participants in this study didn&apos;t know they existed.
-            This case study evaluates the usability of The Met&apos;s Free Tours
-            page, identifying why visitors miss this offering and what it takes
-            to make it discoverable, comprehensible, and actionable.
-          </p>
-          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
-            Through unmoderated remote user testing with 12 participants, the
-            study exposed six usability problems, from broken filters and a
-            misleading breadcrumb to the absence of any booking closure. Two
-            focused redesigns were proposed: a restructured Free Tours landing
-            page and a richer tour details page that removes ambiguity and
-            increases participation.
-          </p>
-        </div>
-
-        <CaseStudyReadMore
-          readTime="8 min read"
-          isContentRevealed={isContentRevealed}
-          onToggleContent={onToggleContent}
-        >
+      <div className="cs-content text-left">
               {/* Project Overview */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Project Overview
@@ -140,12 +103,12 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   The Metropolitan Museum of Art — one of the world&apos;s
@@ -157,7 +120,7 @@ export function MetFreeToursContent({
                   on.
                 </p>
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   The research question was straightforward: is The Met&apos;s
@@ -177,14 +140,14 @@ export function MetFreeToursContent({
 
               {/* Research Goals */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Research Goals
               </h3>
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-normal mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The study was structured around five questions:
@@ -221,11 +184,11 @@ export function MetFreeToursContent({
                       }}
                     />
                     <div>
-                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-body">
+                      <div className="text-base md:text-[18px] font-semibold leading-normal text-text-body">
                         {obj.title}
                       </div>
                       <p
-                        className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                        className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-normal"
                         style={{ color: 'rgb(var(--color-text-tertiary))' }}
                       >
                         {obj.body}
@@ -239,7 +202,7 @@ export function MetFreeToursContent({
 
               {/* Methodology */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Methodology
@@ -250,12 +213,12 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   We chose{' '}
@@ -272,7 +235,7 @@ export function MetFreeToursContent({
                   were accepted.
                 </p>
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   We rated task difficulty on a 1–7 scale. Tasks 3 and 4 —
@@ -309,19 +272,19 @@ export function MetFreeToursContent({
                 ].map((item) => (
                   <div key={item.label} className="space-y-2">
                     <div
-                      className="text-4xl md:text-5xl font-bold tracking-[-0.05em]"
+                      className="text-2xl md:text-2xl font-bold tracking-[-0.05em]"
                       style={{ color: 'rgb(var(--color-text-primary))' }}
                     >
                       {item.stat}
                     </div>
                     <p
-                      className="text-[14px] font-bold leading-relaxed"
+                      className="text-[14px] font-bold leading-normal"
                       style={{ color: 'rgb(var(--color-text-secondary))' }}
                     >
                       {item.label}
                     </p>
                     <p
-                      className="text-[13px] font-normal leading-relaxed"
+                      className="text-[13px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       {item.sub}
@@ -340,7 +303,7 @@ export function MetFreeToursContent({
 
               {/* Finding 1 */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 1 — Navigation
@@ -351,7 +314,7 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <ImagePlaceholder
@@ -364,7 +327,7 @@ export function MetFreeToursContent({
                 className="mb-8 md:mb-12 space-y-4"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
-                <p className="text-base md:text-[18px] font-normal leading-relaxed">
+                <p className="text-base md:text-[18px] font-normal leading-normal">
                   When tasked with finding guided tour information, 6 of 12
                   participants navigated to{' '}
                   <span className="font-bold">Plan Your Visit</span> — a page
@@ -372,7 +335,7 @@ export function MetFreeToursContent({
                   clear mental model: museum-goers think of tours as part of
                   planning a visit, not as a separate events-adjacent section.
                 </p>
-                <p className="text-base md:text-[18px] font-normal leading-relaxed">
+                <p className="text-base md:text-[18px] font-normal leading-normal">
                   Only 3 of those 6 found their way out. The other half had to
                   be redirected. The issue wasn&apos;t a label — it was
                   taxonomy. Free Tours lives in the wrong part of the site for
@@ -390,7 +353,7 @@ export function MetFreeToursContent({
 
               {/* Recommendation 01 */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 01 — Navigation
@@ -401,7 +364,7 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-2xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <ul className="space-y-3 mb-12 md:mb-16">
@@ -416,7 +379,7 @@ export function MetFreeToursContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-color90))' }}
                     >
                       {point}
@@ -429,7 +392,7 @@ export function MetFreeToursContent({
 
               {/* Finding 2 */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 2 — Browsing
@@ -440,11 +403,11 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-normal mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 Tours were arranged chronologically in a long vertical list with
@@ -466,7 +429,7 @@ export function MetFreeToursContent({
 
               {/* Recommendation 02 */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 02 — Browsing
@@ -477,7 +440,7 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-2xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <ImagePlaceholder
@@ -498,7 +461,7 @@ export function MetFreeToursContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-color90))' }}
                     >
                       {point}
@@ -511,7 +474,7 @@ export function MetFreeToursContent({
 
               {/* Finding 3 */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 3 — Filters
@@ -522,7 +485,7 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <ImagePlaceholder
@@ -532,7 +495,7 @@ export function MetFreeToursContent({
               />
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-normal mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 All 12 participants used filters when searching for a specific
@@ -566,11 +529,11 @@ export function MetFreeToursContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <div>
-                      <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-body">
+                      <div className="text-base md:text-[18px] font-semibold leading-normal text-text-body">
                         {obj.title}
                       </div>
                       <p
-                        className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                        className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-normal"
                         style={{ color: 'rgb(var(--color-text-tertiary))' }}
                       >
                         {obj.body}
@@ -590,7 +553,7 @@ export function MetFreeToursContent({
 
               {/* Recommendation 03 */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 03 — Filters
@@ -601,7 +564,7 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-2xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <ul className="space-y-3 mb-12 md:mb-16">
@@ -618,7 +581,7 @@ export function MetFreeToursContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-color90))' }}
                     >
                       {point}
@@ -631,7 +594,7 @@ export function MetFreeToursContent({
 
               {/* Finding 4 */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 4 — Wayfinding
@@ -642,11 +605,11 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-normal mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 When opening a tour details page from the listing, the breadcrumb
@@ -667,7 +630,7 @@ export function MetFreeToursContent({
 
               {/* Recommendation 04 */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 04 — Wayfinding
@@ -678,7 +641,7 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-2xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <ul className="space-y-3 mb-12 md:mb-16">
@@ -692,7 +655,7 @@ export function MetFreeToursContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-color90))' }}
                     >
                       {point}
@@ -705,7 +668,7 @@ export function MetFreeToursContent({
 
               {/* Finding 5 */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 5 — Information Architecture
@@ -716,11 +679,11 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-normal mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 Asked to describe what a free tour at The Met entails, most
@@ -741,7 +704,7 @@ export function MetFreeToursContent({
 
               {/* Recommendation 05 */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 05 — Information Architecture
@@ -752,7 +715,7 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-2xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <ul className="space-y-3 mb-12 md:mb-16">
@@ -767,7 +730,7 @@ export function MetFreeToursContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-color90))' }}
                     >
                       {point}
@@ -780,7 +743,7 @@ export function MetFreeToursContent({
 
               {/* Finding 6 */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Finding 6 — Completion Model
@@ -791,11 +754,11 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
+                className="text-base md:text-[18px] font-normal leading-normal mb-8 md:mb-10"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 Public Collection Tours are first-come, first-served — no
@@ -817,7 +780,7 @@ export function MetFreeToursContent({
 
               {/* Recommendation 06 */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Recommendation 06 — Completion Model
@@ -828,7 +791,7 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[36px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-2xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <ImagePlaceholder
@@ -850,7 +813,7 @@ export function MetFreeToursContent({
                       style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
                     />
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-color90))' }}
                     >
                       {point}
@@ -863,7 +826,7 @@ export function MetFreeToursContent({
 
               {/* Summary */}
               <h3
-                className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+                className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Summary
@@ -874,11 +837,11 @@ export function MetFreeToursContent({
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
-                className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+                className="text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
               />
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-6"
+                className="text-base md:text-[18px] font-normal leading-normal mb-6"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The Met&apos;s free tours aren&apos;t a hidden secret — they&apos;re
@@ -889,7 +852,7 @@ export function MetFreeToursContent({
               </p>
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-6"
+                className="text-base md:text-[18px] font-normal leading-normal mb-6"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The two redesigns address each layer: the landing page fixes
@@ -901,7 +864,7 @@ export function MetFreeToursContent({
               </p>
 
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed"
+                className="text-base md:text-[18px] font-normal leading-normal"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 What would be measured next: filter usage rate, Add to Calendar
@@ -910,7 +873,6 @@ export function MetFreeToursContent({
                 first-time visitor who can find, understand, and decide on a
                 tour in under two minutes — without needing to use ctrl+f.
               </p>
-        </CaseStudyReadMore>
       </div>
     </m.section>
   )

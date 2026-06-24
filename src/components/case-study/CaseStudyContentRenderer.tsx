@@ -8,8 +8,6 @@ import { CONTENT_REGISTRY } from '@/components/case-study/content'
 interface CaseStudyContentRendererProps {
   caseStudy: CaseStudy
   children?: React.ReactNode
-  isContentRevealed?: boolean
-  onToggleContent?: () => void
 }
 
 /**
@@ -21,8 +19,6 @@ interface CaseStudyContentRendererProps {
 export function CaseStudyContentRenderer({
   caseStudy,
   children,
-  isContentRevealed = false,
-  onToggleContent = () => {},
 }: CaseStudyContentRendererProps) {
   const ContentComponent = CONTENT_REGISTRY[caseStudy.slug]
 
@@ -33,12 +29,7 @@ export function CaseStudyContentRenderer({
   }
 
   if (ContentComponent) {
-    return (
-      <ContentComponent
-        isContentRevealed={isContentRevealed}
-        onToggleContent={onToggleContent}
-      />
-    )
+    return <ContentComponent />
   }
 
   // Fallback for children-based content or missing slugs

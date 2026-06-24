@@ -17,7 +17,7 @@ export function PrattSurveyAnalysisAccordionsSection() {
                 ].map(({ label, value }) => (
                   <p
                     key={label}
-                    className="text-base md:text-[18px] font-normal leading-relaxed"
+                    className="text-base md:text-[18px] font-normal leading-normal"
                     style={{ color: 'rgb(var(--color-text-color90))' }}
                   >
                     {label}:{' '}
@@ -52,7 +52,7 @@ export function PrattSurveyAnalysisAccordionsSection() {
                         }}
                       />
                       <span
-                        className="text-base md:text-[18px] font-normal leading-relaxed"
+                        className="text-base md:text-[18px] font-normal leading-normal"
                         style={{
                           color: 'rgb(var(--color-text-tertiary))',
                         }}
@@ -121,7 +121,7 @@ export function PrattSurveyAnalysisAccordionsSection() {
                           {startIndex + i}.
                         </span>
                         <span
-                          className="text-base md:text-[18px] font-normal leading-relaxed"
+                          className="text-base md:text-[18px] font-normal leading-normal"
                           style={{
                             color: 'rgb(var(--color-text-tertiary))',
                           }}
@@ -164,7 +164,7 @@ export function PrattSurveyAnalysisAccordionsSection() {
                       {title}
                     </p>
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       {desc}
@@ -179,7 +179,7 @@ export function PrattSurveyAnalysisAccordionsSection() {
             title="Visitor Impact"
             subtitle="How the visit influenced likelihood to apply"
           >
-            <h5 className="text-base md:text-[20px] font-bold text-text-primary mb-6">
+            <h5 className="text-base md:text-lg font-bold text-text-primary mb-6">
               Application Intent Score
             </h5>
             <div className="flex flex-col md:flex-row gap-8 md:gap-16">
@@ -197,7 +197,7 @@ export function PrattSurveyAnalysisAccordionsSection() {
                     </span>
                     <div>
                       <p
-                        className="text-base md:text-[18px] font-normal leading-relaxed"
+                        className="text-base md:text-[18px] font-normal leading-normal"
                         style={{ color: 'rgb(var(--color-text-color90))' }}
                       >
                         Categorize each visitor response:
@@ -217,7 +217,7 @@ export function PrattSurveyAnalysisAccordionsSection() {
                               }}
                             />
                             <span
-                              className="text-base md:text-[18px] font-normal leading-relaxed"
+                              className="text-base md:text-[18px] font-normal leading-normal"
                               style={{
                                 color: 'rgb(var(--color-text-tertiary))',
                               }}
@@ -241,7 +241,7 @@ export function PrattSurveyAnalysisAccordionsSection() {
                         Calculate the score:
                       </p>
                       <p
-                        className="text-base md:text-[18px] font-normal mt-1 leading-relaxed"
+                        className="text-base md:text-[18px] font-normal mt-1 leading-normal"
                         style={{ color: 'rgb(var(--color-text-tertiary))' }}
                       >
                         Score = (Promoters &minus; Detractors) / Total
@@ -260,7 +260,7 @@ export function PrattSurveyAnalysisAccordionsSection() {
                   }}
                 >
                   <span
-                    className="text-4xl font-bold"
+                    className="text-2xl font-bold"
                     style={{ color: 'rgb(var(--color-case-study-gold))' }}
                   >
                     68
@@ -288,7 +288,7 @@ export function PrattSurveyAnalysisAccordionsSection() {
                           }}
                         />
                         <span
-                          className="text-base md:text-[18px] font-normal leading-relaxed"
+                          className="text-base md:text-[18px] font-normal leading-normal"
                           style={{
                             color: 'rgb(var(--color-text-tertiary))',
                           }}

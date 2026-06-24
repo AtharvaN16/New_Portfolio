@@ -7,7 +7,7 @@ export function PrattIntervention1ImpactSection() {
     <>
         {/* Ecosystem impact */}
         <div className="mt-16 md:mt-20">
-          <h4 className="text-lg md:text-[24px] font-bold text-text-primary mb-10 md:mb-12 leading-snug">
+          <h4 className="text-base md:text-xl font-bold text-text-primary mb-10 md:mb-12 leading-snug">
             How the Updated Training Material Strengthens the Visitor
             Services Ecosystem Loops
           </h4>
@@ -41,7 +41,7 @@ export function PrattIntervention1ImpactSection() {
                   {paras.map((para, i) => (
                     <p
                       key={i}
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       {para}

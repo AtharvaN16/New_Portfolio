@@ -90,7 +90,7 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
             delay={0.3}
             stagger={0.04}
             duration={0.3}
-            className="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
+            className="text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
           />
           <m.div
             className="flex flex-col md:flex-row md:items-start md:gap-0 mt-auto"
@@ -100,7 +100,7 @@ export function ShowcaseHero({ caseStudy, containerRef }: ShowcaseHeroProps) {
           >
             {/* Description */}
             <div className="max-w-full sm:max-w-[25rem] md:max-w-[28.75rem] text-left">
-              <p className="text-base md:text-lg font-medium text-white/80 leading-relaxed">
+              <p className="text-base md:text-lg font-medium text-white/80 leading-normal">
                 {caseStudy.fullDescription || caseStudy.description}
               </p>
             </div>

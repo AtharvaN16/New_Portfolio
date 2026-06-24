@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils/cn'
-import type { ComponentPropsWithoutRef } from 'react'
+import { useEffect, useState, type ComponentPropsWithoutRef } from 'react'
 import { useBreakpoints } from '@/hooks/use-responsive'
 
 type BlurSide = 'top' | 'bottom' | 'left' | 'right'
@@ -63,11 +63,17 @@ export function ProgressiveBlur({
   ...props
 }: ProgressiveBlurProps) {
   const { isMobile } = useBreakpoints()
+  const [hasMounted, setHasMounted] = useState(false)
   const isVertical = side === 'top' || side === 'bottom'
   const gradientDirection = `to ${oppositeSide[side]}`
 
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
+
   // Optimization: reduce layers on mobile to save GPU (3 steps vs 8)
-  const effectiveSteps = isMobile ? Math.min(steps, 3) : steps
+  const effectiveSteps =
+    hasMounted && isMobile ? Math.min(steps, 3) : steps
 
   // Calculate exponential base for smooth blur falloff
   const factor = 1 / 10

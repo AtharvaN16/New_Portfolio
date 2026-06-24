@@ -45,7 +45,7 @@ export function AloKeywordRecommendations() {
   return (
     <div className="mt-24 md:mt-32">
       <h3
-        className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+        className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
         Recommendations
@@ -56,7 +56,7 @@ export function AloKeywordRecommendations() {
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-24 md:mb-32 leading-tight tracking-[-0.05em]"
+        className="text-xl md:text-2xl font-bold text-text-primary mb-24 md:mb-32 leading-tight tracking-[-0.05em]"
       />
 
       <div className="flex flex-col gap-24 md:gap-32">
@@ -73,11 +73,11 @@ export function AloKeywordRecommendations() {
             <div className="flex flex-col lg:flex-row gap-12 md:gap-16 items-start">
               {/* Left Side: Title and Description */}
               <div className="lg:w-1/2">
-                <h4 className="text-xl md:text-[28px] font-bold text-text-primary leading-tight mb-6">
+                <h4 className="text-lg md:text-2xl font-bold text-text-primary leading-tight mb-6">
                   {title}
                 </h4>
                 <p
-                  className="text-base md:text-[18px] leading-relaxed"
+                  className="text-base md:text-[18px] leading-normal"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   {description}
@@ -98,7 +98,7 @@ export function AloKeywordRecommendations() {
                   {impacts.map((impact) => (
                     <li
                       key={impact}
-                      className="flex items-start gap-4 text-sm md:text-base leading-relaxed"
+                      className="flex items-start gap-4 text-sm md:text-base leading-normal"
                       style={{ color: 'rgb(var(--color-text-color90))' }}
                     >
                       <span

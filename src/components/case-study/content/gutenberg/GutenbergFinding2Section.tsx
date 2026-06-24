@@ -9,7 +9,7 @@ export function GutenbergFinding2Section() {
           {/* Finding 2 */}
           <div className="mt-16 md:mt-24">
             <h3
-              className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+              className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
               style={{ color: 'rgb(var(--color-text-tertiary))' }}
             >
               Finding 2
@@ -22,7 +22,7 @@ export function GutenbergFinding2Section() {
               animationType="fadeIn"
               alwaysAnimate={false}
               delay={0}
-              className="text-2xl md:text-[40px] font-bold text-text-primary mb-24 leading-tight tracking-[-0.05em]"
+              className="text-xl md:text-2xl font-bold text-text-primary mb-24 leading-tight tracking-[-0.05em]"
             />
 
             {/* 5/9 Data Visualization */}
@@ -40,7 +40,7 @@ export function GutenbergFinding2Section() {
                   {/* 5/9 Users Text */}
                   <div>
                     <div
-                      className="text-5xl md:text-6xl font-bold leading-none mb-2 tracking-[-0.05em]"
+                      className="text-2xl md:text-2xl font-bold leading-none mb-2 tracking-[-0.05em]"
                       style={{ color: 'rgb(var(--color-text-primary))' }}
                     >
                       5/9
@@ -57,7 +57,7 @@ export function GutenbergFinding2Section() {
                 {/* Right Column: Description */}
                 <div>
                   <p
-                    className="text-base md:text-[18px] font-normal leading-relaxed"
+                    className="text-base md:text-[18px] font-normal leading-normal"
                     style={{ color: 'rgb(var(--color-text-color90))' }}
                   >
                     5 out of 9 participants mistook the system-generated default
@@ -76,13 +76,13 @@ export function GutenbergFinding2Section() {
                 User Impact
               </h4>
               <ul className="space-y-3 list-disc list-inside ml-2">
-                <li className="text-base md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                <li className="text-base md:text-[18px] font-normal leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                   Task 1 (Author content from scratch) has the <strong>lowest success rate (0.7)</strong> and the <strong>highest time on task (4.6 mins)</strong>
                 </li>
-                <li className="text-base md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                <li className="text-base md:text-[18px] font-normal leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                   Users wasted effort labeling and formatting template headings
                 </li>
-                <li className="text-base md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                <li className="text-base md:text-[18px] font-normal leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                   Participants expressed frustration: <em>&ldquo;Why is there so much stuff on this page?&rdquo;</em> and <em>&ldquo;How do I add sections?&rdquo;</em>
                 </li>
               </ul>
@@ -126,7 +126,7 @@ export function GutenbergFinding2Section() {
                   />
                   <div className="flex-1 flex items-start justify-between gap-6">
                     <p
-                      className="text-base md:text-[18px] italic leading-relaxed"
+                      className="text-base md:text-[18px] italic leading-normal"
                       style={{ color: 'rgb(var(--color-text-color60))' }}
                     >
                       &ldquo;If there wasn&apos;t all the stuff on the page by default, it would be easier to navigate.&rdquo;
@@ -148,7 +148,7 @@ export function GutenbergFinding2Section() {
                   />
                   <div className="flex-1 flex items-start justify-between gap-6">
                     <p
-                      className="text-base md:text-[18px] italic leading-relaxed"
+                      className="text-base md:text-[18px] italic leading-normal"
                       style={{ color: 'rgb(var(--color-text-color60))' }}
                     >
                       &ldquo;At first, I was confused with as to what this page was. Then I realized it must have come from the template that I was using.&rdquo;
@@ -170,7 +170,7 @@ export function GutenbergFinding2Section() {
                   />
                   <div className="flex-1 flex items-start justify-between gap-6">
                     <p
-                      className="text-base md:text-[18px] italic leading-relaxed"
+                      className="text-base md:text-[18px] italic leading-normal"
                       style={{ color: 'rgb(var(--color-text-color60))' }}
                     >
                       &ldquo;Why there&apos;s so much stuff on this page? And I had to add section. How do I add section?&rdquo;
@@ -192,7 +192,7 @@ export function GutenbergFinding2Section() {
                 Solution
               </h4>
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed"
+                className="text-base md:text-[18px] font-normal leading-normal"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 The reworked project creation flow gives users an option to start

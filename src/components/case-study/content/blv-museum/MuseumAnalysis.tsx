@@ -33,7 +33,7 @@ function AutoScrollTranscript() {
   })
 
   const content = (
-    <div className="font-serif leading-relaxed text-base md:text-lg text-text-body space-y-6 pb-8 pt-8 px-2">
+    <div className="font-serif leading-normal text-base md:text-lg text-text-body space-y-6 pb-8 pt-8 px-2">
       <p>
         This enormous painting shows five nude female figures with pale peach-pink skin and dark hair. Features, such as faces, buttocks, and breasts, are suggested only by minimal watery black outlines. Visibly loose brushstrokes, dripping lines of paint, and glimpses of raw canvas <span className="bg-[#FF8C00]/20 text-[#FF8C00] font-medium px-1 rounded">convey an element of quickness and improvisation</span>.
       </p>
@@ -87,21 +87,21 @@ export function MuseumAnalysis() {
           @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap');
           .font-handwritten { font-family: 'Caveat', cursive; }
         `}</style>
-        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           Finding Our Focus
         </h3>
         <AnimatedText variant="heading"
           text="Three Different Interpretations"
           animationType="fadeIn"
-          className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-12 lg:mb-16 max-w-[760px]"
+          className="text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em] mb-12 lg:mb-16 max-w-[760px]"
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           <div className="space-y-8 order-2 lg:order-1 lg:col-span-6">
-            <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+            <p className="text-base md:text-[18px] font-normal text-text-body leading-normal">
               Initially, we were thinking about how apps like Be My Eyes or Seeing AI could use AI to generate descriptive audio for BLV users in a museum setting. To analyze the issues with current museum audio descriptions, we listened to the official audio description of the painting we introduced at the start. 
             </p>
-            <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+            <p className="text-base md:text-[18px] font-normal text-text-body leading-normal">
               Listening to it, we realized that all three of us had a different interpretation of the artwork. I thought the figures were dancing with the sky as the background, while a teammate thought it was water. While I thought the green part was just the ground, the audio description explicitly said they were hills. That is when we realized that interpretive agency is such an important aspect of experiencing art, and a major gap in current audio descriptions. That is how we found our research focus.
             </p>
           </div>
@@ -123,21 +123,21 @@ export function MuseumAnalysis() {
               />
               {!hideImages && (
                 <>
-                  <m.div aria-hidden="true" initial={{ opacity: 0, scale: 0.5, rotate: -20 }} whileInView={{ opacity: 1, scale: 1, rotate: -15 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.5, type: "spring" }} className="absolute top-0 left-[15%] -translate-x-1/2 -translate-y-[60%] text-[#FF8C00] text-3xl md:text-5xl font-handwritten z-10">Sky?</m.div>
-                  <m.div aria-hidden="true" initial={{ opacity: 0, scale: 0.5, rotate: 20 }} whileInView={{ opacity: 1, scale: 1, rotate: 15 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.7, type: "spring" }} className="absolute top-[5%] right-0 translate-x-[20%] -translate-y-1/2 text-[#FF8C00] text-3xl md:text-5xl font-handwritten z-10">Water?</m.div>
-                  <m.div aria-hidden="true" initial={{ opacity: 0, scale: 0.5, rotate: -10 }} whileInView={{ opacity: 1, scale: 1, rotate: -5 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.9, type: "spring" }} className="absolute bottom-0 left-[40%] -translate-x-1/2 translate-y-[60%] text-[#FF8C00] text-3xl md:text-5xl font-handwritten z-10">Hill?</m.div>
+                  <m.div aria-hidden="true" initial={{ opacity: 0, scale: 0.5, rotate: -20 }} whileInView={{ opacity: 1, scale: 1, rotate: -15 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.5, type: "spring" }} className="absolute top-0 left-[15%] -translate-x-1/2 -translate-y-[60%] text-[#FF8C00] text-2xl md:text-2xl font-handwritten z-10">Sky?</m.div>
+                  <m.div aria-hidden="true" initial={{ opacity: 0, scale: 0.5, rotate: 20 }} whileInView={{ opacity: 1, scale: 1, rotate: 15 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.7, type: "spring" }} className="absolute top-[5%] right-0 translate-x-[20%] -translate-y-1/2 text-[#FF8C00] text-2xl md:text-2xl font-handwritten z-10">Water?</m.div>
+                  <m.div aria-hidden="true" initial={{ opacity: 0, scale: 0.5, rotate: -10 }} whileInView={{ opacity: 1, scale: 1, rotate: -5 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.9, type: "spring" }} className="absolute bottom-0 left-[40%] -translate-x-1/2 translate-y-[60%] text-[#FF8C00] text-2xl md:text-2xl font-handwritten z-10">Hill?</m.div>
                 </>
               )}
               {hideImages && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-neutral-100 dark:bg-neutral-800 border border-dashed border-text-color30 z-20">
                   <span className="text-[10px] uppercase tracking-widest text-text-color60 mb-2">Image Hidden</span>
-                  <p className="text-xs md:text-sm font-sans text-text-primary leading-relaxed max-w-[85%] font-medium">
+                  <p className="text-xs md:text-sm font-sans text-text-primary leading-normal max-w-[85%] font-medium">
                     Henri Matisse, Dance (I), 1909, with handwritten annotations questioning whether the background components are Sky, Water, or Hill.
                   </p>
                 </div>
               )}
             </div>
-            <p className="text-xs md:text-sm font-sans text-text-color60 mt-6 md:mt-8 leading-relaxed max-w-[500px] text-left">
+            <p className="text-xs md:text-sm font-sans text-text-color60 mt-6 md:mt-8 leading-normal max-w-[500px] text-left">
               <strong className="text-text-primary font-semibold">Figure 2:</strong> Henri Matisse&apos;s &apos;Dance (I)&apos; annotated with floating questions (&quot;Sky?&quot;, &quot;Water?&quot;, &quot;Hill?&quot;) highlighting how different, valid interpretations of visual background elements justify the need for interpretive agency.
             </p>
           </m.div>
@@ -148,18 +148,18 @@ export function MuseumAnalysis() {
         <AnimatedText variant="heading"
           text="By interpreting art instead of just describing it, standard audio descriptions strip away the visitor's autonomy to find their own meaning."
           animationType="fadeIn"
-          className="text-2xl md:text-[40px] font-bold text-text-primary leading-[1.15] tracking-[-0.04em]"
+          className="text-xl md:text-2xl font-bold text-text-primary leading-[1.15] tracking-[-0.04em]"
         />
       </div>
 
       <div className="pt-12">
-        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           Our Analysis
         </h3>
         <AnimatedText variant="heading"
           text="We analyzed a corpus of real museum audio descriptions to assess their objectivity."
           animationType="fadeIn"
-          className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
+          className="text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
         />
 
         <div className="relative w-full flex flex-col mt-12">
@@ -181,20 +181,20 @@ export function MuseumAnalysis() {
               </div>
             </div>
           </div>
-          <p className="text-xs md:text-sm font-sans text-text-color60 mt-12 md:mt-16 leading-relaxed text-left max-w-[650px] relative -left-6 md:-left-12">
+          <p className="text-xs md:text-sm font-sans text-text-color60 mt-12 md:mt-16 leading-normal text-left max-w-[650px] relative -left-6 md:-left-12">
             <strong className="text-text-primary font-semibold">Figure 3:</strong> The Accessibility Analysis Matrix (rendered as backdrop), showcasing a multi-dimensional framework mapped with objective data points versus subjective interpretations to assess standard audio description biases.
           </p>
         </div>
       </div>
 
       <div>
-        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           The Analysis
         </h3>
-        <AnimatedText variant="heading" text="Findings from 14 Major Museums" animationType="fadeIn" className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-12" />
+        <AnimatedText variant="heading" text="Findings from 14 Major Museums" animationType="fadeIn" className="text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em] mb-12" />
         
         <div className="mb-20 space-y-8">
-          <p className="text-lg md:text-xl text-text-body leading-relaxed max-w-[880px]">
+          <p className="text-lg md:text-xl text-text-body leading-normal max-w-[880px]">
             We evaluated the audio descriptions across four art types: Abstract, Figurative, Contemporary, and Sculpture. Each description was scored across three dimensions:
           </p>
           <ul className="space-y-6 md:space-y-8">
@@ -205,7 +205,7 @@ export function MuseumAnalysis() {
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-4">
                 <span className="mt-[0.65em] h-1.5 w-1.5 rounded-full shrink-0 bg-[#FF8C00]" aria-hidden="true" />
-                <div className="text-lg md:text-xl text-text-body leading-relaxed">
+                <div className="text-lg md:text-xl text-text-body leading-normal">
                   <strong className="text-text-primary font-bold">{item.title}</strong> {item.desc}
                 </div>
               </li>
@@ -222,7 +222,7 @@ export function MuseumAnalysis() {
               { val: '0%', label: 'CONTEMPORARY WORKS PRESERVE AMBIGUITY' }
             ].map(stat => (
               <div key={stat.label}>
-                <span className="block text-5xl md:text-6xl font-bold text-text-primary mb-3">{stat.val}</span>
+                <span className="block text-2xl md:text-2xl font-bold text-text-primary mb-3">{stat.val}</span>
                 <p className="text-[10px] md:text-[11px] font-sans uppercase tracking-widest text-text-color60 leading-tight">{stat.label}</p>
               </div>
             ))}
@@ -236,7 +236,7 @@ export function MuseumAnalysis() {
             { text: 'Leaving out the specific perceptual grounding (scale, texture, spatial arrangement) needed for visitors to form their own readings.', color: 'bg-[#FFB8D2] dark:bg-[#D490AB]', rot: 'rotate-[-1.5deg]' }
           ].map((note, i) => (
             <div key={i} className={cn("p-8 aspect-square flex flex-col justify-center text-left shadow-lg transition-transform hover:scale-[1.02] cursor-default", note.color, note.rot)}>
-              <p className="text-neutral-950 font-bold leading-relaxed text-base md:text-lg lg:text-[18px]">{note.text}</p>
+              <p className="text-neutral-950 font-bold leading-normal text-base md:text-lg lg:text-[18px]">{note.text}</p>
             </div>
           ))}
         </div>
@@ -251,7 +251,7 @@ export function MuseumAnalysis() {
               delayHighlight
               showMarkerSweep
               animationType="fadeIn"
-              className="text-3xl md:text-[54px] font-bold text-text-primary leading-[1.12] tracking-[-0.04em]"
+              className="text-2xl md:text-[44px] font-bold text-text-primary leading-[1.12] tracking-[-0.04em]"
               maxWidth="full"
             />
           </div>

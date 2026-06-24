@@ -46,7 +46,7 @@ export function ChecklistSolutionsSection() {
       data-section="nyc-dcwp-solutions"
       className="mt-20 md:mt-28 lg:mt-36 space-y-16 md:space-y-24"
     >
-      <h3 className="text-xl md:text-[28px] font-bold text-text-primary">
+      <h3 className="text-lg md:text-2xl font-bold text-text-primary">
         Solutions
       </h3>
 
@@ -63,7 +63,7 @@ export function ChecklistSolutionsSection() {
           className="w-full h-auto"
           sizes="(max-width: 768px) 100vw, 80vw"
         />
-        <p className="text-sm md:text-base text-text-body leading-relaxed">
+        <p className="text-sm md:text-base text-text-body leading-normal">
           Important information made more visually distinct
         </p>
       </div>
@@ -115,7 +115,7 @@ export function ChecklistSolutionsSection() {
               >
                 {num}
               </span>
-              <p className="text-sm text-text-body leading-relaxed">{text}</p>
+              <p className="text-sm text-text-body leading-normal">{text}</p>
             </div>
           ))}
         </div>
@@ -133,7 +133,7 @@ export function ChecklistSolutionsSection() {
             data-section={`${sectionId}-copy-grid`}
             className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 pt-2"
           >
-            <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">
+            <h4 className="text-lg md:text-xl font-bold text-text-primary leading-snug">
               {heading}
             </h4>
             <div
@@ -141,7 +141,7 @@ export function ChecklistSolutionsSection() {
               className="space-y-4"
             >
               {body.map((para) => (
-                <p key={para} className="text-sm md:text-base text-text-body leading-relaxed">
+                <p key={para} className="text-sm md:text-base text-text-body leading-normal">
                   {para}
                 </p>
               ))}

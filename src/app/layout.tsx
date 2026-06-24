@@ -30,7 +30,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" data-theme="dark" className={`${satoshi.variable} ${vulfMono.variable} ${vulfMonoLightItalic.variable}`}>
+    <html
+      lang="en"
+      data-theme="dark"
+      suppressHydrationWarning
+      className={`${satoshi.variable} ${vulfMono.variable} ${vulfMonoLightItalic.variable}`}
+    >
       <body
         className={`${jetbrainsMono.variable} ${mynerve.variable} font-sans antialiased`}
       >

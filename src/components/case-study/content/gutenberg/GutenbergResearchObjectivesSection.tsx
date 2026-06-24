@@ -5,14 +5,14 @@ export function GutenbergResearchObjectivesSection() {
     <>
         {/* Research Objectives Section */}
         <h3
-          className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+          className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
           style={{ color: 'rgb(var(--color-text-tertiary))' }}
         >
           Research Objectives
         </h3>
 
         <p
-          className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
+          className="text-base md:text-[18px] font-normal leading-normal mb-8 md:mb-10"
           style={{ color: 'rgb(var(--color-text-color90))' }}
         >
           The objective of the study is to understand the use of the{' '}
@@ -30,11 +30,11 @@ export function GutenbergResearchObjectivesSection() {
               style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
             />
             <div>
-              <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-body">
+              <div className="text-base md:text-[18px] font-semibold leading-normal text-text-body">
                 Table of contents (TOC)
               </div>
               <p
-                className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-normal"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Explore users&apos; challenges in creating and managing
@@ -49,11 +49,11 @@ export function GutenbergResearchObjectivesSection() {
               style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
             />
             <div>
-              <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-body">
+              <div className="text-base md:text-[18px] font-semibold leading-normal text-text-body">
                 Authoring content from scratch
               </div>
               <p
-                className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-normal"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Explore users&apos; starting points, their authoring
@@ -67,11 +67,11 @@ export function GutenbergResearchObjectivesSection() {
               style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
             />
             <div>
-              <div className="text-base md:text-[18px] font-semibold leading-relaxed text-text-body">
+              <div className="text-base md:text-[18px] font-semibold leading-normal text-text-body">
                 Drag-and-drop
               </div>
               <p
-                className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-normal"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Explore where users get confused, what creates the highest
@@ -85,11 +85,11 @@ export function GutenbergResearchObjectivesSection() {
               style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
             />
             <div>
-              <div className="text-base md:text-[18px] font-semibold text-text-body leading-relaxed">
+              <div className="text-base md:text-[18px] font-semibold text-text-body leading-normal">
                 AI-assisted content generation
               </div>
               <p
-                className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-relaxed"
+                className="text-base md:text-[18px] font-normal mt-1 md:mt-1.5 leading-normal"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 Explore how users discover and interact with the &quot;Generate

@@ -9,7 +9,7 @@ export function GutenbergOverviewSection() {
       </h3>
 
       <div className="space-y-6 md:space-y-8">
-        <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+        <p className="text-base md:text-[18px] font-normal text-text-body leading-normal">
           This case study is based on a usability evaluation of Gutenberg
           Technologies&apos; course management system (CMS), a legacy
           e-learning content authoring platform used primarily by
@@ -22,7 +22,7 @@ export function GutenbergOverviewSection() {
           participants to identify critical breakdowns in onboarding and
           authoring workflows.
         </p>
-        <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+        <p className="text-base md:text-[18px] font-normal text-text-body leading-normal">
           Findings revealed a strong learnability baseline driven by
           familiar editor patterns, but significant usability issues caused
           by expectation mismatches, poor feature discoverability, and
@@ -36,25 +36,25 @@ export function GutenbergOverviewSection() {
 
       {/* My Role Section */}
       <div className="mt-12 md:mt-16">
-        <h3 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px]">
+        <h3 className="text-base md:text-xl font-bold text-text-primary mb-6 md:mb-[28px]">
           My Role
         </h3>
 
         <div className="space-y-6 md:space-y-8">
-          <p className="text-base md:text-[18px] font-medium text-text-body leading-relaxed">
+          <p className="text-base md:text-[18px] font-medium text-text-body leading-normal">
             As part of a four-person research team, I contributed to:
           </p>
           <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-2">
-            <li className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+            <li className="text-base md:text-[18px] font-normal text-text-body leading-normal">
               Research planning and hypothesis development
             </li>
-            <li className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+            <li className="text-base md:text-[18px] font-normal text-text-body leading-normal">
               Eye-tracking study design and moderation
             </li>
-            <li className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+            <li className="text-base md:text-[18px] font-normal text-text-body leading-normal">
               Analyzing the insights
             </li>
-            <li className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+            <li className="text-base md:text-[18px] font-normal text-text-body leading-normal">
               Design recommendations
             </li>
           </ul>

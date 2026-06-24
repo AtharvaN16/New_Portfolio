@@ -60,7 +60,7 @@ function CircularProgress({ score, label, colorClass }: { score: number, label: 
           />
         </svg>
         {/* Score Text */}
-        <span className="text-3xl font-black tracking-tighter">
+        <span className="text-2xl font-black tracking-tighter">
           {score}
         </span>
       </div>
@@ -80,7 +80,7 @@ export function AloLighthouseScores() {
       
       {/* Header & Toggle */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between px-8 md:px-12 mb-12 gap-6">
-        <h5 className="text-2xl md:text-3xl" style={{ fontFamily: 'var(--font-instrument), serif', color: 'rgb(var(--color-text-primary))' }}>
+        <h5 className="text-2xl md:text-2xl" style={{ fontFamily: 'var(--font-instrument), serif', color: 'rgb(var(--color-text-primary))' }}>
           Lighthouse Score
         </h5>
         

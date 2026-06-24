@@ -12,12 +12,12 @@ export function PrattIntervention2Section() {
           animationType="fadeIn"
           alwaysAnimate={false}
           delay={0}
-          className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+          className="text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
         />
 
         <div className="space-y-6 md:space-y-8 mb-16 md:mb-20">
           <p
-            className="text-base md:text-[18px] font-normal leading-relaxed"
+            className="text-base md:text-[18px] font-normal leading-normal"
             style={{ color: 'rgb(var(--color-text-color90))' }}
           >
             We refined Pratt&apos;s visitor welcome packet to more
@@ -28,7 +28,7 @@ export function PrattIntervention2Section() {
             remember their experience.
           </p>
           <p
-            className="text-base md:text-[18px] font-normal leading-relaxed"
+            className="text-base md:text-[18px] font-normal leading-normal"
             style={{ color: 'rgb(var(--color-text-color90))' }}
           >
             With a little tweak, it now delivers clearer information, a
@@ -37,7 +37,7 @@ export function PrattIntervention2Section() {
         </div>
 
         {/* Current packet */}
-        <h4 className="text-lg md:text-[24px] font-bold text-text-primary mb-8 md:mb-10">
+        <h4 className="text-base md:text-xl font-bold text-text-primary mb-8 md:mb-10">
           Current Visitor Welcome Packet
         </h4>
         <figure className="w-full mb-20 md:mb-24">
@@ -48,7 +48,7 @@ export function PrattIntervention2Section() {
             height={1000}
             className="w-full h-auto"
             quality={85}
-            sizes="(max-width: 768px) 100vw, 1044px"
+            sizes="(max-width: 768px) 100vw, 896px"
           />
         </figure>
     </>

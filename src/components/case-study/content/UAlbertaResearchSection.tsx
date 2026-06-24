@@ -1,7 +1,16 @@
 import Image from 'next/image'
 import { CaseStudyVideo } from '@/components/case-study/CaseStudyVideo'
+import {
+  CaseStudyCell,
+  CaseStudyGrid,
+  CaseStudySplit,
+} from '@/components/case-study/layout'
 import { SectionSpacer } from '@/components/case-study/SectionSpacer'
-import { CASE_STUDY_SECTION_LABEL_PROSE } from '@/components/case-study/caseStudyTypography'
+import {
+  CASE_STUDY_FINDING_BULLET_LIST,
+  CASE_STUDY_FINDING_BULLET_TEXT,
+  CASE_STUDY_SECTION_LABEL_PROSE,
+} from '@/components/case-study/caseStudyTypography'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import { GrayFrame } from '@/components/ui/GrayFrame'
 import { UAlbertaServiceIterationsSection } from './UAlbertaServiceIterationsSection'
@@ -19,6 +28,24 @@ const userGroups = [
   },
 ]
 
+function FindingBulletList({ points }: { points: string[] }) {
+  return (
+    <ul className={CASE_STUDY_FINDING_BULLET_LIST}>
+      {points.map((point) => (
+        <li key={point} className="flex items-start gap-3">
+          <span
+            className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full"
+            style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
+          />
+          <p className={`${CASE_STUDY_FINDING_BULLET_TEXT} text-text-secondary`}>
+            {point}
+          </p>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 function ResearchMediaRow({
   src,
   alt,
@@ -31,31 +58,36 @@ function ResearchMediaRow({
   description: string
 }) {
   return (
-    <figure className="grid gap-8 md:grid-cols-[1.05fr_1fr] md:gap-14">
-      <div className="flex items-start justify-center">
-        <CaseStudyVideo
-          src={src}
-          alt={alt}
-          playbackRate={1.5}
-          className="max-w-[760px] bg-transparent"
-        />
-      </div>
-
-      <figcaption className="flex items-end justify-end">
-        <div className="max-w-[680px]">
-          {title ? (
-            <h4 className="mb-4 text-xl font-bold leading-snug text-text-primary md:text-[24px]">
-              {title}
-            </h4>
-          ) : null}
-          <p
-            className="text-base font-normal leading-relaxed md:text-[18px]"
-            style={{ color: 'rgb(var(--color-text-color90))' }}
-          >
-            {description}
-          </p>
-        </div>
-      </figcaption>
+    <figure>
+      <CaseStudyGrid width="fill" className="gap-8 md:gap-14">
+        <CaseStudyCell span={6}>
+          <div className="flex items-start justify-center">
+            <CaseStudyVideo
+              src={src}
+              alt={alt}
+              playbackRate={1.5}
+              className="max-w-[760px] bg-transparent"
+            />
+          </div>
+        </CaseStudyCell>
+        <CaseStudyCell span={6}>
+          <figcaption className="flex h-full items-end justify-end">
+            <div className="max-w-[680px]">
+              {title ? (
+                <h4 className="mb-4 text-xl font-bold leading-snug text-text-primary md:text-xl">
+                  {title}
+                </h4>
+              ) : null}
+              <p
+                className="text-base font-normal leading-normal md:text-[18px]"
+                style={{ color: 'rgb(var(--color-text-color90))' }}
+              >
+                {description}
+              </p>
+            </div>
+          </figcaption>
+        </CaseStudyCell>
+      </CaseStudyGrid>
     </figure>
   )
 }
@@ -72,7 +104,7 @@ export function UAlbertaResearchSection() {
 
       <h2
         id="ualberta-research-heading"
-        className="mb-10 max-w-[680px] text-2xl font-bold leading-tight tracking-[-0.04em] text-text-primary md:mb-12 md:text-[32px]"
+        className="mb-10 max-w-[680px] text-xl font-bold leading-tight tracking-[-0.04em] text-text-primary md:mb-12 md:text-2xl"
       >
         We wanted to understand the experience of students while using the
         library website
@@ -80,7 +112,7 @@ export function UAlbertaResearchSection() {
 
       <div className="mb-12 max-w-[680px] space-y-6 md:mb-20">
         <p
-          className="text-base font-normal leading-relaxed md:text-[18px]"
+          className="text-base font-normal leading-normal md:text-[18px]"
           style={{ color: 'rgb(var(--color-text-color90))' }}
         >
           ...So to understand how students experience the library website, we
@@ -89,21 +121,36 @@ export function UAlbertaResearchSection() {
           tested two student types:
         </p>
 
-        <div className="grid gap-8 md:grid-cols-2 md:gap-12">
-          {userGroups.map((group) => (
-            <div key={group.title} className="space-y-3">
+        <CaseStudySplit
+          preset="equal"
+          className="gap-8 md:gap-12"
+          left={
+            <div className="space-y-3">
               <h4 className="text-base font-bold text-text-primary">
-                {group.title}
+                {userGroups[0]!.title}
               </h4>
               <p
-                className="text-[14px] font-normal leading-relaxed md:text-[15px]"
+                className="text-[14px] font-normal leading-normal md:text-[15px]"
                 style={{ color: 'rgb(var(--color-text-color80))' }}
               >
-                {group.body}
+                {userGroups[0]!.body}
               </p>
             </div>
-          ))}
-        </div>
+          }
+          right={
+            <div className="space-y-3">
+              <h4 className="text-base font-bold text-text-primary">
+                {userGroups[1]!.title}
+              </h4>
+              <p
+                className="text-[14px] font-normal leading-normal md:text-[15px]"
+                style={{ color: 'rgb(var(--color-text-color80))' }}
+              >
+                {userGroups[1]!.body}
+              </p>
+            </div>
+          }
+        />
       </div>
 
       <div className="space-y-10 md:space-y-14">
@@ -135,122 +182,129 @@ export function UAlbertaResearchSection() {
         <div className="space-y-32 md:space-y-48">
 
         {/* Finding 01 */}
-        <div className="grid gap-8 md:grid-cols-[1fr_1fr] md:gap-14">
-          <GrayFrame className="flex h-[430px] items-start justify-end overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
-            <Image
-              src="/images/case-studies/ualberta-library-website/servicespage.avif"
-              alt="University of Alberta Library Services page"
-              width={1640}
-              height={2260}
-              className="block h-auto w-[85%] shrink-0 translate-x-[6px]"
-            />
-          </GrayFrame>
-          <div className="relative flex items-end">
-            <AnimatedText
-              variant="quote"
-              as="blockquote"
-              segments={[
-                {
-                  text: '"It\'s too much, hard to read, cluttered, and difficult to navigate."',
-                },
-              ]}
-              maxWidth="default"
-              className="absolute right-0 top-0 max-w-[300px] text-left text-xl leading-[1.08] tracking-[-0.05em] text-text-primary md:max-w-[360px] md:text-[28px]"
-            />
-            <div className="space-y-4">
-              <p className="text-3xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-4xl">01</p>
-              <h4 className="text-xl font-bold leading-snug text-text-primary md:text-[22px]">
-                Services are organized into logical categories, but the page has too many options displayed at once.
-              </h4>
-              <ul className="space-y-3">
-                {[
-                  'One student used "Ctrl + F" after failing to find a service.',
-                  'Services in research, alumni or teaching categories were irrelevant to undergraduate users.',
-                  'Some services have ambiguous names like "ERA" with no descriptions.',
-                  'Majority of students only use a handful of services regularly.',
-                ].map((point) => (
-                  <li key={point} className="flex items-start gap-3">
-                    <span className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }} />
-                    <p className="text-base leading-relaxed md:text-[17px]" style={{ color: 'rgb(var(--color-text-secondary))' }}>{point}</p>
-                  </li>
-                ))}
-              </ul>
+        <CaseStudySplit
+          preset="equal"
+          className="gap-8 md:gap-14"
+          left={
+            <GrayFrame className="flex h-[430px] items-start justify-end overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
+              <Image
+                src="/images/case-studies/ualberta-library-website/servicespage.avif"
+                alt="University of Alberta Library Services page"
+                width={1640}
+                height={2260}
+                className="block h-auto w-[85%] shrink-0 translate-x-[6px]"
+              />
+            </GrayFrame>
+          }
+          right={
+            <div className="flex flex-col gap-8 md:gap-10">
+              <AnimatedText
+                variant="quote"
+                as="blockquote"
+                segments={[
+                  {
+                    text: '"It\'s too much, hard to read, cluttered, and difficult to navigate."',
+                  },
+                ]}
+                maxWidth="default"
+                className="self-end max-w-[300px] text-left text-xl leading-[1.08] tracking-[-0.05em] text-text-primary md:max-w-[360px] md:text-2xl"
+              />
+              <div className="space-y-4">
+                <p className="text-2xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-3xl">01</p>
+                <h4 className="text-lg font-bold leading-snug text-text-primary md:text-xl">
+                  Services are organized into logical categories, but the page has too many options displayed at once.
+                </h4>
+                <FindingBulletList
+                  points={[
+                    'One student used "Ctrl + F" after failing to find a service.',
+                    'Services in research, alumni or teaching categories were irrelevant to undergraduate users.',
+                    'Some services have ambiguous names like "ERA" with no descriptions.',
+                    'Majority of students only use a handful of services regularly.',
+                  ]}
+                />
+              </div>
             </div>
-          </div>
-        </div>
+          }
+        />
 
         {/* Finding 02 */}
-        <div className="grid gap-8 md:grid-cols-[1fr_1fr] md:gap-14">
-          <GrayFrame className="flex h-[430px] items-start justify-end overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
-            <Image
-              src="/images/case-studies/ualberta-library-website/hourspage.avif"
-              alt="University of Alberta Library Hours + Locations page"
-              width={1640}
-              height={2260}
-              className="block h-auto w-[85%] shrink-0 translate-x-[6px]"
-            />
-          </GrayFrame>
-          <div className="flex items-end">
-            <div className="space-y-4">
-              <p className="text-3xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-4xl">02</p>
-              <h4 className="text-xl font-bold leading-snug text-text-primary md:text-[22px]">
-                Students are unsure which library is right for them.
-              </h4>
-              <ul className="space-y-3">
-                {[
-                  'Alphabetical ordering pushed satellite campus locations above main campus options.',
-                  'Some listed locations are archives or scholarship centers, not actual libraries, confusing new students.',
-                  'The page did not show which libraries had 24/7 study space or what facilities each offered.',
-                  'You have to click into the card to know the library hours.',
-                ].map((point) => (
-                  <li key={point} className="flex items-start gap-3">
-                    <span className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full" style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }} />
-                    <p className="text-base leading-relaxed md:text-[17px]" style={{ color: 'rgb(var(--color-text-secondary))' }}>{point}</p>
-                  </li>
-                ))}
-              </ul>
+        <CaseStudySplit
+          preset="equal"
+          className="gap-8 md:gap-14"
+          left={
+            <GrayFrame className="flex h-[430px] items-start justify-end overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
+              <Image
+                src="/images/case-studies/ualberta-library-website/hourspage.avif"
+                alt="University of Alberta Library Hours + Locations page"
+                width={1640}
+                height={2260}
+                className="block h-auto w-[85%] shrink-0 translate-x-[6px]"
+              />
+            </GrayFrame>
+          }
+          right={
+            <div className="flex items-end">
+              <div className="space-y-4">
+                <p className="text-2xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-3xl">02</p>
+                <h4 className="text-lg font-bold leading-snug text-text-primary md:text-xl">
+                  Students are unsure which library is right for them.
+                </h4>
+                <FindingBulletList
+                  points={[
+                    'Alphabetical ordering pushed satellite campus locations above main campus options.',
+                    'Some listed locations are archives or scholarship centers, not actual libraries, confusing new students.',
+                    'The page did not show which libraries had 24/7 study space or what facilities each offered.',
+                    'You have to click into the card to know the library hours.',
+                  ]}
+                />
+              </div>
             </div>
-          </div>
-        </div>
+          }
+        />
 
         {/* Findings 03 + 04 — side by side */}
-        <div className="grid gap-8 md:grid-cols-2 md:gap-14">
-          <div className="space-y-5">
-            <GrayFrame className="flex h-[430px] items-start justify-start overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
-              <Image
-                src="/images/case-studies/ualberta-library-website/subjectguides.avif"
-                alt="University of Alberta Subject Guides page"
-                width={1640}
-                height={2260}
-                className="block h-auto w-[85%] shrink-0 -translate-x-[6px]"
-              />
-            </GrayFrame>
-            <div className="space-y-2">
-              <p className="text-3xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-4xl">03</p>
-              <h4 className="text-xl font-bold leading-snug text-text-primary md:text-[22px]">
-                Navigating to specific guides was difficult as it required multiple steps.
-              </h4>
+        <CaseStudySplit
+          preset="equal"
+          className="gap-8 md:gap-14"
+          left={
+            <div className="space-y-5">
+              <GrayFrame className="flex h-[430px] items-start justify-start overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
+                <Image
+                  src="/images/case-studies/ualberta-library-website/subjectguides.avif"
+                  alt="University of Alberta Subject Guides page"
+                  width={1640}
+                  height={2260}
+                  className="block h-auto w-[85%] shrink-0 -translate-x-[6px]"
+                />
+              </GrayFrame>
+              <div className="space-y-2">
+                <p className="text-2xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-3xl">03</p>
+                <h4 className="text-lg font-bold leading-snug text-text-primary md:text-xl">
+                  Navigating to specific guides was difficult as it required multiple steps.
+                </h4>
+              </div>
             </div>
-          </div>
-
-          <div className="space-y-5">
-            <GrayFrame className="flex h-[430px] items-start justify-start overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
-              <Image
-                src="/images/case-studies/ualberta-library-website/homepage.avif"
-                alt="University of Alberta Library homepage"
-                width={1640}
-                height={2260}
-                className="block h-auto w-[85%] shrink-0 -translate-x-[6px]"
-              />
-            </GrayFrame>
-            <div className="space-y-2">
-              <p className="text-3xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-4xl">04</p>
-              <h4 className="text-xl font-bold leading-snug text-text-primary md:text-[22px]">
-                The home page above fold works well. Everything below it gets ignored.
-              </h4>
+          }
+          right={
+            <div className="space-y-5">
+              <GrayFrame className="flex h-[430px] items-start justify-start overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
+                <Image
+                  src="/images/case-studies/ualberta-library-website/homepage.avif"
+                  alt="University of Alberta Library homepage"
+                  width={1640}
+                  height={2260}
+                  className="block h-auto w-[85%] shrink-0 -translate-x-[6px]"
+                />
+              </GrayFrame>
+              <div className="space-y-2">
+                <p className="text-2xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-3xl">04</p>
+                <h4 className="text-lg font-bold leading-snug text-text-primary md:text-xl">
+                  The home page above fold works well. Everything below it gets ignored.
+                </h4>
+              </div>
             </div>
-          </div>
-        </div>
+          }
+        />
         </div>
       </div>
 

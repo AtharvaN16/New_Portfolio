@@ -94,7 +94,7 @@ export function AloSearchForbidden() {
             >
               {/* Google Logo Mock */}
               <div className="flex justify-center mb-6 md:mb-8 mt-4 md:mt-8 scale-75 md:scale-100">
-                <span className="text-4xl md:text-5xl font-bold tracking-tight">
+                <span className="text-2xl md:text-2xl font-bold tracking-tight">
                   <span className="text-[#4285F4]">G</span>
                   <span className="text-[#EA4335]">o</span>
                   <span className="text-[#FBBC05]">o</span>
@@ -179,14 +179,14 @@ export function AloSearchForbidden() {
               className="absolute inset-0 flex flex-col items-center justify-center p-6 md:p-10 bg-[#FAFAFA]"
             >
               <div className="text-center">
-                <h1 className="text-5xl md:text-8xl font-black text-[#EA4335] mb-2 md:mb-4 tracking-tighter">
+                <h1 className="text-2xl md:text-8xl font-black text-[#EA4335] mb-2 md:mb-4 tracking-tighter">
                   403
                 </h1>
-                <h2 className="text-xl md:text-3xl font-bold text-neutral-900 mb-4 md:mb-6">
+                <h2 className="text-xl md:text-2xl font-bold text-neutral-900 mb-4 md:mb-6">
                   Forbidden
                 </h2>
                 <div className="h-px w-12 md:w-16 bg-neutral-300 mx-auto mb-4 md:mb-6" />
-                <p className="text-xs md:text-sm text-neutral-500 max-w-[280px] md:max-w-[400px] leading-relaxed">
+                <p className="text-xs md:text-sm text-neutral-500 max-w-[280px] md:max-w-[400px] leading-normal">
                   You don't have permission to access this resource on the server.
                 </p>
               </div>

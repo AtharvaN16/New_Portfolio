@@ -2,15 +2,14 @@
 
 import { m } from 'framer-motion'
 import { useRef } from 'react'
-import Image from 'next/image'
 import type { CaseStudy } from '@/lib/data/case-studies'
-import { CASE_STUDY_HERO_IMAGE_QUALITY } from '@/lib/case-study-image-sizes'
 import {
   useVideoPlaybackInView,
   VIDEO_HERO_VISIBILITY_THRESHOLD,
 } from '@/hooks/use-video-playback-in-view'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import { CaseStudyLayout } from '@/components/case-study/CaseStudyLayout'
+import { CaseStudyHeroImage } from '@/components/case-study/CaseStudyHeroImage'
 
 interface CaseStudyDetailProps {
   caseStudy: CaseStudy
@@ -46,7 +45,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
           alwaysAnimate
           delay={0.8}
           orphanPrevention="orphan"
-          className="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
+          className="text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
         />
 
         <m.div
@@ -56,7 +55,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <div className="max-w-full sm:max-w-[25rem] md:max-w-[28.75rem] text-left">
-            <p className="text-base md:text-lg text-text-body leading-relaxed">
+            <p className="text-base md:text-lg text-text-body leading-normal">
               {caseStudy.fullDescription || caseStudy.description}
             </p>
           </div>
@@ -105,46 +104,16 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
   )
 
   const heroImageSlot =
-    (caseStudy.imageUrl || caseStudy.videoUrl) ? (
-      <m.section
-        className="w-full relative z-10 bg-[var(--cs-pop-light)] dark:bg-[var(--cs-pop-dark)]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.6 }}
-        aria-label={`${caseStudy.title} hero`}
-      >
-        <figure className="w-full overflow-hidden">
-          <div ref={heroMediaRef} className="relative w-full aspect-[16/9] md:aspect-auto md:min-h-screen">
-            {caseStudy.videoUrl ? (
-              <video
-                ref={heroVideoRef}
-                src={caseStudy.videoUrl}
-                poster={caseStudy.thumbnailUrl ?? caseStudy.imageUrl}
-                muted
-                loop
-                playsInline
-                preload="none"
-                className="absolute inset-0 w-full h-full object-cover [filter:contrast(1.05)]"
-              />
-            ) : (
-              <Image
-                src={caseStudy.imageUrl!}
-                alt={caseStudy.heroImageDescription ?? `${caseStudy.title} — hero image`}
-                fill
-                className="object-cover [filter:contrast(1.05)]"
-                sizes="100vw"
-                priority
-                quality={CASE_STUDY_HERO_IMAGE_QUALITY}
-              />
-            )}
-          </div>
-          {caseStudy.heroImageDescription && (
-            <figcaption className="px-6 2xl:px-[140px] py-4 md:py-6 mx-auto max-w-[52rem] text-xs md:text-sm font-sans text-text-body leading-relaxed">
-              {caseStudy.heroImageDescription}
-            </figcaption>
-          )}
-        </figure>
-      </m.section>
+    caseStudy.imageUrl || caseStudy.videoUrl ? (
+      <CaseStudyHeroImage
+        title={caseStudy.title}
+        imageUrl={caseStudy.imageUrl}
+        videoUrl={caseStudy.videoUrl}
+        posterUrl={caseStudy.thumbnailUrl ?? caseStudy.imageUrl}
+        caption={caseStudy.heroImageDescription}
+        mediaRef={heroMediaRef}
+        videoRef={heroVideoRef}
+      />
     ) : null
 
   return (

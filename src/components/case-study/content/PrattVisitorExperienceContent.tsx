@@ -1,7 +1,6 @@
 'use client'
 
 import { m } from 'framer-motion'
-import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 import { PrattCoDesignSection } from './pratt/PrattCoDesignSection'
 import { PrattConclusionSection } from './pratt/PrattConclusionSection'
 import { PrattIntervention1ImpactSection } from './pratt/PrattIntervention1ImpactSection'
@@ -12,22 +11,13 @@ import { PrattIntervention2ChangesLateSection } from './pratt/PrattIntervention2
 import { PrattIntervention2ImpactSection } from './pratt/PrattIntervention2ImpactSection'
 import { PrattIntervention2Section } from './pratt/PrattIntervention2Section'
 import { PrattKeyCharactersSection } from './pratt/PrattKeyCharactersSection'
-import { PrattOverviewSection } from './pratt/PrattOverviewSection'
 import { PrattServiceSafariBlueprintSection } from './pratt/PrattServiceSafariBlueprintSection'
 import { PrattServiceSafariIntroSection } from './pratt/PrattServiceSafariIntroSection'
 import { PrattServiceSafariPhasesSection } from './pratt/PrattServiceSafariPhasesSection'
 import { PrattSurveyAnalysisAccordionsSection } from './pratt/PrattSurveyAnalysisAccordionsSection'
 import { PrattSurveyAnalysisIntroSection } from './pratt/PrattSurveyAnalysisIntroSection'
 
-interface PrattVisitorExperienceContentProps {
-  isContentRevealed: boolean
-  onToggleContent: () => void
-}
-
-export function PrattVisitorExperienceContent({
-  isContentRevealed,
-  onToggleContent,
-}: PrattVisitorExperienceContentProps) {
+export function PrattVisitorExperienceContent() {
   return (
     <m.section
       className="w-full px-6 2xl:px-[140px] py-16 md:py-24 max-w-[1920px] mx-auto"
@@ -35,15 +25,8 @@ export function PrattVisitorExperienceContent({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.8 }}
     >
-      <div className="max-w-[1044px] mx-auto text-left">
-        <PrattOverviewSection />
-
-        <CaseStudyReadMore
-          readTime="12 min read"
-          isContentRevealed={isContentRevealed}
-          onToggleContent={onToggleContent}
-        >
-          <div>
+      <div className="cs-content text-left">
+        <div>
             <PrattKeyCharactersSection />
             <PrattServiceSafariIntroSection />
             <PrattServiceSafariPhasesSection />
@@ -59,8 +42,7 @@ export function PrattVisitorExperienceContent({
             <PrattIntervention2ChangesLateSection />
             <PrattIntervention2ImpactSection />
             <PrattConclusionSection />
-          </div>
-        </CaseStudyReadMore>
+        </div>
       </div>
     </m.section>
   )

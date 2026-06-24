@@ -9,7 +9,7 @@ export function PrattKeyCharactersSection() {
     <>
         {/* ── Section: Key Characters ── */}
         <h3
-          className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+          className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
           style={{ color: 'rgb(var(--color-text-tertiary))' }}
         >
           Ecosystem Loops
@@ -20,12 +20,12 @@ export function PrattKeyCharactersSection() {
           animationType="fadeIn"
           alwaysAnimate={false}
           delay={0}
-          className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+          className="text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
         />
 
         <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
           <p
-            className="text-base md:text-[18px] font-normal leading-relaxed"
+            className="text-base md:text-[18px] font-normal leading-normal"
             style={{ color: 'rgb(var(--color-text-color90))' }}
           >
             The visitor experience at Pratt involves multiple actors—individuals,
@@ -35,7 +35,7 @@ export function PrattKeyCharactersSection() {
             keep the system running and improving.
           </p>
           <p
-            className="text-base md:text-[18px] font-normal leading-relaxed"
+            className="text-base md:text-[18px] font-normal leading-normal"
             style={{ color: 'rgb(var(--color-text-color90))' }}
           >
             The ecosystem loops below show how these actors work together and
@@ -52,7 +52,7 @@ export function PrattKeyCharactersSection() {
             height={876}
             className="w-full h-auto"
             quality={90}
-            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 1044px"
+            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 80vw, 896px"
           />
           <figcaption
             className="mt-3 text-sm font-medium text-center"
@@ -74,7 +74,7 @@ export function PrattKeyCharactersSection() {
               body: null,
               bodyJsx: (
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   <strong>Shamôr Peeler</strong>, the Associate Director
@@ -105,7 +105,7 @@ export function PrattKeyCharactersSection() {
               </h4>
               {actor.bodyJsx ?? (
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   {actor.body}

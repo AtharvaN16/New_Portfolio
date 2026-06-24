@@ -20,7 +20,7 @@ export function Accordion({
         className="w-full flex items-center justify-between py-5 md:py-6 text-left gap-4"
       >
         <div>
-          <span className="block text-base md:text-[20px] font-bold text-text-primary">
+          <span className="block text-base md:text-lg font-bold text-text-primary">
             {title}
           </span>
           {subtitle && (
@@ -100,7 +100,7 @@ export function OpportunityAreas({
             {problems.map((p, i) => (
               <li key={i} className="flex items-start gap-3">
                 <span className="mt-[0.55em] h-1.5 w-1.5 rounded-full bg-white/50 flex-shrink-0" />
-                <span className="text-sm md:text-[16px] text-white/80 leading-relaxed">{p}</span>
+                <span className="text-sm md:text-[16px] text-white/80 leading-normal">{p}</span>
               </li>
             ))}
           </ul>
@@ -116,7 +116,7 @@ export function OpportunityAreas({
             {opportunities.map((o, i) => (
               <li key={i} className="flex items-start gap-3">
                 <span className="mt-[0.55em] h-1.5 w-1.5 rounded-full bg-white/50 flex-shrink-0" />
-                <span className="text-sm md:text-[16px] text-white/80 leading-relaxed">{o}</span>
+                <span className="text-sm md:text-[16px] text-white/80 leading-normal">{o}</span>
               </li>
             ))}
           </ul>

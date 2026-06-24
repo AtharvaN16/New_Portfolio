@@ -11,12 +11,13 @@
 @layer components {
   /* Base prose styles - matches case study content */
   .prose-case-study {
-    @apply max-w-[1044px] ml-auto text-left;
+    max-width: var(--cs-content-max);
+    @apply ml-auto text-left;
 
     /* Base text */
     color: rgb(var(--color-text-color90));
     font-size: 1rem; /* 16px */
-    line-height: 1.625; /* leading-relaxed */
+    line-height: var(--leading-normal); /* 1.5 — 27px at 18px */
   }
 
   /* Responsive font size for desktop */
@@ -29,7 +30,7 @@
   /* Headings */
   .prose-case-study h2 {
     color: rgb(var(--color-text-primary));
-    font-size: 1.5rem; /* 24px mobile */
+    font-size: 1.25rem; /* 20px mobile */
     font-weight: 700;
     margin-bottom: 1.5rem; /* 24px */
     margin-top: 3rem; /* 48px */
@@ -38,7 +39,7 @@
 
   @media (min-width: 768px) {
     .prose-case-study h2 {
-      font-size: 2rem; /* 32px desktop */
+      font-size: 1.5rem; /* 24px desktop — was 32px */
       letter-spacing: -0.05em;
       margin-bottom: 2rem; /* 32px */
       margin-top: 4rem; /* 64px */
@@ -47,7 +48,7 @@
 
   .prose-case-study h3 {
     color: rgb(var(--color-text-primary));
-    font-size: 1.125rem; /* 18px mobile */
+    font-size: 1rem; /* 16px mobile */
     font-weight: 700;
     margin-bottom: 1.5rem; /* 24px */
     margin-top: 3rem; /* 48px */
@@ -56,7 +57,7 @@
 
   @media (min-width: 768px) {
     .prose-case-study h3 {
-      font-size: 1.75rem; /* 28px desktop */
+      font-size: 1.5rem; /* 24px desktop — was 28px */
       margin-bottom: 1.75rem; /* 28px */
     }
   }
@@ -71,7 +72,7 @@
 
   @media (min-width: 768px) {
     .prose-case-study h4 {
-      font-size: 1.125rem; /* 18px desktop */
+      font-size: 1rem; /* 16px desktop — was 18px */
       margin-bottom: 1.75rem; /* 28px */
     }
   }
@@ -79,16 +80,17 @@
   /* Uppercase section headers (like "PROJECT OVERVIEW") */
   .prose-case-study h3.section-header {
     color: rgb(var(--color-text-secondary));
-    font-size: 0.875rem; /* 14px */
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    font-size: 0.875rem; /* 14px mobile */
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: normal;
     margin-bottom: 1.5rem;
     margin-top: 0;
   }
 
   @media (min-width: 768px) {
     .prose-case-study h3.section-header {
+      font-size: 1rem; /* 16px */
       margin-bottom: 1.75rem; /* 28px */
     }
   }
@@ -97,7 +99,7 @@
   .prose-case-study p {
     color: rgb(var(--color-text-body));
     margin-bottom: 1.5rem; /* 24px */
-    line-height: 1.625;
+    line-height: var(--leading-normal);
   }
 
   @media (min-width: 768px) {
@@ -171,7 +173,7 @@
     color: rgb(var(--color-text-body));
     font-weight: 600;
     font-size: 1rem;
-    line-height: 1.625;
+    line-height: var(--leading-normal);
     margin-bottom: 0.25rem;
   }
 
@@ -188,7 +190,7 @@
   .prose-case-study ul li .list-description {
     color: rgb(var(--color-text-tertiary));
     font-size: 1rem;
-    line-height: 1.625;
+    line-height: var(--leading-normal);
     margin: 0;
   }
 

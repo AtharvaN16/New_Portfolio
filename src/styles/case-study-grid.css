@@ -1,0 +1,62 @@
+/**
+ * Case study modular grid utilities.
+ * Used only by src/components/case-study/layout/* — not applied site-wide.
+ *
+ * Layout recipes:
+ *   content + span 12     — full prose column
+ *   content + span 6+6    — equal split inside reading width
+ *   content + span 5+7    — 40/60 asymmetric (Pratt-style)
+ *   section + span 6      — 2-up gallery between page gutters
+ */
+
+@layer components {
+  .cs-section {
+    width: 100%;
+    max-width: var(--cs-page-max);
+    margin-inline: auto;
+    padding-inline: var(--cs-page-gutter);
+    padding-block: var(--cs-section-py);
+  }
+
+  @media (min-width: 768px) {
+    .cs-section {
+      padding-block: var(--cs-section-py-md);
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .cs-section {
+      padding-inline: var(--cs-page-gutter-2xl);
+    }
+  }
+
+  .cs-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cs-grid-columns), minmax(0, 1fr));
+    gap: var(--cs-grid-gap);
+  }
+
+  .cs-grid--gap-md {
+    gap: var(--cs-grid-gap-md);
+  }
+
+  .cs-grid--content {
+    max-width: var(--cs-content-max);
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  .cs-grid--section {
+    width: 100%;
+  }
+
+  .cs-grid--fill {
+    width: 100%;
+  }
+
+  .cs-content {
+    width: 100%;
+    max-width: var(--cs-content-max);
+    margin-inline: auto;
+  }
+}

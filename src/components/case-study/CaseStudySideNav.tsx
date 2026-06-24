@@ -88,7 +88,7 @@ export function CaseStudySideNav({
                 >
                   {/* Text Label */}
                   <span 
-                    className={`absolute right-0 text-[9px] font-bold uppercase tracking-widest transition-all duration-300 break-words whitespace-normal leading-relaxed text-right max-w-[130px]
+                    className={`absolute right-0 text-[9px] font-bold uppercase tracking-widest transition-all duration-300 break-words whitespace-normal leading-normal text-right max-w-[130px]
                       ${isActive ? '' : 'text-neutral-400 group-hover/item:text-neutral-600 dark:text-neutral-500 dark:group-hover/item:text-neutral-300'}
                       ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none'}
                     `}

@@ -9,7 +9,7 @@ const UNTAPPED_DIAGRAM_SRC =
   '/images/case-studies/alo-yoga-digital-analytics/untapped.avif'
 
 const INSIGHT_TITLE_CLASS =
-  'max-w-[420px] text-2xl md:text-[30px] font-bold text-text-primary leading-tight tracking-[-0.04em]'
+  'max-w-[420px] text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.04em]'
 
 const DIAGRAM_BG_CLASS =
   'pointer-events-none mt-8 h-[min(72vw,300px)] w-full max-w-[420px] origin-left scale-90 bg-contain bg-left bg-no-repeat md:h-[360px]'
@@ -137,7 +137,7 @@ export function AloKeywordInsights() {
                 </div>
               )}
               <div className="flex max-w-[520px] flex-col gap-8">
-                <p className="text-base md:text-[18px] leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                <p className="text-base md:text-[18px] leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                   {body}
                 </p>
 
@@ -148,7 +148,7 @@ export function AloKeywordInsights() {
                   >
                     Why it matters
                   </p>
-                  <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                  <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                     {matters}
                   </p>
                 </div>

@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
   type ReactNode,
+  type RefObject,
 } from 'react'
 
 export interface ContainerScrollOptions {
@@ -17,17 +18,26 @@ export type ScrollToElementFn = (
   options?: ContainerScrollOptions
 ) => void
 
-const ContainerScrollContext = createContext<ScrollToElementFn | null>(null)
+interface ContainerScrollContextValue {
+  scrollToElement: ScrollToElementFn
+  containerRef: React.RefObject<HTMLDivElement | null>
+}
+
+const ContainerScrollContext = createContext<ContainerScrollContextValue | null>(
+  null
+)
 
 let activeScrollToElement: ScrollToElementFn | null = null
 
 interface ContainerScrollProviderProps {
   scrollToElement: ScrollToElementFn
+  containerRef: RefObject<HTMLDivElement | null>
   children: ReactNode
 }
 
 export function ContainerScrollProvider({
   scrollToElement,
+  containerRef,
   children,
 }: ContainerScrollProviderProps) {
   useEffect(() => {
@@ -40,14 +50,18 @@ export function ContainerScrollProvider({
   }, [scrollToElement])
 
   return (
-    <ContainerScrollContext.Provider value={scrollToElement}>
+    <ContainerScrollContext.Provider value={{ scrollToElement, containerRef }}>
       {children}
     </ContainerScrollContext.Provider>
   )
 }
 
 export function useContainerScroll(): ScrollToElementFn | null {
-  return useContext(ContainerScrollContext)
+  return useContext(ContainerScrollContext)?.scrollToElement ?? null
+}
+
+export function useCaseStudyScrollContainerRef(): RefObject<HTMLDivElement | null> | null {
+  return useContext(ContainerScrollContext)?.containerRef ?? null
 }
 
 /** Imperative scroll for handlers outside React context (e.g. exported helpers). */

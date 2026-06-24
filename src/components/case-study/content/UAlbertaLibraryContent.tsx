@@ -2,9 +2,14 @@
 
 import Image from 'next/image'
 import { useState, useRef } from 'react'
-import { m } from 'framer-motion'
 import { AnimatedText } from '@/components/ui/AnimatedText'
-import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
+import {
+  CaseStudyCell,
+  CaseStudyContent,
+  CaseStudyGrid,
+  CaseStudySection,
+  CaseStudySplit,
+} from '@/components/case-study/layout'
 import { LibraryBasicsPrototype } from './LibraryBasicsPrototype'
 import LibraryServicesDirectory from './LibraryServicesDirectory'
 import LibraryServicesNavbar from './LibraryServicesNavbar'
@@ -16,24 +21,20 @@ import { ResearchObjectiveNotes } from './ResearchObjectiveNotes'
 import { SectionSpacer } from '@/components/case-study/SectionSpacer'
 import { UAlbertaResearchSection } from './UAlbertaResearchSection'
 import { MaterialSymbolsFont } from '@/components/case-study/MaterialSymbolsFont'
-import { CASE_STUDY_SECTION_LABEL_PROSE } from '@/components/case-study/caseStudyTypography'
-
-interface UAlbertaLibraryContentProps {
-  isContentRevealed: boolean
-  onToggleContent: () => void
-}
+import {
+  CASE_STUDY_SECTION_LABEL_PROSE,
+  CASE_STUDY_BODY_LEADING,
+  CASE_STUDY_SECTION_HEADLINE_SPACED,
+} from '@/components/case-study/caseStudyTypography'
 
 /** Readable line length — aligned with NYC DCWP case study */
 const PROSE_MAX = 'max-w-[680px]'
 const SECTION_LABEL = CASE_STUDY_SECTION_LABEL_PROSE
-const BLOCK_HEADING = `text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px] ${PROSE_MAX}`
-const ROLE_HEADING = `text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-[28px] ${PROSE_MAX}`
-const BODY_TEXT = `text-base md:text-[18px] font-normal text-text-body leading-relaxed ${PROSE_MAX}`
-const BODY_MEDIUM = `text-base md:text-[18px] font-medium text-text-body leading-relaxed mb-4 ${PROSE_MAX}`
-const BODY_MUTED = `text-base md:text-[18px] font-normal leading-relaxed ${PROSE_MAX}`
-/** Section hero headlines — 24px mobile, 32px laptop+ */
-const HEADLINE_LG = `text-2xl md:text-[32px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] ${PROSE_MAX}`
-const HEADLINE_MD = `text-2xl md:text-[32px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] ${PROSE_MAX}`
+const BODY_TEXT = `text-base md:text-[18px] font-normal text-text-body ${CASE_STUDY_BODY_LEADING} ${PROSE_MAX}`
+const BODY_MUTED = `text-base md:text-[18px] font-normal ${CASE_STUDY_BODY_LEADING} ${PROSE_MAX}`
+/** Section hero headlines — 24px (text-2xl) */
+const HEADLINE_LG = `${CASE_STUDY_SECTION_HEADLINE_SPACED} ${PROSE_MAX}`
+const HEADLINE_MD = `${CASE_STUDY_SECTION_HEADLINE_SPACED} ${PROSE_MAX}`
 
 function ImagePlaceholder({
   aspectRatio = '16/9',
@@ -82,7 +83,7 @@ function Quote({
       />
       <div className="flex-1">
         <p
-          className="text-[18px] italic leading-relaxed mb-2"
+          className="text-[18px] italic leading-normal mb-2"
           style={{ color: 'rgb(var(--color-text-color60))' }}
         >
           &ldquo;{text}&rdquo;
@@ -104,10 +105,7 @@ function Quote({
   )
 }
 
-export function UAlbertaLibraryContent({
-  isContentRevealed,
-  onToggleContent,
-}: UAlbertaLibraryContentProps) {
+export function UAlbertaLibraryContent() {
   const [bookmarks, setBookmarks] = useState<Record<string, boolean>>({});
   const directoryRef = useRef<HTMLDivElement>(null);
 
@@ -123,69 +121,14 @@ export function UAlbertaLibraryContent({
   };
 
   return (
-    <m.section
-      className="w-full px-6 2xl:px-[140px] py-16 md:py-24 max-w-[1920px] mx-auto"
+    <CaseStudySection
+      animated
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.8 }}
     >
       <MaterialSymbolsFont />
-      <div className="max-w-[1044px] mx-auto text-left">
-        {/* Abstract */}
-        <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
-          Abstract
-        </h3>
-
-        <div className="space-y-6 md:space-y-8">
-          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
-            The University of Alberta Library website works well for students
-            who already know exactly what they need. For everyone else,
-            including new students, first-time researchers, and anyone exploring,
-            the site makes it difficult to find relevant information.
-          </p>
-          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
-            Our usability study with 8 students revealed four critical
-            bottlenecks: a homepage that hides relevant information below the
-            fold, hours and locations that assume prior campus knowledge,
-            subject guides that are unclear and hard to navigate, and a services
-            page that overwhelms users with dense information.
-          </p>
-          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
-            This case study documents our investigation and four targeted
-            recommendations to transform the library website from a tool for
-            experienced users into an environment that actively supports
-            discovery.
-          </p>
-        </div>
-
-        {/* My Role */}
-        <div className={`mt-12 md:mt-16 ${PROSE_MAX}`}>
-          <h3 className={ROLE_HEADING}>My Role</h3>
-          <p className={BODY_MEDIUM}>
-            As part of a four-person research team, I contributed to:
-          </p>
-          <ul className="space-y-2 md:space-y-3 list-disc list-inside ml-2">
-            {[
-              'Research planning, goals definition, and screener design',
-              'Moderated user interviews and participant recruitment',
-              'Synthesizing findings across all four focus areas',
-              'Developing design recommendations and prototype wireframes',
-            ].map((item) => (
-              <li
-                key={item}
-                className={BODY_TEXT}
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <CaseStudyReadMore
-          readTime="10 min read"
-          isContentRevealed={isContentRevealed}
-          onToggleContent={onToggleContent}
-        >
+      <CaseStudyContent>
               {/* Project Overview */}
               <h3
                 className={SECTION_LABEL}
@@ -368,46 +311,53 @@ export function UAlbertaLibraryContent({
                 relevance.
               </p>
 
-              <div className="mb-12 md:mb-16 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
-                <div className="flex items-start gap-4 md:gap-6">
-                  <div className="flex items-end gap-[10px]">
-                    {[...Array(8)].map((_, i) => (
+              <CaseStudyGrid
+                width="fill"
+                className="mb-12 md:mb-16 items-start gap-6 md:gap-8"
+              >
+                <CaseStudyCell span={6}>
+                  <div className="flex items-start gap-4 md:gap-6">
+                    <div className="flex items-end gap-[10px]">
+                      {[...Array(8)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="w-[12px] h-[100px]"
+                          style={{
+                            backgroundColor:
+                              i < 4
+                                ? 'rgb(var(--color-info))'
+                                : 'rgb(var(--color-text-color20))',
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <div>
                       <div
-                        key={i}
-                        className="w-[12px] h-[100px]"
-                        style={{
-                          backgroundColor:
-                            i < 4
-                              ? 'rgb(var(--color-info))'
-                              : 'rgb(var(--color-text-color20))',
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <div>
-                    <div
-                      className="text-5xl md:text-6xl font-bold leading-none mb-1 tracking-[-0.05em]"
-                      style={{ color: 'rgb(var(--color-text-primary))' }}
-                    >
-                      4/8
-                    </div>
-                    <div
-                      className="text-lg md:text-xl font-medium"
-                      style={{ color: 'rgb(var(--color-text-secondary))' }}
-                    >
-                      Students
+                        className="text-2xl md:text-2xl font-bold leading-none mb-1 tracking-[-0.05em]"
+                        style={{ color: 'rgb(var(--color-text-primary))' }}
+                      >
+                        4/8
+                      </div>
+                      <div
+                        className="text-lg md:text-xl font-medium"
+                        style={{ color: 'rgb(var(--color-text-secondary))' }}
+                      >
+                        Students
+                      </div>
                     </div>
                   </div>
-                </div>
-                <p
-                  className={`text-[18px] font-normal leading-relaxed ${PROSE_MAX}`}
-                  style={{ color: 'rgb(var(--color-text-color90))' }}
-                >
-                  4 participants specifically noted confusion about campus
-                  location groupings and how to quickly identify hours for
-                  their most relevant library.
-                </p>
-              </div>
+                </CaseStudyCell>
+                <CaseStudyCell span={6}>
+                  <p
+                    className={`text-[18px] font-normal ${CASE_STUDY_BODY_LEADING} ${PROSE_MAX}`}
+                    style={{ color: 'rgb(var(--color-text-color90))' }}
+                  >
+                    4 participants specifically noted confusion about campus
+                    location groupings and how to quickly identify hours for
+                    their most relevant library.
+                  </p>
+                </CaseStudyCell>
+              </CaseStudyGrid>
 
               <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
                 <Quote
@@ -473,7 +423,7 @@ export function UAlbertaLibraryContent({
                   width={1618}
                   height={1704}
                   className="h-auto w-full max-h-[min(760px,calc(82dvh-6rem))] object-contain"
-                  sizes="(max-width: 1044px) 100vw, 1044px"
+                  sizes="(max-width: 896px) 100vw, 896px"
                 />
               </div>
 
@@ -578,7 +528,7 @@ export function UAlbertaLibraryContent({
                   width={1582}
                   height={1704}
                   className="h-auto w-full max-h-[calc(100dvh-6rem)] object-contain"
-                  sizes="(max-width: 1044px) 100vw, 1044px"
+                  sizes="(max-width: 896px) 100vw, 896px"
                 />
               </div>
 
@@ -640,34 +590,41 @@ export function UAlbertaLibraryContent({
                 className={HEADLINE_MD}
               />
 
-              <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-12 items-start mb-12 md:mb-16">
-                <div className="lg:sticky lg:top-32">
-                  <LibraryBasicsPrototype />
-                </div>
-                <div className={PROSE_MAX}>
-                  <ul className="space-y-6">
-                    {[
-                      'Surface the most commonly used services (study rooms, citation guides, printing) at the top of the page',
-                      'Add short descriptions to every service so purpose is immediately clear without clicking',
-                      'Add a sticky sidebar for quick category navigation without full-page scrolling',
-                      'Introduce audience-type filtering (Students, Faculty, Alumni, Researchers) so users see only what is relevant to them',
-                    ].map((point) => (
-                      <li key={point} className="flex items-start gap-4">
-                        <span
-                          className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
-                          style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
-                        />
-                        <p
-                          className={BODY_MUTED}
-                          style={{ color: 'rgb(var(--color-text-color90))' }}
-                        >
-                          {point}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+              <CaseStudySplit
+                preset="60-40"
+                breakpoint="lg"
+                className="items-start gap-12 mb-12 md:mb-16"
+                left={
+                  <div className="lg:sticky lg:top-32">
+                    <LibraryBasicsPrototype />
+                  </div>
+                }
+                right={
+                  <div className={PROSE_MAX}>
+                    <ul className="space-y-6">
+                      {[
+                        'Surface the most commonly used services (study rooms, citation guides, printing) at the top of the page',
+                        'Add short descriptions to every service so purpose is immediately clear without clicking',
+                        'Add a sticky sidebar for quick category navigation without full-page scrolling',
+                        'Introduce audience-type filtering (Students, Faculty, Alumni, Researchers) so users see only what is relevant to them',
+                      ].map((point) => (
+                        <li key={point} className="flex items-start gap-4">
+                          <span
+                            className="mt-[0.6em] h-1.5 w-1.5 rounded-full flex-shrink-0"
+                            style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
+                          />
+                          <p
+                            className={BODY_MUTED}
+                            style={{ color: 'rgb(var(--color-text-color90))' }}
+                          >
+                            {point}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                }
+              />
               <SectionSpacer />
               {/* Full Directory Prototype */}
               <h3
@@ -776,11 +733,10 @@ export function UAlbertaLibraryContent({
                   width={1006}
                   height={1704}
                   className="h-auto w-full max-h-[calc(100dvh-6rem)] object-contain"
-                  sizes="(max-width: 1044px) 100vw, 1044px"
+                  sizes="(max-width: 896px) 100vw, 896px"
                 />
               </div>
-        </CaseStudyReadMore>
-      </div>
-    </m.section>
+      </CaseStudyContent>
+    </CaseStudySection>
   )
 }

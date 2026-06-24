@@ -38,14 +38,14 @@ export function AquitaniaComponentsSection() {
     <div data-section="aquitania-creating-components">
       <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
         <div>
-          <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
+          <p className="text-sm md:text-base font-semibold normal-case tracking-widest text-text-color70 mb-4">
             04 - CREATING COMPONENTS
           </p>
-          <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">
+          <h4 className="text-lg md:text-xl font-bold text-text-primary leading-snug">
             Scaling Basic Elements into Flexible, Interactive Components
           </h4>
         </div>
-        <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed md:pt-7">
+        <p className="text-base md:text-[18px] font-normal text-text-body leading-normal md:pt-7">
           With the foundational primitives established, the next step was building a scalable
           library of reusable components. Common UI patterns such as buttons, cards, navigation,
           forms, tabs, and modals were standardized to create consistency across products and reduce
@@ -66,7 +66,7 @@ export function AquitaniaComponentsSection() {
             sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
-        <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed md:self-end">
+        <p className="text-base md:text-[18px] font-normal text-text-body leading-normal md:self-end">
           Buttons were designed with accessibility and usability in mind, with improved color
           contrast, consistent touch target sizes, and clear focus states to support intuitive and
           inclusive interactions.
@@ -74,7 +74,7 @@ export function AquitaniaComponentsSection() {
       </div>
 
       <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start md:items-stretch">
-        <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed md:self-end">
+        <p className="text-base md:text-[18px] font-normal text-text-body leading-normal md:self-end">
           Components like Cards, tabs, inputs were standardized to create a more consistent and
           scalable experience across products, reducing unnecessary variations while maintaining
           flexibility for different use cases.
@@ -100,7 +100,7 @@ export function AquitaniaComponentsSection() {
           <h4 className="text-[20px] font-bold text-text-primary leading-snug">
             Built for easy editing
           </h4>
-          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-normal">
             All components were built for easy customization using variables in Figma, enabling
             faster updates and scalable theming. Properties were structured using semantic tokens to
             ensure consistency, flexibility, and easier maintenance across the system.
@@ -125,14 +125,14 @@ export function AquitaniaComponentsSection() {
         className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start"
       >
         <div className="space-y-4 md:space-y-5">
-          <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70">
+          <p className="text-sm md:text-base font-semibold normal-case tracking-widest text-text-color70">
             05 - USER TESTING & ITERATION
           </p>
-          <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">
+          <h4 className="text-lg md:text-xl font-bold text-text-primary leading-snug">
             User testing and feedback helped refine the system through improved file navigation,
             clearer naming, and additional content
           </h4>
-          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+          <p className="text-base md:text-[18px] font-normal text-text-body leading-normal">
             The UI kit was tested with designers to evaluate usability, clarity, and ease of adoption.
             Based on feedback, we introduced complete pre-built sections, improved Figma file
             organization and navigation, added additional semantic tokens, and refined naming

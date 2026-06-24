@@ -9,7 +9,7 @@ export function PrattServiceSafariBlueprintSection() {
         {/* ── Service Blueprint ── */}
         <div className="mt-16 md:mt-20 mb-0">
           <p
-            className="text-base md:text-[18px] font-normal leading-relaxed mb-8 md:mb-10"
+            className="text-base md:text-[18px] font-normal leading-normal mb-8 md:mb-10"
             style={{ color: 'rgb(var(--color-text-color90))' }}
           >
             After experiencing the service firsthand and speaking with
@@ -25,7 +25,7 @@ export function PrattServiceSafariBlueprintSection() {
               height={1350}
               className="w-full h-auto min-w-[640px]"
               quality={90}
-              sizes="(max-width: 768px) 200vw, 1044px"
+              sizes="(max-width: 768px) 200vw, 896px"
             />
           </figure>
         </div>

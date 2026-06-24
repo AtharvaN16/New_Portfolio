@@ -46,7 +46,7 @@ export function AloCompetitiveSection() {
   return (
     <div>
       <h3
-        className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+        className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
         Competitive Landscape
@@ -57,14 +57,14 @@ export function AloCompetitiveSection() {
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-12 md:mb-16 leading-tight tracking-[-0.05em]"
+        className="text-xl md:text-2xl font-bold text-text-primary mb-12 md:mb-16 leading-tight tracking-[-0.05em]"
       />
 
       {/* Alo Yoga Baseline Stats - Polished Visualization */}
       <div className="flex flex-wrap gap-x-12 md:gap-x-16 gap-y-8 mb-16 md:mb-24">
         <div className="flex flex-col">
           <div className="flex min-h-[2.75rem] md:min-h-[3rem] items-center leading-none">
-            <div className="text-3xl md:text-[40px] font-bold tracking-tighter text-text-primary">
+            <div className="text-2xl md:text-2xl font-bold tracking-tighter text-text-primary">
               #3
             </div>
           </div>
@@ -77,10 +77,10 @@ export function AloCompetitiveSection() {
 
         <div className="flex flex-col">
           <div className="flex min-h-[2.75rem] md:min-h-[3rem] items-center gap-2 leading-none">
-            <div className="text-3xl md:text-[40px] font-bold tracking-tighter text-text-primary">
+            <div className="text-2xl md:text-2xl font-bold tracking-tighter text-text-primary">
               5.3M
             </div>
-            <span className="text-xl md:text-2xl text-green-500 font-bold leading-none">↑</span>
+            <span className="text-lg md:text-xl text-green-500 font-bold leading-none">↑</span>
           </div>
           <span 
             className="text-base mt-4 uppercase font-bold tracking-wider text-text-color60"
@@ -91,7 +91,7 @@ export function AloCompetitiveSection() {
 
         <div className="flex flex-col">
           <div className="flex min-h-[2.75rem] md:min-h-[3rem] items-center leading-none">
-            <div className="text-3xl md:text-[40px] font-bold tracking-tighter text-text-primary">
+            <div className="text-2xl md:text-2xl font-bold tracking-tighter text-text-primary">
               14%
             </div>
           </div>
@@ -133,7 +133,7 @@ export function AloCompetitiveSection() {
                   {comp.name}
                 </p>
                 <p 
-                  className="text-sm leading-relaxed mb-10"
+                  className="text-sm leading-normal mb-10"
                   style={{ color: 'rgb(var(--color-text-color70))' }}
                 >
                   {comp.description}
@@ -142,7 +142,7 @@ export function AloCompetitiveSection() {
                 <div className="mt-auto space-y-8">
                   <div>
                     <div 
-                      className="text-3xl font-bold tracking-tighter"
+                      className="text-2xl font-bold tracking-tighter"
                       style={{ color: 'rgb(var(--color-text-primary))' }}
                     >
                       {comp.share}
@@ -157,7 +157,7 @@ export function AloCompetitiveSection() {
                   <div>
                     <div className="flex items-center gap-2">
                       <div 
-                        className="text-3xl font-bold tracking-tighter"
+                        className="text-2xl font-bold tracking-tighter"
                         style={{ color: 'rgb(var(--color-text-primary))' }}
                       >
                         {comp.traffic}
@@ -188,7 +188,7 @@ export function AloCompetitiveSection() {
       </p>
 
       <p
-        className="text-base md:text-[18px] font-normal leading-relaxed max-w-[760px]"
+        className="text-base md:text-[18px] font-normal leading-normal max-w-[760px]"
         style={{ color: 'rgb(var(--color-text-color90))' }}
       >
         Our goal was to understand what it would take for Alo&apos;s digital presence to match its

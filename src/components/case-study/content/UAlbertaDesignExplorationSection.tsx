@@ -134,7 +134,7 @@ const explorationSlides: ExplorationSlideImage[] = explorations.map(
 )
 
 const VERSION_LABEL_CLASS =
-  'block whitespace-nowrap text-2xl font-bold leading-none tracking-[-0.05em] md:text-[36px]'
+  'block whitespace-nowrap text-2xl font-bold leading-none tracking-[-0.05em] md:text-2xl'
 
 function PlayPauseIcon({
   isPlaying,
@@ -273,7 +273,7 @@ export function UAlbertaDesignExplorationSection() {
         aria-labelledby="ualberta-design-exploration-heading"
         className="relative left-1/2 w-screen -translate-x-1/2 bg-[#CECFCD] py-16 dark:bg-[rgba(255,255,255,0.15)] md:py-24"
       >
-        <div className="mx-auto max-w-[1044px] px-6 2xl:px-0">
+        <div className="cs-content px-6 2xl:px-0">
           <h3
             id="ualberta-design-exploration-heading"
             className={CASE_STUDY_SECTION_LABEL_PROSE}

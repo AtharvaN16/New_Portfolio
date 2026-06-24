@@ -26,7 +26,7 @@ export function AloSEOSection() {
       <div id="keyword" className="scroll-mt-32">
       {/* ── Keyword Strategy ── */}
       <h3
-        className="text-[12px] md:text-[14px] font-bold uppercase mb-6"
+        className="text-sm md:text-base font-semibold normal-case mb-6"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
         Keyword Strategy
@@ -37,7 +37,7 @@ export function AloSEOSection() {
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
+        className="text-xl md:text-2xl font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
       />
 
       <div className="mb-4">
@@ -113,7 +113,7 @@ export function AloSEOSection() {
             animationType="fadeIn"
             alwaysAnimate={false}
             delay={0}
-            className="text-2xl md:text-[42px] font-bold text-text-primary leading-[1.15] tracking-[-0.04em]"
+            className="text-xl md:text-2xl font-bold text-text-primary leading-[1.15] tracking-[-0.04em]"
           />
         </div>
 
@@ -131,7 +131,7 @@ export function AloSEOSection() {
             animationType="fadeIn"
             alwaysAnimate={false}
             delay={0}
-            className="text-2xl md:text-[42px] font-bold text-text-primary leading-[1.15] tracking-[-0.04em]"
+            className="text-xl md:text-2xl font-bold text-text-primary leading-[1.15] tracking-[-0.04em]"
           />
         </div>
       </div>
@@ -145,7 +145,7 @@ export function AloSEOSection() {
       {/* ── Finding 2: SEO Audit ── */}
       <div id="seo" className="scroll-mt-32">
         <h3
-        className="text-[12px] md:text-[14px] font-bold uppercase mb-8 md:mb-10"
+        className="text-sm md:text-base font-semibold normal-case mb-8 md:mb-10"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
         SEO Audit
@@ -189,7 +189,7 @@ export function AloSEOSection() {
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
+        className="text-xl md:text-2xl font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
       />
 
       {/* IndexabilityWall visual first */}
@@ -200,10 +200,10 @@ export function AloSEOSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-14">
           <div className="flex max-w-[520px] flex-col gap-8">
-            <h4 className="max-w-[420px] text-2xl md:text-[30px] font-bold text-text-primary leading-tight tracking-[-0.04em]">
+            <h4 className="max-w-[420px] text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.04em]">
               Significant Gaps in Search Engine Indexability
             </h4>
-            <p className="text-base md:text-[18px] leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+            <p className="text-base md:text-[18px] leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
               Out of 392, a significant portion of the crawled URLs (143 i.e. 36.5%) is non-indexable. More concerningly, 104 URLs (26.5% of the total crawl) returned 4xx Client Errors, which effectively makes them broken links or blocked content from a crawler&apos;s perspective.
             </p>
 
@@ -214,7 +214,7 @@ export function AloSEOSection() {
               >
                 Why it matters
               </p>
-              <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+              <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                 &ldquo;Indexable&rdquo; pages are those that Google can successfully crawl and include in its search results. &ldquo;Non-indexable&rdquo; pages are those that search engines are instructed to ignore or those that fail to load correctly.
               </p>
             </div>
@@ -229,7 +229,7 @@ export function AloSEOSection() {
         <h5 className="text-xs font-mono uppercase tracking-widest mb-4" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           Recommendation
         </h5>
-        <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+        <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
           Investigate the 104 client errors. If these are 403 Forbidden errors (common when sites block automated crawlers), ensure future crawls use a &ldquo;User-Agent&rdquo; like Googlebot to bypass basic security blocks. If these are 404s, they should be redirected to the nearest relevant page.
         </p>
       </div>
@@ -242,7 +242,7 @@ export function AloSEOSection() {
           text="Alo yoga website performance needs to be improved"
           animationType="fadeIn"
           delay={0}
-          className="text-2xl md:text-[40px] font-bold text-text-primary mb-16 leading-tight tracking-[-0.05em] max-w-[800px]"
+          className="text-xl md:text-2xl font-bold text-text-primary mb-16 leading-tight tracking-[-0.05em] max-w-[800px]"
         />
 
         <div className="mb-16">
@@ -257,7 +257,7 @@ export function AloSEOSection() {
             >
               Why it matters
             </p>
-            <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+            <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
               Google uses Core Web Vitals (CWV) to measure how users experience the speed, responsiveness, and visual stability of a page. Pages that fail these metrics are penalized in the search rankings, directly impacting organic visibility and user conversion rates.
             </p>
           </div>
@@ -271,26 +271,26 @@ export function AloSEOSection() {
           </h5>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             <div className="flex flex-col">
-              <h5 className="text-xl md:text-2xl mb-4 text-neutral-900 dark:text-neutral-100" style={{ fontFamily: 'var(--font-instrument), serif' }}>
+              <h5 className="text-lg md:text-xl mb-4 text-neutral-900 dark:text-neutral-100" style={{ fontFamily: 'var(--font-instrument), serif' }}>
                 JavaScript & Payloads:
               </h5>
-              <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+              <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                 Reduce unused JavaScript and compress assets to lower the 24 MB payload. Break up long main-thread tasks to improve mobile responsiveness (INP).
               </p>
             </div>
             <div className="flex flex-col">
-              <h5 className="text-xl md:text-2xl mb-4 text-neutral-900 dark:text-neutral-100" style={{ fontFamily: 'var(--font-instrument), serif' }}>
+              <h5 className="text-lg md:text-xl mb-4 text-neutral-900 dark:text-neutral-100" style={{ fontFamily: 'var(--font-instrument), serif' }}>
                 For CLS:
               </h5>
-              <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+              <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                 Ensure all images and video elements have defined <code className="bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-sm font-mono">width</code> and <code className="bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-sm font-mono">height</code> attributes in the HTML.
               </p>
             </div>
             <div className="flex flex-col">
-              <h5 className="text-xl md:text-2xl mb-4 text-neutral-900 dark:text-neutral-100" style={{ fontFamily: 'var(--font-instrument), serif' }}>
+              <h5 className="text-lg md:text-xl mb-4 text-neutral-900 dark:text-neutral-100" style={{ fontFamily: 'var(--font-instrument), serif' }}>
                 Accessibility:
               </h5>
-              <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+              <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                 Fix buttons and links that lack discernible names, and correct heading structures to improve the accessibility scores.
               </p>
             </div>
@@ -317,7 +317,7 @@ export function AloSEOSection() {
               animationType="fadeIn"
               alwaysAnimate={false}
               delay={0}
-              className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
+              className="text-xl md:text-2xl font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
             />
 
             {/* Insight 1 */}
@@ -327,10 +327,10 @@ export function AloSEOSection() {
               </p>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-14">
                 <div className="flex max-w-[520px] flex-col gap-8">
-                  <h4 className="max-w-[420px] text-2xl md:text-[30px] font-bold text-text-primary leading-tight tracking-[-0.04em]">
+                  <h4 className="max-w-[420px] text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.04em]">
                     Multiple pages are missing meta descriptions
                   </h4>
-                  <p className="text-base md:text-[18px] leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                  <p className="text-base md:text-[18px] leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                     About 39 pages are missing meta descriptions, so search engines lack clear summaries. 57 titles are either too short or too long, making them unclear or likely to be cut off in search results.
                   </p>
 
@@ -338,7 +338,7 @@ export function AloSEOSection() {
                     <p className="text-xs font-mono uppercase tracking-widest mb-4" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                       Why it matters
                     </p>
-                    <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                    <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                       Meta descriptions and titles are the first things users and search engines see. Missing or poorly formatted metadata reduces click-through rates and makes it harder for search engines to rank the page appropriately.
                     </p>
                   </div>
@@ -347,7 +347,7 @@ export function AloSEOSection() {
                     <h5 className="text-xs font-mono uppercase tracking-widest mb-4" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                       Recommendation
                     </h5>
-                    <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                    <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                       Alo should prioritize rewriting product page titles and meta descriptions across all categories. Ensure titles are descriptive, within optimal length, and include relevant target keywords to improve overall search visibility.
                     </p>
                   </div>
@@ -375,10 +375,10 @@ export function AloSEOSection() {
               </p>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-14">
                 <div className="flex max-w-[520px] flex-col gap-8">
-                  <h4 className="max-w-[420px] text-2xl md:text-[30px] font-bold text-text-primary leading-tight tracking-[-0.04em]">
+                  <h4 className="max-w-[420px] text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.04em]">
                     Multiple indexed pages are missing H1s
                   </h4>
-                  <p className="text-base md:text-[18px] leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                  <p className="text-base md:text-[18px] leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                     48.6% of pages are missing an H1. This makes it harder for search engines and users to understand what each page is about.
                   </p>
 
@@ -386,7 +386,7 @@ export function AloSEOSection() {
                     <p className="text-xs font-mono uppercase tracking-widest mb-4" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                       Why it matters
                     </p>
-                    <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                    <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                       The H1 tag acts as the primary headline for a web page. Without it, search engines struggle to determine the page&apos;s core topic, which can significantly hurt organic ranking performance.
                     </p>
                   </div>
@@ -395,7 +395,7 @@ export function AloSEOSection() {
                     <h5 className="text-xs font-mono uppercase tracking-widest mb-4" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                       Recommendation
                     </h5>
-                    <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                    <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                       Every indexable page should have one clear, descriptive H1 that reflects the main search intent for that specific category or product, rather than relying on vague brand or campaign language.
                     </p>
                   </div>
@@ -423,10 +423,10 @@ export function AloSEOSection() {
               </p>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-14">
                 <div className="flex max-w-[520px] flex-col gap-8">
-                  <h4 className="max-w-[420px] text-2xl md:text-[30px] font-bold text-text-primary leading-tight tracking-[-0.04em]">
+                  <h4 className="max-w-[420px] text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.04em]">
                     Multiple crawled pages have very shallow content depth
                   </h4>
-                  <p className="text-base md:text-[18px] leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                  <p className="text-base md:text-[18px] leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                     About 36% of pages have very little content (under 200 words). This makes it harder for search engines to understand the page and rank it properly.
                   </p>
 
@@ -434,7 +434,7 @@ export function AloSEOSection() {
                     <p className="text-xs font-mono uppercase tracking-widest mb-4" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                       Why it matters
                     </p>
-                    <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                    <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                       Search engines rely on text to understand context. Pages with &quot;thin&quot; content are often deemed low-value by Google and struggle to rank for competitive, high-intent keywords.
                     </p>
                   </div>
@@ -443,7 +443,7 @@ export function AloSEOSection() {
                     <h5 className="text-xs font-mono uppercase tracking-widest mb-4" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                       Recommendation
                     </h5>
-                    <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                    <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                       Alo should prioritize adding substantive, helpful content to category and product pages. This provides search engines with more context and helps customers make informed purchasing decisions across all product lines.
                     </p>
                   </div>
@@ -480,16 +480,16 @@ export function AloSEOSection() {
               animationType="fadeIn"
               alwaysAnimate={false}
               delay={0}
-              className="text-2xl md:text-[40px] font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
+              className="text-xl md:text-2xl font-bold text-text-primary mb-8 leading-tight tracking-[-0.05em] max-w-[680px]"
             />
 
             <section className="pt-8 mb-10 md:mb-12">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-14">
                 <div className="flex max-w-[520px] flex-col gap-8">
-                  <h4 className="max-w-[420px] text-2xl md:text-[30px] font-bold text-text-primary leading-tight tracking-[-0.04em]">
+                  <h4 className="max-w-[420px] text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.04em]">
                     High volume, low quality backlink profile
                   </h4>
-                  <p className="text-base md:text-[18px] leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                  <p className="text-base md:text-[18px] leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                     Alo&apos;s backlink profile is strong in size, but weak in quality and diversity. 66% of referring domains are low authority, and 11% of backlinks use completely empty anchors. Furthermore, promotional anchors like &quot;get the deal&quot; dominate instead of descriptive product terms.
                   </p>
  
@@ -500,7 +500,7 @@ export function AloSEOSection() {
                     >
                       Why it matters
                     </p>
-                    <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                    <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                       Backlinks are like &quot;votes of confidence&quot; from other websites. When most votes come from low-quality sites or lack descriptive context (anchors), search engines trust the site less, making it harder to rank for competitive terms.
                     </p>
                   </div>
@@ -508,12 +508,12 @@ export function AloSEOSection() {
                 
                 <div className="flex flex-col gap-8 lg:gap-12 w-full max-w-[400px] lg:ml-auto lg:mr-0 pt-2">
                   <div className="flex flex-col">
-                    <div className="text-5xl md:text-6xl font-black mb-2 text-[#A03033] dark:text-[#FF8E8B] tracking-[-0.05em]">66%</div>
-                    <div className="text-sm md:text-base font-medium leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>of referring domains are low authority</div>
+                    <div className="text-2xl md:text-2xl font-black mb-2 text-[#A03033] dark:text-[#FF8E8B] tracking-[-0.05em]">66%</div>
+                    <div className="text-sm md:text-base font-medium leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>of referring domains are low authority</div>
                   </div>
                   <div className="flex flex-col">
-                    <div className="text-5xl md:text-6xl font-black mb-2 text-[#D67027] dark:text-[#E89E62] tracking-[-0.05em]">11%</div>
-                    <div className="text-sm md:text-base font-medium leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>of backlinks use completely empty anchors</div>
+                    <div className="text-2xl md:text-2xl font-black mb-2 text-[#D67027] dark:text-[#E89E62] tracking-[-0.05em]">11%</div>
+                    <div className="text-sm md:text-base font-medium leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>of backlinks use completely empty anchors</div>
                   </div>
                 </div>
               </div>
@@ -524,7 +524,7 @@ export function AloSEOSection() {
                 <h5 className="text-xs font-mono uppercase tracking-widest mb-4" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                   Recommendation
                 </h5>
-                <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                   Alo should prioritize higher-authority backlinks from fitness, fashion, wellness, lifestyle, and media sites. It should also guide partners and affiliates toward more descriptive anchor text (e.g., &quot;women&apos;s yoga leggings,&quot; &quot;men&apos;s activewear,&quot; &quot;Alo workout sets&quot;).
                 </p>
               </div>
@@ -533,7 +533,7 @@ export function AloSEOSection() {
                 <h5 className="text-xs font-mono uppercase tracking-widest mb-4" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
                   Expected Impact
                 </h5>
-                <p className="text-sm md:text-base leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                <p className="text-sm md:text-base leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                   Better backlink quality and anchor relevance would improve Alo&apos;s ability to rank for priority non-branded keywords. This can drastically increase domain authority, keyword visibility, and qualified organic traffic.
                 </p>
               </div>

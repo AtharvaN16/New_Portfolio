@@ -175,7 +175,7 @@ export function SubjectGuidesPrototype() {
 
         <div className="flex-1 overflow-y-auto pt-6 px-8">
           <h1 className="text-[22px] font-bold text-[#1F5C35] mb-2">Subject Guides</h1>
-          <p className="text-[10px] text-[#555] mb-8 leading-relaxed max-w-[480px]">
+          <p className="text-[10px] text-[#555] mb-8 leading-normal max-w-[480px]">
             A subject guide on a university website is a curated resource designed to help students and researchers explore and navigate a specific field of study. It typically includes recommended readings, key databases, journals, research tools, and contact information for subject librarians who can provide assistance.
           </p>
 

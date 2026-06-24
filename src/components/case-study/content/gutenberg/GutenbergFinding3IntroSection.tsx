@@ -7,7 +7,7 @@ export function GutenbergFinding3IntroSection() {
   return (
     <>
             <h3
-              className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+              className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
               style={{ color: 'rgb(var(--color-text-tertiary))' }}
             >
               Finding 3
@@ -20,7 +20,7 @@ export function GutenbergFinding3IntroSection() {
               animationType="fadeIn"
               alwaysAnimate={false}
               delay={0}
-              className="text-2xl md:text-[40px] font-bold text-text-primary mb-24 leading-tight tracking-[-0.05em]"
+              className="text-xl md:text-2xl font-bold text-text-primary mb-24 leading-tight tracking-[-0.05em]"
             />
 
             {/* Problem */}
@@ -29,7 +29,7 @@ export function GutenbergFinding3IntroSection() {
                 Problem
               </h4>
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed mb-8"
+                className="text-base md:text-[18px] font-normal leading-normal mb-8"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 Users struggled to find the AI button, understand the built-in
@@ -60,13 +60,13 @@ export function GutenbergFinding3IntroSection() {
                 User Impact
               </h4>
               <ul className="space-y-3 list-disc list-inside ml-2">
-                <li className="text-base md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                <li className="text-base md:text-[18px] font-normal leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                   Task 5 (AI Content Generation) had an <strong>average completion time of 4.1 minutes</strong> (2nd highest across all tasks)
                 </li>
-                <li className="text-base md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                <li className="text-base md:text-[18px] font-normal leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                   Users closed the AI interface multiple times when encountering unexpected steps
                 </li>
-                <li className="text-base md:text-[18px] font-normal leading-relaxed" style={{ color: 'rgb(var(--color-text-color90))' }}>
+                <li className="text-base md:text-[18px] font-normal leading-normal" style={{ color: 'rgb(var(--color-text-color90))' }}>
                   These friction points hurt AI feature adoption and highlight the need for better discoverability, clearer labels, and a simpler process
                 </li>
               </ul>
@@ -104,7 +104,7 @@ export function GutenbergFinding3IntroSection() {
                 </div>
                 <div>
                   <p
-                    className="text-base md:text-[18px] font-normal leading-relaxed mb-8"
+                    className="text-base md:text-[18px] font-normal leading-normal mb-8"
                     style={{ color: 'rgb(var(--color-text-color90))' }}
                   >
                     The multi-step interface, particularly the language selection
@@ -121,7 +121,7 @@ export function GutenbergFinding3IntroSection() {
                     />
                     <div className="flex-1 flex items-start justify-between gap-6">
                       <p
-                        className="text-base md:text-[18px] italic leading-relaxed"
+                        className="text-base md:text-[18px] italic leading-normal"
                         style={{ color: 'rgb(var(--color-text-color60))' }}
                       >
                         &ldquo;(Confused that language selection is the first option) I would expect that to be a setting.&rdquo;

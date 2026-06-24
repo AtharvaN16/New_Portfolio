@@ -3,21 +3,12 @@
 import { m, AnimatePresence } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import { AccessibilityModal } from '@/components/layout/AccessibilityModal'
-import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 import { cn } from '@/lib/utils/cn'
 import { MatisseSimulation } from './blv-museum/MatisseSimulation'
 import { MuseumAnalysis } from './blv-museum/MuseumAnalysis'
 import { SolutionParadigm } from './blv-museum/SolutionParadigm'
 
-interface EmpoweringBlvContentProps {
-  isContentRevealed: boolean
-  onToggleContent: () => void
-}
-
-export function EmpoweringBlvContent({
-  isContentRevealed,
-  onToggleContent,
-}: EmpoweringBlvContentProps) {
+export function EmpoweringBlvContent() {
   const scrollContainerRef = useRef<HTMLElement | null>(null)
   const [isReady, setIsReady] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -45,31 +36,12 @@ export function EmpoweringBlvContent({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.8 }}
       >
-        <div className="max-w-[1044px] mx-auto text-left">
-          {/* Abstract Section */}
-          <h3 className="text-lg md:text-case-heading font-bold text-text-primary mb-6 md:mb-[28px]">
-            Abstract
-          </h3>
-          <div className="space-y-6 md:space-y-8">
-            <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
-              This project focuses on the &quot;interpretive authority&quot; in art galleries. While museums provide audio descriptions, these are often fixed, curator-authored accounts that collapse the variability of an artwork into a single narrative. We introduce &quot;negotiable interpretation&quot; as a design paradigm to redistribute that authority back to the visitor.
-            </p>
-            <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
-              Through a multi-phase research process including a literature survey, a corpus analysis of museum audio descriptions, and an interactive simulation, we identified the structural mechanisms that &quot;fix&quot; meaning for visitors before they even arrive.
-            </p>
-          </div>
-
-          <CaseStudyReadMore
-            readTime="12 min read"
-            isContentRevealed={isContentRevealed}
-            onToggleContent={onToggleContent}
-          >
-            <div className="space-y-32 md:space-y-48">
+        <div className="cs-content text-left">
+          <div className="space-y-32 md:space-y-48">
               <MatisseSimulation scrollContainerRef={scrollContainerRef} isReady={isReady} />
               <MuseumAnalysis />
               <SolutionParadigm />
-            </div>
-          </CaseStudyReadMore>
+          </div>
         </div>
       </m.section>
 

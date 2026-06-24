@@ -78,13 +78,13 @@ export function GutenbergMethodologySusSection() {
                   {/* Simple Text Callout */}
                   <div className="flex items-start gap-4">
                     <span
-                      className="text-2xl md:text-3xl flex-shrink-0"
+                      className="text-2xl md:text-2xl flex-shrink-0"
                       aria-hidden="true"
                     >
                       💡
                     </span>
                     <p
-                      className="text-base md:text-[18px] font-normal leading-relaxed flex-1"
+                      className="text-base md:text-[18px] font-normal leading-normal flex-1"
                       style={{ color: 'rgb(var(--color-text-color90))' }}
                     >
                       The System Usability Scale (SUS) is a widely used
@@ -100,11 +100,11 @@ export function GutenbergMethodologySusSection() {
             <div className="space-y-8 md:space-y-12">
               {/* Overall Score */}
               <div className="space-y-3">
-                <div className="text-[48px] font-bold tracking-[-0.05em] text-warning">
+                <div className="text-[40px] font-bold tracking-[-0.05em] text-warning">
                   60
                 </div>
                 <p
-                  className="text-[20px] font-bold leading-relaxed"
+                  className="text-[20px] font-bold leading-normal"
                   style={{ color: 'rgb(var(--color-text-primary))' }}
                 >
                   The Overall score was 60 (Needs improvement - Below Industry
@@ -117,13 +117,13 @@ export function GutenbergMethodologySusSection() {
                 {/* Learnability Score */}
                 <div className="space-y-3">
                   <div
-                    className="text-[32px] font-bold tracking-[-0.05em]"
+                    className="text-2xl font-bold tracking-[-0.05em]"
                     style={{ color: 'rgb(var(--color-text-primary))' }}
                   >
                     72.2
                   </div>
                   <p
-                    className="text-base md:text-[18px] font-semibold leading-relaxed"
+                    className="text-base md:text-[18px] font-semibold leading-normal"
                     style={{ color: 'rgb(var(--color-text-primary))' }}
                   >
                     The Learnability score was 72.2{' '}
@@ -132,7 +132,7 @@ export function GutenbergMethodologySusSection() {
                     </span>
                   </p>
                   <p
-                    className="text-[16px] font-normal leading-relaxed"
+                    className="text-[16px] font-normal leading-normal"
                     style={{ color: 'rgb(var(--color-text-secondary))' }}
                   >
                     The tool feels familiar enough for users to learn how to
@@ -143,13 +143,13 @@ export function GutenbergMethodologySusSection() {
                 {/* Usability Score */}
                 <div className="space-y-3">
                   <div
-                    className="text-[32px] font-bold tracking-[-0.05em]"
+                    className="text-2xl font-bold tracking-[-0.05em]"
                     style={{ color: 'rgb(var(--color-text-primary))' }}
                   >
                     56.9
                   </div>
                   <p
-                    className="text-base md:text-[18px] font-semibold leading-relaxed"
+                    className="text-base md:text-[18px] font-semibold leading-normal"
                     style={{ color: 'rgb(var(--color-text-primary))' }}
                   >
                     The Usability score was 56.9{' '}
@@ -158,7 +158,7 @@ export function GutenbergMethodologySusSection() {
                     </span>
                   </p>
                   <p
-                    className="text-[16px] font-normal leading-relaxed"
+                    className="text-[16px] font-normal leading-normal"
                     style={{ color: 'rgb(var(--color-text-secondary))' }}
                   >
                     People struggle to find the right features and understand

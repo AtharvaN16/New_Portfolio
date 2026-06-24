@@ -15,13 +15,13 @@ export function SolutionParadigm() {
     <div className="space-y-24 md:space-y-32">
       {/* The Solution */}
       <div>
-        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           The Solution
         </h3>
         <AnimatedText variant="heading"
           text="Introducing Descripto"
           animationType="fadeIn"
-          className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
+          className="text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
         />
         <div className="space-y-8">
           {/* Image - no frame, no rounded corner, no stroke, with dark gray bg */}
@@ -38,18 +38,18 @@ export function SolutionParadigm() {
               {hideImages && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-neutral-100 dark:bg-neutral-800 border border-dashed border-text-color30 z-20">
                   <span className="text-[10px] uppercase tracking-widest text-text-color60 mb-2">Image Hidden</span>
-                  <p className="text-xs md:text-sm font-sans text-text-primary leading-relaxed max-w-[85%] font-medium">
+                  <p className="text-xs md:text-sm font-sans text-text-primary leading-normal max-w-[85%] font-medium">
                     Descripto app interface shown on a mobile device, demonstrating the accessible art exploration features.
                   </p>
                 </div>
               )}
             </div>
-            <p className="text-xs md:text-sm font-sans text-text-color60 leading-relaxed max-w-[800px] text-left">
+            <p className="text-xs md:text-sm font-sans text-text-color60 leading-normal max-w-[800px] text-left">
               <strong className="text-text-primary font-semibold">Figure 4:</strong> The Descripto mobile application interface, showcasing clean high-contrast layouts, variable speed audio description options, and multi-layered factual-to-interpretive text structures designed specifically for visually impaired gallery visitors.
             </p>
           </div>
 
-          <p className="text-base md:text-[18px] text-text-color90 leading-relaxed max-w-[800px]">
+          <p className="text-base md:text-[18px] text-text-color90 leading-normal max-w-[800px]">
             Descripto is an audio description app for BLV museum visitors, which allows users to explore the art on their own terms.
           </p>
         </div>
@@ -66,26 +66,26 @@ export function SolutionParadigm() {
           {hideImages && (
             <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-neutral-100 dark:bg-[#1C1C1E] border border-dashed border-text-color30 z-20">
               <span className="text-[10px] uppercase tracking-widest text-text-color60 mb-2">Image Hidden</span>
-              <p className="text-xs md:text-sm font-sans text-text-primary leading-relaxed max-w-[85%] font-medium text-text-primary">
+              <p className="text-xs md:text-sm font-sans text-text-primary leading-normal max-w-[85%] font-medium text-text-primary">
                 A detailed, full-page workflow infographic showing how visually impaired users interact with the Descripto app across different stages of a museum visit.
               </p>
             </div>
           )}
         </div>
-        <p className="text-xs md:text-sm font-sans text-text-color60 mt-4 leading-relaxed max-w-[800px] text-left">
+        <p className="text-xs md:text-sm font-sans text-text-color60 mt-4 leading-normal max-w-[800px] text-left">
           <strong className="text-text-primary font-semibold">Figure 5:</strong> Complete high-fidelity system workflow mapping the user journey within Descripto, detailing how progressive tactile cues, variable audio descriptions, and progressive disclosure mechanisms guide users step-by-step through a gallery environment.
         </p>
       </div>
 
       {/* Designing with BLV users in mind */}
       <div className="mt-16 md:mt-24">
-        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           Design Details
         </h3>
         <AnimatedText variant="heading"
           text="Designing with BLV users in mind"
           animationType="fadeIn"
-          className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
+          className="text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
           {[
@@ -96,7 +96,7 @@ export function SolutionParadigm() {
           ].map((feature) => (
             <div key={feature.title} className="p-6 md:p-8 bg-neutral-100 dark:bg-[#1C1C1E] space-y-3">
               <h5 className="text-base md:text-[18px] font-bold text-text-primary">{feature.title}</h5>
-              <p className="text-sm md:text-base text-text-body leading-relaxed">{feature.desc}</p>
+              <p className="text-sm md:text-base text-text-body leading-normal">{feature.desc}</p>
             </div>
           ))}
         </div>
@@ -107,7 +107,7 @@ export function SolutionParadigm() {
         <AnimatedText variant="heading"
           text="Conclusion & Learnings"
           animationType="fadeIn"
-          className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-16 md:mb-20"
+          className="text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em] mb-16 md:mb-20"
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
@@ -135,10 +135,10 @@ export function SolutionParadigm() {
           ].map((lesson) => (
             <div key={lesson.num} className="space-y-4">
               <div className="text-lg md:text-xl font-mono font-bold text-text-color60 mb-2">{lesson.num}</div>
-              <h4 className="text-xl md:text-2xl font-bold text-text-primary tracking-tight leading-tight">
+              <h4 className="text-lg md:text-xl font-bold text-text-primary tracking-tight leading-tight">
                 {lesson.title}
               </h4>
-              <p className="text-text-body leading-relaxed text-base">
+              <p className="text-text-body leading-normal text-base">
                 {lesson.desc}
               </p>
             </div>
@@ -148,13 +148,13 @@ export function SolutionParadigm() {
 
       {/* Behind the Scenes */}
       <div className="py-16 md:py-24">
-        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           Process
         </h3>
         <AnimatedText variant="heading"
           text="Behind the Scenes"
           animationType="fadeIn"
-          className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
+          className="text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em] mb-8"
         />
         <div className="space-y-4 mb-8">
           <div className="relative w-full aspect-[16/9] overflow-hidden bg-neutral-900 dark:bg-neutral-950">
@@ -168,23 +168,23 @@ export function SolutionParadigm() {
             {hideImages && (
               <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-neutral-100 dark:bg-neutral-800 border border-dashed border-text-color30 z-20">
                 <span className="text-[10px] uppercase tracking-widest text-text-color60 mb-2">Image Hidden</span>
-                <p className="text-xs md:text-sm font-sans text-text-primary leading-relaxed max-w-[85%] font-medium">
+                <p className="text-xs md:text-sm font-sans text-text-primary leading-normal max-w-[85%] font-medium">
                   A compilation of behind-the-scenes photographs showcasing the research, collaborative whiteboarding sessions, and prototyping process.
                 </p>
               </div>
             )}
           </div>
-          <p className="text-xs md:text-sm font-sans text-text-color60 mt-6 md:mt-8 leading-relaxed max-w-[800px] text-left">
+          <p className="text-xs md:text-sm font-sans text-text-color60 mt-6 md:mt-8 leading-normal max-w-[800px] text-left">
             <strong className="text-text-primary font-semibold">Figure 6:</strong> Behind-the-scenes documentation of our collaborative process, showcasing academic literature mapping, structured user flows, comparative analyses, and brainstorming workshops.
           </p>
         </div>
       </div>
 
       <div className="py-16 md:py-24 border-t border-text-color10">
-        <h3 className="text-2xl md:text-[32px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-6 md:mb-8">
+        <h3 className="text-2xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em] mb-6 md:mb-8">
           References
         </h3>
-          <ol className="list-decimal pl-5 space-y-6 text-base md:text-[18px] text-text-body leading-relaxed mb-16">
+          <ol className="list-decimal pl-5 space-y-6 text-base md:text-[18px] text-text-body leading-normal mb-16">
             <li>
               <strong>Candlin, F. (2003).</strong> Blindness, art and exclusion in museums and galleries. International Journal of Art and Design, 22(1), 100–110.<br />
               <a href="http://eprints.bbk.ac.uk/745" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">http://eprints.bbk.ac.uk/745</a>
@@ -207,10 +207,10 @@ export function SolutionParadigm() {
             </li>
           </ol>
 
-          <h4 className="text-[12px] md:text-[14px] font-bold uppercase mb-2" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+          <h4 className="text-sm md:text-base font-semibold normal-case mb-2" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
             ai credit
           </h4>
-          <p className="text-base text-text-body leading-relaxed">
+          <p className="text-base text-text-body leading-normal">
             Hero image created using Gemini
           </p>
         </div>

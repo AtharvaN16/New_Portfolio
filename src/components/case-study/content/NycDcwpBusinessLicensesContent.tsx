@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { m } from 'framer-motion'
 import Image from 'next/image'
-import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import { ProjectCard } from '@/components/work/ProjectCard'
 import { ChecklistProcessOverviewSection } from '@/components/case-study/content/dcwp/ChecklistProcessOverviewSection'
@@ -11,15 +10,7 @@ import { ChecklistSubCase } from '@/components/case-study/content/dcwp/Checklist
 import { HighlightsSection } from '@/components/case-study/content/dcwp/HighlightsSection'
 import { ChecklistSolutionsSection } from '@/components/case-study/content/dcwp/ChecklistSolutionsSection'
 
-interface NycDcwpBusinessLicensesContentProps {
-  isContentRevealed: boolean
-  onToggleContent: () => void
-}
-
-export function NycDcwpBusinessLicensesContent({
-  isContentRevealed,
-  onToggleContent,
-}: NycDcwpBusinessLicensesContentProps) {
+export function NycDcwpBusinessLicensesContent() {
   const [showAnnotations, setShowAnnotations] = useState(true)
   const [showAnnotations2, setShowAnnotations2] = useState(true)
 
@@ -33,64 +24,35 @@ export function NycDcwpBusinessLicensesContent({
     >
       <div
         data-section="nyc-dcwp-content-column"
-        className="max-w-[1044px] mx-auto text-left"
+        className="cs-content text-left"
       >
-        {/* Abstract */}
-        <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
-          Abstract
-        </h3>
         <div
-          data-section="nyc-dcwp-abstract-body"
-          className="space-y-6 md:space-y-8"
+          data-section="nyc-dcwp-read-more-inner"
+          className="space-y-12 md:space-y-16"
         >
-          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
-            NYC DCWP Chief Information Officer Rina Sharma approached Pratt
-            Institute with a project to improve the functionality of the
-            business portal, with a specific focus on the Home Improvement
-            License category. This category has the highest number of
-            licensees, with more than 14,000 businesses.
-          </p>
-          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
-            Many home improvement contractors tend to be older, may be less
-            comfortable with digital systems, and often have limited
-            English proficiency. The goal of the project was to identify
-            pain points in the application and renewal journey and make the
-            process easier to navigate with less confusion and friction.
-          </p>
-        </div>
-
-        <CaseStudyReadMore
-          readTime="15 min read (3 mini casestudies)"
-          isContentRevealed={isContentRevealed}
-          onToggleContent={onToggleContent}
-        >
-          <div
-            data-section="nyc-dcwp-read-more-inner"
-            className="space-y-12 md:space-y-16"
-          >
             <div data-section="nyc-dcwp-hero-headline">
-              <h2 className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em]">
+              <h2 className="text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em]">
                 Helping 14,000+ business owners renew and apply for licenses
                 with less hassle and more clarity
               </h2>
             </div>
 
             <section data-section="nyc-dcwp-the-client">
-              <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
+              <h3 className="text-base md:text-2xl font-bold text-text-primary mb-6 md:mb-[28px]">
                 The Client
               </h3>
               <div
                 data-section="nyc-dcwp-the-client-body"
                 className="space-y-6 md:space-y-8"
               >
-                <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+                <p className="text-base md:text-[18px] font-normal text-text-body leading-normal">
                   The New York City Department of Consumer and Worker
                   Protection is responsible for issuing licenses to more
                   than 45,000 businesses across over 40 industries and
                   enforces major consumer protection, licensing, and
                   workplace laws.
                 </p>
-                <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+                <p className="text-base md:text-[18px] font-normal text-text-body leading-normal">
                   The product in scope was the department&apos;s online
                   portal, where business owners apply for or renew their
                   licenses.
@@ -100,10 +62,10 @@ export function NycDcwpBusinessLicensesContent({
 
             {/* Opportunity */}
             <section data-section="nyc-dcwp-opportunity">
-              <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
+              <p className="text-sm md:text-base font-semibold normal-case tracking-widest text-text-color70 mb-4">
                 Opportunity
               </p>
-              <h3 className="text-xl md:text-[28px] font-bold text-text-primary mb-6 md:mb-8 leading-snug">
+              <h3 className="text-lg md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-snug">
                 By improving the Home Improvement License Renewal
                 functionality, DCWP can:
               </h3>
@@ -115,7 +77,7 @@ export function NycDcwpBusinessLicensesContent({
                 ].map((item) => (
                   <li
                     key={item}
-                    className="flex items-start gap-3 text-base md:text-[18px] text-text-body leading-relaxed"
+                    className="flex items-start gap-3 text-base md:text-[18px] text-text-body leading-normal"
                   >
                     <svg
                       className="mt-[0.42em] h-2 w-2 shrink-0"
@@ -157,10 +119,10 @@ export function NycDcwpBusinessLicensesContent({
                     data-section="nyc-dcwp-understanding-process-intro"
                     className="space-y-4"
                   >
-                    <h3 className="text-xl md:text-[28px] font-bold text-text-primary leading-snug">
+                    <h3 className="text-lg md:text-2xl font-bold text-text-primary leading-snug">
                       Understanding the process
                     </h3>
-                    <p className="text-base md:text-[18px] text-text-body leading-relaxed">
+                    <p className="text-base md:text-[18px] text-text-body leading-normal">
                       We visited DCWP&apos;s office on 42 Broadway to talk to
                       the staff from different teams to understand their roles
                       there and understand the application process
@@ -228,7 +190,7 @@ export function NycDcwpBusinessLicensesContent({
                   </div>
                   <p
                     data-section="nyc-dcwp-understanding-process-office-caption"
-                    className="text-sm md:text-base text-text-body leading-relaxed"
+                    className="text-sm md:text-base text-text-body leading-normal"
                   >
                     At the DCWP office, client managers assisted users to
                     create online accounts using the iPads available on-site.
@@ -259,10 +221,10 @@ export function NycDcwpBusinessLicensesContent({
                 data-section="nyc-dcwp-case-studies-hub-header"
                 className="space-y-4 mb-12 md:mb-16"
               >
-                <h3 className="text-xl md:text-[28px] font-bold text-text-primary leading-snug">
+                <h3 className="text-lg md:text-2xl font-bold text-text-primary leading-snug">
                   Case Studies
                 </h3>
-                <p className="text-base md:text-[18px] text-text-body leading-relaxed max-w-2xl">
+                <p className="text-base md:text-[18px] text-text-body leading-normal max-w-2xl">
                   To help you better understand each part of this large project,
                   I&apos;ve broken it up into bite-sized case studies for an
                   easier read.
@@ -327,10 +289,10 @@ export function NycDcwpBusinessLicensesContent({
                 data-section="nyc-dcwp-research-intro"
                 className="max-w-[680px] space-y-6"
               >
-                <h3 className="text-xl md:text-[28px] font-bold text-text-primary leading-snug">
+                <h3 className="text-lg md:text-2xl font-bold text-text-primary leading-snug">
                   Research
                 </h3>
-                <p className="text-base md:text-[18px] leading-relaxed text-text-body">
+                <p className="text-base md:text-[18px] leading-normal text-text-body">
                   To understand if this page was effective in guiding and empowering users through the
                   process, we conducted 10 moderated usability testing sessions. The results confirmed
                   our suspicions and helped us to convince the client of the need to redesign the
@@ -419,10 +381,10 @@ export function NycDcwpBusinessLicensesContent({
                     <p className="text-2xl md:text-insight-num font-bold text-text-primary opacity-50">
                       01
                     </p>
-                    <h4 className="text-xl md:text-2xl font-bold text-text-primary">
+                    <h4 className="text-lg md:text-xl font-bold text-text-primary">
                       Important information does not stand out
                     </h4>
-                    <p className="text-sm md:text-base font-normal text-text-body leading-relaxed">
+                    <p className="text-sm md:text-base font-normal text-text-body leading-normal">
                       There are many important sections, but they are not visually distinct and
                       don&apos;t stand out from the other content. Additionally, some sections are
                       bold, others italicized, and multiple font sizes are used. There is no
@@ -437,7 +399,7 @@ export function NycDcwpBusinessLicensesContent({
                     <p className="text-sm font-mono uppercase tracking-widest text-text-color70">
                       Impact
                     </p>
-                    <p className="text-sm font-sans font-normal text-text-body leading-relaxed">
+                    <p className="text-sm font-sans font-normal text-text-body leading-normal">
                       When everything looks the same, users may overlook critical requirements or
                       instructions, increasing the risk of submitting incomplete or incorrect
                       applications—potentially leading to rejection, avoidable delays, and
@@ -474,16 +436,16 @@ export function NycDcwpBusinessLicensesContent({
                   <p className="text-2xl md:text-insight-num font-bold text-text-primary opacity-50">
                     02
                   </p>
-                  <h4 className="text-xl md:text-2xl font-bold text-text-primary">
+                  <h4 className="text-lg md:text-xl font-bold text-text-primary">
                     Users would just skip the Exam section
                   </h4>
-                  <p className="text-sm md:text-base font-normal text-text-body leading-relaxed">
+                  <p className="text-sm md:text-base font-normal text-text-body leading-normal">
                     During testing we noticed that users barely read through the whole page
                     because it was just too long and dense. Most of them assumed they just had to
                     fill out the application, submit the documents and that was it. They were
                     unaware that they needed to take an exam and undergo fingerprinting.
                   </p>
-                  <p className="text-sm md:text-base font-normal text-text-body leading-relaxed">
+                  <p className="text-sm md:text-base font-normal text-text-body leading-normal">
                     A DCWP staff member also noted that a significant number of applicants
                     attempted to register for the exam before completing their
                     application—despite the fact that the exam can only be taken after the
@@ -557,10 +519,10 @@ export function NycDcwpBusinessLicensesContent({
                       className="space-y-3"
                     >
                       <p className="text-2xl md:text-insight-num font-bold text-text-primary opacity-50">03</p>
-                      <h4 className="text-xl md:text-2xl font-bold text-text-primary">
+                      <h4 className="text-lg md:text-xl font-bold text-text-primary">
                         Fee Table is not easy to understand
                       </h4>
-                      <p className="text-sm md:text-base font-normal text-text-body leading-relaxed md:max-w-[380px]">
+                      <p className="text-sm md:text-base font-normal text-text-body leading-normal md:max-w-[380px]">
                         The current fee table on the page is difficult to understand. The amount you
                         pay depends on a bunch of factors, whether it&apos;s an odd or even year, how
                         long the license is valid for, and the month in which the applicant applies.
@@ -617,10 +579,10 @@ export function NycDcwpBusinessLicensesContent({
                   className="space-y-4 md:max-w-[380px]"
                 >
                   <p className="text-2xl md:text-insight-num font-bold text-text-primary opacity-50">04</p>
-                  <h4 className="text-xl md:text-2xl font-bold text-text-primary">
+                  <h4 className="text-lg md:text-xl font-bold text-text-primary">
                     CTA* Placement Does Not Match User Expectations
                   </h4>
-                  <p className="text-sm md:text-base font-normal text-text-body leading-relaxed">
+                  <p className="text-sm md:text-base font-normal text-text-body leading-normal">
                     Most users expect the option to begin their application to be at the top of the
                     page. Instead, they have to scroll through a lengthy page to find it. It also
                     lacks the visual cues you typically associate with a button—with one user
@@ -633,7 +595,7 @@ export function NycDcwpBusinessLicensesContent({
                     <p className="text-sm font-mono uppercase tracking-widest text-text-color70">
                       Impact
                     </p>
-                    <p className="text-sm font-sans font-normal text-text-body leading-relaxed">
+                    <p className="text-sm font-sans font-normal text-text-body leading-normal">
                       Users are likely to miss the application button entirely or assume they need
                       to visit a separate page, increasing drop-off and confusion at a critical
                       step in the process.
@@ -664,10 +626,10 @@ export function NycDcwpBusinessLicensesContent({
                   className="space-y-3 md:max-w-[380px]"
                 >
                   <p className="text-2xl md:text-insight-num font-bold text-text-primary opacity-50">05</p>
-                  <h4 className="text-xl md:text-2xl font-bold text-text-primary">
+                  <h4 className="text-lg md:text-xl font-bold text-text-primary">
                     The Page is too long
                   </h4>
-                  <p className="text-sm md:text-base font-normal text-text-body leading-relaxed">
+                  <p className="text-sm md:text-base font-normal text-text-body leading-normal">
                     Users mentioned that the page felt excessively long, especially when viewed on
                     mobile. The length discouraged thorough reading, made users feel overwhelmed.
                     Many stopped reading halfway and skipped important details.
@@ -690,7 +652,6 @@ export function NycDcwpBusinessLicensesContent({
 
             <ChecklistSolutionsSection />
           </div>
-        </CaseStudyReadMore>
       </div>
     </m.section>
   )

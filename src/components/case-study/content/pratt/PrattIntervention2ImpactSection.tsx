@@ -7,7 +7,7 @@ export function PrattIntervention2ImpactSection() {
     <>
         {/* ── Intervention 2 Ecosystem Impact ── */}
         <div className="mt-16 md:mt-20">
-          <h4 className="text-xl md:text-[28px] font-bold text-text-primary mb-12 md:mb-16 leading-tight tracking-[-0.03em]">
+          <h4 className="text-lg md:text-2xl font-bold text-text-primary mb-12 md:mb-16 leading-tight tracking-[-0.03em]">
             How the Updated Visitor Welcome Packet Strengthens the
             Visitor Services Ecosystem Loops
           </h4>
@@ -20,7 +20,7 @@ export function PrattIntervention2ImpactSection() {
               </h5>
               <div className="space-y-4">
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   The updated welcome packet gives visitors foundational
@@ -32,7 +32,7 @@ export function PrattIntervention2ImpactSection() {
                   storytelling, campus culture, and personal experiences.
                 </p>
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   Visitors leave feeling more grounded, informed, and
@@ -50,7 +50,7 @@ export function PrattIntervention2ImpactSection() {
               </h5>
               <div className="space-y-4">
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   With clearer maps, FAQs, and digital resources,
@@ -61,7 +61,7 @@ export function PrattIntervention2ImpactSection() {
                   the tour.
                 </p>
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   This allows the Student Visitor Services Assistant to
@@ -79,7 +79,7 @@ export function PrattIntervention2ImpactSection() {
               </h5>
               <div className="space-y-4">
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   Updated printed materials and the digital welcome guide
@@ -90,7 +90,7 @@ export function PrattIntervention2ImpactSection() {
                   tone, and design across all touchpoints.
                 </p>
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   Visitors gain greater trust in Pratt&apos;s
@@ -108,7 +108,7 @@ export function PrattIntervention2ImpactSection() {
               </h5>
               <div className="space-y-4">
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   Visitors now arrive to counselor meetings with a
@@ -120,7 +120,7 @@ export function PrattIntervention2ImpactSection() {
                   visitor&apos;s goals.
                 </p>
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   Visitors leave advising sessions feeling prepared,

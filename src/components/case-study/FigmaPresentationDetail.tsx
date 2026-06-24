@@ -2,7 +2,6 @@
 
 import { m } from 'framer-motion'
 import { useRef, useState } from 'react'
-import Image from 'next/image'
 import type { CaseStudy } from '@/lib/data/case-studies'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import {
@@ -11,6 +10,7 @@ import {
   useInterceptHistoryBackToClose,
 } from '@/hooks/use-figma-presentation-overlay'
 import { CaseStudyLayout } from '@/components/case-study/CaseStudyLayout'
+import { CaseStudyHeroImage } from '@/components/case-study/CaseStudyHeroImage'
 
 interface FigmaPresentationDetailProps {
   caseStudy: CaseStudy
@@ -36,8 +36,6 @@ export function FigmaPresentationDetail({
 
   useInterceptHistoryBackToClose(closePresentation)
 
-  const hasAbstract = !!(caseStudy.fullDescription || caseStudy.overviewBullets)
-
   const heroSlot = (
     <main className="px-6 2xl:px-[140px] pt-4 pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100dvh-4.625rem)] md:min-h-[calc(100dvh-4.875rem)] flex flex-col relative">
       <AnimatedText
@@ -46,7 +44,7 @@ export function FigmaPresentationDetail({
         animationType="fadeIn"
         alwaysAnimate
         delay={0.8}
-        className="text-[2rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
+        className="text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em] max-w-[1400px]"
       />
 
       <m.div
@@ -56,7 +54,7 @@ export function FigmaPresentationDetail({
         transition={{ duration: 0.6, delay: 0.4 }}
       >
         <div className="max-w-full sm:max-w-[25rem] md:max-w-[28.75rem] text-left">
-          <p className="text-base md:text-lg text-text-body leading-relaxed">
+          <p className="text-base md:text-lg text-text-body leading-normal">
             {caseStudy.description}
           </p>
         </div>
@@ -103,81 +101,17 @@ export function FigmaPresentationDetail({
     </main>
   )
 
-  const abstractSlot = hasAbstract && (
-    <m.section
-      className="w-full px-6 2xl:px-[140px] py-16 md:py-24 max-w-[1920px] mx-auto"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.8 }}
-      aria-label="Abstract"
-    >
-      <div className="max-w-[1044px] mx-auto text-left">
-        <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
-          Abstract
-        </h3>
-
-        {caseStudy.fullDescription && (
-          <p className="text-base md:text-[18px] font-normal text-text-color90 leading-relaxed">
-            {caseStudy.fullDescription}
-          </p>
-        )}
-
-        {caseStudy.overviewBullets && (
-          <div className="mt-8 md:mt-10">
-            <p className="text-base md:text-[18px] font-semibold text-text-primary mb-4 md:mb-5">
-              {caseStudy.overviewBullets.heading}:
-            </p>
-            <ul className="space-y-3 md:space-y-4">
-              {caseStudy.overviewBullets.items.map((item, i) => (
-                <li key={i} className="flex items-start gap-3">
-                <span
-                  className="mt-[0.45em] shrink-0 w-[6px] h-[6px] rounded-full"
-                  style={{ backgroundColor: 'rgb(var(--color-text-color90))' }}
-                  aria-hidden
-                />
-                  <span className="text-base md:text-[18px] font-normal text-text-color90 leading-relaxed">
-                    {item}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    </m.section>
-  )
-
   return (
     <CaseStudyLayout 
       caseStudy={caseStudy} 
       onClose={closePresentation}
       heroSlot={heroSlot}
-      abstractSlot={abstractSlot}
+      heroImageSlot={
+        caseStudy.imageUrl ? (
+          <CaseStudyHeroImage title={caseStudy.title} imageUrl={caseStudy.imageUrl} />
+        ) : null
+      }
     >
-      {/* Figma Image Section (Standard for presentations) */}
-      {caseStudy.imageUrl && (
-        <m.section
-          className="w-full relative z-10 overflow-hidden"
-          style={{ backgroundColor: 'rgb(var(--color-footer-bg))' }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          aria-label={`${caseStudy.title} hero image`}
-        >
-          <div className="relative w-full aspect-[16/9] md:aspect-auto md:min-h-screen">
-            <Image
-              src={caseStudy.imageUrl}
-              alt={`${caseStudy.title} — hero image`}
-              fill
-              className="object-cover [filter:contrast(1.05)]"
-              sizes="100vw"
-              priority
-              quality={95}
-            />
-          </div>
-        </m.section>
-      )}
-
       {/* Figma Iframe Section */}
       <m.section
         className="w-full"
@@ -220,7 +154,7 @@ export function FigmaPresentationDetail({
             }}
           >
             <p
-              className="text-4xl md:text-6xl font-bold tracking-widest uppercase"
+              className="text-2xl md:text-2xl font-bold tracking-widest uppercase"
               style={{ color: 'rgba(var(--color-foreground) / 0.15)' }}
             >
               Presentation

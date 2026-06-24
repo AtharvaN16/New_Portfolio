@@ -6,7 +6,7 @@ export function PrattIntervention2ChangesLateSection() {
   return (
     <>
         {/* Change 3 */}
-        <h4 className="text-lg md:text-[22px] font-bold text-text-primary mb-8 md:mb-10">
+        <h4 className="text-base md:text-lg font-bold text-text-primary mb-8 md:mb-10">
           Change 3: Digital Visitor Welcome Guide
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-12 items-start mb-12 md:mb-16">
@@ -29,7 +29,7 @@ export function PrattIntervention2ChangesLateSection() {
           </figure>
           <div className="space-y-6 md:space-y-8">
             <p
-              className="text-base md:text-[18px] font-normal leading-relaxed"
+              className="text-base md:text-[18px] font-normal leading-normal"
               style={{ color: 'rgb(var(--color-text-tertiary))' }}
             >
               To address frequently requested information that cannot fit
@@ -59,7 +59,7 @@ export function PrattIntervention2ChangesLateSection() {
                       }}
                     />
                     <span
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{
                         color: 'rgb(var(--color-text-tertiary))',
                       }}
@@ -73,7 +73,7 @@ export function PrattIntervention2ChangesLateSection() {
           </div>
         </div>
         <p
-          className="text-base md:text-[20px] font-normal leading-relaxed mb-12 md:mb-16"
+          className="text-base md:text-lg font-normal leading-normal mb-12 md:mb-16"
           style={{ color: 'rgb(var(--color-text-color90))' }}
         >
           This digital extension bridges the gap between in-person
@@ -89,7 +89,7 @@ export function PrattIntervention2ChangesLateSection() {
             height={750}
             className="w-full h-auto"
             quality={85}
-            sizes="(max-width: 768px) 100vw, 1044px"
+            sizes="(max-width: 768px) 100vw, 896px"
           />
         </figure>
         <figure className="w-full mb-20 md:mb-24">
@@ -100,12 +100,12 @@ export function PrattIntervention2ChangesLateSection() {
             height={750}
             className="w-full h-auto"
             quality={85}
-            sizes="(max-width: 768px) 100vw, 1044px"
+            sizes="(max-width: 768px) 100vw, 896px"
           />
         </figure>
 
         {/* Change 4 */}
-        <h4 className="text-lg md:text-[22px] font-bold text-text-primary mb-8 md:mb-10">
+        <h4 className="text-base md:text-lg font-bold text-text-primary mb-8 md:mb-10">
           Change 4: Quick FAQ Guide
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-12 items-start">
@@ -128,7 +128,7 @@ export function PrattIntervention2ChangesLateSection() {
           </figure>
           <div className="space-y-6 md:space-y-8">
             <p
-              className="text-base md:text-[18px] font-normal leading-relaxed"
+              className="text-base md:text-[18px] font-normal leading-normal"
               style={{ color: 'rgb(var(--color-text-tertiary))' }}
             >
               To address the information gaps repeatedly identified in
@@ -155,7 +155,7 @@ export function PrattIntervention2ChangesLateSection() {
                     {i + 1}.
                   </span>
                   <span
-                    className="text-base md:text-[18px] font-normal leading-relaxed"
+                    className="text-base md:text-[18px] font-normal leading-normal"
                     style={{ color: 'rgb(var(--color-text-tertiary))' }}
                   >
                     {cat}
@@ -164,7 +164,7 @@ export function PrattIntervention2ChangesLateSection() {
               ))}
             </ol>
             <p
-              className="text-base md:text-[18px] font-normal leading-relaxed"
+              className="text-base md:text-[18px] font-normal leading-normal"
               style={{ color: 'rgb(var(--color-text-tertiary))' }}
             >
               This reorganization transforms the FAQ from a dense

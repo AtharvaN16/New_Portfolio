@@ -84,7 +84,7 @@ export function AloRecommendationsSection() {
     <div>
       {/* Key Insights */}
       <h3
-        className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+        className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
         Key Insights
@@ -95,7 +95,7 @@ export function AloRecommendationsSection() {
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
-        className="text-2xl md:text-[40px] font-bold text-text-primary mb-10 leading-tight tracking-[-0.05em] max-w-[680px]"
+        className="text-xl md:text-2xl font-bold text-text-primary mb-10 leading-tight tracking-[-0.05em] max-w-[680px]"
       />
 
       <div className="space-y-4 mb-0">
@@ -105,13 +105,13 @@ export function AloRecommendationsSection() {
             className="flex items-start gap-6 py-5"
           >
             <span
-              className="text-lg md:text-[20px] font-bold shrink-0"
+              className="text-lg md:text-lg font-bold shrink-0"
               style={{ color: 'rgb(var(--color-alo-progress))' }}
             >
               {number}
             </span>
             <p
-              className="text-lg md:text-[20px] font-medium leading-snug"
+              className="text-lg md:text-lg font-medium leading-snug"
               style={{ color: 'rgb(var(--color-text-color90))' }}
             >
               {text}

@@ -6,7 +6,7 @@ export function PrattIntervention2ChangesEarlySection() {
   return (
     <>
         {/* Change 1 */}
-        <h4 className="text-lg md:text-[22px] font-bold text-text-primary mb-8 md:mb-10">
+        <h4 className="text-base md:text-lg font-bold text-text-primary mb-8 md:mb-10">
           Change 1: Welcome Pratt One-Pager
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-8 md:gap-12 items-start mb-20 md:mb-24">
@@ -29,7 +29,7 @@ export function PrattIntervention2ChangesEarlySection() {
           </figure>
           <div className="space-y-6 md:space-y-8">
             <p
-              className="text-base md:text-[18px] font-normal leading-relaxed"
+              className="text-base md:text-[18px] font-normal leading-normal"
               style={{ color: 'rgb(var(--color-text-tertiary))' }}
             >
               To improve clarity at the moment visitors open the packet,
@@ -60,7 +60,7 @@ export function PrattIntervention2ChangesEarlySection() {
                       }}
                     />
                     <span
-                      className="text-base md:text-[18px] font-normal leading-relaxed"
+                      className="text-base md:text-[18px] font-normal leading-normal"
                       style={{ color: 'rgb(var(--color-text-tertiary))' }}
                     >
                       {item}
@@ -73,7 +73,7 @@ export function PrattIntervention2ChangesEarlySection() {
         </div>
 
         {/* Change 2 */}
-        <h4 className="text-lg md:text-[22px] font-bold text-text-primary mb-8 md:mb-10">
+        <h4 className="text-base md:text-lg font-bold text-text-primary mb-8 md:mb-10">
           Change 2: Redesigned Campus Map
         </h4>
         <figure className="w-full mb-8 md:mb-10 overflow-x-auto">
@@ -84,11 +84,11 @@ export function PrattIntervention2ChangesEarlySection() {
             height={1100}
             className="w-full h-auto min-w-[600px]"
             quality={90}
-            sizes="(max-width: 768px) 200vw, 1044px"
+            sizes="(max-width: 768px) 200vw, 896px"
           />
         </figure>
         <p
-          className="text-base md:text-[18px] font-normal leading-relaxed mb-6 md:mb-8"
+          className="text-base md:text-[18px] font-normal leading-normal mb-6 md:mb-8"
           style={{ color: 'rgb(var(--color-text-tertiary))' }}
         >
           During campus tours, visitors receive a lot of information in a
@@ -122,7 +122,7 @@ export function PrattIntervention2ChangesEarlySection() {
                   }}
                 />
                 <span
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
                   {item}

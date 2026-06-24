@@ -1,7 +1,6 @@
 'use client'
 
 import { m } from 'framer-motion'
-import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 import { GutenbergClosingSection } from './gutenberg/GutenbergClosingSection'
 import { GutenbergFinding1Section } from './gutenberg/GutenbergFinding1Section'
 import { GutenbergFinding2Section } from './gutenberg/GutenbergFinding2Section'
@@ -10,23 +9,14 @@ import { GutenbergFinding3RecommendationSection } from './gutenberg/GutenbergFin
 import { GutenbergFinding3SubfindingsSection } from './gutenberg/GutenbergFinding3SubfindingsSection'
 import { GutenbergMethodologyIntroSection } from './gutenberg/GutenbergMethodologyIntroSection'
 import { GutenbergMethodologySusSection } from './gutenberg/GutenbergMethodologySusSection'
-import { GutenbergOverviewSection } from './gutenberg/GutenbergOverviewSection'
 import { GutenbergProjectOverviewSection } from './gutenberg/GutenbergProjectOverviewSection'
 import { GutenbergResearchObjectivesSection } from './gutenberg/GutenbergResearchObjectivesSection'
-
-interface GutenbergContentProps {
-  isContentRevealed: boolean
-  onToggleContent: () => void
-}
 
 const sectionDividerClass = 'border-t my-24 md:my-32'
 const findingDividerClass = 'border-t my-16 md:my-24'
 const dividerColor = { borderColor: 'rgb(var(--color-text-color10))' } as const
 
-export function GutenbergContent({
-  isContentRevealed,
-  onToggleContent,
-}: GutenbergContentProps) {
+export function GutenbergContent() {
   return (
     <m.section
       className="w-full px-6 2xl:px-[140px] py-16 md:py-24 max-w-[1920px] mx-auto"
@@ -34,15 +24,8 @@ export function GutenbergContent({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.8 }}
     >
-      <div className="max-w-[1044px] mx-auto text-left">
-        <GutenbergOverviewSection />
-
-        <CaseStudyReadMore
-          readTime="10 min read"
-          isContentRevealed={isContentRevealed}
-          onToggleContent={onToggleContent}
-        >
-          <div>
+      <div className="cs-content text-left">
+        <div>
             <GutenbergProjectOverviewSection />
             <GutenbergResearchObjectivesSection />
 
@@ -66,8 +49,7 @@ export function GutenbergContent({
             </div>
 
             <GutenbergClosingSection />
-          </div>
-        </CaseStudyReadMore>
+        </div>
       </div>
     </m.section>
   )

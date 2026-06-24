@@ -20,7 +20,7 @@ export function ChecklistProcessOverviewSection() {
         className="relative overflow-x-hidden"
         style={{ width: '100vw', left: '50%', transform: 'translateX(-50%)' }}
       >
-        <h3 className="mb-2 px-6 md:px-10 xl:px-16 text-xl md:text-[28px] font-bold text-text-primary leading-snug">
+        <h3 className="mb-2 px-6 md:px-10 xl:px-16 text-lg md:text-2xl font-bold text-text-primary leading-snug">
           Application process overview
         </h3>
         <div

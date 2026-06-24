@@ -8,7 +8,7 @@ export function PrattServiceSafariPhasesSection() {
     <>
         {/* Phase 1: Discover & Register */}
         <div className="mb-16 md:mb-20">
-          <h4 className="text-base md:text-[22px] font-bold text-text-primary mb-6 md:mb-8">
+          <h4 className="text-sm md:text-lg font-bold text-text-primary mb-6 md:mb-8">
             1 — Discover &amp; Register
           </h4>
           <figure className="w-full mb-8">
@@ -19,7 +19,7 @@ export function PrattServiceSafariPhasesSection() {
               height={1000}
               className="w-full h-auto"
               quality={85}
-              sizes="(max-width: 768px) 100vw, 1044px"
+              sizes="(max-width: 768px) 100vw, 896px"
             />
           </figure>
           <ol className="space-y-3 mb-6 list-none">
@@ -38,7 +38,7 @@ export function PrattServiceSafariPhasesSection() {
                   {i + 1}.
                 </span>
                 <span
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   {step}
@@ -58,7 +58,7 @@ export function PrattServiceSafariPhasesSection() {
 
         {/* Phase 2: Pre-Arrival */}
         <div className="mb-16 md:mb-20">
-          <h4 className="text-base md:text-[22px] font-bold text-text-primary mb-6 md:mb-8">
+          <h4 className="text-sm md:text-lg font-bold text-text-primary mb-6 md:mb-8">
             2 — Pre-Arrival
           </h4>
           <ol className="space-y-3 mb-6 list-none">
@@ -75,7 +75,7 @@ export function PrattServiceSafariPhasesSection() {
                   {i + 1}.
                 </span>
                 <span
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   {step}
@@ -98,7 +98,7 @@ export function PrattServiceSafariPhasesSection() {
 
         {/* Phase 3: Arrival & Check-In */}
         <div className="mb-16 md:mb-20">
-          <h4 className="text-base md:text-[22px] font-bold text-text-primary mb-6 md:mb-8">
+          <h4 className="text-sm md:text-lg font-bold text-text-primary mb-6 md:mb-8">
             3 — Arrival &amp; Check-In
           </h4>
           <figure className="w-full mb-8">
@@ -109,7 +109,7 @@ export function PrattServiceSafariPhasesSection() {
               height={1000}
               className="w-full h-auto"
               quality={85}
-              sizes="(max-width: 768px) 100vw, 1044px"
+              sizes="(max-width: 768px) 100vw, 896px"
             />
           </figure>
           <ol className="space-y-3 mb-6 list-none">
@@ -128,7 +128,7 @@ export function PrattServiceSafariPhasesSection() {
                   {i + 1}.
                 </span>
                 <span
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   {step}
@@ -152,7 +152,7 @@ export function PrattServiceSafariPhasesSection() {
 
         {/* Phase 4: Experiencing the Tour */}
         <div className="mb-16 md:mb-20">
-          <h4 className="text-base md:text-[22px] font-bold text-text-primary mb-6 md:mb-8">
+          <h4 className="text-sm md:text-lg font-bold text-text-primary mb-6 md:mb-8">
             4 — Experiencing the Tour
           </h4>
           <figure className="w-full mb-8">
@@ -163,7 +163,7 @@ export function PrattServiceSafariPhasesSection() {
               height={1100}
               className="w-full h-auto"
               quality={85}
-              sizes="(max-width: 768px) 100vw, 1044px"
+              sizes="(max-width: 768px) 100vw, 896px"
             />
           </figure>
           <ol className="space-y-3 mb-6 list-none">
@@ -180,7 +180,7 @@ export function PrattServiceSafariPhasesSection() {
                   {i + 1}.
                 </span>
                 <span
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   {step}
@@ -204,7 +204,7 @@ export function PrattServiceSafariPhasesSection() {
 
         {/* Phase 5: Post Visit */}
         <div className="mb-16 md:mb-20">
-          <h4 className="text-base md:text-[22px] font-bold text-text-primary mb-6 md:mb-8">
+          <h4 className="text-sm md:text-lg font-bold text-text-primary mb-6 md:mb-8">
             5 — Post Visit
           </h4>
           <figure className="w-full mb-8">
@@ -215,7 +215,7 @@ export function PrattServiceSafariPhasesSection() {
               height={1000}
               className="w-full h-auto"
               quality={85}
-              sizes="(max-width: 768px) 100vw, 1044px"
+              sizes="(max-width: 768px) 100vw, 896px"
             />
           </figure>
           <ol className="space-y-3 mb-6 list-none">
@@ -234,7 +234,7 @@ export function PrattServiceSafariPhasesSection() {
                   {i + 1}.
                 </span>
                 <span
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   {step}

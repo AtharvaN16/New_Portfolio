@@ -40,7 +40,7 @@ export function MatisseSimulation({ scrollContainerRef, isReady }: MatisseSimula
       {/* Matisse Intro Section */}
       <div className="mb-24 md:mb-32">
         <div className="mb-12">
-          <h2 className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-4">
+          <h2 className="text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em] mb-4">
             What do you think about this painting? <br /> Could you describe the composition?
           </h2>
         </div>
@@ -85,7 +85,7 @@ export function MatisseSimulation({ scrollContainerRef, isReady }: MatisseSimula
                 style={{ opacity: textOpacity }}
                 className="absolute inset-0 flex items-center justify-center p-6 text-center pointer-events-none"
               >
-                <h2 className="text-3xl md:text-5xl font-bold text-white drop-shadow-lg">
+                <h2 className="text-2xl md:text-2xl font-bold text-white drop-shadow-lg">
                   What about now?
                 </h2>
               </m.div>
@@ -93,13 +93,13 @@ export function MatisseSimulation({ scrollContainerRef, isReady }: MatisseSimula
               {hideImages && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-neutral-100 dark:bg-neutral-800 border border-dashed border-text-color30 z-20">
                   <span className="text-[10px] uppercase tracking-widest text-text-color60 mb-2">Image Hidden</span>
-                  <p className="text-xs md:text-sm font-sans text-text-primary leading-relaxed max-w-[85%] font-medium">
+                  <p className="text-xs md:text-sm font-sans text-text-primary leading-normal max-w-[85%] font-medium">
                     Henri Matisse, Dance (I), 1909. Five figures in a circle against a blue and green background.
                   </p>
                 </div>
               )}
             </m.div>
-            <p className="text-xs md:text-sm font-sans text-text-color60 mt-6 md:mt-8 leading-relaxed max-w-[800px] text-left">
+            <p className="text-xs md:text-sm font-sans text-text-color60 mt-6 md:mt-8 leading-normal max-w-[800px] text-left">
               <strong className="text-text-primary font-semibold">Figure 1:</strong> Interactive visual simulation of Henri Matisse’s &apos;Dance (I)&apos; (1909) progressively blurring and fading as the user scrolls, representing the loss of visual clarity and interpretive context in traditional museum settings.
             </p>
           </div>
@@ -107,24 +107,24 @@ export function MatisseSimulation({ scrollContainerRef, isReady }: MatisseSimula
       </div>
 
       <div className="mb-24 md:mb-32 space-y-12">
-        <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed max-w-[760px]">
+        <p className="text-base md:text-[18px] font-normal text-text-body leading-normal max-w-[760px]">
           When we look at art, our eyes don&apos;t just register shapes and colors. They form an initial interpretation and opinion.
           Before we read the description or listen to the audio guide, we have already begun to form our own meaning.
         </p>
-        <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed max-w-[760px]">
+        <p className="text-base md:text-[18px] font-normal text-text-body leading-normal max-w-[760px]">
           As part of an exploratory project for Positive Exposure, who have an art exhibition - Art 75 for children with disabilities, we were asked to research museum accessibility for BLV (Blind and low vision) visitors.
         </p>
       </div>
 
       {/* Secondary Research */}
       <div className="mb-24 md:mb-32">
-        <h3 className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
+        <h3 className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]" style={{ color: 'rgb(var(--color-text-tertiary))' }}>
           Secondary Research
         </h3>
         <AnimatedText variant="heading"
           text="We conducted a literature survey to deepen our understanding"
           animationType="fadeIn"
-          className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] mb-12 max-w-[800px]"
+          className="text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em] mb-12 max-w-[800px]"
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -159,7 +159,7 @@ export function MatisseSimulation({ scrollContainerRef, isReady }: MatisseSimula
                 )}
                 style={{ boxShadow: "0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06)" }}
               >
-                <p className="font-sans text-base md:text-[17px] text-zinc-900 leading-relaxed font-medium tracking-tight">
+                <p className="font-sans text-base md:text-[17px] text-zinc-900 leading-normal font-medium tracking-tight">
                   {insight}
                 </p>
               </div>

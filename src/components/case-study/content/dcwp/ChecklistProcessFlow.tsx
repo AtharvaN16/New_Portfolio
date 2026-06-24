@@ -130,7 +130,7 @@ export function ChecklistProcessFlow({
         xmlns="http://www.w3.org/2000/svg"
         className={cn(
           'block h-auto',
-          wideScroll ? 'w-full min-w-[1044px] max-w-none' : 'w-full',
+          wideScroll ? 'w-full min-w-cs-content max-w-none' : 'w-full',
         )}
         aria-hidden={mobileToggle}
         role={isMdUp ? 'img' : undefined}

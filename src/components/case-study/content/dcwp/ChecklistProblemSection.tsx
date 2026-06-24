@@ -20,7 +20,7 @@ export function ChecklistProblemSection() {
           width={1440}
           height={900}
           className="h-auto w-full"
-          sizes="(max-width: 768px) 100vw, min(1044px, 100vw)"
+          sizes="(max-width: 768px) 100vw, min(896px, 100vw)"
         />
       </div>
 
@@ -28,10 +28,10 @@ export function ChecklistProblemSection() {
         data-section="nyc-dcwp-subcase-checklist-problem-copy"
         className="mt-20 max-w-[680px] space-y-6"
       >
-        <h3 className="text-xl md:text-[28px] font-bold text-text-primary leading-snug">
+        <h3 className="text-lg md:text-2xl font-bold text-text-primary leading-snug">
           Problem
         </h3>
-        <p className="text-base md:text-[18px] leading-relaxed text-text-color60">
+        <p className="text-base md:text-[18px] leading-normal text-text-color60">
           Our initial impression of the page was that it had several usability issues. The page
           felt very information-heavy—like hitting a wall of text that was overwhelming,
           cluttered, and devoid of the visual cues users need to navigate with confidence.

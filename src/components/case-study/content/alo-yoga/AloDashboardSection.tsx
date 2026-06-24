@@ -40,7 +40,7 @@ export function AloDashboardSection() {
   return (
     <div>
       <h3
-        className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+        className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
         style={{ color: 'rgb(var(--color-text-tertiary))' }}
       >
         Web Performance Dashboard
@@ -52,7 +52,7 @@ export function AloDashboardSection() {
           animationType="fadeIn"
           alwaysAnimate={false}
           delay={0}
-          className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.05em] max-w-[600px]"
+          className="text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em] max-w-[600px]"
         />
 
         <a
@@ -69,7 +69,7 @@ export function AloDashboardSection() {
       </div>
 
       <p
-        className="text-base md:text-[18px] font-normal leading-relaxed mb-10 max-w-[680px]"
+        className="text-base md:text-[18px] font-normal leading-normal mb-10 max-w-[680px]"
         style={{ color: 'rgb(var(--color-text-color90))' }}
       >
         Alongside the audit, we designed and built an analytics dashboard to give Alo a way

@@ -1,7 +1,7 @@
 'use client'
 
 import { m, useScroll } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import type { CaseStudy } from '@/lib/data/case-studies'
 import { CaseStudyHeader } from '@/components/case-study/CaseStudyHeader'
 import { useSmoothScroll } from '@/hooks/use-smooth-scroll'
@@ -39,7 +39,6 @@ export function CaseStudyLayout({
   const internalContainerRef = useRef<HTMLDivElement>(null)
   const containerRef = externalContainerRef ?? internalContainerRef
   const contentRef = useRef<HTMLDivElement>(null)
-  const [isContentRevealed, setIsContentRevealed] = useState(false)
 
   const { scrollToElement } = useSmoothScroll(containerRef, contentRef)
 
@@ -55,7 +54,7 @@ export function CaseStudyLayout({
   })
 
   return (
-    <ContainerScrollProvider scrollToElement={scrollToElement}>
+    <ContainerScrollProvider scrollToElement={scrollToElement} containerRef={containerRef}>
       <div
         id="case-study-scroll-container"
         ref={containerRef}
@@ -120,11 +119,7 @@ export function CaseStudyLayout({
           {abstractSlot}
 
           {/* Main Content Area */}
-          <CaseStudyContentRenderer 
-            caseStudy={caseStudy}
-            isContentRevealed={isContentRevealed}
-            onToggleContent={() => setIsContentRevealed(!isContentRevealed)}
-          >
+          <CaseStudyContentRenderer caseStudy={caseStudy}>
             {children}
           </CaseStudyContentRenderer>
         </div>

@@ -19,10 +19,10 @@ export function AquitaniaInActionSection() {
       className="scroll-mt-32 space-y-10 md:space-y-14"
     >
       <div className="space-y-6 md:space-y-8">
-        <h3 className="text-2xl md:text-[40px] font-bold text-text-primary leading-tight tracking-[-0.04em]">
+        <h3 className="text-xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.04em]">
           Aquitania in action
         </h3>
-        <p className="max-w-[750px] text-base md:text-[18px] font-normal text-text-body leading-relaxed">
+        <p className="max-w-[750px] text-base md:text-[18px] font-normal text-text-body leading-normal">
           Applying Aquitania transformed the experience from fragmented and inconsistent to cohesive,
           accessible, and premium. By standardizing components, typography, spacing, and interactions,
           the system created a more polished digital experience that better reflects Cunard&apos;s luxury

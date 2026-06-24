@@ -26,10 +26,10 @@ export function ChecklistSubCase() {
           data-section="nyc-dcwp-subcase-checklist-title-group"
           className="space-y-3"
         >
-          <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70">
+          <p className="text-sm md:text-base font-semibold normal-case tracking-widest text-text-color70">
             Case Study 1 of 3
           </p>
-          <h2 className="text-2xl md:text-[36px] font-bold text-text-primary leading-tight tracking-[-0.03em]">
+          <h2 className="text-2xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.03em]">
             Redesigning the Application Checklist Page
           </h2>
         </div>
@@ -39,10 +39,10 @@ export function ChecklistSubCase() {
         data-section="nyc-dcwp-subcase-checklist-preparing-users"
         className="mt-20 space-y-4"
       >
-        <h3 className="text-xl md:text-[28px] font-bold text-text-primary leading-snug max-w-[680px]">
+        <h3 className="text-lg md:text-2xl font-bold text-text-primary leading-snug max-w-[680px]">
           Preparing the users before they start an application
         </h3>
-        <p className="text-base md:text-[18px] text-text-body leading-relaxed max-w-[680px]">
+        <p className="text-base md:text-[18px] text-text-body leading-normal max-w-[680px]">
           Before starting a new online application, users land on the HIC Application Checklist
           Page, which provides key requirements and resources to ensure a smooth license
           application process. Users are expected to read the information on this page to avoid

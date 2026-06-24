@@ -16,13 +16,13 @@ export function PrattCoDesignSection() {
             height={560}
             className="w-full h-auto"
             quality={85}
-            sizes="(max-width: 768px) 100vw, 1044px"
+            sizes="(max-width: 768px) 100vw, 896px"
           />
         </figure>
 
         {/* ── Section: Co-Design Workshops ── */}
         <h3
-          className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+          className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
           style={{ color: 'rgb(var(--color-text-tertiary))' }}
         >
           Co-Design Workshops
@@ -33,12 +33,12 @@ export function PrattCoDesignSection() {
           animationType="fadeIn"
           alwaysAnimate={false}
           delay={0}
-          className="text-2xl md:text-[40px] font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
+          className="text-xl md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-tight tracking-[-0.05em]"
         />
 
         <div className="space-y-6 md:space-y-8 mb-12 md:mb-16">
           <p
-            className="text-base md:text-[18px] font-normal leading-relaxed"
+            className="text-base md:text-[18px] font-normal leading-normal"
             style={{ color: 'rgb(var(--color-text-color90))' }}
           >
             Co-design brings student ambassadors, the people who deliver
@@ -47,7 +47,7 @@ export function PrattCoDesignSection() {
             service blueprints alone cannot uncover.
           </p>
           <p
-            className="text-base md:text-[18px] font-normal leading-relaxed"
+            className="text-base md:text-[18px] font-normal leading-normal"
             style={{ color: 'rgb(var(--color-text-color90))' }}
           >
             By involving ambassadors closely, our solutions become more
@@ -65,12 +65,12 @@ export function PrattCoDesignSection() {
             height={1000}
             className="w-full h-auto"
             quality={85}
-            sizes="(max-width: 768px) 100vw, 1044px"
+            sizes="(max-width: 768px) 100vw, 896px"
           />
         </figure>
 
         {/* Our Goal */}
-        <h4 className="text-lg md:text-[24px] font-bold text-text-primary mb-6 md:mb-8">
+        <h4 className="text-base md:text-xl font-bold text-text-primary mb-6 md:mb-8">
           Our Goal
         </h4>
         <div className="space-y-3 mb-16 md:mb-20">
@@ -103,12 +103,12 @@ export function PrattCoDesignSection() {
         </div>
 
         {/* What we did */}
-        <h4 className="text-lg md:text-[24px] font-bold text-text-primary mb-6">
+        <h4 className="text-base md:text-xl font-bold text-text-primary mb-6">
           What we did?
         </h4>
         <div className="space-y-6 md:space-y-8 mb-8 md:mb-10">
           <p
-            className="text-base md:text-[18px] font-normal leading-relaxed"
+            className="text-base md:text-[18px] font-normal leading-normal"
             style={{ color: 'rgb(var(--color-text-color90))' }}
           >
             We hosted{' '}
@@ -140,7 +140,7 @@ export function PrattCoDesignSection() {
                 }}
               />
               <span
-                className="text-base md:text-[18px] font-normal leading-relaxed"
+                className="text-base md:text-[18px] font-normal leading-normal"
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
                 {activity}
@@ -158,12 +158,12 @@ export function PrattCoDesignSection() {
             height={900}
             className="w-full h-auto"
             quality={85}
-            sizes="(max-width: 768px) 100vw, 1044px"
+            sizes="(max-width: 768px) 100vw, 896px"
           />
         </figure>
 
         {/* What we learned */}
-        <h4 className="text-lg md:text-[24px] font-bold text-text-primary mb-8 md:mb-10">
+        <h4 className="text-base md:text-xl font-bold text-text-primary mb-8 md:mb-10">
           What we learned?
         </h4>
         <div className="space-y-8 md:space-y-10">
@@ -190,7 +190,7 @@ export function PrattCoDesignSection() {
                 {title}
               </h5>
               <p
-                className="text-base md:text-[18px] font-normal leading-relaxed"
+                className="text-base md:text-[18px] font-normal leading-normal"
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
                 {desc}

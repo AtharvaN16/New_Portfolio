@@ -81,7 +81,6 @@ describe('Alo case study responsive and theme tokens', () => {
             ...aloCaseStudy!,
             themeColor: 'rgb(var(--color-alo-data-accent))',
           }}
-          isContentRevealed
         />
       </AccessibilityProvider>
     )

@@ -128,7 +128,7 @@ export function UAlbertaServiceIterationsSection() {
                       {i + 1}
                     </span>
                     <p
-                      className="text-[12px] leading-relaxed"
+                      className="text-[12px] leading-normal"
                       style={{ color: 'rgb(var(--color-text-secondary))' }}
                     >
                       {note.text}

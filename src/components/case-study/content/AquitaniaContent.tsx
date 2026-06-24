@@ -3,7 +3,6 @@
 import Image from 'next/image'
 import { m } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import { CaseStudyReadMore } from '@/components/case-study/CaseStudyReadMore'
 import { AnimatedText } from '@/components/ui/AnimatedText'
 import { CaseStudySideNav } from '@/components/case-study/CaseStudySideNav'
 import { CunardHandwrittenProblems } from '@/components/case-study/content/CunardHandwrittenProblems'
@@ -28,22 +27,10 @@ const aquitaniaNavItems = [
   { id: 'aquitania-conclusion', label: 'Conclusion' },
 ]
 
-interface AquitaniaContentProps {
-  isContentRevealed: boolean
-  onToggleContent: () => void
-}
-
-export function AquitaniaContent({
-  isContentRevealed,
-  onToggleContent,
-}: AquitaniaContentProps) {
+export function AquitaniaContent() {
   const [isPastIntro, setIsPastIntro] = useState(false)
 
   useEffect(() => {
-    if (!isContentRevealed) {
-      return
-    }
-
     let observer: IntersectionObserver | null = null
     const timeout = window.setTimeout(() => {
       const aquitaniaSection = document.getElementById('aquitania-aquitania')
@@ -62,7 +49,7 @@ export function AquitaniaContent({
       window.clearTimeout(timeout)
       observer?.disconnect()
     }
-  }, [isContentRevealed])
+  }, [])
 
   return (
     <m.section
@@ -73,36 +60,14 @@ export function AquitaniaContent({
       transition={{ duration: 0.6, delay: 0.8 }}
     >
       <CaseStudySideNav
-        isVisible={isContentRevealed && isPastIntro}
+        isVisible={isPastIntro}
         navItems={aquitaniaNavItems}
         themeColor={CUNARD_RED}
       />
       <div
         data-section="aquitania-content-column"
-        className="max-w-[1044px] mx-auto text-left"
+        className="cs-content text-left"
       >
-
-        {/* Abstract */}
-        <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-[28px]">
-          Abstract
-        </h3>
-        <div
-          data-section="aquitania-abstract-body"
-          className="space-y-6 md:space-y-8 mb-8 md:mb-10"
-        >
-          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
-            This case study explores the creation of a design system for Cunard to modernize its
-            digital experience and better reflect its premium brand identity. As digital products and
-            teams evolved, inconsistencies across interfaces, workflows, and communication created
-            challenges in maintaining a cohesive brand experience.
-          </p>
-          <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed">
-            The project aimed to establish a scalable and unified design foundation that could improve
-            collaboration, streamline decision-making, and ensure consistency across products and teams.
-            Through the creation of standardized components, design guidelines, and shared patterns,
-            the system helps reduce ambiguity in design and development workflows.
-          </p>
-        </div>
 
         {/* Note */}
         <p
@@ -112,16 +77,10 @@ export function AquitaniaContent({
           NOTE: This is a concept project.
         </p>
 
-        {/* Read more toggle */}
-        <CaseStudyReadMore
-          readTime="10 min read"
-          isContentRevealed={isContentRevealed}
-          onToggleContent={onToggleContent}
+        <div
+          data-section="aquitania-read-more-inner"
+          className="space-y-24 md:space-y-32"
         >
-          <div
-            data-section="aquitania-read-more-inner"
-            className="space-y-24 md:space-y-32"
-          >
 
             {/* Big animated headline */}
             <div
@@ -139,16 +98,16 @@ export function AquitaniaContent({
                 delay={0.1}
                 stagger={0.04}
                 duration={0.3}
-                className="text-[2rem] sm:text-4xl md:text-5xl font-bold text-text-primary leading-tight tracking-[-0.05em] max-w-[800px]"
+                className="text-[1.75rem] sm:text-2xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em] max-w-[800px]"
               />
             </div>
 
             {/* What is Cunard? */}
             <section data-section="aquitania-what-is-cunard">
-              <h3 className="text-lg md:text-[28px] font-bold text-text-primary mb-6 md:mb-8">
+              <h3 className="text-base md:text-2xl font-bold text-text-primary mb-6 md:mb-8">
                 What is Cunard?
               </h3>
-              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed max-w-2xl">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-normal max-w-2xl">
                 With a legacy spanning over 185 years, Cunard is a luxury British cruise line known for its
                 iconic ocean liners, heritage, and premium travel experiences. The company defined luxury
                 transatlantic ocean travel in the early 1900s through legendary vessels like the Mauretania,
@@ -164,10 +123,10 @@ export function AquitaniaContent({
               data-section="aquitania-why-design-system"
               className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-start"
             >
-              <h3 className="text-lg md:text-[28px] font-bold text-text-primary leading-snug">
+              <h3 className="text-base md:text-2xl font-bold text-text-primary leading-snug">
                 Why does Cunard need a design system?
               </h3>
-              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed max-w-2xl">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-normal max-w-2xl">
                 As a premium cruise brand competing in the luxury travel market, Cunard&apos;s digital
                 experience needed to better reflect the elegance and sophistication of its brand. Outdated
                 visuals, inconsistent UI patterns, and accessibility gaps created a disconnect between the
@@ -189,7 +148,7 @@ export function AquitaniaContent({
                   height={1617}
                   className="h-auto w-full"
                   quality={90}
-                  sizes="(max-width: 768px) 100vw, 1044px"
+                  sizes="(max-width: 768px) 100vw, 896px"
                 />
               </figure>
             </CunardHandwrittenProblems>
@@ -201,7 +160,7 @@ export function AquitaniaContent({
               <AnimatedText
                 variant="quote"
                 maxWidth="wide"
-                className="text-[1.75rem] sm:text-4xl md:text-5xl font-bold leading-tight tracking-[-0.04em] text-text-primary"
+                className="text-xl sm:text-2xl md:text-2xl font-bold leading-tight tracking-[-0.04em] text-text-primary"
                 segments={[
                   { text: 'The Current Cunard Digital Experience' },
                   { text: 'does not feel premium.', color: CUNARD_RED },
@@ -220,13 +179,13 @@ export function AquitaniaContent({
               data-section="aquitania-solution"
               className="scroll-mt-32"
             >
-              <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
+              <p className="text-sm md:text-base font-semibold normal-case tracking-widest text-text-color70 mb-4">
                 Solution
               </p>
-              <h3 className="text-xl md:text-[28px] font-bold text-text-primary mb-6 md:mb-8 leading-snug">
+              <h3 className="text-lg md:text-2xl font-bold text-text-primary mb-6 md:mb-8 leading-snug">
                 Introducing Aquitania
               </h3>
-              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed mb-10 md:mb-12 max-w-2xl">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-normal mb-10 md:mb-12 max-w-2xl">
                 Inspired by Cunard&apos;s heritage of sophistication and intentionality, Aquitania was designed
                 to elevate the brand&apos;s digital experience through thoughtful, consistent design. It includes
                 the foundations, components, patterns, and documentation needed to create premium product
@@ -301,13 +260,13 @@ export function AquitaniaContent({
 
             {/* Four Principles */}
             <section data-section="aquitania-principles">
-              <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
+              <p className="text-sm md:text-base font-semibold normal-case tracking-widest text-text-color70 mb-4">
                 Principles
               </p>
-              <h3 className="text-xl md:text-[28px] font-bold text-text-primary mb-8 md:mb-10 leading-snug">
+              <h3 className="text-lg md:text-2xl font-bold text-text-primary mb-8 md:mb-10 leading-snug">
                 Aquitania follows four design principles
               </h3>
-              <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed mb-10 md:mb-12 max-w-2xl">
+              <p className="text-base md:text-[18px] font-normal text-text-body leading-normal mb-10 md:mb-12 max-w-2xl">
                 We established four core principles to guide the Aquitania design system and ensure every
                 experience reflects Cunard’s premium brand identity.
               </p>
@@ -340,8 +299,8 @@ export function AquitaniaContent({
                     >
                       {item.num}
                     </p>
-                    <h4 className="text-xl md:text-2xl font-bold text-text-primary">{item.title}</h4>
-                    <p className="text-sm md:text-base font-normal text-text-body leading-relaxed max-w-[320px]">
+                    <h4 className="text-lg md:text-xl font-bold text-text-primary">{item.title}</h4>
+                    <p className="text-sm md:text-base font-normal text-text-body leading-normal max-w-[320px]">
                       {item.desc}
                     </p>
                   </div>
@@ -360,20 +319,20 @@ export function AquitaniaContent({
               data-section="aquitania-deconstruction"
               className="scroll-mt-32"
             >
-              <h3 className="text-2xl md:text-[40px] font-bold text-text-primary mb-10 md:mb-14 leading-tight tracking-[-0.04em]">
+              <h3 className="text-xl md:text-2xl font-bold text-text-primary mb-10 md:mb-14 leading-tight tracking-[-0.04em]">
                 How we built Aquitania
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
                 <div>
-                  <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
+                  <p className="text-sm md:text-base font-semibold normal-case tracking-widest text-text-color70 mb-4">
                     01 - DECONSTRUCTION
                   </p>
-                  <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">
+                  <h4 className="text-lg md:text-xl font-bold text-text-primary leading-snug">
                     We first created a UI inventory of the existing Cunard website.
                   </h4>
                 </div>
-                <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed md:pt-7">
+                <p className="text-base md:text-[18px] font-normal text-text-body leading-normal md:pt-7">
                   We started by taking screenshots of every unique design element on the Cunard&apos;s
                   website. These elements were pasted into a Figma board and categorized into atoms,
                   molecules, organisms, based on the Atomic Design Framework.
@@ -401,14 +360,14 @@ export function AquitaniaContent({
 
               <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
                 <div>
-                  <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
+                  <p className="text-sm md:text-base font-semibold normal-case tracking-widest text-text-color70 mb-4">
                     02 - FINDINGS
                   </p>
-                  <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">
+                  <h4 className="text-lg md:text-xl font-bold text-text-primary leading-snug">
                     We grouped recurring patterns from the inventory into actionable insights.
                   </h4>
                 </div>
-                <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed md:pt-7">
+                <p className="text-base md:text-[18px] font-normal text-text-body leading-normal md:pt-7">
                   The deconstruction process revealed significant inconsistencies across the existing
                   digital experience. Multiple typography styles, buttons, icon treatments, and
                   variations in components used across products. Components such as tabs, cards, and
@@ -438,14 +397,14 @@ export function AquitaniaContent({
 
               <div className="mt-16 md:mt-24 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
                 <div>
-                  <p className="text-[12px] md:text-[14px] font-semibold uppercase tracking-widest text-text-color70 mb-4">
+                  <p className="text-sm md:text-base font-semibold normal-case tracking-widest text-text-color70 mb-4">
                     03 - DEFINING THE PRIMITIVES
                   </p>
-                  <h4 className="text-xl md:text-2xl font-bold text-text-primary leading-snug">
+                  <h4 className="text-lg md:text-xl font-bold text-text-primary leading-snug">
                     We defined the core design primitives that power the system.
                   </h4>
                 </div>
-                <p className="text-base md:text-[18px] font-normal text-text-body leading-relaxed md:pt-7">
+                <p className="text-base md:text-[18px] font-normal text-text-body leading-normal md:pt-7">
                   To create a scalable and consistent foundation, the next step was defining the core
                   design primitives that power the system. This included establishing typography, color,
                   spacing, grids, elevation, and iconography standards that could be reused across every
@@ -479,8 +438,7 @@ export function AquitaniaContent({
 
             <AquitaniaConclusionSection />
 
-          </div>
-        </CaseStudyReadMore>
+        </div>
       </div>
     </m.section>
   )

@@ -1,21 +1,10 @@
 import dynamic from 'next/dynamic'
 
 /**
- * Interface for the properties passed to every case study content component.
- */
-export interface CaseStudyContentProps {
-  isContentRevealed: boolean
-  onToggleContent: () => void
-}
-
-/**
  * Registry of case study content components.
  * This decouples the CaseStudyContentRenderer from specific implementations.
  */
-export const CONTENT_REGISTRY: Record<
-  string,
-  React.ComponentType<CaseStudyContentProps>
-> = {
+export const CONTENT_REGISTRY: Record<string, React.ComponentType> = {
   'gutenberg-cms-usability-evaluation': dynamic(() =>
     import('./GutenbergContent').then((mod) => mod.GutenbergContent)
   ),

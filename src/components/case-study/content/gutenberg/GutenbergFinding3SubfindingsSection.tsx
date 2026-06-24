@@ -45,7 +45,7 @@ export function GutenbergFinding3SubfindingsSection() {
                   />
                   <div>
                     <div
-                      className="text-5xl md:text-6xl font-bold leading-none mb-2 tracking-[-0.05em]"
+                      className="text-2xl md:text-2xl font-bold leading-none mb-2 tracking-[-0.05em]"
                       style={{ color: 'rgb(var(--color-text-primary))' }}
                     >
                       9/9
@@ -60,7 +60,7 @@ export function GutenbergFinding3SubfindingsSection() {
                 </div>
                 <div>
                   <p
-                    className="text-base md:text-[18px] font-normal leading-relaxed"
+                    className="text-base md:text-[18px] font-normal leading-normal"
                     style={{ color: 'rgb(var(--color-text-color90))' }}
                   >
                     <span className="font-semibold">None (9 out of 9)</span> of our participants discovered that the AI block can be dragged into the content, which caused confusion about what the context options meant in the subsequent menu.
@@ -92,7 +92,7 @@ export function GutenbergFinding3SubfindingsSection() {
                   </h6>
                   <div className="flex items-start justify-between gap-6">
                     <p
-                      className="text-base md:text-[18px] italic leading-relaxed"
+                      className="text-base md:text-[18px] italic leading-normal"
                       style={{ color: 'rgb(var(--color-text-color60))' }}
                     >
                       &ldquo;I had no idea (when realized the blocks were supposed to be dragged)&rdquo;
@@ -140,7 +140,7 @@ export function GutenbergFinding3SubfindingsSection() {
                 </div>
                 <div>
                   <p
-                    className="text-base md:text-[18px] font-normal leading-relaxed mb-8"
+                    className="text-base md:text-[18px] font-normal leading-normal mb-8"
                     style={{ color: 'rgb(var(--color-text-color90))' }}
                   >
                     Without descriptive text explaining each option&apos;s function,
@@ -160,7 +160,7 @@ export function GutenbergFinding3SubfindingsSection() {
                     />
                     <div className="flex-1 flex items-start justify-between gap-6">
                       <p
-                        className="text-base md:text-[18px] italic leading-relaxed"
+                        className="text-base md:text-[18px] italic leading-normal"
                         style={{ color: 'rgb(var(--color-text-color60))' }}
                       >
                         &ldquo;I just selected one option, because didn&apos;t know what any of it meant, a descriptor would have helped&rdquo;
@@ -209,7 +209,7 @@ export function GutenbergFinding3SubfindingsSection() {
                 </div>
                 <div>
                   <p
-                    className="text-base md:text-[18px] font-normal leading-relaxed mb-8"
+                    className="text-base md:text-[18px] font-normal leading-normal mb-8"
                     style={{ color: 'rgb(var(--color-text-color90))' }}
                   >
                     Many users misunderstood where to input their content, either
@@ -228,7 +228,7 @@ export function GutenbergFinding3SubfindingsSection() {
                     />
                     <div className="flex-1 flex items-start justify-between gap-6">
                       <p
-                        className="text-base md:text-[18px] italic leading-relaxed"
+                        className="text-base md:text-[18px] italic leading-normal"
                         style={{ color: 'rgb(var(--color-text-color60))' }}
                       >
                         &ldquo;I don&apos;t know where to put the actual prompt and the actual content&rdquo;

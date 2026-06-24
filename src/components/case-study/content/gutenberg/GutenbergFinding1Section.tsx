@@ -9,7 +9,7 @@ export function GutenbergFinding1Section() {
     <>
           {/* Finding 1 */}
           <h3
-            className="text-[12px] md:text-[14px] font-bold uppercase mb-6 md:mb-[28px]"
+            className="text-sm md:text-base font-semibold normal-case mb-6 md:mb-[28px]"
             style={{ color: 'rgb(var(--color-text-tertiary))' }}
           >
             Finding 1
@@ -22,7 +22,7 @@ export function GutenbergFinding1Section() {
             animationType="fadeIn"
             alwaysAnimate={false}
             delay={0}
-            className="text-2xl md:text-[40px] font-bold text-text-primary mb-24 leading-tight tracking-[-0.05em]"
+            className="text-xl md:text-2xl font-bold text-text-primary mb-24 leading-tight tracking-[-0.05em]"
           />
 
           {/* Data Visualization with 9 Bars */}
@@ -40,7 +40,7 @@ export function GutenbergFinding1Section() {
                 {/* 7/9 Users Text */}
                 <div>
                   <div
-                    className="text-5xl md:text-6xl font-bold leading-none mb-2 tracking-[-0.05em]"
+                    className="text-2xl md:text-2xl font-bold leading-none mb-2 tracking-[-0.05em]"
                     style={{ color: 'rgb(var(--color-text-primary))' }}
                   >
                     7/9
@@ -57,7 +57,7 @@ export function GutenbergFinding1Section() {
               {/* Right Column: Description */}
               <div>
                 <p
-                  className="text-base md:text-[18px] font-normal leading-relaxed"
+                  className="text-base md:text-[18px] font-normal leading-normal"
                   style={{ color: 'rgb(var(--color-text-color90))' }}
                 >
                   7 out of 9 new users were confused by being asked to
@@ -145,7 +145,7 @@ export function GutenbergFinding1Section() {
                 />
                 <div className="flex-1 flex items-start justify-between gap-6">
                   <p
-                    className="text-base md:text-[18px] italic leading-relaxed"
+                    className="text-base md:text-[18px] italic leading-normal"
                     style={{ color: 'rgb(var(--color-text-color60))' }}
                   >
                     &ldquo;Can I make my own custom one or not? This is the only
@@ -168,7 +168,7 @@ export function GutenbergFinding1Section() {
                 />
                 <div className="flex-1 flex items-start justify-between gap-6">
                   <p
-                    className="text-base md:text-[18px] italic leading-relaxed"
+                    className="text-base md:text-[18px] italic leading-normal"
                     style={{ color: 'rgb(var(--color-text-color60))' }}
                   >
                     &ldquo;there&apos;s just 1 template so... i just went ahead
@@ -191,7 +191,7 @@ export function GutenbergFinding1Section() {
                 />
                 <div className="flex-1 flex items-start justify-between gap-6">
                   <p
-                    className="text-base md:text-[18px] italic leading-relaxed"
+                    className="text-base md:text-[18px] italic leading-normal"
                     style={{ color: 'rgb(var(--color-text-color60))' }}
                   >
                     &ldquo;I&apos;m not sure what to expect and what should I do

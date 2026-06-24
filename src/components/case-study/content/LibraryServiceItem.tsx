@@ -65,7 +65,7 @@ export const LibraryServiceItem: React.FC<LibraryServiceItemProps> = ({
             )}
           </AnimatePresence>
         </div>
-        <p className="text-[#383838] text-[12px] leading-relaxed opacity-90">
+        <p className="text-[#383838] text-[12px] leading-normal opacity-90">
           {description}
         </p>
       </div>

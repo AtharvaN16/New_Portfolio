@@ -23,7 +23,7 @@ const ServiceCard = ({
     <h3 className="text-[#265D38] text-[14px] font-semibold mb-3 group-hover:underline decoration-1 underline-offset-2">
       {title}
     </h3>
-    <p className="text-[#383838] text-[12px] leading-relaxed opacity-90">
+    <p className="text-[#383838] text-[12px] leading-normal opacity-90">
       {description}
     </p>
   </div>
@@ -61,7 +61,7 @@ const LibraryServicesHero: React.FC<LibraryServicesHeroProps> = ({
           <span>Library Services</span>
         </div>
 
-        <h1 className="text-[#FFF0A0] text-[36px] font-bold mb-12 leading-tight tracking-tight">
+        <h1 className="text-[#FFF0A0] text-[30px] font-bold mb-12 leading-tight tracking-tight">
           Library Services
         </h1>
 

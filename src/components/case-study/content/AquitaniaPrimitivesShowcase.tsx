@@ -5,7 +5,7 @@ import { AnimatedText } from '@/components/ui/AnimatedText'
 import { cn } from '@/lib/utils/cn'
 
 const PRIMITIVE_TITLE_CLASS =
-  'text-[2rem] sm:text-4xl md:text-5xl font-bold text-text-primary leading-tight tracking-[-0.05em]'
+  'text-[1.75rem] sm:text-2xl md:text-2xl font-bold text-text-primary leading-tight tracking-[-0.05em]'
 
 type PrimitiveBlock = {
   title: string

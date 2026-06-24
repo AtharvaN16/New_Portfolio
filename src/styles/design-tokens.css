@@ -117,6 +117,17 @@
     --space-30: 8.75rem; /* 140px */
     --space-32: 8rem; /* 128px */
 
+    /* --- Case study layout grid (scoped to /case-studies/*) --- */
+    --cs-page-max: 1920px;
+    --cs-content-max: 56rem; /* 896px @ 16px root */
+    --cs-page-gutter: var(--space-6); /* 24px mobile */
+    --cs-page-gutter-2xl: var(--space-30); /* 140px at 2xl */
+    --cs-grid-columns: 12;
+    --cs-grid-gap: var(--space-6); /* 24px */
+    --cs-grid-gap-md: var(--space-8); /* 32px at md+ */
+    --cs-section-py: var(--space-16); /* py-16 */
+    --cs-section-py-md: var(--space-24); /* md:py-24 */
+
     /* --- Typography: Font Families --- */
     --font-sans: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
     --font-mono:
@@ -134,9 +145,9 @@
     --text-5xl: 3rem; /* 48px */
     --text-6xl: 3.75rem; /* 60px */
     --text-7xl: 4.5rem; /* 72px */
-    /* Case study section titles (use with text-lg or text-xl on small screens, md:text-case-heading) */
-    --font-size-case-heading: 1.75rem; /* 28px */
-    --font-size-insight-num: 2rem; /* 32px — insight finding number */
+    /* Case study section titles (use with text-base or text-lg on small screens, md:text-case-heading) */
+    --font-size-case-heading: 1.5rem; /* 24px — was 28px */
+    --font-size-insight-num: 1.5rem; /* 24px — was 32px */
 
     /* --- Typography: Line Heights --- */
     --leading-none: 1;

@@ -105,7 +105,7 @@ export function AloSEOPieChart() {
             <p className="text-[10px] md:text-xs font-bold text-neutral-900 dark:text-neutral-100 uppercase tracking-wider mb-0.5">
               Total URLs Crawled
             </p>
-            <p className="text-xl md:text-2xl font-bold text-neutral-900 dark:text-neutral-100">
+            <p className="text-lg md:text-xl font-bold text-neutral-900 dark:text-neutral-100">
               392
             </p>
           </div>
