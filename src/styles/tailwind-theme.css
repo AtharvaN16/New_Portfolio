@@ -53,6 +53,16 @@
   --text-case-heading: var(--font-size-case-heading);
   --text-insight-num: var(--font-size-insight-num);
 
+  --leading-none: var(--type-leading-none);
+  --leading-tight: var(--type-leading-heading-ratio);
+  --leading-snug: var(--type-leading-subhead-ratio);
+  --leading-normal: var(--type-leading-body-ratio);
+  --leading-relaxed: calc(28 / 18);
+  --leading-loose: 2;
+  --leading-display: var(--type-leading-display-ratio);
+  --leading-title: var(--type-leading-title-ratio);
+  --leading-ui: var(--type-leading-ui-ratio);
+
   /* ========================================
      RESPONSIVE BREAKPOINTS
      ======================================== */

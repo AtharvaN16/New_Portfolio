@@ -17,7 +17,7 @@
     /* Base text */
     color: rgb(var(--color-text-color90));
     font-size: 1rem; /* 16px */
-    line-height: var(--leading-normal); /* 1.5 — 27px at 18px */
+    line-height: var(--leading-normal); /* 26/18 — 18px → 26px at md body */
   }
 
   /* Responsive font size for desktop */
@@ -34,7 +34,7 @@
     font-weight: 700;
     margin-bottom: 1.5rem; /* 24px */
     margin-top: 3rem; /* 48px */
-    line-height: 1.25; /* tight */
+    line-height: var(--leading-tight);
   }
 
   @media (min-width: 768px) {
@@ -52,7 +52,7 @@
     font-weight: 700;
     margin-bottom: 1.5rem; /* 24px */
     margin-top: 3rem; /* 48px */
-    line-height: 1.25;
+    line-height: var(--leading-tight);
   }
 
   @media (min-width: 768px) {
@@ -84,6 +84,7 @@
     font-weight: 600;
     text-transform: none;
     letter-spacing: normal;
+    line-height: var(--leading-ui);
     margin-bottom: 1.5rem;
     margin-top: 0;
   }

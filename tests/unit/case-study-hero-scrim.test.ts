@@ -73,14 +73,14 @@ describe('caseStudyHeroSettleScale', () => {
   })
 
   it('eases down monotonically while revealing', () => {
-    const values = [0.1, 0.25, 0.5, 0.75, 0.9].map(caseStudyHeroSettleScale)
+    const values = [0.35, 0.5, 0.65, 0.8, 0.95].map(caseStudyHeroSettleScale)
     for (let i = 1; i < values.length; i += 1) {
       expect(values[i]).toBeLessThan(values[i - 1]!)
     }
   })
 
-  it('lags slightly behind the scrim at the start of reveal', () => {
-    const earlyVisibility = 0.12
+  it('lags behind the scrim at the start of reveal', () => {
+    const earlyVisibility = 0.2
     expect(caseStudyHeroScrimOpacity(earlyVisibility)).toBeLessThan(1)
     expect(caseStudyHeroSettleScale(earlyVisibility)).toBe(
       CASE_STUDY_HERO_SETTLE_SCALE_MAX

@@ -150,12 +150,36 @@
     --font-size-insight-num: 1.5rem; /* 24px — was 32px */
 
     /* --- Typography: Line Heights --- */
-    --leading-none: 1;
-    --leading-tight: 1.25;
-    --leading-snug: 1.375;
-    --leading-normal: 1.5;
-    --leading-relaxed: 1.625;
+    /*
+     * Ratio system — anchor: 18px body → 26px leading (26/18).
+     * Unitless ratios scale with each element's font-size.
+     *
+     * Role          Ratio              Example (size → leading)
+     * display       60/56 ≈ 1.07       56px → 60px
+     * title         36/32 = 1.125      32px → 36px
+     * heading       29/24 ≈ 1.21       24px → 29px
+     * subhead       26/20 = 1.3        20px → 26px
+     * ui            22/16 = 1.375      16px → 22px
+     * body          26/18 ≈ 1.44       18px → 26px, 16px → 23px
+     */
+    --type-leading-body-ratio: calc(26 / 18);
+    --type-leading-ui-ratio: calc(22 / 16);
+    --type-leading-subhead-ratio: calc(26 / 20);
+    --type-leading-heading-ratio: calc(29 / 24);
+    --type-leading-title-ratio: calc(36 / 32);
+    --type-leading-display-ratio: calc(60 / 56);
+    --type-leading-none: 1;
+
+    /* Tailwind leading-* utilities */
+    --leading-none: var(--type-leading-none);
+    --leading-tight: var(--type-leading-heading-ratio);
+    --leading-snug: var(--type-leading-subhead-ratio);
+    --leading-normal: var(--type-leading-body-ratio);
+    --leading-relaxed: calc(28 / 18);
     --leading-loose: 2;
+    --leading-display: var(--type-leading-display-ratio);
+    --leading-title: var(--type-leading-title-ratio);
+    --leading-ui: var(--type-leading-ui-ratio);
 
     /* --- Border Radius --- */
     --radius-sm: 0.25rem; /* 4px */
