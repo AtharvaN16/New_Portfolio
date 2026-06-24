@@ -92,14 +92,14 @@ function renderInlinePronunciation(
 /**
  * AnimatedHeroTextGSAP
  *
- * Line-by-line reveal: each line slides up from behind an overflow:hidden mask.
+ * Line-by-line reveal: each line slides down from behind an overflow:hidden mask.
  * Uses Framer Motion's imperative animate() — same bundle, same scheduler as
  * Pratt/CTA Framer Motion delays, so timing is anchored to the same t=0 as
  * every other hero element.
  *
  * Animation details:
- * - Line i starts at translateY((i+1)*100%) — deeper lines start further below
- * - All lines animate to y:0% together — duration 1s, power3.out (upward rise)
+ * - Line i starts at translateY(-(i+1)*100%) — deeper lines start further above
+ * - All lines animate to y:0% together — duration 1s, power3.out (downward drop)
  * - Opacity: 0.4 → 1
  */
 export function AnimatedHeroTextGSAP({
@@ -236,11 +236,11 @@ export function AnimatedHeroTextGSAP({
       }
     }
 
-    // ── Set initial staggered positions below each mask ──────────────────────
-    // Line i starts at (i+1)*100% — deeper lines start further below,
-    // so they travel farther and all land at 0 at the same time (rising in).
+    // ── Set initial staggered positions above each mask ──────────────────────
+    // Line i starts at -(i+1)*100% — deeper lines start further above,
+    // so they travel farther and all land at 0 at the same time (dropping in).
     split.lines.forEach((line, i) => {
-      line.style.transform = `translateY(${(i + 1) * 100}%)`
+      line.style.transform = `translateY(${-(i + 1) * 100}%)`
       line.style.opacity = '0.4'
     })
 
