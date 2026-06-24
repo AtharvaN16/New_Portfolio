@@ -134,11 +134,11 @@ export function UAlbertaLibraryContent() {
                 className={SECTION_LABEL}
                 style={{ color: 'rgb(var(--color-text-tertiary))' }}
               >
-                Project Overview
+                The Mission
               </h3>
 
               <AnimatedText variant="heading"
-                text="The UAlberta Library website has every resource a student might need. Discovering it is the hard part."
+                text="Making library services easy to find"
                 animationType="fadeIn"
                 alwaysAnimate={false}
                 delay={0}
@@ -149,12 +149,13 @@ export function UAlbertaLibraryContent() {
                 className={`${BODY_MUTED} mb-12 md:mb-16`}
                 style={{ color: 'rgb(var(--color-text-color90))' }}
               >
-                The website is the primary digital entry point for students
-                accessing research, booking study rooms, finding hours, and
-                navigating services. With a large and diverse student population,
-                it must support both power users and first-time visitors. The
-                client wanted to understand navigation gaps and what improvements
-                would reduce confusion.
+                The University of Alberta is one of Canada&apos;s largest research
+                universities serving 40,000+ students, faculty, and researchers
+                across 4 campuses. Its library website is the primary digital entry
+                point for accessing research support, finding hours, and using
+                library services. The library wanted to understand how students
+                actually navigate the site and what improvements would reduce
+                confusion.
               </p>
 
               <ImagePlaceholder

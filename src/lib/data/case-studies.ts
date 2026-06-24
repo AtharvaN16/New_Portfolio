@@ -78,7 +78,7 @@ const RAW_CASE_STUDIES: CaseStudy[] = [
   },
   {
     slug: 'ualberta-library-website',
-    title: 'Improving Usability of Library Website',
+    title: 'Improving the Usability of a Library Website',
     organization: 'University of Alberta',
     year: '2024',
     description:
