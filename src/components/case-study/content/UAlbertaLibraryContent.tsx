@@ -21,6 +21,7 @@ import { ResearchObjectiveNotes } from './ResearchObjectiveNotes'
 import { SectionSpacer } from '@/components/case-study/SectionSpacer'
 import { UAlbertaResearchSection } from './UAlbertaResearchSection'
 import { UAlbertaFindingsInsightsGrid } from './ualberta/UAlbertaFindingsInsightsGrid'
+import { OpenPrototypeLink } from './ualberta/OpenPrototypeLink'
 import { MaterialSymbolsFont } from '@/components/case-study/MaterialSymbolsFont'
 import {
   CASE_STUDY_SECTION_LABEL_PROSE,
@@ -452,6 +453,7 @@ export function UAlbertaLibraryContent() {
               </ul>
 
               <div id="ualberta-hours-prototype" className="mb-12 md:mb-16">
+                <OpenPrototypeLink slug="hours-locations" className="mb-4" />
                 <LibraryHoursPagePrototype />
               </div>
 
@@ -557,6 +559,7 @@ export function UAlbertaLibraryContent() {
               </ul>
 
               <div id="ualberta-subject-guides-prototype" className="mb-12 md:mb-16">
+                <OpenPrototypeLink slug="subject-guides" className="mb-4" />
                 <SubjectGuidesPrototype />
               </div>
 
@@ -762,6 +765,7 @@ export function UAlbertaLibraryContent() {
                 id="ualberta-final-solution"
                 className="mb-12 scroll-mt-32 md:mb-16"
               >
+                <OpenPrototypeLink slug="full-services" className="mb-4" />
                 <LibraryServicesPagePrototype />
               </div>
 

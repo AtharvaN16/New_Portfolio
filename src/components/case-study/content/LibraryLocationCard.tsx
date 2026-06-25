@@ -3,9 +3,12 @@
 import React from 'react';
 import Image from 'next/image';
 import type { LibraryLocation } from '@/lib/data/library-hours-data';
+import { LibraryCardNotificationBanner } from './ualberta/LibraryCardNotificationBanner';
 
 interface LibraryLocationCardProps {
   library: LibraryLocation;
+  notification?: string;
+  animateNotification?: boolean;
 }
 
 const InfoRow: React.FC<{ label: string; children: React.ReactNode }> = ({ label, children }) => (
@@ -42,24 +45,22 @@ const AmenityChip: React.FC<{ label: string; value: string | number | boolean | 
   );
 };
 
-const renderNotification = (text: string) => {
-  const parts = text.split(/\*\*(.+?)\*\*/g);
-  return parts.map((part, i) =>
-    i % 2 === 1 ? <strong key={i}>{part}</strong> : part
-  );
-};
-
-export const LibraryLocationCard: React.FC<LibraryLocationCardProps> = ({ library }) => {
+export const LibraryLocationCard: React.FC<LibraryLocationCardProps> = ({
+  library,
+  notification,
+  animateNotification = false,
+}) => {
   const multiLocation = library.addresses.length > 1;
+  const notificationText = notification ?? library.notification;
 
   return (
-    <div className="bg-white border border-[#E0E0E0] rounded-sm overflow-hidden w-full p-4 flex flex-col gap-4">
-      {/* 1. Notification Banner (if present) - Full Width */}
-      {library.notification && (
-        <div className="bg-[#FFF8E1] px-4 py-3 text-[10px] text-[#383838] leading-normal border-l-4 border-[#FFD54F]">
-          {renderNotification(library.notification)}
-        </div>
-      )}
+    <div className="bg-white border border-[#E0E0E0] rounded-sm overflow-hidden w-full p-4 flex flex-col">
+      {notificationText ? (
+        <LibraryCardNotificationBanner
+          text={notificationText}
+          animate={animateNotification}
+        />
+      ) : null}
 
       {/* 2. Main Row: Image + Content */}
       <div className="flex gap-5 items-start">

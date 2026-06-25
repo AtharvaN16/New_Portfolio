@@ -3,6 +3,10 @@
 import React, { useState } from 'react';
 import { Inter } from 'next/font/google';
 import LibraryServicesNavbar from './LibraryServicesNavbar';
+import {
+  PrototypePresentationShell,
+  type PrototypeVariant,
+} from './ualberta/PrototypePresentationShell';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -138,97 +142,89 @@ function AccordionItem({ item, isOpen, onToggle }: { item: typeof subjectItems[0
   );
 }
 
-export function SubjectGuidesPrototype() {
+interface SubjectGuidesPrototypeProps {
+  variant?: PrototypeVariant;
+}
+
+export function SubjectGuidesPrototype({ variant = 'embedded' }: SubjectGuidesPrototypeProps) {
   const [alesOpen, setAlesOpen] = useState(true);
   const [bsjOpen, setBsjOpen] = useState(true);
+  const isFullscreen = variant === 'fullscreen';
 
   return (
-    <div className={`w-full mx-auto overflow-hidden ${inter.className}`}>
-      <div
-        className="relative w-full overflow-hidden rounded-none border-none shadow-2xl"
-        style={{
-          background: 'linear-gradient(295deg, #225432 11.56%, #36A459 88.84%)',
-          height: '1100px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          padding: '80px 48px 0 48px',
-        }}
-      >
-      <div
-        className="w-full bg-[#F7F7F7] flex flex-col overflow-y-auto rounded-none border-none shadow-none scroll-smooth"
-        data-lenis-prevent="true"
-        style={{ height: '1100px' }}
-      >
-        <LibraryServicesNavbar />
+    <PrototypePresentationShell
+      variant={variant}
+      outerClassName={inter.className}
+      innerClassName="w-full bg-[#F7F7F7] flex flex-col rounded-none border-none shadow-none"
+      innerStyle={isFullscreen ? undefined : { height: '1100px' }}
+    >
+      <LibraryServicesNavbar />
 
-        <div className="flex border-b border-[#E0E0E0] bg-white px-8">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              className={`text-[11px] px-4 py-3 font-medium text-[#383838] ${tab === 'Subject Guides' ? 'text-[#265D38] border-b-[3px] border-[#FFDB05]' : ''}`}
-            >
-              {tab}
-            </button>
-          ))}
+      <div className="flex border-b border-[#E0E0E0] bg-white px-8">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            className={`text-[11px] px-4 py-3 font-medium text-[#383838] ${tab === 'Subject Guides' ? 'text-[#265D38] border-b-[3px] border-[#FFDB05]' : ''}`}
+          >
+            {tab}
+          </button>
+        ))}
+      </div>
+
+      <div className={`pt-6 px-8 pb-10 ${isFullscreen ? '' : 'flex-1 overflow-y-auto'}`}>
+        <h1 className="text-[22px] font-bold text-[#1F5C35] mb-2">Subject Guides</h1>
+        <p className="text-[10px] text-[#555] mb-8 leading-normal max-w-[480px]">
+          A subject guide on a university website is a curated resource designed to help students and researchers explore and navigate a specific field of study. It typically includes recommended readings, key databases, journals, research tools, and contact information for subject librarians who can provide assistance.
+        </p>
+
+        <div className="flex gap-6 mb-8">
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[10px] font-semibold text-[#383838]">Search</span>
+            <input
+              type="text"
+              placeholder="Search subjects..."
+              className="border border-[#BDBDBD] px-2 py-1.5 text-[10px] w-[180px] placeholder:text-[#999]"
+            />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[10px] font-semibold text-[#383838]">Sort</span>
+            <select className="border border-[#BDBDBD] px-2 py-1.5 text-[10px] w-[140px] text-[#383838]">
+              <option value="alpha">Alphabetically</option>
+              <option value="dept">By department</option>
+              <option value="all">All</option>
+            </select>
+          </div>
+          <a href="#" className="text-[10px] text-[#265D38] underline mt-auto mb-1 ml-auto">Export all subjects</a>
         </div>
 
-        <div className="flex-1 overflow-y-auto pt-6 px-8">
-          <h1 className="text-[22px] font-bold text-[#1F5C35] mb-2">Subject Guides</h1>
-          <p className="text-[10px] text-[#555] mb-8 leading-normal max-w-[480px]">
-            A subject guide on a university website is a curated resource designed to help students and researchers explore and navigate a specific field of study. It typically includes recommended readings, key databases, journals, research tools, and contact information for subject librarians who can provide assistance.
-          </p>
-
-          <div className="flex gap-6 mb-8">
-            <div className="flex flex-col gap-1.5">
-              <span className="text-[10px] font-semibold text-[#383838]">Search</span>
-              <input 
-                type="text" 
-                placeholder="Search subjects..." 
-                className="border border-[#BDBDBD] px-2 py-1.5 text-[10px] w-[180px] placeholder:text-[#999]" 
-              />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <span className="text-[10px] font-semibold text-[#383838]">Sort</span>
-              <select className="border border-[#BDBDBD] px-2 py-1.5 text-[10px] w-[140px] text-[#383838]">
-                <option value="alpha">Alphabetically</option>
-                <option value="dept">By department</option>
-                <option value="all">All</option>
-              </select>
-            </div>
-            <a href="#" className="text-[10px] text-[#265D38] underline mt-auto mb-1 ml-auto">Export all subjects</a>
+        <div className="flex gap-10 items-start">
+          <div className="flex-1 space-y-3">
+            {subjectItems.map((item) => {
+              if (item.id === 'ales') {
+                return <AccordionItem key={item.id} item={item} isOpen={alesOpen} onToggle={() => setAlesOpen(!alesOpen)} />;
+              }
+              if (item.id === 'bsj') {
+                return <AccordionItem key={item.id} item={item} isOpen={bsjOpen} onToggle={() => setBsjOpen(!bsjOpen)} />;
+              }
+              return <AccordionItem key={item.id} item={item} isOpen={false} />;
+            })}
           </div>
 
-          <div className="flex gap-10 items-start">
-            <div className="flex-1 space-y-3">
-              {subjectItems.map((item) => {
-                if (item.id === 'ales') {
-                  return <AccordionItem key={item.id} item={item} isOpen={alesOpen} onToggle={() => setAlesOpen(!alesOpen)} />;
-                }
-                if (item.id === 'bsj') {
-                  return <AccordionItem key={item.id} item={item} isOpen={bsjOpen} onToggle={() => setBsjOpen(!bsjOpen)} />;
-                }
-                return <AccordionItem key={item.id} item={item} isOpen={false} />;
-              })}
+          <div className="w-[180px] flex-shrink-0">
+            <div className="bg-white px-4 py-4 mb-6 border-[#CACACA]" style={{ borderWidth: '0.6px' }}>
+              <div className="text-[12px] font-bold mb-1 text-[#265D38]">A-Z Databases</div>
+              <div className="text-[10px] text-[#555] opacity-80">Full list of Databases the library subscribes to, including data…</div>
             </div>
-
-            <div className="w-[180px] flex-shrink-0">
-              <div className="bg-white px-4 py-4 mb-6 border-[#CACACA]" style={{ borderWidth: '0.6px' }}>
-                <div className="text-[12px] font-bold mb-1 text-[#265D38]">A-Z Databases</div>
-                <div className="text-[10px] text-[#555] opacity-80">Full list of Databases the library subscribes to, including data…</div>
-              </div>
-              <div className="text-[11px] font-bold text-[#383838] mb-2">More Guides</div>
-              <div className="space-y-2">
-                {moreGuideLinks.map((link) => (
-                  <a key={link} href="#" className="block text-[10px] text-[#265D38]">{link}</a>
-                ))}
-              </div>
+            <div className="text-[11px] font-bold text-[#383838] mb-2">More Guides</div>
+            <div className="space-y-2">
+              {moreGuideLinks.map((link) => (
+                <a key={link} href="#" className="block text-[10px] text-[#265D38]">{link}</a>
+              ))}
             </div>
           </div>
         </div>
       </div>
-      </div>
-    </div>
+    </PrototypePresentationShell>
   );
 }
 

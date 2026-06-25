@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { m, AnimatePresence } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Inter } from 'next/font/google';
 import DirectorySidebar from './DirectorySidebar';
 import DirectoryTopBar from './DirectoryTopBar';
@@ -14,6 +14,7 @@ interface LibraryServicesDirectoryProps {
   bookmarks?: Record<string, boolean>;
   onToggleBookmark?: (title: string) => void;
   height?: string;
+  minHeight?: string;
   paddingX?: string;
   externalCategory?: string | null;
 }
@@ -22,6 +23,7 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
   bookmarks: externalBookmarks,
   onToggleBookmark,
   height = '800px',
+  minHeight,
   paddingX = '0px',
   externalCategory,
 }) => {
@@ -120,13 +122,13 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
 
   const handleTabSwitch = (tab: "all" | "frequently" | "bookmarked") => {
     setActiveTab(tab);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ top: 0 });
+    }
     if (tab === "frequently" || tab === "bookmarked") {
       setActiveCategory(null);
     } else {
       setActiveCategory("Library Basics");
-      if (scrollContainerRef.current) {
-        scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-      }
     }
   };
 
@@ -163,9 +165,9 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
   }, [activeTab]);
 
   return (
-    <div 
-      className={`flex flex-col bg-white overflow-hidden w-full border-none rounded-none ${inter.className}`}
-      style={{ height }}
+    <div
+      className={`flex w-full flex-col overflow-hidden border-none rounded-none bg-white ${inter.className}`}
+      style={{ height, minHeight }}
     >
       {/* Unified Top Frame: Search + Tabs */}
       <div className="flex flex-col border-b border-[#E5E5E5] pt-6">
@@ -233,30 +235,22 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
       </div>
 
       <div className="flex flex-1 overflow-hidden" style={{ paddingLeft: paddingX, paddingRight: paddingX }}>
-        <div className="w-[200px] flex-shrink-0 overflow-y-auto pt-12">
-          <DirectorySidebar 
+        <div className="w-[200px] flex-shrink-0 overflow-y-auto bg-white pt-12">
+          <DirectorySidebar
             categories={categories}
-            activeCategory={activeCategory || ""}
+            activeCategory={activeCategory || ''}
             onSelectCategory={handleCategorySelect}
           />
         </div>
 
-        <div className="flex-1 flex flex-col bg-white overflow-hidden">
-          <div 
+        <div className="flex flex-1 flex-col overflow-hidden bg-white">
+          <div
             ref={scrollContainerRef}
-            className="flex-1 pt-16 pl-10 pr-0 pb-10 overflow-y-auto relative scroll-smooth"
+            className="relative flex-1 overflow-y-auto scroll-smooth bg-white pt-16 pl-10 pr-0 pb-10"
             data-lenis-prevent="true"
           >
-            <AnimatePresence mode="wait">
-              {activeTab === "all" ? (
-                <m.div
-                  key="all-tab"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex flex-col gap-10"
-                >
+            {activeTab === 'all' ? (
+              <div className="flex flex-col gap-10 bg-white">
                   {LIBRARY_DIRECTORY_DATA.map((category) => {
                     const filtered = applyFilters(category.services);
                     if (filtered.length === 0 && (searchQuery || selectedAudience !== "-Any-")) return null;
@@ -284,16 +278,9 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
                       </div>
                     );
                   })}
-                </m.div>
-              ) : activeTab === "frequently" ? (
-                <m.div
-                  key="frequently-tab"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex flex-col gap-8"
-                >
+              </div>
+            ) : activeTab === 'frequently' ? (
+              <div className="flex flex-col gap-8 bg-white">
                   {hasFrequentlyVisitedResults ? (
                     <>
                       {frequentlyVisitedServices.lastVisited.length > 0 && (
@@ -338,16 +325,9 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
                       No frequently visited services found matching your criteria.
                     </div>
                   )}
-                </m.div>
-              ) : (
-                <m.div
-                  key="bookmarked-tab"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex flex-col gap-8"
-                >
+              </div>
+            ) : (
+              <div className="flex flex-col gap-8 bg-white">
                   <div>
                     <h2 className="text-[#265D38] text-[18px] font-bold mb-3 uppercase tracking-tight">
                       Your Bookmarks
@@ -370,9 +350,8 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
                       )}
                     </div>
                   </div>
-                </m.div>
-              )}
-            </AnimatePresence>
+              </div>
+            )}
           </div>
         </div>
       </div>
