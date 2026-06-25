@@ -1,18 +1,13 @@
-import Image from 'next/image'
 import { CaseStudyVideo } from '@/components/case-study/CaseStudyVideo'
 import {
-  CaseStudyCell,
   CaseStudyGrid,
+  CaseStudyCell,
   CaseStudySplit,
 } from '@/components/case-study/layout'
 import { SectionSpacer } from '@/components/case-study/SectionSpacer'
-import {
-  CASE_STUDY_FINDING_BULLET_LIST,
-  CASE_STUDY_FINDING_BULLET_TEXT,
-  CASE_STUDY_SECTION_LABEL_PROSE,
-} from '@/components/case-study/caseStudyTypography'
-import { AnimatedText } from '@/components/ui/AnimatedText'
+import { CASE_STUDY_SECTION_LABEL_PROSE } from '@/components/case-study/caseStudyTypography'
 import { GrayFrame } from '@/components/ui/GrayFrame'
+import Image from 'next/image'
 import { UAlbertaServiceIterationsSection } from './UAlbertaServiceIterationsSection'
 
 const VIDEO_BASE = '/videos/case-studies/ualberta-library-website'
@@ -27,24 +22,6 @@ const userGroups = [
     body: 'Recruited from the Student Library Advisory Committee to identify which services matter most to typical students.',
   },
 ]
-
-function FindingBulletList({ points }: { points: string[] }) {
-  return (
-    <ul className={CASE_STUDY_FINDING_BULLET_LIST}>
-      {points.map((point) => (
-        <li key={point} className="flex items-start gap-3">
-          <span
-            className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full"
-            style={{ backgroundColor: 'rgb(var(--color-text-secondary))' }}
-          />
-          <p className={`${CASE_STUDY_FINDING_BULLET_TEXT} text-text-secondary`}>
-            {point}
-          </p>
-        </li>
-      ))}
-    </ul>
-  )
-}
 
 function ResearchMediaRow({
   src,
@@ -166,146 +143,6 @@ export function UAlbertaResearchSection() {
           alt="Affinity map of University of Alberta library website research observations"
           description="Over two weeks, we gathered 8 hours of recordings and mapped every frustration, hesitation, and confusion onto an affinity diagram."
         />
-      </div>
-
-      <SectionSpacer />
-
-      {/* Findings */}
-      <div>
-        <h3
-          className={CASE_STUDY_SECTION_LABEL_PROSE}
-          style={{ color: 'rgb(var(--color-text-tertiary))' }}
-        >
-          Findings and insight
-        </h3>
-
-        <div className="space-y-32 md:space-y-48">
-
-        {/* Finding 01 */}
-        <CaseStudySplit
-          preset="equal"
-          className="gap-8 md:gap-14"
-          left={
-            <GrayFrame className="flex h-[430px] items-start justify-end overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
-              <Image
-                src="/images/case-studies/ualberta-library-website/servicespage.avif"
-                alt="University of Alberta Library Services page"
-                width={1640}
-                height={2260}
-                className="block h-auto w-[85%] shrink-0 translate-x-[6px]"
-              />
-            </GrayFrame>
-          }
-          right={
-            <div className="flex flex-col gap-8 md:gap-10">
-              <AnimatedText
-                variant="quote"
-                as="blockquote"
-                segments={[
-                  {
-                    text: '"It\'s too much, hard to read, cluttered, and difficult to navigate."',
-                  },
-                ]}
-                maxWidth="default"
-                className="self-end max-w-[300px] text-left text-xl leading-[1.08] tracking-[-0.05em] text-text-primary md:max-w-[360px] md:text-2xl"
-              />
-              <div className="space-y-4">
-                <p className="text-2xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-3xl">01</p>
-                <h4 className="text-lg font-bold leading-snug text-text-primary md:text-xl">
-                  Services are organized into logical categories, but the page has too many options displayed at once.
-                </h4>
-                <FindingBulletList
-                  points={[
-                    'One student used "Ctrl + F" after failing to find a service.',
-                    'Services in research, alumni or teaching categories were irrelevant to undergraduate users.',
-                    'Some services have ambiguous names like "ERA" with no descriptions.',
-                    'Majority of students only use a handful of services regularly.',
-                  ]}
-                />
-              </div>
-            </div>
-          }
-        />
-
-        {/* Finding 02 */}
-        <CaseStudySplit
-          preset="equal"
-          className="gap-8 md:gap-14"
-          left={
-            <GrayFrame className="flex h-[430px] items-start justify-end overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
-              <Image
-                src="/images/case-studies/ualberta-library-website/hourspage.avif"
-                alt="University of Alberta Library Hours + Locations page"
-                width={1640}
-                height={2260}
-                className="block h-auto w-[85%] shrink-0 translate-x-[6px]"
-              />
-            </GrayFrame>
-          }
-          right={
-            <div className="flex items-end">
-              <div className="space-y-4">
-                <p className="text-2xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-3xl">02</p>
-                <h4 className="text-lg font-bold leading-snug text-text-primary md:text-xl">
-                  Students are unsure which library is right for them.
-                </h4>
-                <FindingBulletList
-                  points={[
-                    'Alphabetical ordering pushed satellite campus locations above main campus options.',
-                    'Some listed locations are archives or scholarship centers, not actual libraries, confusing new students.',
-                    'The page did not show which libraries had 24/7 study space or what facilities each offered.',
-                    'You have to click into the card to know the library hours.',
-                  ]}
-                />
-              </div>
-            </div>
-          }
-        />
-
-        {/* Findings 03 + 04 — side by side */}
-        <CaseStudySplit
-          preset="equal"
-          className="gap-8 md:gap-14"
-          left={
-            <div className="space-y-5">
-              <GrayFrame className="flex h-[430px] items-start justify-start overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
-                <Image
-                  src="/images/case-studies/ualberta-library-website/subjectguides.avif"
-                  alt="University of Alberta Subject Guides page"
-                  width={1640}
-                  height={2260}
-                  className="block h-auto w-[85%] shrink-0 -translate-x-[6px]"
-                />
-              </GrayFrame>
-              <div className="space-y-2">
-                <p className="text-2xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-3xl">03</p>
-                <h4 className="text-lg font-bold leading-snug text-text-primary md:text-xl">
-                  Navigating to specific guides was difficult as it required multiple steps.
-                </h4>
-              </div>
-            </div>
-          }
-          right={
-            <div className="space-y-5">
-              <GrayFrame className="flex h-[430px] items-start justify-start overflow-hidden pt-[calc(15%-6px)] md:h-[540px]">
-                <Image
-                  src="/images/case-studies/ualberta-library-website/homepage.avif"
-                  alt="University of Alberta Library homepage"
-                  width={1640}
-                  height={2260}
-                  className="block h-auto w-[85%] shrink-0 -translate-x-[6px]"
-                />
-              </GrayFrame>
-              <div className="space-y-2">
-                <p className="text-2xl font-bold tracking-[-0.04em] text-text-primary opacity-30 md:text-3xl">04</p>
-                <h4 className="text-lg font-bold leading-snug text-text-primary md:text-xl">
-                  The home page above fold works well. Everything below it gets ignored.
-                </h4>
-              </div>
-            </div>
-          }
-        />
-        </div>
       </div>
 
       <SectionSpacer />

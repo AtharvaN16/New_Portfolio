@@ -70,4 +70,40 @@
       margin-top: var(--cs-narrative-section-gap-md);
     }
   }
+
+  /** UAlberta finding cards — solid frame; image fades via mask (not overlay). */
+  .ualberta-screenshot-frame {
+    background-color: #cecfcd;
+  }
+
+  [data-theme='dark'] .ualberta-screenshot-frame {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  /*
+   * Mask fades the image itself so the frame color shows through — same color,
+   * no overlay mismatch. `transparent` is safe in mask gradients (alpha channel).
+   */
+  .ualberta-screenshot-image {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 48%,
+      rgb(0 0 0 / 88%) 62%,
+      rgb(0 0 0 / 62%) 74%,
+      rgb(0 0 0 / 32%) 86%,
+      rgb(0 0 0 / 10%) 94%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 48%,
+      rgb(0 0 0 / 88%) 62%,
+      rgb(0 0 0 / 62%) 74%,
+      rgb(0 0 0 / 32%) 86%,
+      rgb(0 0 0 / 10%) 94%,
+      transparent 100%
+    );
+  }
 }

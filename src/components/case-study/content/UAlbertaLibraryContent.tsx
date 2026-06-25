@@ -20,6 +20,7 @@ import SubjectGuidesPrototype from './SubjectGuidesPrototype'
 import { ResearchObjectiveNotes } from './ResearchObjectiveNotes'
 import { SectionSpacer } from '@/components/case-study/SectionSpacer'
 import { UAlbertaResearchSection } from './UAlbertaResearchSection'
+import { UAlbertaFindingsInsightsGrid } from './ualberta/UAlbertaFindingsInsightsGrid'
 import { MaterialSymbolsFont } from '@/components/case-study/MaterialSymbolsFont'
 import {
   CASE_STUDY_SECTION_LABEL_PROSE,
@@ -162,8 +163,9 @@ export function UAlbertaLibraryContent() {
                 confusion.
               </p>
 
-              <div className={`${CASE_STUDY_NARRATIVE_SECTION_GAP} mb-12 md:mb-16`}>
+              <div className={CASE_STUDY_NARRATIVE_SECTION_GAP}>
                 <h3
+                  id="ualberta-key-insights-heading"
                   className={SECTION_LABEL}
                   style={{ color: 'rgb(var(--color-text-tertiary))' }}
                 >
@@ -197,13 +199,10 @@ export function UAlbertaLibraryContent() {
                     </p>
                   </div>
                 </div>
+
+                <UAlbertaFindingsInsightsGrid />
               </div>
 
-              <ImagePlaceholder
-                label="University of Alberta Library homepage — current design"
-                aspectRatio="16/9"
-                className="mb-12 md:mb-16"
-              />
               <SectionSpacer />
               {/* Research Objectives */}
               <h3
