@@ -186,7 +186,7 @@ export function CaseStudyVideo({
   return (
     <div
       ref={wrapperRef}
-      className={cn('relative w-full bg-black overflow-hidden', className)}
+      className={cn('relative w-full overflow-hidden rounded-lg bg-black', className)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => setMobileControlsVisible(true)}

@@ -2,12 +2,14 @@
 
 import React, { useState } from 'react';
 import { m, AnimatePresence } from 'framer-motion';
+import { highlightSearchText } from '@/lib/highlight-search-text';
 
 interface LibraryServiceItemProps {
   title: string;
   description: string;
   isBookmarked?: boolean;
   onToggleBookmark?: () => void;
+  searchQuery?: string;
 }
 
 const BookmarkAddIcon = () => (
@@ -30,6 +32,7 @@ export const LibraryServiceItem: React.FC<LibraryServiceItemProps> = ({
   description,
   isBookmarked: isBookmarkedProp,
   onToggleBookmark,
+  searchQuery = '',
 }) => {
   const [internalIsBookmarked, setInternalIsBookmarked] = useState(false);
 
@@ -50,15 +53,15 @@ export const LibraryServiceItem: React.FC<LibraryServiceItemProps> = ({
       <div className="flex-1 pr-4">
         <div className="flex items-center gap-3 mb-0.5">
           <h4 className="text-[#265D38] text-[14px] font-medium relative inline-block cursor-pointer group-hover:underline decoration-1 underline-offset-2 transition-all">
-            {title}
+            {highlightSearchText(title, searchQuery)}
           </h4>
           <AnimatePresence>
             {isBookmarked && (
               <m.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="text-[#383838]/60 text-[9px] font-bold uppercase tracking-widest"
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.92 }}
+                className="rounded-full bg-[#E8F3EC] px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest text-[#265D38]"
               >
                 Bookmarked
               </m.span>
@@ -66,7 +69,7 @@ export const LibraryServiceItem: React.FC<LibraryServiceItemProps> = ({
           </AnimatePresence>
         </div>
         <p className="text-[#383838] text-[12px] leading-normal opacity-90">
-          {description}
+          {highlightSearchText(description, searchQuery)}
         </p>
       </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Inter } from 'next/font/google';
 import LibraryServicesNavbar from './LibraryServicesNavbar';
 import {
@@ -11,6 +11,36 @@ import {
 const inter = Inter({ subsets: ['latin'] });
 
 const tabs = ['Subject Guides', 'Course Guides', 'How to Guides', 'General Guides', 'All Guides A-Z'];
+
+const artsLinks = [
+  'Anthropology',
+  'Archaeology',
+  'Art & Design',
+  'Classics',
+  'Communications & Technology (MACT)',
+  'Digital Humanities',
+  'Drama',
+  'East Asian Studies',
+  'Economics',
+  'English & Film Studies',
+  'German 274: Shaping Modern Austria',
+  'History',
+  'History 290: Historiography & Research Methods',
+  'History 395: Early British Empire',
+  'Human Geography & Planning',
+  'Intersectionality',
+  'Linguistics',
+  'Media Studies',
+  'Modern Languages and Cultural Studies (MLCS)',
+  'Music',
+  'Philosophy',
+  'Political Science',
+  'Psychology',
+  'Religious Studies',
+  'Social Work',
+  'Sociology',
+  "Women's and Gender Studies",
+];
 
 const moreGuideLinks = [
   'Audio, Video & Gaming Resources',
@@ -37,7 +67,9 @@ const subjectItems = [
     id: 'arts',
     name: 'Arts: Humanities & Social Sciences',
     iconName: 'palette',
-    interactive: false,
+    interactive: true,
+    links: artsLinks,
+    button: 'Arts Databases',
   },
   {
     id: 'augustana',
@@ -109,12 +141,30 @@ const subjectItems = [
   },
 ];
 
-function AccordionItem({ item, isOpen, onToggle }: { item: typeof subjectItems[0]; isOpen: boolean; onToggle?: () => void }) {
+function subjectLinkId(link: string) {
+  return `subject-link-${link.replace(/[^a-zA-Z0-9]+/g, '-').toLowerCase()}`;
+}
+
+function AccordionItem({
+  item,
+  isOpen,
+  onToggle,
+  highlightedLink,
+}: {
+  item: (typeof subjectItems)[0];
+  isOpen: boolean;
+  onToggle?: () => void;
+  highlightedLink?: string | null;
+}) {
+  const isInteractive = Boolean(item.interactive && onToggle);
+
   return (
     <div className="border-[#CACACA] overflow-hidden" style={{ borderWidth: '0.6px' }}>
       <div
-        className="flex items-center gap-3 py-2.5 px-3 cursor-pointer bg-[#EDEDED] hover:bg-[#E0E0E0] transition-colors"
-        onClick={onToggle}
+        className={`flex items-center gap-3 py-2.5 px-3 bg-[#EDEDED] transition-colors ${
+          isInteractive ? 'cursor-pointer hover:bg-[#E0E0E0]' : ''
+        }`}
+        onClick={isInteractive ? onToggle : undefined}
       >
         <div className="w-[26px] h-[26px] flex items-center justify-center flex-shrink-0">
           <span className="material-symbols-rounded text-[#265D38]" style={{ fontSize: '20px', fontVariationSettings: "'FILL' 1" }}>
@@ -127,15 +177,28 @@ function AccordionItem({ item, isOpen, onToggle }: { item: typeof subjectItems[0
         </svg>
       </div>
       {isOpen && item.links && (
-        <div className="bg-[#FAFAFA] px-4 py-3 border-t border-[#CACACA]" style={{ borderTopWidth: '0.6px' }}>
-          <div className="grid grid-cols-3 gap-x-6 gap-y-1.5 mb-6">
+        <div className="border-t border-[#CACACA] bg-[#FAFAFA] px-4 py-3" style={{ borderTopWidth: '0.6px' }}>
+          <div className="mb-6 grid grid-cols-3 gap-x-6 gap-y-1.5">
             {item.links.map((link) => (
-              <a key={link} href="#" className="text-[10px] text-[#265D38] hover:underline">{link}</a>
+              <a
+                key={link}
+                id={subjectLinkId(link)}
+                href="#"
+                className="text-[10px] text-[#265D38] hover:underline"
+              >
+                {highlightedLink === link ? (
+                  <mark className="bg-[#FFDB05] text-inherit">{link}</mark>
+                ) : (
+                  link
+                )}
+              </a>
             ))}
           </div>
-          <div className="flex justify-end">
-            <button className="bg-[#265D38] text-white text-[10px] px-3 py-1.5 font-semibold">{item.button}</button>
-          </div>
+          {item.button && (
+            <div className="flex justify-end">
+              <button className="bg-[#265D38] px-3 py-1.5 text-[10px] font-semibold text-white">{item.button}</button>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -147,9 +210,49 @@ interface SubjectGuidesPrototypeProps {
 }
 
 export function SubjectGuidesPrototype({ variant = 'embedded' }: SubjectGuidesPrototypeProps) {
-  const [alesOpen, setAlesOpen] = useState(true);
-  const [bsjOpen, setBsjOpen] = useState(true);
+  const [openItems, setOpenItems] = useState<Record<string, boolean>>({
+    ales: true,
+    bsj: true,
+    arts: false,
+  });
+  const [searchQuery, setSearchQuery] = useState('');
+  const [highlightedLink, setHighlightedLink] = useState<string | null>(null);
   const isFullscreen = variant === 'fullscreen';
+
+  const toggleItem = (id: string) => {
+    setOpenItems((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const handleSearchSubmit = () => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return;
+
+    for (const item of subjectItems) {
+      if (!item.interactive || !item.links) continue;
+
+      const match = item.links.find((link) => link.toLowerCase().includes(query));
+      if (match) {
+        setOpenItems((prev) => ({ ...prev, [item.id]: true }));
+        setHighlightedLink(match);
+        return;
+      }
+    }
+
+    setHighlightedLink(null);
+  };
+
+  useEffect(() => {
+    if (!highlightedLink) return;
+
+    const frame = requestAnimationFrame(() => {
+      document.getElementById(subjectLinkId(highlightedLink))?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      });
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [highlightedLink, openItems]);
 
   return (
     <PrototypePresentationShell
@@ -183,7 +286,21 @@ export function SubjectGuidesPrototype({ variant = 'embedded' }: SubjectGuidesPr
             <input
               type="text"
               placeholder="Search subjects..."
-              className="border border-[#BDBDBD] px-2 py-1.5 text-[10px] w-[180px] placeholder:text-[#999]"
+              value={searchQuery}
+              onChange={(event) => {
+                const value = event.target.value;
+                setSearchQuery(value);
+                if (!value.trim()) {
+                  setHighlightedLink(null);
+                }
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault();
+                  handleSearchSubmit();
+                }
+              }}
+              className="w-[180px] border border-[#BDBDBD] px-2 py-1.5 text-[10px] text-[#383838] placeholder:text-[#888]"
             />
           </div>
           <div className="flex flex-col gap-1.5">
@@ -199,15 +316,15 @@ export function SubjectGuidesPrototype({ variant = 'embedded' }: SubjectGuidesPr
 
         <div className="flex gap-10 items-start">
           <div className="flex-1 space-y-3">
-            {subjectItems.map((item) => {
-              if (item.id === 'ales') {
-                return <AccordionItem key={item.id} item={item} isOpen={alesOpen} onToggle={() => setAlesOpen(!alesOpen)} />;
-              }
-              if (item.id === 'bsj') {
-                return <AccordionItem key={item.id} item={item} isOpen={bsjOpen} onToggle={() => setBsjOpen(!bsjOpen)} />;
-              }
-              return <AccordionItem key={item.id} item={item} isOpen={false} />;
-            })}
+            {subjectItems.map((item) => (
+              <AccordionItem
+                key={item.id}
+                item={item}
+                isOpen={Boolean(openItems[item.id])}
+                onToggle={item.interactive ? () => toggleItem(item.id) : undefined}
+                highlightedLink={highlightedLink}
+              />
+            ))}
           </div>
 
           <div className="w-[180px] flex-shrink-0">

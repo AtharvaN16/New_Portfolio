@@ -35,8 +35,9 @@ const LibraryServicesPagePrototype: React.FC<LibraryServicesPagePrototypeProps> 
   return (
     <PrototypePresentationShell
       variant={variant}
+      embeddedFrameHeight="1400px"
+      embeddedInnerHeight="1400px"
       innerClassName="w-full bg-white flex flex-col rounded-none border-none shadow-none"
-      innerStyle={variant === 'embedded' ? { height: '1100px' } : undefined}
     >
       <LibraryServicesNavbar />
 
@@ -52,7 +53,7 @@ const LibraryServicesPagePrototype: React.FC<LibraryServicesPagePrototypeProps> 
         <LibraryServicesDirectory
           bookmarks={bookmarks}
           onToggleBookmark={toggleBookmark}
-          height="800px"
+          height="1000px"
           paddingX="40px"
         />
       </div>

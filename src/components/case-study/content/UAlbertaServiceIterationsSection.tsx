@@ -57,7 +57,7 @@ const iterations: Iteration[] = [
     notes: [
       { tone: 'positive', text: "Added a 'Go to all services' button to jump to the full list." },
       { tone: 'negative', text: 'We wanted to let users pin services to the hero section. But pinned services would clutter the page and make the hero section very long. For the final version, we went with tabs instead.' },
-      { tone: 'negative', text: "We added 'Last Visited' and 'Frequently Visited' sections at the top of the list. But they felt out of place next to the static sidebar categories. We moved both into tabs in the final version." },
+      { tone: 'negative', text: "We prototyped 'Last Visited' and 'Frequently Visited' tabs in V3. We removed them from the final recommendation — visit tracking needs SSO, analytics plumbing, and a FIPPA privacy review for limited payoff. Bookmarks stayed instead." },
     ],
   },
   {
@@ -68,7 +68,7 @@ const iterations: Iteration[] = [
     notes: [
       { tone: 'positive', text: 'Popular services grid promoted to the hero section for immediate access.' },
       { tone: 'positive', text: 'Category tabs replace the sticky sidebar for a cleaner layout.' },
-      { tone: 'positive', text: 'Bookmarking lets users save frequently-used services.' },
+      { tone: 'positive', text: 'Bookmarking gives users an explicit, opt-in shortcut list — no background tracking required.' },
       { tone: 'positive', text: 'Search and audience filters are retained for discoverability.' },
     ],
   },

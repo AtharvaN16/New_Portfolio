@@ -21,6 +21,11 @@ import { ResearchObjectiveNotes } from './ResearchObjectiveNotes'
 import { SectionSpacer } from '@/components/case-study/SectionSpacer'
 import { UAlbertaResearchSection } from './UAlbertaResearchSection'
 import { UAlbertaFindingsInsightsGrid } from './ualberta/UAlbertaFindingsInsightsGrid'
+import { UAlbertaSolutionSection } from './ualberta/UAlbertaSolutionSection'
+import { UAlbertaSubjectGuidesReelSection } from './ualberta/UAlbertaSubjectGuidesReelSection'
+import { UAlbertaServicesDiscoveryReelSection } from './ualberta/UAlbertaServicesDiscoveryReelSection'
+import { UAlbertaServicesDirectoryReelSection } from './ualberta/UAlbertaServicesDirectoryReelSection'
+import { UAlbertaBookmarksDesignDecision } from './ualberta/UAlbertaBookmarksDesignDecision'
 import { OpenPrototypeLink } from './ualberta/OpenPrototypeLink'
 import { MaterialSymbolsFont } from '@/components/case-study/MaterialSymbolsFont'
 import {
@@ -203,6 +208,16 @@ export function UAlbertaLibraryContent() {
 
                 <UAlbertaFindingsInsightsGrid />
               </div>
+
+              <UAlbertaSolutionSection />
+
+              <UAlbertaSubjectGuidesReelSection />
+
+              <UAlbertaServicesDiscoveryReelSection />
+
+              <UAlbertaServicesDirectoryReelSection />
+
+              <UAlbertaBookmarksDesignDecision />
 
               <SectionSpacer />
               {/* Research Objectives */}
@@ -651,6 +666,7 @@ export function UAlbertaLibraryContent() {
                         'Add short descriptions to every service so purpose is immediately clear without clicking',
                         'Add a sticky sidebar for quick category navigation without full-page scrolling',
                         'Introduce audience-type filtering (Students, Faculty, Alumni, Researchers) so users see only what is relevant to them',
+                        'Let students bookmark services they return to — an explicit shortcut list without tracking browsing history',
                       ].map((point) => (
                         <li key={point} className="flex items-start gap-4">
                           <span

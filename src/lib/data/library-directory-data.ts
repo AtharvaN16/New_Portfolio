@@ -301,8 +301,3 @@ export const LIBRARY_DIRECTORY_DATA: LibraryCategory[] = [
     ]
   }
 ];
-
-export const FREQUENTLY_VISITED_DATA = {
-  lastVisited: ["Publishing", "Geospatial Data / GIS"],
-  frequentlyVisited: ["Publishing", "All Library Hours", "Library Checkout", "Recommend a Purchase", "Open Access"]
-};

@@ -61,6 +61,9 @@ describe('LibraryServicesDirectory', () => {
     // Only "Accessibility Services" should be visible
     expect(screen.getByText(firstService)).toBeInTheDocument();
     expect(screen.queryByText(secondService)).toBeNull();
+
+    const highlight = document.querySelector('mark');
+    expect(highlight).toHaveTextContent('Accessibility');
   });
 
   it('filters services based on audience selection', () => {
@@ -81,19 +84,15 @@ describe('LibraryServicesDirectory', () => {
     expect(screen.queryByText('Accessibility Services')).toBeNull();
   });
 
-  it('switches to Frequently visited tab', () => {
+  it('switches to Bookmarked tab', () => {
     render(<LibraryServicesDirectory />);
-    
-    // Click on "Frequently visited" tab
-    const freqTab = screen.getByText('Frequently visited');
-    fireEvent.click(freqTab);
-    
-    // Check if "Last visited" section header is present
-    expect(screen.getByText('Last visited')).toBeInTheDocument();
-    
-    // Check if a frequently visited item is present
-    // Based on FREQUENTLY_VISITED_DATA: "Publishing"
-    // It appears in both "Last visited" and "Frequently visited"
-    expect(screen.getAllByText('Publishing').length).toBeGreaterThanOrEqual(1);
+
+    expect(screen.getByLabelText('0 bookmarked services')).toHaveTextContent('0');
+
+    const bookmarkTab = screen.getByText('Bookmarked');
+    fireEvent.click(bookmarkTab);
+
+    expect(screen.getByText('Your Bookmarks')).toBeInTheDocument();
+    expect(screen.getByText("You haven't bookmarked any services yet.")).toBeInTheDocument();
   });
 });

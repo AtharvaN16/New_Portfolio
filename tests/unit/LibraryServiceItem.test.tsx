@@ -19,10 +19,6 @@ describe('LibraryServiceItem', () => {
   };
 
   it('toggles "Bookmarked" text when bookmark icon is clicked', async () => {
-    // Note: In Task 2, we are instructed to add useState to track isBookmarked state internally.
-    // The current implementation uses props, so this test should fail once I update the component
-    // to use internal state and if the initial state is false.
-    
     render(<LibraryServiceItem {...defaultProps} />);
     
     // Initially, "Bookmarked" should NOT be present
@@ -40,5 +36,21 @@ describe('LibraryServiceItem', () => {
     
     // "Bookmarked" should be gone again
     expect(screen.queryByText('Bookmarked')).toBeNull();
+  });
+
+  it('highlights matching search text in title and description', () => {
+    render(
+      <LibraryServiceItem
+        {...defaultProps}
+        title="Citation Guides"
+        description="Help with citation styles and references"
+        searchQuery="citation"
+      />,
+    );
+
+    const marks = document.querySelectorAll('mark');
+    expect(marks).toHaveLength(2);
+    expect(marks[0]).toHaveTextContent('Citation');
+    expect(marks[1]).toHaveTextContent('citation');
   });
 });

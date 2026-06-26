@@ -115,7 +115,7 @@ const explorations: Exploration[] = [
       },
       {
         tone: 'negative',
-        text: "We added 'Last Visited' and 'Frequently Visited' sections at the top of the list. But they felt out of place next to the static sidebar categories. We moved both into tabs in the final version.",
+        text: "We prototyped 'Last Visited' and 'Frequently Visited' tabs in V3. We removed them from the final recommendation — visit tracking needs SSO, analytics plumbing, and a FIPPA privacy review for limited payoff. Bookmarks stayed instead.",
       },
     ],
   },
