@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { UAlbertaPrototypeRenderer } from '@/components/case-study/content/ualberta/UAlbertaPrototypeRenderer'
+import { UAlbertaPrototypeDesktopGate } from '@/components/case-study/content/ualberta/UAlbertaPrototypeDesktopGate'
 import {
   isUAlbertaPrototypeSlug,
   UALBERTA_PROTOTYPE_LABELS,
@@ -37,5 +37,5 @@ export default async function UAlbertaPrototypePage({ params }: PrototypePagePro
     notFound()
   }
 
-  return <UAlbertaPrototypeRenderer slug={slug} variant="fullscreen" />
+  return <UAlbertaPrototypeDesktopGate slug={slug} />
 }

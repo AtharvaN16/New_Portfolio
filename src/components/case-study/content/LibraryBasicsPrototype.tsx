@@ -2,9 +2,7 @@
 
 import React, { useState } from 'react';
 import { LibraryServiceItem } from './LibraryServiceItem';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
+import { ualbertaPrototypeInter } from './ualberta/ualbertaPrototypeFont';
 
 const SERVICES_DATA = [
   {
@@ -45,7 +43,7 @@ export const LibraryBasicsPrototype: React.FC = () => {
   };
 
   return (
-    <div className={`w-full ${inter.className}`}>
+    <div className={`w-full ${ualbertaPrototypeInter.className}`}>
       <div
         className="relative w-full overflow-hidden rounded-none"
         style={{

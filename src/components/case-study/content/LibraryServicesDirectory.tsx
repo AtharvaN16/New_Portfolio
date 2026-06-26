@@ -2,13 +2,11 @@
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { m } from 'framer-motion';
-import { Inter } from 'next/font/google';
 import DirectorySidebar from './DirectorySidebar';
 import DirectoryTopBar from './DirectoryTopBar';
 import { LibraryServiceItem } from './LibraryServiceItem';
 import { LIBRARY_DIRECTORY_DATA } from '@/lib/data/library-directory-data';
-
-const inter = Inter({ subsets: ['latin'] });
+import { ualbertaPrototypeInter } from './ualberta/ualbertaPrototypeFont';
 
 interface LibraryServicesDirectoryProps {
   bookmarks?: Record<string, boolean>;
@@ -152,7 +150,7 @@ const LibraryServicesDirectory: React.FC<LibraryServicesDirectoryProps> = ({
 
   return (
     <div
-      className={`flex w-full flex-col overflow-hidden border-none rounded-none bg-white ${inter.className}`}
+      className={`flex w-full flex-col overflow-hidden border-none rounded-none bg-white ${ualbertaPrototypeInter.className}`}
       style={{ height, minHeight }}
     >
       <div className="flex flex-col border-b border-[#E5E5E5] pt-6">

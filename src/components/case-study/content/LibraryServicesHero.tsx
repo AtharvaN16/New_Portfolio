@@ -1,10 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Inter } from 'next/font/google';
 import { LIBRARY_DIRECTORY_DATA } from '@/lib/data/library-directory-data';
-
-const inter = Inter({ subsets: ['latin'] });
+import { ualbertaPrototypeInter } from './ualberta/ualbertaPrototypeFont';
 
 interface LibraryServicesHeroProps {
   bookmarks: Record<string, boolean>;
@@ -50,7 +48,7 @@ const LibraryServicesHero: React.FC<LibraryServicesHeroProps> = ({
     .filter((s): s is any => s !== undefined);
 
   return (
-    <div className={`w-full py-16 px-10 ${inter.className}`}>
+    <div className={`w-full py-16 px-10 ${ualbertaPrototypeInter.className}`}>
       <div className="flex flex-col">
         {/* Breadcrumb - scaled down */}
         <div className="flex items-center gap-2 mb-8 text-[10px] text-white/80 font-medium uppercase tracking-wider">

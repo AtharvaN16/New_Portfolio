@@ -1,14 +1,13 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Inter } from 'next/font/google';
+import { MaterialSymbolsFont } from '@/components/case-study/MaterialSymbolsFont';
 import LibraryServicesNavbar from './LibraryServicesNavbar';
 import {
   PrototypePresentationShell,
   type PrototypeVariant,
 } from './ualberta/PrototypePresentationShell';
-
-const inter = Inter({ subsets: ['latin'] });
+import { ualbertaPrototypeInter } from './ualberta/ualbertaPrototypeFont';
 
 const tabs = ['Subject Guides', 'Course Guides', 'How to Guides', 'General Guides', 'All Guides A-Z'];
 
@@ -255,9 +254,11 @@ export function SubjectGuidesPrototype({ variant = 'embedded' }: SubjectGuidesPr
   }, [highlightedLink, openItems]);
 
   return (
-    <PrototypePresentationShell
+    <>
+      <MaterialSymbolsFont />
+      <PrototypePresentationShell
       variant={variant}
-      outerClassName={inter.className}
+      outerClassName={ualbertaPrototypeInter.className}
       innerClassName="w-full bg-[#F7F7F7] flex flex-col rounded-none border-none shadow-none"
       innerStyle={isFullscreen ? undefined : { height: '1100px' }}
     >
@@ -342,6 +343,7 @@ export function SubjectGuidesPrototype({ variant = 'embedded' }: SubjectGuidesPr
         </div>
       </div>
     </PrototypePresentationShell>
+    </>
   );
 }
 

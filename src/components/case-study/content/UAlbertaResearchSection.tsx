@@ -8,7 +8,6 @@ import { SectionSpacer } from '@/components/case-study/SectionSpacer'
 import { CASE_STUDY_SECTION_LABEL_PROSE } from '@/components/case-study/caseStudyTypography'
 import { GrayFrame } from '@/components/ui/GrayFrame'
 import Image from 'next/image'
-import { UAlbertaServiceIterationsSection } from './UAlbertaServiceIterationsSection'
 
 const VIDEO_BASE = '/videos/case-studies/ualberta-library-website'
 
@@ -165,8 +164,6 @@ export function UAlbertaResearchSection() {
           />
         </GrayFrame>
       </div>
-
-      <UAlbertaServiceIterationsSection />
     </section>
   )
 }

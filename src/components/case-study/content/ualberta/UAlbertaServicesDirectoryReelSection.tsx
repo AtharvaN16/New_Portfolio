@@ -2,6 +2,7 @@
 
 import { CaseStudyVideo } from '@/components/case-study/CaseStudyVideo'
 import { AnimatedText } from '@/components/ui/AnimatedText'
+import { OpenPrototypeLink } from './OpenPrototypeLink'
 import {
   CASE_STUDY_BODY_LEADING,
   CASE_STUDY_NARRATIVE_SECTION_GAP,
@@ -59,6 +60,8 @@ export function UAlbertaServicesDirectoryReelSection() {
         src={VIDEO_SRC}
         alt="Walkthrough of searching, bookmarking, and revisiting services in the University of Alberta library services directory"
       />
+
+      <OpenPrototypeLink slug="full-services" className="mt-6" />
     </div>
   )
 }

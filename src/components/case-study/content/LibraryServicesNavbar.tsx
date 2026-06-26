@@ -1,9 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
+import { ualbertaPrototypeInter } from './ualberta/ualbertaPrototypeFont';
 
 const UAlbertaLogo = () => (
   <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="30 350 900 230" className="h-[24px] w-auto">
@@ -39,7 +37,7 @@ const UAlbertaLogo = () => (
 
 const LibraryServicesNavbar: React.FC = () => {
   return (
-    <div className={`w-full flex flex-col ${inter.className}`}>
+    <div className={`w-full flex flex-col ${ualbertaPrototypeInter.className}`}>
       {/* Primary Green Bar */}
       <nav className="w-full bg-[#004C2E] flex items-center justify-between px-10 py-4 text-white">
         {/* Left section: Logo and University Name */}

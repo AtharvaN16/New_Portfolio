@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { cn } from '@/lib/utils/cn'
 import {
   getUAlbertaPrototypePath,
   type UAlbertaPrototypeSlug,
@@ -14,11 +15,12 @@ export function OpenPrototypeLink({ slug, className = '' }: OpenPrototypeLinkPro
   const label = UALBERTA_PROTOTYPE_LABELS[slug]
 
   return (
-    <div className={`flex justify-end ${className}`}>
+    <div className={cn('hidden justify-end lg:flex', className)}>
       <Link
         href={getUAlbertaPrototypePath(slug)}
         target="_blank"
         rel="noopener noreferrer"
+        prefetch={false}
         className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors"
         style={{
           borderColor: 'rgb(var(--color-text-color20))',

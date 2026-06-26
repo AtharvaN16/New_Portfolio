@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { Inter } from 'next/font/google';
+import { MaterialSymbolsFont } from '@/components/case-study/MaterialSymbolsFont';
 import LibraryHoursSidebar from './LibraryHoursSidebar';
 import LibraryLocationCard from './LibraryLocationCard';
 import {
@@ -15,8 +15,7 @@ import {
   type PrototypeVariant,
 } from './ualberta/PrototypePresentationShell';
 import { smoothScrollToId } from './ualberta/smoothScrollToId';
-
-const inter = Inter({ subsets: ['latin'] });
+import { ualbertaPrototypeInter } from './ualberta/ualbertaPrototypeFont';
 
 const CATEGORY_JUMPS = [
   { id: 'edmonton', label: 'On Edmonton Campus' },
@@ -56,9 +55,11 @@ export const LibraryHoursPagePrototype: React.FC<LibraryHoursPagePrototypeProps>
   const specialCollections = LIBRARY_HOURS_DATA.filter((l) => l.campus === 'Special Collections');
 
   return (
-    <PrototypePresentationShell
+    <>
+      <MaterialSymbolsFont />
+      <PrototypePresentationShell
       variant={variant}
-      outerClassName={inter.className}
+      outerClassName={ualbertaPrototypeInter.className}
       innerClassName="w-full bg-[#F7F7F7] flex flex-col rounded-none border-none shadow-none"
       innerStyle={isFullscreen ? undefined : { height: '1100px' }}
     >
@@ -142,6 +143,7 @@ export const LibraryHoursPagePrototype: React.FC<LibraryHoursPagePrototypeProps>
         </div>
       </div>
     </PrototypePresentationShell>
+    </>
   );
 };
 
