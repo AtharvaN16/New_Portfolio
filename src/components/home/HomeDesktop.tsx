@@ -8,6 +8,7 @@ import { Hero } from '@/components/hero/Hero'
 import { FullpageCard } from '@/components/ui/FullpageCard'
 import { useHomeScroll } from '@/hooks/use-home-scroll'
 import { useOverlayDialogs } from '@/hooks/use-overlay-dialogs'
+import { HOME_SHELL_ID } from '@/lib/overlay-page-chrome'
 
 const SelectedWork = dynamic(
   () =>
@@ -81,9 +82,10 @@ export function HomeDesktop() {
 
   return (
     <>
-      <div
-        ref={containerRef}
-        className="relative"
+      <div id={HOME_SHELL_ID}>
+        <div
+          ref={containerRef}
+          className="relative"
         style={{
           height: isMounted ? `${containerHeightPx}px` : '200svh',
           backgroundColor: 'rgb(var(--color-background))',
@@ -186,6 +188,7 @@ export function HomeDesktop() {
             triggerShimmer={shouldTriggerFooterShimmer}
           />
         </Suspense>
+      </div>
       </div>
 
       {isDialogMounted('work') && <WorkDialog />}

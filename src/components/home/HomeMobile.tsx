@@ -8,6 +8,7 @@ import { FullpageCard } from '@/components/ui/FullpageCard'
 import { useOverlayDialogs } from '@/hooks/use-overlay-dialogs'
 import { useMobileFeaturedCover } from '@/hooks/use-mobile-featured-cover'
 import { dispatchHomePauseBlobs } from '@/lib/overlay-events'
+import { HOME_SHELL_ID } from '@/lib/overlay-page-chrome'
 import '@/styles/home-mobile-scroll.css'
 
 const SelectedWork = dynamic(
@@ -89,7 +90,7 @@ export function HomeMobile() {
 
   return (
     <>
-      <div className="home-mobile relative bg-background">
+      <div id={HOME_SHELL_ID} className="home-mobile relative bg-background">
         <div className="home-mobile-act-one relative">
           <div className="home-mobile-hero-sticky sticky top-0 z-10 flex min-h-[100svh] flex-col bg-background">
             <div

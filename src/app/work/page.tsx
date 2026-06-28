@@ -11,6 +11,10 @@ import { NavButton } from '@/components/ui/NavButton'
 import { LineSeparator } from '@/components/ui/LineSeparator'
 import { useLenis } from '@/components/providers/LenisProvider'
 import { getVisibleCaseStudies } from '@/lib/data/case-studies'
+import {
+  MAIN_CONTENT_ID,
+  OVERLAY_MAIN_CONTENT_ID,
+} from '@/lib/overlay-page-chrome'
 
 const CaseStudyDialog = dynamic(
   () => import('@/components/dialogs/CaseStudyDialog').then((m) => ({ default: m.CaseStudyDialog })),
@@ -117,7 +121,7 @@ export default function WorkPage() {
       </header>
 
       <div className="relative px-6 2xl:px-[140px] pb-20 pt-4 md:pb-32">
-        <main id="main-content">
+        <main id={isStandalone ? MAIN_CONTENT_ID : OVERLAY_MAIN_CONTENT_ID}>
           <MasonryWorkGrid
             projects={filteredProjects}
             isDialogSettled={isDialogSettled}

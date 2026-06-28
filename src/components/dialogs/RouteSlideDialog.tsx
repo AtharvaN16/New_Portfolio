@@ -1,21 +1,17 @@
 'use client'
 
 import { m, AnimatePresence } from 'framer-motion'
-import { useEffect, useState, useRef, type ComponentType } from 'react'
+import { type ComponentType } from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
+import { useOverlayLifecycle } from '@/hooks/use-overlay-lifecycle'
+import { OVERLAY_DIALOGS, type OverlayDialogId } from '@/lib/overlay-events'
 import {
-  dispatchDialogClosed,
-  OVERLAY_DIALOGS,
-  subscribeOverlayCheck,
-  subscribeOverlayPreload,
-  type OverlayDialogId,
-} from '@/lib/overlay-events'
+  OVERLAY_CLOSE_DURATION,
+  OVERLAY_OPEN_DURATION,
+  OVERLAY_TRANSITION_EASE,
+} from '@/lib/overlay-tokens'
 
 export type RouteOverlayDialogId = Exclude<OverlayDialogId, 'case-study'>
-
-const TRANSITION_EASE: [number, number, number, number] = [0.87, 0, 0.13, 1]
-const OPEN_DURATION = 1.2
-const CLOSE_DURATION = 1.0
 
 interface RouteSlideDialogProps {
   dialogId: RouteOverlayDialogId
@@ -35,57 +31,14 @@ export function RouteSlideDialog({
   preloadPage,
   scrollable = false,
 }: RouteSlideDialogProps) {
-  const routePath = OVERLAY_DIALOGS[dialogId].path!
-  const scrollYRef = useRef(0)
-  const [isOpen, setIsOpen] = useState(false)
-  const [shouldLockScroll, setShouldLockScroll] = useState(false)
+  const configuredRoutePath = OVERLAY_DIALOGS[dialogId].path!
 
-  useEffect(() => {
-    const handlePreload = () => {
-      void preloadPage()
-    }
-
-    if (typeof window !== 'undefined') {
-      if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(() => handlePreload())
-      } else {
-        setTimeout(handlePreload, 2000)
-      }
-    }
-
-    return subscribeOverlayPreload(dialogId, handlePreload)
-  }, [dialogId, preloadPage])
-
-  useEffect(() => {
-    const checkURL = () => {
-      const shouldOpen = window.location.pathname === routePath
-
-      if (shouldOpen && !isOpen) {
-        scrollYRef.current = window.scrollY
-        document.body.style.overflow = 'hidden'
-        setShouldLockScroll(true)
-        setIsOpen(true)
-      } else if (!shouldOpen && isOpen) {
-        setIsOpen(false)
-      }
-    }
-
-    checkURL()
-    window.addEventListener('popstate', checkURL)
-    const removeCheck = subscribeOverlayCheck(dialogId, checkURL)
-
-    return () => {
-      window.removeEventListener('popstate', checkURL)
-      removeCheck()
-    }
-  }, [dialogId, isOpen, routePath])
-
-  const handleExitComplete = () => {
-    setShouldLockScroll(false)
-    document.body.style.overflow = ''
-    window.scrollTo(0, scrollYRef.current)
-    dispatchDialogClosed()
-  }
+  const { isOpen, shouldLockScroll, routePath, handleExitComplete } =
+    useOverlayLifecycle({
+      dialogId,
+      match: { mode: 'exact', path: configuredRoutePath },
+      preload: preloadPage,
+    })
 
   return (
     <RemoveScroll enabled={shouldLockScroll}>
@@ -96,19 +49,23 @@ export function RouteSlideDialog({
             id="dialog"
             className={`dialog fixed inset-0 z-[100]${scrollable ? ' overflow-y-auto' : ''}`}
             data-lenis-prevent="true"
+            data-overlay-active="true"
+            data-overlay-route={routePath ?? configuredRoutePath}
+            role="dialog"
+            aria-modal="true"
             initial={{ y: '100%' }}
             animate={{
               y: 0,
               transition: {
-                duration: OPEN_DURATION,
-                ease: TRANSITION_EASE,
+                duration: OVERLAY_OPEN_DURATION,
+                ease: OVERLAY_TRANSITION_EASE,
               },
             }}
             exit={{
               y: '100%',
               transition: {
-                duration: CLOSE_DURATION,
-                ease: TRANSITION_EASE,
+                duration: OVERLAY_CLOSE_DURATION,
+                ease: OVERLAY_TRANSITION_EASE,
               },
             }}
             style={{
