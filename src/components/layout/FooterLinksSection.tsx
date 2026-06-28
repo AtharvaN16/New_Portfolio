@@ -39,11 +39,15 @@ export function FooterLinksSection({
         <ul className="space-y-1.5 md:space-y-3">
           {FOOTER_LINKS.quickLinks.map((link) => {
             const isResume = link.label === 'Résumé'
+            const isExternal = 'external' in link && link.external
 
             return (
               <li key={link.href}>
                 <a
                   href={link.href}
+                  {...(isExternal
+                    ? { target: '_blank', rel: 'noopener noreferrer' }
+                    : {})}
                   className={cn(
                     isResume && 'footer-resume-link',
                     'footer-link group relative inline-block',

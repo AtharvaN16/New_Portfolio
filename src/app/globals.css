@@ -310,6 +310,17 @@
     transition: color 350ms ease;
   }
 
+  /* Animated gradient sweep (React Bits–style) — runs only while tooltip is visible */
+  @keyframes pronunciationGradientSweep {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
   .pronunciation-tooltip {
     position: absolute;
     left: 50%;
@@ -320,11 +331,15 @@
     font-size: 1.5rem;
     line-height: 1;
     font-family: var(--font-mynerve);
-    background: linear-gradient(
+    /* scribble = contrast-adjusted start per theme; end stop loops for seamless sweep */
+    background-image: linear-gradient(
       90deg,
-      rgb(var(--color-gradient-start)),
-      rgb(var(--color-gradient-end))
+      rgb(var(--color-scribble)),
+      rgb(var(--color-gradient-end)),
+      rgb(var(--color-scribble))
     );
+    background-size: 300% 100%;
+    background-position: 0% 50%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -336,6 +351,7 @@
   .pronunciation-word:hover .pronunciation-tooltip,
   .pronunciation-word.pronunciation-active .pronunciation-tooltip {
     opacity: 1;
+    animation: pronunciationGradientSweep 5s ease-in-out infinite;
   }
 
   .pronunciation-word--tappable {

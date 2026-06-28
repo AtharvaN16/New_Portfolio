@@ -26,6 +26,7 @@ import {
 } from './hero-entry-timing'
 import { HeroFlashWelcome } from './HeroFlashWelcome'
 import { pickInitialHeroPaletteIndex } from './hero-palette'
+import { RESUME_HREF } from '@/lib/constants/footer'
 
 const WaterBlobWithBoundary = dynamic(
   () =>
@@ -268,7 +269,12 @@ export function Hero({
               Currently looking for full-time roles,
             </div>
 
-            <HoverLink href="/resume" prefetch={false}>
+            <HoverLink
+              href={RESUME_HREF}
+              prefetch={false}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Résumé
             </HoverLink>
           </m.div>

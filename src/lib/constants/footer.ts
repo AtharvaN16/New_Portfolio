@@ -4,9 +4,12 @@
  * Single source of truth for all footer content and links
  */
 
+/** Public resume PDF (Jun 2026). */
+export const RESUME_HREF = '/atharva-nayak-resume-jun-2026.pdf' as const
+
 export const FOOTER_LINKS = {
   quickLinks: [
-    { label: 'Résumé', href: '/resume' },
+    { label: 'Résumé', href: RESUME_HREF, external: true },
     { label: 'Work', href: '/work' },
     { label: 'Explorations', href: '/explorations' },
     { label: 'Writings', href: '/writings' },

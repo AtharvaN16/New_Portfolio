@@ -29,6 +29,14 @@ interface HoverLinkProps {
    */
   prefetch?: boolean
   /**
+   * Optional link target (e.g. `_blank` for PDFs and external assets).
+   */
+  target?: React.HTMLAttributeAnchorTarget
+  /**
+   * Optional rel attribute for external links.
+   */
+  rel?: string
+  /**
    * Whether the link is for a "coming soon" feature.
    * If true, hover animations are disabled and it displays a "coming soon" label.
    */
@@ -49,6 +57,8 @@ export const HoverLink = forwardRef<HTMLAnchorElement, HoverLinkProps>(
       onClick,
       onMouseEnter,
       prefetch,
+      target,
+      rel,
       comingSoon = false,
     },
     ref
@@ -61,6 +71,8 @@ export const HoverLink = forwardRef<HTMLAnchorElement, HoverLinkProps>(
         onClick={comingSoon ? (e) => e.preventDefault() : onClick}
         onMouseEnter={onMouseEnter}
         prefetch={prefetch}
+        target={target}
+        rel={rel}
         style={{ transition: 'transform 150ms ease-out' }}
         className={cn(
           'relative inline-block text-nav-link transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded',

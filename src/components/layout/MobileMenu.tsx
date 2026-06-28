@@ -15,6 +15,7 @@ import {
   overlayDialogFromPath,
   type OverlayRoutePath,
 } from '@/lib/overlay-events'
+import { RESUME_HREF } from '@/lib/constants/footer'
 
 interface MobileMenuProps {
   isOpen: boolean
@@ -25,7 +26,7 @@ const menuLinks = [
   { label: 'Writings', href: '/writings', prefetch: false },
   { label: 'Explorations', href: '/explorations', prefetch: true },
   { label: 'About', href: '/about', prefetch: false },
-  { label: 'Résumé', href: '/resume', prefetch: false },
+  { label: 'Résumé', href: RESUME_HREF, prefetch: false, external: true },
   { label: 'Get in touch', href: '#footer', prefetch: undefined },
 ]
 
@@ -102,6 +103,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               <ul className="flex flex-col items-end gap-6">
                 {menuLinks.map((link, index) => {
                   const isComingSoon = link.href === '/writings';
+                  const isExternal = 'external' in link && link.external;
                   return (
                     <m.li
                       key={link.href}
@@ -118,9 +120,17 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                       <Link
                         href={isComingSoon ? '#' : link.href}
                         prefetch={link.prefetch}
+                        {...(isExternal
+                          ? { target: '_blank', rel: 'noopener noreferrer' }
+                          : {})}
                         onClick={(e) => {
                           if (isComingSoon) {
                             e.preventDefault()
+                            return
+                          }
+
+                          if (isExternal) {
+                            onClose()
                             return
                           }
 
