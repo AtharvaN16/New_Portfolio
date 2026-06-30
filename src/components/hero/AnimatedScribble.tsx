@@ -177,7 +177,7 @@ export function AnimatedScribble({
           d={SCRIBBLE_PATHS[currentIndex]}
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.5"
+          strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
           initial={{ pathLength: isFirstLoad ? 0 : 1 }}

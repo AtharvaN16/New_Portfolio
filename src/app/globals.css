@@ -632,6 +632,12 @@
 }
 
 @layer utilities {
+  /* Hero bio emphasis — utilities layer so weight isn't dropped in dev (base .pronunciation-word font-weight was stripped) */
+  .text-hero-body .pronunciation-word,
+  .text-hero-body .hero-bold-word {
+    font-weight: var(--font-weight-bold);
+  }
+
   /* Fix: Tailwind generates `color: var(--color-text-colorN)` but the tokens store
      raw RGB channels (e.g. "119 119 119"), not valid CSS color values. These
      overrides wrap them in rgb() so the utilities actually work. */

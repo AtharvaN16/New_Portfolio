@@ -18,7 +18,7 @@ export function HeroPronunciationWord({
 }: HeroPronunciationWordProps) {
   return (
     <span
-      className="pronunciation-word pronunciation-word--tappable"
+      className="pronunciation-word pronunciation-word--tappable font-bold"
       role="button"
       tabIndex={0}
       aria-label={`${word}, tap for pronunciation`}

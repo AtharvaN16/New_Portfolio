@@ -171,7 +171,7 @@ export function AnimatedHeroTextGSAP({
         const tooltip = escapeHtml(pronunciation)
         html = html.replace(
           pattern,
-          `<span class="pronunciation-word" data-pronunciation-word="${escapeHtml(word)}">${escapeHtml(word)}<span class="pronunciation-tooltip" aria-hidden="true">${tooltip}</span></span>`
+          `<span class="pronunciation-word font-bold" data-pronunciation-word="${escapeHtml(word)}">${escapeHtml(word)}<span class="pronunciation-tooltip" aria-hidden="true">${tooltip}</span></span>`
         )
       }
 
@@ -180,7 +180,7 @@ export function AnimatedHeroTextGSAP({
         const pattern = new RegExp(`\\b${escapeRegExp(word)}\\b`, 'g')
         html = html.replace(
           pattern,
-          `<span class="hero-bold-word">${escapeHtml(word)}</span>`
+          `<span class="hero-bold-word font-bold">${escapeHtml(word)}</span>`
         )
       }
 
