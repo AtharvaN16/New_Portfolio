@@ -65,17 +65,8 @@ export function CaseStudyLayout({
         }}
       >
         <ThemeScoper themeColor={caseStudy.themeColor}>
-        {/* Scroll Progress Bar */}
-        <m.div
-          className="fixed top-0 left-0 right-0 h-[5px] z-[60] origin-left bg-[var(--cs-pop-light)] dark:bg-[var(--cs-pop-dark)]"
-          style={{
-            scaleX: scrollYProgress,
-            willChange: 'transform',
-          }}
-        />
-
         <div ref={contentRef}>
-          <CaseStudyHeader onClose={handleClose} />
+          <CaseStudyHeader onClose={handleClose} scrollYProgress={scrollYProgress} />
 
           {/* Hero Section Slot */}
           {heroSlot}

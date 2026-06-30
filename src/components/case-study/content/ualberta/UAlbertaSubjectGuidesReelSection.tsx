@@ -16,7 +16,7 @@ const VIDEO_SRC =
 const PROSE_MAX = 'max-w-[680px]'
 const SECTION_LABEL = CASE_STUDY_SECTION_LABEL_PROSE
 const HEADLINE_MD = `${CASE_STUDY_SECTION_HEADLINE_SPACED} ${PROSE_MAX}`
-const BODY_MUTED = `text-base md:text-[18px] font-normal ${CASE_STUDY_BODY_LEADING} ${PROSE_MAX}`
+const BODY_FULL = `text-base md:text-[18px] font-normal ${CASE_STUDY_BODY_LEADING} w-full`
 
 export function UAlbertaSubjectGuidesReelSection() {
   return (
@@ -31,7 +31,7 @@ export function UAlbertaSubjectGuidesReelSection() {
 
       <AnimatedText
         variant="heading"
-        text="Making subject guides easier to browse, search, and discover"
+        text="Consolidating all guides into one browsable page"
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
@@ -39,21 +39,14 @@ export function UAlbertaSubjectGuidesReelSection() {
       />
 
       <p
-        className={`${BODY_MUTED} mb-4`}
+        className={`${BODY_FULL} mb-8 md:mb-10`}
         style={{ color: 'rgb(var(--color-text-color90))' }}
       >
-        The redesigned subject guides page organizes disciplines into scannable
-        categories, adds a search that jumps directly to the right guide, and
-        keeps related database access one click away.
-      </p>
-
-      <p
-        className={`${BODY_MUTED} mb-8 md:mb-10`}
-        style={{ color: 'rgb(var(--color-text-color90))' }}
-      >
-        This walkthrough shows how a student can search for a topic, open the
-        matching category, and land on the guide they need without digging through
-        nested menus.
+        Guides were scattered across multiple pages and types. We consolidated all
+        guide types into one page and added an explainer at the top. A search bar
+        helps students find what they need. Categories now use expandable dropdowns,
+        so students can quickly scan for guides without clicking through multiple
+        pages.
       </p>
 
       <CaseStudyVideo

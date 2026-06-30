@@ -16,7 +16,7 @@ const VIDEO_SRC =
 const PROSE_MAX = 'max-w-[680px]'
 const SECTION_LABEL = CASE_STUDY_SECTION_LABEL_PROSE
 const HEADLINE_MD = `${CASE_STUDY_SECTION_HEADLINE_SPACED} ${PROSE_MAX}`
-const BODY_MUTED = `text-base md:text-[18px] font-normal ${CASE_STUDY_BODY_LEADING} ${PROSE_MAX}`
+const BODY_FULL = `text-base md:text-[18px] font-normal ${CASE_STUDY_BODY_LEADING} w-full`
 
 export function UAlbertaSolutionSection() {
   return (
@@ -31,7 +31,7 @@ export function UAlbertaSolutionSection() {
 
       <AnimatedText
         variant="heading"
-        text="Redesigning hours and locations so students can find the right library faster"
+        text="Grouping libraries by campus and showing important info upfront"
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
@@ -39,20 +39,12 @@ export function UAlbertaSolutionSection() {
       />
 
       <p
-        className={`${BODY_MUTED} mb-4`}
+        className={`${BODY_FULL} mb-8 md:mb-10`}
         style={{ color: 'rgb(var(--color-text-color90))' }}
       >
-        The redesigned page groups libraries by campus, surfaces today&apos;s hours
-        directly on each card, and removes redundant navigation that slowed students
-        down during testing.
-      </p>
-
-      <p
-        className={`${BODY_MUTED} mb-8 md:mb-10`}
-        style={{ color: 'rgb(var(--color-text-color90))' }}
-      >
-        This walkthrough shows the full flow from landing on the page to comparing
-        locations, booking study space context, and scanning amenities at a glance.
+        We ordered libraries by location and type. The cards were redesigned to show
+        relevant info such as hours, study rooms, printer availability, and contact
+        info, all without having to click in.
       </p>
 
       <CaseStudyVideo

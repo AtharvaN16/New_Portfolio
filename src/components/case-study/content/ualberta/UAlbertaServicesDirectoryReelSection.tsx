@@ -16,7 +16,7 @@ const VIDEO_SRC =
 const PROSE_MAX = 'max-w-[680px]'
 const SECTION_LABEL = CASE_STUDY_SECTION_LABEL_PROSE
 const HEADLINE_MD = `${CASE_STUDY_SECTION_HEADLINE_SPACED} ${PROSE_MAX}`
-const BODY_MUTED = `text-base md:text-[18px] font-normal ${CASE_STUDY_BODY_LEADING} ${PROSE_MAX}`
+const BODY_FULL = `text-base md:text-[18px] font-normal ${CASE_STUDY_BODY_LEADING} w-full`
 
 export function UAlbertaServicesDirectoryReelSection() {
   return (
@@ -31,7 +31,7 @@ export function UAlbertaServicesDirectoryReelSection() {
 
       <AnimatedText
         variant="heading"
-        text="Finding and saving services in a long directory list"
+        text="Bookmarking favorite services for quick access"
         animationType="fadeIn"
         alwaysAnimate={false}
         delay={0}
@@ -39,21 +39,11 @@ export function UAlbertaServicesDirectoryReelSection() {
       />
 
       <p
-        className={`${BODY_MUTED} mb-4`}
+        className={`${BODY_FULL} mb-8 md:mb-10`}
         style={{ color: 'rgb(var(--color-text-color90))' }}
       >
-        For everything beyond the popular services grid, the directory adds search
-        with highlighted matches, audience filtering, and category navigation so
-        students can narrow a long list without reading every link.
-      </p>
-
-      <p
-        className={`${BODY_MUTED} mb-8 md:mb-10`}
-        style={{ color: 'rgb(var(--color-text-color90))' }}
-      >
-        This walkthrough shows a student searching for a service, bookmarking it,
-        and returning to it from the Bookmarked tab — an opt-in shortcut with no
-        background tracking.
+        Most library users only use a few services. Bookmarks let them save favorite
+        services for quick access.
       </p>
 
       <CaseStudyVideo
