@@ -26,7 +26,7 @@ export function CaseStudyDetail({ caseStudy, children }: CaseStudyDetailProps) {
     <>
       <main 
         ref={heroSectionRef}
-        className="px-6 2xl:px-[140px] pt-4 pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100dvh-4.625rem)] md:min-h-[calc(100dvh-4.875rem)] flex flex-col relative"
+        className="px-6 2xl:px-[140px] pt-4 pb-3 md:pb-[1.5rem] max-w-[1920px] mx-auto min-h-[calc(100dvh-7rem)] md:min-h-[calc(100dvh-7.25rem)] flex flex-col relative"
       >
         <AnimatedText
           variant="hero"

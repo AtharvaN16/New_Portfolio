@@ -6,11 +6,18 @@ import Image from 'next/image'
 import { CASE_STUDY_HERO_IMAGE_QUALITY } from '@/lib/case-study-image-sizes'
 import {
   CASE_STUDY_HERO_SCRIM_COLOR,
+  caseStudyHeroRevealBlurPx,
   caseStudyHeroScrimOpacity,
+  caseStudyHeroFrameInsetPxFromReveal,
+  caseStudyHeroFrameInsetReveal,
+  caseStudyHeroFrameRadiusPx,
+  caseStudyHeroFrameRadiusReveal,
   caseStudyHeroSettleScale,
   caseStudyHeroSettleTranslateYPercent,
   heroMediaVisibleRatio,
+  latchHeroRevealProgress,
   latchSettleVisibleRatio,
+  shouldResetCaseStudyHeroReveal,
 } from '@/lib/case-study-hero-scrim'
 import { useCaseStudyScrollContainerRef } from '@/hooks/use-container-scroll'
 import {
@@ -44,24 +51,58 @@ export function CaseStudyHeroImage({
   const mediaRef = externalMediaRef ?? internalMediaRef
   const resolvedVideoRef = videoRef ?? internalVideoRef
   const scrollContainerRef = useCaseStudyScrollContainerRef()
-  const visibleRatio = useMotionValue(0)
-  const settleRatio = useMotionValue(0)
-  const peakSettleRatioRef = useRef(0)
+  const liveVisibleRatio = useMotionValue(0)
+  const latchedVisibleRatio = useMotionValue(0)
+  const peakVisibleRatio = useMotionValue(0)
+  const frameInsetRatio = useMotionValue(0)
+  const frameRadiusRatio = useMotionValue(0)
+  const peakVisibleRatioRef = useRef(0)
+  const peakFrameInsetRatioRef = useRef(0)
+  const peakFrameRadiusRatioRef = useRef(0)
   const [effectsReady, setEffectsReady] = useState(false)
   const isDesktop = useBreakpoint('md')
   const { reducedMotion } = useAccessibility()
 
   const enableScrim = effectsReady && !reducedMotion
   const enableSettle = effectsReady && isDesktop && !reducedMotion
+  const enableFrame = effectsReady && isDesktop
+  const is2xl = useBreakpoint('2xl')
+  const maxFrameInsetPx = is2xl ? 140 : 24
 
-  const scrimOpacity = useTransform(visibleRatio, (ratio) =>
-    caseStudyHeroScrimOpacity(ratio)
+  const scrimOpacity = useTransform(
+    [liveVisibleRatio, peakVisibleRatio],
+    ([live, peak]) =>
+      caseStudyHeroScrimOpacity(live as number, peak as number)
   )
-  const mediaScale = useTransform(settleRatio, (ratio) =>
+  const mediaScale = useTransform(latchedVisibleRatio, (ratio) =>
     caseStudyHeroSettleScale(ratio)
   )
-  const mediaY = useTransform(settleRatio, (ratio) =>
+  const mediaY = useTransform(latchedVisibleRatio, (ratio) =>
     `${caseStudyHeroSettleTranslateYPercent(ratio)}%`
+  )
+  const frameInsetPx = useTransform(frameInsetRatio, (insetReveal) =>
+    reducedMotion
+      ? maxFrameInsetPx
+      : caseStudyHeroFrameInsetPxFromReveal(insetReveal, maxFrameInsetPx)
+  )
+  const frameWidth = useTransform(
+    frameInsetPx,
+    (px) => `calc(100% - ${px * 2}px)`
+  )
+  const frameRadius = useTransform(frameRadiusRatio, (ratio) =>
+    reducedMotion
+      ? `${caseStudyHeroFrameRadiusPx(1)}px`
+      : `${caseStudyHeroFrameRadiusPx(ratio)}px`
+  )
+  const frameShadowOpacity = useTransform(frameRadiusRatio, (ratio) =>
+    reducedMotion ? 1 : ratio
+  )
+  const mediaFilter = useTransform(
+    [liveVisibleRatio, peakVisibleRatio],
+    ([live, peak]) => {
+      const blur = caseStudyHeroRevealBlurPx(live as number, peak as number)
+      return blur > 0.01 ? `blur(${blur}px) contrast(1.05)` : 'contrast(1.05)'
+    }
   )
 
   useEffect(() => {
@@ -75,10 +116,19 @@ export function CaseStudyHeroImage({
   })
 
   useLayoutEffect(() => {
+    const resetLatchedReveal = (latchedVisible = 0) => {
+      peakVisibleRatioRef.current = latchedVisible
+      peakFrameInsetRatioRef.current = latchedVisible ? 1 : 0
+      peakFrameRadiusRatioRef.current = latchedVisible ? 1 : 0
+      latchedVisibleRatio.set(latchedVisible)
+      peakVisibleRatio.set(latchedVisible)
+      frameInsetRatio.set(peakFrameInsetRatioRef.current)
+      frameRadiusRatio.set(peakFrameRadiusRatioRef.current)
+    }
+
     if (!effectsReady || reducedMotion) {
-      visibleRatio.set(0)
-      settleRatio.set(0)
-      peakSettleRatioRef.current = 0
+      liveVisibleRatio.set(0)
+      resetLatchedReveal(reducedMotion ? 1 : 0)
       return
     }
 
@@ -90,18 +140,36 @@ export function CaseStudyHeroImage({
       const media = mediaRef.current
       if (!container || !media) return
 
+      if (shouldResetCaseStudyHeroReveal(container.scrollTop)) {
+        resetLatchedReveal(0)
+      }
+
       const containerRect = container.getBoundingClientRect()
       const mediaRect = media.getBoundingClientRect()
       const ratio = heroMediaVisibleRatio(mediaRect, containerRect)
 
-      visibleRatio.set(ratio)
+      liveVisibleRatio.set(ratio)
+
+      peakVisibleRatioRef.current = latchSettleVisibleRatio(
+        ratio,
+        peakVisibleRatioRef.current
+      )
+      peakVisibleRatio.set(peakVisibleRatioRef.current)
 
       if (isDesktop) {
-        peakSettleRatioRef.current = latchSettleVisibleRatio(
-          ratio,
-          peakSettleRatioRef.current
+        latchedVisibleRatio.set(peakVisibleRatioRef.current)
+
+        peakFrameInsetRatioRef.current = latchHeroRevealProgress(
+          caseStudyHeroFrameInsetReveal(ratio),
+          peakFrameInsetRatioRef.current
         )
-        settleRatio.set(peakSettleRatioRef.current)
+        frameInsetRatio.set(peakFrameInsetRatioRef.current)
+
+        peakFrameRadiusRatioRef.current = latchHeroRevealProgress(
+          caseStudyHeroFrameRadiusReveal(ratio),
+          peakFrameRadiusRatioRef.current
+        )
+        frameRadiusRatio.set(peakFrameRadiusRatioRef.current)
       }
     }
 
@@ -134,12 +202,15 @@ export function CaseStudyHeroImage({
     }
   }, [
     effectsReady,
+    frameInsetRatio,
+    frameRadiusRatio,
     isDesktop,
+    latchedVisibleRatio,
+    liveVisibleRatio,
     mediaRef,
+    peakVisibleRatio,
     reducedMotion,
     scrollContainerRef,
-    settleRatio,
-    visibleRatio,
   ])
 
   if (!imageUrl && !videoUrl) {
@@ -155,14 +226,14 @@ export function CaseStudyHeroImage({
       loop
       playsInline
       preload="none"
-      className="absolute inset-0 h-full w-full object-cover [filter:contrast(1.05)]"
+      className="absolute inset-0 h-full w-full object-cover"
     />
   ) : (
     <Image
       src={imageUrl!}
       alt={caption ?? `${title} — hero image`}
       fill
-      className="object-cover [filter:contrast(1.05)]"
+      className="object-cover"
       sizes="100vw"
       priority
       quality={CASE_STUDY_HERO_IMAGE_QUALITY}
@@ -174,20 +245,34 @@ export function CaseStudyHeroImage({
       className="relative z-10 mb-20 w-full bg-background md:mb-32"
       aria-label={`${title} hero`}
     >
-      <div
+      <m.div
         ref={mediaRef}
-        className="relative aspect-[16/9] w-full overflow-hidden md:aspect-auto md:min-h-screen"
+        className="case-study-hero-frame relative aspect-[16/9] w-full overflow-hidden"
+        style={
+          enableFrame
+            ? {
+                width: frameWidth,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                borderRadius: frameRadius,
+                ['--case-study-hero-frame-shadow' as string]: frameShadowOpacity,
+              }
+            : undefined
+        }
       >
         <m.div
           className={
-            enableSettle
+            enableSettle || enableScrim
               ? 'absolute inset-0 will-change-transform'
               : 'absolute inset-0'
           }
           style={
-            enableSettle
-              ? { scale: mediaScale, y: mediaY }
-              : { scale: 1, y: '0%' }
+            enableSettle || enableScrim
+              ? {
+                  ...(enableSettle ? { scale: mediaScale, y: mediaY } : {}),
+                  ...(enableScrim ? { filter: mediaFilter } : {}),
+                }
+              : { scale: 1, y: '0%', filter: 'contrast(1.05)' }
           }
         >
           {mediaContent}
@@ -203,7 +288,7 @@ export function CaseStudyHeroImage({
             }}
           />
         ) : null}
-      </div>
+      </m.div>
 
       {caption ? (
         <figcaption className="mx-auto max-w-[52rem] px-6 py-4 text-xs font-sans leading-normal text-text-body md:py-6 2xl:px-[140px]">
