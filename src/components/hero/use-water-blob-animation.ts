@@ -19,6 +19,7 @@ import {
 } from './waterBlob.motion'
 import type { Colors } from './waterBlob.types'
 import { dispatchHeroFlashHead, clearHeroFlashHead } from './hero-flash-head'
+import { dispatchHeroBlobF2Settled } from './hero-entry-timing'
 
 interface UseWaterBlobAnimationParams {
   canvasRef: RefObject<HTMLCanvasElement | null>
@@ -62,6 +63,7 @@ export function useWaterBlobAnimation({
   const [retryKey, setRetryKey] = useState(0)
   const webglInitializedRef = useRef(false)
   const initialMountRef = useRef(true)
+  const f2SettledDispatchedRef = useRef(false)
   const yOffsetRef = useRef(-1.5)
   const revealPhaseRef = useRef(0)
   const ambientRef = useRef(0)
@@ -144,7 +146,8 @@ export function useWaterBlobAnimation({
         isMobile,
         () => revealPhaseRef.current,
         () => ambientRef.current,
-        () => trailRef.current
+        () => trailRef.current,
+        canvas
       )
 
       let animationId = 0
@@ -249,7 +252,13 @@ export function useWaterBlobAnimation({
             0.02,
             deltaFrames
           )
-          if (revealPhaseRef.current > 0.999) revealPhaseRef.current = 1
+          if (revealPhaseRef.current > 0.999) {
+            revealPhaseRef.current = 1
+            if (!isGhost && !f2SettledDispatchedRef.current) {
+              f2SettledDispatchedRef.current = true
+              dispatchHeroBlobF2Settled()
+            }
+          }
         }
 
         lerpColors(display, target, paletteLerpSpeed)

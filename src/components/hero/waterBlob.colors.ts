@@ -9,15 +9,15 @@ import type { Colors } from './waterBlob.types'
 import { getPalettePair, toNormalizedRgb } from './waterBlob.palettes'
 
 const HERO_BLOB_BACKGROUND_VAR = '--color-hero-blob-background'
+const HERO_BLOB_CUTOUT_VAR = '--color-hero-blob-cutout'
 
 function readCssRgbTriplet(
-  variable: string
+  variable: string,
+  scope: Element = document.documentElement
 ): [number, number, number] | null {
   if (typeof window === 'undefined') return null
 
-  const value = getComputedStyle(document.documentElement)
-    .getPropertyValue(variable)
-    .trim()
+  const value = getComputedStyle(scope).getPropertyValue(variable).trim()
 
   if (!value) {
     console.warn(`WaterBlob: CSS variable ${variable} is empty or not found`)
@@ -45,9 +45,32 @@ function readCssRgbTriplet(
   return normalized as [number, number, number]
 }
 
-/** Live read from design tokens — used per-frame so canvas bg tracks theme tokens. */
-export function readHeroBlobBackground(): [number, number, number] | null {
-  return readCssRgbTriplet(HERO_BLOB_BACKGROUND_VAR)
+/** Nearest blob container — cutout overrides background on desktop. */
+function resolveHeroBlobBackgroundScope(
+  element?: Element | null
+): { scope: Element; variable: string } {
+  const container = element?.closest('.water-blob-container')
+  const isDesktopCutout =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(min-width: 768px)').matches &&
+    container?.classList.contains('water-blob-container--cutout-settled')
+
+  if (isDesktopCutout) {
+    return { scope: document.documentElement, variable: HERO_BLOB_CUTOUT_VAR }
+  }
+
+  return {
+    scope: container ?? document.documentElement,
+    variable: HERO_BLOB_BACKGROUND_VAR,
+  }
+}
+
+/** Live read from design tokens — scoped to blob container / cutout tray when active. */
+export function readHeroBlobBackground(
+  element?: Element | null
+): [number, number, number] | null {
+  const { scope, variable } = resolveHeroBlobBackgroundScope(element)
+  return readCssRgbTriplet(variable, scope)
 }
 
 /**

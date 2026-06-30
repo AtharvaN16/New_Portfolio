@@ -164,7 +164,8 @@ export function createAnimationLoop(
   isMobile: boolean = false,
   getRevealPhase: () => number = () => 1,
   getAmbient: () => number = () => 0,
-  getTrail: () => number = () => 0
+  getTrail: () => number = () => 0,
+  canvas?: HTMLCanvasElement | null
 ): (time: number) => void {
   let lastFrameTime = 0
   const mobileFrameInterval = 1 / 30 // 30 FPS target for mobile
@@ -187,7 +188,7 @@ export function createAnimationLoop(
     gl.uniform3fv(programInfo.uColor1Location, colors.primary)
     gl.uniform3fv(programInfo.uColor2Location, colors.secondary)
 
-    const liveBackground = readHeroBlobBackground() ?? colors.background
+    const liveBackground = readHeroBlobBackground(canvas) ?? colors.background
     colors.background = liveBackground
     gl.uniform3fv(programInfo.uBackgroundColorLocation, liveBackground)
     setClearColorFromBackground(gl, liveBackground)

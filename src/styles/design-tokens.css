@@ -48,6 +48,8 @@
     --hero-blob-purple: 110 75 195; /* hsl(258, 47%, 53%) - Rich purple */
     --hero-blob-pink: 220 65 105; /* hsl(345, 68%, 56%) - Deep rose */
     --color-hero-blob-background: 247 247 245; /* #F7F7F5 — canvas + gradient base */
+    /* Desktop cutout tray — whisper below page bg once F2 settles */
+    --color-hero-blob-cutout: 244 244 241;
 
     /* --- Colors: Semantic --- */
     --color-success: 22 101 52; /* #166534 - darker for contrast on light bg */
@@ -256,6 +258,8 @@
     --hero-blob-purple: 167 139 250; /* #A78BFA - Brighter purple */
     --hero-blob-pink: 236 72 153; /* #EC4899 - More vibrant pink */
     --color-hero-blob-background: 13 8 5; /* #0D0805 — canvas + gradient base */
+    /* Desktop cutout tray — whisper above page bg once F2 settles */
+    --color-hero-blob-cutout: 19 15 11;
 
     /* --- Colors: Case Studies (slightly adjusted for dark mode contrast) --- */
     --color-case-study-purple: 167 139 250; /* #A78BFA - Lighter purple for dark mode */

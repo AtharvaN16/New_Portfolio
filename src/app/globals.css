@@ -376,6 +376,25 @@
     width: 100%;
     align-self: stretch;
   }
+
+  /* Desktop-only: radius always; fill only after F2 settles (see Hero + waterBlob.colors) */
+  @media (min-width: 768px) {
+    .water-blob-container--cutout {
+      border-radius: 14px;
+    }
+
+    .water-blob-container--cutout.water-blob-container--cutout-settled {
+      --color-hero-blob-background: var(--color-hero-blob-cutout);
+      background-color: rgb(var(--color-hero-blob-cutout));
+      box-shadow: inset 0 1px 3px rgb(var(--color-foreground) / 0.025);
+    }
+
+    [data-theme='dark']
+      .water-blob-container--cutout.water-blob-container--cutout-settled {
+      box-shadow: inset 0 1px 4px rgb(0 0 0 / 0.18);
+    }
+  }
+
   .water-blob-container {
     max-height: 30rem; /* 480px on mobile */
   }

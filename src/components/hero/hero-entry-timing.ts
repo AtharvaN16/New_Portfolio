@@ -15,6 +15,14 @@ export const HERO_F1_CREST_MS = HERO_F1_ENTRY_MS + HERO_F1_CREST_AFTER_ENTRY_MS
 /** F2 permanent blobs start — tightened gap after F1 fades */
 export const HERO_F2_ENTRY_MS = 1400
 
+/** Dispatched when the interactive (F2) blob finishes reveal — cutout fill may apply after this */
+export const HERO_BLOB_F2_SETTLED_EVENT = 'hero:blob-f2-settled'
+
+export function dispatchHeroBlobF2Settled(): void {
+  if (typeof window === 'undefined') return
+  window.dispatchEvent(new CustomEvent(HERO_BLOB_F2_SETTLED_EVENT))
+}
+
 /** Hero copy starts as F2 crests and begins settling */
 export const HERO_F2_TEXT_OFFSET_MS = 1200
 

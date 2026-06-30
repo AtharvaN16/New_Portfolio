@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   m,
   useMotionValue,
@@ -22,6 +22,7 @@ import {
   HERO_CURRENTLY_DURATION_S,
   HERO_F1_ENTRY_MS,
   HERO_F2_ENTRY_MS,
+  HERO_BLOB_F2_SETTLED_EVENT,
   HERO_FLASH_WELCOME_ENABLED,
 } from './hero-entry-timing'
 import { HeroFlashWelcome } from './HeroFlashWelcome'
@@ -40,6 +41,7 @@ import {
 } from './AnimatedHeroTextGSAP'
 import { HeroFlashAtmosphere } from './HeroFlashAtmosphere'
 import { HoverLink } from '@/components/ui/HoverLink'
+import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 const META_FADE_DURATION = 1.2
 
@@ -59,10 +61,25 @@ export function Hero({
   featuredCoverProgress,
 }: HeroProps) {
   const { isMobile } = useBreakpoints()
+  const { reducedMotion } = useAccessibility()
   const [initialPaletteIndex] = useState(() => pickInitialHeroPaletteIndex())
+  const [cutoutSettled, setCutoutSettled] = useState(false)
   // Read sync via getBreakpointMatch — avoids the false-on-first-render problem
   // that useBreakpoints() has (starts false, updates after mount).
   const isDesktopAnimation = getBreakpointMatch('md')
+
+  useEffect(() => {
+    if (stableMobileViewport) return
+
+    if (reducedMotion && isDesktopAnimation) {
+      setCutoutSettled(true)
+      return
+    }
+
+    const onSettled = () => setCutoutSettled(true)
+    window.addEventListener(HERO_BLOB_F2_SETTLED_EVENT, onSettled)
+    return () => window.removeEventListener(HERO_BLOB_F2_SETTLED_EVENT, onSettled)
+  }, [stableMobileViewport, reducedMotion, isDesktopAnimation])
 
   const bioDelay = isDesktopAnimation ? HERO_BIO_DELAY_S : MOBILE_BIO_DELAY_S
   const currentlyDelay = isDesktopAnimation
@@ -194,7 +211,11 @@ export function Hero({
   ) : (
     <div
       className={cn(
-        'relative overflow-hidden water-blob-container min-h-[480px] w-full flex-1 md:min-h-0 md:flex-none md:h-[320px] md:max-h-[320px] lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px] bg-background'
+        'relative overflow-hidden water-blob-container water-blob-container--cutout',
+        cutoutSettled && 'water-blob-container--cutout-settled',
+        'min-h-[480px] w-full flex-1 bg-background',
+        'md:min-h-0 md:flex-none md:h-[320px] md:max-h-[320px]',
+        'lg:h-[400px] lg:max-h-[400px] 2xl:h-[440px] 2xl:max-h-[480px]',
       )}
     >
       {!isMobile && (
