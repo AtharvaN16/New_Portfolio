@@ -4,7 +4,7 @@ import './globals.css'
 import { AppProviders } from './AppProviders'
 import { metadata, viewport } from './metadata'
 import { TextureOverlay } from '@/components/layout/TextureOverlay'
-import { satoshi, vulfMono, vulfMonoLightItalic } from '@/lib/fonts'
+import { caveat, satoshi, vulfMono, vulfMonoLightItalic } from '@/lib/fonts'
 
 export { metadata, viewport }
 
@@ -34,7 +34,7 @@ export default function RootLayout({
       lang="en"
       data-theme="dark"
       suppressHydrationWarning
-      className={`${satoshi.variable} ${vulfMono.variable} ${vulfMonoLightItalic.variable}`}
+      className={`${satoshi.variable} ${caveat.variable} ${vulfMono.variable} ${vulfMonoLightItalic.variable}`}
     >
       <body
         className={`${jetbrainsMono.variable} ${mynerve.variable} font-sans antialiased`}

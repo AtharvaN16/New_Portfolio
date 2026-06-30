@@ -7,7 +7,8 @@ import { cn } from '@/lib/utils/cn'
 import { createPortal } from 'react-dom'
 import { AnimatedScribble } from './AnimatedScribble'
 import { HeroPronunciationWord } from './HeroPronunciationWord'
-import { PRONUNCIATION_SCRIBBLE_MOUNT_STYLE } from './pronunciation-scribble-mount'
+import { HERO_NAME_WORD_CLASS } from './hero-name-word'
+import { PRONUNCIATION_SCRIBBLE_MOUNT_CLASS, PRONUNCIATION_SCRIBBLE_MOUNT_STYLE } from './pronunciation-scribble-mount'
 import { useAccessibility } from '@/components/providers/AccessibilityProvider'
 
 interface AnimatedHeroTextGSAPProps {
@@ -171,7 +172,7 @@ export function AnimatedHeroTextGSAP({
         const tooltip = escapeHtml(pronunciation)
         html = html.replace(
           pattern,
-          `<span class="pronunciation-word font-bold" data-pronunciation-word="${escapeHtml(word)}">${escapeHtml(word)}<span class="pronunciation-tooltip" aria-hidden="true">${tooltip}</span></span>`
+          `<span class="pronunciation-word ${HERO_NAME_WORD_CLASS}" data-pronunciation-word="${escapeHtml(word)}">${escapeHtml(word)}<span class="pronunciation-tooltip" aria-hidden="true">${tooltip}</span></span>`
         )
       }
 
@@ -219,6 +220,7 @@ export function AnimatedHeroTextGSAP({
 
         pronunciationEls.forEach((wordEl) => {
           const container = document.createElement('span')
+          container.className = PRONUNCIATION_SCRIBBLE_MOUNT_CLASS
           Object.assign(container.style, PRONUNCIATION_SCRIBBLE_MOUNT_STYLE)
           wordEl.appendChild(container)
           newContainers.push(container)

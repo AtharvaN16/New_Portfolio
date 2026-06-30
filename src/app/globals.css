@@ -363,6 +363,11 @@
     transform: translateY(-5px);
   }
 
+  .pronunciation-scribble-mount {
+    left: 0;
+    right: 0;
+  }
+
   /* Water blob responsive max heights */
   .home-mobile .water-blob-container--edge {
     max-height: none;
@@ -633,9 +638,41 @@
 
 @layer utilities {
   /* Hero bio emphasis — utilities layer so weight isn't dropped in dev (base .pronunciation-word font-weight was stripped) */
-  .text-hero-body .pronunciation-word,
+  .text-hero-body .pronunciation-word:not(.hero-name-word),
   .text-hero-body .hero-bold-word {
     font-weight: var(--font-weight-bold);
+  }
+
+  /* Atharva — Caveat medium; scribble mount spans word width via left/right: 0 */
+  .text-hero-body .hero-name-word {
+    font-family: var(--font-caveat), cursive;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .text-hero-body .hero-name-word .pronunciation-scribble-mount {
+    left: -6%;
+    right: -6%;
+    margin-top: -1px;
+  }
+
+  .text-hero-body .hero-name-word .scribble-container {
+    transform: translateY(-6px);
+  }
+
+  @media (min-width: 768px) {
+    .text-hero-body .hero-name-word {
+      font-size: var(--text-2xl); /* 24px */
+    }
+
+    .text-hero-body .hero-name-word .pronunciation-scribble-mount {
+      height: 14px;
+      margin-top: -2px;
+    }
+
+    .text-hero-body .hero-name-word .scribble-container {
+      transform: translateY(-7px);
+    }
   }
 
   /* Fix: Tailwind generates `color: var(--color-text-colorN)` but the tokens store

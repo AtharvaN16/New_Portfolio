@@ -1,7 +1,11 @@
 'use client'
 
 import { AnimatedScribble } from './AnimatedScribble'
-import { PRONUNCIATION_SCRIBBLE_MOUNT_STYLE } from './pronunciation-scribble-mount'
+import { HERO_NAME_WORD_CLASS } from './hero-name-word'
+import {
+  PRONUNCIATION_SCRIBBLE_MOUNT_CLASS,
+  PRONUNCIATION_SCRIBBLE_MOUNT_STYLE,
+} from './pronunciation-scribble-mount'
 
 interface HeroPronunciationWordProps {
   word: string
@@ -18,7 +22,7 @@ export function HeroPronunciationWord({
 }: HeroPronunciationWordProps) {
   return (
     <span
-      className="pronunciation-word pronunciation-word--tappable font-bold"
+      className={`pronunciation-word pronunciation-word--tappable ${HERO_NAME_WORD_CLASS}`}
       role="button"
       tabIndex={0}
       aria-label={`${word}, tap for pronunciation`}
@@ -28,7 +32,11 @@ export function HeroPronunciationWord({
         {pronunciation}
       </span>
       {showScribble ? (
-        <span aria-hidden="true" style={PRONUNCIATION_SCRIBBLE_MOUNT_STYLE}>
+        <span
+          aria-hidden="true"
+          className={PRONUNCIATION_SCRIBBLE_MOUNT_CLASS}
+          style={PRONUNCIATION_SCRIBBLE_MOUNT_STYLE}
+        >
           <AnimatedScribble />
         </span>
       ) : null}

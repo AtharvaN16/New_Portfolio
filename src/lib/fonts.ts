@@ -1,4 +1,13 @@
+import { Caveat } from 'next/font/google'
 import localFont from 'next/font/local'
+
+/** Caveat — hero bio name (Atharva) */
+export const caveat = Caveat({
+  variable: '--font-caveat',
+  subsets: ['latin'],
+  weight: ['500'],
+  display: 'swap',
+})
 
 /**
  * Satoshi Font Family
